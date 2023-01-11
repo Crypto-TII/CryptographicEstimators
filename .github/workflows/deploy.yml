@@ -2,7 +2,7 @@ name: Build documentation and deploy to gh-page
 on:
   push:
     branches:
-      - main
+      - setup-workflow
 jobs:
   build-and-deploy:
     runs-on: ubuntu-22.04
@@ -19,6 +19,32 @@ jobs:
           sudo sage -python -m pip install prettytable scipy
           sudo sage setup.py install
           sudo sage -python -m pip install .
+
+      - name: Run tests
+        run: sudo make testall
+
+      - name: Configure AWS Credential
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key-id: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
+          aws-region: me-central-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag and push to ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: estimators-lib-2
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+      - name: Update documentation
+        run: |
           sudo sphinx-quickstart -q --sep -p TII-Estimators -a TII -l en --ext-autodoc docs
           sudo python3 scripts/create_documentation.py
           sudo sphinx-build -b html docs/source/ docs/build/html
