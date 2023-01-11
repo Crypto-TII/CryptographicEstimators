@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - setup-workflow
+  pull_request:
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-22.04
