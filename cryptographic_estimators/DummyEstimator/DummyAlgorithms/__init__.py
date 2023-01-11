@@ -1,0 +1,1 @@
+from .dummy_algorithm1 import DummyAlgorithm1

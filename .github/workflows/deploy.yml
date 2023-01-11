@@ -1,0 +1,30 @@
+name: Build documentation and deploy to gh-page
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-22.04
+    concurrency: ci-${{github.ref}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install
+        run: |
+          sudo apt update 
+          sudo apt install -y sagemath
+          sudo sage -python -m pip install setuptools==63.0 wheel==0.38.4 sphinx==5.3.0 furo
+          sudo sage -python -m pip install prettytable scipy
+          sudo sage setup.py install
+          sudo sage -python -m pip install .
+          sudo sphinx-quickstart -q --sep -p TII-Estimators -a TII -l en --ext-autodoc docs
+          sudo python3 scripts/create_documentation.py
+          sudo sphinx-build -b html docs/source/ docs/build/html
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs/build/html
+          branch: gh-pages
