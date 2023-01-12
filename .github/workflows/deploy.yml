@@ -23,7 +23,7 @@ jobs:
           sudo sage -python -m pip install .
 
       - name: Run tests
-        run: sudo sage -t false -T 3600 --nthreads 4 --force-lib cryptographic_estimators
+        run: sudo sage -t -T 3600 --nthreads 4 --force-lib cryptographic_estimators
 
       - name: Configure AWS Credential
         uses: aws-actions/configure-aws-credentials@v1
