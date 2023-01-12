@@ -17,8 +17,7 @@ jobs:
         run: |
           sudo apt update 
           sudo apt install -y sagemath
-          sudo sage -python -m pip install setuptools==63.0 wheel==0.38.4 sphinx==5.3.0 furo
-          sudo sage -python -m pip install prettytable scipy
+          sudo sage -python -m pip install setuptools==63.0 wheel==0.38.4 sphinx==5.3.0 furo prettytable scipy
           sudo sage setup.py install
           sudo sage -python -m pip install .
 
