@@ -1,0 +1,132 @@
+=========================
+TII Cryptanalysis Library
+=========================
+
+This is a sample reference manual for TII cryptanalysis library.
+
+To use this module, you need to import it:: 
+
+    from cryptographic_estimators import *
+
+This reference shows a minimal example of documentation of the
+TII cryptanalysis library following SageMath guidelines.
+
+.. toctree::
+
+    helper
+    base_constants
+    base_problem
+    base_algorithm
+    base_estimator
+
+-----------
+SDEstimator
+-----------
+
+.. toctree::
+
+    SDEstimator/sd_helper
+    SDEstimator/sd_constants
+    SDEstimator/sd_algorithm
+    SDEstimator/sd_estimator
+    SDEstimator/sd_problem
+
+SDAlgorithms
+============
+
+.. toctree::
+
+    SDEstimator/SDAlgorithms/may_ozerov
+    SDEstimator/SDAlgorithms/ball_collision
+    SDEstimator/SDAlgorithms/stern
+    SDEstimator/SDAlgorithms/prange
+    SDEstimator/SDAlgorithms/bjmm
+    SDEstimator/SDAlgorithms/bjmm_pdw
+    SDEstimator/SDAlgorithms/both_may
+    SDEstimator/SDAlgorithms/dumer
+    SDEstimator/SDAlgorithms/bjmm_dw
+
+SDWorkfactorModels
+==================
+
+.. toctree::
+
+    SDEstimator/SDWorkfactorModels/may_ozerov
+    SDEstimator/SDWorkfactorModels/ball_collision
+    SDEstimator/SDWorkfactorModels/stern
+    SDEstimator/SDWorkfactorModels/prange
+    SDEstimator/SDWorkfactorModels/bjmm
+    SDEstimator/SDWorkfactorModels/both_may
+    SDEstimator/SDWorkfactorModels/workfactor_helper
+    SDEstimator/SDWorkfactorModels/dumer
+
+-----------
+MQEstimator
+-----------
+
+.. toctree::
+
+    MQEstimator/mq_helper
+    MQEstimator/mq_algorithm
+    MQEstimator/witness_degree
+    MQEstimator/mq_constants
+    MQEstimator/mq_estimator
+    MQEstimator/degree_of_regularity
+    MQEstimator/mq_problem
+
+MQAlgorithms
+============
+
+.. toctree::
+
+    MQEstimator/MQAlgorithms/f5
+    MQEstimator/MQAlgorithms/lokshtanov
+    MQEstimator/MQAlgorithms/mht
+    MQEstimator/MQAlgorithms/crossbred
+    MQEstimator/MQAlgorithms/boolean_solve_fxl
+    MQEstimator/MQAlgorithms/cgmta
+    MQEstimator/MQAlgorithms/dinur2
+    MQEstimator/MQAlgorithms/dinur1
+    MQEstimator/MQAlgorithms/kpg
+    MQEstimator/MQAlgorithms/exhaustive_search
+    MQEstimator/MQAlgorithms/hybrid_f5
+    MQEstimator/MQAlgorithms/bjorklund
+
+series
+======
+
+.. toctree::
+
+    MQEstimator/series/nmonomial
+    MQEstimator/series/hilbert
+
+--------------
+DummyEstimator
+--------------
+
+.. toctree::
+
+    DummyEstimator/dummy_problem
+    DummyEstimator/dummy_algorithm
+    DummyEstimator/dummy_estimator
+
+DummyAlgorithms
+===============
+
+.. toctree::
+
+    DummyEstimator/DummyAlgorithms/dummy_algorithm1
+
+
+
+General Information
+===================
+
+* :ref:`Bibliographic References <references>`
+
+Indices and Tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

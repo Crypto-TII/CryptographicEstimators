@@ -1,0 +1,1384 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="sd_helper" href="SDEstimator/sd_helper.html" /><link rel="prev" title="base_algorithm" href="base_algorithm.html" />
+
+    <!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
+        <title>base_estimator - TII-Estimators documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">TII-Estimators  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/tii_logo.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">TII-Estimators  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="helper.html">helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base_constants.html">base_constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base_problem.html">base_problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base_algorithm.html">base_algorithm</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">base_estimator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/sd_helper.html">sd_helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/sd_constants.html">sd_constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/sd_algorithm.html">sd_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/sd_estimator.html">sd_estimator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/sd_problem.html">sd_problem</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDAlgorithms/may_ozerov.html">may_ozerov</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDAlgorithms/ball_collision.html">ball_collision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDAlgorithms/stern.html">stern</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDAlgorithms/prange.html">prange</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDAlgorithms/bjmm.html">bjmm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDAlgorithms/bjmm_pdw.html">bjmm_pdw</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDAlgorithms/both_may.html">both_may</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDAlgorithms/dumer.html">dumer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDAlgorithms/bjmm_dw.html">bjmm_dw</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDWorkfactorModels/may_ozerov.html">may_ozerov</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDWorkfactorModels/ball_collision.html">ball_collision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDWorkfactorModels/stern.html">stern</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDWorkfactorModels/prange.html">prange</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDWorkfactorModels/bjmm.html">bjmm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDWorkfactorModels/both_may.html">both_may</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDWorkfactorModels/workfactor_helper.html">workfactor_helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDWorkfactorModels/dumer.html">dumer</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/mq_helper.html">mq_helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/mq_algorithm.html">mq_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/witness_degree.html">witness_degree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/mq_constants.html">mq_constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/mq_estimator.html">mq_estimator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/degree_of_regularity.html">degree_of_regularity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/mq_problem.html">mq_problem</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/MQAlgorithms/f5.html">f5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/MQAlgorithms/lokshtanov.html">lokshtanov</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/MQAlgorithms/mht.html">mht</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/MQAlgorithms/crossbred.html">crossbred</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/MQAlgorithms/boolean_solve_fxl.html">boolean_solve_fxl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/MQAlgorithms/cgmta.html">cgmta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/MQAlgorithms/dinur2.html">dinur2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/MQAlgorithms/dinur1.html">dinur1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/MQAlgorithms/kpg.html">kpg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/MQAlgorithms/exhaustive_search.html">exhaustive_search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/MQAlgorithms/hybrid_f5.html">hybrid_f5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/MQAlgorithms/bjorklund.html">bjorklund</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/series/nmonomial.html">nmonomial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MQEstimator/series/hilbert.html">hilbert</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="DummyEstimator/dummy_problem.html">dummy_problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DummyEstimator/dummy_algorithm.html">dummy_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DummyEstimator/dummy_estimator.html">dummy_estimator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="DummyEstimator/DummyAlgorithms/dummy_algorithm1.html">dummy_algorithm1</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="module-cryptographic_estimators.base_estimator">
+<span id="base-estimator"></span><h1>base_estimator<a class="headerlink" href="#module-cryptographic_estimators.base_estimator" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.BaseEstimator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">BaseEstimator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.BaseEstimator" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Construct an instance of BaseEstimator</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">alg</span></code> – specialized algorithm class (subclass of BaseAlgorithm)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prob</span></code> – object of any subclass of BaseProblem</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">excluded_algorithms</span></code> – a list/tuple of excluded algorithms (default: None)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">memory_access</span></code> – specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">complexity_type</span></code> – complexity type to consider (0: estimate, 1: tilde O complexity, default 0)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bit_complexities</span></code> – state complexity as bit rather than field operations (default 1, only relevant for complexity_type 0)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include_tildeo</span></code> – specifies if tildeO estimation should be included in the outputs (default 0: no tildeO esimation)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include_quantum</span></code> – specifies if quantum estimation should be included in the outputs (default 0: no quyantum esimation)</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.BaseEstimator.algorithm_names">
+<span class="sig-name descname"><span class="pre">algorithm_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.BaseEstimator.algorithm_names" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a list of the name of considered algorithms</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.BaseEstimator.algorithms">
+<span class="sig-name descname"><span class="pre">algorithms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.BaseEstimator.algorithms" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a list of considered algorithms</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.BaseEstimator.bit_complexities">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bit_complexities</span></span><a class="headerlink" href="#cryptographic_estimators.base_estimator.BaseEstimator.bit_complexities" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a list of bit_complexities attributes of included algorithms</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.BaseEstimator.complexity_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">complexity_type</span></span><a class="headerlink" href="#cryptographic_estimators.base_estimator.BaseEstimator.complexity_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a list of complexity_type attributes of included algorithms</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.BaseEstimator.estimate">
+<span class="sig-name descname"><span class="pre">estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.BaseEstimator.estimate" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns dictionary describing the complexity of each algorithm and its optimal parameters</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.BaseEstimator.excluded_algorithms_by_default">
+<span class="sig-name descname"><span class="pre">excluded_algorithms_by_default</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#cryptographic_estimators.base_estimator.BaseEstimator.excluded_algorithms_by_default" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.BaseEstimator.fastest_algorithm">
+<span class="sig-name descname"><span class="pre">fastest_algorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_tilde_o_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.BaseEstimator.fastest_algorithm" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the algorithm with the smallest time complexity</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">use_tilde_o_time</span></code> – use Ō time complexity, i.e., ignore polynomial factors (default: False)</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.BaseEstimator.memory_access">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">memory_access</span></span><a class="headerlink" href="#cryptographic_estimators.base_estimator.BaseEstimator.memory_access" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a list of memory_access attributes of included algorithms</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.BaseEstimator.nalgorithms">
+<span class="sig-name descname"><span class="pre">nalgorithms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.BaseEstimator.nalgorithms" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the number of considered algorithms</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.BaseEstimator.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.BaseEstimator.reset" title="Permalink to this definition">#</a></dt>
+<dd><p>Resets the internal states of the estimator and all included algorithms</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.BaseEstimator.table">
+<span class="sig-name descname"><span class="pre">table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_quantum_complexity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_tilde_o_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_all_parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.BaseEstimator.table" title="Permalink to this definition">#</a></dt>
+<dd><p>Print table describing the complexity of each algorithm and its optimal parameters</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">show_quantum_complexity</span></code> – show quantum time complexity (default: false)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">show_tilde_o_time</span></code> – show Ō time complexity (default: false)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">show_all_parameters</span></code> – show all optimization parameters (default: false)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">precision</span></code> – number of decimal digits output (default: 1)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">truncate</span></code> – truncate rather than round the output (default: false)</p></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.channels">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">channels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.channels" title="Permalink to this definition">#</a></dt>
+<dd><p>Index of channels</p>
+<p>Channels in Sage implement the information theoretic notion of transmission of messages.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">channels</span></code> object may be used to access the codes that Sage can build.</p>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">channel.ErrorErasureChannel</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">channel.QarySymmetricChannel</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">channel.StaticErrorRateChannel</span></code></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To import these names into the global namespace, use:</p>
+<blockquote>
+<div><p>sage: from sage.coding.channels_catalog import *</p>
+</div></blockquote>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.codes">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">codes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.codes" title="Permalink to this definition">#</a></dt>
+<dd><p>Index of code constructions</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">codes</span></code> object may be used to access the codes that Sage can build.</p>
+<section id="families-of-codes-rich-representation">
+<h2>Families of Codes (Rich representation)<a class="headerlink" href="#families-of-codes-rich-representation" title="Permalink to this heading">#</a></h2>
+<div class="table-wrapper colwidths-given contentstable docutils container">
+<table class="colwidths-given contentstable docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 70%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">ParityCheckCode()</span></code></p></td>
+<td><p>Parity check codes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">CyclicCode()</span></code></p></td>
+<td><p>Cyclic codes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">BCHCode()</span></code></p></td>
+<td><p>BCH Codes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">GeneralizedReedSolomonCode()</span></code></p></td>
+<td><p>Generalized Reed-Solomon codes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">ReedSolomonCode()</span></code></p></td>
+<td><p>Reed-Solomon codes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">BinaryReedMullerCode()</span></code></p></td>
+<td><p>Binary Reed-Muller codes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">ReedMullerCode()</span></code></p></td>
+<td><p>q-ary Reed-Muller codes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">HammingCode()</span></code></p></td>
+<td><p>Hamming codes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">GolayCode()</span></code></p></td>
+<td><p>Golay codes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">GoppaCode()</span></code></p></td>
+<td><p>Goppa codes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">KasamiCode()</span></code></p></td>
+<td><p>Kasami codes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="families-of-codes-generator-matrix-representation">
+<h2>Families of Codes (Generator matrix representation)<a class="headerlink" href="#families-of-codes-generator-matrix-representation" title="Permalink to this heading">#</a></h2>
+<div class="table-wrapper colwidths-given contentstable docutils container">
+<table class="colwidths-given contentstable docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 70%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">DuadicCodeEvenPair()</span></code></p></td>
+<td><p>Duadic codes, even pair</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">DuadicCodeOddPair()</span></code></p></td>
+<td><p>Duadic codes, odd pair</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">QuadraticResidueCode()</span></code></p></td>
+<td><p>Quadratic residue codes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">ExtendedQuadraticResidueCode()</span></code></p></td>
+<td><p>Extended quadratic residue codes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">QuadraticResidueCodeEvenPair()</span></code></p></td>
+<td><p>Even-like quadratic residue codes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">QuadraticResidueCodeOddPair()</span></code></p></td>
+<td><p>Odd-like quadratic residue codes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">QuasiQuadraticResidueCode()</span></code></p></td>
+<td><p>Quasi quadratic residue codes (Requires GAP/Guava)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">ToricCode()</span></code></p></td>
+<td><p>Toric codes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">WalshCode()</span></code></p></td>
+<td><p>Walsh codes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_parity_check_matrix()</span></code></p></td>
+<td><p>Construct a code from a parity check matrix</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">random_linear_code()</span></code></p></td>
+<td><p>Construct a random linear code</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">RandomLinearCodeGuava()</span></code></p></td>
+<td><p>Construct a random linear code through Guava (Requires GAP/Guava)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="derived-codes">
+<h2>Derived Codes<a class="headerlink" href="#derived-codes" title="Permalink to this heading">#</a></h2>
+<div class="table-wrapper colwidths-given contentstable docutils container">
+<table class="colwidths-given contentstable docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 70%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">SubfieldSubcode()</span></code></p></td>
+<td><p>Subfield subcodes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">ExtendedCode()</span></code></p></td>
+<td><p>Extended codes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">PuncturedCode()</span></code></p></td>
+<td><p>Puncturedcodes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To import these names into the global namespace, use:</p>
+<blockquote>
+<div><p>sage: from sage.coding.codes_catalog import *</p>
+</div></blockquote>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.cones">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">cones</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.cones" title="Permalink to this definition">#</a></dt>
+<dd><p>Catalog of common polyhedral convex cones</p>
+<p>This module provides shortcut functions, grouped under the
+globally-available <code class="docutils literal notranslate"><span class="pre">cones</span></code> prefix, to create some common cones:</p>
+<ul class="simple">
+<li><p>The nonnegative orthant,</p></li>
+<li><p>The rearrangement cone of order <code class="docutils literal notranslate"><span class="pre">p</span></code>,</p></li>
+<li><p>The Schur cone,</p></li>
+<li><p>The trivial cone.</p></li>
+</ul>
+<p>At the moment, only convex rational polyhedral cones are
+supported—specifically, those cones that can be built using the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">Cone()</span></code> constructor. As a result, each shortcut method can be
+passed either an ambient dimension <code class="docutils literal notranslate"><span class="pre">ambient_dim</span></code>, or a toric
+<code class="docutils literal notranslate"><span class="pre">lattice</span></code> (from which the dimension can be inferred) to determine
+the ambient space.</p>
+<p>Here are some typical usage examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">cones</span><span class="o">.</span><span class="n">nonnegative_orthant</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">rays</span><span class="p">()</span>
+<span class="n">N</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="n">N</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="ow">in</span> <span class="mi">2</span><span class="o">-</span><span class="n">d</span> <span class="n">lattice</span> <span class="n">N</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">cones</span><span class="o">.</span><span class="n">rearrangement</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">rays</span><span class="p">()</span>
+<span class="n">N</span><span class="p">(</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">),</span>
+<span class="n">N</span><span class="p">(</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+<span class="n">N</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">)</span>
+<span class="ow">in</span> <span class="mi">2</span><span class="o">-</span><span class="n">d</span> <span class="n">lattice</span> <span class="n">N</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">cones</span><span class="o">.</span><span class="n">schur</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">rays</span><span class="p">()</span>
+<span class="n">N</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">),</span>
+<span class="n">N</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="ow">in</span> <span class="mi">3</span><span class="o">-</span><span class="n">d</span> <span class="n">lattice</span> <span class="n">N</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">cones</span><span class="o">.</span><span class="n">trivial</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">rays</span><span class="p">()</span>
+<span class="n">Empty</span> <span class="n">collection</span>
+<span class="ow">in</span> <span class="mi">3</span><span class="o">-</span><span class="n">d</span> <span class="n">lattice</span> <span class="n">N</span>
+</pre></div>
+</div>
+<p>To specify some other lattice, pass it as an argument to the function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">cones</span><span class="o">.</span><span class="n">nonnegative_orthant</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">cones</span><span class="o">.</span><span class="n">schur</span><span class="p">(</span><span class="n">lattice</span><span class="o">=</span><span class="n">K</span><span class="o">.</span><span class="n">dual</span><span class="p">()</span><span class="o">.</span><span class="n">lattice</span><span class="p">())</span>
+<span class="mi">2</span><span class="o">-</span><span class="n">d</span> <span class="n">cone</span> <span class="ow">in</span> <span class="mi">3</span><span class="o">-</span><span class="n">d</span> <span class="n">lattice</span> <span class="n">M</span>
+</pre></div>
+</div>
+<p>For more information about these cones, see the documentation for the
+individual functions and the references therein.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.crystals">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">crystals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.crystals" title="Permalink to this definition">#</a></dt>
+<dd><p>Catalog Of Crystals</p>
+<p>Let <cite>I</cite> be an index set and let <cite>(A,Pi,Pi^vee,P,P^vee)</cite> be a Cartan datum
+associated with generalized Cartan matrix <cite>A = (a_{ij})_{i,jin I}</cite>.  An
+<em>abstract crystal</em> associated to this Cartan datum is a set <cite>B</cite> together with
+maps</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[e_i,f_i \colon B \to B \cup \{0\}, \qquad
+\varepsilon_i,\varphi_i\colon B \to \ZZ \cup \{-\infty\}, \qquad
+\mathrm{wt}\colon B \to P,\]</div>
+</div>
+<p>subject to the following conditions:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><cite>varphi_i(b) = varepsilon_i(b) + langle h_i, mathrm{wt}(b) rangle</cite> for all <cite>b in B</cite> and <cite>i in I</cite>;</p></li>
+<li><p><cite>mathrm{wt}(e_ib) = mathrm{wt}(b) + alpha_i</cite> if <cite>e_ib in B</cite>;</p></li>
+<li><p><cite>mathrm{wt}(f_ib) = mathrm{wt}(b) - alpha_i</cite> if <cite>f_ib in B</cite>;</p></li>
+<li><p><cite>varepsilon_i(e_ib) = varepsilon_i(b) - 1</cite>, <cite>varphi_i(e_ib) = varphi_i(b) + 1</cite> if <cite>e_ib in B</cite>;</p></li>
+<li><p><cite>varepsilon_i(f_ib) = varepsilon_i(b) + 1</cite>, <cite>varphi_i(f_ib) = varphi_i(b) - 1</cite> if <cite>f_ib in B</cite>;</p></li>
+<li><p><cite>f_ib = b’</cite> if and only if <cite>b = e_ib’</cite> for <cite>b,b’ in B</cite> and <cite>iin I</cite>;</p></li>
+<li><p>if <cite>varphi_i(b) = -infty</cite> for <cite>bin B</cite>, then <cite>e_ib = f_ib = 0</cite>.</p></li>
+</ol>
+</div></blockquote>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">sage.categories.crystals</span></code></p></li>
+<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">sage.combinat.crystals.crystals</span></code></p></li>
+</ul>
+</div>
+<section id="catalog">
+<h2>Catalog<a class="headerlink" href="#catalog" title="Permalink to this heading">#</a></h2>
+<p>This is a catalog of crystals that are currently implemented in Sage:</p>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AffineCrystalFromClassical</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AffineCrystalFromClassicalAndPromotion</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AffineFactorization</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AffinizationOf</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AlcovePaths</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">FastRankTwo</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">FullyCommutativeStableGrothendieck</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">GeneralizedYoungWalls</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">HighestWeight</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Induced</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">KacModule</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">KirillovReshetikhin</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">KleshchevPartitions</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">KyotoPathModel</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Letters</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">LSPaths</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Minimaj</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">NakajimaMonomials</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">OddNegativeRoots</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectedLevelZeroLSPaths</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RiggedConfigurations</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ShiftedPrimedTableaux</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Spins</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SpinsPlus</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SpinsMinus</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tableaux</span></code></p></li>
+</ul>
+<p>Subcatalogs:</p>
+<ul class="simple">
+<li><p><span class="xref std std-ref">sage.combinat.crystals.catalog_infinity_crystals</span></p></li>
+<li><p><span class="xref std std-ref">sage.combinat.crystals.catalog_elementary_crystals</span></p></li>
+<li><p><span class="xref std std-ref">sage.combinat.crystals.catalog_kirillov_reshetikhin</span></p></li>
+</ul>
+<p>Functorial constructions:</p>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectSum</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">TensorProduct</span></code></p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.finance">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">finance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.finance" title="Permalink to this definition">#</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.finite_dynamical_systems">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">finite_dynamical_systems</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.finite_dynamical_systems" title="Permalink to this definition">#</a></dt>
+<dd><p>Catalog of discrete dynamical systems</p>
+<p>This module contains constructors for several specific discrete
+dynamical systems.
+These are accessible through
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">sage.dynamics.finite_dynamical_system_catalog.</span></code>
+or just through <cite>finite_dynamical_systems.</cite>
+(type either of these in Sage and hit <code class="docutils literal notranslate"><span class="pre">tab</span></code> for a list).</p>
+<p>AUTHORS:</p>
+<ul class="simple">
+<li><p>Darij Grinberg, Tom Roby (2018): initial version</p></li>
+</ul>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h2>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.game_theory">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">game_theory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.game_theory" title="Permalink to this definition">#</a></dt>
+<dd><p>Catalog Of Games</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.graph_coloring">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">graph_coloring</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.graph_coloring" title="Permalink to this definition">#</a></dt>
+<dd><p>File: sage/graphs/graph_coloring.pyx (starting at line 1)</p>
+<p>Graph coloring</p>
+<p>This module gathers all methods related to graph coloring. Here is what it can
+do :</p>
+<p><strong>Proper vertex coloring</strong></p>
+<div class="table-wrapper colwidths-given contentstable docutils container">
+<table class="colwidths-given contentstable docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 70%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">all_graph_colorings()</span></code></p></td>
+<td><p>Compute all <cite>n</cite>-colorings a graph</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">first_coloring()</span></code></p></td>
+<td><p>Return the first vertex coloring found</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">number_of_n_colorings()</span></code></p></td>
+<td><p>Compute the number of <cite>n</cite>-colorings of a graph</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">numbers_of_colorings()</span></code></p></td>
+<td><p>Compute the number of colorings of a graph</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">chromatic_number()</span></code></p></td>
+<td><p>Return the chromatic number of the graph</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">vertex_coloring()</span></code></p></td>
+<td><p>Compute vertex colorings and chromatic numbers</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Fractional relaxations</strong></p>
+<div class="table-wrapper colwidths-given contentstable docutils container">
+<table class="colwidths-given contentstable docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 70%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">fractional_chromatic_number()</span></code></p></td>
+<td><p>Return the fractional chromatic number of the graph</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">fractional_chromatic_index()</span></code></p></td>
+<td><p>Return the fractional chromatic index of the graph</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Other colorings</strong></p>
+<div class="table-wrapper colwidths-given contentstable docutils container">
+<table class="colwidths-given contentstable docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 70%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">grundy_coloring()</span></code></p></td>
+<td><p>Compute Grundy numbers and Grundy colorings</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">b_coloring()</span></code></p></td>
+<td><p>Compute b-chromatic numbers and b-colorings</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">edge_coloring()</span></code></p></td>
+<td><p>Compute chromatic index and edge colorings</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">round_robin()</span></code></p></td>
+<td><p>Compute a round-robin coloring of the complete graph on <cite>n</cite> vertices</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">linear_arboricity()</span></code></p></td>
+<td><p>Compute the linear arboricity of the given graph</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">acyclic_edge_coloring()</span></code></p></td>
+<td><p>Compute an acyclic edge coloring of the current graph</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>AUTHORS:</p>
+<ul class="simple">
+<li><p>Tom Boothby (2008-02-21): Initial version</p></li>
+<li><p>Carlo Hamalainen (2009-03-28): minor change: switch to C++ DLX solver</p></li>
+<li><p>Nathann Cohen (2009-10-24): Coloring methods using linear programming</p></li>
+</ul>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this heading">#</a></h2>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.groups">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">groups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.groups" title="Permalink to this definition">#</a></dt>
+<dd><p>Examples of Groups</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">groups</span></code> object may be used to access examples of various groups.
+Using tab-completion on this object is an easy way to discover and quickly
+create the groups that are available (as listed here).</p>
+<p>Let <code class="docutils literal notranslate"><span class="pre">&lt;tab&gt;</span></code> indicate pressing the tab key.  So begin by typing
+<code class="docutils literal notranslate"><span class="pre">groups.&lt;tab&gt;</span></code> to the see primary divisions, followed by (for example)
+<code class="docutils literal notranslate"><span class="pre">groups.matrix.&lt;tab&gt;</span></code> to access various groups implemented as sets of matrices.</p>
+<ul class="simple">
+<li><p>Permutation Groups  (<code class="docutils literal notranslate"><span class="pre">groups.permutation.&lt;tab&gt;</span></code>)</p>
+<ul>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.Symmetric</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.Alternating</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.KleinFour</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.Quaternion</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.Cyclic</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.ComplexReflection</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.Dihedral</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.DiCyclic</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.Mathieu</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.Suzuki</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.PGL</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.PSL</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.PSp</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.PSU</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.PGU</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.Transitive</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.permutation.RubiksCube</span></code></p></li>
+</ul>
+</li>
+<li><p>Matrix Groups (<code class="docutils literal notranslate"><span class="pre">groups.matrix.&lt;tab&gt;</span></code>)</p>
+<ul>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.matrix.QuaternionGF3</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.matrix.GL</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.matrix.SL</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.matrix.Sp</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.matrix.GU</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.matrix.SU</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.matrix.GO</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.matrix.SO</span></code></p></li>
+</ul>
+</li>
+<li><p>Finitely Presented Groups (<code class="docutils literal notranslate"><span class="pre">groups.presentation.&lt;tab&gt;</span></code>)</p>
+<ul>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.presentation.Alternating</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.presentation.Cyclic</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.presentation.Dihedral</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.presentation.DiCyclic</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.presentation.FGAbelian</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.presentation.KleinFour</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.presentation.Quaternion</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.presentation.Symmetric</span></code></p></li>
+</ul>
+</li>
+<li><p>Affine Groups (<code class="docutils literal notranslate"><span class="pre">groups.affine.&lt;tab&gt;</span></code>)</p>
+<ul>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.affine.Affine</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.affine.Euclidean</span></code></p></li>
+</ul>
+</li>
+<li><p>Lie Groups  (<code class="docutils literal notranslate"><span class="pre">groups.lie.&lt;tab&gt;</span></code>)</p>
+<ul>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.lie.Nilpotent</span></code></p></li>
+</ul>
+</li>
+<li><p>Miscellaneous Groups (<code class="docutils literal notranslate"><span class="pre">groups.misc.&lt;tab&gt;</span></code>)</p>
+<ul>
+<li><p>Coxeter, reflection and related groups</p>
+<ul>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.misc.Braid</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.misc.CoxeterGroup</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.misc.ReflectionGroup</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.misc.RightAngledArtin</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.misc.WeylGroup</span></code></p></li>
+</ul>
+</li>
+<li><p>other miscellaneous groups</p>
+<ul>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.misc.AdditiveAbelian</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">groups.misc.AdditiveCyclic</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.misc.Free</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">groups.misc.SemimonomialTransformation</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.lattice_polytope">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">lattice_polytope</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.lattice_polytope" title="Permalink to this definition">#</a></dt>
+<dd><p>Lattice and reflexive polytopes</p>
+<p>This module provides tools for work with lattice and reflexive
+polytopes. A <em>convex polytope</em> is the convex hull of finitely many
+points in <cite>RR^n</cite>. The dimension <cite>n</cite> of a
+polytope is the smallest <cite>n</cite> such that the polytope can be
+embedded in <cite>RR^n</cite>.</p>
+<p>A <em>lattice polytope</em> is a polytope whose vertices all have integer
+coordinates.</p>
+<p>If <cite>L</cite> is a lattice polytope, the dual polytope of
+<cite>L</cite> is</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\{y \in \ZZ^n :   x\cdot y \geq -1 \text{ all } x \in L\}\]</div>
+</div>
+<p>A <em>reflexive polytope</em> is a lattice polytope, such that its polar
+is also a lattice polytope, i.e. it is bounded and has vertices with
+integer coordinates.</p>
+<p>This Sage module uses Package for Analyzing Lattice Polytopes
+(PALP), which is a program written in C by Maximilian Kreuzer and
+Harald Skarke, which is freely available under the GNU license
+terms at <a class="reference external" href="http://hep.itp.tuwien.ac.at/~kreuzer/CY/">http://hep.itp.tuwien.ac.at/~kreuzer/CY/</a>. Moreover, PALP is
+included standard with Sage.</p>
+<p>PALP is described in the paper <a href="#id1"><span class="problematic" id="id2">:arxiv:`math.SC/0204356`</span></a>. Its distribution
+also contains the application nef.x, which was created by Erwin
+Riegler and computes nef-partitions and Hodge data for toric
+complete intersections.</p>
+<p>ACKNOWLEDGMENT: polytope.py module written by William Stein was
+used as an example of organizing an interface between an external
+program and Sage. William Stein also helped Andrey Novoseltsev with
+debugging and tuning of this module.</p>
+<p>Robert Bradshaw helped Andrey Novoseltsev to realize plot3d
+function.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>IMPORTANT: PALP requires some parameters to be determined during
+compilation time, i.e., the maximum dimension of polytopes, the
+maximum number of points, etc. These limitations may lead to errors
+during calls to different functions of these module.  Currently, a
+ValueError exception will be raised if the output of poly.x or
+nef.x is empty or contains the exclamation mark. The error message
+will contain the exact command that caused an error, the
+description and vertices of the polytope, and the obtained output.</p>
+</div>
+<p>Data obtained from PALP and some other data is cached and most
+returned values are immutable. In particular, you cannot change the
+vertices of the polytope or their order after creation of the
+polytope.</p>
+<p>If you are going to work with large sets of data, take a look at
+<code class="docutils literal notranslate"><span class="pre">all_*</span></code> functions in this module. They precompute different data
+for sequences of polynomials with a few runs of external programs.
+This can significantly affect the time of future computations. You
+can also use dump/load, but not all data will be stored (currently
+only faces and the number of their internal and boundary points are
+stored, in addition to polytope vertices and its polar).</p>
+<p>AUTHORS:</p>
+<ul>
+<li><p>Andrey Novoseltsev (2007-01-11): initial version</p></li>
+<li><p>Andrey Novoseltsev (2007-01-15): <code class="docutils literal notranslate"><span class="pre">all_*</span></code> functions</p></li>
+<li><p>Andrey Novoseltsev (2008-04-01): second version, including:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>dual nef-partitions and necessary convex_hull and minkowski_sum</p></li>
+<li><p>built-in sequences of 2- and 3-dimensional reflexive polytopes</p></li>
+<li><p>plot3d, skeleton_show</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Andrey Novoseltsev (2009-08-26): dropped maximal dimension requirement</p></li>
+<li><p>Andrey Novoseltsev (2010-12-15): new version of nef-partitions</p></li>
+<li><p>Andrey Novoseltsev (2013-09-30): switch to PointCollection.</p></li>
+<li><p>Maximilian Kreuzer and Harald Skarke: authors of PALP (which was
+also used to obtain the list of 3-dimensional reflexive polytopes)</p></li>
+<li><p>Erwin Riegler: the author of nef.x</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.lie_algebras">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">lie_algebras</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.lie_algebras" title="Permalink to this definition">#</a></dt>
+<dd><p>Examples of Lie Algebras</p>
+<p>There are the following examples of Lie algebras:</p>
+<ul class="simple">
+<li><p>A rather comprehensive family of 3-dimensional Lie algebras</p></li>
+<li><p>The Lie algebra of affine transformations of the line</p></li>
+<li><p>All abelian Lie algebras on free modules</p></li>
+<li><p>The Lie algebra of upper triangular matrices</p></li>
+<li><p>The Lie algebra of strictly upper triangular matrices</p></li>
+<li><p>The symplectic derivation Lie algebra</p></li>
+<li><p>The rank two Heisenberg Virasoro algebra</p></li>
+</ul>
+<p>See also
+<code class="xref py py-class docutils literal notranslate"><span class="pre">sage.algebras.lie_algebras.virasoro.LieAlgebraRegularVectorFields</span></code>
+and
+<code class="xref py py-class docutils literal notranslate"><span class="pre">sage.algebras.lie_algebras.virasoro.VirasoroAlgebra</span></code> for
+other examples.</p>
+<p>AUTHORS:</p>
+<ul class="simple">
+<li><p>Travis Scrimshaw (07-15-2013): Initial implementation</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.lie_conformal_algebras">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">lie_conformal_algebras</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.lie_conformal_algebras" title="Permalink to this definition">#</a></dt>
+<dd><p>Examples of Lie Conformal Algebras</p>
+<p>We implement the following examples of Lie conformal algebras:</p>
+<ul class="simple">
+<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">Abelian</span> <span class="pre">Lie</span> <span class="pre">conformal</span> <span class="pre">algebra</span></code></p></li>
+<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">Affine</span> <span class="pre">Lie</span> <span class="pre">conformal</span> <span class="pre">algebra</span></code></p></li>
+<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">Bosonic</span> <span class="pre">Ghosts</span></code></p></li>
+<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">Fermionic</span> <span class="pre">Ghosts</span></code></p></li>
+<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">Free</span> <span class="pre">Bosons</span></code></p></li>
+<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">Free</span> <span class="pre">Fermions</span></code></p></li>
+<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">N=2</span> <span class="pre">super</span> <span class="pre">Lie</span> <span class="pre">Conformal</span> <span class="pre">algebra</span></code></p></li>
+<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">Neveu-Schwarz</span> <span class="pre">super</span> <span class="pre">Lie</span> <span class="pre">conformal</span>
+<span class="pre">algebra</span></code></p></li>
+<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">Virasoro</span> <span class="pre">Lie</span> <span class="pre">conformal</span> <span class="pre">algebra</span></code></p></li>
+<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">Weyl</span> <span class="pre">Lie</span> <span class="pre">conformal</span> <span class="pre">algebra</span></code></p></li>
+</ul>
+<p>AUTHORS:</p>
+<ul class="simple">
+<li><p>Reimundo Heluani (2020-06-15): Initial implementation.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.manifolds">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">manifolds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.manifolds" title="Permalink to this definition">#</a></dt>
+<dd><p>Manifolds Catalog</p>
+<p>A catalog of manifolds to rapidly create various simple manifolds.</p>
+<p>The current entries to the catalog are obtained by typing
+<code class="docutils literal notranslate"><span class="pre">manifolds.&lt;tab&gt;</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;tab&gt;</span></code> indicates pressing the tab key.
+They are:</p>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">EuclideanSpace</span></code>: Euclidean space</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RealLine</span></code>: real line</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">OpenInterval</span></code>: open interval on the real line</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Sphere</span></code>: sphere embedded in Euclidean space</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">Torus()</span></code>: torus embedded in Euclidean space</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">Minkowski()</span></code>: 4-dimensional Minkowski space</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">Kerr()</span></code>: Kerr spacetime</p></li>
+</ul>
+<p>AUTHORS:</p>
+<ul class="simple">
+<li><p>Florentin Jaffredo (2018) : initial version</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.matroids">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">matroids</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.matroids" title="Permalink to this definition">#</a></dt>
+<dd><p>Catalog of matroids</p>
+<p>A module containing constructors for several common matroids.</p>
+<p>A list of all matroids in this module is available via tab
+completion. Let <code class="docutils literal notranslate"><span class="pre">&lt;tab&gt;</span></code> indicate pressing the tab key.  So begin by typing
+<code class="docutils literal notranslate"><span class="pre">matroids.&lt;tab&gt;</span></code> to see the various constructions available. Many special
+matroids can be accessed from the submenu <code class="docutils literal notranslate"><span class="pre">matroids.named_matroids.&lt;tab&gt;</span></code>.</p>
+<p>To create a custom matroid using a variety of inputs, see the function
+<code class="xref py py-func docutils literal notranslate"><span class="pre">Matroid()</span></code>.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Parametrized matroid constructors</dt><dd><ul>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.AG</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.CompleteGraphic</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.PG</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.Uniform</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.Wheel</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.Whirl</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Named matroids (<code class="docutils literal notranslate"><span class="pre">matroids.named_matroids.&lt;tab&gt;</span></code>)</dt><dd><ul>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.AG23minus</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.AG32prime</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.BetsyRoss</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.Block_9_4</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.Block_10_5</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.D16</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.ExtendedBinaryGolayCode</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.ExtendedTernaryGolayCode</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.F8</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.Fano</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.J</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.K33dual</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.L8</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.N1</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.N2</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.NonFano</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.NonPappus</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.NonVamos</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.NotP8</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.O7</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.P6</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.P7</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.P8</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.P8pp</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.P9</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.Pappus</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.Q6</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.Q8</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.Q10</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.R6</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.R8</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.R9A</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.R9B</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.R10</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.R12</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.S8</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.T8</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.T12</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.TernaryDowling3</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.Terrahawk</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.TicTacToe</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">matroids.named_matroids.Vamos</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.path_tableaux">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">path_tableaux</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.path_tableaux" title="Permalink to this definition">#</a></dt>
+<dd><p>Catalog of Path Tableaux</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">path_tableaux</span></code> object may be used to access examples of various path
+tableau objects currently implemented in Sage. Using tab-completion on this
+object is an easy way to discover and quickly create the path tableaux that
+are available (as listed here).</p>
+<p>Let <code class="docutils literal notranslate"><span class="pre">&lt;tab&gt;</span></code> indicate pressing the tab key.  So begin by typing
+<code class="docutils literal notranslate"><span class="pre">path_tableaux.&lt;tab&gt;</span></code> to the see the currently implemented path tableaux.</p>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">CylindricalDiagram</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DyckPath</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DyckPaths</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">FriezePattern</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">FriezePatterns</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SemistandardPathTableau</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SemistandardPathTableaux</span></code></p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.simplicial_complexes">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">simplicial_complexes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.simplicial_complexes" title="Permalink to this definition">#</a></dt>
+<dd><p>Catalog of simplicial complexes</p>
+<p>There are two main types: manifolds and examples related to graph
+theory.</p>
+<p>For manifolds, there are functions defining the <cite>n</cite>-sphere for any
+<cite>n</cite>, the torus, <cite>n</cite>-dimensional real projective space for any <cite>n</cite>, the
+complex projective plane, surfaces of arbitrary genus, and some other
+manifolds, all as simplicial complexes.</p>
+<p>Aside from surfaces, this file also provides functions for
+constructing some other simplicial complexes: the simplicial complex
+of not-<cite>i</cite>-connected graphs on <cite>n</cite> vertices, the matching complex on n
+vertices, the chessboard complex for an <cite>n</cite> by <cite>i</cite> chessboard, and
+others.  These provide examples of large simplicial complexes; for
+example, <code class="docutils literal notranslate"><span class="pre">simplicial_complexes.NotIConnectedGraphs(7,2)</span></code> has over a
+million simplices.</p>
+<p>All of these examples are accessible by typing
+<code class="docutils literal notranslate"><span class="pre">simplicial_complexes.NAME</span></code>, where <code class="docutils literal notranslate"><span class="pre">NAME</span></code> is the name of the example.</p>
+<ul class="simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">BarnetteSphere()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">BrucknerGrunbaumSphere()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">ChessboardComplex()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">ComplexProjectivePlane()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">DunceHat()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">FareyMap()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">K3Surface()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">KleinBottle()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">MatchingComplex()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">MooreSpace()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">NotIConnectedGraphs()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">PoincareHomologyThreeSphere()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">PseudoQuaternionicProjectivePlane()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">RandomComplex()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">RandomTwoSphere()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">RealProjectivePlane()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">RealProjectiveSpace()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">RudinBall()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">ShiftedComplex()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">Simplex()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">Sphere()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">SumComplex()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">SurfaceOfGenus()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">Torus()</span></code></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">ZieglerBall()</span></code></p></li>
+</ul>
+<p>You can also get a list by typing <code class="docutils literal notranslate"><span class="pre">simplicial_complexes.</span></code> and hitting the
+TAB key.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">S</span> <span class="o">=</span> <span class="n">simplicial_complexes</span><span class="o">.</span><span class="n">Sphere</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># the 2-sphere</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">S</span><span class="o">.</span><span class="n">homology</span><span class="p">()</span>
+<span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="n">Z</span><span class="p">}</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">simplicial_complexes</span><span class="o">.</span><span class="n">SurfaceOfGenus</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">Triangulation</span> <span class="n">of</span> <span class="n">an</span> <span class="n">orientable</span> <span class="n">surface</span> <span class="n">of</span> <span class="n">genus</span> <span class="mi">3</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M4</span> <span class="o">=</span> <span class="n">simplicial_complexes</span><span class="o">.</span><span class="n">MooreSpace</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M4</span><span class="o">.</span><span class="n">homology</span><span class="p">()</span>
+<span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">C4</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">simplicial_complexes</span><span class="o">.</span><span class="n">MatchingComplex</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">homology</span><span class="p">()</span>
+<span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">Z</span><span class="o">^</span><span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.simplicial_sets">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">simplicial_sets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.simplicial_sets" title="Permalink to this definition">#</a></dt>
+<dd><p>Catalog of simplicial sets</p>
+<p>This provides pre-built simplicial sets:</p>
+<ul class="simple">
+<li><p>the <cite>n</cite>-sphere and <cite>n</cite>-dimensional real projective space, both (in
+theory) for any positive integer <cite>n</cite>. In practice, as <cite>n</cite> increases,
+it takes longer to construct these simplicial sets.</p></li>
+<li><p>the <cite>n</cite>-simplex and the horns obtained from it. As <cite>n</cite> increases, it
+takes <em>much</em> longer to construct these simplicial sets, because the
+number of nondegenerate simplices increases exponentially in <cite>n</cite>.
+For example, it is feasible to do
+<code class="docutils literal notranslate"><span class="pre">simplicial_sets.RealProjectiveSpace(100)</span></code> since it only has 101
+nondegenerate simplices, but <code class="docutils literal notranslate"><span class="pre">simplicial_sets.Simplex(20)</span></code> is
+probably a bad idea.</p></li>
+<li><p><cite>n</cite>-dimensional complex projective space for <cite>n leq 4</cite></p></li>
+<li><p>the classifying space of a finite multiplicative group or monoid</p></li>
+<li><p>the torus and the Klein bottle</p></li>
+<li><p>the point</p></li>
+<li><p>the Hopf map: this is a pre-built morphism, from which one can
+extract its domain, codomain, mapping cone, etc.</p></li>
+</ul>
+<p>All of these examples are accessible by typing
+<code class="docutils literal notranslate"><span class="pre">simplicial_sets.NAME</span></code>, where <code class="docutils literal notranslate"><span class="pre">NAME</span></code> is the name of the
+example. Type <code class="docutils literal notranslate"><span class="pre">simplicial_sets.[TAB]</span></code> for a complete list.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">RP10</span> <span class="o">=</span> <span class="n">simplicial_sets</span><span class="o">.</span><span class="n">RealProjectiveSpace</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">RP10</span><span class="o">.</span><span class="n">homology</span><span class="p">()</span>
+<span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">C2</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="n">C2</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="n">C2</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="n">C2</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+
+<span class="n">sage</span><span class="p">:</span> <span class="n">eta</span> <span class="o">=</span> <span class="n">simplicial_sets</span><span class="o">.</span><span class="n">HopfMap</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">S3</span> <span class="o">=</span> <span class="n">eta</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">S2</span> <span class="o">=</span> <span class="n">eta</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">S3</span><span class="o">.</span><span class="n">wedge</span><span class="p">(</span><span class="n">S2</span><span class="p">)</span><span class="o">.</span><span class="n">homology</span><span class="p">()</span>
+<span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="n">Z</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="n">Z</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.tests">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">tests</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.tests" title="Permalink to this definition">#</a></dt>
+<dd><p>TESTS:</p>
+<p>Test the deprecation warnings:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: tests.CompleteMatchings
+doctest:warning
+...
+DeprecationWarning:
+Importing CompleteMatchings from here is deprecated. If you need to use it, please import it directly from sage.tests.arxiv_0812_2725
+See https://trac.sagemath.org/27337 for details.
+&lt;function CompleteMatchings at ...&gt;
+sage: tests.modsym
+doctest:warning
+...
+DeprecationWarning:
+Importing modsym from here is deprecated. If you need to use it, please import it directly from sage.modular.modsym.tests
+See https://trac.sagemath.org/27337 for details.
+&lt;class ...sage.modular.modsym.tests.Test...&gt;
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.toric_plotter">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">toric_plotter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.toric_plotter" title="Permalink to this definition">#</a></dt>
+<dd><p>Toric plotter</p>
+<p>This module provides a helper class <code class="xref py py-class docutils literal notranslate"><span class="pre">ToricPlotter</span></code> for producing plots
+of objects related to toric geometry. Default plotting objects can be adjusted
+using <code class="xref py py-func docutils literal notranslate"><span class="pre">options()</span></code> and reset using <code class="xref py py-func docutils literal notranslate"><span class="pre">reset_options()</span></code>.</p>
+<p>AUTHORS:</p>
+<ul class="simple">
+<li><p>Andrey Novoseltsev (2010-10-03): initial version, using some code bits by
+Volker Braun.</p></li>
+</ul>
+<p>EXAMPLES:</p>
+<p>In most cases, this module is used indirectly, e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">fan</span> <span class="o">=</span> <span class="n">toric_varieties</span><span class="o">.</span><span class="n">dP6</span><span class="p">()</span><span class="o">.</span><span class="n">fan</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">fan</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>  <span class="c1"># optional - sage.plot</span>
+<span class="n">Graphics</span> <span class="nb">object</span> <span class="n">consisting</span> <span class="n">of</span> <span class="mi">31</span> <span class="n">graphics</span> <span class="n">primitives</span>
+</pre></div>
+</div>
+<p>You may change default plotting options as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">toric_plotter</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="s2">&quot;show_rays&quot;</span><span class="p">)</span>
+<span class="kc">True</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">toric_plotter</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">show_rays</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">toric_plotter</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="s2">&quot;show_rays&quot;</span><span class="p">)</span>
+<span class="kc">False</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">fan</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>  <span class="c1"># optional - sage.plot</span>
+<span class="n">Graphics</span> <span class="nb">object</span> <span class="n">consisting</span> <span class="n">of</span> <span class="mi">19</span> <span class="n">graphics</span> <span class="n">primitives</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">toric_plotter</span><span class="o">.</span><span class="n">reset_options</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">toric_plotter</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="s2">&quot;show_rays&quot;</span><span class="p">)</span>
+<span class="kc">True</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">fan</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>  <span class="c1"># optional - sage.plot</span>
+<span class="n">Graphics</span> <span class="nb">object</span> <span class="n">consisting</span> <span class="n">of</span> <span class="mi">31</span> <span class="n">graphics</span> <span class="n">primitives</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptographic_estimators.base_estimator.valuations">
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_estimator.</span></span><span class="sig-name descname"><span class="pre">valuations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_estimator.valuations" title="Permalink to this definition">#</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="SDEstimator/sd_helper.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">sd_helper</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="base_algorithm.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">base_algorithm</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, TII
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">base_estimator</a><ul>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.BaseEstimator"><code class="docutils literal notranslate"><span class="pre">BaseEstimator</span></code></a><ul>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.BaseEstimator.algorithm_names"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.algorithm_names()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.BaseEstimator.algorithms"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.algorithms()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.BaseEstimator.bit_complexities"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.bit_complexities</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.BaseEstimator.complexity_type"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.complexity_type</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.BaseEstimator.estimate"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.estimate()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.BaseEstimator.excluded_algorithms_by_default"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.excluded_algorithms_by_default</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.BaseEstimator.fastest_algorithm"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.fastest_algorithm()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.BaseEstimator.memory_access"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.memory_access</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.BaseEstimator.nalgorithms"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.nalgorithms()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.BaseEstimator.reset"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.reset()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.BaseEstimator.table"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.table()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.channels"><code class="docutils literal notranslate"><span class="pre">channels()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.codes"><code class="docutils literal notranslate"><span class="pre">codes()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.cones"><code class="docutils literal notranslate"><span class="pre">cones()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.crystals"><code class="docutils literal notranslate"><span class="pre">crystals()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.finance"><code class="docutils literal notranslate"><span class="pre">finance()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.finite_dynamical_systems"><code class="docutils literal notranslate"><span class="pre">finite_dynamical_systems()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.game_theory"><code class="docutils literal notranslate"><span class="pre">game_theory()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.graph_coloring"><code class="docutils literal notranslate"><span class="pre">graph_coloring()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.groups"><code class="docutils literal notranslate"><span class="pre">groups()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.lattice_polytope"><code class="docutils literal notranslate"><span class="pre">lattice_polytope()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.lie_algebras"><code class="docutils literal notranslate"><span class="pre">lie_algebras()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.lie_conformal_algebras"><code class="docutils literal notranslate"><span class="pre">lie_conformal_algebras()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.manifolds"><code class="docutils literal notranslate"><span class="pre">manifolds()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.matroids"><code class="docutils literal notranslate"><span class="pre">matroids()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.path_tableaux"><code class="docutils literal notranslate"><span class="pre">path_tableaux()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.simplicial_complexes"><code class="docutils literal notranslate"><span class="pre">simplicial_complexes()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.simplicial_sets"><code class="docutils literal notranslate"><span class="pre">simplicial_sets()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.tests"><code class="docutils literal notranslate"><span class="pre">tests()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.toric_plotter"><code class="docutils literal notranslate"><span class="pre">toric_plotter()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.base_estimator.valuations"><code class="docutils literal notranslate"><span class="pre">valuations()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>
