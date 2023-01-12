@@ -42,8 +42,8 @@ jobs:
           IMAGE_TAG: latest
         run: |
           docker build -t estimators-lib-2 .
-          docker tag $REPOSITORY:$IMAGE_TAG {{ secret.AWS_REGISTRY_LIB }}/$REPOSITORY:$IMAGE_TAG
-          docker push {{ secret.AWS_REGISTRY_LIB }}/$REPOSITORY:$IMAGE_TAG
+          docker tag $REPOSITORY:$IMAGE_TAG ${{ secret.AWS_REGISTRY_LIB }}/$REPOSITORY:$IMAGE_TAG
+          docker push ${{ secret.AWS_REGISTRY_LIB }}/$REPOSITORY:$IMAGE_TAG
 
       - name: Update documentation
         run: |
