@@ -39,9 +39,9 @@ jobs:
 
       - name: Build, tag and push to ECR
         run: |
-          docker build -t estimator-lib .
-          docker tag estimator-lib:latest public.ecr.aws/h0m6q0n8/estimator-lib:latest
-          docker push public.ecr.aws/h0m6q0n8/estimator-lib:latest
+          docker build -t estimators-lib .
+          docker tag estimators-lib:latest public.ecr.aws/h0m6q0n8/estimators-lib:latest
+          docker push public.ecr.aws/h0m6q0n8/estimators-lib:latest
 
       - name: Update documentation
         run: |

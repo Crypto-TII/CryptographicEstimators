@@ -1,5 +1,5 @@
 # Docker variables
-image_name=cryptographic-estimators:latest
+image_name=estimators-lib:latest
 documentation_path=$(shell pwd)
 
 tools:
@@ -44,17 +44,14 @@ doc:
 add-estimator:
 	@python3 scripts/create_new_estimator.py
 
-run-deatach:
-	@docker run -d --name container-for-docs -it cryptographic-estimators sh 
-
 stop-container:
 	@docker stop container-for-docs
 
 generate-documentation:
 	@docker exec container-for-docs make doc
 
-mount-volume: 
-	@docker run --mount type=bind,source=${documentation_path}/docs,target=/home/cryptographic_estimators/docs cryptographic-estimators:latest
+mount-volume-and-run: 
+	@docker run --name container-for-docs --mount type=bind,source=${documentation_path}/docs,target=/home/cryptographic_estimators/docs -d -it ${image_name} sh
 
 docker-doc:
-	@make mount-volume && make run-deatach && make generate-documentation && make stop-container
+	@make mount-volume-and-run && make generate-documentation && make stop-container
