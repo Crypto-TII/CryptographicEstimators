@@ -2,7 +2,7 @@ name: Build documentation and deploy to gh-page
 on:
   push:
     branches:
-      - setup-workflow
+      - main
   pull_request:
 
 jobs:
@@ -13,16 +13,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install
-        run: |
-          sudo apt update 
-          sudo apt install -y sagemath
-          sudo sage -python -m pip install setuptools==63.0 wheel==0.38.4 sphinx==5.3.0 furo prettytable scipy
-          sudo sage setup.py install
-          sudo sage -python -m pip install .
+      - name: Build docker image
+        run: docker build -t estimators-lib .
 
       - name: Run tests
-        run: sudo sage -t -T 3600 --nthreads 4 --force-lib cryptographic_estimators
+        run: sudo make docker-test
 
       - name: Configure AWS Credential
         uses: aws-actions/configure-aws-credentials@v1
@@ -37,17 +32,13 @@ jobs:
         with:
           registry-type: public
 
-      - name: Build, tag and push to ECR
+      - name: Tag and push to ECR
         run: |
-          docker build -t estimators-lib .
           docker tag estimators-lib:latest public.ecr.aws/h0m6q0n8/estimators-lib:latest
           docker push public.ecr.aws/h0m6q0n8/estimators-lib:latest
 
       - name: Update documentation
-        run: |
-          sudo sphinx-quickstart -q --sep -p TII-Estimators -a TII -l en --ext-autodoc docs
-          sudo python3 scripts/create_documentation.py
-          sudo sphinx-build -b html docs/source/ docs/build/html
+        run: sudo make doc
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
