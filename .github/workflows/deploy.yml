@@ -38,9 +38,9 @@ jobs:
           docker push public.ecr.aws/h0m6q0n8/estimators-lib:latest
 
       - name: Update documentation
-        run: sudo make doc
+        run: sudo make docker-doc
 
-      - name: Deploy
+      - name: Deploy to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs/build/html
