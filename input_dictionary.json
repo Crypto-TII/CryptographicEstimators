@@ -20,6 +20,7 @@
           "display_label": "Code dimension",
           "placeholder": "Insert parameter",
           "tooltip": "Code dimension of specified code",
+          "validate_fields_ids": ["w"],
           "dependencies": [
             {
               "id": "n",
@@ -37,6 +38,10 @@
             {
               "id": "n",
               "action": "validateLessThan"
+            },
+            {
+              "action": "validateLessThanOperation",
+              "operation": "n - k"
             }
           ]
         }
