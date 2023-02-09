@@ -13,12 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build docker image
-        run: docker build -t estimators-lib .
-
-      - name: Run tests
-        run: sudo make docker-test
-
       - name: Configure AWS Credential
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -32,20 +26,7 @@ jobs:
         with:
           registry-type: public
 
-      - name: Tag and push to ECR
-        run: |
-          docker tag estimators-lib:latest public.ecr.aws/h0m6q0n8/estimators-lib:latest
-          docker push public.ecr.aws/h0m6q0n8/estimators-lib:latest
-      
       - name: Reset API task
+        uses: aws-actions/amazon-ecr-login@v1
         run: |
           aws ecs list-tasks --cluster estimators-cluster | python -c "import sys, json; print(json.load(sys.stdin)['taskArns'][0])" | xargs -I{} aws ecs stop-task --task {} --cluster estimators-cluster
-
-      - name: Update documentation
-        run: sudo make docker-doc
-
-      - name: Deploy to gh-pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: docs/build/html
-          branch: gh-pages
