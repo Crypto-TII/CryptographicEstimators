@@ -36,6 +36,10 @@ jobs:
         run: |
           docker tag estimators-lib:latest public.ecr.aws/h0m6q0n8/estimators-lib:latest
           docker push public.ecr.aws/h0m6q0n8/estimators-lib:latest
+      
+      - name: Reset API task
+        run: |
+          aws ecs list-tasks --cluster estimators-cluster | python -c "import sys, json; print(json.load(sys.stdin)['taskArns'][0])" | xargs -I{} aws ecs stop-task --task {} --cluster estimators-cluster
 
       - name: Update documentation
         run: sudo make docker-doc
