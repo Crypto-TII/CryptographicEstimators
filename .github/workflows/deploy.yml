@@ -18,7 +18,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: me-central-1
+          aws-region: us-east-1
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -28,4 +28,4 @@ jobs:
 
       - name: Reset API task
         run: |
-          aws ecs list-tasks --cluster estimators-cluster
+          aws ecs list-tasks --region me-central-1 --cluster estimators-cluster
