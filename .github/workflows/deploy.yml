@@ -27,6 +27,5 @@ jobs:
           registry-type: public
 
       - name: Reset API task
-        uses: aws-actions/amazon-ecr-login@v1
         run: |
-          aws ecs list-tasks --cluster estimators-cluster | python -c "import sys, json; print(json.load(sys.stdin)['taskArns'][0])" | xargs -I{} aws ecs stop-task --task {} --cluster estimators-cluster
+          aws ecs list-tasks --cluster estimators-cluster
