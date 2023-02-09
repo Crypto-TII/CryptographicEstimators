@@ -28,4 +28,6 @@ jobs:
 
       - name: Reset API task
         run: |
-          aws ecs list-tasks --region me-central-1 --cluster estimators-cluster
+          aws ecs list-tasks --region me-central-1 --cluster estimators-cluster | 
+          python -c "import sys, json; print(json.load(sys.stdin)['taskArns'][0])" |
+          xargs -I{} aws ecs stop-task --task {} --region me-central-1 --cluster estimators-cluster
