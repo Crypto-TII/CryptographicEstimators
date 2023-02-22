@@ -27,7 +27,7 @@ jobs:
       #     registry-type: public
 
       - name: Pull API from BitBucket
-        run: git clone https://x-token-auth:${{BITBUCKET_API_TOKEN}}@bitbucket.org/${{BITBUCKET_REPOSITORY}} && ls -la
+        run: git clone https://x-token-auth:${{ secrets.BITBUCKET_API_TOKEN }}@bitbucket.org/${{ secrets.BITBUCKET_REPOSITORY }} && ls -la
 
       # - name: Reset API task
       #   run: |
