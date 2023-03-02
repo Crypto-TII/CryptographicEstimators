@@ -21,7 +21,7 @@ class ScipyModel:
         if problem.nsolutions == max(0, problem.expected_number_solutions()):
             self.nsolutions = max(0, binomial_approximation(1, w / n) - (1 - k / n))
         else:
-            self.nsolutions = log2(solutions) / n
+            self.nsolutions = log2(problem.nsolutions) / n
 
     def _inject_vars(self, f):
         return wrap(f, self.set_vars)

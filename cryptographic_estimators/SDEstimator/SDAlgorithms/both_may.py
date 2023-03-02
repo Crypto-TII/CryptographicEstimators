@@ -130,7 +130,7 @@ class BothMay(SDAlgorithm):
         par = SimpleNamespace(**parameters)
         k1 = k // 2
         if par.p > w // 2 or k1 < par.p or par.w1 >= min(w, par.l + 1) \
-                or par.w2 >= min(w - 2 * par.p, par.l + 1, 2 * par.w1) or par.p1 < (par.p + 1) // 2 or par.p1 > w \
+                or par.w2 > min(w - 2 * par.p, par.l , 2 * par.w1) or par.p1 < (par.p + 1) // 2 or par.p1 > w \
                 or n - k - par.l < w - par.w2 - 2 * par.p or par.p1 > k1:
             return True
         return False
@@ -144,11 +144,11 @@ class BothMay(SDAlgorithm):
         new_ranges = self._fix_ranges_for_already_set_parmeters()
         n, k, w, _ = self.problem.get_parameters()
 
-        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
-            for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
-                for w1 in range(new_ranges["w1"]["min"], new_ranges["w1"]["max"]):
-                    for w2 in range(new_ranges["w2"]["min"], new_ranges["w2"]["max"], 2):
-                        for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
+        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"])+1, 2):
+            for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])+1):
+                for w1 in range(new_ranges["w1"]["min"], new_ranges["w1"]["max"]+1):
+                    for w2 in range(new_ranges["w2"]["min"], new_ranges["w2"]["max"]+1, 2):
+                        for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]+1):
                             indices = {"p": p, "w1": w1, "w2": w2, "p1": p1, "l": l, "r": self._optimal_parameters["r"]}
                             if self._are_parameters_invalid(indices):
                                 continue

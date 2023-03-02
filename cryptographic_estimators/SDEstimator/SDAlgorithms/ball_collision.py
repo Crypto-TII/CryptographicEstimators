@@ -93,7 +93,7 @@ class BallCollision(SDAlgorithm):
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
-        if par.p > w // 2 or k1 < par.p or par.pl >= par.l // 2 or n - k - par.l < w - 2 * par.p - 2 * par.pl or w < 2 * par.p + 2 * par.pl:
+        if par.p > w // 2 or k1 < par.p or par.pl > par.l // 2 or n - k - par.l < w - 2 * par.p - 2 * par.pl or w < 2 * par.p + 2 * par.pl:
             return True
         return False
 
@@ -105,10 +105,10 @@ class BallCollision(SDAlgorithm):
         new_ranges = self._fix_ranges_for_already_set_parmeters()
 
         n, k, w, _ = self.problem.get_parameters()
-
-        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
-            for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
-                for pl in range(new_ranges["pl"]["min"], min(l//2,new_ranges["pl"]["max"],(w-2*p)//2)):
+        start_p = new_ranges["p"]["min"]+(new_ranges["p"]["min"]%2)
+        for p in range(start_p, min(w // 2, new_ranges["p"]["max"])+1, 2):
+            for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])+1):
+                for pl in range(new_ranges["pl"]["min"], min(l//2,new_ranges["pl"]["max"],(w-2*p)//2)+1):
                     indices = {"p": p, "pl": pl, "l": l, "r": self._optimal_parameters["r"]}
                     if self._are_parameters_invalid(indices):
                         continue
