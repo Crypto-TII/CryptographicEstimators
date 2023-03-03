@@ -13,10 +13,10 @@ TII cryptanalysis library following SageMath guidelines.
 
 .. toctree::
 
-    base_estimator
     base_algorithm
-    helper
     base_constants
+    base_estimator
+    helper
     base_problem
 
 -----------
@@ -25,31 +25,13 @@ MQEstimator
 
 .. toctree::
 
-    MQEstimator/mq_estimator
-    MQEstimator/mq_problem
     MQEstimator/mq_helper
     MQEstimator/witness_degree
-    MQEstimator/degree_of_regularity
-    MQEstimator/mq_constants
     MQEstimator/mq_algorithm
-
-MQAlgorithms
-============
-
-.. toctree::
-
-    MQEstimator/MQAlgorithms/lokshtanov
-    MQEstimator/MQAlgorithms/dinur1
-    MQEstimator/MQAlgorithms/f5
-    MQEstimator/MQAlgorithms/boolean_solve_fxl
-    MQEstimator/MQAlgorithms/dinur2
-    MQEstimator/MQAlgorithms/kpg
-    MQEstimator/MQAlgorithms/bjorklund
-    MQEstimator/MQAlgorithms/crossbred
-    MQEstimator/MQAlgorithms/hybrid_f5
-    MQEstimator/MQAlgorithms/cgmta
-    MQEstimator/MQAlgorithms/exhaustive_search
-    MQEstimator/MQAlgorithms/mht
+    MQEstimator/mq_estimator
+    MQEstimator/mq_constants
+    MQEstimator/degree_of_regularity
+    MQEstimator/mq_problem
 
 series
 ======
@@ -59,22 +41,23 @@ series
     MQEstimator/series/hilbert
     MQEstimator/series/nmonomial
 
---------------
-DummyEstimator
---------------
+MQAlgorithms
+============
 
 .. toctree::
 
-    DummyEstimator/dummy_problem
-    DummyEstimator/dummy_estimator
-    DummyEstimator/dummy_algorithm
-
-DummyAlgorithms
-===============
-
-.. toctree::
-
-    DummyEstimator/DummyAlgorithms/dummy_algorithm1
+    MQEstimator/MQAlgorithms/boolean_solve_fxl
+    MQEstimator/MQAlgorithms/exhaustive_search
+    MQEstimator/MQAlgorithms/mht
+    MQEstimator/MQAlgorithms/bjorklund
+    MQEstimator/MQAlgorithms/kpg
+    MQEstimator/MQAlgorithms/cgmta
+    MQEstimator/MQAlgorithms/dinur2
+    MQEstimator/MQAlgorithms/crossbred
+    MQEstimator/MQAlgorithms/lokshtanov
+    MQEstimator/MQAlgorithms/f5
+    MQEstimator/MQAlgorithms/hybrid_f5
+    MQEstimator/MQAlgorithms/dinur1
 
 -----------
 SDEstimator
@@ -82,25 +65,11 @@ SDEstimator
 
 .. toctree::
 
-    SDEstimator/sd_constants
     SDEstimator/sd_problem
-    SDEstimator/sd_algorithm
     SDEstimator/sd_estimator
+    SDEstimator/sd_constants
+    SDEstimator/sd_algorithm
     SDEstimator/sd_helper
-
-SDWorkfactorModels
-==================
-
-.. toctree::
-
-    SDEstimator/SDWorkfactorModels/may_ozerov
-    SDEstimator/SDWorkfactorModels/dumer
-    SDEstimator/SDWorkfactorModels/both_may
-    SDEstimator/SDWorkfactorModels/bjmm
-    SDEstimator/SDWorkfactorModels/workfactor_helper
-    SDEstimator/SDWorkfactorModels/ball_collision
-    SDEstimator/SDWorkfactorModels/stern
-    SDEstimator/SDWorkfactorModels/prange
 
 SDAlgorithms
 ============
@@ -108,14 +77,45 @@ SDAlgorithms
 .. toctree::
 
     SDEstimator/SDAlgorithms/may_ozerov
-    SDEstimator/SDAlgorithms/bjmm_pdw
-    SDEstimator/SDAlgorithms/bjmm_dw
-    SDEstimator/SDAlgorithms/dumer
-    SDEstimator/SDAlgorithms/both_may
     SDEstimator/SDAlgorithms/bjmm
-    SDEstimator/SDAlgorithms/ball_collision
+    SDEstimator/SDAlgorithms/both_may
+    SDEstimator/SDAlgorithms/bjmm_dw
+    SDEstimator/SDAlgorithms/bjmm_pdw
     SDEstimator/SDAlgorithms/stern
     SDEstimator/SDAlgorithms/prange
+    SDEstimator/SDAlgorithms/dumer
+    SDEstimator/SDAlgorithms/ball_collision
+
+SDWorkfactorModels
+==================
+
+.. toctree::
+
+    SDEstimator/SDWorkfactorModels/workfactor_helper
+    SDEstimator/SDWorkfactorModels/may_ozerov
+    SDEstimator/SDWorkfactorModels/bjmm
+    SDEstimator/SDWorkfactorModels/both_may
+    SDEstimator/SDWorkfactorModels/stern
+    SDEstimator/SDWorkfactorModels/prange
+    SDEstimator/SDWorkfactorModels/dumer
+    SDEstimator/SDWorkfactorModels/ball_collision
+
+--------------
+DummyEstimator
+--------------
+
+.. toctree::
+
+    DummyEstimator/dummy_algorithm
+    DummyEstimator/dummy_estimator
+    DummyEstimator/dummy_problem
+
+DummyAlgorithms
+===============
+
+.. toctree::
+
+    DummyEstimator/DummyAlgorithms/dummy_algorithm1
 
 
 
