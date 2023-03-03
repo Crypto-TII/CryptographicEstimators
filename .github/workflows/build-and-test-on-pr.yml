@@ -1,0 +1,17 @@
+name: Build the docker image and run sage tests
+on:
+  pull_request:
+
+jobs:
+  build-and-run-tests:
+    runs-on: ubuntu-22.04
+    concurrency: ci-${{github.ref}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build docker image
+        run: docker build -t estimators-lib .
+
+      - name: Run tests
+        run: sudo make docker-test
