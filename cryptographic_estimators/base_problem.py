@@ -26,7 +26,7 @@ class BaseProblem(object):
         """
         return NotImplementedError
 
-    def to_bitcomplexity_time(self, basic_operations):
+    def to_bitcomplexity_time(self, basic_operations: float):
         """
         Returns the bit-complexity associated to a given number of basic-operations
 
@@ -37,7 +37,7 @@ class BaseProblem(object):
         """
         return basic_operations
 
-    def to_bitcomplexity_memory(self, elements_to_store):
+    def to_bitcomplexity_memory(self, elements_to_store: float):
         """
         Returns the bit-complexity associated to a given number of basic-operations
 

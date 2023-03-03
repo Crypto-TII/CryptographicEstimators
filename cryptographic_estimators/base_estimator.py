@@ -1,8 +1,11 @@
 from .helper import concat_all_tables, round_or_truncate, ComplexityType
 from prettytable import PrettyTable
-from math import inf, isinf
+from typing import Union, Callable
+from math import isinf
 from sage.all import *
 from .base_constants import *
+from .base_algorithm import *
+
 
 class BaseEstimator(object):
     """
@@ -62,7 +65,7 @@ class BaseEstimator(object):
         return [i.memory_access for i in self._algorithms]
 
     @memory_access.setter
-    def memory_access(self, new_memory_access):
+    def memory_access(self, new_memory_access: Union[int, Callable[[float], float]]):
         """
         Sets the memory_access attribute of all included algorithms
 
@@ -83,7 +86,7 @@ class BaseEstimator(object):
         return [i.complexity_type for i in self._algorithms]
 
     @complexity_type.setter
-    def complexity_type(self, new_complexity_type):
+    def complexity_type(self, new_complexity_type: ComplexityType):
         """
         Sets the complexity_type attribute of all included algorithms
 
@@ -104,7 +107,7 @@ class BaseEstimator(object):
         return [i.bit_complexities for i in self._algorithms]
 
     @bit_complexities.setter
-    def bit_complexities(self, new_bit_complexities):
+    def bit_complexities(self, new_bit_complexities: int):
         """
         Sets the bit_complexities attribute of all included algorithms
 
@@ -140,7 +143,7 @@ class BaseEstimator(object):
         """
         return len(self.algorithms())
 
-    def _add_tilde_o_complexity(self, algorithm):
+    def _add_tilde_o_complexity(self, algorithm: BaseAlgorithm):
         """
         runs the tilde O complexity analysis for the given `algorithm`
 
@@ -167,7 +170,7 @@ class BaseEstimator(object):
         except NotImplementedError:
             est[name][BASE_TILDEO_ESTIMATE][BASE_PARAMETERS] = "--"
 
-    def _add_quantum_complexity(self, algorithm):
+    def _add_quantum_complexity(self, algorithm: BaseAlgorithm):
         """
         runs the quantum time analysis for the given `algorithm`
 
@@ -184,7 +187,7 @@ class BaseEstimator(object):
         except NotImplementedError:
             est[name][BASE_QUANTUMO][BASE_TIME] = "--"
 
-    def _add_estimate(self, algorithm):
+    def _add_estimate(self, algorithm: BaseAlgorithm):
         """
         runs the bit security analysis for the given `algorithm`
 
@@ -252,7 +255,8 @@ class BaseEstimator(object):
 
         return tbl
 
-    def _create_subtable_containing_all_columns(self, sub_table_name, show_all_parameters):
+    def _create_subtable_containing_all_columns(self, sub_table_name: str,
+                                                show_all_parameters: bool):
         """
         Creates a `PrettyTable` subtable.
 

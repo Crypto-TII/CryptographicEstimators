@@ -1,3 +1,4 @@
+from typing import Union, Callable
 from .helper import ComplexityType
 from .base_problem import BaseProblem
 import functools
@@ -49,7 +50,7 @@ class BaseAlgorithm:
         return self._memory_access
 
     @memory_access.setter
-    def memory_access(self, new_memory_access):
+    def memory_access(self, new_memory_access: Union[int, Callable[[float], float]]):
         """
         Sets the attribtue _memory_access and resets internal state respectively
 
@@ -73,7 +74,7 @@ class BaseAlgorithm:
         return self._complexity_type
 
     @complexity_type.setter
-    def complexity_type(self, input_type):
+    def complexity_type(self, input_type: Union[int, str]):
         """
         Sets the attribtue _complexity_type and resets internal state respectively
 
@@ -118,7 +119,7 @@ class BaseAlgorithm:
         self._memory_complexity = None
         self._verbose_information = None
 
-    def set_parameter_ranges(self, parameter, min_value, max_value):
+    def set_parameter_ranges(self, parameter: str, min_value: float, max_value: float):
         """
         Set range of specific parameter (if optimal parameter is already set, it must fall in that range)
 
@@ -146,7 +147,7 @@ class BaseAlgorithm:
             return False
         return True
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
         """
         Compute and return the time complexity of the algorithm for a given set of parameters
 
@@ -157,7 +158,7 @@ class BaseAlgorithm:
         """
         raise NotImplementedError
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
         """
         Compute and return the memory complexity of the algorithm for a given set of parameters
 
@@ -168,7 +169,7 @@ class BaseAlgorithm:
         """
         raise NotImplementedError
 
-    def _compute_tilde_o_time_complexity(self, parameters):
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
         Compute and return the tilde-O time complexity of the algorithm for a given set of parameters
 
@@ -179,7 +180,7 @@ class BaseAlgorithm:
         """
         raise NotImplementedError
 
-    def _compute_tilde_o_memory_complexity(self, parameters):
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
         Compute and return the tilde-O memory complexity of the algorithm for a given set of parameters
 
@@ -306,7 +307,7 @@ class BaseAlgorithm:
             params = self.optimal_parameters()
         return params
 
-    def set_parameters(self, parameters):
+    def set_parameters(self, parameters: dict):
         """
         Set optimal parameters to predifined values:
 
@@ -417,7 +418,7 @@ class BaseAlgorithm:
                 _ = f()
         return self._optimal_parameters
 
-    def _call_all_preceeding_optimal_parameter_functions(self, key):
+    def _call_all_preceeding_optimal_parameter_functions(self, key: str):
         """
         call the decorator function for each parameter, if they are optimal.
 
