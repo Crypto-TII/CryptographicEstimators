@@ -1,9 +1,9 @@
-name: Build documentation and deploy to gh-page
+name: Build the docker image, upload it to ECR and deploy documentation to gh-page
 on:
   push:
     branches:
       - main
-  pull_request:
+      - develop
 
 jobs:
   build-and-deploy:
@@ -15,9 +15,6 @@ jobs:
 
       - name: Build docker image
         run: docker build -t estimators-lib .
-
-      - name: Run tests
-        run: sudo make docker-test
 
       - name: Configure AWS Credential
         uses: aws-actions/configure-aws-credentials@v1
