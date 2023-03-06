@@ -25,7 +25,7 @@ class MQEstimator(BaseEstimator):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator import MQEstimator
-            sage: E = MQEstimator(q=2, m=42, n=41, memory_bound=45)
+            sage: E = MQEstimator(q=2, m=42, n=41, memory_bound=45) # long time
             sage: E.table()
             +------------------+---------------+
             |                  |    estimate   |
@@ -84,7 +84,7 @@ class MQEstimator(BaseEstimator):
 
             sage: from cryptographic_estimators.MQEstimator import MQEstimator
             sage: E = MQEstimator(q=3, m=42, n=41, memory_bound=45)
-            sage: E.table()
+            sage: E.table() # long time
             +------------------+----------------+
             |                  |    estimate    |
             +------------------+-------+--------+
@@ -104,7 +104,7 @@ class MQEstimator(BaseEstimator):
             sage: from cryptographic_estimators.MQEstimator import MQEstimator
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = MQEstimator(q=16, m=42, n=41, complexity_type=1)
-            sage: E.table(show_tilde_o_time=1, show_all_parameters=1)
+            sage: E.table(show_tilde_o_time=1, show_all_parameters=1) # long time
             +------------------+-------------------------------------------------------+-------------------------------------------------------+
             |                  |                        estimate                       |                    tilde_o_estimate                   |
             +------------------+-------+--------+--------------------------------------+-------+--------+--------------------------------------+
@@ -119,7 +119,7 @@ class MQEstimator(BaseEstimator):
             +------------------+-------+--------+--------------------------------------+-------+--------+--------------------------------------+
 
             sage: E = MQEstimator(q=2, m=42, n=41)
-            sage: E.table(show_tilde_o_time=1, show_all_parameters=1)
+            sage: E.table(show_tilde_o_time=1, show_all_parameters=1) # long time
             +------------------+---------------------------------------------------+-------------------------------------------------------------------+
             |                  |                      estimate                     |                          tilde_o_estimate                         |
             +------------------+------+--------+-----------------------------------+------+--------+---------------------------------------------------+
