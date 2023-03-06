@@ -7,6 +7,7 @@ from types import SimpleNamespace
 from ..sd_constants import *
 from ..SDWorkfactorModels.ball_collision import BallCollisionScipyModel
 
+
 class BallCollision(SDAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
         """
@@ -89,7 +90,11 @@ class BallCollision(SDAlgorithm):
         """
         return self._get_optimal_parameter("pl")
 
-    def _are_parameters_invalid(self,parameters):
+    def _are_parameters_invalid(self, parameters: dict):
+        """
+        return if the parameter set `parameters` is invalid
+
+        """
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
@@ -114,7 +119,7 @@ class BallCollision(SDAlgorithm):
                         continue
                     yield indices
 
-    def _time_and_memory_complexity(self, parameters, verbose_information=None):
+    def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """
         Computes the expected runtime and memory consumption for a given parameter set.
         """
@@ -150,5 +155,7 @@ class BallCollision(SDAlgorithm):
         return time, memory
 
     def __repr__(self):
+        """
+        """
         rep = "Ball Collision estimator for " + str(self.problem)
         return rep

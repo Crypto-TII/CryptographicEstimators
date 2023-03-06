@@ -1,10 +1,14 @@
 from random import uniform as ru
 from math import log2
-import numpy as np
 from scipy.optimize import fsolve
+from typing import Any
 
 
-def inverse_binary_entropy(v):
+def inverse_binary_entropy(v: float):
+    """
+    compute the inverse binary entropy function:
+        eg the unique x \in \[0, ..., 1/2], v = H^{-1}(x)
+    """
     if v == 1:
         return 0.5
     if v < 0.00001:
@@ -13,7 +17,10 @@ def inverse_binary_entropy(v):
     return fsolve(lambda x: v - (-x * log2(x) - (1 - x) * log2(1 - x)), 0.0000001)[0]
 
 
-def binary_entropy(c):
+def binary_entropy(c: float):
+    """
+    computes the binary entropy function H
+    """
     if c == 0. or c == 1.:
         return 0.
 
@@ -23,7 +30,10 @@ def binary_entropy(c):
     return -(c * log2(c) + (1 - c) * log2(1 - c))
 
 
-def binomial_approximation(n, k):
+def binomial_approximation(n: float, k: float):
+    """
+    computes the binomial coefficietn (n over k) via Sterlings approximation
+    """
     if k > n or n == 0:
         return 0
     if k == n:
@@ -32,17 +42,26 @@ def binomial_approximation(n, k):
 
 
 def wrap(f, g):
+    """
+    helper function for the scipy optimization framework
+    """
     def inner(x):
         return f(g(*x))
 
     return inner
 
 
-def list_of_random_tuples(x, y, z):
+def list_of_random_tuples(x:Any, y: Any, z: int):
+    """
+    """
     return [(ru(x, y)) for _ in range(z)]
 
 
-def may_ozerov_near_neighbor_time(list_size, vector_length, target_weight):
+def may_ozerov_near_neighbor_time(list_size: float, vector_length: float, target_weight: float):
+    """
+    computes the asymptotic runtime of the Nearest Neighbour Algorithm by
+    May-Ozerov [MO15]
+    """
     if vector_length <= 0 or list_size < 0:
         return 100
     normed_list_size = list_size / vector_length
@@ -62,7 +81,11 @@ def may_ozerov_near_neighbor_time(list_size, vector_length, target_weight):
     return max(mo_exp * vector_length, 2 * list_size - vector_length + binomial_approximation(vector_length, target_weight))
 
 
-def representations_asymptotic(target_weight, weight_to_cancel, vector_length):
+def representations_asymptotic(target_weight: float, weight_to_cancel: float, vector_length: float):
+    """
+    computes the binomial coefficient of the expected number of representations
+    but asymptotically
+    """
     if target_weight == 0. or vector_length == 0.:
         return 0
     if vector_length < target_weight or vector_length - target_weight < weight_to_cancel:

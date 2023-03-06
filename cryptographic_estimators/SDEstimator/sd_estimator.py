@@ -22,7 +22,7 @@ class SDEstimator(BaseEstimator):
     
     excluded_algorithms_by_default = [BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3]
 
-    def __init__(self, n, k, w, memory_bound=inf, **kwargs):
+    def __init__(self, n: int, k: int, w: int, memory_bound=inf, **kwargs):
         if not kwargs.get("excluded_algorithms"):
             kwargs["excluded_algorithms"] = []
 
@@ -30,7 +30,8 @@ class SDEstimator(BaseEstimator):
 
         super(SDEstimator, self).__init__(SDAlgorithm, SDProblem(n, k, w, memory_bound=memory_bound, **kwargs), **kwargs)
 
-    def table(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0):
+    def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
+              show_all_parameters=0, precision=1, truncate=0):
         """
         Print table describing the complexity of each algorithm and its optimal parameters
 
