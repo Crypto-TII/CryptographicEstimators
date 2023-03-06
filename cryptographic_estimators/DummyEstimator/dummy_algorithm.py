@@ -1,10 +1,11 @@
 from ..base_algorithm import BaseAlgorithm
+from .dummy_problem import DummyProblem
 
 
 class DummyAlgorithm(BaseAlgorithm):
-    def __init__(self, problem, **kwargs):
+    def __init__(self, problem: DummyProblem, **kwargs):
         """
-        Base class for MQ algorithms complexity estimator
+        Base class for Dummy algorithms complexity estimator
 
         INPUT:
 
@@ -16,5 +17,8 @@ class DummyAlgorithm(BaseAlgorithm):
         super(DummyAlgorithm, self).__init__(problem, **kwargs)
 
     def __repr__(self):
+        """
+        NOTE: self._name must be instanciated via the child class
+        """
         par1, par2 = self.problem.get_parameters()
         return f"{self._name} estimator for the dummy problem with parameters {par1} and {par2} "
