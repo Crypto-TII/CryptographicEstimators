@@ -1,10 +1,11 @@
 from ..base_algorithm import BaseAlgorithm
+from .dummy_problem import DummyProblem
 
 
 class DummyAlgorithm(BaseAlgorithm):
-    def __init__(self, problem, **kwargs):
+    def __init__(self, problem: DummyProblem, **kwargs):
         """
-        Base class for MQ algorithms complexity estimator
+        Base class for Dummy algorithms complexity estimator
 
         INPUT:
 
