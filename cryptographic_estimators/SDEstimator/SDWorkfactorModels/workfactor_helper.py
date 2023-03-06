@@ -7,7 +7,7 @@ from typing import Any
 def inverse_binary_entropy(v: float):
     """
     compute the inverse binary entropy function:
-        eg the unique x \in \[0, ..., 1/2], v = H^{-1}(x)
+        eg the unique x in [0, ..., 1/2], v = H^{-1}(x)
     """
     if v == 1:
         return 0.5
