@@ -264,38 +264,49 @@
 <span id="workfactor-helper"></span><h1>workfactor_helper<a class="headerlink" href="#module-cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.binary_entropy">
-<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.</span></span><span class="sig-name descname"><span class="pre">binary_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.binary_entropy" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.</span></span><span class="sig-name descname"><span class="pre">binary_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.binary_entropy" title="Permalink to this definition">#</a></dt>
+<dd><p>computes the binary entropy function H</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.binomial_approximation">
-<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.</span></span><span class="sig-name descname"><span class="pre">binomial_approximation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.binomial_approximation" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.</span></span><span class="sig-name descname"><span class="pre">binomial_approximation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.binomial_approximation" title="Permalink to this definition">#</a></dt>
+<dd><p>computes the binomial coefficietn (n over k) via Sterlings approximation</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.inverse_binary_entropy">
-<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.</span></span><span class="sig-name descname"><span class="pre">inverse_binary_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.inverse_binary_entropy" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.</span></span><span class="sig-name descname"><span class="pre">inverse_binary_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.inverse_binary_entropy" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>compute the inverse binary entropy function:</dt><dd><p>eg the unique x in [0, …, 1/2], v = H^{-1}(x)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.list_of_random_tuples">
-<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.</span></span><span class="sig-name descname"><span class="pre">list_of_random_tuples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.list_of_random_tuples" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.</span></span><span class="sig-name descname"><span class="pre">list_of_random_tuples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.list_of_random_tuples" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.may_ozerov_near_neighbor_time">
-<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.</span></span><span class="sig-name descname"><span class="pre">may_ozerov_near_neighbor_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_weight</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.may_ozerov_near_neighbor_time" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.</span></span><span class="sig-name descname"><span class="pre">may_ozerov_near_neighbor_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.may_ozerov_near_neighbor_time" title="Permalink to this definition">#</a></dt>
+<dd><p>computes the asymptotic runtime of the Nearest Neighbour Algorithm by
+May-Ozerov [MO15]</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.representations_asymptotic">
-<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.</span></span><span class="sig-name descname"><span class="pre">representations_asymptotic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_to_cancel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.representations_asymptotic" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.</span></span><span class="sig-name descname"><span class="pre">representations_asymptotic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_to_cancel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.representations_asymptotic" title="Permalink to this definition">#</a></dt>
+<dd><p>computes the binomial coefficient of the expected number of representations
+but asymptotically</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.wrap">
 <span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.</span></span><span class="sig-name descname"><span class="pre">wrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.wrap" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>helper function for the scipy optimization framework</p>
+</dd></dl>
 
 </section>
 

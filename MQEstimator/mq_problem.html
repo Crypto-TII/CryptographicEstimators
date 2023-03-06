@@ -264,7 +264,7 @@
 <span id="mq-problem"></span><h1>mq_problem<a class="headerlink" href="#module-cryptographic_estimators.MQEstimator.mq_problem" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="cryptographic_estimators.MQEstimator.mq_problem.MQProblem">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.MQEstimator.mq_problem.</span></span><span class="sig-name descname"><span class="pre">MQProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.MQEstimator.mq_problem.MQProblem" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.MQEstimator.mq_problem.</span></span><span class="sig-name descname"><span class="pre">MQProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.MQEstimator.mq_problem.MQProblem" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../base_problem.html#cryptographic_estimators.base_problem.BaseProblem" title="cryptographic_estimators.base_problem.BaseProblem"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseProblem</span></code></a></p>
 <p>Construct an instance of MQProblem</p>
 <p>INPUT:</p>
@@ -279,16 +279,13 @@
 <dt class="sig sig-object py" id="cryptographic_estimators.MQEstimator.mq_problem.MQProblem.expected_number_solutions">
 <span class="sig-name descname"><span class="pre">expected_number_solutions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.MQEstimator.mq_problem.MQProblem.expected_number_solutions" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the logarithm of the expected number of existing solutions to the problem</p>
-<p>INPUT:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">logarithmic</span></code> – to output the logarithm of the expected number of solutions (default: true)</p></li>
-</ul>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.MQEstimator.mq_problem.MQProblem.get_problem_parameters">
 <span class="sig-name descname"><span class="pre">get_problem_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.MQEstimator.mq_problem.MQProblem.get_problem_parameters" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Returns n, m, q</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.MQEstimator.mq_problem.MQProblem.is_defined_over_finite_field">
@@ -376,19 +373,20 @@ Return the number of polynomials</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="cryptographic_estimators.MQEstimator.mq_problem.MQProblem.theta">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">theta</span></span><a class="headerlink" href="#cryptographic_estimators.MQEstimator.mq_problem.MQProblem.theta" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>returns the runtime of the algorithm</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.MQEstimator.mq_problem.MQProblem.to_bitcomplexity_memory">
-<span class="sig-name descname"><span class="pre">to_bitcomplexity_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elements_to_store</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.MQEstimator.mq_problem.MQProblem.to_bitcomplexity_memory" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the bit-complexity associated to a given number of basic-operations</p>
+<span class="sig-name descname"><span class="pre">to_bitcomplexity_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elements_to_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.MQEstimator.mq_problem.MQProblem.to_bitcomplexity_memory" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the memory bit-complexity associated to a given number of elements to store</p>
 <p>INPUT:</p>
-<p>-<code class="docutils literal notranslate"><span class="pre">basic_operations</span></code> – number of basic operations (logarithmic)</p>
+<p>-<code class="docutils literal notranslate"><span class="pre">elements_to_store</span></code> – number of basic memory operations (logarithmic)</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.MQEstimator.mq_problem.MQProblem.to_bitcomplexity_time">
-<span class="sig-name descname"><span class="pre">to_bitcomplexity_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basic_operations</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.MQEstimator.mq_problem.MQProblem.to_bitcomplexity_time" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">to_bitcomplexity_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basic_operations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.MQEstimator.mq_problem.MQProblem.to_bitcomplexity_time" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the bit-complexity corresponding to basic_operations field multiplications</p>
 <p>INPUT:</p>
 <ul class="simple">

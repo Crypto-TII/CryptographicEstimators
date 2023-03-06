@@ -264,7 +264,7 @@
 <span id="sd-problem"></span><h1>sd_problem<a class="headerlink" href="#module-cryptographic_estimators.SDEstimator.sd_problem" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.sd_problem.SDProblem">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.sd_problem.</span></span><span class="sig-name descname"><span class="pre">SDProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.sd_problem.SDProblem" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.sd_problem.</span></span><span class="sig-name descname"><span class="pre">SDProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.sd_problem.SDProblem" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../base_problem.html#cryptographic_estimators.base_problem.BaseProblem" title="cryptographic_estimators.base_problem.BaseProblem"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseProblem</span></code></a></p>
 <p>Construct an instance of SDProblem</p>
 <p>INPUT:</p>
@@ -284,19 +284,22 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.sd_problem.SDProblem.get_parameters">
 <span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.sd_problem.SDProblem.get_parameters" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Returns the ISD paramters n, k, w, q</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.sd_problem.SDProblem.to_bitcomplexity_memory">
-<span class="sig-name descname"><span class="pre">to_bitcomplexity_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basic_operations</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.sd_problem.SDProblem.to_bitcomplexity_memory" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the bit-complexity associated to a given number of basic-operations</p>
+<span class="sig-name descname"><span class="pre">to_bitcomplexity_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elements_to_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.sd_problem.SDProblem.to_bitcomplexity_memory" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the memory bit-complexity associated to a given number of elements to store</p>
 <p>INPUT:</p>
-<p>-<code class="docutils literal notranslate"><span class="pre">basic_operations</span></code> – number of basic operations (logarithmic)</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">elements_to_store</span></code> – number of memory operations (logarithmic)</p></li>
+</ul>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.sd_problem.SDProblem.to_bitcomplexity_time">
-<span class="sig-name descname"><span class="pre">to_bitcomplexity_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basic_operations</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.sd_problem.SDProblem.to_bitcomplexity_time" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">to_bitcomplexity_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basic_operations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.sd_problem.SDProblem.to_bitcomplexity_time" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the bit-complexity corresponding to basic_operations field additions</p>
 <p>INPUT:</p>
 <ul class="simple">
