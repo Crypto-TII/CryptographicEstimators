@@ -106,7 +106,7 @@ class BothMay(SDAlgorithm):
             sage: from cryptographic_estimators.SDEstimator import SDProblem
             sage: A = BothMay(SDProblem(n=100,k=50,w=10))
             sage: A.w1()
-            2
+            0
         """
         return self._get_optimal_parameter("w1")
 

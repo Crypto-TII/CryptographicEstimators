@@ -56,7 +56,7 @@ class SDEstimator(BaseEstimator):
             | BJMMdw        | 23.4 |   14.7 |
             | BJMMpdw       | 23.3 |   14.3 |
             | BJMM          | 22.8 |   15.0 |
-            | BothMay       | 22.8 |   14.7 |
+            | BothMay       | 22.4 |   14.7 |
             | Dumer         | 22.7 |   16.4 |
             | MayOzerov     | 22.3 |   14.8 |
             | Prange        | 28.3 |   12.7 |
