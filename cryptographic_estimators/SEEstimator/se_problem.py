@@ -1,7 +1,7 @@
 from ..base_problem import BaseProblem
 
 
-class SEPProblem(BaseProblem):
+class SEProblem(BaseProblem):
 
 	def __init__(self, **kwargs): # Fill with parameters
 		super().__init__(**kwargs)

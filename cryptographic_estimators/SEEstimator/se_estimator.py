@@ -1,9 +1,9 @@
-from ..SEPEstimator.sep_algorithm import SEPAlgorithm
-from ..SEPEstimator.sep_problem import SEPProblem
+from ..SEEstimator.se_algorithm import SEAlgorithm
+from ..SEEstimator.se_problem import SEProblem
 from ..base_estimator import BaseEstimator
 
 
-class SEPEstimator(BaseEstimator):
+class SEEstimator(BaseEstimator):
 	excluded_algorithms_by_default = []
 
 	def __init__(self, **kwargs): # Add estimator parameters
@@ -11,4 +11,4 @@ class SEPEstimator(BaseEstimator):
 			kwargs["excluded_algorithms"] = []
 
 		kwargs["excluded_algorithms"] += self.excluded_algorithms_by_default
-		super(SEPEstimator, self).__init__(SEPAlgorithm, SEPProblem(**kwargs), **kwargs)
+		super(SEEstimator, self).__init__(SEAlgorithm, SEProblem(**kwargs), **kwargs)

@@ -6,7 +6,7 @@ from .sd_constants import *
 
 class SDProblem(BaseProblem):
     """
-    Construct an instance of SDProblem
+    Construct an instance of Syndrome Decoding Problem
 
     INPUT:
 

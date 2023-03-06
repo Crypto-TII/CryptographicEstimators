@@ -1,9 +1,9 @@
-from ..LEPEstimator.lep_algorithm import LEPAlgorithm
-from ..LEPEstimator.lep_problem import LEPProblem
+from ..LEEstimator.le_algorithm import LEAlgorithm
+from ..LEEstimator.le_problem import LEProblem
 from ..base_estimator import BaseEstimator
 
 
-class LEPEstimator(BaseEstimator):
+class LEEstimator(BaseEstimator):
 	excluded_algorithms_by_default = []
 
 	def __init__(self, **kwargs): # Add estimator parameters
@@ -11,4 +11,4 @@ class LEPEstimator(BaseEstimator):
 			kwargs["excluded_algorithms"] = []
 
 		kwargs["excluded_algorithms"] += self.excluded_algorithms_by_default
-		super(LEPEstimator, self).__init__(LEPAlgorithm, LEPProblem(**kwargs), **kwargs)
+		super(LEEstimator, self).__init__(LEAlgorithm, LEProblem(**kwargs), **kwargs)
