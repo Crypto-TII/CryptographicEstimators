@@ -519,5 +519,5 @@ class MayOzerovD3(SDAlgorithm):
     def __repr__(self):
         """
         """
-            rep = "May-Ozerov estimator in depth 3 for " + str(self.problem)
-            return rep
+        rep = "May-Ozerov estimator in depth 3 for " + str(self.problem)
+        return rep
