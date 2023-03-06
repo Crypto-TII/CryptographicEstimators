@@ -8,11 +8,11 @@ from math import log2, inf
 class SDAlgorithm(BaseAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
         """
-        Base class for SD algorithms complexity estimator
+        Base class for Syndrome Decoding algorithms complexity estimator
 
         INPUT:
 
-        - ``problem`` -- BaseProblem object including all necessary parameters
+        - ``problem`` -- SDProblem object including all necessary parameters
         - ``var_ranges`` -- allow parameter optimization to adapt ranges if necessary (default: true)
         - ``hmap`` -- indicates if hashmap is being used for linear time sorting (default: true)
 
