@@ -8,6 +8,7 @@ from ...helper import memory_access_cost
 from types import SimpleNamespace
 from ..sd_constants import *
 from ..SDWorkfactorModels.bjmm import BJMMScipyModel
+from typing import Union
 
 
 class BJMM(SDAlgorithm):
@@ -50,6 +51,9 @@ class BJMM(SDAlgorithm):
         self.BJMM_depth_3 = BJMMd3(problem, **kwargs)
 
     def initialize_parameter_ranges(self):
+        """
+        initialize the parameters p, l, p1 and for d=3 p2
+        """
         self.set_parameter_ranges("depth", 2, 3)
 
     @optimal_parameter
@@ -71,20 +75,32 @@ class BJMM(SDAlgorithm):
 
     @property
     def complexity_type(self):
+        """
+        Returns the complexity type.
+        """
         return super().complexity_type
 
     @complexity_type.setter
-    def complexity_type(self, new_type):
+    def complexity_type(self, new_type: Union[str, int]):
+        """
+        sets the complexity type.
+        """
         super(BJMM, self.__class__).complexity_type.fset(self, new_type)
         self.BJMM_depth_2.complexity_type = new_type
         self.BJMM_depth_3.complexity_type = new_type
 
     def reset(self):
+        """
+        resets all parameters to restart the optimization process.
+        """
         super().reset()
         self.BJMM_depth_2.reset()
         self.BJMM_depth_3.reset()
 
     def _find_optimal_parameters(self):
+        """
+        Finds optimal parameters for depth 2 and 3
+        """
         self.BJMM_depth_2._find_optimal_parameters()
         if self.limit_depth:
             self._optimal_parameters["depth"] = 2
@@ -96,9 +112,15 @@ class BJMM(SDAlgorithm):
         else:
             self._optimal_parameters["depth"] = 2
 
-    def _time_and_memory_complexity(self, parameters, verbose_information=None):
+    def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """
         computes and returns the time and memory complexity for either the depth 2 or 3 algorithm
+        
+        INPUT:
+
+        - ``parameters`` -- current parameter set
+        - ``verbose_information`` -- None or VerboseInformation 
+
         """
         if "depth" not in parameters:
             raise ValueError("Depth must be specified for BJMM")
@@ -114,8 +136,12 @@ class BJMM(SDAlgorithm):
         else:
             return inf, inf
 
-    def _tilde_o_time_and_memory_complexity(self, parameters):
-        return self.BJMM_depth_3._tilde_o_time_and_memory_complexity(self.BJMM_depth_3.optimal_parameters())
+    def _tilde_o_time_and_memory_complexity(self, parameters: dict):
+        """ 
+        returns the optimal time and memory complexity for BJMM d3
+        """
+        # return self.BJMM_depth_3._tilde_o_time_and_memory_complexity(self.BJMM_depth_3.optimal_parameters())
+        return self.BJMM_depth_3._tilde_o_time_and_memory_complexity(parameters)
 
     def get_optimal_parameters_dict(self):
         """
@@ -131,6 +157,8 @@ class BJMM(SDAlgorithm):
         return a
 
     def __repr__(self):
+        """
+        """
         rep = "BJMM estimator for " + str(self.problem)
         return rep
 
@@ -173,6 +201,10 @@ class BJMMd2(SDAlgorithm):
         self.initialize_parameter_ranges()
 
     def initialize_parameter_ranges(self):
+        """
+        initialize the parameter ranges for p, p1, l to start the optimisation 
+        process.
+        """
         n, k, w, _ = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(35, w, s))
@@ -225,7 +257,11 @@ class BJMMd2(SDAlgorithm):
         """
         return self._get_optimal_parameter("p1")
 
-    def _are_parameters_invalid(self, parameters):
+    def _are_parameters_invalid(self, parameters: dict):
+        """
+        return if the parameter set `parameters` is invalid
+
+        """
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
@@ -254,6 +290,7 @@ class BJMMd2(SDAlgorithm):
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """
         computes the expected runtime and memory consumption for the depth 2 version
+
         """
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
@@ -303,6 +340,8 @@ class BJMMd2(SDAlgorithm):
         return time, memory
 
     def __repr__(self):
+        """
+        """
         rep = "BJMM estimator in depth 2 for " + str(self.problem)
         return rep
 
@@ -346,6 +385,10 @@ class BJMMd3(SDAlgorithm):
         self.scipy_model = BJMMScipyModel
 
     def initialize_parameter_ranges(self):
+        """
+        initialize the parameter ranges for p, p1, p2, l to start the optimisation 
+        process.
+        """
         n, k, w, _ = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(25, w, s))
@@ -414,6 +457,10 @@ class BJMMd3(SDAlgorithm):
         return self._get_optimal_parameter("p2")
 
     def _are_parameters_invalid(self, parameters):
+        """
+        return if the parameter set `parameters` is invalid
+
+        """
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
@@ -496,5 +543,7 @@ class BJMMd3(SDAlgorithm):
         return time, memory
 
     def __repr__(self):
+        """
+        """
         rep = "BJMM estimator in depth 3 for " + str(self.problem)
         return rep

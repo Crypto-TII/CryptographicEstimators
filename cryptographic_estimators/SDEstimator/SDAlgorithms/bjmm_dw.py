@@ -48,6 +48,10 @@ class BJMMdw(SDAlgorithm):
         self.initialize_parameter_ranges()
 
     def initialize_parameter_ranges(self):
+        """
+        initialize the parameter ranges for p, p1, w1, w11, w2 to start the optimisation 
+        process.
+        """
         n, k, w, _ = self.problem.get_parameters()
         self.set_parameter_ranges("p", 0, 25)
         self.set_parameter_ranges("p1", 0, 20)
@@ -130,8 +134,12 @@ class BJMMdw(SDAlgorithm):
         """
         return self._get_optimal_parameter("w2")
 
-    def _are_parameters_invalid(self, parameters):
-        n, k, w, _ = self.problem.get_parameters()
+    def _are_parameters_invalid(self, parameters: dict):
+        """
+        return if the parameter set `parameters` is invalid
+
+        """
+        _, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
 
         if par.p % 2 == 1 or par.p > w // 2 or k < par.p or \
@@ -162,8 +170,11 @@ class BJMMdw(SDAlgorithm):
                                 continue
                             yield indices
 
-    def _choose_first_constraint_such_that_representations_cancel_out_exactly(self, parameters):
-        n, k, w, _ = self.problem.get_parameters()
+    def _choose_first_constraint_such_that_representations_cancel_out_exactly(self, parameters: dict):
+        """
+        tries to find a l1 value fulfilling the constraints
+        """
+        _, k, _, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
 
         try:
@@ -178,8 +189,10 @@ class BJMMdw(SDAlgorithm):
             return -1
         return l1_val
 
-    def _choose_second_constraint_such_that_list_size_remains_constant(self, parameters, list_size):
-        n, k, w, _ = self.problem.get_parameters()
+    def _choose_second_constraint_such_that_list_size_remains_constant(self, parameters: dict, list_size: float):
+        """
+        trues to find a l2 value which does not increase the list size
+        """
         par = SimpleNamespace(**parameters)
 
         try:
@@ -267,5 +280,7 @@ class BJMMdw(SDAlgorithm):
         return local_time, local_mem
 
     def __repr__(self):
+        """
+        """
         rep = "BJMM estimator with disjoint weight distributions in depth 2 for " + str(self.problem)
         return rep

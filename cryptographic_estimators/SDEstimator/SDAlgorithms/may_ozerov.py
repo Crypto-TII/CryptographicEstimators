@@ -8,6 +8,7 @@ from ...helper import memory_access_cost
 from types import SimpleNamespace
 from ..sd_constants import *
 from ..SDWorkfactorModels.may_ozerov import MayOzerovScipyModel
+from typing import Union
 
 
 class MayOzerov(SDAlgorithm):
@@ -64,20 +65,32 @@ class MayOzerov(SDAlgorithm):
 
     @property
     def complexity_type(self):
+        """
+        returns the optimization type (bit security or asymptotic)
+        """
         return super().complexity_type
 
     @complexity_type.setter
-    def complexity_type(self, new_type):
+    def complexity_type(self, new_type: Union[str, int]):
+        """
+        sets the complexity type.
+        """
         super(MayOzerov, self.__class__).complexity_type.fset(self, new_type)
         self.MayOzerov_depth_2.complexity_type = new_type
         self.MayOzerov_depth_3.complexity_type = new_type
 
     def reset(self):
+        """
+        resets all internal variables to restart the optimization process
+        """
         super().reset()
         self.MayOzerov_depth_2.reset()
         self.MayOzerov_depth_3.reset()
 
     def _find_optimal_parameters(self):
+        """
+        Finds optimal parameters for depth 2 and 3
+        """
         self.MayOzerov_depth_2._find_optimal_parameters()
         if self.limit_depth:
             self._optimal_parameters["depth"] = 2
@@ -89,7 +102,7 @@ class MayOzerov(SDAlgorithm):
         else:
             self._optimal_parameters["depth"] = 2
 
-    def _time_and_memory_complexity(self, parameters, verbose_information=None):
+    def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """
         computes and returns the time and memory complexity for either the depth 2 or 3 algorithm
         """
@@ -120,10 +133,15 @@ class MayOzerov(SDAlgorithm):
             a.update(self.MayOzerov_depth_3.get_optimal_parameters_dict())
         return a
 
-    def _tilde_o_time_and_memory_complexity(self, parameters):
-        return self.MayOzerov_depth_3._tilde_o_time_and_memory_complexity(self.MayOzerov_depth_3.optimal_parameters())
+    def _tilde_o_time_and_memory_complexity(self, parameters: dict):
+        """
+        computes the time and memory complexity for the depth 3 algorithm
+        """
+        return self.MayOzerov_depth_3._tilde_o_time_and_memory_complexity(parameters)
 
     def __repr__(self):
+        """
+        """
         rep = "May-Ozerov estimator for " + str(self.problem)
         return rep
 
@@ -159,6 +177,9 @@ class MayOzerovD2(SDAlgorithm):
         self.initialize_parameter_ranges()
 
     def initialize_parameter_ranges(self):
+        """
+        initialize the parameters p, l, p1
+        """
         n, k, w, _ = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(30, w // 2, s))
@@ -210,7 +231,11 @@ class MayOzerovD2(SDAlgorithm):
         """
         return self._get_optimal_parameter("p1")
 
-    def _are_parameters_invalid(self, parameters):
+    def _are_parameters_invalid(self, parameters: dict):
+        """
+        return if the parameter set `parameters` is invalid
+
+        """
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
@@ -292,6 +317,8 @@ class MayOzerovD2(SDAlgorithm):
         return time, memory
 
     def __repr__(self):
+        """
+        """
         rep = "May-Ozerov estimator in depth 2 for " + str(self.problem)
         return rep
 
@@ -328,6 +355,10 @@ class MayOzerovD3(SDAlgorithm):
         self.scipy_model = MayOzerovScipyModel
 
     def initialize_parameter_ranges(self):
+        """
+        initialize the parameter ranges for p, p1, p2, l to start the optimisation 
+        process.
+        """
         n, k, w, _ = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(20, w // 2, s))
@@ -395,7 +426,11 @@ class MayOzerovD3(SDAlgorithm):
         """
         return self._get_optimal_parameter("p2")
 
-    def _are_parameters_invalid(self, parameters):
+    def _are_parameters_invalid(self, parameters: dict):
+        """
+        return if the parameter set `parameters` is invalid
+
+        """
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
@@ -482,5 +517,7 @@ class MayOzerovD3(SDAlgorithm):
         return time, memory
 
     def __repr__(self):
+        """
+        """
             rep = "May-Ozerov estimator in depth 3 for " + str(self.problem)
             return rep
