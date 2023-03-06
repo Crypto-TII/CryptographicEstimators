@@ -2,22 +2,54 @@ from ..base_problem import BaseProblem
 
 
 class SEProblem(BaseProblem):
+    """
+    Construct an instance of the Sub-Code Equivalence Problem
 
-	def __init__(self, **kwargs): # Fill with parameters
-		super().__init__(**kwargs)
+    INPUT:
 
-	def to_bitcomplexity_time(self, basic_operations):
-		pass
+    - ``n`` -- code length
+    - ``k`` -- code dimension
+    - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
+    """
 
-	def to_bitcomplexity_memory(self, basic_operations):
-		pass
+    def __init__(self, n: int, k:int, nsolutions: int, **kwargs): 
+        super().__init__(**kwargs)
 
-	def expected_number_solutions(self):
-		pass
+    def to_bitcomplexity_time(self, basic_operations: float):
+        """
+        Returns the bit-complexity corresponding to basic_operations field additions
 
-	def __repr__(self):
-		pass
+        INPUT:
 
-	def get_parameters(self):
-		pass
+        - ``basic_operations`` -- Number of field additions (logarithmic)
 
+        """
+        pass
+
+    def to_bitcomplexity_memory(self, basic_operations: float):
+        """
+        Returns the memory bit-complexity associated to a given number of elements to store
+
+        INPUT:
+
+        - ``elements_to_store`` -- number of memory operations (logarithmic)
+
+        """
+        pass
+
+    def expected_number_solutions(self):
+        """
+        Returns the logarithm of the expected number of existing solutions to the problem
+
+        """
+        pass
+
+    def __repr__(self):
+        """
+        """
+        pass
+
+    def get_parameters(self):
+        """
+        """
+        pass

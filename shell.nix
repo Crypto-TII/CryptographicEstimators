@@ -8,6 +8,7 @@ let
 		scipy
 		sphinx
 		furo
+		autopep8
 		pip
 	]; 
 	requireSageTests = false;
@@ -20,6 +21,7 @@ let
 	sphinx
 	furo
 	pip
+    autopep8
 	sage
   ]);
 in

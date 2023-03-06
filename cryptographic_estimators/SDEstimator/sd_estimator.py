@@ -7,7 +7,7 @@ from math import inf
 
 class SDEstimator(BaseEstimator):
     """
-    Construct an instance of SDEstimator
+    Construct an instance of Syndrome Decoding Estimator
 
     INPUT:
 
@@ -16,7 +16,8 @@ class SDEstimator(BaseEstimator):
     - ``w`` -- error weight
     - ``excluded_algorithms`` -- a list/tuple of excluded algorithms (default: None)
     - ``nsolutions`` -- no. of solutions
-    Maybe we should add the optional_parameters dictionary here?
+
+    TODO: Maybe we should add the optional_parameters dictionary here?
 
     """
     
@@ -104,7 +105,7 @@ class SDEstimator(BaseEstimator):
             +---------------+---------+---------+------------------------------------------------------------+
 
         """
-        super(SDEstimator,self).table(show_quantum_complexity=show_quantum_complexity,
-                                      show_tilde_o_time=show_tilde_o_time,
-                                      show_all_parameters=show_all_parameters,
-                                      precision=precision, truncate=truncate)
+        super(SDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
+                                       show_tilde_o_time=show_tilde_o_time,
+                                       show_all_parameters=show_all_parameters,
+                                       precision=precision, truncate=truncate)
