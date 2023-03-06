@@ -46,7 +46,7 @@ class DummyProblem(BaseProblem):
 
         INPUT:
 
-        - ``elements_to_store`` -- number of memory elements (logarithmic)
+        - ``elements_to_store`` -- number of memory operations (logarithmic)
 
         """
         logarithm_of_bits_required_to_store_one_basic_element = 4

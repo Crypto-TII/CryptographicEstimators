@@ -1,4 +1,3 @@
-
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...helper import ComplexityType

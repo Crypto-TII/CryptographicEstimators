@@ -55,7 +55,7 @@ class Bjorklund(MQAlgorithm):
         return self._get_optimal_parameter('lambda_')
 
     def _valid_choices(self):
-        n, m, _ = self.get_reduced_parameters()
+        n, _, _ = self.get_reduced_parameters()
         ranges = self._parameter_ranges
         l_min = max(3, ceil(ranges['lambda_']['min'] * n))
         l_max = min(ceil(ranges['lambda_']['max'] * n), n)
@@ -68,7 +68,7 @@ class Bjorklund(MQAlgorithm):
             if l > l_max:
                 stop = True
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
@@ -91,7 +91,7 @@ class Bjorklund(MQAlgorithm):
         time = 8 * k * log2(n) * sum([Bjorklund._internal_time_complexity_(n - i, m + k + 2, lambda_) for i in range(1, n)])
         return h + log2(time)
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
@@ -120,7 +120,7 @@ class Bjorklund(MQAlgorithm):
         n, m, _ = self.get_reduced_parameters()
         return log2(_internal_memory_complexity_(n, m, lambda_))
 
-    def _compute_tilde_o_time_complexity(self, parameters):
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
         Return the Ō time complexity of Bjorklund et al.'s algorithm
 
@@ -136,7 +136,7 @@ class Bjorklund(MQAlgorithm):
         h = self._h
         return h + 0.803225 * n
 
-    def _compute_tilde_o_memory_complexity(self, parameters):
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
         Return the Ō time complexity of Bjorklund et al.'s algorithm
 
@@ -166,7 +166,11 @@ class Bjorklund(MQAlgorithm):
         self._optimal_parameters['lambda_'] = 0.19677
 
     @staticmethod
-    def _internal_time_complexity_(n, m, lambda_):
+    def _internal_time_complexity_(n: int, m: int, lambda_: float):
+        """
+        Helper function. Computes the runtime of the algorithm for given 
+        n, m and lambda
+        """
         if n <= 1:
             return 1
         else:
