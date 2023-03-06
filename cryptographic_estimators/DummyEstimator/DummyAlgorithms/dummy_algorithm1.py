@@ -90,7 +90,7 @@ class DummyAlgorithm1(DummyAlgorithm):
 
         return self._get_optimal_parameter('optimization_parameter_2')
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
@@ -109,7 +109,7 @@ class DummyAlgorithm1(DummyAlgorithm):
 
         return log2(time)
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
