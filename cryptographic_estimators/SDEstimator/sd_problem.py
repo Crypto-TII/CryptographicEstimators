@@ -6,7 +6,7 @@ from .sd_constants import *
 
 class SDProblem(BaseProblem):
     """
-    Construct an instance of SDProblem
+    Construct an instance of the Syndrome Decoding Problem
 
     INPUT:
 
@@ -60,7 +60,7 @@ class SDProblem(BaseProblem):
         Returns the logarithm of the expected number of existing solutions to the problem
 
         """
-        # todo fix for fq
+        # TODO fix for fq
         n, k, w, _ = self.get_parameters()
         return log2(comb(n, w)) - (n - k)
 
