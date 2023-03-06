@@ -1,0 +1,10 @@
+------
+sample
+------
+
+.. automodule:: cryptographic_estimators.LEEstimator.LEAlgorithms.sample
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

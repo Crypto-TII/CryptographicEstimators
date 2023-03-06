@@ -20,6 +20,23 @@ TII cryptanalysis library following SageMath guidelines.
     base_problem
 
 -----------
+SEEstimator
+-----------
+
+.. toctree::
+
+    SEEstimator/se_problem
+    SEEstimator/se_algorithm
+    SEEstimator/se_estimator
+
+SEAlgorithms
+============
+
+.. toctree::
+
+    SEEstimator/SEAlgorithms/sample
+
+-----------
 MQEstimator
 -----------
 
@@ -58,6 +75,57 @@ MQAlgorithms
     MQEstimator/MQAlgorithms/f5
     MQEstimator/MQAlgorithms/hybrid_f5
     MQEstimator/MQAlgorithms/dinur1
+
+-----------
+LEEstimator
+-----------
+
+.. toctree::
+
+    LEEstimator/le_problem
+    LEEstimator/le_estimator
+    LEEstimator/le_algorithm
+
+LEAlgorithms
+============
+
+.. toctree::
+
+    LEEstimator/LEAlgorithms/sample
+
+-----------
+PEEstimator
+-----------
+
+.. toctree::
+
+    PEEstimator/pe_algorithm
+    PEEstimator/pe_estimator
+    PEEstimator/pe_problem
+
+PEAlgorithms
+============
+
+.. toctree::
+
+    PEEstimator/PEAlgorithms/sample
+
+-----------
+PKEstimator
+-----------
+
+.. toctree::
+
+    PKEstimator/pk_problem
+    PKEstimator/pk_estimator
+    PKEstimator/pk_algorithm
+
+PKAlgorithms
+============
+
+.. toctree::
+
+    PKEstimator/PKAlgorithms/sample
 
 -----------
 SDEstimator
