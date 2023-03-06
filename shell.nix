@@ -34,5 +34,6 @@ stdenv.mkDerivation {
 	mysage
 	ripgrep
     nodePackages.pyright
+	tree
   ];
 }
