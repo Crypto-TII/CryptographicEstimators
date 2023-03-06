@@ -17,7 +17,7 @@ You would need to have Docker installed in your machine. For this follow the ins
 ---
 ## Installation 🛠
 ### Local
-Once you've Sage installed you can go to this project folder and run `make install` in a terminal. This will install `cryptographic_estimators` library globally.
+Once you've Sage installed you can go to this project folder and run `make install` in a terminal. This will install `cryptographic_estimators` library globally. If you encounter some permission error please try again adding `sudo` as a prefix.
 
 ### Docker
 If you don’t have sage installed in your machine you can start with our dockerized app. First you will need to have running the DockerDesktop app, then open a new terminal, go to the project folder and run `make docker-build` or if you have Apple Silicon M1 Chip `make docker-build-m1`.
