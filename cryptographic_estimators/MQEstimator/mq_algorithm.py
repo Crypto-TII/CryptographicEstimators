@@ -1,10 +1,11 @@
 from ..base_algorithm import BaseAlgorithm
+from .mq_problem import MQProblem
 from sage.arith.misc import is_prime_power
 from sage.functions.other import floor
 
 
 class MQAlgorithm(BaseAlgorithm):
-    def __init__(self, problem, **kwargs):
+    def __init__(self, problem: MQProblem, **kwargs):
         """
         Base class for MQ algorithms complexity estimator
 
@@ -121,5 +122,7 @@ class MQAlgorithm(BaseAlgorithm):
         return self._w
 
     def __repr__(self):
+        """
+        """
         n, m = self.problem.nvariables(), self.problem.npolynomials()
         return f"{self._name} estimator for the MQ problem with {n} variables and {m} polynomials"

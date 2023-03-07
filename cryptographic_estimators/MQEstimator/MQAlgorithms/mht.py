@@ -1,11 +1,9 @@
-
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...helper import ComplexityType
 from sage.all import Integer
 from sage.arith.misc import is_power_of_two
 from math import log2
-
 
 
 class MHT(MQAlgorithm):
