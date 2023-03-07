@@ -131,14 +131,14 @@ class BJMMdw(SDAlgorithm):
         return self._get_optimal_parameter("w2")
 
     def _are_parameters_invalid(self, parameters):
-        n, k, w, _ = self.problem.get_parameters()
+        _, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
 
         if par.p % 2 == 1 or par.p > w // 2 or k < par.p or \
-                par.p1 < par.p // 2 or par.p1 >= w or \
-                par.w1 >= w // 2 - par.p or par.w1 % 2 == 1 or \
+                par.p1 < par.p // 2 or par.p1 > w or \
+                par.w1 > w // 2 - par.p or par.w1 % 2 == 1 or \
                 par.w11 < par.w1 // 2 or par.w11 >= w or \
-                par.w2 >= w // 2 - par.p - par.w1:
+                par.w2 > w // 2 - par.p - par.w1:
             return True
         return False
 
@@ -150,13 +150,12 @@ class BJMMdw(SDAlgorithm):
         """
         new_ranges = self._fix_ranges_for_already_set_parmeters()
         n, k, w, _ = self.problem.get_parameters()
-
-        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
-            for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
+        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]) + 1, 2):
+            for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"] + 1):
                 s = new_ranges["w1"]["min"]
-                for w1 in range(s - (s % 2), min(w // 2 - p, new_ranges["w1"]["max"]), 2):
-                    for w11 in range(max(new_ranges["w11"]["min"], (w1 + 1) // 2), new_ranges["w11"]["max"], 2):
-                        for w2 in range(new_ranges["w2"]["min"], min(w // 2 - p - w1, new_ranges["w2"]["max"])):
+                for w1 in range(s - (s % 2), min(w // 2 - p, new_ranges["w1"]["max"]) + 1, 2):
+                    for w11 in range(max(new_ranges["w11"]["min"], (w1 + 1) // 2), new_ranges["w11"]["max"] + 1, 2):
+                        for w2 in range(new_ranges["w2"]["min"], min(w // 2 - p - w1, new_ranges["w2"]["max"]) + 1):
                             indices = {"p": p, "p1": p1, "w1": w1, "w11": w11, "w2": w2, "r": self._optimal_parameters["r"]}
                             if self._are_parameters_invalid(indices):
                                 continue
@@ -215,6 +214,9 @@ class BJMMdw(SDAlgorithm):
             return inf, inf
 
         for l1 in range(max(l1_start_value - l1_search_radius, par.w1, par.w11), l1_start_value + l1_search_radius):
+            if 2*l1 >= n-k or n-k-2*l1 < w:
+                continue
+
             k1 = k // 2
             reps = (binom(par.p, par.p // 2) * binom(k1 - par.p, par.p1 - par.p // 2)) ** 2 * (
                     binom(par.w1, par.w1 // 2) * binom(l1 - par.w1, par.w11 - par.w1 // 2)) ** 2
@@ -236,7 +238,7 @@ class BJMMdw(SDAlgorithm):
             l2_max = (n - k - 2 * l1 - (w - 2 * par.p - 2 * par.w1 - 2 * par.w2)) // 2
             l2_min = par.w2
             l2_range = [l2_start_value - l2_search_radius, l2_start_value + l2_search_radius]
-            for l2 in range(max(l2_min, l2_range[0]), min(l2_max, l2_range[1])):
+            for l2 in range(max(l2_min, l2_range[0]), max(1, min(l2_max, l2_range[1]))):
                 Tp = max(
                     log2(binom(n, w)) - log2(
                         binom(n - k - 2 * l1 - 2 * l2, w - 2 * par.p - 2 * par.w1 - 2 * par.w2)) - 2 * log2(

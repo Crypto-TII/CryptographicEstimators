@@ -101,8 +101,8 @@ class BJMMpdw(SDAlgorithm):
         par = SimpleNamespace(**parameters)
 
         if par.p % 2 == 1 or par.p > w // 2 or k < par.p or \
-                par.p1 < par.p // 2 or par.p1 >= w or \
-                par.w2 >= w // 2 - par.p:
+                par.p1 < par.p // 2 or par.p1 > w or \
+                par.w2 > w // 2 - par.p:
             return True
         return False
 
@@ -115,9 +115,9 @@ class BJMMpdw(SDAlgorithm):
         new_ranges = self._fix_ranges_for_already_set_parmeters()
         n, k, w, _ = self.problem.get_parameters()
 
-        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
-            for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), min(w,new_ranges["p1"]["max"])):
-                for w2 in range(new_ranges["w2"]["min"], min(w - p1, new_ranges["w2"]["max"])):
+        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]) + 1, 2):
+            for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), min(w,new_ranges["p1"]["max"]) + 1):
+                for w2 in range(new_ranges["w2"]["min"], min(w - p1, new_ranges["w2"]["max"]) + 1):
                     indices = {"p": p, "p1": p1, "w2": w2, "r": self._optimal_parameters["r"]}
                     if self._are_parameters_invalid(indices):
                         continue
@@ -158,6 +158,8 @@ class BJMMpdw(SDAlgorithm):
         """
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
+        if len(parameters.keys()) == 1:
+            return inf, inf
 
         if self._are_parameters_invalid(parameters):
             return inf, inf
@@ -173,6 +175,9 @@ class BJMMpdw(SDAlgorithm):
             return inf, inf
 
         for l1 in range(max(0, l1_start_value - l1_search_radius), l1_start_value + l1_search_radius):
+            if 2*l1 >= n-k or n-k-2*l1 < w:
+                continue
+
             k1 = (k + l1) // 2
 
             if k1 - par.p < 0 or k1 - par.p < par.p1 - par.p // 2:
