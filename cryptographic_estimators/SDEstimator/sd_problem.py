@@ -6,7 +6,7 @@ from .sd_constants import *
 
 class SDProblem(BaseProblem):
     """
-    Construct an instance of SDProblem
+    Construct an instance of the Syndrome Decoding Problem
 
     INPUT:
 
@@ -17,7 +17,7 @@ class SDProblem(BaseProblem):
     - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
     """
 
-    def __init__(self, n, k, w, q=2, **kwargs):
+    def __init__(self, n: int, k: int, w: int, q=2, **kwargs):
         super().__init__(**kwargs)
         if k > n:
             raise ValueError("k must be smaller or equal to n")
@@ -32,7 +32,7 @@ class SDProblem(BaseProblem):
 
         self.nsolutions = kwargs.get("nsolutions", max(self.expected_number_solutions(), 0))
 
-    def to_bitcomplexity_time(self, basic_operations):
+    def to_bitcomplexity_time(self, basic_operations: float):
         """
         Returns the bit-complexity corresponding to basic_operations field additions
 
@@ -45,19 +45,29 @@ class SDProblem(BaseProblem):
         n = self.parameters[SD_CODE_LENGTH]
         return log2(log2(q)) + log2(n) + basic_operations
 
-    def to_bitcomplexity_memory(self, basic_operations):
-        return self.to_bitcomplexity_time(basic_operations)
+    def to_bitcomplexity_memory(self, elements_to_store: float):
+        """
+        Returns the memory bit-complexity associated to a given number of elements to store
+
+        INPUT:
+
+        - ``elements_to_store`` -- number of memory operations (logarithmic)
+
+        """
+        return self.to_bitcomplexity_time(elements_to_store)
 
     def expected_number_solutions(self):
         """
         Returns the logarithm of the expected number of existing solutions to the problem
 
         """
-        # todo fix for fq
+        # TODO fix for fq
         n, k, w, _ = self.get_parameters()
         return log2(comb(n, w)) - (n - k)
 
     def __repr__(self):
+        """
+        """
         n, k, w, _ = self.get_parameters()
         rep = "syndrome decoding problem with (n,k,w) = " \
               + "(" + str(n) + "," + str(k) + "," + str(w) + ") over " + str(self.baseField)
@@ -65,6 +75,9 @@ class SDProblem(BaseProblem):
         return rep
 
     def get_parameters(self):
+        """
+        Returns the ISD paramters n, k, w, q
+        """
         n = self.parameters[SD_CODE_LENGTH]
         k = self.parameters[SD_CODE_DIMENSION]
         w = self.parameters[SD_ERROR_WEIGHT]

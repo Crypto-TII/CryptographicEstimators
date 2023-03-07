@@ -24,7 +24,7 @@ class HilbertSeries(object):
         sage: H
         Hilbert series for system with 10 variables and 15 polynomials over F_2
     """
-    def __init__(self, n, degrees, q=None):
+    def __init__(self, n: int, degrees: list[int], q=None):
         self._q = q
         self._nvariables = n
         self._degrees = degrees
@@ -143,6 +143,8 @@ class HilbertSeries(object):
         raise ValueError("unable to find a nonpositive coefficient in the series")
 
     def __repr__(self):
+        """
+        """
         text = f"Hilbert series for system with {self.nvariables} variables and {self.npolynomials} polynomials"
         if self._q is not None:
             text += f" over F_{self._q}"

@@ -1,8 +1,11 @@
 from .helper import concat_all_tables, round_or_truncate, ComplexityType
 from prettytable import PrettyTable
-from math import inf, isinf
+from typing import Union, Callable
+from math import isinf
 from sage.all import *
 from .base_constants import *
+from .base_algorithm import *
+
 
 class BaseEstimator(object):
     """
@@ -62,9 +65,13 @@ class BaseEstimator(object):
         return [i.memory_access for i in self._algorithms]
 
     @memory_access.setter
-    def memory_access(self, new_memory_access):
+    def memory_access(self, new_memory_access: Union[int, Callable[[float], float]]):
         """
         Sets the memory_access attribute of all included algorithms
+
+        INPUT:
+
+        - ``new_memory_access`` -- new memory access value. Either (0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
 
         """
         for i in self._algorithms:
@@ -79,9 +86,13 @@ class BaseEstimator(object):
         return [i.complexity_type for i in self._algorithms]
 
     @complexity_type.setter
-    def complexity_type(self, new_complexity_type):
+    def complexity_type(self, new_complexity_type: ComplexityType):
         """
         Sets the complexity_type attribute of all included algorithms
+
+        INPUT:
+
+        - ``new_complexity_type`` -- new complexy_type value. Either (0: estimate, 1: tilde O complexity)
 
         """
         for i in self._algorithms:
@@ -96,9 +107,13 @@ class BaseEstimator(object):
         return [i.bit_complexities for i in self._algorithms]
 
     @bit_complexities.setter
-    def bit_complexities(self, new_bit_complexities):
+    def bit_complexities(self, new_bit_complexities: int):
         """
         Sets the bit_complexities attribute of all included algorithms
+
+        INPUT:
+
+        - ``new_bit_complexities`` -- new bit_complexities value.
 
         """
         if self._bit_complexities != new_bit_complexities:
@@ -128,7 +143,15 @@ class BaseEstimator(object):
         """
         return len(self.algorithms())
 
-    def _add_tilde_o_complexity(self, algorithm):
+    def _add_tilde_o_complexity(self, algorithm: BaseAlgorithm):
+        """
+        runs the tilde O complexity analysis for the given `algorithm`
+
+        INPUT:
+
+        - ``algorithm`` -- Algorithm to run.
+
+        """
         est = self.estimates
         name = algorithm.__class__.__name__
         algorithm.complexity_type = ComplexityType.TILDEO.value
@@ -147,7 +170,15 @@ class BaseEstimator(object):
         except NotImplementedError:
             est[name][BASE_TILDEO_ESTIMATE][BASE_PARAMETERS] = "--"
 
-    def _add_quantum_complexity(self, algorithm):
+    def _add_quantum_complexity(self, algorithm: BaseAlgorithm):
+        """
+        runs the quantum time analysis for the given `algorithm`
+
+        INPUT:
+
+        - ``algorithm`` -- Algorithm to run.
+
+        """
         est = self.estimates
         name = algorithm.__class__.__name__
         try:
@@ -156,7 +187,15 @@ class BaseEstimator(object):
         except NotImplementedError:
             est[name][BASE_QUANTUMO][BASE_TIME] = "--"
 
-    def _add_estimate(self, algorithm):
+    def _add_estimate(self, algorithm: BaseAlgorithm):
+        """
+        runs the bit security analysis for the given `algorithm`
+
+        INPUT:
+
+        - ``algorithm`` -- Algorithm to run.
+
+        """
         est = self.estimates
         name = algorithm.__class__.__name__
         algorithm.complexity_type = ComplexityType.ESTIMATE.value
@@ -200,6 +239,12 @@ class BaseEstimator(object):
         return self.estimates
 
     def _create_initial_table_containing_algorithm_column(self):
+        """
+        creates a `PrettyTable` with the analysis results, containg
+            - expected runtime and memory
+            - optimal parameters
+
+        """
         tbl = PrettyTable([BASE_ALGORITHM])
         tbl.padding_width = 1
         tbl.title = ' '
@@ -210,7 +255,17 @@ class BaseEstimator(object):
 
         return tbl
 
-    def _create_subtable_containing_all_columns(self, sub_table_name, show_all_parameters):
+    def _create_subtable_containing_all_columns(self, sub_table_name: str,
+                                                show_all_parameters: bool):
+        """
+        Creates a `PrettyTable` subtable.
+
+        INPUT:
+
+        - ``sub_table_name`` -- TODO
+        - ``show_all_parameters`` --  TODO
+
+        """
         key = list(self.estimates.keys())[0]
         table_columns = [i for i in list(self.estimates[key][sub_table_name].keys()) if
                          i != BASE_PARAMETERS or show_all_parameters]
@@ -224,6 +279,15 @@ class BaseEstimator(object):
         return tbl
 
     def _add_rows(self, tbl, truncate, precision):
+        """
+
+        INPUT:
+
+        - ``tbl`` -- current `PrettyTable` table
+        - ``truncate`` -- bool: if set the value will be truncated
+        - ``precision`` -- number of decimal digits to round/truncate to
+
+        """
         for i in self.estimates.keys():
             row = [self.estimates[i][tbl.title][k] for k in tbl.field_names]
             row = [round_or_truncate(i, truncate, precision)

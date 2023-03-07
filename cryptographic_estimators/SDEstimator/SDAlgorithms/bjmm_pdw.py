@@ -45,7 +45,11 @@ class BJMMpdw(SDAlgorithm):
         self.initialize_parameter_ranges()
 
     def initialize_parameter_ranges(self):
-        n, k, w, _ = self.problem.get_parameters()
+        """
+        initialize the parameter ranges for p, p1, w2 to start the optimisation 
+        process.
+        """
+        _, _, w, _ = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(30, w, s))
         self.set_parameter_ranges("p1", 0, min_max(25, w, s))
@@ -96,8 +100,12 @@ class BJMMpdw(SDAlgorithm):
         """
         return self._get_optimal_parameter("w2")
 
-    def _are_parameters_invalid(self,parameters):
-        n, k, w, _ = self.problem.get_parameters()
+    def _are_parameters_invalid(self, parameters: dict):
+        """
+        return if the parameter set `parameters` is invalid
+
+        """
+        _, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
 
         if par.p % 2 == 1 or par.p > w // 2 or k < par.p or \
@@ -113,7 +121,7 @@ class BJMMpdw(SDAlgorithm):
 
         """
         new_ranges = self._fix_ranges_for_already_set_parmeters()
-        n, k, w, _ = self.problem.get_parameters()
+        _, _, w, _ = self.problem.get_parameters()
 
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]) + 1, 2):
             for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), min(w,new_ranges["p1"]["max"]) + 1):
@@ -123,8 +131,11 @@ class BJMMpdw(SDAlgorithm):
                         continue
                     yield indices
 
-    def _choose_first_constraint_such_that_representations_cancel_out_exactly(self, parameters):
-        n, k, w, _ = self.problem.get_parameters()
+    def _choose_first_constraint_such_that_representations_cancel_out_exactly(self, parameters: dict):
+        """
+        tries to find an optimal l1 value fulfilling its contraints
+        """
+        _, k, _, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
 
         try:
@@ -138,8 +149,10 @@ class BJMMpdw(SDAlgorithm):
 
         return l1_val
 
-    def _choose_second_constraint_such_that_list_size_remains_constant(self,parameters,list_size):
-        n, k, w, _ = self.problem.get_parameters()
+    def _choose_second_constraint_such_that_list_size_remains_constant(self, parameters: dict, list_size: float):
+        """
+        tries to find an optimal l2 value fulfilling its contraints
+        """
         par = SimpleNamespace(**parameters)
 
         try:
@@ -226,5 +239,7 @@ class BJMMpdw(SDAlgorithm):
         return local_time, local_mem
 
     def __repr__(self):
+        """
+        """
         rep = "BJMM estimator with partially disjoint weight distributions in depth 2 for " + str(self.problem)
         return rep

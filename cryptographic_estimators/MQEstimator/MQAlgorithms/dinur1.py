@@ -98,7 +98,7 @@ class DinurFirst(MQAlgorithm):
             kappa = n1 / (n - 1)
             lambda_ = (n1 - n2) / (n - 1)
 
-    def _T(self, n, n1, w, lambda_):
+    def _T(self, n: int, n1: int, w: int, lambda_: float):
         t = 48 * n + 1
         n2 = floor(n1 - lambda_ * n)
         l = n2 + 2
@@ -114,7 +114,7 @@ class DinurFirst(MQAlgorithm):
             temp4 = l * (m + k + 2) * sum_of_binomial_coefficients(n, 2)
             return t * (temp1 + temp2 + temp3 + temp4)
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
@@ -150,7 +150,7 @@ class DinurFirst(MQAlgorithm):
         h = self._h
         return h + log2(time)
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
@@ -176,7 +176,7 @@ class DinurFirst(MQAlgorithm):
         memory = log2(48 * n + 1) + floor((1 - kappa) * n)
         return memory
 
-    def _compute_tilde_o_time_complexity(self, parameters):
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
         Return the Ō time complexity of the algorithm for a given set of parameters
 
@@ -200,7 +200,7 @@ class DinurFirst(MQAlgorithm):
         h = self._h
         return h + 0.6943 * n
 
-    def _compute_tilde_o_memory_complexity(self, parameters):
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
         Return the Ō memory complexity of the algorithm for a given set of parameters
 

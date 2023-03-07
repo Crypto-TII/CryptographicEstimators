@@ -1,4 +1,3 @@
-
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator import degree_of_regularity
@@ -58,7 +57,7 @@ class F5(MQAlgorithm):
         """
         return self._degrees
 
-    def time_complexity(self, **kwargs):
+    def time_complexity(self):
         """
         Return the time complexity of the F5 algorithm
 

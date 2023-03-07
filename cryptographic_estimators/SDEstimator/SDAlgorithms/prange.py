@@ -5,6 +5,7 @@ from ...helper import memory_access_cost, ComplexityType
 from ..sd_constants import *
 from ..SDWorkfactorModels.prange import PrangeScipyModel
 
+
 class Prange(SDAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
         """
@@ -60,5 +61,7 @@ class Prange(SDAlgorithm):
         return time, memory
 
     def __repr__(self):
+        """
+        """
         rep = "Prange estimator for " + str(self.problem)
         return rep
