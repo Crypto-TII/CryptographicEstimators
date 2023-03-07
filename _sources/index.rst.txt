@@ -13,85 +13,11 @@ TII cryptanalysis library following SageMath guidelines.
 
 .. toctree::
 
-    base_algorithm
-    base_constants
-    base_estimator
     helper
     base_problem
-
------------
-SEEstimator
------------
-
-.. toctree::
-
-    SEEstimator/se_problem
-    SEEstimator/se_algorithm
-    SEEstimator/se_estimator
-
-SEAlgorithms
-============
-
-.. toctree::
-
-    SEEstimator/SEAlgorithms/sample
-
------------
-MQEstimator
------------
-
-.. toctree::
-
-    MQEstimator/mq_helper
-    MQEstimator/witness_degree
-    MQEstimator/mq_algorithm
-    MQEstimator/mq_estimator
-    MQEstimator/mq_constants
-    MQEstimator/degree_of_regularity
-    MQEstimator/mq_problem
-
-series
-======
-
-.. toctree::
-
-    MQEstimator/series/hilbert
-    MQEstimator/series/nmonomial
-
-MQAlgorithms
-============
-
-.. toctree::
-
-    MQEstimator/MQAlgorithms/boolean_solve_fxl
-    MQEstimator/MQAlgorithms/exhaustive_search
-    MQEstimator/MQAlgorithms/mht
-    MQEstimator/MQAlgorithms/bjorklund
-    MQEstimator/MQAlgorithms/kpg
-    MQEstimator/MQAlgorithms/cgmta
-    MQEstimator/MQAlgorithms/dinur2
-    MQEstimator/MQAlgorithms/crossbred
-    MQEstimator/MQAlgorithms/lokshtanov
-    MQEstimator/MQAlgorithms/f5
-    MQEstimator/MQAlgorithms/hybrid_f5
-    MQEstimator/MQAlgorithms/dinur1
-
------------
-LEEstimator
------------
-
-.. toctree::
-
-    LEEstimator/le_problem
-    LEEstimator/le_estimator
-    LEEstimator/le_algorithm
-
-LEAlgorithms
-============
-
-.. toctree::
-
-    LEEstimator/LEAlgorithms/sample
+    base_constants
+    base_algorithm
+    base_estimator
 
 -----------
 PEEstimator
@@ -99,9 +25,9 @@ PEEstimator
 
 .. toctree::
 
-    PEEstimator/pe_algorithm
     PEEstimator/pe_estimator
     PEEstimator/pe_problem
+    PEEstimator/pe_algorithm
 
 PEAlgorithms
 ============
@@ -116,9 +42,9 @@ PKEstimator
 
 .. toctree::
 
+    PKEstimator/pk_algorithm
     PKEstimator/pk_problem
     PKEstimator/pk_estimator
-    PKEstimator/pk_algorithm
 
 PKAlgorithms
 ============
@@ -128,31 +54,71 @@ PKAlgorithms
     PKEstimator/PKAlgorithms/sample
 
 -----------
+MQEstimator
+-----------
+
+.. toctree::
+
+    MQEstimator/mq_helper
+    MQEstimator/degree_of_regularity
+    MQEstimator/mq_algorithm
+    MQEstimator/mq_constants
+    MQEstimator/witness_degree
+    MQEstimator/mq_estimator
+    MQEstimator/mq_problem
+
+MQAlgorithms
+============
+
+.. toctree::
+
+    MQEstimator/MQAlgorithms/crossbred
+    MQEstimator/MQAlgorithms/dinur2
+    MQEstimator/MQAlgorithms/hybrid_f5
+    MQEstimator/MQAlgorithms/kpg
+    MQEstimator/MQAlgorithms/cgmta
+    MQEstimator/MQAlgorithms/bjorklund
+    MQEstimator/MQAlgorithms/exhaustive_search
+    MQEstimator/MQAlgorithms/boolean_solve_fxl
+    MQEstimator/MQAlgorithms/lokshtanov
+    MQEstimator/MQAlgorithms/mht
+    MQEstimator/MQAlgorithms/f5
+    MQEstimator/MQAlgorithms/dinur1
+
+series
+======
+
+.. toctree::
+
+    MQEstimator/series/hilbert
+    MQEstimator/series/nmonomial
+
+-----------
 SDEstimator
 -----------
 
 .. toctree::
 
-    SDEstimator/sd_problem
+    SDEstimator/sd_helper
     SDEstimator/sd_estimator
     SDEstimator/sd_constants
+    SDEstimator/sd_problem
     SDEstimator/sd_algorithm
-    SDEstimator/sd_helper
 
 SDAlgorithms
 ============
 
 .. toctree::
 
+    SDEstimator/SDAlgorithms/bjmm_pdw
+    SDEstimator/SDAlgorithms/prange
+    SDEstimator/SDAlgorithms/bjmm_dw
+    SDEstimator/SDAlgorithms/ball_collision
+    SDEstimator/SDAlgorithms/stern
+    SDEstimator/SDAlgorithms/both_may
+    SDEstimator/SDAlgorithms/dumer
     SDEstimator/SDAlgorithms/may_ozerov
     SDEstimator/SDAlgorithms/bjmm
-    SDEstimator/SDAlgorithms/both_may
-    SDEstimator/SDAlgorithms/bjmm_dw
-    SDEstimator/SDAlgorithms/bjmm_pdw
-    SDEstimator/SDAlgorithms/stern
-    SDEstimator/SDAlgorithms/prange
-    SDEstimator/SDAlgorithms/dumer
-    SDEstimator/SDAlgorithms/ball_collision
 
 SDWorkfactorModels
 ==================
@@ -160,13 +126,47 @@ SDWorkfactorModels
 .. toctree::
 
     SDEstimator/SDWorkfactorModels/workfactor_helper
+    SDEstimator/SDWorkfactorModels/prange
+    SDEstimator/SDWorkfactorModels/ball_collision
+    SDEstimator/SDWorkfactorModels/stern
+    SDEstimator/SDWorkfactorModels/both_may
+    SDEstimator/SDWorkfactorModels/dumer
     SDEstimator/SDWorkfactorModels/may_ozerov
     SDEstimator/SDWorkfactorModels/bjmm
-    SDEstimator/SDWorkfactorModels/both_may
-    SDEstimator/SDWorkfactorModels/stern
-    SDEstimator/SDWorkfactorModels/prange
-    SDEstimator/SDWorkfactorModels/dumer
-    SDEstimator/SDWorkfactorModels/ball_collision
+
+-----------
+SEEstimator
+-----------
+
+.. toctree::
+
+    SEEstimator/se_estimator
+    SEEstimator/se_problem
+    SEEstimator/se_algorithm
+
+SEAlgorithms
+============
+
+.. toctree::
+
+    SEEstimator/SEAlgorithms/sample
+
+-----------
+LEEstimator
+-----------
+
+.. toctree::
+
+    LEEstimator/le_estimator
+    LEEstimator/le_problem
+    LEEstimator/le_algorithm
+
+LEAlgorithms
+============
+
+.. toctree::
+
+    LEEstimator/LEAlgorithms/sample
 
 --------------
 DummyEstimator
@@ -175,8 +175,8 @@ DummyEstimator
 .. toctree::
 
     DummyEstimator/dummy_algorithm
-    DummyEstimator/dummy_estimator
     DummyEstimator/dummy_problem
+    DummyEstimator/dummy_estimator
 
 DummyAlgorithms
 ===============
