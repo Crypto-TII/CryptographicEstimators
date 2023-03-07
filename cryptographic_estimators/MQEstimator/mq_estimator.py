@@ -25,8 +25,8 @@ class MQEstimator(BaseEstimator):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator import MQEstimator
-            sage: E = MQEstimator(q=2, m=42, n=41, memory_bound=45) # long time
-            sage: E.table()
+            sage: E = MQEstimator(q=2, m=42, n=41, memory_bound=45)
+            sage: E.table() # long time
             +------------------+---------------+
             |                  |    estimate   |
             +------------------+------+--------+
