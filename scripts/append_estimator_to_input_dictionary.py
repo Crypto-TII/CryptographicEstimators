@@ -3,13 +3,14 @@ This module appends the structure for the new estimator into the input_dicitonar
 """
 
 
-import os
-
-
 class AppendEstimator():
-    def __init__(self, estimator_prefix):
-        self.upper_estimator_prefix = estimator_prefix.upper()
-        self.lower_estimator_prefix = estimator_prefix.lower()
+    def __init__(self):
+        estimator_prefix = input(
+            "Enter a prefix for your Estimator (For example for SyndromeDecoding we use SD): ")
+        self.estimator_prefix = estimator_prefix
+        self.estimator_label = input("Enter the estimator full name: ")
+        self.upper_estimator_prefix = self.estimator_prefix.upper()
+        self.lower_estimator_prefix = self.estimator_prefix.lower()
 
     def write(self):
         f = open("./input_dictionary.json", "rb+")
@@ -23,7 +24,7 @@ class AppendEstimator():
         template = f"{tabs}"+"{\n" + \
             f"{tabs}" + f"\"estimator_id\": \"{self.upper_estimator_prefix}Estimator\",\n" + \
             f"{tabs}" + f"\"algorithm_id\": \"{self.upper_estimator_prefix}Algorithm\",\n" + \
-            f"{tabs}" + "\"display_label\": \"Dummy Problem Estimator\",\n" + \
+            f"{tabs}" + f"\"display_label\": \"{self.estimator_label}\",\n" + \
             f"{tabs}" + "\"landing_page_content\": \"# Dummy Markdown + Tex Landing Page\",\n" + \
             self.get_problem_parameters() + \
             self.get_estimators_parameters() + \
@@ -41,7 +42,7 @@ class AppendEstimator():
             f"{tabs}" * 4 + "\"type\": \"number\",\n" + \
             f"{tabs}" * 4 + "\"display_label\": \"Parameter 1\",\n" + \
             f"{tabs}" * 4 + "\"placeholder\": \"Insert parameter\",\n" + \
-            f"{tabs}" * 4 + "\"tooltip\": \"This is the first problem parameter\",\n" + \
+            f"{tabs}" * 4 + "\"tooltip\": \"This is the first problem parameter\"\n" + \
             f"{tabs}" * 3 + "}\n" + \
             f"{tabs}" * 2 + "],\n"
         return template
@@ -65,5 +66,9 @@ class AppendEstimator():
 
     def get_algorithms_init_content(self):
         template = f"from .sample import Sample\n" + \
-                    "# TODO: Remember to add the algorithms to the import above"
+            "# TODO: Remember to add the algorithms to the import above"
         return template
+
+
+ae = AppendEstimator()
+ae.write()

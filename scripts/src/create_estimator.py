@@ -22,7 +22,8 @@ class CreateEstimator(BaseFileCreator):
         """
         template = f"from ..{self.uppercase_prefix}Estimator.{self.lowercase_prefix}_algorithm import {self.uppercase_prefix}Algorithm\n" + \
             f"from ..{self.uppercase_prefix}Estimator.{self.lowercase_prefix}_problem import {self.uppercase_prefix}Problem\n" + \
-            "from ..base_estimator import BaseEstimator\n\n\n"
+            f"from ..base_estimator import BaseEstimator\n" + \
+            "from math import inf\n\n\n"
         return template
 
     def _create_class(self):
@@ -30,6 +31,10 @@ class CreateEstimator(BaseFileCreator):
         Generates the class with the constructor
         """
         template = f"class {self.uppercase_prefix}Estimator(BaseEstimator):\n" + \
+            "\t\"\"\" \n\n" + \
+            "\tINPUT:\n\n" + \
+            "\t- ``excluded_algorithms`` -- a list/tuple of excluded algorithms (default: None)\n\n" + \
+            "\t\"\"\" \n" + \
             "\texcluded_algorithms_by_default = []\n\n"
         return template + self._create_constructor()
 
@@ -37,9 +42,9 @@ class CreateEstimator(BaseFileCreator):
         """
         Generates the __init__ method for the Estimator class
         """
-        template = "\tdef __init__(self, **kwargs): # Add estimator parameters\n" + \
+        template = "\tdef __init__(self, memory_bound=inf, **kwargs):  # Add problem parameters\n" + \
             "\t\tif not kwargs.get(\"excluded_algorithms\"):\n" + \
             "\t\t\tkwargs[\"excluded_algorithms\"] = []\n\n" + \
             "\t\tkwargs[\"excluded_algorithms\"] += self.excluded_algorithms_by_default\n" + \
-            f"\t\tsuper({self.uppercase_prefix}Estimator, self).__init__({self.uppercase_prefix}Algorithm, {self.uppercase_prefix}Problem(**kwargs), **kwargs)\n"
+            f"\t\tsuper({self.uppercase_prefix}Estimator, self).__init__({self.uppercase_prefix}Algorithm, {self.uppercase_prefix}Problem(memory_bound=memory_bound, **kwargs), **kwargs)\n"
         return template
