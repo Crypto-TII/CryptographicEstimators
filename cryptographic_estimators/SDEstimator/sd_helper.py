@@ -98,7 +98,7 @@ def _optimize_m4ri(n: int, k: int, mem=inf):
     return r
 
 
-def _mem_matrix(n: int, k: int, r: int):
+def _mem_matrix(n: int, k: int, r: int, q=2):
     """
     Memory usage of parity check matrix in vector space elements
 
@@ -107,6 +107,7 @@ def _mem_matrix(n: int, k: int, r: int):
     - ``n`` -- length of the code
     - ``k`` -- dimension of the code
     - ``r`` -- block size of M4RI procedure
+    - ``q`` -- base field size
 
     EXAMPLES::
 
@@ -114,7 +115,7 @@ def _mem_matrix(n: int, k: int, r: int):
         sage: _mem_matrix(n=100,k=20,r=0) # random
 
     """
-    return n - k + 2 ** r
+    return (n - k + 2 ** r) * log2(q)
 
 
 def _list_merge_complexity(L: float, l: int, hmap: bool, q=2, p=0):

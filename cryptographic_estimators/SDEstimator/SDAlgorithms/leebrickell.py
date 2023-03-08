@@ -109,12 +109,14 @@ class LeeBrickell(SDAlgorithm):
 
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w - par.p) - log2(binom(k, par.p))) - solutions, 0)
         Tg = log2(_gaussian_elimination_complexity(n, k, par.r))
-        time = Tp + Tg
+        L = log2(max(1, k*par.p))
+        time = Tp + Tg + L
         time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = Tg
+            verbose_information[VerboseInformation.LISTS.value] = [L]
 
         return time, memory
 
@@ -142,15 +144,18 @@ class LeeBrickell(SDAlgorithm):
         if self._are_parameters_invalid(parameters):
             return inf, inf
 
-        solutions = self.problem.nsolutions
-        memory = log2(_mem_matrix(n, k, par.r))
+        solutions = 0#self.problem.nsolutions
+        memory = log2(_mem_matrix(n, k, par.r, q))
 
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w - par.p) - log2(binom(k, par.p))) - solutions, 0)
-        Tg = log2(_gaussian_elimination_complexity(n, k, par.r))
-        L = log2(k*k*q)
+        Tg = log2(_gaussian_elimination_complexity(n, k, par.r)*log2(q))
+        L = 0
+        if par.p:
+            L = log2(binom(k, par.p) * log2(q))
+
         time = Tp + Tg + L
         time += memory_access_cost(memory, self.memory_access)
-
+        
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = Tg

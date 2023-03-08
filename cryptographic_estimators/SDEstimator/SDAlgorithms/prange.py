@@ -73,14 +73,14 @@ class Prange(SDAlgorithm):
         """
 
         n, k, w, q = self.problem.get_parameters()
-        solutions = self.problem.nsolutions
+        solutions = 0#self.problem.nsolutions
 
         r = parameters["r"]
-        memory = log2(_mem_matrix(n, k, r))
+        memory = log2(_mem_matrix(n, k, r, q))
 
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w)) - solutions, 0)
-        Tg = log2(_gaussian_elimination_complexity(n, k, r))
-        time = Tp + Tg*q
+        Tg = log2(_gaussian_elimination_complexity(n, k, r)*log2(q))
+        time = Tp + Tg
         time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:

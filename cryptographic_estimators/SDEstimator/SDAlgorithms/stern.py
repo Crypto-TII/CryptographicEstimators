@@ -192,8 +192,8 @@ class Stern(SDAlgorithm):
         if self._is_early_abort_possible(log2(L1)):
             return inf, inf
 
-        memory = log2(2 * L1 + _mem_matrix(n, k, par.r))
-        solutions = self.problem.nsolutions
+        memory = log2(2 * L1 + _mem_matrix(n, k, par.r, q))
+        solutions = 0#self.problem.nsolutions
 
         if memory > memory_bound:
             return inf, memory_bound + 1
@@ -201,15 +201,15 @@ class Stern(SDAlgorithm):
         Tp = max(0, log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p)) - \
                     log2(binom(k1, par.p)**2) - solutions)
 
-        Tg = log2(_gaussian_elimination_complexity(n, k, par.r))
+        Tg = log2(_gaussian_elimination_complexity(n, k, par.r)*log2(q))
         
         #ops=(n-k)^2*(n+k)\
         #  + ((k1-p+1)+(Anum+Bnum)*(q-1)^p)*l\
         #  + q/(q-1.)*(w-2*p+1)*2*p*(1+(q-2)/(q-1.))*\
         #    Anum*Bnum*(q-1)^(2*p)/q^l;
-        p = int(par.p)
-        l = int(par.l)
-        log2q=log2(q)
+        #p = int(par.p)
+        #l = int(par.l)
+        #log2q=log2(q)
 
         # naming follows: https://eprint.iacr.org/2009/589.pdf
         # actual bit operations of the match routine
@@ -230,7 +230,7 @@ class Stern(SDAlgorithm):
         #time = log2(T) + log2q + Tp + Tg
         #time += memory_access_cost(memory, self.memory_access)
         
-        time = Tp + Tg + log2(_list_merge_complexity(L1, par.l, self._hmap, q=q, p=p))
+        time = Tp + Tg + log2(_list_merge_complexity(L1, par.l, self._hmap, q=par.q, p=par.p))
         time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
