@@ -22,7 +22,7 @@ class SDEstimator(BaseEstimator):
 
     """
     
-    excluded_algorithms_by_default = [BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3]
+    excluded_algorithms_by_default = [BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3, LeeBrickell]
 
     def __init__(self, n: int, k: int, w: int, q=2, memory_bound=inf, **kwargs):
         if not kwargs.get("excluded_algorithms"):
