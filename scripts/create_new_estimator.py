@@ -8,7 +8,6 @@ from src.create_estimator import CreateEstimator
 from src.create_problem import CreateProblem
 from src.create_specific_algorithm import CreateSpecificAlgorithm
 from src.create_init import CreateInit
-from src.append_estimator_to_input_dictionary import AppendEstimator
 from src.create_constant import CreateConstants
 
 class EstimatorGenerator():
@@ -61,13 +60,6 @@ class EstimatorGenerator():
         print("# Creating init files...")
         CreateInit(self.estimator_prefix).write_estimator_init(self.estimator_path)
         CreateInit(self.estimator_prefix).write_algorithms_init(self.algorithms_path)
-    
-    def append_new_estimator_to_input_dictionary(self):
-        """
-        Append to the input dictionary a basic input structure
-        """
-        print("# Updating the input dictionary")
-        AppendEstimator(self.estimator_prefix).write()
 
     def done(self):
         """Prints a done message"""
@@ -79,5 +71,4 @@ eg = EstimatorGenerator()
 eg.create_estimator_folders()
 eg.create_estimator_files()
 eg.create_init_files()
-eg.append_new_estimator_to_input_dictionary()
 eg.done()

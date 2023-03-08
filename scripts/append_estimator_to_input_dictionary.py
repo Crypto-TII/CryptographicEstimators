@@ -3,13 +3,12 @@ This module appends the structure for the new estimator into the input_dicitonar
 """
 
 
-import os
-
-
 class AppendEstimator():
-    def __init__(self, estimator_prefix):
-        self.upper_estimator_prefix = estimator_prefix.upper()
-        self.lower_estimator_prefix = estimator_prefix.lower()
+    def __init__(self):
+        estimator_prefix = input("Enter a prefix for your Estimator (For example for SyndromeDecoding we use SD): ")
+        self.estimator_prefix = estimator_prefix
+        self.upper_estimator_prefix = self.estimator_prefix.upper()
+        self.lower_estimator_prefix = self.estimator_prefix.lower()
 
     def write(self):
         f = open("./input_dictionary.json", "rb+")
@@ -67,3 +66,7 @@ class AppendEstimator():
         template = f"from .sample import Sample\n" + \
                     "# TODO: Remember to add the algorithms to the import above"
         return template
+
+
+ae = AppendEstimator()
+ae.write()
