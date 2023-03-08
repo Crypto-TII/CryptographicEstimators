@@ -49,7 +49,8 @@ class BooleanSolveFXL(MQAlgorithm):
             if m < n:
                 raise ValueError("the no. of polynomials must be > than the no. of variables")
 
-        self.set_parameter_ranges('k', 0, n)
+        a = 0 if self.problem.is_overdefined_system() else 1
+        self.set_parameter_ranges('k', a, n)
 
     @optimal_parameter
     def k(self):
