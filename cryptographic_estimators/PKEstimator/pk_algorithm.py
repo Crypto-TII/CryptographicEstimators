@@ -17,4 +17,5 @@ class PKAlgorithm(BaseAlgorithm):
     def __repr__(self):
         """
         """
-        pass
+
+        return f"{self._name} estimator for the " + str(self.problem)

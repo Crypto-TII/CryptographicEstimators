@@ -1,6 +1,7 @@
 from ..PKEstimator.pk_algorithm import PKAlgorithm
 from ..PKEstimator.pk_problem import PKProblem
 from ..base_estimator import BaseEstimator
+from math import inf
 
 
 class PKEstimator(BaseEstimator):
@@ -9,21 +10,23 @@ class PKEstimator(BaseEstimator):
 
     INPUT:
 
-    - ``n`` -- code length
-    - ``k`` -- code dimension
+    - ``n`` -- columns of the matrix
+    - ``m`` -- rows of the matrix
+    - ``q`` -- size of the field
+    - ``ell`` -- rows of the matrix whose permutation should lie in the kernel
     - ``excluded_algorithms`` -- a list/tuple of excluded algorithms (default: None)
     - ``nsolutions`` -- no. of solutions
 
     """
     excluded_algorithms_by_default = []
 
-    def __init__(self, **kwargs):  # Add estimator parameters
+    def __init__(self, n: int, m: int, q: int, ell: int = 1, memory_bound=inf, **kwargs):
         if not kwargs.get("excluded_algorithms"):
             kwargs["excluded_algorithms"] = []
 
         kwargs["excluded_algorithms"] += self.excluded_algorithms_by_default
         super(PKEstimator, self).__init__(
-              PKAlgorithm, PKProblem(**kwargs), **kwargs)
+            PKAlgorithm, PKProblem(n, m, q, ell=ell, memory_bound=memory_bound, **kwargs), **kwargs)
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
               show_all_parameters=0, precision=1, truncate=0):
