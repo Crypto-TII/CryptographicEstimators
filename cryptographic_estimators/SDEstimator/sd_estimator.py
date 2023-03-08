@@ -67,22 +67,22 @@ class SDEstimator(BaseEstimator):
 
         TESTS:
             sage: from cryptographic_estimators.SDEstimator import SDEstimator
-            sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1, workfactor_accuracy=20)
-            sage: A.table(show_tilde_o_time=1, precision=1) # long time
+            sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1, workfactor_accuracy=10)
+            sage: A.table(show_tilde_o_time=1, precision=0) # long time
             +---------------+---------------+------------------+
             |               |    estimate   | tilde_o_estimate |
             +---------------+------+--------+-------+----------+
             | algorithm     | time | memory |  time |   memory |
             +---------------+------+--------+-------+----------+
-            | BallCollision | 23.8 |   15.6 |  10.8 |      3.2 |
-            | BJMMdw        | 23.8 |   14.5 |    -- |       -- |
-            | BJMMpdw       | 23.7 |   14.5 |    -- |       -- |
-            | BJMM          | 23.3 |   14.8 |   9.5 |      7.0 |
-            | BothMay       | 22.8 |   14.5 |   9.2 |      6.6 |
-            | Dumer         | 23.2 |   16.0 |  10.8 |      3.2 |
-            | MayOzerov     | 22.6 |   14.5 |   9.0 |      8.0 |
-            | Prange        | 28.9 |   12.9 |  11.2 |      0.0 |
-            | Stern         | 22.7 |   15.6 |  10.8 |      2.9 |
+            | BallCollision |   24 |     16 |    11 |        3 |
+            | BJMMdw        |   24 |     14 |    -- |       -- |
+            | BJMMpdw       |   24 |     15 |    -- |       -- |
+            | BJMM          |   23 |     15 |     9 |        7 |
+            | BothMay       |   23 |     14 |     9 |        7 |
+            | Dumer         |   23 |     16 |    11 |        3 |
+            | MayOzerov     |   23 |     15 |     9 |        8 |
+            | Prange        |   29 |     13 |    11 |        0 |
+            | Stern         |   23 |     16 |    11 |        3 |
             +---------------+------+--------+-------+----------+
 
             sage: from cryptographic_estimators.SDEstimator import SDEstimator
