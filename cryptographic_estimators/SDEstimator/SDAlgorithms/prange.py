@@ -32,8 +32,11 @@ class Prange(SDAlgorithm):
         self._name = "Prange"
         super(Prange, self).__init__(problem, **kwargs)
         self.scipy_model = PrangeScipyModel
+        
+        _, _, _, q = self.problem.get_parameters()
+        self._time_and_memory_complexity = self._time_and_memory_complexity_F2 if q == 2 else self._time_and_memory_complexity_Fq
 
-    def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
+    def _time_and_memory_complexity_F2(self, parameters: dict, verbose_information=None):
         """
         Return time complexity of Prange's algorithm for given set of parameters
 
@@ -52,6 +55,32 @@ class Prange(SDAlgorithm):
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w)) - solutions, 0)
         Tg = log2(_gaussian_elimination_complexity(n, k, r))
         time = Tp + Tg
+        time += memory_access_cost(memory, self.memory_access)
+
+        if verbose_information is not None:
+            verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
+            verbose_information[VerboseInformation.GAUSS.value] = Tg
+
+        return time, memory
+
+    def _time_and_memory_complexity_Fq(self, parameters: dict, verbose_information=None):
+        """
+        Return time complexity of Prange's algorithm for given set of parameters
+
+        INPUT:
+        -  ``parameters`` -- dictionary including parameters
+        -  ``verbose_information`` -- if set to a dictionary `permutations` and `gauß` will be returned.
+        """
+
+        n, k, w, q = self.problem.get_parameters()
+        solutions = self.problem.nsolutions
+
+        r = parameters["r"]
+        memory = log2(_mem_matrix(n, k, r))
+
+        Tp = max(log2(binom(n, w)) - log2(binom(n - k, w)) - solutions, 0)
+        Tg = log2(_gaussian_elimination_complexity(n, k, r))
+        time = Tp + Tg*q
         time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:

@@ -1,6 +1,6 @@
 from ..SDEstimator.sd_algorithm import SDAlgorithm
 from ..SDEstimator.sd_problem import SDProblem
-from ..SDEstimator.SDAlgorithms import BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3
+from ..SDEstimator.SDAlgorithms import *
 from ..base_estimator import BaseEstimator
 from math import inf
 
@@ -14,6 +14,7 @@ class SDEstimator(BaseEstimator):
     - ``n`` -- code length
     - ``k`` -- code dimension
     - ``w`` -- error weight
+    - ``q`` -- size of the base field
     - ``excluded_algorithms`` -- a list/tuple of excluded algorithms (default: None)
     - ``nsolutions`` -- no. of solutions
 
@@ -23,13 +24,17 @@ class SDEstimator(BaseEstimator):
     
     excluded_algorithms_by_default = [BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3]
 
-    def __init__(self, n: int, k: int, w: int, memory_bound=inf, **kwargs):
+    def __init__(self, n: int, k: int, w: int, q=2, memory_bound=inf, **kwargs):
         if not kwargs.get("excluded_algorithms"):
             kwargs["excluded_algorithms"] = []
+        
+        if q > 2:
+            # currently only allow: Prange
+            kwargs["excluded_algorithms"] += [BallCollision, BJMM, BothMay, Dumer, MayOzerov, BJMMdw, Stern, BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3]
+        else:
+            kwargs["excluded_algorithms"] += self.excluded_algorithms_by_default
 
-        kwargs["excluded_algorithms"] += self.excluded_algorithms_by_default
-
-        super(SDEstimator, self).__init__(SDAlgorithm, SDProblem(n, k, w, memory_bound=memory_bound, **kwargs), **kwargs)
+        super(SDEstimator, self).__init__(SDAlgorithm, SDProblem(n, k, w, q=q, memory_bound=memory_bound, **kwargs), **kwargs)
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
               show_all_parameters=0, precision=1, truncate=0):
