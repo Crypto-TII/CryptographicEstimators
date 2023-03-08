@@ -125,7 +125,15 @@ class LeeBrickell(SDAlgorithm):
 
         INPUT:
         -  ``parameters`` -- dictionary including parameters
-        -  ``verbose_information`` -- if set to a dictionary `permutations` and `gauß` will be returned.
+        -  ``verbose_information`` -- if set to a dictionary `permutations`,
+                                      `gauß` and `list` will be returned.
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import LeeBrickell
+            sage: from cryptographic_estimators.SDEstimator import SDProblem
+            sage: A = LeeBrickell(SDProblem(n=100,k=50,q=3,w=10))
+            sage: A.p()
 
         """
         n, k, w, q = self.problem.get_parameters()
@@ -137,13 +145,15 @@ class LeeBrickell(SDAlgorithm):
         memory = log2(_mem_matrix(n, k, par.r))
 
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w - par.p) - log2(binom(k, par.p))) - solutions, 0)
-        Tg = log2(_gaussian_elimination_complexity(n, k, par.r) * q)
-        time = Tp + Tg*q
+        Tg = log2(_gaussian_elimination_complexity(n, k, par.r))
+        L = log2(k*k*q)
+        time = Tp + Tg + L
         time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = Tg
+            verbose_information[VerboseInformation.LISTS.value] = [L]
 
         return time, memory
 
