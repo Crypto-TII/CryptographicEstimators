@@ -29,8 +29,8 @@ class SDEstimator(BaseEstimator):
             kwargs["excluded_algorithms"] = []
         
         if q > 2:
-            # currently only allow: Prange, LeeBrickell
-            kwargs["excluded_algorithms"] += [BallCollision, BJMM, BothMay, Dumer, MayOzerov, BJMMdw, Stern, BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3]
+            # currently only allow: Prange, LeeBrickell, Stern
+            kwargs["excluded_algorithms"] += [BallCollision, BJMM, BothMay, Dumer, MayOzerov, BJMMdw, BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3]
         else:
             kwargs["excluded_algorithms"] += self.excluded_algorithms_by_default
 
@@ -65,6 +65,7 @@ class SDEstimator(BaseEstimator):
             | BJMM          | 22.8 |   15.0 |
             | BothMay       | 22.8 |   14.7 |
             | Dumer         | 22.7 |   16.4 |
+            | LeeBrickell   | 28.3 |   12.7 |
             | MayOzerov     | 22.3 |   14.8 |
             | Prange        | 28.3 |   12.7 |
             | Stern         | 22.3 |   16.0 |

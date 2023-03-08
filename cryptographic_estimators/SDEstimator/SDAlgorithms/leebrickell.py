@@ -58,7 +58,7 @@ class LeeBrickell(SDAlgorithm):
             sage: from cryptographic_estimators.SDEstimator import SDProblem
             sage: A = LeeBrickell(SDProblem(n=100,k=50,w=10))
             sage: A.p()
-            2
+            0
         """
         return self._get_optimal_parameter("p")
 
@@ -134,6 +134,7 @@ class LeeBrickell(SDAlgorithm):
             sage: from cryptographic_estimators.SDEstimator import SDProblem
             sage: A = LeeBrickell(SDProblem(n=100,k=50,q=3,w=10))
             sage: A.p()
+            0
 
         """
         n, k, w, q = self.problem.get_parameters()

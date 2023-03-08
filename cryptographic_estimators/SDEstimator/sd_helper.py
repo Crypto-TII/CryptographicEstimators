@@ -117,7 +117,7 @@ def _mem_matrix(n: int, k: int, r: int):
     return n - k + 2 ** r
 
 
-def _list_merge_complexity(L: float, l: int, hmap: bool):
+def _list_merge_complexity(L: float, l: int, hmap: bool, q=2, p=0):
     """
     Complexity estimate of merging two lists exact
 
@@ -136,10 +136,12 @@ def _list_merge_complexity(L: float, l: int, hmap: bool):
 
     if L == 1:
         return 1
+
+    factor = (q-1)**(2*p)
     if not hmap:
-        return max(1, 2 * int(log2(L)) * L + L ** 2 // 2 ** l)
+        return max(1, 2 * int(log2(L)) * L + factor * L ** 2 // q ** l)
     else:
-        return 2 * L + L ** 2 // 2 ** l
+        return 2 * L + (factor * L ** 2) // q ** l
 
 
 def _indyk_motwani_complexity(L: float, l: int, w: int, hmap: bool):

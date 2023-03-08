@@ -35,6 +35,8 @@ class Stern(SDAlgorithm):
         super(Stern, self).__init__(problem, **kwargs)
         self.initialize_parameter_ranges()
         self.scipy_model = SternScipyModel
+        _, _, _, q = self.problem.get_parameters()
+        self._time_and_memory_complexity = self._time_and_memory_complexity_F2 if q == 2 else self._time_and_memory_complexity_Fq
 
     def initialize_parameter_ranges(self):
         """
@@ -97,7 +99,7 @@ class Stern(SDAlgorithm):
         """
         new_ranges = self._fix_ranges_for_already_set_parmeters()
 
-        n, k, w, _ = self.problem.get_parameters()
+        _, k, _, _ = self.problem.get_parameters()
         k1 = k//2
         for p in range(new_ranges["p"]["min"], min(k1, new_ranges["p"]["max"]), 2):
             L1 = binom(k1, p)
@@ -109,13 +111,15 @@ class Stern(SDAlgorithm):
                     continue
                 yield indices
 
-    def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
+    def _time_and_memory_complexity_F2(self, parameters: dict, verbose_information=None):
         """
-        Return time complexity of Sterns's algorithm for given set of parameters
+        Return time complexity of Sterns's algorithm over F2 for given set of
+        parameters
 
         INPUT:
         -  ``parameters`` -- dictionary including parameters
-        -  ``verbose_information`` -- if set to a dictionary `permutations` and `gauß` will be returned.
+        -  ``verbose_information`` -- if set to a dictionary `permutations`,
+                                      `gauß` and `list` will be returned.
         """
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
@@ -136,35 +140,103 @@ class Stern(SDAlgorithm):
         if memory > memory_bound:
             return inf, memory_bound + 1
 
-        Tp = max(0, log2(binom(n, w)) - log2(binom(n - k, w - 2 * par.p)
-                                             ) - log2(binom(k1, par.p) ** 2) - solutions)
+        Tp = max(0, log2(binom(n, w)) - log2(binom(n - k, w - 2 * par.p)) - \
+                    log2(binom(k1, par.p) ** 2) - solutions)
 
         # We use Indyk-Motwani (IM) taking into account the possibility of multiple existing solutions
         # with correct weight distribution, decreasing the amount of necessary projections
         # remaining_sol denotes the number of expected solutions per permutation
         # l_part_iterations is the expected number of projections need by IM to find one of those solutions
-
-        remaining_sol = (binom(n - k, w - 2 * par.p) * binom(k1, par.p) ** 2 * binom(n, w) // 2 ** (
-            n - k)) // binom(n,
-                             w)
-        l_part_iterations = binom(
-            n - k, w - 2 * par.p) // binom(n - k - par.l, w - 2 * par.p)
+        remaining_sol = (binom(n - k, w - 2 * par.p) * binom(k1, par.p)** 2 * binom(n, w) // 2 ** (n - k)) // binom(n, w)
+        l_part_iterations = binom(n - k, w - 2 * par.p) // binom(n - k - par.l, w - 2 * par.p)
 
         if remaining_sol > 0:
             l_part_iterations //= max(1, remaining_sol)
             l_part_iterations = max(1, l_part_iterations)
 
         Tg = _gaussian_elimination_complexity(n, k, par.r)
-        time = Tp + log2(Tg + _list_merge_complexity(L1,
-                         par.l, self._hmap) * l_part_iterations)
+        time = Tp + log2(Tg + _list_merge_complexity(L1, par.l, self._hmap) * l_part_iterations)
 
         time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
-            verbose_information[VerboseInformation.LISTS.value] = [
-                log2(L1), 2 * log2(L1) - par.l]
+            verbose_information[VerboseInformation.LISTS.value] = [log2(L1), 2 * log2(L1) - par.l]
+
+        return time, memory
+
+    def _time_and_memory_complexity_Fq(self, parameters: dict, verbose_information=None):
+        """
+        Return time complexity of Sterns's algorithm over Fq for given set of
+        parameters. Code originaly from
+            - https://github.com/secomms/pkpattack/blob/main/cost_isd.sage
+        which was adapted from:
+            - https://github.com/christianepeters/isdfq/blob/master/isdfq.gp
+
+        INPUT:
+        -  ``parameters`` -- dictionary including parameters
+        -  ``verbose_information`` -- if set to a dictionary `permutations`,
+                                      `gauß` and `list` will be returned.
+        """
+        n, k, w, q = self.problem.get_parameters()
+        par = SimpleNamespace(**parameters)
+        k1 = k // 2
+
+        if self._are_parameters_invalid(parameters):
+            return inf, inf
+
+        memory_bound = self.problem.memory_bound
+
+        L1 = binom(k1, par.p)
+        if self._is_early_abort_possible(log2(L1)):
+            return inf, inf
+
+        memory = log2(2 * L1 + _mem_matrix(n, k, par.r))
+        solutions = self.problem.nsolutions
+
+        if memory > memory_bound:
+            return inf, memory_bound + 1
+
+        Tp = max(0, log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p)) - \
+                    log2(binom(k1, par.p)**2) - solutions)
+
+        Tg = log2(_gaussian_elimination_complexity(n, k, par.r))
+        
+        #ops=(n-k)^2*(n+k)\
+        #  + ((k1-p+1)+(Anum+Bnum)*(q-1)^p)*l\
+        #  + q/(q-1.)*(w-2*p+1)*2*p*(1+(q-2)/(q-1.))*\
+        #    Anum*Bnum*(q-1)^(2*p)/q^l;
+        p = int(par.p)
+        l = int(par.l)
+        log2q=log2(q)
+
+        # naming follows: https://eprint.iacr.org/2009/589.pdf
+        # actual bit operations of the match routine
+        # bit cost for comuting y, V_A and V_B
+        #T1 = ((k1 - p + 1) + (2*L1)*(q-1)**p) * l
+        # computation cost for each collision (after expected this number of bit operations we know if its not a solution) 
+        #T2 = max(1, q/(q-1.)*(w-2*p+1)*2*p*(1+(q-2)/(q-1)))
+        # number of collision Expected
+        #T3 = L1**2 * (q-1)**(2*p)/(q**l)
+        #if L1 == 1:
+        #    T = 1
+        #else:
+        #    if not self._hmap:
+        #        T = max(1, 2 * int(log2(L1)) * L1 +  (q-1)**(2*p) * L1 ** 2 // q ** l)
+        #    else:
+        #        T = 2 * L1 + ((q-1)**(2*p) * L1**2) // q**l
+        #        print(log2(T), p, l, Tp, log2(L1), memory)
+        #time = log2(T) + log2q + Tp + Tg
+        #time += memory_access_cost(memory, self.memory_access)
+        
+        time = Tp + Tg + log2(_list_merge_complexity(L1, par.l, self._hmap, q=q, p=p))
+        time += memory_access_cost(memory, self.memory_access)
+
+        if verbose_information is not None:
+            verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
+            verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
+            verbose_information[VerboseInformation.LISTS.value] = [log2(L1)]# TODO, log2((q-1)**(2*p) * L1 ** 2 // q ** l)]
 
         return time, memory
 
