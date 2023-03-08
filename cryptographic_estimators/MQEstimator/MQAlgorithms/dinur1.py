@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from ...base_algorithm import optimal_parameter
 from ...MQEstimator.mq_helper import sum_of_binomial_coefficients
 from ...MQEstimator.mq_algorithm import MQAlgorithm

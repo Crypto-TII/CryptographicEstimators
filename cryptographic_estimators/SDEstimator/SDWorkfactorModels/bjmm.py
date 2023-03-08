@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from .scipy_model import ScipyModel
 from ..sd_problem import SDProblem
 from .workfactor_helper import representations_asymptotic, binomial_approximation

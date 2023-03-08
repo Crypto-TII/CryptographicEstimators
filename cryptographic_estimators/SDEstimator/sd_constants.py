@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from enum import Enum
 
 SD_CODE_LENGTH = "code length"

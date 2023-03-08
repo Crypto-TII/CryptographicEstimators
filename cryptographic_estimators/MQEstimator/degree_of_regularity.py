@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from ..MQEstimator.series.hilbert import HilbertSeries
 
 

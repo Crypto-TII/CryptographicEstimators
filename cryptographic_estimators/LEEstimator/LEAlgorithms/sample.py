@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from ...LEEstimator.le_algorithm import LEAlgorithm
 from ...LEEstimator.le_problem import LEProblem
 

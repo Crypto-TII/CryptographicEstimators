@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from random import uniform as ru
 from math import log2
 from scipy.optimize import fsolve

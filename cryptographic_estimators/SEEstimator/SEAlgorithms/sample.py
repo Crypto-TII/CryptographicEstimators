@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from ...SEEstimator.se_algorithm import SEAlgorithm
 from ...SEEstimator.se_problem import SEProblem
 

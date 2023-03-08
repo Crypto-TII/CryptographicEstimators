@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from ..base_problem import BaseProblem
 from math import log2
 

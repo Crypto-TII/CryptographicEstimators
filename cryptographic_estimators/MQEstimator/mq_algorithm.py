@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from ..base_algorithm import BaseAlgorithm
 from .mq_problem import MQProblem
 from sage.arith.misc import is_prime_power

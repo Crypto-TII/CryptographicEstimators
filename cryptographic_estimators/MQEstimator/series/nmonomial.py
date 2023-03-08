@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from sage.arith.misc import is_prime_power
 from sage.rings.power_series_ring import PowerSeriesRing
 from sage.rings.all import QQ

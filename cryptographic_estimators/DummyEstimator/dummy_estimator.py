@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from .dummy_algorithm import DummyAlgorithm
 from .dummy_problem import DummyProblem
 from ..base_estimator import BaseEstimator

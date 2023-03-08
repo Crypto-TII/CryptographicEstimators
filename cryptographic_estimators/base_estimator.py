@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from .helper import concat_all_tables, round_or_truncate, ComplexityType
 from prettytable import PrettyTable
 from typing import Union, Callable

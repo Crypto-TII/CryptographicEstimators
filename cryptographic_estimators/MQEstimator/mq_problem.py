@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from ..base_problem import BaseProblem
 from ..MQEstimator.mq_helper import ngates
 from math import log2

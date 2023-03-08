@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from ..helper import ComplexityType
 from ..base_algorithm import BaseAlgorithm, optimal_parameter
 from ..SDEstimator.sd_helper import _optimize_m4ri

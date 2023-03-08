@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from ..PEEstimator.pe_algorithm import PEAlgorithm
 from ..PEEstimator.pe_problem import PEProblem
 from ..base_estimator import BaseEstimator

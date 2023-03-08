@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from ...MQEstimator.series.nmonomial import NMonomialSeries
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator.mq_algorithm import MQAlgorithm

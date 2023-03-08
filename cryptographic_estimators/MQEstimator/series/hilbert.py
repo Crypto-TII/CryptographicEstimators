@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from sage.all import ZZ, QQ
 from sage.misc.misc_c import prod
 from sage.rings.power_series_ring import PowerSeriesRing

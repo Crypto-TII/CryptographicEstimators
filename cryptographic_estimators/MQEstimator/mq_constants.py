@@ -1,4 +1,8 @@
 
+# Copyright 2023 
+
+
+
 MQ_NUMBER_VARIABLES = "number of variables"
 MQ_NUMBER_POLYNOMIALS = "number of polynomials"
 MQ_FIELD_SIZE = "field size"

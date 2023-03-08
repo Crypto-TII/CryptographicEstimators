@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 import collections
 from .scipy_model import ScipyModel
 from ..sd_problem import SDProblem

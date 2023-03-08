@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator import degree_of_regularity

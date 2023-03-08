@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from ..MQEstimator.series.nmonomial import NMonomialSeries
 from math import log2
 from sage.arith.misc import is_prime_power

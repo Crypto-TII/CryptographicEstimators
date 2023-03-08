@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from ...SDEstimator.sd_algorithm import SDAlgorithm
 from ...SDEstimator.sd_problem import SDProblem
 from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matrix, binom, log2

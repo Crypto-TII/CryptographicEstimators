@@ -1,3 +1,7 @@
+
+# Copyright 2023 
+
+
 from ...base_algorithm import optimal_parameter
 from ...SDEstimator.sd_algorithm import SDAlgorithm
 from ...SDEstimator.sd_problem import SDProblem
