@@ -1,25 +1,23 @@
 # ****************************************************************************
 # 		Copyright 2023 Technology Innovation Institute
-# 
+#
 # 	This program is free software: you can redistribute it and/or modify
 # 	it under the terms of the GNU General Public License as published by
 # 	the Free Software Foundation, either version 3 of the License, or
 # 	(at your option) any later version.
-# 
+#
 # 	This program is distributed in the hope that it will be useful,
 # 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 # 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # 	GNU General Public License for more details.
-# 
+#
 # 	You should have received a copy of the GNU General Public License
 # 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
 
 
 from ..base_problem import BaseProblem
 from math import log2
-
 
 
 class DummyProblem(BaseProblem):
@@ -39,12 +37,14 @@ class DummyProblem(BaseProblem):
 
         # implement restrictions if apply e.g.
         if problem_parameter1 < problem_parameter2:
-            raise ValueError("Parameter1 needs to be larger or equal than Parameter2")
+            raise ValueError(
+                "Parameter1 needs to be larger or equal than Parameter2")
 
         self.parameters["Parameter1"] = problem_parameter1
         self.parameters["Parameter2"] = problem_parameter2
 
-        self.nsolutions = kwargs.get("nsolutions", max(self.expected_number_solutions(), 0))
+        self.nsolutions = kwargs.get("nsolutions", max(
+            self.expected_number_solutions(), 0))
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """
@@ -94,5 +94,3 @@ class DummyProblem(BaseProblem):
               + "(" + str(par1) + "," + str(par2) + ")"
 
         return rep
-
-
