@@ -57,4 +57,4 @@ docker-doc:
 	@make mount-volume-and-run && make generate-documentation && make stop-container
 
 docker-test:
-	@docker run --name container-for-test -d -it ${image_name} sh && docker exec container-for-test sage -t -T 3600 --nthreads 4 --force-lib cryptographic_estimators && docker stop container-for-test
+	@docker run --name container-for-test -d -it ${image_name} sh && docker exec container-for-test sage -t --long -T 3600 --nthreads 4 --force-lib cryptographic_estimators && docker stop container-for-test
