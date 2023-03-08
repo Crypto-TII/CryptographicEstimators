@@ -9,6 +9,7 @@ from src.create_problem import CreateProblem
 from src.create_specific_algorithm import CreateSpecificAlgorithm
 from src.create_init import CreateInit
 from src.append_estimator_to_input_dictionary import AppendEstimator
+from src.create_constant import CreateConstants
 
 class EstimatorGenerator():
     """
@@ -50,6 +51,7 @@ class EstimatorGenerator():
         CreateProblem(self.estimator_prefix, self.estimator_path).write()
         CreateEstimator(self.estimator_prefix, self.estimator_path).write()
         CreateAlgorithm(self.estimator_prefix, self.estimator_path).write()
+        CreateConstants(self.estimator_prefix, self.estimator_path).write()
         CreateSpecificAlgorithm(self.estimator_prefix, self.algorithms_path).write()
 
     def create_init_files(self):
