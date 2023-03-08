@@ -30,6 +30,7 @@ class BaseAlgorithm:
         self._memory_complexity = None
         self._parameter_ranges = dict()
         self._optimal_parameters_methods = self._get_optimal_parameter_methods_()
+        self._current_minimum_for_early_abort = inf
         for i in self._optimal_parameters_methods:
             self._parameter_ranges[i.__name__] = {}
 
@@ -215,6 +216,15 @@ class BaseAlgorithm:
 
         return [f[0] for f in members]
 
+    def _is_early_abort_possible(self, time_lower_bound: float):
+        """
+        checks whether the current time lower bound is below the
+        early exit limit
+        """
+        if time_lower_bound > self._current_minimum_for_early_abort:
+            return True
+        return False
+
     def _find_optimal_parameters(self):
         """
         Enumerates all valid parameter configurations within the _parameter_ranges and saves the best
@@ -231,8 +241,10 @@ class BaseAlgorithm:
 
             if tmp_time < time and tmp_memory <= self.problem.memory_bound:
                 time, memory = tmp_time, tmp_memory
+                self._current_minimum_for_early_abort = tmp_time
                 for i in params:
                     self._optimal_parameters[i] = params[i]
+        self._current_minimum_for_early_abort = inf
 
     def _get_optimal_parameter(self, key: str):
         """

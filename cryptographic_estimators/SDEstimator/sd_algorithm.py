@@ -51,15 +51,6 @@ class SDAlgorithm(BaseAlgorithm):
         """
         return NotImplementedError
 
-    def _is_early_abort_possible(self, time_lower_bound: float):
-        """
-        checks whether the current time lower bound is below the
-        early exit limit
-        """
-        if time_lower_bound > self._current_minimum_for_early_abort:
-            return True
-        return False
-
     def _find_optimal_parameters(self):
         """
         Enumerates over all valid parameter configurations withing the ranges
