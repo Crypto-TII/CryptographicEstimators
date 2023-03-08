@@ -21,9 +21,10 @@ class SDProblem(BaseProblem):
         super().__init__(**kwargs)
         if k > n:
             raise ValueError("k must be smaller or equal to n")
-        if w > n-k:
+        if w > n - k:
             raise ValueError("w must be smaller or equal to n-k")
-
+        if w <= 0 or k <= 0:
+            raise ValueError("w and k must be at least 1")
         self.parameters[SD_CODE_LENGTH] = n
         self.parameters[SD_CODE_DIMENSION] = k
         self.parameters[SD_ERROR_WEIGHT] = w
