@@ -124,7 +124,7 @@ class Crossbred(MQAlgorithm):
         return self._max_D
 
     @max_D.setter
-    def max_D(self, value):
+    def max_D(self, value: int):
         """
         Set new upper bound of the degree of the initial Macaulay matrix
 
@@ -137,7 +137,7 @@ class Crossbred(MQAlgorithm):
         self._max_D = value
         self.set_parameter_ranges('D', min_D, value)
 
-    def _ncols_in_preprocessing_step(self, k, D, d):
+    def _ncols_in_preprocessing_step(self, k: int, D: int, d: int):
         """
         Return the number of columns involve in the preprocessing step
 
@@ -168,7 +168,7 @@ class Crossbred(MQAlgorithm):
 
         return ncols
 
-    def _ncols_in_linearization_step(self, k, d):
+    def _ncols_in_linearization_step(self, k: int, d: int):
         """
         Return the number of columns involve in the linearization step
 
@@ -187,7 +187,7 @@ class Crossbred(MQAlgorithm):
         """
         return nmonomials_up_to_degree(d, k, q=self.problem.order_of_the_field())
 
-    def _admissible_parameter_series(self, k):
+    def _admissible_parameter_series(self, k: int):
         """
         Return a the series $S_k$ of admissible parameters
 
@@ -250,7 +250,7 @@ class Crossbred(MQAlgorithm):
             if k > new_ranges['k']["max"]:
                 stop = True
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
@@ -285,7 +285,7 @@ class Crossbred(MQAlgorithm):
         h = self._h
         return h * log2(q) + log2(complexity)
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
@@ -312,7 +312,7 @@ class Crossbred(MQAlgorithm):
         ncols_lin_step = self._ncols_in_linearization_step(k, d)
         return log2(ncols_pre_step ** 2 + ncols_lin_step ** 2)
 
-    def _compute_tilde_o_time_complexity(self, parameters):
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
         Return the Ō time complexity of the algorithm for a given set of parameters
 
@@ -342,9 +342,35 @@ class Crossbred(MQAlgorithm):
         h = self._h
         return h * log2(q) + log2(np ** 2 + q ** (n - k) * nl ** w)
 
-    def _compute_tilde_o_memory_complexity(self, parameters):
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
+        """
+        Return the Ō memory complexity of the algorithm for a given set of parameters
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
+            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
+            sage: E._compute_tilde_o_memory_complexity({'k': 4, 'D': 6, 'd':4})
+            12.892542816648552
+        """
         return self._compute_memory_complexity(parameters)
 
     def _find_optimal_tilde_o_parameters(self):
+        """
+
+        Return the optimal parameters to achive the optimal Ō time complexity.
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
+            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
+            sage: E._find_optimal_tilde_o_parameters()
+        """
         self._find_optimal_parameters()
 

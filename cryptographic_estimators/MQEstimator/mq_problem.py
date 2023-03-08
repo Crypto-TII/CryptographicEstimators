@@ -19,7 +19,7 @@ class MQProblem(BaseProblem):
 
     """
 
-    def __init__(self, n, m, q=None, **kwargs):
+    def __init__(self, n: int, m: int, q=None, **kwargs):
         super().__init__(**kwargs)
         self.parameters[MQ_NUMBER_VARIABLES] = n
         self.parameters[MQ_NUMBER_POLYNOMIALS] = m
@@ -27,7 +27,7 @@ class MQProblem(BaseProblem):
         self.nsolutions = kwargs.get("nsolutions", max(self.expected_number_solutions(), 0))
         self._theta = kwargs.get("theta", 2)
 
-    def to_bitcomplexity_time(self, basic_operations):
+    def to_bitcomplexity_time(self, basic_operations: float):
         """
         Returns the bit-complexity corresponding to basic_operations field multiplications
 
@@ -47,19 +47,27 @@ class MQProblem(BaseProblem):
 
     @property
     def theta(self):
+        """
+        returns the runtime of the algorithm
+        
+        """
         return self._theta
 
     @theta.setter
-    def theta(self, value):
+    def theta(self, value: float):
+        """
+        sets the runtime
+
+        """
         self._theta = value
 
-    def to_bitcomplexity_memory(self, elements_to_store):
+    def to_bitcomplexity_memory(self, elements_to_store: float):
         """
-        Returns the bit-complexity associated to a given number of basic-operations
+        Returns the memory bit-complexity associated to a given number of elements to store
 
         INPUT:
 
-        -``basic_operations`` -- number of basic operations (logarithmic)
+        -``elements_to_store`` -- number of basic memory operations (logarithmic)
 
         """
         q = self.parameters[MQ_FIELD_SIZE]
@@ -71,10 +79,8 @@ class MQProblem(BaseProblem):
         """
         Returns the logarithm of the expected number of existing solutions to the problem
 
-        INPUT:
-
-        - ``logarithmic`` -- to output the logarithm of the expected number of solutions (default: true)
         """
+        # TODO this seems wrong
         return 0
 
     def order_of_the_field(self):
@@ -117,6 +123,9 @@ class MQProblem(BaseProblem):
         return self.parameters[MQ_NUMBER_VARIABLES]
 
     def get_problem_parameters(self):
+        """
+        Returns n, m, q
+        """
         return self.parameters[MQ_NUMBER_VARIABLES], self.parameters[MQ_NUMBER_POLYNOMIALS], self.parameters[MQ_FIELD_SIZE]
 
     def is_overdefined_system(self):
@@ -166,6 +175,8 @@ class MQProblem(BaseProblem):
         return self.nvariables() == self.npolynomials()
 
     def __repr__(self):
+        """
+        """
         n, m, q = self.get_problem_parameters()
         rep = "MQ problem with (n,m,q) = " \
               + "(" + str(n) + "," + str(m) + "," + str(q) + ") over " + str(self.baseField)

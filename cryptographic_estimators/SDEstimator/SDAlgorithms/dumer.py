@@ -42,6 +42,10 @@ class Dumer(SDAlgorithm):
         self.scipy_model = DumerScipyModel
 
     def initialize_parameter_ranges(self):
+        """
+        initialize the parameter ranges for p, l to start the optimisation 
+        process.
+        """
         n, k, w, _ = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(w // 2, 20, s))
@@ -77,7 +81,11 @@ class Dumer(SDAlgorithm):
         """
         return self._get_optimal_parameter("p")
 
-    def _are_parameters_invalid(self, parameters):
+    def _are_parameters_invalid(self, parameters: dict):
+        """
+        return if the parameter set `parameters` is invalid
+
+        """
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
@@ -124,5 +132,7 @@ class Dumer(SDAlgorithm):
         return time, memory
 
     def __repr__(self):
+        """
+        """
         rep = "Dumer estimator for " + str(self.problem)
         return rep

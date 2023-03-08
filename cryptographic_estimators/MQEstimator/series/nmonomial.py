@@ -20,7 +20,7 @@ class NMonomialSeries(object):
         sage: NM
         Class for the number of monomials in the polynomial ring in 6 variables over F_5
     """
-    def __init__(self, n, q=None, max_prec=None):
+    def __init__(self, n: int, q=None, max_prec=None):
         self._n = n
         if max_prec is not None:
             self._max_prec = max_prec
@@ -66,7 +66,7 @@ class NMonomialSeries(object):
         """
         return self._series_up_to_degree
 
-    def nmonomials_of_degree(self, d):
+    def nmonomials_of_degree(self, d: int):
         """
         Return the number of monomials of degree `d`
 
@@ -87,7 +87,7 @@ class NMonomialSeries(object):
         
         raise ValueError(f'The degree d should be smaller than the precision of the series which is {self._max_prec}')
 
-    def nmonomials_up_to_degree(self, d):
+    def nmonomials_up_to_degree(self, d: int):
         """
         Return the number of monomials up to degree `d`
 
@@ -109,6 +109,8 @@ class NMonomialSeries(object):
         raise ValueError(f'The degree d should be smaller than the precision of the series which is {max_prec}')
 
     def __repr__(self):
+        """
+        """
         n = self._n
         q = self._q
         if q is None:

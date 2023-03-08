@@ -1,16 +1,17 @@
 from math import log2, comb, inf, ceil
 
 
-def binom(n, k):
+def binom(n: int, k: int):
     """
     binomial coefficient
     """
     return comb(int(n), int(k))
 
 
-def min_max(a, b, s):
+def min_max(a: int, b: int, s: bool):
     """
     Returns min(a,b) or max(a,b) depending on the switch s
+        s =  false        true
     """
     if s:
         return max(a, b)
@@ -18,7 +19,7 @@ def min_max(a, b, s):
         return min(a, b)
 
 
-def __truncate(x, precision):
+def __truncate(x: float, precision: int):
     """
     Truncates a float
 
@@ -32,7 +33,7 @@ def __truncate(x, precision):
     return float(int(x * 10 ** precision) / 10 ** precision)
 
 
-def __round_or_truncate_to_given_precision(T, M, truncate: bool, precision: int):
+def __round_or_truncate_to_given_precision(T: float, M: float, truncate: bool, precision: int):
     """
     rounds or truncates the inputs `T`, `M`
     INPUT:
@@ -48,7 +49,7 @@ def __round_or_truncate_to_given_precision(T, M, truncate: bool, precision: int)
     return '{:.{p}f}'.format(T, p=precision), '{:.{p}f}'.format(M, p=precision)
 
 
-def _gaussian_elimination_complexity(n, k, r):
+def _gaussian_elimination_complexity(n: int, k: int, r: int):
     """
     Complexity estimate of Gaussian elimination routine
 
@@ -77,7 +78,7 @@ def _gaussian_elimination_complexity(n, k, r):
     return (n - k) ** 2
 
 
-def _optimize_m4ri(n, k, mem=inf):
+def _optimize_m4ri(n: int, k: int, mem=inf):
     """
     Find optimal blocksize for Gaussian elimination via M4RI
 
@@ -97,7 +98,7 @@ def _optimize_m4ri(n, k, mem=inf):
     return r
 
 
-def _mem_matrix(n, k, r):
+def _mem_matrix(n: int, k: int, r: int):
     """
     Memory usage of parity check matrix in vector space elements
 
@@ -116,7 +117,7 @@ def _mem_matrix(n, k, r):
     return n - k + 2 ** r
 
 
-def _list_merge_complexity(L, l, hmap):
+def _list_merge_complexity(L: float, l: int, hmap: bool):
     """
     Complexity estimate of merging two lists exact
 
@@ -141,7 +142,7 @@ def _list_merge_complexity(L, l, hmap):
         return 2 * L + L ** 2 // 2 ** l
 
 
-def _indyk_motwani_complexity(L, l, w, hmap):
+def _indyk_motwani_complexity(L: float, l: int, w: int, hmap: bool):
     """
     Complexity of Indyk-Motwani nearest neighbor search
 
@@ -165,7 +166,7 @@ def _indyk_motwani_complexity(L, l, w, hmap):
     return binom(l, lam) // binom(l - w, lam) * _list_merge_complexity(L, lam, hmap)
 
 
-def _mitm_nn_complexity(L, l, w, hmap):
+def _mitm_nn_complexity(L: float, l: int, w: int, hmap: bool):
     """
     Complexity of Indyk-Motwani nearest neighbor search
 

@@ -38,12 +38,14 @@ class BothMay(SDAlgorithm):
         """
         super(BothMay, self).__init__(problem, **kwargs)
         self._name = "Both-May"
-        n, k, w, _ = self.problem.get_parameters()
         self.initialize_parameter_ranges()
         self.scipy_model = BothMayScipyModel
 
     def initialize_parameter_ranges(self):
-        n, k, w, _ = self.problem.get_parameters()
+        """
+        initialize the parameter ranges for p, p1, p2, l to start the optimisation 
+        process.
+        """
         self.set_parameter_ranges("p", 0, 20)
         self.set_parameter_ranges("p1", 0, 15)
         self.set_parameter_ranges("l", 0, 160)
@@ -125,7 +127,11 @@ class BothMay(SDAlgorithm):
         """
         return self._get_optimal_parameter("w2")
 
-    def _are_parameters_invalid(self, parameters):
+    def _are_parameters_invalid(self, parameters: dict):
+        """
+        return if the parameter set `parameters` is invalid
+
+        """
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
@@ -205,5 +211,7 @@ class BothMay(SDAlgorithm):
         return time, memory
 
     def __repr__(self):
+        """
+        """
         rep = "Both-May estimator in depth 2 for " + str(self.problem)
         return rep

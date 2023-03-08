@@ -7,7 +7,7 @@ from math import inf
 
 class SDEstimator(BaseEstimator):
     """
-    Construct an instance of SDEstimator
+    Construct an instance of Syndrome Decoding Estimator
 
     INPUT:
 
@@ -16,13 +16,14 @@ class SDEstimator(BaseEstimator):
     - ``w`` -- error weight
     - ``excluded_algorithms`` -- a list/tuple of excluded algorithms (default: None)
     - ``nsolutions`` -- no. of solutions
-    Maybe we should add the optional_parameters dictionary here?
+
+    TODO: Maybe we should add the optional_parameters dictionary here?
 
     """
     
     excluded_algorithms_by_default = [BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3]
 
-    def __init__(self, n, k, w, memory_bound=inf, **kwargs):
+    def __init__(self, n: int, k: int, w: int, memory_bound=inf, **kwargs):
         if not kwargs.get("excluded_algorithms"):
             kwargs["excluded_algorithms"] = []
 
@@ -30,7 +31,8 @@ class SDEstimator(BaseEstimator):
 
         super(SDEstimator, self).__init__(SDAlgorithm, SDProblem(n, k, w, memory_bound=memory_bound, **kwargs), **kwargs)
 
-    def table(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0):
+    def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
+              show_all_parameters=0, precision=1, truncate=0):
         """
         Print table describing the complexity of each algorithm and its optimal parameters
 
@@ -103,7 +105,7 @@ class SDEstimator(BaseEstimator):
             +---------------+---------+---------+------------------------------------------------------------+
 
         """
-        super(SDEstimator,self).table(show_quantum_complexity=show_quantum_complexity,
-                                      show_tilde_o_time=show_tilde_o_time,
-                                      show_all_parameters=show_all_parameters,
-                                      precision=precision, truncate=truncate)
+        super(SDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
+                                       show_tilde_o_time=show_tilde_o_time,
+                                       show_all_parameters=show_all_parameters,
+                                       precision=precision, truncate=truncate)

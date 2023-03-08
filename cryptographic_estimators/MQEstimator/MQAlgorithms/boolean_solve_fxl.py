@@ -1,4 +1,3 @@
-
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator import witness_degree
@@ -105,7 +104,7 @@ class BooleanSolveFXL(MQAlgorithm):
             elif indices['k'] > new_ranges['k']["max"] and variant == MQ_DETERMINISTIC:
                 stop = True
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
@@ -139,7 +138,7 @@ class BooleanSolveFXL(MQAlgorithm):
         h = self._h
         return log2(time_complexity) + h * log2(q)
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
@@ -176,7 +175,7 @@ class BooleanSolveFXL(MQAlgorithm):
 
         return log2(memory_complexity)
 
-    def _compute_tilde_o_time_complexity(self, parameters):
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
         Return the Ō time complexity of BooleanSolve and FXL algorithms
 
@@ -212,7 +211,7 @@ class BooleanSolveFXL(MQAlgorithm):
         complexity += self._h * log2(q)
         return complexity
 
-    def _compute_tilde_o_memory_complexity(self, parameters):
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
         Return the Ō time complexity of BooleanSolve and FXL algorithms
 
@@ -235,4 +234,14 @@ class BooleanSolveFXL(MQAlgorithm):
         return memory
 
     def _find_optimal_tilde_o_parameters(self):
+        """
+        Finds the optimal parameters.
+
+        TESTS::
+
+            sage: from  cryptographic_estimators.MQEstimator.MQAlgorithms.boolean_solve_fxl import BooleanSolveFXL
+            sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7))
+            sage: E._find_optimal_tilde_o_parameters()
+        """
         self._find_optimal_parameters()

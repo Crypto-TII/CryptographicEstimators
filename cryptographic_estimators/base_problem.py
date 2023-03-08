@@ -32,18 +32,18 @@ class BaseProblem(object):
 
         INPUT:
 
-        -``basic_operations`` -- number of basic operations (logarithmic)
+        - ``basic_operations`` -- number of basic operations (logarithmic)
 
         """
-        return basic_operations
+        return NotImplementedError
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
-        Returns the bit-complexity associated to a given number of basic-operations
+        Returns the memory bit-complexity associated to a given number of elements to store
 
         INPUT:
 
-        -``basic_operations`` -- number of basic operations (logarithmic)
+        - ``elements_to_store`` -- number of memory elements (logarithmic)
 
         """
-        return elements_to_store
+        return NotImplementedError
