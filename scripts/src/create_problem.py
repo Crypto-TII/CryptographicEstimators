@@ -30,8 +30,9 @@ class CreateProblem(BaseFileCreator):
         """
         Generates the __init__ method for the Problem class
         """
-        template = "\tdef __init__(self, **kwargs): # Fill with parameters\n" + \
-            "\t\tsuper().__init__(**kwargs)\n\n"
+        template = "\tdef __init__(self, **kwargs):  # Fill with parameters\n" + \
+            "\t\tsuper().__init__(**kwargs)\n\n" + \
+            "\t\tself.nsolutions = kwargs.get(\"nsolutions\", max(self.expected_number_solutions(), 0))\n\n"
         return template
 
     def _create_methods(self):
@@ -39,13 +40,30 @@ class CreateProblem(BaseFileCreator):
         Generates the methods to be ovewritten
         """
         template = "\tdef to_bitcomplexity_time(self, basic_operations):\n" + \
+            "\t\t\"\"\" \n" + \
+            "\t\tReturns the bit-complexity corresponding to basic_operations field additions\n\n" + \
+            "\t\tINPUT:\n\n" + \
+            "\t\t- ``basic_operations`` -- Number of field additions (logarithmic)\n\n" + \
+            "\t\t\"\"\" \n" + \
             "\t\tpass\n\n" + \
-            "\tdef to_bitcomplexity_memory(self, basic_operations):\n" + \
+            "\tdef to_bit_complexity_memory(self, elements_to_store):\n" + \
+            "\t\t\"\"\" \n" + \
+            "\t\tReturns the memory bit-complexity associated to a given number of elements to store\n\n" + \
+            "\t\tINPUT:\n\n" + \
+            "\t\t- ``elements_to_store`` -- number of elements to store (logarithmic)\n\n" + \
+            "\t\t\"\"\" \n" + \
             "\t\tpass\n\n" + \
             "\tdef expected_number_solutions(self):\n" + \
+            "\t\t\"\"\" \n" + \
+            "\t\t Returns the logarithm of the expected number of existing solutions to the problem\n\n" + \
+            "\t\t\"\"\" \n" + \
             "\t\tpass\n\n" + \
             "\tdef __repr__(self):\n" + \
+            "\t\t\"\"\" \n" + \
+            "\t\t\"\"\" \n" + \
             "\t\tpass\n\n" + \
             "\tdef get_parameters(self):\n" + \
+            "\t\t\"\"\" \n" + \
+            "\t\t\"\"\" \n" + \
             "\t\tpass\n\n"
         return template
