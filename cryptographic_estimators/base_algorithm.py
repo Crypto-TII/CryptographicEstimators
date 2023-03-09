@@ -391,7 +391,6 @@ class BaseAlgorithm:
         INPUT:
         
         - ``optimal_parameters`` -- if for each optimal parameter of the algorithm a value is provided the computation is done based on those parameters
-
         """
 
         if kwargs == {}:

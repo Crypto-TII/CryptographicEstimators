@@ -1,45 +1,40 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
-
 
 from ..helper import ComplexityType
 from ..base_algorithm import BaseAlgorithm, optimal_parameter
-from ..SDEstimator.sd_helper import _optimize_m4ri
-from .sd_problem import SDProblem
-from math import log2, inf
+from .sdfq_problem import SDFqProblem
+from .sdfq_helper import _optimize_m4ri
+from math import inf, log2
 
 
-class SDAlgorithm(BaseAlgorithm):
-    def __init__(self, problem: SDProblem, **kwargs):
-        """
-        Base class for Syndrome Decoding algorithms complexity estimator
+class SDFqAlgorithm(BaseAlgorithm):
+    """
+    Base class for Syndrome Decoding over FQ algorithms complexity estimator
 
-        INPUT:
+    INPUT:
 
-        - ``problem`` -- SDProblem object including all necessary parameters
-        - ``var_ranges`` -- allow parameter optimization to adapt ranges if necessary (default: true)
-        - ``hmap`` -- indicates if hashmap is being used for linear time sorting (default: true)
+    - ``problem`` -- SDFqProblem object including all necessary parameters
+    - ``var_ranges`` -- allow parameter optimization to adapt ranges if necessary (default: true)
 
-        """
-        super(SDAlgorithm, self).__init__(problem, **kwargs)
+    """
+
+    def __init__(self, problem: SDFqProblem, **kwargs):
+        super(SDFqAlgorithm, self).__init__(problem, **kwargs)
         self._variable_parameter_ranges = kwargs.get("var_ranges", 1)
         self._hmap = kwargs.get("hmap", 1)
         self._adjust_radius = kwargs.get("adjust_radius", 10)
@@ -47,9 +42,9 @@ class SDAlgorithm(BaseAlgorithm):
         self.scipy_model = None
         self.full_domain = kwargs.get("full_domain", False)
         self._current_minimum_for_early_abort = inf
-        n, k, _  = self.problem.get_parameters()
+        n, k, _, _ = self.problem.get_parameters()
         self.set_parameter_ranges("r", 0, n - k)
-
+    
     @optimal_parameter
     def r(self):
         """
@@ -153,6 +148,7 @@ class SDAlgorithm(BaseAlgorithm):
         """
         Computes time and memory complexity for given parameters
         """
+        print("what")
         raise NotImplementedError
 
     def _compute_time_complexity(self, parameters: dict):
@@ -227,3 +223,6 @@ class SDAlgorithm(BaseAlgorithm):
         verb = dict()
         _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)
         return verb
+    
+    def __repr__(self):
+        pass
