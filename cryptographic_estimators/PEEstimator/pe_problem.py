@@ -10,6 +10,7 @@ class PEProblem(BaseProblem):
 
     - ``n`` -- code length
     - ``k`` -- code dimension
+    - ``q`` -- field size
     - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
     """
 
