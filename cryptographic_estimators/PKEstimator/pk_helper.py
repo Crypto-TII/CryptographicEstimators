@@ -1,16 +1,9 @@
-from math import log2, floor, comb as binomial, inf
+from math import log2, floor, comb as binomial, inf, factorial
 from sage.rings.real_mpfr import RealField
-from sage.rings.integer import Integer
-
-RT = RealField(1000000)
 
 
 def gauss_binomial(m, r, q):
-    x = RT(1)
-    for i in range(r):
-        x = x * (1. - q ** (m - i * 1.)) / (1. - q ** (1. + i))
-
-    return x
+    return log2(q) * (r * (m - r))
 
 
 def peters_isd(q, n, k, w):
@@ -20,7 +13,7 @@ def peters_isd(q, n, k, w):
     mincost = 10000000
     bestp = 0
     bestl = 0
-    for p in range(1, 11):
+    for p in range(1, min(10,w//2)):
         Anum = binomial(x, p)
         Bnum = binomial(k - x, p)
         # for(l=1,floor(log(Anum)/log(q)+p*log(q-1)/log(q))+10,\
@@ -48,18 +41,20 @@ def peters_isd(q, n, k, w):
 
 def beullens_lee_brickell_adaptation(q, n, k, d, w, Nw):
     if w<d or n-w<k-d:
-        return inf
+        return 1000
     iterations = log2(binomial(n, k)) - log2(binomial(w, d)) - log2(binomial(n - w, k - d))
     c_iter = k ** 3 + binomial(k, d)
 
-    return log2(c_iter) + iterations
+    return log2(c_iter) + iterations - Nw
 
+def lof(x):
+    return log2(factorial(x))
 
 def cost_for_finding_subcode(q, n, k, d, w, Nw):
-    if d == 1:
-        c_isd = peters_isd(q, n, k, w)  # TODO: exchange with call to our SDEstimator
-    else:
+    # if d == 1:
+    #     c_isd = peters_isd(q, n, k, w)  # TODO: exchange with call to our SDEstimator
+    # else:
 
-        c_isd = beullens_lee_brickell_adaptation(q, n, k, d, w, Nw)
+    c_isd = beullens_lee_brickell_adaptation(q, n, k, d, w, Nw)
 
     return max(0, c_isd)
