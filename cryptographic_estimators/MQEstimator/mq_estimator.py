@@ -109,7 +109,7 @@ class MQEstimator(BaseEstimator):
             | algorithm        |  time | memory |              parameters              |  time | memory |              parameters              |
             +------------------+-------+--------+--------------------------------------+-------+--------+--------------------------------------+
             | BooleanSolveFXL  | 107.8 |   71.5 | {'k': 7, 'variant': 'deterministic'} |  98.4 |   70.4 | {'k': 7, 'variant': 'deterministic'} |
-            | Crossbred        |  93.6 |   89.7 |      {'D': 16, 'd': 7, 'k': 32}      |  88.1 |   87.7 |      {'D': 16, 'd': 7, 'k': 32}      |
+            | Crossbred        |  93.6 |   89.7 |      {'D': 16, 'd': 7, 'k': 32}      |  87.8 |   87.7 |      {'D': 16, 'd': 7, 'k': 32}      |
             | ExhaustiveSearch | 167.4 |   20.1 |                  {}                  | 164.0 |    0.0 |                  {}                  |
             | F5               | 111.1 |  109.9 |                  {}                  | 111.1 |  109.9 |                  {}                  |
             | HybridF5         |  99.2 |   72.4 |               {'k': 6}               |  95.2 |   70.4 |               {'k': 6}               |
