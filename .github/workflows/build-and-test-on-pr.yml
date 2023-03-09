@@ -27,7 +27,8 @@ jobs:
         with:
           context: .
           push: false
-          tags: user/estimators-lib:latest
+          load: true
+          tags: estimators-lib:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
