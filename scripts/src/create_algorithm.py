@@ -17,7 +17,7 @@ class CreateAlgorithm(BaseFileCreator):
         return self._create_imports() + self._create_class()
 
     def _create_imports(self):
-        return "from ..base_algorithm import BaseAlgorithm\n\n\n"
+        return "from ..base_algorithm import BaseAlgorithm, optimal_parameter\n\n\n"
 
     def _create_class(self):
         """
@@ -31,6 +31,7 @@ class CreateAlgorithm(BaseFileCreator):
         Generates the __init__ method for the Algorithm class
         """
         template = "\tdef __init__(self, problem, **kwargs):\n" + \
+            "\t\tself._name = \"sample_name\"\n" + \
             f"\t\tsuper({self.uppercase_prefix}Algorithm, self).__init__(problem, **kwargs)\n\n"
         return template
 
