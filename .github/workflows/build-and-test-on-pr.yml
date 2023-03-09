@@ -38,4 +38,4 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Run tests
-        run: docker image list
+        run: make docker-test
