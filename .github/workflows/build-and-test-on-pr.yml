@@ -14,11 +14,12 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Cache Docker layers
-        id: cache-layers
         uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
 
       - name: Build
         uses: docker/build-push-action@v4
@@ -26,9 +27,9 @@ jobs:
         with:
           context: .
           push: false
-          tags: estimators-lib:latest
+          tags: user/estimators-lib:latest
           cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
       - name: Move cache
         run: |
@@ -36,6 +37,4 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Run tests
-        run: |
-          echo ${{steps.built-image.outputs.imageid}}
-          sudo make cache-docker-test foo=${{steps.built-image.outputs.imageid}}
+        run: echo "image id " . ${{steps.built-image.outputs.imageid}}
