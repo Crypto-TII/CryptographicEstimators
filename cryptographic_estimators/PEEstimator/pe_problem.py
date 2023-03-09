@@ -43,7 +43,7 @@ class PEProblem(BaseProblem):
 
         """
         _, _, q = self.get_parameters()
-        elements_to_store + log2(q)
+        return elements_to_store + log2(q)
 
     def expected_number_solutions(self):
         """

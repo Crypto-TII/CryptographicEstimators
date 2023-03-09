@@ -203,6 +203,8 @@ class BaseEstimator(object):
 
         est[name][BASE_ESTIMATEO][BASE_TIME] = algorithm.time_complexity() if not isinf(
             algorithm.time_complexity()) else '--'
+
+        print(algorithm.memory_complexity())
         est[name][BASE_ESTIMATEO][BASE_MEMORY] = algorithm.memory_complexity() if not isinf(
             algorithm.memory_complexity()) else '--'
 
