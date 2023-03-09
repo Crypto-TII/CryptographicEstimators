@@ -42,7 +42,10 @@ doc:
 	@make clean-docs && make create-sphinx-config && make create-rst-files && make create-html-docs
 
 add-estimator:
-	@python3 scripts/create_new_estimator.py
+	@python3 scripts/create_new_estimator.py && make add-copyright
+
+append-new-estimator:
+	@python3 scripts/append_estimator_to_input_dictionary.py
 
 append-new-estimator:
 	@python3 scripts/append_estimator_to_input_dictionary.py
@@ -65,3 +68,5 @@ docker-test:
 cache-docker-test:
 	@docker run --name container-for-test -d -it $(foo) sh && docker exec container-for-test sage -t --long -T 3600 --nthreads 4 --force-lib cryptographic_estimators && docker stop container-for-test
 
+add-copyright:
+	@python3 scripts/create_copyright.py
