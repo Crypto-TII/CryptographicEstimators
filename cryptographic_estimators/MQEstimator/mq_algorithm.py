@@ -75,7 +75,10 @@ class MQAlgorithm(BaseAlgorithm):
         n, m = self.problem.nvariables(), self.problem.npolynomials()
         if self.problem.is_underdefined_system():
             alpha = floor(n / m)
-            self._n_reduced = m - alpha + 1
+            if m - alpha + 1 > 0:
+                self._n_reduced = m - alpha + 1
+            else:
+                self._n_reduced = m
         else:
             self._n_reduced = n
 

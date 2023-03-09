@@ -3,7 +3,7 @@ from ..MQEstimator.mq_helper import ngates
 from math import log2
 from sage.functions.other import ceil
 from .mq_constants import *
-
+from sage.arith.misc import is_prime_power
 
 class MQProblem(BaseProblem):
     """
@@ -19,7 +19,16 @@ class MQProblem(BaseProblem):
 
     """
 
-    def __init__(self, n: int, m: int, q=None, **kwargs):
+    def __init__(self, n: int, m: int, q:int, **kwargs):
+        if n < 1:
+            raise ValueError("n must be >= 1")
+
+        if m < 1:
+            raise ValueError("m must be >= 1")
+
+        if q is not None and not is_prime_power(q):
+            raise ValueError("q must be a prime power")
+
         super().__init__(**kwargs)
         self.parameters[MQ_NUMBER_VARIABLES] = n
         self.parameters[MQ_NUMBER_POLYNOMIALS] = m
