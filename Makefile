@@ -47,9 +47,6 @@ add-estimator:
 append-new-estimator:
 	@python3 scripts/append_estimator_to_input_dictionary.py
 
-append-new-estimator:
-	@python3 scripts/append_estimator_to_input_dictionary.py
-
 stop-container:
 	@docker stop container-for-docs
 
