@@ -31,7 +31,7 @@ class PEProblem(BaseProblem):
 
         """
         _, _, q = self.get_parameters()
-        return basic_operations + log2(q)
+        return basic_operations + log2(log2(q))
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
@@ -43,7 +43,7 @@ class PEProblem(BaseProblem):
 
         """
         _, _, q = self.get_parameters()
-        return elements_to_store + log2(q)
+        return elements_to_store + log2(log2(q))
 
     def expected_number_solutions(self):
         """

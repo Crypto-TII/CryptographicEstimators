@@ -4,6 +4,7 @@ from ...base_algorithm import optimal_parameter
 from ..pe_helper import gv_distance, number_of_weight_d_codewords, isd_cost
 from math import log, ceil, log2
 
+
 class Leon(PEAlgorithm):
 
     def __init__(self, problem: PEProblem, **kwargs):
@@ -40,11 +41,11 @@ class Leon(PEAlgorithm):
 
     def _compute_time_complexity(self, parameters):
         n, k, q = self.problem.get_parameters()
-        w=parameters["w"]
+        w = parameters["w"]
         N = number_of_weight_d_codewords(n, k, q, w)
 
         # todo exchange against call to Fq SD estimator
-        return isd_cost(n, k, q, parameters["w"])+log2(ceil(2*(0.57+log(N))))
+        return isd_cost(n, k, q, parameters["w"]) + log2(ceil(2 * (0.57 + log(N))))
 
     def _compute_memory_complexity(self, parameters):
         n, k, q = self.problem.get_parameters()

@@ -1,8 +1,9 @@
 from ...PEEstimator.pe_algorithm import PEAlgorithm
 from ...PEEstimator.pe_problem import PEProblem
 from ...base_algorithm import optimal_parameter
-from ..pe_helper import gv_distance, number_of_weight_d_codewords, isd_cost
-from math import log, ceil, log2
+from ..pe_helper import median_size_of_random_orbit, hamming_ball, isd_cost
+from math import log, ceil, log2, inf, comb as binomial
+
 
 class Beullens(PEAlgorithm):
 
@@ -30,25 +31,45 @@ class Beullens(PEAlgorithm):
         """
         Return the optimal parameter $w$ used in the algorithm optimization
         """
-        n, k, q = self.problem.get_parameters()
-        d = gv_distance(n, k, q)
+        return self._get_optimal_parameter("w")
 
-        while number_of_weight_d_codewords(n, k, q, d) < self._codewords_needed_for_success:
-            d += 1
-        return d
+    def _time_and_memory_complexity(self, parameters, verbose_information=None):
+        n, k, q = self.problem.get_parameters()
+        w = parameters["w"]
+
+        search_space_size = hamming_ball(n, q, w) - log2(q) * (n - k) - log2(q - 1)
+        if search_space_size < 1:
+            return inf, inf
+
+        size_of_orbit = median_size_of_random_orbit(n, w, q)
+        if size_of_orbit > log2(q) * (n - k) - log2(ceil(4 * log(n, 2))):
+            return inf, inf
+
+        list_size = (search_space_size + log2(2 * log2(n))) / 2
+        list_computation = isd_cost(n, k, q, w) - search_space_size + list_size + 1
+        # Todo exchange with call to SD estimator (remember to set correct number of solutions)
+        normal_form_cost = 2 * list_size
+
+        if verbose_information is not None:
+            verbose_information["list size"]=list_size
+            verbose_information["list_computation"] = list_computation
+            verbose_information["normal form"] = normal_form_cost
+
+        return max(list_computation, normal_form_cost) + log2(n), list_size + log2(n)
 
     def _compute_time_complexity(self, parameters):
-        n, k, q = self.problem.get_parameters()
-        w=parameters["w"]
-        N = number_of_weight_d_codewords(n, k, q, w)
-
-        # todo exchange against call to Fq SD estimator
-        return isd_cost(n, k, q, parameters["w"])+log2(ceil(2*(0.57+log(N))))
+        return self._time_and_memory_complexity(parameters)[0]
 
     def _compute_memory_complexity(self, parameters):
-        n, k, q = self.problem.get_parameters()
-        # todo add memory of ISD estimator call here
-        return 0
+        return self._time_and_memory_complexity(parameters)[1]
+
+    def _get_verbose_information(self):
+        """
+        returns a dictionary containing additional algorithm information
+        """
+        verb = dict()
+        _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)
+        return verb
 
     def __repr__(self):
         rep = "Leon estimator for " + str(self.problem)
