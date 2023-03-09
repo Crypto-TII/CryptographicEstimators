@@ -37,4 +37,4 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Run tests
-        run: echo "image id " . ${{steps.built-image.outputs.imageid}}
+        run: docker image list
