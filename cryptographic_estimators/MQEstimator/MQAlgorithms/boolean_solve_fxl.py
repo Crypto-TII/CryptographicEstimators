@@ -123,7 +123,6 @@ class BooleanSolveFXL(MQAlgorithm):
         k = parameters['k']
         variant = parameters[MQ_VARIANT]
         n, m, q = self.get_reduced_parameters()
-        q = self.problem.order_of_the_field()
         w = self.linear_algebra_constant()
 
         wit_deg = witness_degree.quadratic_system(n=n - k, m=m, q=q)

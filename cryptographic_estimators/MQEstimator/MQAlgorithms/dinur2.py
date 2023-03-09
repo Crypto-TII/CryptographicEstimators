@@ -38,7 +38,7 @@ class DinurSecond(MQAlgorithm):
         self._name = "Dinur2"
         self._k = floor(log2(2 ** self.problem.nsolutions + 1))
         n, m, _ = self.get_reduced_parameters()
-        self.set_parameter_ranges('n1', 1, (m - 2) // 2 - 1)
+        self.set_parameter_ranges('n1', 1, (n - 2) // 2 - 1)
 
     @optimal_parameter
     def n1(self):
