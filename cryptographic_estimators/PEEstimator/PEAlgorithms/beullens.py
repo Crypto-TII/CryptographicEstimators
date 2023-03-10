@@ -47,7 +47,7 @@ class Beullens(PEAlgorithm):
         list_size = (search_space_size + log2(2 * log2(n))) / 2
         list_computation = isd_cost(n, k, q, w) - search_space_size + list_size + 1
         # Todo exchange with call to SD estimator (remember to set correct number of solutions)
-        normal_form_cost = 2 * list_size
+        normal_form_cost = 1 + list_size
 
         if verbose_information is not None:
             verbose_information["list size"] = list_size
