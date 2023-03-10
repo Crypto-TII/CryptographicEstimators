@@ -1,3 +1,25 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+ 
+
+
+ 
+
+
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator import witness_degree
@@ -48,7 +70,8 @@ class BooleanSolveFXL(MQAlgorithm):
             if m < n:
                 raise ValueError("the no. of polynomials must be > than the no. of variables")
 
-        self.set_parameter_ranges('k', 0, n)
+        a = 0 if self.problem.is_overdefined_system() else 1
+        self.set_parameter_ranges('k', a, n)
 
     @optimal_parameter
     def k(self):
