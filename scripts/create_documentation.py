@@ -94,4 +94,4 @@ with Path(SOURCE_ROOT_FOLDER, "index.rst").open(mode="w") as index_rst_file:
                          "* :ref:`search`\n")
 
 copyfile("conf.py", Path(SOURCE_ROOT_FOLDER, "conf.py"))
-#copyfile("references.rst", Path("source", "references.rst"))
+copyfile("references.rst", Path("source", "references.rst"))
