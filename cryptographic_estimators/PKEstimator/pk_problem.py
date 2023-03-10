@@ -42,7 +42,7 @@ class PKProblem(BaseProblem):
         - ``basic_operations`` -- Number of Fq additions (logarithmic)
 
         """
-        return basic_operations + log2(self.parameters[PK_FIELD_SIZE])
+        return basic_operations + log2(log2(self.parameters[PK_FIELD_SIZE]))
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
@@ -54,7 +54,7 @@ class PKProblem(BaseProblem):
 
         """
 
-        return elements_to_store + log2(self.parameters[PK_FIELD_SIZE])
+        return elements_to_store + log2(log2(self.parameters[PK_FIELD_SIZE]))
 
     def expected_number_solutions(self):
         """
@@ -62,7 +62,7 @@ class PKProblem(BaseProblem):
 
         """
         n, m, q, ell = self.get_parameters()
-        return log2(factorial(n)) - log2(q) * m
+        return log2(factorial(n)) - log2(q) * m *ell
 
     def __repr__(self):
         """
