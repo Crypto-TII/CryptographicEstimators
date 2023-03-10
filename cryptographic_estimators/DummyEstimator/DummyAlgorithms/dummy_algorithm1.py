@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
+
+
 from ..dummy_algorithm import DummyAlgorithm
 from ..dummy_problem import DummyProblem
 from ...base_algorithm import optimal_parameter

@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
+
+
 from sage.arith.misc import is_prime_power
 from sage.rings.power_series_ring import PowerSeriesRing
 from sage.rings.all import QQ

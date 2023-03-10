@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
+
+
 from ..base_problem import BaseProblem
 from ..MQEstimator.mq_helper import ngates
 from math import log2

@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
+
+
 from ..MQEstimator.series.nmonomial import NMonomialSeries
 from math import log2
 from sage.arith.misc import is_prime_power

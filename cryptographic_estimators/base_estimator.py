@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
+
+
 from .helper import concat_all_tables, round_or_truncate, ComplexityType
 from prettytable import PrettyTable
 from typing import Union, Callable

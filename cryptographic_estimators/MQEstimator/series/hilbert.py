@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
+
+
 from sage.all import ZZ, QQ
 from sage.misc.misc_c import prod
 from sage.rings.power_series_ring import PowerSeriesRing

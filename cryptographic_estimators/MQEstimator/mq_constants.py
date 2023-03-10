@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
+
 MQ_NUMBER_VARIABLES = "number of variables"
 MQ_NUMBER_POLYNOMIALS = "number of polynomials"
 MQ_FIELD_SIZE = "field size"
