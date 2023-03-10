@@ -141,7 +141,7 @@ class MQAlgorithm(BaseAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQAlgorithm(MQProblem(n=10, m=5), w=2).linear_algebra_constant()
+            sage: MQAlgorithm(MQProblem(n=10, m=5, q=4), w=2).linear_algebra_constant()
             2
         """
         return self._w

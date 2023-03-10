@@ -136,7 +136,7 @@ class MQProblem(BaseProblem):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQProblem(n=10, m=5).npolynomials()
+            sage: MQProblem(n=10, m=5, q=4).npolynomials()
             5
         """
         return self.parameters[MQ_NUMBER_POLYNOMIALS]
@@ -148,7 +148,7 @@ class MQProblem(BaseProblem):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQProblem(n=10, m=5).nvariables()
+            sage: MQProblem(n=10, m=5, q=4).nvariables()
             10
         """
         return self.parameters[MQ_NUMBER_VARIABLES]
@@ -166,11 +166,11 @@ class MQProblem(BaseProblem):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQProblem(n=5, m=10).is_overdefined_system()
+            sage: MQProblem(n=10, m=15, q=4).is_overdefined_system()
             True
-            sage: MQProblem(n=10, m=5).is_overdefined_system()
+            sage: MQProblem(n=10, m=5, q=4).is_overdefined_system()
             False
-            sage: MQProblem(n=10, m=10).is_overdefined_system()
+            sage: MQProblem(n=10, m=5, q=4).is_overdefined_system()
             False
         """
         return self.npolynomials() > self.nvariables()
@@ -182,11 +182,11 @@ class MQProblem(BaseProblem):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQProblem(n=10, m=5).is_underdefined_system()
+            sage: MQProblem(n=10, m=5, q=4).is_underdefined_system()
             True
-            sage: MQProblem(n=5, m=10).is_underdefined_system()
+            sage: MQProblem(n=5, m=10, q=4).is_underdefined_system()
             False
-            sage: MQProblem(n=10, m=10).is_underdefined_system()
+            sage: MQProblem(n=10, m=10, q=4).is_underdefined_system()
             False
         """
         return self.nvariables() > self.npolynomials()
@@ -198,9 +198,9 @@ class MQProblem(BaseProblem):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQProblem(n=10, m=10).is_square_system()
+            sage: MQProblem(n=10, m=10, q=4).is_square_system()
             True
-            sage: MQProblem(n=5, m=10).is_square_system()
+            sage: MQProblem(n=10, m=5, q=4).is_square_system()
             False
         """
         return self.nvariables() == self.npolynomials()
