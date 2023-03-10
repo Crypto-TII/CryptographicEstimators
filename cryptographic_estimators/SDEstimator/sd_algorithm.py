@@ -1,23 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
 
 
 from ..helper import ComplexityType
@@ -97,7 +93,8 @@ class SDAlgorithm(BaseAlgorithm):
                 tmp_time, tmp_memory = self._time_and_memory_complexity(params)
 
                 if self.bit_complexities:
-                    tmp_memory = self.problem.to_bitcomplexity_memory(tmp_memory)
+                    tmp_memory = self.problem.to_bitcomplexity_memory(
+                        tmp_memory)
 
                 if tmp_time < time and tmp_memory < self.problem.memory_bound:
                     time, memory = tmp_time, tmp_memory
@@ -205,9 +202,12 @@ class SDAlgorithm(BaseAlgorithm):
 
         """
         if self.scipy_model is None:
-            raise NotImplementedError("For " + self._name + " TildeO complexity is not yet implemented")
-        model = self.scipy_model(self.parameter_names(), self.problem, iterations=self.workfactor_accuracy*10, accuracy=1e-7)
-        wf_time, wf_memory, par = model.get_time_memory_and_parameters(parameters=parameters)
+            raise NotImplementedError(
+                "For " + self._name + " TildeO complexity is not yet implemented")
+        model = self.scipy_model(self.parameter_names(
+        ), self.problem, iterations=self.workfactor_accuracy*10, accuracy=1e-7)
+        wf_time, wf_memory, par = model.get_time_memory_and_parameters(
+            parameters=parameters)
         self._optimal_parameters.update(par)
         n, _, _, _ = self.problem.get_parameters()
         return wf_time*n, wf_memory*n
@@ -225,5 +225,6 @@ class SDAlgorithm(BaseAlgorithm):
             }
         """
         verb = dict()
-        _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)
+        _ = self._time_and_memory_complexity(
+            self.optimal_parameters(), verbose_information=verb)
         return verb
