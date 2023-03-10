@@ -148,7 +148,6 @@ class SDFqAlgorithm(BaseAlgorithm):
         """
         Computes time and memory complexity for given parameters
         """
-        print("what")
         raise NotImplementedError
 
     def _compute_time_complexity(self, parameters: dict):

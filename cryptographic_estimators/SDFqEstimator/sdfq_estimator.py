@@ -42,20 +42,18 @@ class SDFqEstimator(BaseEstimator):
 
         EXAMPLES:
 
-            sage: from cryptographic_estimators.SDEstimator import SDFqEstimator
-            sage: A = SDFqEstimator(n=100, k=50, w=10, q=5)
+            sage: from cryptographic_estimators.SDFqEstimator import SDFqEstimator
+            sage: A = SDFqEstimator(n=100,k=50,w=10,q=5)
             sage: A.table()
-            TOO
 
         TESTS:
             sage: from cryptographic_estimators.SDFqEstimator import SDFqEstimator
             sage: A = SDFqEstimator(n=100, k=42, w=13, q=4,bit_complexities=1, workfactor_accuracy=20)
             sage: A.table(show_tilde_o_time=1, precision=1) # long time
-            TODO
 
             sage: from cryptographic_estimators.SDFqEstimator import SDFqEstimator
-            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import BJMMdw
-            sage: A = SDFqEstimator(3488,2720,64,excluded_algorithms=[Prange])
+            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Prange
+            sage: A = SDFqEstimator(3488,2720,64,31,excluded_algorithms=[Prange])
             sage: A.table(precision=3, show_all_parameters=1) # long time
 
         """

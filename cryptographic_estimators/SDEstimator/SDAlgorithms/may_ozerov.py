@@ -202,7 +202,7 @@ class MayOzerovD2(SDAlgorithm):
         """
         initialize the parameters p, l, p1
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(30, w // 2, s))
         self.set_parameter_ranges("l", 0, min_max(300, n - k, s))
@@ -258,7 +258,7 @@ class MayOzerovD2(SDAlgorithm):
         return if the parameter set `parameters` is invalid
 
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
         if par.l >= n - k - (w - 2 * par.p) or par.p1 < (
@@ -272,7 +272,7 @@ class MayOzerovD2(SDAlgorithm):
         set parameters in `_optimal_parameters`
         """
         new_ranges = self._fix_ranges_for_already_set_parmeters()
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
 
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
@@ -287,7 +287,7 @@ class MayOzerovD2(SDAlgorithm):
         Computes the expected runtime and memory consumption.
 
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
 
@@ -381,7 +381,7 @@ class MayOzerovD3(SDAlgorithm):
         initialize the parameter ranges for p, p1, p2, l to start the optimisation 
         process.
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(20, w // 2, s))
         self.set_parameter_ranges("l", 0, min_max(200, n - k, s))
@@ -453,7 +453,7 @@ class MayOzerovD3(SDAlgorithm):
         return if the parameter set `parameters` is invalid
 
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
         if par.p > w // 2 or k1 < par.p or par.l > n - k or n - k - par.l < w - 2 * par.p or \
@@ -469,7 +469,7 @@ class MayOzerovD3(SDAlgorithm):
 
         """
         new_ranges = self._fix_ranges_for_already_set_parmeters()
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
 
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
@@ -485,7 +485,7 @@ class MayOzerovD3(SDAlgorithm):
         """
         Computes the expected runtime and memory consumption
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
 

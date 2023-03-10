@@ -91,7 +91,7 @@ class SDProblem(BaseProblem):
         """
         n, k, w  = self.get_parameters()
         rep = "syndrome decoding problem with (n,k,w) = " \
-              + "(" + str(n) + "," + str(k) + "," + str(w) + ")"
+              + "(" + str(n) + "," + str(k) + "," + str(w) + ") over Finite Field of size 2"
         return rep
 
     def get_parameters(self):

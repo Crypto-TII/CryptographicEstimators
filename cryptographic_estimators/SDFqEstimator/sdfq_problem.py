@@ -90,7 +90,7 @@ class SDFqProblem(BaseProblem):
         """
         n, k, w, q = self.get_parameters()
         rep = "syndrome decoding problem with (n,k,w) = " \
-              + "(" + str(n) + "," + str(k) + "," + str(w) + ") over F" + str(q)
+              + "(" + str(n) + "," + str(k) + "," + str(w) + ") over Finite Field of size " + str(q)
 
         return rep
 

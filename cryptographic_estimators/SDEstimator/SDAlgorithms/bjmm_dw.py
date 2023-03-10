@@ -74,7 +74,7 @@ class BJMMdw(SDAlgorithm):
         initialize the parameter ranges for p, p1, w1, w11, w2 to start the optimisation 
         process.
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         self.set_parameter_ranges("p", 0, 25)
         self.set_parameter_ranges("p1", 0, 20)
         self.set_parameter_ranges("w1", 0, 10)
@@ -157,7 +157,7 @@ class BJMMdw(SDAlgorithm):
         return self._get_optimal_parameter("w2")
 
     def _are_parameters_invalid(self, parameters):
-        _, k, w, _ = self.problem.get_parameters()
+        _, k, w  = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
 
         if par.p % 2 == 1 or par.p > w // 2 or k < par.p or \
@@ -175,7 +175,7 @@ class BJMMdw(SDAlgorithm):
 
         """
         new_ranges = self._fix_ranges_for_already_set_parmeters()
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w  = self.problem.get_parameters()
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]) + 1, 2):
             for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"] + 1):
                 s = new_ranges["w1"]["min"]
@@ -191,7 +191,7 @@ class BJMMdw(SDAlgorithm):
         """
         tries to find a l1 value fulfilling the constraints
         """
-        _, k, _, _ = self.problem.get_parameters()
+        _, k, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
 
         try:
@@ -228,7 +228,7 @@ class BJMMdw(SDAlgorithm):
         Computes the expected runtime and memory consumption for a given parameter set.
         """
 
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
 
         if self._are_parameters_invalid(parameters):

@@ -75,7 +75,7 @@ class Stern(SDFqAlgorithm):
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
-        if par.p > w // 2 or k1 < par.p or n - k - par.l < w - 2 * par.p:
+        if par.p > w or k1 < par.p or n - k - par.l < w - 2 * par.p:
             return True
         return False
 
@@ -132,17 +132,18 @@ class Stern(SDFqAlgorithm):
         Tp = max(0, log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p)) - \
                     log2(binom(k1, par.p)**2) - solutions)
 
-        Tg = _gaussian_elimination_complexity(n, k, par.r)*(n-k)
+        Tg = _gaussian_elimination_complexity(n, k, par.r)*(n+k)
         
-        
-        ops=log2(Tg + ((k1-par.p+1)+(2*L1)*(q-1)**par.p)*par.l+ q/(q-1.)*(w-2*par.p+1)*2*par.p*(1+(q-2)/(q-1.))*(2*L1)*(q-1)**(2*par.p)/q**par.l)
-
-        time = ops + Tp
+        build = ((k1 - par.p + 1) + (2*L1)*(q - 1)**par.p) * par.l
+        ws = q/(q-1) * (w - 2 * par.p + 1) * 2*par.p *(1+ (q - 2)/(q - 1))
+        L2 = ((2 * L1) * (q - 1)**(2*par.p))/q**par.l
+        ops = build + max(ws * L2, 0)
+        time = log2(Tg + ops) + Tp
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
-            verbose_information[VerboseInformation.LISTS.value] = [log2(L1)]# TODO, log2((q-1)**(2*p) * L1 ** 2 // q ** l)]
+            verbose_information[VerboseInformation.LISTS.value] = [log2(L1), log2(L2)]
 
         return time, memory
 

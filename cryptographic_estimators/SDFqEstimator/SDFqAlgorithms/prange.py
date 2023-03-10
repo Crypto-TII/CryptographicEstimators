@@ -22,7 +22,7 @@ class Prange(SDFqAlgorithm):
             sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Prange
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: Prange(SDFqProblem(n=100,k=50,w=10,q=3))
-            Prange estimator for syndrome decoding over q problem with (n,k,w) = (100,50,10) over Finite Field of size 3
+            Prange estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 3
         """
         self._name = "Prange"
         super(Prange, self).__init__(problem, **kwargs)
@@ -43,7 +43,7 @@ class Prange(SDFqAlgorithm):
         memory = log2(_mem_matrix(n, k, r) * n)
 
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w)) - solutions, 0)
-        Tg = log2(_gaussian_elimination_complexity(n, k, r)*(n-k))
+        Tg = log2(_gaussian_elimination_complexity(n, k, r)*(n+k))
         time = Tp + Tg
         time += memory_access_cost(memory, self.memory_access)
 

@@ -227,7 +227,7 @@ class BJMMd2(SDAlgorithm):
         initialize the parameter ranges for p, p1, l to start the optimisation 
         process.
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(35, w, s))
         self.set_parameter_ranges("p1", 0, min_max(35, w, s))
@@ -284,7 +284,7 @@ class BJMMd2(SDAlgorithm):
         return if the parameter set `parameters` is invalid
 
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
         if par.p > w // 2 or k1 < par.p or par.l >= n - k or n - k - par.l < w - 2 * par.p \
@@ -299,7 +299,7 @@ class BJMMd2(SDAlgorithm):
         """
         new_ranges = self._fix_ranges_for_already_set_parmeters()
 
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
 
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
@@ -314,7 +314,7 @@ class BJMMd2(SDAlgorithm):
         computes the expected runtime and memory consumption for the depth 2 version
 
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
 
@@ -369,7 +369,6 @@ class BJMMd2(SDAlgorithm):
 
 
 class BJMMd3(SDAlgorithm):
-
     def __init__(self, problem: SDProblem, **kwargs):
         """
         Complexity estimate of BJMM algorithm in depth 2
@@ -411,7 +410,7 @@ class BJMMd3(SDAlgorithm):
         initialize the parameter ranges for p, p1, p2, l to start the optimisation 
         process.
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(25, w, s))
         self.set_parameter_ranges("l", 0, min_max(400, n - k, s))
@@ -483,7 +482,7 @@ class BJMMd3(SDAlgorithm):
         return if the parameter set `parameters` is invalid
 
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
         if par.p > w // 2 or k1 < par.p or par.l >= n - k or n - k - par.l < w - 2 * par.p or \
@@ -499,7 +498,7 @@ class BJMMd3(SDAlgorithm):
 
         """
         new_ranges = self._fix_ranges_for_already_set_parmeters()
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
 
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
@@ -514,7 +513,7 @@ class BJMMd3(SDAlgorithm):
         """
         computes the expected runtime and memory consumption for the depth 3 version
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
 
         k1 = (k + par.l) // 2

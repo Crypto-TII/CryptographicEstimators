@@ -34,7 +34,6 @@ class PrangeScipyModel(ScipyModel):
         par_names += ["p"]
         super().__init__(par_names, problem, iterations, accuracy)
 
-
     def _build_model_and_set_constraints(self):
         self.constraints = [
             {'type': 'ineq', 'fun': self._inject_vars(lambda x: 1 - self.rate(x) - self.w(x) - x.p)},

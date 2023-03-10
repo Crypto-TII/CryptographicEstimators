@@ -45,9 +45,9 @@ class LeeBrickell(SDFqAlgorithm):
         """
         Return the optimal parameter $p$ used in the algorithm optimization
         EXAMPLES::
-            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import LeeBrickell
-            sage: from cryptographic_estimators.SDEstimator import SDProblem
-            sage: A = LeeBrickell(SDProblem(n=100,k=50,w=10))
+            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell
+            sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
+            sage: A = LeeBrickell(SDFqProblem(n=100,k=50,w=10,q=5))
             sage: A.p()
             0
         """
@@ -59,7 +59,7 @@ class LeeBrickell(SDFqAlgorithm):
         """
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
-        if par.p > w // 2 or k < par.p or n - k < w - par.p:
+        if par.p > w or k < par.p or n - k < w - par.p:
             return True
         return False
 
@@ -99,13 +99,11 @@ class LeeBrickell(SDFqAlgorithm):
             return inf, inf
 
         solutions = self.problem.nsolutions
-        memory = log2(_mem_matrix(n, k, par.r) * n)
+        L =  log2(binom(k, par.p)) + log2((q-1)**(par.p))
+        memory = L + log2(_mem_matrix(n, k, par.r) * n)
 
-        Tp = max(log2(binom(n, w)) - log2(binom(n - k, w - par.p) - log2(binom(k, par.p))) - solutions, 0)
-        Tg = log2(_gaussian_elimination_complexity(n, k, par.r)*(n-k))
-        L = 0
-        if par.p:
-            L = log2(binom(k, par.p)*(k))
+        Tp = max(log2(binom(n, w)) - log2(binom(n - k, w - par.p)) - log2(binom(k, par.p)) - solutions, 0)
+        Tg = log2(_gaussian_elimination_complexity(n, k, par.r)*(n+k))
 
         time = Tp + Tg + L
         time += memory_access_cost(memory, self.memory_access)
