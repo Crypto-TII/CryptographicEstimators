@@ -24,7 +24,7 @@ class Leon(PEAlgorithm):
         super().__init__(problem, **kwargs)
         self._name = "Leon"
         self._codewords_needed_for_success = kwargs.get("codewords_needed_for_success", 100)
-        n, _, _ = self.problem.get_parameters()
+        n, _, _, _ = self.problem.get_parameters()
         self.set_parameter_ranges('w', 0, n)
 
     @optimal_parameter
@@ -32,7 +32,7 @@ class Leon(PEAlgorithm):
         """
         Return the optimal parameter $w$ used in the algorithm optimization
         """
-        n, k, q = self.problem.get_parameters()
+        n, k, q, _ = self.problem.get_parameters()
         d = gv_distance(n, k, q)
 
         while number_of_weight_d_codewords(n, k, q, d) < self._codewords_needed_for_success:
@@ -40,7 +40,7 @@ class Leon(PEAlgorithm):
         return d
 
     def _compute_time_complexity(self, parameters):
-        n, k, q = self.problem.get_parameters()
+        n, k, q, _ = self.problem.get_parameters()
         w = parameters["w"]
         N = number_of_weight_d_codewords(n, k, q, w)
 
@@ -48,7 +48,7 @@ class Leon(PEAlgorithm):
         return isd_cost(n, k, q, parameters["w"]) + log2(ceil(2 * (0.57 + log(N))))
 
     def _compute_memory_complexity(self, parameters):
-        n, k, q = self.problem.get_parameters()
+        n, k, q, _ = self.problem.get_parameters()
         # todo add memory of ISD estimator call here
         return 0
 

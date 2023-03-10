@@ -19,11 +19,10 @@ class Beullens(PEAlgorithm):
             INPUT:
 
             - ``problem`` -- PEProblem object including all necessary parameters
-            - ``codewords_needed_for_success`` -- Number of low word codewords needed for success (default = 100)
         """
         super().__init__(problem, **kwargs)
         self._name = "Beullens"
-        n, _, _ = self.problem.get_parameters()
+        n, _, _, _ = self.problem.get_parameters()
         self.set_parameter_ranges('w', 0, n)
 
     @optimal_parameter
@@ -34,7 +33,7 @@ class Beullens(PEAlgorithm):
         return self._get_optimal_parameter("w")
 
     def _time_and_memory_complexity(self, parameters, verbose_information=None):
-        n, k, q = self.problem.get_parameters()
+        n, k, q, _ = self.problem.get_parameters()
         w = parameters["w"]
 
         search_space_size = hamming_ball(n, q, w) - log2(q) * (n - k) - log2(q - 1)
@@ -51,7 +50,7 @@ class Beullens(PEAlgorithm):
         normal_form_cost = 2 * list_size
 
         if verbose_information is not None:
-            verbose_information["list size"]=list_size
+            verbose_information["list size"] = list_size
             verbose_information["list_computation"] = list_computation
             verbose_information["normal form"] = normal_form_cost
 
@@ -72,5 +71,5 @@ class Beullens(PEAlgorithm):
         return verb
 
     def __repr__(self):
-        rep = "Leon estimator for " + str(self.problem)
+        rep = "Beullens estimator for " + str(self.problem)
         return rep
