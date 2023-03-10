@@ -111,7 +111,6 @@ class MQProblem(BaseProblem):
         Returns the logarithm of the expected number of existing solutions to the problem
 
         """
-        # TODO this seems wrong
         return 0
 
     def order_of_the_field(self):
