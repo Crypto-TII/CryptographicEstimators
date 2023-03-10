@@ -73,12 +73,12 @@ class Crossbred(MQAlgorithm):
             raise TypeError("q must be an integer")
 
         super(Crossbred, self).__init__(problem, **kwargs)
-        n = self.nvariables_reduced()
         self._name = "Crossbred"
-        self._max_D = kwargs.get('max_D', 20)
+        self._max_D = kwargs.get('max_D', min(30, min(problem.nvariables(), problem.npolynomials())))
         if not isinstance(self._max_D, (int, Integer)):
             raise TypeError("max_D must be an integer")
 
+        n = self.nvariables_reduced()
         self.set_parameter_ranges('k', 1, n)
         self.set_parameter_ranges('D', 2, self._max_D)
         self.set_parameter_ranges('d', 1, n)
@@ -141,7 +141,7 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
             sage: E.max_D
-            20
+            10
         """
         return self._max_D
 
