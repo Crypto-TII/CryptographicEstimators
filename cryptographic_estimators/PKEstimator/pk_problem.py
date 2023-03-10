@@ -13,7 +13,9 @@ class PKProblem(BaseProblem):
     - ``m`` -- rows of the matrix
     - ``q`` -- size of the field
     - ``ell`` -- rows of the matrix whose permutation should lie in the kernel
+    - ``use_parity_row`` -- enables trick of appending extra (all one) row to the matrix, i.e., m -> m+1 (default:False)
     - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
+
     """
 
     def __init__(self, n: int, m: int, q: int, ell=1, **kwargs):
@@ -28,6 +30,8 @@ class PKProblem(BaseProblem):
             raise ValueError("q^ell should be at least n, otherwise possible number of permutations is not maximal")
 
         self.nsolutions = kwargs.get("nsolutions", max(self.expected_number_solutions(), 0))
+        if kwargs.get("use_parity_row", False):
+            self.parameters[PK_ROWS] += 1
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """
@@ -49,7 +53,7 @@ class PKProblem(BaseProblem):
         - ``elements_to_store`` -- number of Fq elements the algorithm needs to store (logarithmic)
 
         """
-        # TODO: how to count it? which measure, again Fq elementS? then we need to scale lists by an according factor
+
         return elements_to_store + log2(self.parameters[PK_FIELD_SIZE])
 
     def expected_number_solutions(self):

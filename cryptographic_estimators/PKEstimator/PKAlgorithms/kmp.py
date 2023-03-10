@@ -46,10 +46,10 @@ class KMP(PKAlgorithm):
         L1 = log2(factorial(n) / factorial(n - u1))
         L2 = log2(factorial(n) / factorial(n - u2))
         num_coll = log2(
-            factorial(n) * factorial(n) / factorial(n - u1) / factorial(n - u2) * q ** (ell * (n - m - u1 - u2)))
+            max(1,factorial(n) * factorial(n) // factorial(n - u1) // factorial(n - u2) * q ** (ell * (n - m - u1 - u2))))
 
-        time = log2(2 ** L1 + 2 ** L2 + 2 ** num_coll) + log2(self.cost_for_list_operation)  # TODO fix according to what we agree on
-        memory = min(L1, L2) + log2(self.memory_for_list_element)  # TODO fix according to how many Fq elements we need per list element
+        time = log2(2 ** L1 + 2 ** L2 + 2 ** num_coll) + log2(self.cost_for_list_operation)
+        memory = min(L1, L2) + log2(self.memory_for_list_element)
 
         if verbose_information is not None:
             verbose_information[KMP_L1] = L1
