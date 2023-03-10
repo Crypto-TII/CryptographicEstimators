@@ -88,7 +88,7 @@ class Stern(SDFqAlgorithm):
 
         _, k, _, _ = self.problem.get_parameters()
         k1 = k//2
-        for p in range(new_ranges["p"]["min"], min(k1, new_ranges["p"]["max"]), 2):
+        for p in range(new_ranges["p"]["min"], min(k1, new_ranges["p"]["max"])):
             L1 = binom(k1, p)
             l_val = int(log2(L1))
             l_search_radius = self._adjust_radius
@@ -119,11 +119,12 @@ class Stern(SDFqAlgorithm):
 
         memory_bound = self.problem.memory_bound
 
-        L1 = binom(k1, par.p)
-        if self._is_early_abort_possible(log2(L1)):
+        L11 = binom(k1, par.p)
+        L12 = binom(k-k1, par.p)
+        if self._is_early_abort_possible(log2(L11)):
             return inf, inf
 
-        memory = log2((2 * L1 * par.l) + _mem_matrix(n, k, par.r)*n)
+        memory = log2((L11 * L12 * par.l) + _mem_matrix(n, k, par.r)*n)
         solutions = self.problem.nsolutions
 
         if memory > memory_bound:
@@ -132,18 +133,19 @@ class Stern(SDFqAlgorithm):
         Tp = max(0, log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p)) - \
                     log2(binom(k1, par.p)**2) - solutions)
 
-        Tg = _gaussian_elimination_complexity(n, k, par.r)*(n+k)
+        Tg = (n-k)**2 * (n+k) //2#_gaussian_elimination_complexity(n, k, par.r)*(n+k)
         
-        build = ((k1 - par.p + 1) + (2*L1)*(q - 1)**par.p) * par.l
-        ws = q/(q-1) * (w - 2 * par.p + 1) * 2*par.p *(1+ (q - 2)/(q - 1))
-        L2 = ((2 * L1) * (q - 1)**(2*par.p))/q**par.l
+        build = ((k1 - par.p + 1) + (L12+L11)*(q - 1)**par.p) * par.l
+        ws = q/(q-1) * (w - 2 * par.p + 1) * 2*par.p *(1 + (q - 2)/(q - 1))
+        L2 = ((L11*L12) * (q - 1)**(2*par.p))/q**par.l
         ops = build + max(ws * L2, 0)
         time = log2(Tg + ops) + Tp
-
+        
+        print(par.p, par.l, log2(Tg), log2(max(1,build)), log2(max(1,ws*L2)), ops, L11, L12, q)
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
-            verbose_information[VerboseInformation.LISTS.value] = [log2(L1), log2(L2)]
+            verbose_information[VerboseInformation.LISTS.value] = [log2(L11), log2(L2)]
 
         return time, memory
 

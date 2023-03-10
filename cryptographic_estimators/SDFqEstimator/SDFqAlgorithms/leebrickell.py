@@ -82,6 +82,7 @@ class LeeBrickell(SDFqAlgorithm):
         """
         Return time complexity of Lee-Brickell's algorithm over Fq, q > 2 for
         given set of parameters
+        NOTE: this wokrs
         INPUT:
         -  ``parameters`` -- dictionary including parameters
         -  ``verbose_information`` -- if set to a dictionary `permutations`,
@@ -99,13 +100,12 @@ class LeeBrickell(SDFqAlgorithm):
             return inf, inf
 
         solutions = self.problem.nsolutions
-        L =  log2(binom(k, par.p)) + log2((q-1)**(par.p))
-        memory = L + log2(_mem_matrix(n, k, par.r) * n)
+        L =  log2(binom(k, par.p)) + log2(q) + log2(n)# + log2((q-1)**(par.p))
+        memory = log2(k * n)
 
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w - par.p)) - log2(binom(k, par.p)) - solutions, 0)
-        Tg = log2(_gaussian_elimination_complexity(n, k, par.r)*(n+k))
-
-        time = Tp + Tg + L
+        Tg = log2(k*k*n)
+        time = Tp + log2(2**Tg + 2**L)
         time += memory_access_cost(memory, self.memory_access)
         
         if verbose_information is not None:

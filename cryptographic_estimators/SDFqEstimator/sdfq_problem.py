@@ -47,6 +47,7 @@ class SDFqProblem(BaseProblem):
         self.parameters[SDFQ_CODE_LENGTH] = n
         self.parameters[SDFQ_CODE_DIMENSION] = k
         self.parameters[SDFQ_ERROR_WEIGHT] = w
+        self.parameters[SDFQ_ERROR_FIELD_SIZE] = q
         self.baseField = GF(q)
 
         self.nsolutions = kwargs.get("nsolutions", max(self.expected_number_solutions(), 0))
@@ -60,10 +61,8 @@ class SDFqProblem(BaseProblem):
         - ``basic_operations`` -- Number of field additions (logarithmic)
 
         """
-        # TODO
         q = self.baseField.characteristic()
-        n = self.parameters[SDFQ_CODE_LENGTH]
-        return basic_operations
+        return basic_operations + log2(log2(q))
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """ 
