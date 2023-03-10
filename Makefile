@@ -42,10 +42,13 @@ doc:
 	@make clean-docs && make create-sphinx-config && make create-rst-files && make create-html-docs
 
 add-estimator:
-	@python3 scripts/create_new_estimator.py
+	@python3 scripts/create_new_estimator.py && make add-copyright
+
+append-new-estimator:
+	@python3 scripts/append_estimator_to_input_dictionary.py
 
 stop-container:
-	@docker stop container-for-docs
+	@docker stop container-for-docs && docker rm container-for-docs
 
 generate-documentation:
 	@docker exec container-for-docs make doc
@@ -57,4 +60,7 @@ docker-doc:
 	@make mount-volume-and-run && make generate-documentation && make stop-container
 
 docker-test:
-	@docker run --name container-for-test -d -it ${image_name} sh && docker exec container-for-test sage -t --long -T 3600 --nthreads 4 --force-lib cryptographic_estimators && docker stop container-for-test
+	@docker run --name container-for-test -d -it ${image_name} sh && docker exec container-for-test sage -t --long -T 3600 --verbose --force-lib cryptographic_estimators && docker stop container-for-test && docker rm container-for-test
+
+add-copyright:
+	@python3 scripts/create_copyright.py

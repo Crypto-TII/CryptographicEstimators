@@ -20,13 +20,13 @@
  
 
 
-from ...SEEstimator.se_algorithm import SEAlgorithm
-from ...SEEstimator.se_problem import SEProblem
+from ...PEEstimator.pe_algorithm import PEAlgorithm
+from ...PEEstimator.pe_problem import PEProblem
 
 
-class Sample(SEAlgorithm):
+class Sample(PEAlgorithm):
 
-    def __init__(self, problem: SEProblem, **kwargs):
+    def __init__(self, problem: PEProblem, **kwargs):
         super().__init__(problem, **kwargs)
 
     def _compute_time_complexity(self, parameters):
