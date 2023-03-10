@@ -1,25 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
-
-
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator.series.hilbert import HilbertSeries
@@ -74,7 +68,8 @@ class Crossbred(MQAlgorithm):
 
         super(Crossbred, self).__init__(problem, **kwargs)
         self._name = "Crossbred"
-        self._max_D = kwargs.get('max_D', min(30, min(problem.nvariables(), problem.npolynomials())))
+        self._max_D = kwargs.get('max_D', min(
+            30, min(problem.nvariables(), problem.npolynomials())))
         if not isinstance(self._max_D, (int, Integer)):
             raise TypeError("max_D must be an integer")
 
@@ -82,8 +77,6 @@ class Crossbred(MQAlgorithm):
         self.set_parameter_ranges('k', 1, n)
         self.set_parameter_ranges('D', 2, self._max_D)
         self.set_parameter_ranges('d', 1, n)
-
-
 
     @optimal_parameter
     def k(self):
@@ -186,7 +179,8 @@ class Crossbred(MQAlgorithm):
 
         ncols = 0
         for dk in range(d + 1, D):
-            ncols += sum([nms0.nmonomials_of_degree(dk) * nms1.nmonomials_of_degree(dp) for dp in range(D - dk)])
+            ncols += sum([nms0.nmonomials_of_degree(dk) *
+                         nms1.nmonomials_of_degree(dp) for dp in range(D - dk)])
 
         return ncols
 
@@ -299,11 +293,13 @@ class Crossbred(MQAlgorithm):
         w = self.linear_algebra_constant()
         np = self._ncols_in_preprocessing_step(k=k, D=D, d=d)
         nl = self._ncols_in_linearization_step(k=k, d=d)
-        complexity_wiedemann = 3 * binomial(k + d, d) * binomial(n + 2, 2) * np ** 2
+        complexity_wiedemann = 3 * \
+            binomial(k + d, d) * binomial(n + 2, 2) * np ** 2
         complexity_gaussian = np ** w
         complexity = Infinity
         if np > 1 and log2(np) > 1:
-            complexity = min(complexity_gaussian, complexity_wiedemann) + (m * q ** (n - k) * nl ** w)
+            complexity = min(
+                complexity_gaussian, complexity_wiedemann) + (m * q ** (n - k) * nl ** w)
         h = self._h
         return h * log2(q) + log2(complexity)
 
@@ -395,4 +391,3 @@ class Crossbred(MQAlgorithm):
             sage: E._find_optimal_tilde_o_parameters()
         """
         self._find_optimal_parameters()
-

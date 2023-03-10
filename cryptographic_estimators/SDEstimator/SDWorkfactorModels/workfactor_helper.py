@@ -1,25 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
-
-
 from random import uniform as ru
 from math import log2
 from scipy.optimize import fsolve
@@ -73,7 +67,7 @@ def wrap(f, g):
     return inner
 
 
-def list_of_random_tuples(x:Any, y: Any, z: int):
+def list_of_random_tuples(x: Any, y: Any, z: int):
     """
     """
     return [(ru(x, y)) for _ in range(z)]
@@ -97,7 +91,8 @@ def may_ozerov_near_neighbor_time(list_size: float, vector_length: float, target
     d = inverse_binary_entropy(1 - normed_list_size)
 
     if normed_weight <= 2 * d * (1 - d):
-        mo_exp = (1 - normed_weight) * (1 - binary_entropy((d - normed_weight / 2) / (1 - normed_weight)))
+        mo_exp = (1 - normed_weight) * (1 -
+                                        binary_entropy((d - normed_weight / 2) / (1 - normed_weight)))
     else:
         mo_exp = 2 * normed_list_size + binary_entropy(normed_weight) - 1
     return max(mo_exp * vector_length, 2 * list_size - vector_length + binomial_approximation(vector_length, target_weight))
@@ -113,4 +108,3 @@ def representations_asymptotic(target_weight: float, weight_to_cancel: float, ve
     if vector_length < target_weight or vector_length - target_weight < weight_to_cancel:
         return 0.
     return binomial_approximation(target_weight, target_weight / 2.) + binomial_approximation(vector_length - target_weight, weight_to_cancel)
-

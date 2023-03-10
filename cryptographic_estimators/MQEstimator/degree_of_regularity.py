@@ -1,25 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
-
-
 from ..MQEstimator.series.hilbert import HilbertSeries
 
 
@@ -49,7 +43,8 @@ def generic_system(n: int, degrees: list[int], q=None):
     m = len(degrees)
 
     if n > m:
-        raise ValueError("degree of regularity is defined for system with n <= m")
+        raise ValueError(
+            "degree of regularity is defined for system with n <= m")
 
     return semi_regular_system(n=n, degrees=degrees, q=q)
 
@@ -84,7 +79,8 @@ def regular_system(n: int, degrees: list[int]):
     """
     m = len(degrees)
     if n != m:
-        raise ValueError("the number of variables must be equal to the number of polynomials")
+        raise ValueError(
+            "the number of variables must be equal to the number of polynomials")
     return semi_regular_system(n=n, degrees=degrees)
 
 
@@ -129,7 +125,8 @@ def semi_regular_system(n: int, degrees: list[int], q=None):
     """
     m = len(degrees)
     if m < n:
-        raise ValueError("the number of polynomials must be >= than the number of variables")
+        raise ValueError(
+            "the number of polynomials must be >= than the number of variables")
 
     s = HilbertSeries(n, degrees, q=q)
     return s.first_nonpositive_integer()

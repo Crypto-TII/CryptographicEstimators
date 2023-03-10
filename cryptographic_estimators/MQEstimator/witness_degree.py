@@ -1,25 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
-
-
 from ..MQEstimator.series.hilbert import HilbertSeries
 
 
@@ -43,9 +37,11 @@ def semi_regular_system(n: int, degrees: list[int], q=None):
     """
     m = len(degrees)
     if m <= n and q is None:
-        raise ValueError("The number of polynomials must be greater than the number of variables")
+        raise ValueError(
+            "The number of polynomials must be greater than the number of variables")
     elif m < n and q is not None:
-        raise ValueError("The number of polynomials must be greater than or equal to the number of variables")
+        raise ValueError(
+            "The number of polynomials must be greater than or equal to the number of variables")
 
     s = HilbertSeries(n, degrees, q=q)
     z = s.ring.gen()

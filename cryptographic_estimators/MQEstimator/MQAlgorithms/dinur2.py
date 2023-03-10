@@ -1,25 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
-
-
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator.mq_helper import sum_of_binomial_coefficients
@@ -52,6 +46,7 @@ class DinurSecond(MQAlgorithm):
         Dinur2 estimator for the MQ problem with 10 variables and 12 polynomials
 
     """
+
     def __init__(self, problem: MQProblem, **kwargs):
         if problem.order_of_the_field() != 2:
             raise TypeError("q must be equal to 2")
@@ -104,7 +99,8 @@ class DinurSecond(MQAlgorithm):
         n1 = parameters['n1']
         n = self.nvariables_reduced()
         time = 16 * log2(n) * 2 ** n1 * sum_of_binomial_coefficients(n - n1, n1 + 3) + \
-               n1 * n * 2 ** (n - n1) + 2 ** (n - 2 * n1 + 1) * sum_of_binomial_coefficients(n, 2)
+            n1 * n * 2 ** (n - n1) + 2 ** (n - 2 * n1 + 1) * \
+            sum_of_binomial_coefficients(n, 2)
         h = self._h
         return h + log2(time)
 
@@ -187,4 +183,3 @@ class DinurSecond(MQAlgorithm):
         """
         n = self.nvariables_reduced()
         self._optimal_parameters['n1'] = n/(2.7 * 2)
-

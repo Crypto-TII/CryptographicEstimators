@@ -1,25 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
-
-
 from ..MQEstimator.mq_algorithm import MQAlgorithm
 from ..MQEstimator.mq_problem import MQProblem
 from ..base_estimator import BaseEstimator
@@ -87,7 +81,8 @@ class MQEstimator(BaseEstimator):
     """
 
     def __init__(self, n: int, m: int, q=None, memory_bound=inf, **kwargs):
-        super(MQEstimator, self).__init__(MQAlgorithm, MQProblem(n=n, m=m, q=q, memory_bound=memory_bound, **kwargs), **kwargs)
+        super(MQEstimator, self).__init__(MQAlgorithm, MQProblem(
+            n=n, m=m, q=q, memory_bound=memory_bound, **kwargs), **kwargs)
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0):
         """
@@ -159,6 +154,6 @@ class MQEstimator(BaseEstimator):
         """
 
         super(MQEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
-                                         show_tilde_o_time=show_tilde_o_time,
-                                         show_all_parameters=show_all_parameters,
-                                         precision=precision, truncate=truncate)
+                                       show_tilde_o_time=show_tilde_o_time,
+                                       show_all_parameters=show_all_parameters,
+                                       precision=precision, truncate=truncate)

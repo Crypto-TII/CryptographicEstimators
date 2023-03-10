@@ -1,25 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
-
-
 from sage.all import ZZ, QQ
 from sage.misc.misc_c import prod
 from sage.rings.power_series_ring import PowerSeriesRing
@@ -46,17 +40,21 @@ class HilbertSeries(object):
         sage: H
         Hilbert series for system with 10 variables and 15 polynomials over F_2
     """
+
     def __init__(self, n: int, degrees: list[int], q=None):
         self._q = q
         self._nvariables = n
         self._degrees = degrees
-        self._ring = PowerSeriesRing(QQ, 'z', default_prec=2*len(self._degrees))
+        self._ring = PowerSeriesRing(
+            QQ, 'z', default_prec=2*len(self._degrees))
         z = self._ring.gen()
         if q is not None:
             if not is_prime_power(q):
-                raise ValueError("the order of finite field q must be a prime power")
+                raise ValueError(
+                    "the order of finite field q must be a prime power")
 
-            self._series = prod([(1 - z ** d) / (1 - z ** (d * q)) for d in degrees]) * ((1 - z ** q) / (1 - z)) ** n
+            self._series = prod([(1 - z ** d) / (1 - z ** (d * q))
+                                for d in degrees]) * ((1 - z ** q) / (1 - z)) ** n
         else:
             self._series = prod([1 - z ** d for d in degrees]) / (1 - z) ** n
 
@@ -162,7 +160,8 @@ class HilbertSeries(object):
         for d in range(self.precision):
             if s[d] <= 0:
                 return ZZ(d)
-        raise ValueError("unable to find a nonpositive coefficient in the series")
+        raise ValueError(
+            "unable to find a nonpositive coefficient in the series")
 
     def __repr__(self):
         """
