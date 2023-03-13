@@ -3,7 +3,7 @@ from ...SDFqEstimator.sdfq_problem import SDFqProblem
 from ...SDFqEstimator.sdfq_helper import binom, log2, min_max, inf
 from ...base_algorithm import optimal_parameter
 from ..sdfq_constants import *
-from ..SDFqWorkfactorModels.prange import PrangeScipyModel
+#from ..SDFqWorkfactorModels.prange import PrangeScipyModel
 from types import SimpleNamespace
 
 

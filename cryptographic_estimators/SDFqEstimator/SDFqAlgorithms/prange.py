@@ -3,7 +3,7 @@ from ...SDFqEstimator.sdfq_problem import SDFqProblem
 from ...SDFqEstimator.sdfq_helper import _gaussian_elimination_complexity, _mem_matrix, binom, log2
 from ...helper import ComplexityType
 from ..sdfq_constants import *
-from ..SDFqWorkfactorModels.prange import PrangeScipyModel
+#from ..SDFqWorkfactorModels.prange import PrangeScipyModel
 
 
 class Prange(SDFqAlgorithm):
