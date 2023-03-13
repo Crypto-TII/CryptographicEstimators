@@ -49,7 +49,7 @@ class LeeBrickell(SDFqAlgorithm):
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: A = LeeBrickell(SDFqProblem(n=100,k=50,w=10,q=5))
             sage: A.p()
-            0
+            2
         """
         return self._get_optimal_parameter("p")
 
@@ -92,7 +92,7 @@ class LeeBrickell(SDFqAlgorithm):
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: A = LeeBrickell(SDFqProblem(n=100,k=50,q=3,w=10))
             sage: A.p()
-            0
+            2
         """
         n, k, w, q = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)

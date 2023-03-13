@@ -136,12 +136,11 @@ class Stern(SDFqAlgorithm):
         Tg = (n-k)**2 * (n+k) //2#_gaussian_elimination_complexity(n, k, par.r)*(n+k)
         
         build = ((k1 - par.p + 1) + (L12+L11)*(q - 1)**par.p) * par.l
-        ws = q/(q-1) * (w - 2 * par.p + 1) * 2*par.p *(1 + (q - 2)/(q - 1))
+        cost_early_exit = q/(q-1) * (w - 2 * par.p + 1) * 2*par.p *(1 + (q - 2)/(q - 1))
         L2 = ((L11*L12) * (q - 1)**(2*par.p))/q**par.l
-        ops = build + max(ws * L2, 0)
+        ops = build + max(cost_early_exit * L2, 0)
         time = log2(Tg + ops) + Tp
         
-        print(par.p, par.l, log2(Tg), log2(max(1,build)), log2(max(1,ws*L2)), ops, L11, L12, q)
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
