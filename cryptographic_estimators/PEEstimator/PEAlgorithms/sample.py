@@ -16,24 +16,17 @@
 # ****************************************************************************
 
 
-from ..base_algorithm import BaseAlgorithm
-from .se_problem import SEProblem
+from ...PEEstimator.pe_algorithm import PEAlgorithm
+from ...PEEstimator.pe_problem import PEProblem
 
 
-class SEAlgorithm(BaseAlgorithm):
+class Sample(PEAlgorithm):
 
-    def __init__(self, problem: SEProblem, **kwargs):
-        """
-        Base class for SE algorithms complexity estimator
+    def __init__(self, problem: PEProblem, **kwargs):
+        super().__init__(problem, **kwargs)
 
-        INPUT:
+    def _compute_time_complexity(self, parameters):
+        pass
 
-        - ``problem`` -- SEProblem object including all necessary parameters
-
-        """
-        super(SEAlgorithm, self).__init__(problem, **kwargs)
-
-    def __repr__(self):
-        """
-        """
+    def _compute_memory_complexity(self, parameters):
         pass

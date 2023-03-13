@@ -1,23 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
 
 
 from ...MQEstimator.series.nmonomial import NMonomialSeries
@@ -106,7 +102,8 @@ class Lokshtanov(MQAlgorithm):
         q = self.problem.order_of_the_field()
         np = floor(delta * n)
         resulting_degree = 2 * (q - 1) * (np + 2)
-        M = NMonomialSeries(n=n - np, q=q, max_prec=resulting_degree + 1).nmonomials_up_to_degree(resulting_degree)
+        M = NMonomialSeries(n=n - np, q=q, max_prec=resulting_degree +
+                            1).nmonomials_up_to_degree(resulting_degree)
         return n * (q ** (n - np) + M * q ** np * n ** (6 * q))
 
     def _compute_time_complexity(self, parameters: dict):
@@ -133,7 +130,8 @@ class Lokshtanov(MQAlgorithm):
             if not 0 < delta < 1:
                 raise ValueError("delta must be in the range 0 < delta < 1")
             else:
-                time = 100 * log2(q) * (q - 1) * sum([self._C(n - i, delta) for i in range(1, n)])
+                time = 100 * log2(q) * (q - 1) * \
+                    sum([self._C(n - i, delta) for i in range(1, n)])
 
         h = self._h
         return h * log2(q) + log2(time)
@@ -163,7 +161,8 @@ class Lokshtanov(MQAlgorithm):
         else:
             np = floor(n * delta)
             resulting_degree = 2 * (q - 1) * (np + 2)
-            M = NMonomialSeries(n=n - np, q=q, max_prec=resulting_degree + 1).nmonomials_up_to_degree(resulting_degree)
+            M = NMonomialSeries(n=n - np, q=q, max_prec=resulting_degree +
+                                1).nmonomials_up_to_degree(resulting_degree)
             memory = M + log2(n) * q ** (n - np)
 
         return log2(memory)
