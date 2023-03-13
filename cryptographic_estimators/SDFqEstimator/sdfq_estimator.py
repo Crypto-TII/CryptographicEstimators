@@ -19,7 +19,7 @@ class SDFqEstimator(BaseEstimator):
     """
     excluded_algorithms_by_default = []
 
-    def __init__(self, n: int, k: int, w: int, q: int, memory_bound=inf, **kwargs):  # Add problem parameters
+    def __init__(self, n: int, k: int, w: int, q: int, memory_bound=inf, **kwargs):
         if not kwargs.get("excluded_algorithms"):
             kwargs["excluded_algorithms"] = []
 

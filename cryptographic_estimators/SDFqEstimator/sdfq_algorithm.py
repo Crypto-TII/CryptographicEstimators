@@ -41,7 +41,6 @@ class SDFqAlgorithm(BaseAlgorithm):
         self.workfactor_accuracy = kwargs.get("workfactor_accuracy", 1)
         self.scipy_model = None
         self.full_domain = kwargs.get("full_domain", False)
-        self._current_minimum_for_early_abort = inf
     
     def _are_parameters_invalid(self, parameters: dict):
         """

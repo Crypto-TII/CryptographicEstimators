@@ -17,7 +17,6 @@
 
 from ..base_problem import BaseProblem
 from math import log2, comb
-from sage.all import GF
 from .sdfq_constants import *
 
 
@@ -48,7 +47,6 @@ class SDFqProblem(BaseProblem):
         self.parameters[SDFQ_CODE_DIMENSION] = k
         self.parameters[SDFQ_ERROR_WEIGHT] = w
         self.parameters[SDFQ_ERROR_FIELD_SIZE] = q
-        self.baseField = GF(q)
 
         self.nsolutions = kwargs.get("nsolutions", max(self.expected_number_solutions(), 0))
 
@@ -61,7 +59,7 @@ class SDFqProblem(BaseProblem):
         - ``basic_operations`` -- Number of field additions (logarithmic)
 
         """
-        q = self.baseField.characteristic()
+        _,_,q=self.get_parameters()
         return basic_operations + log2(log2(q))
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
@@ -100,5 +98,5 @@ class SDFqProblem(BaseProblem):
         n = self.parameters[SDFQ_CODE_LENGTH]
         k = self.parameters[SDFQ_CODE_DIMENSION]
         w = self.parameters[SDFQ_ERROR_WEIGHT]
-        q = self.baseField.characteristic()
+        q = self.parameters[SDFQ_ERROR_FIELD_SIZE]
         return n, k, w, q
