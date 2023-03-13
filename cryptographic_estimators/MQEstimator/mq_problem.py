@@ -55,7 +55,7 @@ class MQProblem(BaseProblem):
         self.parameters[MQ_NUMBER_VARIABLES] = n
         self.parameters[MQ_NUMBER_POLYNOMIALS] = m
         self.parameters[MQ_FIELD_SIZE] = q
-        self.nsolutions = kwargs.get("nsolutions", max(self.expected_number_solutions(), 0))
+        self.nsolutions = kwargs.get("nsolutions", self.expected_number_solutions())
         self._theta = kwargs.get("theta", 2)
 
     def to_bitcomplexity_time(self, basic_operations: float):
@@ -109,9 +109,9 @@ class MQProblem(BaseProblem):
     def expected_number_solutions(self):
         """
         Returns the logarithm of the expected number of existing solutions to the problem
-
         """
-        return 0
+        n, m, q = self.get_problem_parameters()
+        return max(0, log2(q) * (n - m))
 
     def order_of_the_field(self):
         """
@@ -126,7 +126,7 @@ class MQProblem(BaseProblem):
         Return `True` if the algorithm is defined over a finite field
 
         """
-        return self.order_of_the_field() is not None
+        return self.order_of_the_field()
 
     def npolynomials(self):
         """"

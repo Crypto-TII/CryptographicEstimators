@@ -105,6 +105,9 @@ class MQAlgorithm(BaseAlgorithm):
             self._n_reduced = n
 
         self._n_reduced -= self._h
+
+        if self.problem.is_underdefined_system():
+            self.problem.nsolutions = 0
         return self._n_reduced
 
     def npolynomials_reduced(self):
