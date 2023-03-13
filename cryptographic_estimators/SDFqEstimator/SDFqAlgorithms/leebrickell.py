@@ -73,7 +73,7 @@ class LeeBrickell(SDFqAlgorithm):
 
         _, k, _, _ = self.problem.get_parameters()
         for p in range(new_ranges["p"]["min"], min(k, new_ranges["p"]["max"])):
-            indices = {"p": p, "r": self._optimal_parameters["r"]}
+            indices = {"p": p}
             if self._are_parameters_invalid(indices):
                 continue
             yield indices

@@ -39,11 +39,10 @@ class Prange(SDFqAlgorithm):
         n, k, w, q = self.problem.get_parameters()
         solutions = self.problem.nsolutions
 
-        r = parameters["r"]
-        memory = log2(_mem_matrix(n, k, r) * n)
+        memory = log2(_mem_matrix(n, k, 0) * n)
 
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w)) - solutions, 0)
-        Tg = log2(_gaussian_elimination_complexity(n, k, r)*(n+k))
+        Tg = log2(_gaussian_elimination_complexity(n, k, 0)*(n+k))
         time = Tp + Tg + log2(n)
         time += memory_access_cost(memory, self.memory_access)
 

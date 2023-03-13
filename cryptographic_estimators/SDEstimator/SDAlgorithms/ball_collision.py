@@ -125,17 +125,8 @@ class BallCollision(SDAlgorithm):
         Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
         set parameters in `_optimal_parameters`
         """
-        new_ranges = self._fix_ranges_for_already_set_parmeters()    +-------------+---------------+
-    |             |    estimate   |
-    +-------------+------+--------+
-    | algorithm   | time | memory |
-    +-------------+------+--------+
-    | Prange      | 36.7 |   13.9 |
-    | Stern       | 24.3 |   20.5 |
-    | LeeBrickell | 25.7 |   13.5 |
-    +-------------+------+--------+
-
-        n, k, w, _ = self.problem.get_parameters()
+        new_ranges = self._fix_ranges_for_already_set_parmeters()    
+        n, k, w = self.problem.get_parameters()
         start_p = new_ranges["p"]["min"]+(new_ranges["p"]["min"] % 2)
         for p in range(start_p, min(w // 2, new_ranges["p"]["max"])+1, 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])+1):

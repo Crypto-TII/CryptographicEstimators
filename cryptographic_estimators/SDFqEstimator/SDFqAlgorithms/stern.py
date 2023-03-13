@@ -93,7 +93,7 @@ class Stern(SDFqAlgorithm):
             l_val = int(log2(L1))
             l_search_radius = self._adjust_radius
             for l in range(max(new_ranges["l"]["min"], l_val-l_search_radius), min(new_ranges["l"]["max"], l_val+l_search_radius)):
-                indices = {"p": p, "l": l, "r": self._optimal_parameters["r"]}
+                indices = {"p": p, "l": l}
                 if self._are_parameters_invalid(indices):
                     continue
                 yield indices
@@ -124,7 +124,7 @@ class Stern(SDFqAlgorithm):
         if self._is_early_abort_possible(log2(L11)):
             return inf, inf
 
-        memory = log2((L11 * L12 * par.l) + _mem_matrix(n, k, par.r)*n)
+        memory = log2((L11 * L12 * par.l) + _mem_matrix(n, k, 0)*n)
         solutions = self.problem.nsolutions
 
         if memory > memory_bound:

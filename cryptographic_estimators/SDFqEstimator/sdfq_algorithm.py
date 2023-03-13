@@ -42,26 +42,7 @@ class SDFqAlgorithm(BaseAlgorithm):
         self.scipy_model = None
         self.full_domain = kwargs.get("full_domain", False)
         self._current_minimum_for_early_abort = inf
-        n, k, _, _ = self.problem.get_parameters()
-        self.set_parameter_ranges("r", 0, n - k)
     
-    @optimal_parameter
-    def r(self):
-        """
-        Return the optimal parameter $r$ used in the optimization of the M4RI Gaussian elimination
-
-        """
-
-        if self._optimal_parameters.get("r") is None:
-            n = self.problem.parameters["code length"]
-            k = self.problem.parameters["code dimension"]
-            if self.complexity_type == ComplexityType.ESTIMATE.value:
-                return _optimize_m4ri(n, k, self.problem.memory_bound - log2(n - k))
-            elif self.complexity_type == ComplexityType.TILDEO.value:
-                return 0
-
-        return self._optimal_parameters.get("r")
-
     def _are_parameters_invalid(self, parameters: dict):
         """
         returns `true` if `parameters` is an invalid parameter set
@@ -82,7 +63,6 @@ class SDFqAlgorithm(BaseAlgorithm):
         Enumerates over all valid parameter configurations withing the ranges
         of the optimization and saves the best result in `self._optimal_parameter`
         """
-        _ = self.r()
         time = inf
         while True:
             stop = True

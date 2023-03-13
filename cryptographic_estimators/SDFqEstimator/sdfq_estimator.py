@@ -50,7 +50,7 @@ class SDFqEstimator(BaseEstimator):
             +-------------+------+--------+
             | algorithm   | time | memory |
             +-------------+------+--------+
-            | Prange      | 36.7 |   13.9 |
+            | Prange      | 37.1 |   13.5 |
             | Stern       | 24.3 |   20.5 |
             | LeeBrickell | 25.7 |   13.5 |
             +-------------+------+--------+
