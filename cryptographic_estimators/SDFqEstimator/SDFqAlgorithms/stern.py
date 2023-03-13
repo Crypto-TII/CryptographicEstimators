@@ -19,6 +19,13 @@ class Stern(SDFqAlgorithm):
             +-------------------------+---------+-------------+-------------+
         INPUT:
         - ``problem`` -- SDProblem object including all necessary parameters
+
+        TEST:
+            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
+            sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
+            sage: Stern(SDFqProblem(n=961,k=771,w=48,q=31)).time_complexity()
+            129.0592123557278
+
         EXAMPLES::
             sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
