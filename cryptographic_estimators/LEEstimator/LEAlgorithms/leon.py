@@ -5,7 +5,7 @@ from ...PEEstimator import Leon as PELeon
 from ...PEEstimator.pe_problem import PEProblem
 
 
-class Leon(LEAlgorithm):
+class Leon(PELeon, LEAlgorithm):
 
     def __init__(self, problem: LEProblem, **kwargs):
         """
@@ -21,25 +21,10 @@ class Leon(LEAlgorithm):
             - ``problem`` -- PEProblem object including all necessary parameters
             - ``codewords_needed_for_success`` -- Number of low word codewords needed for success (default = 100)
         """
-        super().__init__(problem, **kwargs)
+        LEAlgorithm.__init__(self, problem, **kwargs)
         self._name = "Leon"
         n, k, q = self.problem.get_parameters()
-        self.PELeon = PELeon(PEProblem(n=n, k=k, q=q))
-
-        self.set_parameter_ranges('w', 0, n)
-
-    @optimal_parameter
-    def w(self):
-        """
-        Return the optimal parameter $w$ used in the algorithm optimization
-        """
-        return self.PELeon.w()
-
-    def _compute_time_complexity(self, parameters):
-        return self.PELeon._compute_time_complexity(parameters)
-
-    def _compute_memory_complexity(self, parameters):
-        return self.PELeon._compute_memory_complexity(parameters)
+        PELeon.__init__(self, PEProblem(n=n, k=k, q=q), **kwargs)
 
     def __repr__(self):
         rep = "Leon estimator for " + str(self.problem)
