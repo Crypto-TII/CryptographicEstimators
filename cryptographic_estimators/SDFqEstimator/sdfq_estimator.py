@@ -57,14 +57,17 @@ class SDFqEstimator(BaseEstimator):
 
         TESTS:
             sage: from cryptographic_estimators.SDFqEstimator import SDFqEstimator
-            sage: A = SDFqEstimator(n=100, k=42, w=13, q=4,bit_complexities=1, workfactor_accuracy=20)
-            sage: A.table(show_tilde_o_time=1, precision=1) # long time
-
-            sage: from cryptographic_estimators.SDFqEstimator import SDFqEstimator
             sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Prange
             sage: A = SDFqEstimator(961,771,48,31,excluded_algorithms=[Prange])
             sage: A.table(precision=3, show_all_parameters=1) # long time
-
+            +-------------+-------------------------------------+
+            |             |               estimate              |
+            +-------------+---------+--------+------------------+
+            | algorithm   |    time | memory |    parameters    |
+            +-------------+---------+--------+------------------+
+            | Stern       | 129.059 | 37.471 | {'p': 2, 'l': 7} |
+            | LeeBrickell | 140.364 | 21.808 |     {'p': 2}     |
+            +-------------+---------+--------+------------------+
         """
         super(SDFqEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,

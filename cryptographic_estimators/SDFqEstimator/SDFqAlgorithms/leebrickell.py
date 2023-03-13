@@ -1,10 +1,9 @@
 from ...SDFqEstimator.sdfq_algorithm import SDFqAlgorithm
 from ...SDFqEstimator.sdfq_problem import SDFqProblem
-from ...SDFqEstimator.sdfq_helper import _gaussian_elimination_complexity, _mem_matrix, binom, log2
+from ...SDFqEstimator.sdfq_helper import binom, log2, min_max, inf
 from ...base_algorithm import optimal_parameter
 from ...helper import memory_access_cost
 from ..sdfq_constants import *
-from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matrix, binom, log2, min_max, inf
 from ..SDFqWorkfactorModels.prange import PrangeScipyModel
 from types import SimpleNamespace
 

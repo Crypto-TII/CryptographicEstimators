@@ -200,7 +200,7 @@ class SDAlgorithm(BaseAlgorithm):
         wf_time, wf_memory, par = model.get_time_memory_and_parameters(
             parameters=parameters)
         self._optimal_parameters.update(par)
-        n, _, _, _ = self.problem.get_parameters()
+        n, _, _ = self.problem.get_parameters()
         return wf_time*n, wf_memory*n
 
     def _get_verbose_information(self):
