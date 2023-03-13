@@ -93,11 +93,17 @@ class MQAlgorithm(BaseAlgorithm):
         n, m = self.problem.nvariables(), self.problem.npolynomials()
         if self.problem.is_underdefined_system():
             alpha = floor(n / m)
-            self._n_reduced = m - alpha + 1
+            if m - alpha + 1 > 1:
+                self._n_reduced = m - alpha + 1
+            else:
+                self._n_reduced = m
         else:
             self._n_reduced = n
 
         self._n_reduced -= self._h
+
+        if self.problem.is_underdefined_system():
+            self.problem.nsolutions = 0
         return self._n_reduced
 
     def npolynomials_reduced(self):
@@ -134,7 +140,7 @@ class MQAlgorithm(BaseAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQAlgorithm(MQProblem(n=10, m=5), w=2).linear_algebra_constant()
+            sage: MQAlgorithm(MQProblem(n=10, m=5, q=4), w=2).linear_algebra_constant()
             2
         """
         return self._w
