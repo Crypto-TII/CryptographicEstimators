@@ -1,7 +1,7 @@
 from ...SDFqEstimator.sdfq_algorithm import SDFqAlgorithm
 from ...SDFqEstimator.sdfq_problem import SDFqProblem
 from ...SDFqEstimator.sdfq_helper import _gaussian_elimination_complexity, _mem_matrix, binom, log2
-from ...helper import memory_access_cost, ComplexityType
+from ...helper import ComplexityType
 from ..sdfq_constants import *
 from ..SDFqWorkfactorModels.prange import PrangeScipyModel
 
@@ -44,7 +44,6 @@ class Prange(SDFqAlgorithm):
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w)) - solutions, 0)
         Tg = log2(_gaussian_elimination_complexity(n, k, 0)*(n+k))
         time = Tp + Tg + log2(n)
-        time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp

@@ -2,7 +2,6 @@ from ...SDFqEstimator.sdfq_algorithm import SDFqAlgorithm
 from ...SDFqEstimator.sdfq_problem import SDFqProblem
 from ...SDFqEstimator.sdfq_helper import binom, log2, min_max, inf
 from ...base_algorithm import optimal_parameter
-from ...helper import memory_access_cost
 from ..sdfq_constants import *
 from ..SDFqWorkfactorModels.prange import PrangeScipyModel
 from types import SimpleNamespace
@@ -105,7 +104,6 @@ class LeeBrickell(SDFqAlgorithm):
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w - par.p)) - log2(binom(k, par.p)) - solutions, 0)
         Tg = log2(k*k*n)
         time = Tp + log2(2**Tg + 2**L)
-        time += memory_access_cost(memory, self.memory_access)
         
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
