@@ -1,7 +1,7 @@
 from ...base_algorithm import optimal_parameter
 from ...SDFqEstimator.sdfq_algorithm import SDFqAlgorithm
 from ...SDFqEstimator.sdfq_problem import SDFqProblem
-from ...SDFqEstimator.sdfq_helper import _gaussian_elimination_complexity, _mem_matrix, binom, log2, min_max, inf
+from ...SDFqEstimator.sdfq_helper import _mem_matrix, binom, log2, min_max, inf
 from types import SimpleNamespace
 from ..sdfq_constants import *
 #from ..SDFqWorkfactorModels.stern import SternScipyModel
@@ -34,7 +34,7 @@ class Stern(SDFqAlgorithm):
         self._name = "Stern"
         super(Stern, self).__init__(problem, **kwargs)
         self.initialize_parameter_ranges()
-        self.scipy_model = SternScipyModel
+        # self.scipy_model = SternScipyModel
 
     def initialize_parameter_ranges(self):
         """

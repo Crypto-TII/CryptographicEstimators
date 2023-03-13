@@ -26,7 +26,7 @@ class LeeBrickell(SDFqAlgorithm):
         """
         self._name = "LeeBrickell"
         super(LeeBrickell, self).__init__(problem, **kwargs)
-        self.scipy_model = PrangeScipyModel
+        # self.scipy_model = PrangeScipyModel
         self.initialize_parameter_ranges()
 
     def initialize_parameter_ranges(self):

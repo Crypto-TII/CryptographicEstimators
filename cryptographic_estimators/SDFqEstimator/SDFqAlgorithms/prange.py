@@ -26,7 +26,7 @@ class Prange(SDFqAlgorithm):
         """
         self._name = "Prange"
         super(Prange, self).__init__(problem, **kwargs)
-        self.scipy_model = PrangeScipyModel
+        # self.scipy_model = PrangeScipyModel
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """
