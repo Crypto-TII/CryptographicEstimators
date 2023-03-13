@@ -39,4 +39,4 @@ class DummyAlgorithm(BaseAlgorithm):
         NOTE: self._name must be instanciated via the child class
         """
         par1, par2 = self.problem.get_parameters()
-        return f"{self._name} estimator for the dummy problem with parameters {par1} and {par2} "
+        return f"{self._name} estimator for the dummy problem with parameters {par1} and {par2}. "
