@@ -1,23 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
 
 
 from ...MQEstimator.mq_algorithm import MQAlgorithm
@@ -47,6 +43,7 @@ class F5(MQAlgorithm):
         sage: E
         F5 estimator for the MQ problem with 10 variables and 5 polynomials
     """
+
     def __init__(self, problem: MQProblem, **kwargs):
         m = problem.npolynomials()
         degrees = kwargs.get('degrees', [2]*m)
@@ -112,7 +109,8 @@ class F5(MQAlgorithm):
                 self._time_complexity = self._time_complexity_regular_system()
 
             if self.complexity_type == ComplexityType.ESTIMATE.value:
-                self._time_complexity = max(self._time_complexity, self._time_complexity_fglm())
+                self._time_complexity = max(
+                    self._time_complexity, self._time_complexity_fglm())
 
         return self._time_complexity
 
@@ -146,7 +144,8 @@ class F5(MQAlgorithm):
             12.643856189774725
         """
         if not (self.problem.is_square_system() or self.problem.is_underdefined_system()):
-            raise ValueError("regularity assumption is valid only on square or underdefined system")
+            raise ValueError(
+                "regularity assumption is valid only on square or underdefined system")
 
         n, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
@@ -172,7 +171,8 @@ class F5(MQAlgorithm):
             11.614709844115207
         """
         if not self.problem.is_overdefined_system():
-            raise ValueError("semi regularity assumption is valid only on overdefined system")
+            raise ValueError(
+                "semi regularity assumption is valid only on overdefined system")
 
         n, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
@@ -199,8 +199,8 @@ class F5(MQAlgorithm):
             if self._dreg is None:
                 self._dreg = degree_of_regularity.quadratic_system(n, m, q)
             dreg = self._dreg
-            self._memory_complexity = log2(max(binomial(n + dreg - 1, dreg) ** 2, m * n ** 2))
+            self._memory_complexity = log2(
+                max(binomial(n + dreg - 1, dreg) ** 2, m * n ** 2))
             if self._memory_complexity == m * n ** 2 and self.complexity_type == ComplexityType.TILDEO.value:
                 self._memory_complexity = 0
         return self._memory_complexity
-

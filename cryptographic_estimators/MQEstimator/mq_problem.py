@@ -1,16 +1,16 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
@@ -67,10 +67,6 @@ class MQProblem(BaseProblem):
         - ``basic_operations`` -- Number of field additions (logarithmic)
         - ``theta`` -- exponent of the conversion factor
 
-        EXAMPLES::
-
-        TESTS::
-
         """
         q = self.parameters[MQ_FIELD_SIZE]
         theta = self._theta
@@ -80,7 +76,7 @@ class MQProblem(BaseProblem):
     def theta(self):
         """
         returns the runtime of the algorithm
-        
+
         """
         return self._theta
 
@@ -209,6 +205,7 @@ class MQProblem(BaseProblem):
         """
         n, m, q = self.get_problem_parameters()
         rep = "MQ problem with (n,m,q) = " \
-              + "(" + str(n) + "," + str(m) + "," + str(q) + ") over " + str(self.baseField)
+              + "(" + str(n) + "," + str(m) + "," + \
+            str(q) + ") over " + str(self.baseField)
 
         return rep

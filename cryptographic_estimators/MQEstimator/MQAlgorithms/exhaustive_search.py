@@ -1,23 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
 
 
 from ...MQEstimator.mq_algorithm import MQAlgorithm
@@ -49,6 +45,7 @@ class ExhaustiveSearch(MQAlgorithm):
         sage: E
         ExhaustiveSearch estimator for the MQ problem with 10 variables and 12 polynomials
     """
+
     def __init__(self, problem: MQProblem, **kwargs):
         q = problem.order_of_the_field()
         if not isinstance(q, (int, Integer)):
@@ -91,7 +88,8 @@ class ExhaustiveSearch(MQAlgorithm):
             h = self._h
             self._time_complexity += h * log2(q)
             if self.bit_complexities:
-                self._time_complexity = self.problem.to_bitcomplexity_time(self._time_complexity)
+                self._time_complexity = self.problem.to_bitcomplexity_time(
+                    self._time_complexity)
         return self._time_complexity
 
     def memory_complexity(self):
@@ -121,7 +119,6 @@ class ExhaustiveSearch(MQAlgorithm):
         if self.complexity_type == ComplexityType.ESTIMATE.value:
             self._memory_complexity = log2(m * n ** 2)
             if self.bit_complexities:
-                self._memory_complexity = self.problem.to_bitcomplexity_time(self._memory_complexity)
+                self._memory_complexity = self.problem.to_bitcomplexity_time(
+                    self._memory_complexity)
         return self._memory_complexity
-
-

@@ -16,10 +16,6 @@
 # ****************************************************************************
  
 
-
- 
-
-
 import collections
 from ..sd_estimator import SDProblem
 from .workfactor_helper import list_of_random_tuples, wrap, binomial_approximation
