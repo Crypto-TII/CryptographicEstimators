@@ -19,7 +19,7 @@
 from ...SDEstimator.sd_algorithm import SDAlgorithm
 from ...SDEstimator.sd_problem import SDProblem
 from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matrix, binom, log2
-from ...helper import memory_access_cost, ComplexityType
+from ...helper import ComplexityType
 from ..sd_constants import *
 from ..SDWorkfactorModels.prange import PrangeScipyModel
 
@@ -70,7 +70,6 @@ class Prange(SDAlgorithm):
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w)) - solutions, 0)
         Tg = log2(_gaussian_elimination_complexity(n, k, r))
         time = Tp + Tg
-        time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
