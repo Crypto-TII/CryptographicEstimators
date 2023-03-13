@@ -1,23 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
 
 
 from ...base_algorithm import optimal_parameter
@@ -137,7 +133,7 @@ class BJMM(SDAlgorithm):
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """
         computes and returns the time and memory complexity for either the depth 2 or 3 algorithm
-        
+
         INPUT:
 
         - ``parameters`` -- current parameter set
@@ -304,7 +300,8 @@ class BJMMd2(SDAlgorithm):
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
                 for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
-                    indices = {"p": p, "p1": p1, "l": l, "r": self._optimal_parameters["r"]}
+                    indices = {"p": p, "p1": p1, "l": l,
+                               "r": self._optimal_parameters["r"]}
                     if self._are_parameters_invalid(indices):
                         continue
                     yield indices
@@ -328,7 +325,8 @@ class BJMMd2(SDAlgorithm):
         if self._is_early_abort_possible(log2(L1)):
             return inf, inf
 
-        reps = (binom(par.p, par.p / 2) * binom(k1 - par.p, par.p1 - par.p / 2)) ** 2
+        reps = (binom(par.p, par.p / 2) *
+                binom(k1 - par.p, par.p1 - par.p / 2)) ** 2
 
         l1 = int(ceil(log2(reps)))
 
@@ -343,21 +341,25 @@ class BJMMd2(SDAlgorithm):
 
         Tp = max(log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p)) - 2 * log2(
             binom((k + par.l) // 2, par.p)) - solutions,
-                 0)
+            0)
         Tg = _gaussian_elimination_complexity(n, k, par.r)
-        T_tree = 2 * _list_merge_complexity(L1, l1, self._hmap) + _list_merge_complexity(L12, par.l - l1, self._hmap)
+        T_tree = 2 * _list_merge_complexity(L1, l1, self._hmap) + \
+            _list_merge_complexity(L12, par.l - l1, self._hmap)
         T_rep = int(ceil(2 ** (l1 - log2(reps))))
 
         time = Tp + log2(Tg + T_rep * T_tree)
         time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
-            verbose_information[VerboseInformation.CONSTRAINTS.value] = [l1, par.l - l1]
+            verbose_information[VerboseInformation.CONSTRAINTS.value] = [
+                l1, par.l - l1]
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
-            verbose_information[VerboseInformation.TREE.value] = log2(T_rep * T_tree)
+            verbose_information[VerboseInformation.TREE.value] = log2(
+                T_rep * T_tree)
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
             verbose_information[VerboseInformation.REPRESENTATIONS.value] = reps
-            verbose_information[VerboseInformation.LISTS.value] = [log2(L1), log2(L12), 2 * log2(L12) - (par.l - l1)]
+            verbose_information[VerboseInformation.LISTS.value] = [
+                log2(L1), log2(L12), 2 * log2(L12) - (par.l - l1)]
 
         return time, memory
 
@@ -504,7 +506,8 @@ class BJMMd3(SDAlgorithm):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
                 for p2 in range(max(new_ranges["p2"]["min"], p // 2 + ((p // 2) % 2)), new_ranges["p2"]["max"], 2):
                     for p1 in range(max(new_ranges["p1"]["min"], (p2 + 1) // 2), new_ranges["p1"]["max"]):
-                        indices = {"p": p, "p1": p1, "p2": p2, "l": l, "r": self._optimal_parameters["r"]}
+                        indices = {"p": p, "p1": p1, "p2": p2,
+                                   "l": l, "r": self._optimal_parameters["r"]}
                         if self._are_parameters_invalid(indices):
                             continue
                         yield indices
@@ -527,11 +530,13 @@ class BJMMd3(SDAlgorithm):
         if self._is_early_abort_possible(log2(L1)):
             return inf, inf
 
-        reps1 = (binom(par.p2, par.p2 / 2) * binom(k1 - par.p2, par.p1 - par.p2 / 2)) ** 2
+        reps1 = (binom(par.p2, par.p2 / 2) *
+                 binom(k1 - par.p2, par.p1 - par.p2 / 2)) ** 2
         l1 = int((log2(reps1))) if reps1 != 1 else 0
 
         L12 = max(1, L1 ** 2 // 2 ** l1)
-        reps2 = (binom(par.p, par.p / 2) * binom(k1 - par.p, par.p2 - par.p / 2)) ** 2
+        reps2 = (binom(par.p, par.p / 2) *
+                 binom(k1 - par.p, par.p2 - par.p / 2)) ** 2
         l2 = int(ceil(log2(reps2))) if reps2 != 1 else 0
 
         L1234 = max(1, L12 ** 2 // 2 ** (l2 - l1))
@@ -541,22 +546,26 @@ class BJMMd3(SDAlgorithm):
 
         Tp = max(log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p)) - 2 * log2(
             binom((k + par.l) // 2, par.p)) - solutions,
-                 0)
+            0)
         Tg = _gaussian_elimination_complexity(n, k, par.r)
         T_tree = 4 * _list_merge_complexity(L1, l1, self._hmap) \
-                 + 2 * _list_merge_complexity(L12, l2 - l1, self._hmap) \
-                 + _list_merge_complexity(L1234, par.l - l2, self._hmap)
-        T_rep = int(ceil(2 ** (3 * max(0, l1 - log2(reps1)) + max(0, l2 - log2(reps2)))))
+            + 2 * _list_merge_complexity(L12, l2 - l1, self._hmap) \
+            + _list_merge_complexity(L1234, par.l - l2, self._hmap)
+        T_rep = int(
+            ceil(2 ** (3 * max(0, l1 - log2(reps1)) + max(0, l2 - log2(reps2)))))
 
         time = Tp + log2(Tg + T_rep * T_tree)
         time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
-            verbose_information[VerboseInformation.CONSTRAINTS.value] = [l1, par.l - l1]
+            verbose_information[VerboseInformation.CONSTRAINTS.value] = [
+                l1, par.l - l1]
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
-            verbose_information[VerboseInformation.TREE.value] = log2(T_rep * T_tree)
+            verbose_information[VerboseInformation.TREE.value] = log2(
+                T_rep * T_tree)
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
-            verbose_information[VerboseInformation.REPRESENTATIONS.value] = [reps1, reps2]
+            verbose_information[VerboseInformation.REPRESENTATIONS.value] = [
+                reps1, reps2]
             verbose_information[VerboseInformation.LISTS.value] = [log2(L1), log2(L12), log2(L1234),
                                                                    2 * log2(L1234) - (par.l - l1 - l2)]
             return verbose_information

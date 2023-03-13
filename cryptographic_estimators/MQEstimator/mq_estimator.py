@@ -1,23 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
 
 
 from ..MQEstimator.mq_algorithm import MQAlgorithm
@@ -87,7 +83,8 @@ class MQEstimator(BaseEstimator):
     """
 
     def __init__(self, n: int, m: int, q=None, memory_bound=inf, **kwargs):
-        super(MQEstimator, self).__init__(MQAlgorithm, MQProblem(n=n, m=m, q=q, memory_bound=memory_bound, **kwargs), **kwargs)
+        super(MQEstimator, self).__init__(MQAlgorithm, MQProblem(
+            n=n, m=m, q=q, memory_bound=memory_bound, **kwargs), **kwargs)
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0):
         """
@@ -123,7 +120,6 @@ class MQEstimator(BaseEstimator):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator import MQEstimator
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = MQEstimator(q=16, m=42, n=41, complexity_type=1)
             sage: E.table(show_tilde_o_time=1, show_all_parameters=1) # long time
             +------------------+-------------------------------------------------------+-------------------------------------------------------+
@@ -132,7 +128,7 @@ class MQEstimator(BaseEstimator):
             | algorithm        |  time | memory |              parameters              |  time | memory |              parameters              |
             +------------------+-------+--------+--------------------------------------+-------+--------+--------------------------------------+
             | BooleanSolveFXL  | 107.8 |   71.5 | {'k': 7, 'variant': 'deterministic'} |  98.4 |   70.4 | {'k': 7, 'variant': 'deterministic'} |
-            | Crossbred        |  95.4 |   89.7 |      {'D': 16, 'd': 4, 'k': 27}      |  88.1 |   87.7 |      {'D': 16, 'd': 4, 'k': 27}      |
+            | Crossbred        |  93.6 |   89.7 |      {'D': 16, 'd': 7, 'k': 32}      |  87.8 |   87.7 |      {'D': 16, 'd': 7, 'k': 32}      |
             | ExhaustiveSearch | 167.4 |   20.1 |                  {}                  | 164.0 |    0.0 |                  {}                  |
             | F5               | 111.1 |  109.9 |                  {}                  | 111.1 |  109.9 |                  {}                  |
             | HybridF5         |  99.2 |   72.4 |               {'k': 6}               |  95.2 |   70.4 |               {'k': 6}               |
@@ -160,6 +156,6 @@ class MQEstimator(BaseEstimator):
         """
 
         super(MQEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
-                                         show_tilde_o_time=show_tilde_o_time,
-                                         show_all_parameters=show_all_parameters,
-                                         precision=precision, truncate=truncate)
+                                       show_tilde_o_time=show_tilde_o_time,
+                                       show_all_parameters=show_all_parameters,
+                                       precision=precision, truncate=truncate)

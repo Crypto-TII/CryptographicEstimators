@@ -1,23 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
 
 
 from ...base_algorithm import optimal_parameter
@@ -158,7 +154,7 @@ class BothMay(SDAlgorithm):
         par = SimpleNamespace(**parameters)
         k1 = k // 2
         if par.p > w // 2 or k1 < par.p or par.w1 >= min(w, par.l + 1) \
-                or par.w2 > min(w - 2 * par.p, par.l , 2 * par.w1) or par.p1 < (par.p + 1) // 2 or par.p1 > w \
+                or par.w2 > min(w - 2 * par.p, par.l, 2 * par.w1) or par.p1 < (par.p + 1) // 2 or par.p1 > w \
                 or n - k - par.l < w - par.w2 - 2 * par.p or par.p1 > k1:
             return True
         return False
@@ -177,7 +173,8 @@ class BothMay(SDAlgorithm):
                 for w1 in range(new_ranges["w1"]["min"], new_ranges["w1"]["max"]+1):
                     for w2 in range(new_ranges["w2"]["min"], new_ranges["w2"]["max"]+1, 2):
                         for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]+1):
-                            indices = {"p": p, "w1": w1, "w2": w2, "p1": p1, "l": l, "r": self._optimal_parameters["r"]}
+                            indices = {"p": p, "w1": w1, "w2": w2, "p1": p1,
+                                       "l": l, "r": self._optimal_parameters["r"]}
                             if self._are_parameters_invalid(indices):
                                 continue
                             yield indices
@@ -197,7 +194,7 @@ class BothMay(SDAlgorithm):
         memory_bound = self.problem.memory_bound
 
         reps = (binom(par.p, par.p / 2) * binom(k1 - par.p, par.p1 - par.p / 2)) ** 2 * binom(par.w2, par.w2 / 2) \
-               * binom(par.l - par.w2, par.w1 - par.w2 / 2)
+            * binom(par.l - par.w2, par.w1 - par.w2 / 2)
         reps = 1 if reps == 0 else reps
         L1 = binom(k1, par.p1)
 
@@ -215,8 +212,10 @@ class BothMay(SDAlgorithm):
                 binom(par.l, par.w2)) - solutions, 0)
         Tg = _gaussian_elimination_complexity(n, k, par.r)
 
-        first_level_nn = _indyk_motwani_complexity(L1, par.l, par.w1, self._hmap)
-        second_level_nn = _indyk_motwani_complexity(L12, n - k - par.l, w - 2 * par.p - par.w2, self._hmap)
+        first_level_nn = _indyk_motwani_complexity(
+            L1, par.l, par.w1, self._hmap)
+        second_level_nn = _indyk_motwani_complexity(
+            L12, n - k - par.l, w - 2 * par.p - par.w2, self._hmap)
         T_tree = 2 * first_level_nn + second_level_nn
         T_rep = int(ceil(2 ** max(0, par.l - log2(reps))))
 
@@ -225,10 +224,12 @@ class BothMay(SDAlgorithm):
         if verbose_information is not None:
             verbose_information[VerboseInformation.CONSTRAINTS.value] = [par.l]
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
-            verbose_information[VerboseInformation.TREE.value] = log2(T_rep * T_tree)
+            verbose_information[VerboseInformation.TREE.value] = log2(
+                T_rep * T_tree)
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
             verbose_information[VerboseInformation.REPRESENTATIONS.value] = reps
-            verbose_information[VerboseInformation.LISTS.value] = [log2(L1), log2(L12)]
+            verbose_information[VerboseInformation.LISTS.value] = [
+                log2(L1), log2(L12)]
 
         return time, memory
 

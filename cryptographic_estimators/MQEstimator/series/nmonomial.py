@@ -1,23 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
 
 
 from sage.arith.misc import is_prime_power
@@ -42,6 +38,7 @@ class NMonomialSeries(object):
         sage: NM
         Class for the number of monomials in the polynomial ring in 6 variables over F_5
     """
+
     def __init__(self, n: int, q=None, max_prec=None):
         self._n = n
         if max_prec is not None:
@@ -54,9 +51,11 @@ class NMonomialSeries(object):
 
         if q is not None:
             if not is_prime_power(q):
-                raise ValueError("the order of finite field q must be a prime power")
+                raise ValueError(
+                    "the order of finite field q must be a prime power")
             self._q = q
-            self._series_of_degree = ((1 - z ** self._q) ** self._n) / ((1 - z) ** self._n)
+            self._series_of_degree = (
+                (1 - z ** self._q) ** self._n) / ((1 - z) ** self._n)
         else:
             self._series_of_degree = 1 / ((1 - z) ** self._n)
 
@@ -106,8 +105,9 @@ class NMonomialSeries(object):
         max_prec = self._max_prec
         if d < max_prec:
             return self._series_of_degree[d]
-        
-        raise ValueError(f'The degree d should be smaller than the precision of the series which is {self._max_prec}')
+
+        raise ValueError(
+            f'The degree d should be smaller than the precision of the series which is {self._max_prec}')
 
     def nmonomials_up_to_degree(self, d: int):
         """
@@ -127,8 +127,9 @@ class NMonomialSeries(object):
         max_prec = self._max_prec
         if d < max_prec:
             return self._series_up_to_degree[d]
-        
-        raise ValueError(f'The degree d should be smaller than the precision of the series which is {max_prec}')
+
+        raise ValueError(
+            f'The degree d should be smaller than the precision of the series which is {max_prec}')
 
     def __repr__(self):
         """
