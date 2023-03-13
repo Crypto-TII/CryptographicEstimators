@@ -37,12 +37,12 @@ class Beullens(LEAlgorithm):
         n, k, q = self.problem.get_parameters()
         w = parameters["w"]
 
-        search_space_size = log2(binom(n,w))+log2(q)*(2*(w-2)-2*(n-k))
+        search_space_size = log2(binom(n, w)) + log2(q) * (2 * (w - 2) - 2 * (n - k))
         if search_space_size < 0:
             return inf, inf
 
-        size_of_orbit = median_size_of_random_orbit(n, w, q)+log2(q-1)*(w-1)
-        if size_of_orbit > log2(q)*(2*(n-k))-log2(ceil(4*log(n,2))):
+        size_of_orbit = median_size_of_random_orbit(n, w, q) + log2(q - 1) * (w - 1)
+        if size_of_orbit > log2(q) * (2 * (n - k)) - log2(ceil(4 * log2(n))):
             return inf, inf
 
         list_size = (search_space_size + log2(2 * log2(n))) / 2
