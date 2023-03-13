@@ -54,6 +54,8 @@ class Beullens(PEAlgorithm):
             verbose_information["list_computation"] = list_computation
             verbose_information["normal form"] = normal_form_cost
 
+        # todo carefull when changing to Fq estimator, Fq estimation does not have to be scaled with n as it returns
+        #      already the number of Fq additions not row operations
         return max(list_computation, normal_form_cost) + log2(n), list_size + log2(n)
 
     def _compute_time_complexity(self, parameters):

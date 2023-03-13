@@ -44,8 +44,8 @@ class Leon(PEAlgorithm):
         w = parameters["w"]
         N = number_of_weight_d_codewords(n, k, q, w)
 
-        # todo exchange against call to Fq SD estimator
-        return isd_cost(n, k, q, parameters["w"]) + log2(ceil(2 * (0.57 + log(N))))
+        # todo exchange against call to Fq SD estimator (remove log2(n) scaling then)
+        return isd_cost(n, k, q, parameters["w"]) + log2(ceil(2 * (0.57 + log(N)))) + log2(n)
 
     def _compute_memory_complexity(self, parameters):
         n, k, q, _ = self.problem.get_parameters()
