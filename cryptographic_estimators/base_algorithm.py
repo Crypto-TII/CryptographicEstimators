@@ -191,31 +191,6 @@ class BaseAlgorithm:
         """
         raise NotImplementedError
 
-    def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Compute and return the tilde-O time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        """
-        raise NotImplementedError
-
-    def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Compute and return the tilde-O memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        """
-        raise NotImplementedError
-
-    def _find_optimal_tilde_o_parameters(self):
-        raise NotImplementedError
-
     def _get_optimal_parameter_methods_(self):
         """
         Return a list of methods decorated with @optimal_parameter ordered by linenumber of appearance
@@ -435,14 +410,6 @@ class BaseAlgorithm:
                 params)
 
         return self._memory_complexity
-
-    def quantum_time_complexity(self):
-        """
-        Returns the quantum time complexity of the algorithm
-
-        """
-
-        raise NotImplementedError
 
     def optimal_parameters(self):
         """

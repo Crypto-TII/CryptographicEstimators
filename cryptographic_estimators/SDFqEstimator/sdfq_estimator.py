@@ -50,23 +50,23 @@ class SDFqEstimator(BaseEstimator):
             +-------------+------+--------+
             | algorithm   | time | memory |
             +-------------+------+--------+
-            | Prange      | 37.1 |   13.5 |
-            | Stern       | 24.3 |   20.5 |
-            | LeeBrickell | 25.7 |   13.5 |
+            | Prange      | 29.9 |   13.5 |
+            | Stern       | 24.3 |   23.9 |
+            | LeeBrickell | 25.4 |   13.5 |
             +-------------+------+--------+
 
         TESTS:
             sage: from cryptographic_estimators.SDFqEstimator import SDFqEstimator
-            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Prange
-            sage: A = SDFqEstimator(961,771,48,31,excluded_algorithms=[Prange])
+            sage: A = SDFqEstimator(961,771,48,31)
             sage: A.table(precision=3, show_all_parameters=1) # long time
             +-------------+-------------------------------------+
             |             |               estimate              |
             +-------------+---------+--------+------------------+
             | algorithm   |    time | memory |    parameters    |
             +-------------+---------+--------+------------------+
-            | Stern       | 129.059 | 37.471 | {'p': 2, 'l': 7} |
-            | LeeBrickell | 140.364 | 21.808 |     {'p': 2}     |
+            | Prange      | 151.310 | 19.794 |        {}        |
+            | Stern       | 129.059 | 42.016 | {'p': 2, 'l': 7} |
+            | LeeBrickell | 140.319 | 21.808 |     {'p': 2}     |
             +-------------+---------+--------+------------------+
         """
         super(SDFqEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
