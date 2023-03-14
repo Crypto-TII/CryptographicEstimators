@@ -31,6 +31,7 @@ class SDFqProblem(BaseProblem):
     - ``w`` -- error weight
     - ``q`` -- size of the basefield of the code
     - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
+    - ``is_syndrome_zero`` -- if set to true, special algorithmic optimizations can be applied (default: True)
     """
 
     def __init__(self, n: int, k: int, w: int, q: int, **kwargs):  # Fill with parameters
@@ -49,6 +50,7 @@ class SDFqProblem(BaseProblem):
         self.parameters[SDFQ_ERROR_FIELD_SIZE] = q
 
         self.nsolutions = kwargs.get("nsolutions", max(self.expected_number_solutions(), 0))
+        self.is_syndrome_zero = kwargs.get("is_syndrome_zero", True)
 
     def to_bitcomplexity_time(self, basic_operations:float):
         """ 

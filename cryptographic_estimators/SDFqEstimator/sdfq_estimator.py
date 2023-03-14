@@ -50,9 +50,9 @@ class SDFqEstimator(BaseEstimator):
             +-------------+------+--------+
             | algorithm   | time | memory |
             +-------------+------+--------+
-            | Prange      | 37.1 |   13.5 |
-            | Stern       | 24.3 |   20.5 |
-            | LeeBrickell | 25.7 |   13.5 |
+            | Prange      | 36.5 |   13.5 |
+            | Stern       | 24.3 |   28.5 |
+            | LeeBrickell | 25.4 |   13.5 |
             +-------------+------+--------+
 
         TESTS:
@@ -65,8 +65,8 @@ class SDFqEstimator(BaseEstimator):
             +-------------+---------+--------+------------------+
             | algorithm   |    time | memory |    parameters    |
             +-------------+---------+--------+------------------+
-            | Stern       | 129.059 | 37.471 | {'p': 2, 'l': 7} |
-            | LeeBrickell | 140.364 | 21.808 |     {'p': 2}     |
+            | Stern       | 129.059 | 57.098 | {'p': 2, 'l': 7} |
+            | LeeBrickell | 140.319 | 21.808 |     {'p': 2}     |
             +-------------+---------+--------+------------------+
         """
         super(SDFqEstimator, self).table(show_quantum_complexity=show_quantum_complexity,

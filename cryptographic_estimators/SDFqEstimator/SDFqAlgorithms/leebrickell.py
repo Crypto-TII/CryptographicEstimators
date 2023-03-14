@@ -3,7 +3,6 @@ from ...SDFqEstimator.sdfq_problem import SDFqProblem
 from ...SDFqEstimator.sdfq_helper import binom, log2, min_max, inf
 from ...base_algorithm import optimal_parameter
 from ..sdfq_constants import *
-#from ..SDFqWorkfactorModels.prange import PrangeScipyModel
 from types import SimpleNamespace
 
 
@@ -18,16 +17,23 @@ class LeeBrickell(SDFqAlgorithm):
             +--------------------------------+-------------------------------+
         INPUT:
         - ``problem`` -- SDProblem object including all necessary parameters
+
+        TESTS::
+            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell
+            sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
+            sage: LeeBrickell(SDFqProblem(n=961,k=771,w=48,q=31)).time_complexity()
+            140.31928490910389
+
         EXAMPLES::
-            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import Prange
-            sage: from cryptographic_estimators.SDEstimator import SDProblem
-            sage: Prange(SDProblem(n=100,k=50,w=10))
-            Prange estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 2
+            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell
+            sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
+            sage: LeeBrickell(SDFqProblem(n=100,k=50,w=10,q=5))
+            Lee-Brickell estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 5
         """
         self._name = "LeeBrickell"
         super(LeeBrickell, self).__init__(problem, **kwargs)
-        # self.scipy_model = PrangeScipyModel
         self.initialize_parameter_ranges()
+        self.is_syndrome_zero = int(problem.is_syndrome_zero)
 
     def initialize_parameter_ranges(self):
         """
@@ -80,7 +86,7 @@ class LeeBrickell(SDFqAlgorithm):
         """
         Return time complexity of Lee-Brickell's algorithm over Fq, q > 2 for
         given set of parameters
-        NOTE: this wokrs
+        NOTE: this optimization assumes that the algorithm is executed on the generator matrix
         INPUT:
         -  ``parameters`` -- dictionary including parameters
         -  ``verbose_information`` -- if set to a dictionary `permutations`,
@@ -98,13 +104,14 @@ class LeeBrickell(SDFqAlgorithm):
             return inf, inf
 
         solutions = self.problem.nsolutions
-        L =  log2(binom(k, par.p)) + log2(q) + log2(n)# + log2((q-1)**(par.p))
+        L = binom(k, par.p) * (q-1)**(max(0, par.p-self.is_syndrome_zero))
+        # This is what ward calculates
+        # L = k**par.p * q
         memory = log2(k * n)
 
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w - par.p)) - log2(binom(k, par.p)) - solutions, 0)
-        Tg = log2(k*k*n)
-        time = Tp + log2(2**Tg + 2**L)
-        
+        Tg = k*k
+        time = Tp + log2(Tg + L) + log2(n)
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = Tg
@@ -115,5 +122,5 @@ class LeeBrickell(SDFqAlgorithm):
     def __repr__(self):
         """
         """
-        rep = "Prange estimator for " + str(self.problem)
+        rep = "Lee-Brickell estimator for " + str(self.problem)
         return rep

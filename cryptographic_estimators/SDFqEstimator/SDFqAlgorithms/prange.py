@@ -1,9 +1,7 @@
 from ...SDFqEstimator.sdfq_algorithm import SDFqAlgorithm
 from ...SDFqEstimator.sdfq_problem import SDFqProblem
-from ...SDFqEstimator.sdfq_helper import _gaussian_elimination_complexity, _mem_matrix, binom, log2
-from ...helper import ComplexityType
+from ...SDFqEstimator.sdfq_helper import _mem_matrix, binom, log2
 from ..sdfq_constants import *
-#from ..SDFqWorkfactorModels.prange import PrangeScipyModel
 
 
 class Prange(SDFqAlgorithm):
@@ -26,7 +24,6 @@ class Prange(SDFqAlgorithm):
         """
         self._name = "Prange"
         super(Prange, self).__init__(problem, **kwargs)
-        # self.scipy_model = PrangeScipyModel
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """
@@ -42,7 +39,7 @@ class Prange(SDFqAlgorithm):
         memory = log2(_mem_matrix(n, k, 0) * n)
 
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w)) - solutions, 0)
-        Tg = log2(_gaussian_elimination_complexity(n, k, 0)*(n+k))
+        Tg = log2(k*k*n)
         time = Tp + Tg + log2(n)
 
         if verbose_information is not None:
