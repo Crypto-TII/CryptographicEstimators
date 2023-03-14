@@ -1,9 +1,8 @@
 name: build-deploy-api
 on:
   workflow_run:
-    workflows: ['build-deploy-library']
-    types:
-      - completed
+    workflows: [build-deploy-library]
+    types: [completed]
 
 jobs:
   api-build-deploy:
