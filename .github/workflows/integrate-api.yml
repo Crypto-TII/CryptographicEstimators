@@ -39,10 +39,10 @@ jobs:
 
       - name: Pull API from BitBucket
         run: |
-          cd ..|
-          && git clone https://x-token-auth:${{ secrets.BITBUCKET_API_TOKEN }}@bitbucket.org/${{ secrets.BITBUCKET_ORG }}/${{ secrets.BITBUCKET_REPOSITORY }}.git |
-          && cd ${{ secrets.BITBUCKET_REPOSITORY }} |
-          && docker build -t estimators-api --file Dockerfile.local .
+          cd ..
+          git clone https://x-token-auth:${{ secrets.BITBUCKET_API_TOKEN }}@bitbucket.org/${{ secrets.BITBUCKET_ORG }}/${{ secrets.BITBUCKET_REPOSITORY }}.git 
+          cd ${{ secrets.BITBUCKET_REPOSITORY }} 
+          docker build -t estimators-api --file Dockerfile.local .
 
       - name: Configure AWS Credential
         uses: aws-actions/configure-aws-credentials@v1
