@@ -16,10 +16,11 @@ class Stern(SDFqAlgorithm):
             | <----+ n - k - l +----> |<-- l -->|<--+ k/2 +-->|<--+ k/2 +-->|
             |          w - 2p         |    0    |      p      |      p      |
             +-------------------------+---------+-------------+-------------+
+
         INPUT:
         - ``problem`` -- SDProblem object including all necessary parameters
 
-        TEST:
+        TEST::
             sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: Stern(SDFqProblem(n=961,k=771,w=48,q=31)).time_complexity()
@@ -30,6 +31,7 @@ class Stern(SDFqAlgorithm):
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: Stern(SDFqProblem(n=100,k=50,w=10,q=3))
             Stern estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 3
+
         """
         self._name = "Stern"
         super(Stern, self).__init__(problem, **kwargs)
@@ -37,7 +39,7 @@ class Stern(SDFqAlgorithm):
 
     def initialize_parameter_ranges(self):
         """
-        initialize the parameter ranges for p, l to start the optimisation 
+        Initialize the parameter ranges for p, l to start the optimisation
         process.
         """
         n, k, w, _ = self.problem.get_parameters()
@@ -49,12 +51,14 @@ class Stern(SDFqAlgorithm):
     def l(self):
         """
         Return the optimal parameter $l$ used in the algorithm optimization
+
         EXAMPLES::
             sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: A = Stern(SDFqProblem(n=100,k=50,w=10,q=3))
             sage: A.l()
             7
+
         """
 
         return self._get_optimal_parameter("l")
@@ -63,19 +67,21 @@ class Stern(SDFqAlgorithm):
     def p(self):
         """
         Return the optimal parameter $p$ used in the algorithm optimization
+
         EXAMPLES::
             sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: A = Stern(SDFqProblem(n=100,k=50,w=10,q=3))
             sage: A.p()
             2
+
         """
 
         return self._get_optimal_parameter("p")
 
     def _are_parameters_invalid(self, parameters: dict):
         """
-        return if the parameter set `parameters` is invalid
+        Return if the parameter set `parameters` is invalid
         """
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
@@ -109,10 +115,12 @@ class Stern(SDFqAlgorithm):
             - https://github.com/secomms/pkpattack/blob/main/cost_isd.sage
         which was adapted from:
             - https://github.com/christianepeters/isdfq/blob/master/isdfq.gp
+
         INPUT:
         -  ``parameters`` -- dictionary including parameters
         -  ``verbose_information`` -- if set to a dictionary `permutations`,
                                       `gauß` and `list` will be returned.
+
         """
         n, k, w, q = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)

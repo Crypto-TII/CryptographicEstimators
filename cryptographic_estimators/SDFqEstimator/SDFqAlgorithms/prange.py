@@ -13,6 +13,7 @@ class Prange(SDFqAlgorithm):
             | <----------+ n - k +---------> | <----------+ k +------------> |
             |                w               |              0                |
             +--------------------------------+-------------------------------+
+
         INPUT:
         - ``problem`` -- SDProblem object including all necessary parameters
 
@@ -21,6 +22,7 @@ class Prange(SDFqAlgorithm):
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: Prange(SDFqProblem(n=100,k=50,w=10,q=3))
             Prange estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 3
+
         """
         self._name = "Prange"
         super(Prange, self).__init__(problem, **kwargs)

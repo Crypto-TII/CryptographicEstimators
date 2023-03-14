@@ -48,12 +48,14 @@ class LeeBrickell(SDFqAlgorithm):
     def p(self):
         """
         Return the optimal parameter $p$ used in the algorithm optimization
+
         EXAMPLES::
             sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: A = LeeBrickell(SDFqProblem(n=100,k=50,w=10,q=5))
             sage: A.p()
             2
+
         """
         return self._get_optimal_parameter("p")
 
@@ -87,6 +89,7 @@ class LeeBrickell(SDFqAlgorithm):
         Return time complexity of Lee-Brickell's algorithm over Fq, q > 2 for
         given set of parameters
         NOTE: this optimization assumes that the algorithm is executed on the generator matrix
+
         INPUT:
         -  ``parameters`` -- dictionary including parameters
         -  ``verbose_information`` -- if set to a dictionary `permutations`,
@@ -97,6 +100,7 @@ class LeeBrickell(SDFqAlgorithm):
             sage: A = LeeBrickell(SDFqProblem(n=100,k=50,q=3,w=10))
             sage: A.p()
             2
+
         """
         n, k, w, q = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
