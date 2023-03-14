@@ -3,7 +3,8 @@ from shutil import copyfile
 from pathlib import Path
 
 EXCLUDED_FOLDERS = ["__pycache__"]
-EXCLUDED_FILES = ["__init__.py", "mq_main.sage.py", "references.rst", "scipy_model.py"]
+EXCLUDED_FILES = ["__init__.py", "mq_main.sage.py",
+                  "references.rst", "scipy_model.py"]
 EXCLUDED_EXTENSIONS = [".md", ".so", ".dylib", ".egg-info", ".pyc", ".sage"]
 SOURCE_ROOT_FOLDER = "./docs/source/"
 Path(SOURCE_ROOT_FOLDER).mkdir(exist_ok=True)
@@ -94,4 +95,4 @@ with Path(SOURCE_ROOT_FOLDER, "index.rst").open(mode="w") as index_rst_file:
                          "* :ref:`search`\n")
 
 copyfile("conf.py", Path(SOURCE_ROOT_FOLDER, "conf.py"))
-#copyfile("references.rst", Path("source", "references.rst"))
+copyfile("references.rst", Path(SOURCE_ROOT_FOLDER, "references.rst"))
