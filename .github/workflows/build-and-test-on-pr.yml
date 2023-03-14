@@ -1,4 +1,4 @@
-name: Build the docker image and run sage tests
+name: build-and-test
 on:
   pull_request:
 

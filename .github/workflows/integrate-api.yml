@@ -1,12 +1,12 @@
-name: build-deploy-library
+name: build-deploy-api
 on:
-  push:
-    branches:
-      - main
-      - develop
+  workflow_run:
+    workflows: ['build-deploy-library']
+    types:
+      - completed
 
 jobs:
-  lib-build-deploy:
+  api-build-deploy:
     runs-on: ubuntu-22.04
     concurrency: ci-${{github.ref}}
     steps:
@@ -24,7 +24,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: Build
+      - name: Build library
         uses: docker/build-push-action@v4
         id: built-image
         with:
@@ -40,29 +40,31 @@ jobs:
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
+      - name: Pull API from BitBucket
+        run: |
+          cd ..
+          git clone https://x-token-auth:${{ secrets.BITBUCKET_API_TOKEN }}@bitbucket.org/${{ secrets.BITBUCKET_ORG }}/${{ secrets.BITBUCKET_REPOSITORY }}.git 
+          cd ${{ secrets.BITBUCKET_REPOSITORY }} 
+          docker build -t estimators-api --file Dockerfile.integration --build-arg API_KEY_ARG=${{ secrets.API_KEY_ARG }} .
+
       - name: Configure AWS Credential
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: me-central-1
 
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-        with:
-          registry-type: public
 
-      - name: Tag and push to ECR
+      - name: Push API to AWS
         run: |
-          docker tag estimators-lib:latest public.ecr.aws/h0m6q0n8/estimators-lib:latest
-          docker push public.ecr.aws/h0m6q0n8/estimators-lib:latest
+          docker tag estimators-api:latest ${{ steps.login-ecr.outputs.registry }}/estimators-api:latest
+          docker push ${{ steps.login-ecr.outputs.registry }}/estimators-api:latest
 
-      - name: Update documentation
-        run: sudo make docker-doc
-
-      - name: Deploy to gh-pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: docs/build/html
-          branch: gh-pages
+      - name: Reset API task
+        run: |
+          aws ecs list-tasks --region me-central-1 --cluster estimators-cluster |
+          python -c "import sys, json; print(json.load(sys.stdin)['taskArns'][0])" |
+          xargs -I{} aws ecs stop-task --task {} --region me-central-1 --cluster estimators-cluster

@@ -179,7 +179,7 @@
       "estimator_id": "MQEstimator",
       "algorithm_id": "MQAlgorithm",
       "display_label": "Multivariate Quadratic Estimator",
-      "landing_page_content": "### Multivarite Quadratic Estimator   \n\nThis project provides an estimator for the hardness of the multivariate quadratic problem. This problem is defined as follows: \n\nLet $\\mathbb{F}_{q}$ be a field with $q$ elements, and let $\\mathbb{F}_{q}[x_1, x_2, \\ldots, x_n]$ be the ring of polynomials in the variables $x_1, x_2, \\ldots, x_n$ and coefficients in $\\mathbb{F}_{q}$.  Given $p_1, p_2, \\ldots, p_m \\in \\; \\mathbb{F}_{q}[x_1, x_2, \\ldots, x_n]$ the  multivariate quadratic problem asks to find a vector $\\mathbf a \\in \\; \\mathbb{F}_q^n$ satisfying $ p_{i}(\\mathbf a ) = 0  $ for all $i=1,2,\\ldots,m $.  \n\nMore details on the theoretical foundations of the estimator can be found in the corresponding paper:  *[[BMSV22]](https://eprint.iacr.org/2022/708.pdf) Emanuele Bellini, Rusydi H. Makarim, Carlo Sanna, and Javier Verbel. An Estimator for the Hardness of the MQ Problem. AFRICACRYPT 2022, 13th International Conference on Cryptography.*",
+      "landing_page_content": "### Multivarite Quadratic Estimator   \n\nThis project provides an estimator for the hardness of the multivariate quadratic problem. This problem is defined as follows: \n\nLet $\\mathbb{F}_{q}$ be a field with $q$ elements, and let $\\mathbb{F}_{q}[x_1, x_2, \\ldots, x_n]$ be the ring of polynomials in the variables $x_1, x_2, \\ldots, x_n$ and coefficients in $\\mathbb{F}_{q}$.  Given $p_1, p_2, \\ldots, p_m \\in \\; \\mathbb{F}_{q}[x_1, x_2, \\ldots, x_n]$ the  multivariate quadratic problem asks to find a vector $\\mathbf a \\in \\; \\mathbb{F}_q^n$ satisfying $p_{i}(\\mathbf a ) = 0$ for all $i=1,2,\\ldots,m$.  \n\nMore details on the theoretical foundations of the estimator can be found in the corresponding paper:  *[[BMSV22]](https://eprint.iacr.org/2022/708.pdf) Emanuele Bellini, Rusydi H. Makarim, Carlo Sanna, and Javier Verbel. An Estimator for the Hardness of the MQ Problem. AFRICACRYPT 2022, 13th International Conference on Cryptography.*",
       "problem_parameters": [
         {
           "id": "n",
@@ -347,7 +347,7 @@
       "estimator_id": "DummyEstimator",
       "algorithm_id": "DummyAlgorithm",
       "display_label": "Dummy Problem Estimator",
-      "landing_page_content": "# Dummy Markdown + Tex Landing Page",
+      "landing_page_content": "# User can write here Markdown \n and TeX content.",
       "problem_parameters": [
         {
           "id": "Parameter1",
