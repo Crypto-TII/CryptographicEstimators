@@ -1,23 +1,23 @@
-from ...PKEstimator.pk_algorithm import PKAlgorithm
-from ...PKEstimator.pk_problem import PKProblem
+from ..pk_algorithm import PKAlgorithm
+from ..pk_problem import PKProblem
+from ..pk_constants import *
 from ...base_algorithm import optimal_parameter
 from math import log2, factorial, inf, comb as binomial
 from ..pk_helper import gauss_binomial, cost_for_finding_subcode
 from ...SDFqEstimator.sdfq_estimator import SDFqEstimator
 
-SBC_ISD = "ISD cost"
-SBC_U = "u"
+
 
 
 class SBC(PKAlgorithm):
     """
-        Complexity estimate of the SBC algorithm
+    Complexity estimate of the SBC algorithm
 
-        Originally proposed in
-        #Todo : Add references to KMP paper and Santini paper
+    Originally proposed in
+    #Todo : Add references to KMP paper and Santini paper
 
-        The estimates are adapted versions of the code accompanying [SANTINI ET AL], original code is accessible at
-        <<GITHUB LINK>>
+    The estimates are adapted versions of the code accompanying [SANTINI ET AL], original code is accessible at
+    <<GITHUB LINK>>
 
     """
 
@@ -57,9 +57,14 @@ class SBC(PKAlgorithm):
         """
         return self._get_optimal_parameter("w1")
 
-    def _compute_time_and_memory(self, parameters, verbose_information=None):
+    def _compute_time_and_memory(self, parameters: dict, verbose_information=None):
         """
-            Computes the time and memory complexity of the SBC algorithm in number of Fq additions and Fq elements resp.
+        Computes the time and memory complexity of the SBC algorithm in number of Fq additions and Fq elements resp.
+
+        INPUT:
+        -  ``parameters`` -- dictionary including parameters
+        -  ``verbose_information`` -- if set to a dictionary `L1`, `L1`, and `final_list` will be returned.
+
         """
         d = parameters["d"]
         w = parameters["w"]
@@ -113,15 +118,27 @@ class SBC(PKAlgorithm):
                 memory = local_memory
 
         if verbose_information is not None:
-            verbose_information[SBC_ISD] = c_isd
-            verbose_information[SBC_U] = best_u
+            verbose_information[VerboseInformation.SBC_ISD] = c_isd
+            verbose_information[VerboseInformation.SBC_U] = best_u
 
         return time, memory
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
+        """
+
+        INPUT:
+        -  ``parameters`` -- dictionary including parameters
+
+        """
         return self._compute_time_and_memory(parameters)[0]
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
+        """
+
+        INPUT:
+        -  ``parameters`` -- dictionary including parameters
+
+        """
         return self._compute_time_and_memory(parameters)[1]
 
     def _get_verbose_information(self):

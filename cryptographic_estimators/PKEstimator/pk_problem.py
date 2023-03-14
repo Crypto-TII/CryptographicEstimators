@@ -15,7 +15,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-
 from ..base_problem import BaseProblem
 from .pk_constants import *
 from math import log2, factorial

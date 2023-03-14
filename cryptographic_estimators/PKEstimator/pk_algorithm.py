@@ -15,7 +15,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-
 from ..base_algorithm import BaseAlgorithm
 from .pk_problem import PKProblem
 
@@ -23,7 +22,7 @@ from .pk_problem import PKProblem
 class PKAlgorithm(BaseAlgorithm):
     def __init__(self, problem: PKProblem, **kwargs):
         """
-        Base class for PK algorithms complexity estimator
+        Base class for Permuted Kernel algorithms complexity estimator
 
         INPUT:
 
