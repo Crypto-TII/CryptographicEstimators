@@ -1,4 +1,4 @@
-name: Build the docker image, upload it to ECR and deploy documentation to gh-page
+name: Builds the library, deploys it to AWS and deploy documentation to gh-pages
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  build-and-deploy:
+  lib-build-deploy:
     runs-on: ubuntu-22.04
     concurrency: ci-${{github.ref}}
     steps:

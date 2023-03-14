@@ -3,7 +3,7 @@ on:
   pull_request:
 
 jobs:
-  build-and-deploy-api:
+  api-build-deploy:
     runs-on: ubuntu-22.04
     concurrency: ci-${{github.ref}}
     steps:
@@ -55,13 +55,10 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Test output
-        run: echo
-
       - name: Push API to AWS
         run: |
-          docker tag estimators-api:latest ${{ steps.login-ecr.outputs.registry }}}/estimators-api:latest
-          docker push ${{ steps.login-ecr.outputs.registry }}}/estimators-api:latest
+          docker tag estimators-api:latest ${{ steps.login-ecr.outputs.registry }}/estimators-api:latest
+          docker push ${{ steps.login-ecr.outputs.registry }}/estimators-api:latest
 
       - name: Reset API task
         run: |
