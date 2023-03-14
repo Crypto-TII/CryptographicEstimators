@@ -30,9 +30,11 @@ class Prange(SDFqAlgorithm):
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """
         Return time complexity of Prange's algorithm for given set of parameters
+
         INPUT:
         -  ``parameters`` -- dictionary including parameters
         -  ``verbose_information`` -- if set to a dictionary `permutations` and `gauß` will be returned.
+
         """
 
         n, k, w, q = self.problem.get_parameters()

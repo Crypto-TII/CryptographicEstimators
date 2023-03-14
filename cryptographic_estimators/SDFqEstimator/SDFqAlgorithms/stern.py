@@ -114,7 +114,7 @@ class Stern(SDFqAlgorithm):
         parameters. Code originaly from
             - https://github.com/secomms/pkpattack/blob/main/cost_isd.sage
         which was adapted from:
-            - https://github.com/christianepeters/isdfq/blob/master/isdfq.gp
+            - https://github.com/christianepetersisdfq/blob/master/isdfq.gp
 
         INPUT:
         -  ``parameters`` -- dictionary including parameters
