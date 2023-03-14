@@ -33,9 +33,9 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
       - name: Move cache
-      #   run: |
-      #     rm -rf /tmp/.buildx-cache
-      #     mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Pull API from BitBucket
         run: |
