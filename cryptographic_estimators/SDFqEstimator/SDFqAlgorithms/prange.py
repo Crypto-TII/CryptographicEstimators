@@ -36,10 +36,10 @@ class Prange(SDFqAlgorithm):
         n, k, w, q = self.problem.get_parameters()
         solutions = self.problem.nsolutions
 
-        memory = log2(_mem_matrix(n, k, 0) * n)
+        memory = log2(_mem_matrix(n, k, 0)) + log2(n)
 
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w)) - solutions, 0)
-        Tg = log2(k*k*n)
+        Tg = log2(k*k)
         time = Tp + Tg + log2(n)
 
         if verbose_information is not None:

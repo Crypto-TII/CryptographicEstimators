@@ -61,7 +61,7 @@ class SDFqProblem(BaseProblem):
         - ``basic_operations`` -- Number of field additions (logarithmic)
 
         """
-        _,_,q=self.get_parameters()
+        _,_,_,q=self.get_parameters()
         return basic_operations + log2(log2(q))
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
@@ -81,7 +81,7 @@ class SDFqProblem(BaseProblem):
 
         """
         n, k, w, q = self.get_parameters()
-        Nw = log2(comb(n, w)) + log2((q-1)**(w-2)) + log2(q**(k + 1 - n))
+        Nw = log2(comb(n, w)) + log2(q-1)*(w-2) + log2(q)*(k + 1 - n)
         return max(Nw, 0)
 
     def __repr__(self):

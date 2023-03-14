@@ -23,7 +23,7 @@ class Stern(SDFqAlgorithm):
             sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: Stern(SDFqProblem(n=961,k=771,w=48,q=31)).time_complexity()
-            129.0592123557278
+            129.05902980703917
 
         EXAMPLES::
             sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
@@ -123,33 +123,32 @@ class Stern(SDFqAlgorithm):
 
         memory_bound = self.problem.memory_bound
 
-        # list sizes
-        L11 = binom(k1, par.p) * (q-1)**par.p
-        L12 = binom(k-k1, par.p) * (q-1)**par.p
-        if self._is_early_abort_possible(log2(L11)):
+        L1 = binom(k1, par.p) * (q-1)**par.p
+        L2 = binom(k-k1, par.p) * (q-1)**par.p
+        if self._is_early_abort_possible(log2(L1)):
             return inf, inf
 
-        memory = log2((L11 * L12 * par.l) + _mem_matrix(n, k, 0)*n)
+        memory = log2((L1 + L2) * par.l + _mem_matrix(n, k, 0)) + log2(n)
         solutions = self.problem.nsolutions
 
         if memory > memory_bound:
-            return inf, memory_bound + 1
+            return inf, inf
 
-        Tp = max(0, log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p)) - \
-                    log2(binom(k1, par.p)**2) - solutions)
+        Tp = max(0,
+                 log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p)) - log2(binom(k1, par.p)**2) - solutions)
 
         Tg = (n-k)**2 * (n+k) // 2
         
-        build = max(((k1 - par.p + 1) + (L12+L11)) * par.l, 1)
-        cost_early_exit = log2(max(q/(q-1) * (w - 2 * par.p + 1) * 2*par.p *(1 + (q - 2)/(q - 1)), 1))
-        L2 = log2(L11*L12)-log2(q)*par.l
-        ops = log2(build + 2**max(cost_early_exit + L2, 0))
-        time = log2(Tg + 2**ops) + Tp
+        build = max(((k1 - par.p + 1) + (L2+L1)) * par.l, 1)
+        cost_early_exit = max(1,int(max(q/(q-1) * (w - 2 * par.p + 1) * 2*par.p *(1 + (q - 2)/(q - 1)), 1)))
+        L = L1*L2//q**par.l
+        ops = build + L*cost_early_exit
+        time = log2(Tg + ops) + Tp
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
-            verbose_information[VerboseInformation.LISTS.value] = [log2(L11), log2(L2)]
+            verbose_information[VerboseInformation.LISTS.value] = [log2(L2), log2(L)]
 
         return time, memory
 

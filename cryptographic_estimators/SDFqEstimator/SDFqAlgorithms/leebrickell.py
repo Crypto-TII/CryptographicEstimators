@@ -104,18 +104,18 @@ class LeeBrickell(SDFqAlgorithm):
             return inf, inf
 
         solutions = self.problem.nsolutions
-        L = binom(k, par.p) * (q-1)**(max(0, par.p-self.is_syndrome_zero))
-        # This is what ward calculates
-        # L = k**par.p * q
+        enum = binom(k, par.p) * (q-1)**(max(0, par.p-self.is_syndrome_zero))
+        # Beullens code uses (contrary to his paper)
+        # enum = k**par.p * q
         memory = log2(k * n)
 
         Tp = max(log2(binom(n, w)) - log2(binom(n - k, w - par.p)) - log2(binom(k, par.p)) - solutions, 0)
         Tg = k*k
-        time = Tp + log2(Tg + L) + log2(n)
+        time = Tp + log2(Tg + enum) + log2(n)
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = Tg
-            verbose_information[VerboseInformation.LISTS.value] = [L]
+            verbose_information[VerboseInformation.LISTS.value] = [enum]
 
         return time, memory
 

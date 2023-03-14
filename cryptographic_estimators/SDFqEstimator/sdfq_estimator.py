@@ -50,22 +50,22 @@ class SDFqEstimator(BaseEstimator):
             +-------------+------+--------+
             | algorithm   | time | memory |
             +-------------+------+--------+
-            | Prange      | 36.5 |   13.5 |
-            | Stern       | 24.3 |   28.5 |
+            | Prange      | 29.9 |   13.5 |
+            | Stern       | 24.3 |   23.9 |
             | LeeBrickell | 25.4 |   13.5 |
             +-------------+------+--------+
 
         TESTS:
             sage: from cryptographic_estimators.SDFqEstimator import SDFqEstimator
-            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Prange
-            sage: A = SDFqEstimator(961,771,48,31,excluded_algorithms=[Prange])
+            sage: A = SDFqEstimator(961,771,48,31)
             sage: A.table(precision=3, show_all_parameters=1) # long time
             +-------------+-------------------------------------+
             |             |               estimate              |
             +-------------+---------+--------+------------------+
             | algorithm   |    time | memory |    parameters    |
             +-------------+---------+--------+------------------+
-            | Stern       | 129.059 | 57.098 | {'p': 2, 'l': 7} |
+            | Prange      | 151.310 | 19.794 |        {}        |
+            | Stern       | 129.059 | 42.016 | {'p': 2, 'l': 7} |
             | LeeBrickell | 140.319 | 21.808 |     {'p': 2}     |
             +-------------+---------+--------+------------------+
         """
