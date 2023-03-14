@@ -56,15 +56,15 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Test output
-        run: echo ${{ steps.login-ecr.outputs.registry }}}
+        run: echo
 
-      # - name: Push API to AWS
-      #   run: |
-      #     docker tag estimators-api:latest http://450891466448.dkr.ecr.me-central-1.amazonaws.com/estimators-api:latest
-      #     docker push http://450891466448.dkr.ecr.me-central-1.amazonaws.com/estimators-api:latest
+      - name: Push API to AWS
+        run: |
+          docker tag estimators-api:latest ${{ steps.login-ecr.outputs.registry }}}/estimators-api:latest
+          docker push ${{ steps.login-ecr.outputs.registry }}}/estimators-api:latest
 
-      # - name: Reset API task
-      #   run: |
-      #     aws ecs list-tasks --region me-central-1 --cluster estimators-cluster |
-      #     python -c "import sys, json; print(json.load(sys.stdin)['taskArns'][0])" |
-      #     xargs -I{} aws ecs stop-task --task {} --region me-central-1 --cluster estimators-cluster
+      - name: Reset API task
+        run: |
+          aws ecs list-tasks --region me-central-1 --cluster estimators-cluster |
+          python -c "import sys, json; print(json.load(sys.stdin)['taskArns'][0])" |
+          xargs -I{} aws ecs stop-task --task {} --region me-central-1 --cluster estimators-cluster

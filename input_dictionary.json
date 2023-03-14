@@ -347,7 +347,7 @@
       "estimator_id": "DummyEstimator",
       "algorithm_id": "DummyAlgorithm",
       "display_label": "Dummy Problem Estimator",
-      "landing_page_content": "# Dummy Markdown + Tex Landing Page",
+      "landing_page_content": "# User can write here Markdown \n and TeX content.",
       "problem_parameters": [
         {
           "id": "Parameter1",
