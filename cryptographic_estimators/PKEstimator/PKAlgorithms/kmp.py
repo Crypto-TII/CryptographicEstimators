@@ -14,6 +14,7 @@ class KMP(PKAlgorithm):
 
         Originally proposed in
         #Todo : Add references to KMP paper and Santini paper
+        #santini: https://eprint.iacr.org/2022/1749.pdf
 
         The estimates are adapted versions of the code accompanying [SANTINI ET AL], original code is accessible at
         <<GITHUB LINK>>
@@ -43,17 +44,17 @@ class KMP(PKAlgorithm):
         u1 = int((n - m + u) / 2)
         u2 = n - m + u - u1
 
-        L1 = log2(factorial(n) / factorial(n - u1))
-        L2 = log2(factorial(n) / factorial(n - u2))
-        num_coll = log2(
-            max(1,factorial(n) * factorial(n) // factorial(n - u1) // factorial(n - u2) * q ** (ell * (n - m - u1 - u2))))
+        L1 = factorial(n) // factorial(n - u1)
+        L2 = factorial(n) // factorial(n - u2)
+        num_coll = factorial(n) * factorial(n) // factorial(n - u1) \
+                   // factorial(n - u2) * q ** (ell * (n - m - u1 - u2))
 
-        time = log2(2 ** L1 + 2 ** L2 + 2 ** num_coll) + log2(self.cost_for_list_operation)
-        memory = min(L1, L2) + log2(self.memory_for_list_element)
+        time = log2(L1 + L2 + num_coll) + log2(self.cost_for_list_operation)
+        memory = log2(L1 + L2) + log2(self.memory_for_list_element)
 
         if verbose_information is not None:
-            verbose_information[KMP_L1] = L1
-            verbose_information[KMP_L2] = L2
+            verbose_information[KMP_L1] = log2(L1)
+            verbose_information[KMP_L2] = log2(L2)
             verbose_information[KMP_FINAL_LIST] = num_coll
         return time, memory
 

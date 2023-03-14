@@ -23,7 +23,7 @@ from .pk_problem import PKProblem
 class PKAlgorithm(BaseAlgorithm):
     def __init__(self, problem: PKProblem, **kwargs):
         """
-        Base class for SD algorithms complexity estimator
+        Base class for PK algorithms complexity estimator
 
         INPUT:
 
@@ -35,6 +35,9 @@ class PKAlgorithm(BaseAlgorithm):
         n, m, _, _ = self.problem.get_parameters()
         self.cost_for_list_operation = kwargs.get("cost_for_list_operation", n - m)
         self.memory_for_list_element = kwargs.get("memory_for_list_element", n - m)
+
+        if self.memory_for_list_element > self.cost_for_list_operation:
+            raise ValueError("Cost per list element must be at least as high as its memory usage")
 
     def __repr__(self):
         """

@@ -32,6 +32,7 @@ class PKEstimator(BaseEstimator):
     - ``m`` -- rows of the matrix
     - ``q`` -- size of the field
     - ``ell`` -- rows of the matrix whose permutation should lie in the kernel
+    - ``sd_parameters`` -- Dictionary of optional parameter arguments for SDEstimator used by SBC algorithm
     - ``cost_for_list_operation`` -- Cost in Fq additions for one list operation in the SBC and KMP algorithm (default n-m)
     - ``memory_for_list_element`` -- Memory in Fq elements for one list element in the SBC and KMP algorithm (default n-m)
     - ``use_parity_row`` -- enables trick of appending extra (all one) row to the matrix, i.e., m -> m+1 (default:False)
