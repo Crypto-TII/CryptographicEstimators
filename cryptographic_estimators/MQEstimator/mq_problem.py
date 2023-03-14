@@ -1,16 +1,16 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
@@ -55,7 +55,7 @@ class MQProblem(BaseProblem):
         self.parameters[MQ_NUMBER_VARIABLES] = n
         self.parameters[MQ_NUMBER_POLYNOMIALS] = m
         self.parameters[MQ_FIELD_SIZE] = q
-        self.nsolutions = kwargs.get("nsolutions", max(self.expected_number_solutions(), 0))
+        self.nsolutions = kwargs.get("nsolutions", self.expected_number_solutions())
         self._theta = kwargs.get("theta", 2)
 
     def to_bitcomplexity_time(self, basic_operations: float):
@@ -67,10 +67,6 @@ class MQProblem(BaseProblem):
         - ``basic_operations`` -- Number of field additions (logarithmic)
         - ``theta`` -- exponent of the conversion factor
 
-        EXAMPLES::
-
-        TESTS::
-
         """
         q = self.parameters[MQ_FIELD_SIZE]
         theta = self._theta
@@ -80,7 +76,7 @@ class MQProblem(BaseProblem):
     def theta(self):
         """
         returns the runtime of the algorithm
-        
+
         """
         return self._theta
 
@@ -109,9 +105,9 @@ class MQProblem(BaseProblem):
     def expected_number_solutions(self):
         """
         Returns the logarithm of the expected number of existing solutions to the problem
-
         """
-        return 0
+        n, m, q = self.get_problem_parameters()
+        return max(0, log2(q) * (n - m))
 
     def order_of_the_field(self):
         """
@@ -126,7 +122,7 @@ class MQProblem(BaseProblem):
         Return `True` if the algorithm is defined over a finite field
 
         """
-        return self.order_of_the_field() is not None
+        return self.order_of_the_field()
 
     def npolynomials(self):
         """"
@@ -209,6 +205,7 @@ class MQProblem(BaseProblem):
         """
         n, m, q = self.get_problem_parameters()
         rep = "MQ problem with (n,m,q) = " \
-              + "(" + str(n) + "," + str(m) + "," + str(q) + ") over " + str(self.baseField)
+              + "(" + str(n) + "," + str(m) + "," + \
+            str(q) + ") over " + str(self.baseField)
 
         return rep
