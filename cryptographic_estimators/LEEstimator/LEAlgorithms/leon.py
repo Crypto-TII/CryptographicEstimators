@@ -1,6 +1,5 @@
 from ..le_algorithm import LEAlgorithm
 from ..le_problem import LEProblem
-from ...base_algorithm import optimal_parameter
 from ...PEEstimator import Leon as PELeon
 from ...PEEstimator.pe_problem import PEProblem
 
@@ -28,5 +27,8 @@ class Leon(PELeon, LEAlgorithm):
         PELeon.__init__(self, PEProblem(n=n, k=k, q=q), **kwargs)
 
     def __repr__(self):
+        """
+
+        """
         rep = "Leon estimator for " + str(self.problem)
         return rep

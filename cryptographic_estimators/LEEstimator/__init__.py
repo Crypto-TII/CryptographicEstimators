@@ -4,4 +4,3 @@ from .le_problem import LEProblem
 from .LEAlgorithms import Leon
 from .LEAlgorithms import Beullens
 from .LEAlgorithms import BBPS
-# TODO: Remember to add the algorithms to the import above

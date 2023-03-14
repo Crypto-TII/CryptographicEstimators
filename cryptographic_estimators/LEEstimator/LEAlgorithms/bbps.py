@@ -1,27 +1,25 @@
 from ..le_algorithm import LEAlgorithm
 from ..le_problem import LEProblem
-from ..le_helper import peters_isd
+from ..le_constants import  *
 from ...base_algorithm import optimal_parameter
 from ...PEEstimator.pe_helper import gv_distance
 from math import log2, inf, log, comb as binom, factorial
 from ...SDFqEstimator.sdfq_estimator import SDFqEstimator
 
-
 class BBPS(LEAlgorithm):
 
     def __init__(self, problem: LEProblem, **kwargs):
         """
-            Complexity estimate of Beullens algorithm
+        Complexity estimate of Alessandro Barenghi, Jean-Francois Biasse, Edoardo Persichetti and Paolo Santini algorithm
 
-            TODO add reference to Beullens
+        Estimates are adapted versions of the scripts derived in [BBPS20] with the code accessible at
+        https://github.com/paolo-santini/LESS_project
 
-            Estimates are adapted versions of the scripts derived in <Beullens> with the code accessible at
-            <ADD GITHUB LINK>
+        INPUT:
 
-            INPUT:
+        - ``problem`` -- PEProblem object including all necessary parameters
+        - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
 
-            - ``problem`` -- PEProblem object including all necessary parameters
-            - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
         """
         super().__init__(problem, **kwargs)
         self._name = "Beullens"
@@ -50,6 +48,22 @@ class BBPS(LEAlgorithm):
         return self._get_optimal_parameter("w_prime")
 
     def _time_and_memory_complexity(self, parameters, verbose_information=None):
+        """
+        Return time complexity of BBPS algorithm
+
+        INPUT:
+        -  ``parameters`` -- dictionary including parameters
+        -  ``verbose_information`` -- if set to a dictionary within `Nw_prime`,
+                                      `c_isd` and `lists` will be returned.
+
+        EXAMPLES::
+            sage: from cryptographic_estimators.LEEstimator.SDFqAlgorithms import BBPS
+            sage: from cryptographic_estimators.LEEstimator import LEProblem
+            sage: A = BBPS(LEProblem(n=100,k=50,q=3,w=10))
+            sage: A.p()
+            2
+
+        """
         w = parameters["w"]
         w_prime = parameters["w_prime"]
         n, k, q = self.problem.get_parameters()
@@ -87,9 +101,9 @@ class BBPS(LEAlgorithm):
             time += log2(L_prime)
 
         if verbose_information is not None:
-            verbose_information["Nw_prime"] = Nw_prime
-            # verbose_information["list_computation"] = list_computation
-            # verbose_information["normal form"] = normal_form_cost
+            verbose_information[VerboseInformation.NW] = Nw_prime
+            verbose_information[VerboseInformation.LISTS] = L_prime
+            verbose_information[VerboseInformation.ISD] = c_isd
 
             # todo fix memory
         return time, self.SDFqEstimator.fastest_algorithm().memory_complexity()

@@ -1,7 +1,8 @@
 from ..le_algorithm import LEAlgorithm
 from ..le_problem import LEProblem
+from ..le_constants import *
 from ...base_algorithm import optimal_parameter
-from ...PEEstimator.pe_helper import hamming_ball, median_size_of_random_orbit
+from ...PEEstimator.pe_helper import median_size_of_random_orbit
 from ..le_helper import cost_to_find_random_2dim_subcodes_with_support_w
 from math import log2, inf, ceil, log, comb as binom
 
@@ -10,16 +11,19 @@ class Beullens(LEAlgorithm):
 
     def __init__(self, problem: LEProblem, **kwargs):
         """
-            Complexity estimate of Beullens algorithm
+        Complexity estimate of Beullens algorithm
 
-            TODO add reference to Beullens
+        Estimates are adapted versions of the scripts derived in [W20] with the code accessible at
+        https://github.com/WardBeullens/LESS_Attack
 
-            Estimates are adapted versions of the scripts derived in <Beullens> with the code accessible at
-            <ADD GITHUB LINK>
+        INPUT:
 
-            INPUT:
+        - ``problem`` -- PEProblem object including all necessary parameters
+        - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
 
-            - ``problem`` -- PEProblem object including all necessary parameters
+        INPUT:
+
+        - ``problem`` -- PEProblem object including all necessary parameters
         """
         super().__init__(problem, **kwargs)
         self._name = "Beullens"
@@ -34,6 +38,21 @@ class Beullens(LEAlgorithm):
         return self._get_optimal_parameter("w")
 
     def _time_and_memory_complexity(self, parameters, verbose_information=None):
+        """
+        Return time complexity of Beulens algorithm
+
+        INPUT:
+        -  ``parameters`` -- dictionary including parameters
+        -  ``verbose_information`` -- if set to a dictionary within `Nw_prime`,
+                                      `c_isd` and `lists` will be returned.
+
+        EXAMPLES::
+            sage: from cryptographic_estimators.LEEstimator.SDFqAlgorithms import BBPS
+            sage: from cryptographic_estimators.LEEstimator import LEProblem
+            sage: A = BBPS(LEProblem(n=100,k=50,q=3,w=10))
+            sage: A.p()
+            2
+        """
         n, k, q = self.problem.get_parameters()
         w = parameters["w"]
 
@@ -52,16 +71,26 @@ class Beullens(LEAlgorithm):
         normal_form_cost = 1 + log2(q) + list_size
 
         if verbose_information is not None:
-            verbose_information["list size"] = list_size
-            verbose_information["list_computation"] = list_computation
-            verbose_information["normal form"] = normal_form_cost
+            verbose_information[VerboseInformation.LISTS_SIZE] = list_size
+            verbose_information[VerboseInformation.LISTS] = list_computation
+            verbose_information[VerboseInformation.NORMAL_FORM] = normal_form_cost
 
         return max(list_computation, normal_form_cost) + log2(n), list_size + log2(n)
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
+        """
+        INPUT:
+        -  ``parameters`` -- dictionary including parameters
+
+        """
         return self._time_and_memory_complexity(parameters)[0]
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
+        """
+        INPUT:
+        -  ``parameters`` -- dictionary including parameters
+
+        """
         return self._time_and_memory_complexity(parameters)[1]
 
     def _get_verbose_information(self):
@@ -73,5 +102,8 @@ class Beullens(LEAlgorithm):
         return verb
 
     def __repr__(self):
+        """
+
+        """
         rep = "Beullens estimator for " + str(self.problem)
         return rep

@@ -40,6 +40,7 @@ class Leon(PEAlgorithm):
     def w(self):
         """
         Return the optimal parameter $w$ used in the algorithm optimization
+
         """
         n, k, q, _ = self.problem.get_parameters()
         d = gv_distance(n, k, q)
@@ -48,7 +49,10 @@ class Leon(PEAlgorithm):
             d += 1
         return d
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
+        """
+
+        """
         n, k, q, _ = self.problem.get_parameters()
         w = parameters["w"]
         N = number_of_weight_d_codewords(n, k, q, w)
@@ -57,11 +61,35 @@ class Leon(PEAlgorithm):
         c_isd = self.SDFqEstimator.fastest_algorithm().time_complexity()
         return c_isd + log2(ceil(2 * (0.57 + log(N))))
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
+        """
+
+        """
         n, k, q, _ = self.problem.get_parameters()
         return self.SDFqEstimator.fastest_algorithm().memory_complexity()
 
 
+    def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
+        """
+
+        INPUT:
+        -  ``parameters`` -- dictionary including parameters
+        -  ``verbose_information`` -- unused
+
+        EXAMPLES::
+            sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Leon
+            sage: from cryptographic_estimators.PEEstimator import PEProblem
+            sage: A = Leon(PEProblem(n=100,k=50,q=3,w=10))
+            sage: A.w()
+            2
+
+        """
+        return self._compute_time_complexity(parameters),\
+               self._compute_memory_complexity(parameters)
+
     def __repr__(self):
+        """
+
+        """
         rep = "Leon estimator for " + str(self.problem)
         return rep

@@ -46,6 +46,10 @@ References
             *Unbalanced  Oil  and Vinegar Signature Schemes*
             https://link.springer.com/chapter/10.1007/3-540-48910-X_15
 
+.. [BBPS20] \Alessandro Barenghi, Jean-Francois Biasse, Edoardo Persichetti and Paolo Santini
+            *{LESS-FM:} Fine-Tuning Signatures from the Code Equivalence Problem*
+            https://doi.org/10.1007/978-3-030-81293-5\_2
+
 .. _ref-B:
 
 **B**
@@ -176,6 +180,9 @@ References
 
 **W**
 
+.. [W20] \Ward Beullens.
+            *Not enough LESS: An improved algorithm for solving Code Equivalence Problems over Fq*
+            https://doi.org/10.1007/978-3-030-81652-0\_15
 .. _ref-X:
 
 **X**
