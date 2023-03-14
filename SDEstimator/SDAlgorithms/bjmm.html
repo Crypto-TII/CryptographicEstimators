@@ -236,6 +236,18 @@
 <li class="toctree-l1"><a class="reference internal" href="../SDWorkfactorModels/bjmm.html">bjmm</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../SDFqEstimator/sdfq_estimator.html">sdfq_estimator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../SDFqEstimator/sdfq_problem.html">sdfq_problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../SDFqEstimator/sdfq_constants.html">sdfq_constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../SDFqEstimator/sdfq_algorithm.html">sdfq_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../SDFqEstimator/sdfq_helper.html">sdfq_helper</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../SDFqEstimator/SDFqAlgorithms/prange.html">prange</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../SDFqEstimator/SDFqAlgorithms/leebrickell.html">leebrickell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../SDFqEstimator/SDFqAlgorithms/stern.html">stern</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../SEEstimator/se_estimator.html">se_estimator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../SEEstimator/se_problem.html">se_problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../SEEstimator/se_algorithm.html">se_algorithm</a></li>
@@ -410,12 +422,6 @@ cryptographic techniques. pp. 520–536. Springer (2012)</p>
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.parameter_ranges">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameter_ranges</span></span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.parameter_ranges" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the set ranges in which for optimal parameters are searched by the optimization algorithm (used only for complexity type estimate)</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.quantum_time_complexity">
-<span class="sig-name descname"><span class="pre">quantum_time_complexity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.quantum_time_complexity" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the quantum time complexity of the algorithm</p>
 </dd></dl>
 
 <dl class="py method">
@@ -610,12 +616,6 @@ process.</p>
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.parameter_ranges">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameter_ranges</span></span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.parameter_ranges" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the set ranges in which for optimal parameters are searched by the optimization algorithm (used only for complexity type estimate)</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.quantum_time_complexity">
-<span class="sig-name descname"><span class="pre">quantum_time_complexity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.quantum_time_complexity" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the quantum time complexity of the algorithm</p>
 </dd></dl>
 
 <dl class="py method">
@@ -827,12 +827,6 @@ process.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.quantum_time_complexity">
-<span class="sig-name descname"><span class="pre">quantum_time_complexity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.quantum_time_complexity" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the quantum time complexity of the algorithm</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.r">
 <span class="sig-name descname"><span class="pre">r</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.r" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the optimal parameter $r$ used in the optimization of the M4RI Gaussian elimination</p>
@@ -947,7 +941,6 @@ process.</p>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">BJMM.optimal_parameters()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.parameter_names"><code class="docutils literal notranslate"><span class="pre">BJMM.parameter_names()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.parameter_ranges"><code class="docutils literal notranslate"><span class="pre">BJMM.parameter_ranges</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.quantum_time_complexity"><code class="docutils literal notranslate"><span class="pre">BJMM.quantum_time_complexity()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.r"><code class="docutils literal notranslate"><span class="pre">BJMM.r()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.reset"><code class="docutils literal notranslate"><span class="pre">BJMM.reset()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.set_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">BJMM.set_parameter_ranges()</span></code></a></li>
@@ -968,7 +961,6 @@ process.</p>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.p1"><code class="docutils literal notranslate"><span class="pre">BJMMd2.p1()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.parameter_names"><code class="docutils literal notranslate"><span class="pre">BJMMd2.parameter_names()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.parameter_ranges"><code class="docutils literal notranslate"><span class="pre">BJMMd2.parameter_ranges</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.quantum_time_complexity"><code class="docutils literal notranslate"><span class="pre">BJMMd2.quantum_time_complexity()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.r"><code class="docutils literal notranslate"><span class="pre">BJMMd2.r()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.reset"><code class="docutils literal notranslate"><span class="pre">BJMMd2.reset()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.set_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">BJMMd2.set_parameter_ranges()</span></code></a></li>
@@ -990,7 +982,6 @@ process.</p>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.p2"><code class="docutils literal notranslate"><span class="pre">BJMMd3.p2()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.parameter_names"><code class="docutils literal notranslate"><span class="pre">BJMMd3.parameter_names()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.parameter_ranges"><code class="docutils literal notranslate"><span class="pre">BJMMd3.parameter_ranges</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.quantum_time_complexity"><code class="docutils literal notranslate"><span class="pre">BJMMd3.quantum_time_complexity()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.r"><code class="docutils literal notranslate"><span class="pre">BJMMd3.r()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.reset"><code class="docutils literal notranslate"><span class="pre">BJMMd3.reset()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.set_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">BJMMd3.set_parameter_ranges()</span></code></a></li>

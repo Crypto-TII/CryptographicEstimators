@@ -134,6 +134,27 @@ SDWorkfactorModels
     SDEstimator/SDWorkfactorModels/may_ozerov
     SDEstimator/SDWorkfactorModels/bjmm
 
+-------------
+SDFqEstimator
+-------------
+
+.. toctree::
+
+    SDFqEstimator/sdfq_estimator
+    SDFqEstimator/sdfq_problem
+    SDFqEstimator/sdfq_constants
+    SDFqEstimator/sdfq_algorithm
+    SDFqEstimator/sdfq_helper
+
+SDFqAlgorithms
+==============
+
+.. toctree::
+
+    SDFqEstimator/SDFqAlgorithms/prange
+    SDFqEstimator/SDFqAlgorithms/leebrickell
+    SDFqEstimator/SDFqAlgorithms/stern
+
 -----------
 SEEstimator
 -----------

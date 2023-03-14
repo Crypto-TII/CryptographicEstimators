@@ -236,6 +236,18 @@
 <li class="toctree-l1"><a class="reference internal" href="SDEstimator/SDWorkfactorModels/bjmm.html">bjmm</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="SDFqEstimator/sdfq_estimator.html">sdfq_estimator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDFqEstimator/sdfq_problem.html">sdfq_problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDFqEstimator/sdfq_constants.html">sdfq_constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDFqEstimator/sdfq_algorithm.html">sdfq_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDFqEstimator/sdfq_helper.html">sdfq_helper</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="SDFqEstimator/SDFqAlgorithms/prange.html">prange</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDFqEstimator/SDFqAlgorithms/leebrickell.html">leebrickell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SDFqEstimator/SDFqAlgorithms/stern.html">stern</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="SEEstimator/se_estimator.html">se_estimator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SEEstimator/se_problem.html">se_problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SEEstimator/se_algorithm.html">se_algorithm</a></li>
@@ -334,11 +346,9 @@ INPUT:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptographic_estimators.helper.memory_access_cost">
 <span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.helper.</span></span><span class="sig-name descname"><span class="pre">memory_access_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_access</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.helper.memory_access_cost" title="Permalink to this definition">#</a></dt>
-<dd><p>INPUT:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">`mem</span></code> – memory consumption of an algorithm</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)</p></li>
-</ul>
+<dd><p>INPUT:
+- <code class="docutils literal notranslate"><span class="pre">`mem</span></code> – memory consumption of an algorithm
+- <code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)</p>
 </dd></dl>
 
 <dl class="py function">
