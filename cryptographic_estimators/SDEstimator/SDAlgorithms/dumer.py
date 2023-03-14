@@ -64,7 +64,7 @@ class Dumer(SDAlgorithm):
         initialize the parameter ranges for p, l to start the optimisation 
         process.
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(w // 2, 20, s))
         self.set_parameter_ranges("l", 0, min_max(n - k, 400, s))
@@ -104,7 +104,7 @@ class Dumer(SDAlgorithm):
         return if the parameter set `parameters` is invalid
 
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
         if par.p > w // 2 or k1 < par.p or n - k - par.l < w - 2 * par.p:
@@ -115,7 +115,7 @@ class Dumer(SDAlgorithm):
         """
         Computes the expected runtime and memory consumption for a given parameter set.
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
 

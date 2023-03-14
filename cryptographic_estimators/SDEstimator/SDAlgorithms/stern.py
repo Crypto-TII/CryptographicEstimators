@@ -59,7 +59,7 @@ class Stern(SDAlgorithm):
         initialize the parameter ranges for p, l to start the optimisation 
         process.
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(w // 2, 20, s))
         self.set_parameter_ranges("l", 0, min_max(n - k, 400, s))
@@ -101,7 +101,7 @@ class Stern(SDAlgorithm):
         return if the parameter set `parameters` is invalid
 
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
         if par.p > w // 2 or k1 < par.p or n - k - par.l < w - 2 * par.p:
@@ -115,7 +115,7 @@ class Stern(SDAlgorithm):
         """
         new_ranges = self._fix_ranges_for_already_set_parmeters()
 
-        n, k, w, _ = self.problem.get_parameters()
+        _, k, _ = self.problem.get_parameters()
         k1 = k//2
         for p in range(new_ranges["p"]["min"], min(k1, new_ranges["p"]["max"])+1, 2):
             L1 = binom(k1, p)
@@ -135,7 +135,7 @@ class Stern(SDAlgorithm):
         -  ``parameters`` -- dictionary including parameters
         -  ``verbose_information`` -- if set to a dictionary `permutations` and `gauß` will be returned.
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
 

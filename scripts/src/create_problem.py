@@ -46,7 +46,7 @@ class CreateProblem(BaseFileCreator):
             "\t\t- ``basic_operations`` -- Number of field additions (logarithmic)\n\n" + \
             "\t\t\"\"\" \n" + \
             "\t\tpass\n\n" + \
-            "\tdef to_bit_complexity_memory(self, elements_to_store):\n" + \
+            "\tdef to_bitcomplexity_memory(self, elements_to_store):\n" + \
             "\t\t\"\"\" \n" + \
             "\t\tReturns the memory bit-complexity associated to a given number of elements to store\n\n" + \
             "\t\tINPUT:\n\n" + \
