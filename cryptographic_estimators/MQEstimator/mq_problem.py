@@ -1,16 +1,16 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
@@ -25,7 +25,7 @@ from ..MQEstimator.mq_helper import ngates
 from math import log2
 from sage.functions.other import ceil
 from .mq_constants import *
-
+from sage.arith.misc import is_prime_power
 
 class MQProblem(BaseProblem):
     """
@@ -41,12 +41,21 @@ class MQProblem(BaseProblem):
 
     """
 
-    def __init__(self, n: int, m: int, q=None, **kwargs):
+    def __init__(self, n: int, m: int, q:int, **kwargs):
+        if n < 1:
+            raise ValueError("n must be >= 1")
+
+        if m < 1:
+            raise ValueError("m must be >= 1")
+
+        if q is not None and not is_prime_power(q):
+            raise ValueError("q must be a prime power")
+
         super().__init__(**kwargs)
         self.parameters[MQ_NUMBER_VARIABLES] = n
         self.parameters[MQ_NUMBER_POLYNOMIALS] = m
         self.parameters[MQ_FIELD_SIZE] = q
-        self.nsolutions = kwargs.get("nsolutions", max(self.expected_number_solutions(), 0))
+        self.nsolutions = kwargs.get("nsolutions", self.expected_number_solutions())
         self._theta = kwargs.get("theta", 2)
 
     def to_bitcomplexity_time(self, basic_operations: float):
@@ -58,10 +67,6 @@ class MQProblem(BaseProblem):
         - ``basic_operations`` -- Number of field additions (logarithmic)
         - ``theta`` -- exponent of the conversion factor
 
-        EXAMPLES::
-
-        TESTS::
-
         """
         q = self.parameters[MQ_FIELD_SIZE]
         theta = self._theta
@@ -71,7 +76,7 @@ class MQProblem(BaseProblem):
     def theta(self):
         """
         returns the runtime of the algorithm
-        
+
         """
         return self._theta
 
@@ -100,10 +105,9 @@ class MQProblem(BaseProblem):
     def expected_number_solutions(self):
         """
         Returns the logarithm of the expected number of existing solutions to the problem
-
         """
-        # TODO this seems wrong
-        return 0
+        n, m, q = self.get_problem_parameters()
+        return max(0, log2(q) * (n - m))
 
     def order_of_the_field(self):
         """
@@ -118,7 +122,7 @@ class MQProblem(BaseProblem):
         Return `True` if the algorithm is defined over a finite field
 
         """
-        return self.order_of_the_field() is not None
+        return self.order_of_the_field()
 
     def npolynomials(self):
         """"
@@ -127,7 +131,7 @@ class MQProblem(BaseProblem):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQProblem(n=10, m=5).npolynomials()
+            sage: MQProblem(n=10, m=5, q=4).npolynomials()
             5
         """
         return self.parameters[MQ_NUMBER_POLYNOMIALS]
@@ -139,7 +143,7 @@ class MQProblem(BaseProblem):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQProblem(n=10, m=5).nvariables()
+            sage: MQProblem(n=10, m=5, q=4).nvariables()
             10
         """
         return self.parameters[MQ_NUMBER_VARIABLES]
@@ -157,11 +161,11 @@ class MQProblem(BaseProblem):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQProblem(n=5, m=10).is_overdefined_system()
+            sage: MQProblem(n=10, m=15, q=4).is_overdefined_system()
             True
-            sage: MQProblem(n=10, m=5).is_overdefined_system()
+            sage: MQProblem(n=10, m=5, q=4).is_overdefined_system()
             False
-            sage: MQProblem(n=10, m=10).is_overdefined_system()
+            sage: MQProblem(n=10, m=5, q=4).is_overdefined_system()
             False
         """
         return self.npolynomials() > self.nvariables()
@@ -173,11 +177,11 @@ class MQProblem(BaseProblem):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQProblem(n=10, m=5).is_underdefined_system()
+            sage: MQProblem(n=10, m=5, q=4).is_underdefined_system()
             True
-            sage: MQProblem(n=5, m=10).is_underdefined_system()
+            sage: MQProblem(n=5, m=10, q=4).is_underdefined_system()
             False
-            sage: MQProblem(n=10, m=10).is_underdefined_system()
+            sage: MQProblem(n=10, m=10, q=4).is_underdefined_system()
             False
         """
         return self.nvariables() > self.npolynomials()
@@ -189,9 +193,9 @@ class MQProblem(BaseProblem):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQProblem(n=10, m=10).is_square_system()
+            sage: MQProblem(n=10, m=10, q=4).is_square_system()
             True
-            sage: MQProblem(n=5, m=10).is_square_system()
+            sage: MQProblem(n=10, m=5, q=4).is_square_system()
             False
         """
         return self.nvariables() == self.npolynomials()
@@ -201,6 +205,7 @@ class MQProblem(BaseProblem):
         """
         n, m, q = self.get_problem_parameters()
         rep = "MQ problem with (n,m,q) = " \
-              + "(" + str(n) + "," + str(m) + "," + str(q) + ") over " + str(self.baseField)
+              + "(" + str(n) + "," + str(m) + "," + \
+            str(q) + ") over " + str(self.baseField)
 
         return rep

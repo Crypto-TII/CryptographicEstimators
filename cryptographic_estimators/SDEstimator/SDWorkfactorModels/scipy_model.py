@@ -16,10 +16,6 @@
 # ****************************************************************************
  
 
-
- 
-
-
 import collections
 from ..sd_estimator import SDProblem
 from .workfactor_helper import list_of_random_tuples, wrap, binomial_approximation
@@ -34,7 +30,7 @@ class ScipyModel:
         self.accuracy = accuracy
         self.iterations = iterations
 
-        n, k, w, _ = problem.get_parameters()
+        n, k, w = problem.get_parameters()
         self.rate = lambda x: k / n
         self.w = lambda x: w / n
 

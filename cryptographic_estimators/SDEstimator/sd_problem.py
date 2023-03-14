@@ -1,27 +1,23 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
 
 
 from ..base_problem import BaseProblem
-from math import comb, inf, log2
+from math import comb, log2
 from sage.all import GF
 from .sd_constants import *
 
@@ -52,7 +48,8 @@ class SDProblem(BaseProblem):
         self.parameters[SD_ERROR_WEIGHT] = w
         self.baseField = GF(q)
 
-        self.nsolutions = kwargs.get("nsolutions", max(self.expected_number_solutions(), 0))
+        self.nsolutions = kwargs.get("nsolutions", max(
+            self.expected_number_solutions(), 0))
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """
@@ -83,25 +80,22 @@ class SDProblem(BaseProblem):
         Returns the logarithm of the expected number of existing solutions to the problem
 
         """
-        # TODO fix for fq
-        n, k, w, _ = self.get_parameters()
+        n, k, w = self.get_parameters()
         return log2(comb(n, w)) - (n - k)
 
     def __repr__(self):
         """
         """
-        n, k, w, _ = self.get_parameters()
+        n, k, w  = self.get_parameters()
         rep = "syndrome decoding problem with (n,k,w) = " \
-              + "(" + str(n) + "," + str(k) + "," + str(w) + ") over " + str(self.baseField)
-
+              + "(" + str(n) + "," + str(k) + "," + str(w) + ") over Finite Field of size 2"
         return rep
 
     def get_parameters(self):
         """
-        Returns the ISD paramters n, k, w, q
+        Returns the ISD paramters n, k, w
         """
         n = self.parameters[SD_CODE_LENGTH]
         k = self.parameters[SD_CODE_DIMENSION]
         w = self.parameters[SD_ERROR_WEIGHT]
-        q = self.baseField.characteristic()
-        return n, k, w, q
+        return n, k, w

@@ -62,5 +62,8 @@ docker-doc:
 docker-test:
 	@docker run --name container-for-test -d -it ${image_name} sh && docker exec container-for-test sage -t --long -T 3600 --verbose --force-lib cryptographic_estimators && docker stop container-for-test && docker rm container-for-test
 
+docker-testfast:
+	@docker run --name container-for-test -d -it ${image_name} sh && docker exec container-for-test sage -t cryptographic_estimators && docker stop container-for-test && docker rm container-for-test
+
 add-copyright:
 	@python3 scripts/create_copyright.py

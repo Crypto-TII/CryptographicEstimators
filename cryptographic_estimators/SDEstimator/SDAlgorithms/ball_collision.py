@@ -1,23 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
 
 
 from ...base_algorithm import optimal_parameter
@@ -57,7 +53,7 @@ class BallCollision(SDAlgorithm):
 
         """
         super(BallCollision, self).__init__(problem, **kwargs)
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
 
         self.set_parameter_ranges("p", 0, w // 2)
 
@@ -117,7 +113,7 @@ class BallCollision(SDAlgorithm):
         return if the parameter set `parameters` is invalid
 
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
         if par.p > w // 2 or k1 < par.p or par.pl > par.l // 2 or n - k - par.l < w - 2 * par.p - 2 * par.pl or w < 2 * par.p + 2 * par.pl:
@@ -129,14 +125,14 @@ class BallCollision(SDAlgorithm):
         Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
         set parameters in `_optimal_parameters`
         """
-        new_ranges = self._fix_ranges_for_already_set_parmeters()
-
-        n, k, w, _ = self.problem.get_parameters()
-        start_p = new_ranges["p"]["min"]+(new_ranges["p"]["min"]%2)
+        new_ranges = self._fix_ranges_for_already_set_parmeters()    
+        n, k, w = self.problem.get_parameters()
+        start_p = new_ranges["p"]["min"]+(new_ranges["p"]["min"] % 2)
         for p in range(start_p, min(w // 2, new_ranges["p"]["max"])+1, 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])+1):
-                for pl in range(new_ranges["pl"]["min"], min(l//2,new_ranges["pl"]["max"],(w-2*p)//2)+1):
-                    indices = {"p": p, "pl": pl, "l": l, "r": self._optimal_parameters["r"]}
+                for pl in range(new_ranges["pl"]["min"], min(l//2, new_ranges["pl"]["max"], (w-2*p)//2)+1):
+                    indices = {"p": p, "pl": pl, "l": l,
+                               "r": self._optimal_parameters["r"]}
                     if self._are_parameters_invalid(indices):
                         continue
                     yield indices
@@ -145,7 +141,7 @@ class BallCollision(SDAlgorithm):
         """
         Computes the expected runtime and memory consumption for a given parameter set.
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
 
@@ -172,7 +168,8 @@ class BallCollision(SDAlgorithm):
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
-            verbose_information[VerboseInformation.LISTS.value] = [log2(L1), 2 * log2(L1) - par.l]
+            verbose_information[VerboseInformation.LISTS.value] = [
+                log2(L1), 2 * log2(L1) - par.l]
 
         return time, memory
 

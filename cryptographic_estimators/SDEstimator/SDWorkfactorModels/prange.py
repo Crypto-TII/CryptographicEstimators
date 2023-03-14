@@ -16,10 +16,6 @@
 # ****************************************************************************
  
 
-
- 
-
-
 import collections
 from .scipy_model import ScipyModel
 from ..sd_problem import SDProblem
@@ -33,7 +29,6 @@ class PrangeScipyModel(ScipyModel):
         """
         par_names += ["p"]
         super().__init__(par_names, problem, iterations, accuracy)
-
 
     def _build_model_and_set_constraints(self):
         self.constraints = [
