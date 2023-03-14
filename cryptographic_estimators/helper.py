@@ -31,11 +31,8 @@ class ComplexityType(Enum):
 def memory_access_cost(mem: float, memory_access):
     """
     INPUT:
-
     - ```mem`` -- memory consumption of an algorithm
     - ```memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-
-
     """
     if memory_access == 0:
         return 0

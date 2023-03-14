@@ -15,66 +15,53 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-
 from ..helper import ComplexityType
 from ..base_algorithm import BaseAlgorithm, optimal_parameter
-from ..SDEstimator.sd_helper import _optimize_m4ri
-from .sd_problem import SDProblem
-from math import log2, inf
+from .sdfq_problem import SDFqProblem
+from .sdfq_helper import _optimize_m4ri
+from math import inf, log2
 
 
-class SDAlgorithm(BaseAlgorithm):
-    def __init__(self, problem: SDProblem, **kwargs):
-        """
-        Base class for Syndrome Decoding algorithms complexity estimator
+class SDFqAlgorithm(BaseAlgorithm):
+    """
+    Base class for Syndrome Decoding over FQ algorithms complexity estimator
 
-        INPUT:
+    INPUT:
 
-        - ``problem`` -- SDProblem object including all necessary parameters
-        - ``var_ranges`` -- allow parameter optimization to adapt ranges if necessary (default: true)
-        - ``hmap`` -- indicates if hashmap is being used for linear time sorting (default: true)
+    - ``problem`` -- SDFqProblem object including all necessary parameters
+    - ``var_ranges`` -- allow parameter optimization to adapt ranges if necessary (default: true)
 
-        """
-        super(SDAlgorithm, self).__init__(problem, **kwargs)
+    """
+
+    def __init__(self, problem: SDFqProblem, **kwargs):
+        super(SDFqAlgorithm, self).__init__(problem, **kwargs)
         self._variable_parameter_ranges = kwargs.get("var_ranges", 1)
         self._hmap = kwargs.get("hmap", 1)
         self._adjust_radius = kwargs.get("adjust_radius", 10)
         self.workfactor_accuracy = kwargs.get("workfactor_accuracy", 1)
         self.scipy_model = None
         self.full_domain = kwargs.get("full_domain", False)
-        self._current_minimum_for_early_abort = inf
-        n, k, _  = self.problem.get_parameters()
-        self.set_parameter_ranges("r", 0, n - k)
-
-    @optimal_parameter
-    def r(self):
-        """
-        Return the optimal parameter $r$ used in the optimization of the M4RI Gaussian elimination
-
-        """
-
-        if self._optimal_parameters.get("r") is None:
-            n = self.problem.parameters["code length"]
-            k = self.problem.parameters["code dimension"]
-            if self.complexity_type == ComplexityType.ESTIMATE.value:
-                return _optimize_m4ri(n, k, self.problem.memory_bound - log2(n - k))
-            elif self.complexity_type == ComplexityType.TILDEO.value:
-                return 0
-
-        return self._optimal_parameters.get("r")
-
+    
     def _are_parameters_invalid(self, parameters: dict):
         """
         returns `true` if `parameters` is an invalid parameter set
         """
         raise NotImplementedError
 
+    def _is_early_abort_possible(self, time_lower_bound: float):
+        """
+        checks whether the current time lower bound is below the
+        early exit limit
+        """
+        if time_lower_bound > self._current_minimum_for_early_abort:
+            return True
+        return False
+
     def _find_optimal_parameters(self):
         """
         Enumerates over all valid parameter configurations withing the ranges
         of the optimization and saves the best result in `self._optimal_parameter`
         """
-        _ = self.r()
         time = inf
         while True:
             stop = True
@@ -84,8 +71,7 @@ class SDAlgorithm(BaseAlgorithm):
                 tmp_time, tmp_memory = self._time_and_memory_complexity(params)
 
                 if self.bit_complexities:
-                    tmp_memory = self.problem.to_bitcomplexity_memory(
-                        tmp_memory)
+                    tmp_memory = self.problem.to_bitcomplexity_memory(tmp_memory)
 
                 if tmp_time < time and tmp_memory < self.problem.memory_bound:
                     time, memory = tmp_time, tmp_memory
@@ -193,14 +179,11 @@ class SDAlgorithm(BaseAlgorithm):
 
         """
         if self.scipy_model is None:
-            raise NotImplementedError(
-                "For " + self._name + " TildeO complexity is not yet implemented")
-        model = self.scipy_model(self.parameter_names(
-        ), self.problem, iterations=self.workfactor_accuracy*10, accuracy=1e-7)
-        wf_time, wf_memory, par = model.get_time_memory_and_parameters(
-            parameters=parameters)
+            raise NotImplementedError("For " + self._name + " TildeO complexity is not yet implemented")
+        model = self.scipy_model(self.parameter_names(), self.problem, iterations=self.workfactor_accuracy*10, accuracy=1e-7)
+        wf_time, wf_memory, par = model.get_time_memory_and_parameters(parameters=parameters)
         self._optimal_parameters.update(par)
-        n, _, _ = self.problem.get_parameters()
+        n, _, _, _ = self.problem.get_parameters()
         return wf_time*n, wf_memory*n
 
     def _get_verbose_information(self):
@@ -216,6 +199,8 @@ class SDAlgorithm(BaseAlgorithm):
             }
         """
         verb = dict()
-        _ = self._time_and_memory_complexity(
-            self.optimal_parameters(), verbose_information=verb)
+        _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)
         return verb
+    
+    def __repr__(self):
+        pass
