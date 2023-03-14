@@ -20,6 +20,7 @@ class Leon(PELeon, LEAlgorithm):
 
             - ``problem`` -- PEProblem object including all necessary parameters
             - ``codewords_needed_for_success`` -- Number of low word codewords needed for success (default = 100)
+            - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
         """
         LEAlgorithm.__init__(self, problem, **kwargs)
         self._name = "Leon"

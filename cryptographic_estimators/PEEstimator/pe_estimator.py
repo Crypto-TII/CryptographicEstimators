@@ -32,6 +32,7 @@ class PEEstimator(BaseEstimator):
     - ``k`` -- code dimension
     - ``q`` -- field size
     - ``excluded_algorithms`` -- a list/tuple of excluded algorithms (default: None)
+    - ``sd_parameters`` -- dictionary of parameters for SDEstimator used as a subroutine by some algorithms (default: {})
     - ``nsolutions`` -- no. of solutions
 
     """
