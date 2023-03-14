@@ -1,3 +1,20 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
 
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
@@ -95,7 +112,7 @@ class HybridF5(MQAlgorithm):
         """
         return self._get_optimal_parameter('k')
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
@@ -121,7 +138,7 @@ class HybridF5(MQAlgorithm):
         h = self._h
         return log2(q ** k) + E.time_complexity() + h * log2(q)
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity w.r.t. `k`.
 
@@ -145,7 +162,7 @@ class HybridF5(MQAlgorithm):
         E.complexity_type = ComplexityType.ESTIMATE.value
         return E.memory_complexity()
 
-    def _compute_tilde_o_time_complexity(self, parameters):
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
         Return the Ō time complexity of the algorithm for a given set of parameters
 
@@ -160,7 +177,6 @@ class HybridF5(MQAlgorithm):
             sage: H = HybridF5(MQProblem(q=7, n=10, m=12))
             sage: H._compute_tilde_o_time_complexity({'k':3})
             22.23584595738985
-
         """
         k = parameters['k']
         n, m, q = self.get_reduced_parameters()
@@ -171,7 +187,7 @@ class HybridF5(MQAlgorithm):
         h = self._h
         return log2(q ** k) + E.time_complexity() + h * log2(q)
 
-    def _compute_tilde_o_memory_complexity(self, parameters):
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
         Return the Ō memory complexity of the algorithm for a given set of parameters
 
@@ -179,6 +195,13 @@ class HybridF5(MQAlgorithm):
 
         - ``parameters`` -- dictionary including the parameters
 
+        TESTS::
+
+            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
+            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            sage: H = HybridF5(MQProblem(q=7, n=10, m=12))
+            sage: H._compute_tilde_o_memory_complexity({'k':3})
+            12.784634845557521
         """
         k = parameters['k']
         n, m, q = self.get_reduced_parameters()
@@ -189,4 +212,14 @@ class HybridF5(MQAlgorithm):
         return E.memory_complexity()
 
     def _find_optimal_tilde_o_parameters(self):
+        """
+        Return the optimal parameters to achive the optimal Ō time complexity.
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
+            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            sage: E = HybridF5(MQProblem(q=7, n=10, m=12))
+            sage: E._find_optimal_tilde_o_parameters()
+        """
         self._find_optimal_parameters()

@@ -1,3 +1,21 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+ 
+
 import collections
 from ..sd_estimator import SDProblem
 from .workfactor_helper import list_of_random_tuples, wrap, binomial_approximation
@@ -12,7 +30,7 @@ class ScipyModel:
         self.accuracy = accuracy
         self.iterations = iterations
 
-        n, k, w, _ = problem.get_parameters()
+        n, k, w = problem.get_parameters()
         self.rate = lambda x: k / n
         self.w = lambda x: w / n
 
@@ -21,7 +39,7 @@ class ScipyModel:
         if problem.nsolutions == max(0, problem.expected_number_solutions()):
             self.nsolutions = max(0, binomial_approximation(1, w / n) - (1 - k / n))
         else:
-            self.nsolutions = log2(solutions) / n
+            self.nsolutions = log2(problem.nsolutions) / n
 
     def _inject_vars(self, f):
         return wrap(f, self.set_vars)

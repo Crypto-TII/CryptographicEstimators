@@ -1,3 +1,21 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
+
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator.mq_helper import sum_of_binomial_coefficients
@@ -29,6 +47,7 @@ class Bjorklund(MQAlgorithm):
         Björklund et al. estimator for the MQ problem with 10 variables and 12 polynomials
 
     """
+
     def __init__(self, problem: MQProblem, **kwargs):
         if problem.order_of_the_field() != 2:
             raise TypeError("q must be equal to 2")
@@ -55,7 +74,7 @@ class Bjorklund(MQAlgorithm):
         return self._get_optimal_parameter('lambda_')
 
     def _valid_choices(self):
-        n, m, _ = self.get_reduced_parameters()
+        n, _, _ = self.get_reduced_parameters()
         ranges = self._parameter_ranges
         l_min = max(3, ceil(ranges['lambda_']['min'] * n))
         l_max = min(ceil(ranges['lambda_']['max'] * n), n)
@@ -68,7 +87,7 @@ class Bjorklund(MQAlgorithm):
             if l > l_max:
                 stop = True
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
@@ -88,10 +107,11 @@ class Bjorklund(MQAlgorithm):
         n, m, _ = self.get_reduced_parameters()
         k = self._k
         h = self._h
-        time = 8 * k * log2(n) * sum([Bjorklund._internal_time_complexity_(n - i, m + k + 2, lambda_) for i in range(1, n)])
+        time = 8 * k * log2(n) * sum([Bjorklund._internal_time_complexity_(
+            n - i, m + k + 2, lambda_) for i in range(1, n)])
         return h + log2(time)
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
@@ -120,7 +140,7 @@ class Bjorklund(MQAlgorithm):
         n, m, _ = self.get_reduced_parameters()
         return log2(_internal_memory_complexity_(n, m, lambda_))
 
-    def _compute_tilde_o_time_complexity(self, parameters):
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
         Return the Ō time complexity of Bjorklund et al.'s algorithm
 
@@ -136,7 +156,7 @@ class Bjorklund(MQAlgorithm):
         h = self._h
         return h + 0.803225 * n
 
-    def _compute_tilde_o_memory_complexity(self, parameters):
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
         Return the Ō time complexity of Bjorklund et al.'s algorithm
 
@@ -166,13 +186,16 @@ class Bjorklund(MQAlgorithm):
         self._optimal_parameters['lambda_'] = 0.19677
 
     @staticmethod
-    def _internal_time_complexity_(n, m, lambda_):
+    def _internal_time_complexity_(n: int, m: int, lambda_: float):
+        """
+        Helper function. Computes the runtime of the algorithm for given 
+        n, m and lambda
+        """
         if n <= 1:
             return 1
         else:
             l = floor(lambda_ * n)
-            T1 = (n + (l + 2) * m * sum_of_binomial_coefficients(n, 2) + (n - l) * 2 ** (n - l))
+            T1 = (n + (l + 2) * m * sum_of_binomial_coefficients(n, 2) +
+                  (n - l) * 2 ** (n - l))
             s = 48 * n + 1
             return s * sum_of_binomial_coefficients(n - l, l + 4) * (Bjorklund._internal_time_complexity_(l, l + 2, lambda_) + T1)
-
-

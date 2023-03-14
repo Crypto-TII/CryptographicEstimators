@@ -1,10 +1,29 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
+
 from ..base_algorithm import BaseAlgorithm
+from .mq_problem import MQProblem
 from sage.arith.misc import is_prime_power
 from sage.functions.other import floor
 
 
 class MQAlgorithm(BaseAlgorithm):
-    def __init__(self, problem, **kwargs):
+    def __init__(self, problem: MQProblem, **kwargs):
         """
         Base class for MQ algorithms complexity estimator
 
@@ -74,11 +93,17 @@ class MQAlgorithm(BaseAlgorithm):
         n, m = self.problem.nvariables(), self.problem.npolynomials()
         if self.problem.is_underdefined_system():
             alpha = floor(n / m)
-            self._n_reduced = m - alpha + 1
+            if m - alpha + 1 > 1:
+                self._n_reduced = m - alpha + 1
+            else:
+                self._n_reduced = m
         else:
             self._n_reduced = n
 
         self._n_reduced -= self._h
+
+        if self.problem.is_underdefined_system():
+            self.problem.nsolutions = 0
         return self._n_reduced
 
     def npolynomials_reduced(self):
@@ -115,11 +140,13 @@ class MQAlgorithm(BaseAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQAlgorithm(MQProblem(n=10, m=5), w=2).linear_algebra_constant()
+            sage: MQAlgorithm(MQProblem(n=10, m=5, q=4), w=2).linear_algebra_constant()
             2
         """
         return self._w
 
     def __repr__(self):
+        """
+        """
         n, m = self.problem.nvariables(), self.problem.npolynomials()
         return f"{self._name} estimator for the MQ problem with {n} variables and {m} polynomials"

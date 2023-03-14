@@ -1,3 +1,21 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
+
 from ...base_algorithm import optimal_parameter
 from ...SDEstimator.sd_algorithm import SDAlgorithm
 from ...SDEstimator.sd_problem import SDProblem
@@ -38,12 +56,14 @@ class BothMay(SDAlgorithm):
         """
         super(BothMay, self).__init__(problem, **kwargs)
         self._name = "Both-May"
-        n, k, w, _ = self.problem.get_parameters()
         self.initialize_parameter_ranges()
         self.scipy_model = BothMayScipyModel
 
     def initialize_parameter_ranges(self):
-        n, k, w, _ = self.problem.get_parameters()
+        """
+        initialize the parameter ranges for p, p1, p2, l to start the optimisation 
+        process.
+        """
         self.set_parameter_ranges("p", 0, 20)
         self.set_parameter_ranges("p1", 0, 15)
         self.set_parameter_ranges("l", 0, 160)
@@ -106,7 +126,7 @@ class BothMay(SDAlgorithm):
             sage: from cryptographic_estimators.SDEstimator import SDProblem
             sage: A = BothMay(SDProblem(n=100,k=50,w=10))
             sage: A.w1()
-            2
+            0
         """
         return self._get_optimal_parameter("w1")
 
@@ -125,12 +145,16 @@ class BothMay(SDAlgorithm):
         """
         return self._get_optimal_parameter("w2")
 
-    def _are_parameters_invalid(self, parameters):
-        n, k, w, _ = self.problem.get_parameters()
+    def _are_parameters_invalid(self, parameters: dict):
+        """
+        return if the parameter set `parameters` is invalid
+
+        """
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
         if par.p > w // 2 or k1 < par.p or par.w1 >= min(w, par.l + 1) \
-                or par.w2 >= min(w - 2 * par.p, par.l + 1, 2 * par.w1) or par.p1 < (par.p + 1) // 2 or par.p1 > w \
+                or par.w2 > min(w - 2 * par.p, par.l, 2 * par.w1) or par.p1 < (par.p + 1) // 2 or par.p1 > w \
                 or n - k - par.l < w - par.w2 - 2 * par.p or par.p1 > k1:
             return True
         return False
@@ -142,14 +166,15 @@ class BothMay(SDAlgorithm):
 
         """
         new_ranges = self._fix_ranges_for_already_set_parmeters()
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
 
-        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
-            for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
-                for w1 in range(new_ranges["w1"]["min"], new_ranges["w1"]["max"]):
-                    for w2 in range(new_ranges["w2"]["min"], new_ranges["w2"]["max"], 2):
-                        for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
-                            indices = {"p": p, "w1": w1, "w2": w2, "p1": p1, "l": l, "r": self._optimal_parameters["r"]}
+        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"])+1, 2):
+            for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])+1):
+                for w1 in range(new_ranges["w1"]["min"], new_ranges["w1"]["max"]+1):
+                    for w2 in range(new_ranges["w2"]["min"], new_ranges["w2"]["max"]+1, 2):
+                        for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]+1):
+                            indices = {"p": p, "w1": w1, "w2": w2, "p1": p1,
+                                       "l": l, "r": self._optimal_parameters["r"]}
                             if self._are_parameters_invalid(indices):
                                 continue
                             yield indices
@@ -158,7 +183,7 @@ class BothMay(SDAlgorithm):
         """
         Computes the expected runtime and memory consumption for a given parameter set.
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
 
@@ -169,7 +194,7 @@ class BothMay(SDAlgorithm):
         memory_bound = self.problem.memory_bound
 
         reps = (binom(par.p, par.p / 2) * binom(k1 - par.p, par.p1 - par.p / 2)) ** 2 * binom(par.w2, par.w2 / 2) \
-               * binom(par.l - par.w2, par.w1 - par.w2 / 2)
+            * binom(par.l - par.w2, par.w1 - par.w2 / 2)
         reps = 1 if reps == 0 else reps
         L1 = binom(k1, par.p1)
 
@@ -187,8 +212,10 @@ class BothMay(SDAlgorithm):
                 binom(par.l, par.w2)) - solutions, 0)
         Tg = _gaussian_elimination_complexity(n, k, par.r)
 
-        first_level_nn = _indyk_motwani_complexity(L1, par.l, par.w1, self._hmap)
-        second_level_nn = _indyk_motwani_complexity(L12, n - k - par.l, w - 2 * par.p - par.w2, self._hmap)
+        first_level_nn = _indyk_motwani_complexity(
+            L1, par.l, par.w1, self._hmap)
+        second_level_nn = _indyk_motwani_complexity(
+            L12, n - k - par.l, w - 2 * par.p - par.w2, self._hmap)
         T_tree = 2 * first_level_nn + second_level_nn
         T_rep = int(ceil(2 ** max(0, par.l - log2(reps))))
 
@@ -197,13 +224,17 @@ class BothMay(SDAlgorithm):
         if verbose_information is not None:
             verbose_information[VerboseInformation.CONSTRAINTS.value] = [par.l]
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
-            verbose_information[VerboseInformation.TREE.value] = log2(T_rep * T_tree)
+            verbose_information[VerboseInformation.TREE.value] = log2(
+                T_rep * T_tree)
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
             verbose_information[VerboseInformation.REPRESENTATIONS.value] = reps
-            verbose_information[VerboseInformation.LISTS.value] = [log2(L1), log2(L12)]
+            verbose_information[VerboseInformation.LISTS.value] = [
+                log2(L1), log2(L12)]
 
         return time, memory
 
     def __repr__(self):
+        """
+        """
         rep = "Both-May estimator in depth 2 for " + str(self.problem)
         return rep

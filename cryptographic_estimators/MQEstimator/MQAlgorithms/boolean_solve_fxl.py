@@ -1,3 +1,20 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
 
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
@@ -44,12 +61,15 @@ class BooleanSolveFXL(MQAlgorithm):
         self._name = "BooleanSolveFXL"
         if self.problem.is_defined_over_finite_field():
             if m < n and m != n:
-                raise ValueError("the no. of polynomials must be >= than the no. of variables")
+                raise ValueError(
+                    "the no. of polynomials must be >= than the no. of variables")
         else:
             if m < n:
-                raise ValueError("the no. of polynomials must be > than the no. of variables")
+                raise ValueError(
+                    "the no. of polynomials must be > than the no. of variables")
 
-        self.set_parameter_ranges('k', 0, n)
+        a = 0 if self.problem.is_overdefined_system() else 1
+        self.set_parameter_ranges('k', a, n)
 
     @optimal_parameter
     def k(self):
@@ -104,7 +124,7 @@ class BooleanSolveFXL(MQAlgorithm):
             elif indices['k'] > new_ranges['k']["max"] and variant == MQ_DETERMINISTIC:
                 stop = True
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
@@ -123,22 +143,25 @@ class BooleanSolveFXL(MQAlgorithm):
         k = parameters['k']
         variant = parameters[MQ_VARIANT]
         n, m, q = self.get_reduced_parameters()
-        q = self.problem.order_of_the_field()
         w = self.linear_algebra_constant()
 
         wit_deg = witness_degree.quadratic_system(n=n - k, m=m, q=q)
 
         if variant == MQ_LAS_VEGAS:
-            time_complexity = 3 * binomial(n - k + 2, 2) * q ** k * binomial(n - k + wit_deg, wit_deg) ** 2
+            time_complexity = 3 * \
+                binomial(n - k + 2, 2) * q ** k * \
+                binomial(n - k + wit_deg, wit_deg) ** 2
         elif variant == MQ_DETERMINISTIC:
-            time_complexity = q ** k * m * binomial(n - k + wit_deg, wit_deg) ** w
+            time_complexity = q ** k * m * \
+                binomial(n - k + wit_deg, wit_deg) ** w
         else:
-            raise ValueError("variant must either be las_vegas or deterministic")
+            raise ValueError(
+                "variant must either be las_vegas or deterministic")
 
         h = self._h
         return log2(time_complexity) + h * log2(q)
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
@@ -167,15 +190,18 @@ class BooleanSolveFXL(MQAlgorithm):
             a = binomial(n - k + 2, 2)
             T = binomial(n - k + wit_deg - 2, wit_deg)
             N = binomial(n - k + wit_deg, wit_deg)
-            memory_complexity = m * a + (T * a * log2(N) + N * log2(m)) / log2(q)
+            memory_complexity = m * a + \
+                (T * a * log2(N) + N * log2(m)) / log2(q)
         elif variant == MQ_DETERMINISTIC:
-            memory_complexity = max(binomial(n - k + wit_deg - 1, wit_deg) ** 2, m * n ** 2)
+            memory_complexity = max(
+                binomial(n - k + wit_deg - 1, wit_deg) ** 2, m * n ** 2)
         else:
-            raise ValueError("variant must either be las_vegas or deterministic")
+            raise ValueError(
+                "variant must either be las_vegas or deterministic")
 
         return log2(memory_complexity)
 
-    def _compute_tilde_o_time_complexity(self, parameters):
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
         Return the Ō time complexity of BooleanSolve and FXL algorithms
 
@@ -211,7 +237,7 @@ class BooleanSolveFXL(MQAlgorithm):
         complexity += self._h * log2(q)
         return complexity
 
-    def _compute_tilde_o_memory_complexity(self, parameters):
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
         Return the Ō time complexity of BooleanSolve and FXL algorithms
 
@@ -234,4 +260,14 @@ class BooleanSolveFXL(MQAlgorithm):
         return memory
 
     def _find_optimal_tilde_o_parameters(self):
+        """
+        Finds the optimal parameters.
+
+        TESTS::
+
+            sage: from  cryptographic_estimators.MQEstimator.MQAlgorithms.boolean_solve_fxl import BooleanSolveFXL
+            sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7))
+            sage: E._find_optimal_tilde_o_parameters()
+        """
         self._find_optimal_parameters()

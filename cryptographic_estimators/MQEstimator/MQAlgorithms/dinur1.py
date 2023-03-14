@@ -1,3 +1,21 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
+
 from ...base_algorithm import optimal_parameter
 from ...MQEstimator.mq_helper import sum_of_binomial_coefficients
 from ...MQEstimator.mq_algorithm import MQAlgorithm
@@ -78,9 +96,11 @@ class DinurFirst(MQAlgorithm):
         n, m, _ = self.get_reduced_parameters()
         parameters = self._optimal_parameters
         ranges = self._parameter_ranges
-        new_ranges = {i: ranges[i].copy() if i not in parameters else {"min": parameters[i], "max": parameters[i]}  for i in ranges}
+        new_ranges = {i: ranges[i].copy() if i not in parameters else {
+            "min": parameters[i], "max": parameters[i]} for i in ranges}
         n1_min = max(2, floor(new_ranges['kappa']['min'] * (n - 1)))
-        n1_max = min(floor(new_ranges['kappa']['max'] * (n - 1)), (n - 1) // 3 + 1)
+        n1_max = min(floor(new_ranges['kappa']
+                     ['max'] * (n - 1)), (n - 1) // 3 + 1)
         n1 = n1_min
         n2 = 1
         kappa = n1 / (n - 1)
@@ -98,7 +118,7 @@ class DinurFirst(MQAlgorithm):
             kappa = n1 / (n - 1)
             lambda_ = (n1 - n2) / (n - 1)
 
-    def _T(self, n, n1, w, lambda_):
+    def _T(self, n: int, n1: int, w: int, lambda_: float):
         t = 48 * n + 1
         n2 = floor(n1 - lambda_ * n)
         l = n2 + 2
@@ -109,12 +129,13 @@ class DinurFirst(MQAlgorithm):
             return n * sum_of_binomial_coefficients(n - n1, w) * 2 ** n1
         else:
             temp1 = self._T(n, n2, n2 + 4, lambda_)
-            temp2 = n * sum_of_binomial_coefficients(n - n1, w) * 2 ** (n1 - n2)
+            temp2 = n * \
+                sum_of_binomial_coefficients(n - n1, w) * 2 ** (n1 - n2)
             temp3 = n * sum_of_binomial_coefficients(n - n2, n2 + 4)
             temp4 = l * (m + k + 2) * sum_of_binomial_coefficients(n, 2)
             return t * (temp1 + temp2 + temp3 + temp4)
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
@@ -146,11 +167,13 @@ class DinurFirst(MQAlgorithm):
         def n1(i, kappa):
             return floor((n - i) * kappa)
 
-        time = 8 * k * log2(n) * sum([self._T(n - i, n1(i, kappa), w(i, kappa), lambda_) for i in range(1, n)])
+        time = 8 * k * \
+            log2(n) * sum([self._T(n - i, n1(i, kappa),
+                                   w(i, kappa), lambda_) for i in range(1, n)])
         h = self._h
         return h + log2(time)
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
@@ -176,7 +199,7 @@ class DinurFirst(MQAlgorithm):
         memory = log2(48 * n + 1) + floor((1 - kappa) * n)
         return memory
 
-    def _compute_tilde_o_time_complexity(self, parameters):
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
         Return the Ō time complexity of the algorithm for a given set of parameters
 
@@ -200,7 +223,7 @@ class DinurFirst(MQAlgorithm):
         h = self._h
         return h + 0.6943 * n
 
-    def _compute_tilde_o_memory_complexity(self, parameters):
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
         Return the Ō memory complexity of the algorithm for a given set of parameters
 
@@ -231,4 +254,3 @@ class DinurFirst(MQAlgorithm):
         kappa = 0.3057
         self._optimal_parameters['kappa'] = kappa
         self._optimal_parameters['lambda_'] = lambda_
-

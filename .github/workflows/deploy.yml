@@ -1,9 +1,9 @@
-name: Build documentation and deploy to gh-page
+name: Build the docker image, upload it to ECR and deploy documentation to gh-page
 on:
   push:
     branches:
       - main
-  pull_request:
+      - develop
 
 jobs:
   build-and-deploy:
@@ -11,30 +11,58 @@ jobs:
     concurrency: ci-${{github.ref}}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      # - name: Configure AWS Credential
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: us-east-1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      # - name: Login to Amazon ECR
-      #   id: login-ecr
-      #   uses: aws-actions/amazon-ecr-login@v1
-      #   with:
-      #     registry-type: public
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
 
-      - name: Pull API from BitBucket
+      - name: Build
+        uses: docker/build-push-action@v4
+        id: built-image
+        with:
+          context: .
+          push: false
+          load: true
+          tags: estimators-lib:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+      - name: Move cache
         run: |
-          cd ..|
-          && git clone https://x-token-auth:${{ secrets.BITBUCKET_API_TOKEN }}@bitbucket.org/${{ secrets.BITBUCKET_ORG }}/${{ secrets.BITBUCKET_REPOSITORY }}.git |
-          && cd ${{ secrets.BITBUCKET_REPOSITORY }} |
-          && docker build -t estimators-api --file Dockerfile.local .
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
-      # - name: Reset API task
-      #   run: |
-      #     aws ecs list-tasks --region me-central-1 --cluster estimators-cluster |
-      #     python -c "import sys, json; print(json.load(sys.stdin)['taskArns'][0])" |
-      #     xargs -I{} aws ecs stop-task --task {} --region me-central-1 --cluster estimators-cluster
+      - name: Configure AWS Credential
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registry-type: public
+
+      - name: Tag and push to ECR
+        run: |
+          docker tag estimators-lib:latest public.ecr.aws/h0m6q0n8/estimators-lib:latest
+          docker push public.ecr.aws/h0m6q0n8/estimators-lib:latest
+
+      - name: Update documentation
+        run: sudo make docker-doc
+
+      - name: Deploy to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs/build/html
+          branch: gh-pages

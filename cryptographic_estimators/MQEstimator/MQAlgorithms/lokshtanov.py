@@ -1,3 +1,20 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
 
 from ...MQEstimator.series.nmonomial import NMonomialSeries
 from ...MQEstimator.mq_problem import MQProblem
@@ -61,7 +78,11 @@ class Lokshtanov(MQAlgorithm):
         return self._get_optimal_parameter('delta')
 
     def _valid_choices(self):
-        n, m, _ = self.get_reduced_parameters()
+        """
+        Yields valid values for `delta`.
+        Each call incremetns `l`
+        """
+        n, _, _ = self.get_reduced_parameters()
         ranges = self._parameter_ranges
         l_min = max(1, floor(ranges['delta']['min'] * n))
         l_max = min(ceil(ranges['delta']['max'] * n), n - 1)
@@ -74,14 +95,18 @@ class Lokshtanov(MQAlgorithm):
             if l > l_max:
                 stop = True
 
-    def _C(self, n, delta):
+    def _C(self, n: int, delta: float):
+        """
+
+        """
         q = self.problem.order_of_the_field()
         np = floor(delta * n)
         resulting_degree = 2 * (q - 1) * (np + 2)
-        M = NMonomialSeries(n=n - np, q=q, max_prec=resulting_degree + 1).nmonomials_up_to_degree(resulting_degree)
+        M = NMonomialSeries(n=n - np, q=q, max_prec=resulting_degree +
+                            1).nmonomials_up_to_degree(resulting_degree)
         return n * (q ** (n - np) + M * q ** np * n ** (6 * q))
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
@@ -105,12 +130,13 @@ class Lokshtanov(MQAlgorithm):
             if not 0 < delta < 1:
                 raise ValueError("delta must be in the range 0 < delta < 1")
             else:
-                time = 100 * log2(q) * (q - 1) * sum([self._C(n - i, delta) for i in range(1, n)])
+                time = 100 * log2(q) * (q - 1) * \
+                    sum([self._C(n - i, delta) for i in range(1, n)])
 
         h = self._h
         return h * log2(q) + log2(time)
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity of Lokshtanov et al.'s algorithm
 
@@ -135,12 +161,13 @@ class Lokshtanov(MQAlgorithm):
         else:
             np = floor(n * delta)
             resulting_degree = 2 * (q - 1) * (np + 2)
-            M = NMonomialSeries(n=n - np, q=q, max_prec=resulting_degree + 1).nmonomials_up_to_degree(resulting_degree)
+            M = NMonomialSeries(n=n - np, q=q, max_prec=resulting_degree +
+                                1).nmonomials_up_to_degree(resulting_degree)
             memory = M + log2(n) * q ** (n - np)
 
         return log2(memory)
 
-    def _compute_tilde_o_time_complexity(self, parameters):
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
         r"""
         Return the `\widetilde{O}` time complexity of Lokshtanov et al.'s algorithm
 
@@ -148,7 +175,7 @@ class Lokshtanov(MQAlgorithm):
 
         - ``parameters`` -- dictionary including the parameters
 
-        EXAMPLES::
+        TEST::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -168,7 +195,7 @@ class Lokshtanov(MQAlgorithm):
         h = self._h
         return h * log2(q) + time
 
-    def _compute_tilde_o_memory_complexity(self, parameters):
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
         r"""
         Return the `\widetilde{O}` time complexity of Lokshtanov et al.'s algorithm
 

@@ -1,3 +1,20 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
 
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
@@ -42,6 +59,7 @@ class CGMTA(MQAlgorithm):
         True
 
     """
+
     def __init__(self, problem: MQProblem, **kwargs):
         n, m, q = problem.get_problem_parameters()
         if not isinstance(q, (int, Integer)):
@@ -54,7 +72,8 @@ class CGMTA(MQAlgorithm):
         self._k = min(m / 2, floor(sqrt(n / 2 - sqrt(n / 2))))
 
         if 2 * self._k ** 2 > n - 2 * self._k or m - 2 * self._k >= 2 * self._k ** 2:
-            raise ValueError(f'The condition m - 2k < 2k^2 <= n - 2k must be satisfied')
+            raise ValueError(
+                f'The condition m - 2k < 2k^2 <= n - 2k must be satisfied')
 
         self._name = "CGMT-A"
         self._n_reduced = n
@@ -81,7 +100,8 @@ class CGMTA(MQAlgorithm):
         if self.complexity_type == ComplexityType.ESTIMATE.value:
             self._time_complexity += log2(2 * k * binomial(n - k, 2))
             if self.bit_complexities:
-                self._time_complexity = self.problem.to_bitcomplexity_time(self._time_complexity)
+                self._time_complexity = self.problem.to_bitcomplexity_time(
+                    self._time_complexity)
         else:
             self._time_complexity = 0
         return self._time_complexity
@@ -106,7 +126,8 @@ class CGMTA(MQAlgorithm):
         if self.complexity_type == ComplexityType.ESTIMATE.value:
             self._memory_complexity += log2(2 * k)
             if self.bit_complexities:
-                self._memory_complexity = self.problem.to_bitcomplexity_memory(self._memory_complexity)
+                self._memory_complexity = self.problem.to_bitcomplexity_memory(
+                    self._memory_complexity)
         else:
             self._memory_complexity = 0
         return self._memory_complexity

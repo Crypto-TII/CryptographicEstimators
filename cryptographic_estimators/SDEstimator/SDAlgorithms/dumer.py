@@ -1,3 +1,21 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
+
 from ...base_algorithm import optimal_parameter
 from ...SDEstimator.sd_algorithm import SDAlgorithm
 from ...SDEstimator.sd_problem import SDProblem
@@ -42,7 +60,11 @@ class Dumer(SDAlgorithm):
         self.scipy_model = DumerScipyModel
 
     def initialize_parameter_ranges(self):
-        n, k, w, _ = self.problem.get_parameters()
+        """
+        initialize the parameter ranges for p, l to start the optimisation 
+        process.
+        """
+        n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(w // 2, 20, s))
         self.set_parameter_ranges("l", 0, min_max(n - k, 400, s))
@@ -77,8 +99,12 @@ class Dumer(SDAlgorithm):
         """
         return self._get_optimal_parameter("p")
 
-    def _are_parameters_invalid(self, parameters):
-        n, k, w, _ = self.problem.get_parameters()
+    def _are_parameters_invalid(self, parameters: dict):
+        """
+        return if the parameter set `parameters` is invalid
+
+        """
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
         if par.p > w // 2 or k1 < par.p or n - k - par.l < w - 2 * par.p:
@@ -89,7 +115,7 @@ class Dumer(SDAlgorithm):
         """
         Computes the expected runtime and memory consumption for a given parameter set.
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
 
@@ -124,5 +150,7 @@ class Dumer(SDAlgorithm):
         return time, memory
 
     def __repr__(self):
+        """
+        """
         rep = "Dumer estimator for " + str(self.problem)
         return rep

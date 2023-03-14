@@ -1,3 +1,20 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
 
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
@@ -31,6 +48,7 @@ class DinurSecond(MQAlgorithm):
         Dinur2 estimator for the MQ problem with 10 variables and 12 polynomials
 
     """
+
     def __init__(self, problem: MQProblem, **kwargs):
         if problem.order_of_the_field() != 2:
             raise TypeError("q must be equal to 2")
@@ -39,7 +57,7 @@ class DinurSecond(MQAlgorithm):
         self._name = "Dinur2"
         self._k = floor(log2(2 ** self.problem.nsolutions + 1))
         n, m, _ = self.get_reduced_parameters()
-        self.set_parameter_ranges('n1', 1, (m - 2) // 2 - 1)
+        self.set_parameter_ranges('n1', 1, n// 2 - 1)
 
     @optimal_parameter
     def n1(self):
@@ -56,7 +74,7 @@ class DinurSecond(MQAlgorithm):
         """
         return self._get_optimal_parameter('n1')
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
@@ -83,11 +101,12 @@ class DinurSecond(MQAlgorithm):
         n1 = parameters['n1']
         n = self.nvariables_reduced()
         time = 16 * log2(n) * 2 ** n1 * sum_of_binomial_coefficients(n - n1, n1 + 3) + \
-               n1 * n * 2 ** (n - n1) + 2 ** (n - 2 * n1 + 1) * sum_of_binomial_coefficients(n, 2)
+            n1 * n * 2 ** (n - n1) + 2 ** (n - 2 * n1 + 1) * \
+            sum_of_binomial_coefficients(n, 2)
         h = self._h
         return h + log2(time)
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
@@ -112,7 +131,7 @@ class DinurSecond(MQAlgorithm):
         n1 = parameters['n1']
         return log2(8 * (n1 + 1) * sum_of_binomial_coefficients(n - n1, n1 + 3))
 
-    def _compute_tilde_o_time_complexity(self, parameters):
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
         Compute and return the time complexity of the algorithm for a given set of parameters
 
@@ -132,7 +151,7 @@ class DinurSecond(MQAlgorithm):
         h = self._h
         return h + ((1 - 1./(2.7*2)) * n)
 
-    def _compute_tilde_o_memory_complexity(self, parameters):
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
         Compute and return the memory complexity of the algorithm for a given set of parameters
 
@@ -166,4 +185,3 @@ class DinurSecond(MQAlgorithm):
         """
         n = self.nvariables_reduced()
         self._optimal_parameters['n1'] = n/(2.7 * 2)
-

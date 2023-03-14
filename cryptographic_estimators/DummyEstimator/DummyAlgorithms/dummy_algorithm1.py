@@ -1,3 +1,21 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
+
 from ..dummy_algorithm import DummyAlgorithm
 from ..dummy_problem import DummyProblem
 from ...base_algorithm import optimal_parameter
@@ -32,7 +50,8 @@ class DummyAlgorithm1(DummyAlgorithm):
         self._name = "dummy_algorithm1"
         problem_par1, problem_par2 = self.problem.get_parameters()
         self.set_parameter_ranges('optimization_parameter_1', 1, problem_par1)
-        self.set_parameter_ranges('optimization_parameter_2', 1, max(1, problem_par1 - problem_par2))
+        self.set_parameter_ranges(
+            'optimization_parameter_2', 1, max(1, problem_par1 - problem_par2))
         self.set_parameter_ranges('optimization_parameter_3', 10, 20)
 
     @optimal_parameter
@@ -90,7 +109,7 @@ class DummyAlgorithm1(DummyAlgorithm):
 
         return self._get_optimal_parameter('optimization_parameter_2')
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
@@ -109,7 +128,7 @@ class DummyAlgorithm1(DummyAlgorithm):
 
         return log2(time)
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 

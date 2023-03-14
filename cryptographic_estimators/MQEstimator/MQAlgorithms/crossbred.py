@@ -1,3 +1,21 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
+
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator.series.hilbert import HilbertSeries
@@ -51,17 +69,16 @@ class Crossbred(MQAlgorithm):
             raise TypeError("q must be an integer")
 
         super(Crossbred, self).__init__(problem, **kwargs)
-        n = self.nvariables_reduced()
         self._name = "Crossbred"
-        self._max_D = kwargs.get('max_D', 20)
+        self._max_D = kwargs.get('max_D', min(
+            30, min(problem.nvariables(), problem.npolynomials())))
         if not isinstance(self._max_D, (int, Integer)):
             raise TypeError("max_D must be an integer")
 
+        n = self.nvariables_reduced()
         self.set_parameter_ranges('k', 1, n)
         self.set_parameter_ranges('D', 2, self._max_D)
         self.set_parameter_ranges('d', 1, n)
-
-
 
     @optimal_parameter
     def k(self):
@@ -119,12 +136,12 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
             sage: E.max_D
-            20
+            10
         """
         return self._max_D
 
     @max_D.setter
-    def max_D(self, value):
+    def max_D(self, value: int):
         """
         Set new upper bound of the degree of the initial Macaulay matrix
 
@@ -137,7 +154,7 @@ class Crossbred(MQAlgorithm):
         self._max_D = value
         self.set_parameter_ranges('D', min_D, value)
 
-    def _ncols_in_preprocessing_step(self, k, D, d):
+    def _ncols_in_preprocessing_step(self, k: int, D: int, d: int):
         """
         Return the number of columns involve in the preprocessing step
 
@@ -164,11 +181,12 @@ class Crossbred(MQAlgorithm):
 
         ncols = 0
         for dk in range(d + 1, D):
-            ncols += sum([nms0.nmonomials_of_degree(dk) * nms1.nmonomials_of_degree(dp) for dp in range(D - dk)])
+            ncols += sum([nms0.nmonomials_of_degree(dk) *
+                         nms1.nmonomials_of_degree(dp) for dp in range(D - dk)])
 
         return ncols
 
-    def _ncols_in_linearization_step(self, k, d):
+    def _ncols_in_linearization_step(self, k: int, d: int):
         """
         Return the number of columns involve in the linearization step
 
@@ -187,7 +205,7 @@ class Crossbred(MQAlgorithm):
         """
         return nmonomials_up_to_degree(d, k, q=self.problem.order_of_the_field())
 
-    def _admissible_parameter_series(self, k):
+    def _admissible_parameter_series(self, k: int):
         """
         Return a the series $S_k$ of admissible parameters
 
@@ -250,7 +268,7 @@ class Crossbred(MQAlgorithm):
             if k > new_ranges['k']["max"]:
                 stop = True
 
-    def _compute_time_complexity(self, parameters):
+    def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
@@ -277,15 +295,17 @@ class Crossbred(MQAlgorithm):
         w = self.linear_algebra_constant()
         np = self._ncols_in_preprocessing_step(k=k, D=D, d=d)
         nl = self._ncols_in_linearization_step(k=k, d=d)
-        complexity_wiedemann = 3 * binomial(k + d, d) * binomial(n + 2, 2) * np ** 2
+        complexity_wiedemann = 3 * \
+            binomial(k + d, d) * binomial(n + 2, 2) * np ** 2
         complexity_gaussian = np ** w
         complexity = Infinity
         if np > 1 and log2(np) > 1:
-            complexity = min(complexity_gaussian, complexity_wiedemann) + (m * q ** (n - k) * nl ** w)
+            complexity = min(
+                complexity_gaussian, complexity_wiedemann) + (m * q ** (n - k) * nl ** w)
         h = self._h
         return h * log2(q) + log2(complexity)
 
-    def _compute_memory_complexity(self, parameters):
+    def _compute_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
@@ -312,7 +332,7 @@ class Crossbred(MQAlgorithm):
         ncols_lin_step = self._ncols_in_linearization_step(k, d)
         return log2(ncols_pre_step ** 2 + ncols_lin_step ** 2)
 
-    def _compute_tilde_o_time_complexity(self, parameters):
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
         Return the Ō time complexity of the algorithm for a given set of parameters
 
@@ -342,9 +362,34 @@ class Crossbred(MQAlgorithm):
         h = self._h
         return h * log2(q) + log2(np ** 2 + q ** (n - k) * nl ** w)
 
-    def _compute_tilde_o_memory_complexity(self, parameters):
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
+        """
+        Return the Ō memory complexity of the algorithm for a given set of parameters
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
+            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
+            sage: E._compute_tilde_o_memory_complexity({'k': 4, 'D': 6, 'd':4})
+            12.892542816648552
+        """
         return self._compute_memory_complexity(parameters)
 
     def _find_optimal_tilde_o_parameters(self):
-        self._find_optimal_parameters()
+        """
 
+        Return the optimal parameters to achive the optimal Ō time complexity.
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
+            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
+            sage: E._find_optimal_tilde_o_parameters()
+        """
+        self._find_optimal_parameters()

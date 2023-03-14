@@ -1,3 +1,21 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
+
 from ..SDEstimator.sd_algorithm import SDAlgorithm
 from ..SDEstimator.sd_problem import SDProblem
 from ..SDEstimator.SDAlgorithms import BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3
@@ -7,7 +25,7 @@ from math import inf
 
 class SDEstimator(BaseEstimator):
     """
-    Construct an instance of SDEstimator
+    Construct an instance of Syndrome Decoding Estimator
 
     INPUT:
 
@@ -16,21 +34,24 @@ class SDEstimator(BaseEstimator):
     - ``w`` -- error weight
     - ``excluded_algorithms`` -- a list/tuple of excluded algorithms (default: None)
     - ``nsolutions`` -- no. of solutions
-    Maybe we should add the optional_parameters dictionary here?
+
+    TODO: Maybe we should add the optional_parameters dictionary here?
 
     """
-    
+
     excluded_algorithms_by_default = [BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3]
 
-    def __init__(self, n, k, w, memory_bound=inf, **kwargs):
+    def __init__(self, n: int, k: int, w: int, memory_bound=inf, **kwargs):
         if not kwargs.get("excluded_algorithms"):
             kwargs["excluded_algorithms"] = []
 
         kwargs["excluded_algorithms"] += self.excluded_algorithms_by_default
 
-        super(SDEstimator, self).__init__(SDAlgorithm, SDProblem(n, k, w, memory_bound=memory_bound, **kwargs), **kwargs)
+        super(SDEstimator, self).__init__(SDAlgorithm, SDProblem(
+            n, k, w, memory_bound=memory_bound, **kwargs), **kwargs)
 
-    def table(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0):
+    def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
+              show_all_parameters=0, precision=1, truncate=0):
         """
         Print table describing the complexity of each algorithm and its optimal parameters
 
@@ -56,7 +77,7 @@ class SDEstimator(BaseEstimator):
             | BJMMdw        | 23.4 |   14.7 |
             | BJMMpdw       | 23.3 |   14.3 |
             | BJMM          | 22.8 |   15.0 |
-            | BothMay       | 22.8 |   14.7 |
+            | BothMay       | 22.4 |   14.7 |
             | Dumer         | 22.7 |   16.4 |
             | MayOzerov     | 22.3 |   14.8 |
             | Prange        | 28.3 |   12.7 |
@@ -65,22 +86,22 @@ class SDEstimator(BaseEstimator):
 
         TESTS:
             sage: from cryptographic_estimators.SDEstimator import SDEstimator
-            sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1, workfactor_accuracy=20)
-            sage: A.table(show_tilde_o_time=1, precision=1) # long time
+            sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1, workfactor_accuracy=10)
+            sage: A.table(show_tilde_o_time=1, precision=0) # long time
             +---------------+---------------+------------------+
             |               |    estimate   | tilde_o_estimate |
             +---------------+------+--------+-------+----------+
             | algorithm     | time | memory |  time |   memory |
             +---------------+------+--------+-------+----------+
-            | BallCollision | 23.8 |   15.6 |  10.8 |      3.2 |
-            | BJMMdw        | 23.8 |   14.5 |    -- |       -- |
-            | BJMMpdw       | 23.7 |   14.5 |    -- |       -- |
-            | BJMM          | 23.3 |   14.8 |   9.5 |      7.0 |
-            | BothMay       | 23.0 |   14.5 |   9.2 |      6.6 |
-            | Dumer         | 23.2 |   16.0 |  10.8 |      3.2 |
-            | MayOzerov     | 22.6 |   14.5 |   9.0 |      8.0 |
-            | Prange        | 28.9 |   12.9 |  11.2 |      0.0 |
-            | Stern         | 22.7 |   15.6 |  10.8 |      2.9 |
+            | BallCollision |   24 |     16 |    11 |        3 |
+            | BJMMdw        |   24 |     14 |    -- |       -- |
+            | BJMMpdw       |   24 |     15 |    -- |       -- |
+            | BJMM          |   23 |     15 |     9 |        7 |
+            | BothMay       |   23 |     14 |     9 |        7 |
+            | Dumer         |   23 |     16 |    11 |        3 |
+            | MayOzerov     |   23 |     15 |     9 |        8 |
+            | Prange        |   29 |     13 |    11 |        0 |
+            | Stern         |   23 |     16 |    11 |        3 |
             +---------------+------+--------+-------+----------+
 
             sage: from cryptographic_estimators.SDEstimator import SDEstimator
@@ -95,7 +116,7 @@ class SDEstimator(BaseEstimator):
             | BallCollision | 151.460 |  49.814 |             {'r': 7, 'p': 4, 'pl': 0, 'l': 39}             |
             | BJMMpdw       | 143.448 |  86.221 |            {'r': 7, 'p': 12, 'p1': 8, 'w2': 0}             |
             | BJMM          | 141.886 | 104.057 | {'r': 7, 'depth': 3, 'p': 16, 'p1': 6, 'p2': 12, 'l': 197} |
-            | BothMay       | 142.719 |  88.188 |   {'r': 7, 'p': 12, 'w1': 1, 'w2': 0, 'p1': 9, 'l': 83}    |
+            | BothMay       | 141.711 |  87.995 |   {'r': 7, 'p': 12, 'w1': 0, 'w2': 0, 'p1': 9, 'l': 79}    |
             | Dumer         | 151.380 |  58.019 |                 {'r': 7, 'l': 47, 'p': 5}                  |
             | MayOzerov     | 140.795 |  86.592 | {'r': 7, 'depth': 3, 'p': 12, 'p1': 5, 'p2': 10, 'l': 95}  |
             | Prange        | 173.388 |  21.576 |                          {'r': 7}                          |
@@ -103,7 +124,7 @@ class SDEstimator(BaseEstimator):
             +---------------+---------+---------+------------------------------------------------------------+
 
         """
-        super(SDEstimator,self).table(show_quantum_complexity=show_quantum_complexity,
-                                      show_tilde_o_time=show_tilde_o_time,
-                                      show_all_parameters=show_all_parameters,
-                                      precision=precision, truncate=truncate)
+        super(SDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
+                                       show_tilde_o_time=show_tilde_o_time,
+                                       show_all_parameters=show_all_parameters,
+                                       precision=precision, truncate=truncate)
