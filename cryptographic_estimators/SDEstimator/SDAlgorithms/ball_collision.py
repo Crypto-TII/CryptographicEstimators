@@ -52,7 +52,7 @@ class BallCollision(SDAlgorithm):
 
         """
         super(BallCollision, self).__init__(problem, **kwargs)
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
 
         self.set_parameter_ranges("p", 0, w // 2)
 
@@ -112,7 +112,7 @@ class BallCollision(SDAlgorithm):
         return if the parameter set `parameters` is invalid
 
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
         if par.p > w // 2 or k1 < par.p or par.pl > par.l // 2 or n - k - par.l < w - 2 * par.p - 2 * par.pl or w < 2 * par.p + 2 * par.pl:
@@ -124,9 +124,8 @@ class BallCollision(SDAlgorithm):
         Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
         set parameters in `_optimal_parameters`
         """
-        new_ranges = self._fix_ranges_for_already_set_parmeters()
-
-        n, k, w, _ = self.problem.get_parameters()
+        new_ranges = self._fix_ranges_for_already_set_parmeters()    
+        n, k, w = self.problem.get_parameters()
         start_p = new_ranges["p"]["min"]+(new_ranges["p"]["min"] % 2)
         for p in range(start_p, min(w // 2, new_ranges["p"]["max"])+1, 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])+1):
@@ -141,7 +140,7 @@ class BallCollision(SDAlgorithm):
         """
         Computes the expected runtime and memory consumption for a given parameter set.
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
 

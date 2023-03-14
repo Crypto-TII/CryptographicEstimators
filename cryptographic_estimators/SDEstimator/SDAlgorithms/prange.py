@@ -60,7 +60,7 @@ class Prange(SDAlgorithm):
         -  ``verbose_information`` -- if set to a dictionary `permutations` and `gauß` will be returned.
         """
 
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
 
         solutions = self.problem.nsolutions
 
