@@ -1,4 +1,4 @@
-name: Builds the library and runs the sage tests
+name: build-and-test
 on:
   pull_request:
 
