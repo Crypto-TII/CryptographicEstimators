@@ -1,19 +1,23 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-#
+# 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-#
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-#
+# 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
+ 
+
+
+ 
 
 
 from math import log2, comb, inf, ceil
@@ -137,6 +141,7 @@ def _mem_matrix(n: int, k: int, r: int):
 
 def _list_merge_complexity(L: float, l: int, hmap: bool):
     """
+    TODO remove?
     Complexity estimate of merging two lists exact
 
     INPUT:
@@ -158,50 +163,3 @@ def _list_merge_complexity(L: float, l: int, hmap: bool):
         return max(1, 2 * int(log2(L)) * L + L ** 2 // 2 ** l)
     else:
         return 2 * L + L ** 2 // 2 ** l
-
-
-def _indyk_motwani_complexity(L: float, l: int, w: int, hmap: bool):
-    """
-    Complexity of Indyk-Motwani nearest neighbor search
-
-    INPUT:
-
-    - ``L`` -- size of lists to be matched
-    - ``l`` -- amount of bits used for matching
-    - ``w`` -- target weight
-    - ``hmap`` -- indicates if hashmap is being used (Default 0: no hashmap)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.SDEstimator import _indyk_motwani_complexity
-        sage: _indyk_motwani_complexity(L=2**16,l=16,w=2,hmap=1) # random
-
-    """
-
-    if w == 0:
-        return _list_merge_complexity(L, l, hmap)
-    lam = max(0, int(min(ceil(log2(L)), l - 2 * w)))
-    return binom(l, lam) // binom(l - w, lam) * _list_merge_complexity(L, lam, hmap)
-
-
-def _mitm_nn_complexity(L: float, l: int, w: int, hmap: bool):
-    """
-    Complexity of Indyk-Motwani nearest neighbor search
-
-    INPUT:
-
-    - ``L`` -- size of lists to be matched
-    - ``l`` -- amount of bits used for matching
-    - ``w`` -- target weight
-    - ``hmap`` -- indicates if hashmap is being used (Default 0: no hashmap)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.SDEstimator import _indyk_motwani_complexity
-        sage: _indyk_motwani_complexity(L=2**16,l=16,w=2,hmap=1) # random
-
-    """
-    if w == 0:
-        return _list_merge_complexity(L, l, hmap)
-    L1 = L * binom(l / 2, w / 2)
-    return _list_merge_complexity(L1, l, hmap)

@@ -1,23 +1,19 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
 
 
 from ...base_algorithm import optimal_parameter
@@ -202,7 +198,7 @@ class MayOzerovD2(SDAlgorithm):
         """
         initialize the parameters p, l, p1
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(30, w // 2, s))
         self.set_parameter_ranges("l", 0, min_max(300, n - k, s))
@@ -258,7 +254,7 @@ class MayOzerovD2(SDAlgorithm):
         return if the parameter set `parameters` is invalid
 
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
         if par.l >= n - k - (w - 2 * par.p) or par.p1 < (
@@ -272,12 +268,13 @@ class MayOzerovD2(SDAlgorithm):
         set parameters in `_optimal_parameters`
         """
         new_ranges = self._fix_ranges_for_already_set_parmeters()
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
 
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
                 for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
-                    indices = {"p": p, "p1": p1, "l": l, "r": self._optimal_parameters["r"]}
+                    indices = {"p": p, "p1": p1, "l": l,
+                               "r": self._optimal_parameters["r"]}
                     if self._are_parameters_invalid(indices):
                         continue
                     yield indices
@@ -287,7 +284,7 @@ class MayOzerovD2(SDAlgorithm):
         Computes the expected runtime and memory consumption.
 
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
 
@@ -301,7 +298,8 @@ class MayOzerovD2(SDAlgorithm):
         if self._is_early_abort_possible(log2(L1)):
             return inf, inf
 
-        reps = (binom(par.p, par.p / 2) * binom(k1 - par.p, par.p1 - par.p / 2)) ** 2
+        reps = (binom(par.p, par.p / 2) *
+                binom(k1 - par.p, par.p1 - par.p / 2)) ** 2
 
         l1 = int(ceil(log2(reps)))
 
@@ -328,13 +326,14 @@ class MayOzerovD2(SDAlgorithm):
         if verbose_information is not None:
             verbose_information[VerboseInformation.CONSTRAINTS.value] = [par.l]
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
-            verbose_information[VerboseInformation.TREE.value] = log2(T_rep * T_tree)
+            verbose_information[VerboseInformation.TREE.value] = log2(
+                T_rep * T_tree)
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
             verbose_information[VerboseInformation.REPRESENTATIONS.value] = reps
             verbose_information[VerboseInformation.LISTS.value] = [log2(L1), log2(L12),
                                                                    2 * log2(L12) + log2(
                                                                        binom(n - k - par.l, w - 2 * par.p)) - (
-                                                                               n - par.l)]
+                n - par.l)]
 
         return time, memory
 
@@ -381,7 +380,7 @@ class MayOzerovD3(SDAlgorithm):
         initialize the parameter ranges for p, p1, p2, l to start the optimisation 
         process.
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(20, w // 2, s))
         self.set_parameter_ranges("l", 0, min_max(200, n - k, s))
@@ -453,7 +452,7 @@ class MayOzerovD3(SDAlgorithm):
         return if the parameter set `parameters` is invalid
 
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
         if par.p > w // 2 or k1 < par.p or par.l > n - k or n - k - par.l < w - 2 * par.p or \
@@ -469,14 +468,15 @@ class MayOzerovD3(SDAlgorithm):
 
         """
         new_ranges = self._fix_ranges_for_already_set_parmeters()
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
 
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
-                k1=(k+l)//2
+                k1 = (k+l)//2
                 for p2 in range(max(new_ranges["p2"]["min"], p // 2 + ((p // 2) % 2)), new_ranges["p2"]["max"], 2):
                     for p1 in range(max(new_ranges["p1"]["min"], (p2 + 1) // 2), min(new_ranges["p1"]["max"], k1 - p2 // 2)):
-                        indices = {"p": p, "p1": p1, "p2": p2, "l": l, "r": self._optimal_parameters["r"]}
+                        indices = {"p": p, "p1": p1, "p2": p2,
+                                   "l": l, "r": self._optimal_parameters["r"]}
                         if self._are_parameters_invalid(indices):
                             continue
                         yield indices
@@ -485,7 +485,7 @@ class MayOzerovD3(SDAlgorithm):
         """
         Computes the expected runtime and memory consumption
         """
-        n, k, w, _ = self.problem.get_parameters()
+        n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
 
@@ -499,17 +499,19 @@ class MayOzerovD3(SDAlgorithm):
         if self._is_early_abort_possible(log2(L1)):
             return inf, inf
 
-        reps1 = (binom(par.p2, par.p2 // 2) * binom(k1 - par.p2, par.p1 - par.p2 // 2)) ** 2
+        reps1 = (binom(par.p2, par.p2 // 2) *
+                 binom(k1 - par.p2, par.p1 - par.p2 // 2)) ** 2
         l1 = int(ceil(log2(reps1)))
 
         if l1 > par.l:
             return inf, inf
         L12 = max(1, L1 ** 2 // 2 ** l1)
-        reps2 = (binom(par.p, par.p // 2) * binom(k1 - par.p, par.p2 - par.p // 2)) ** 2
+        reps2 = (binom(par.p, par.p // 2) *
+                 binom(k1 - par.p, par.p2 - par.p // 2)) ** 2
 
         L1234 = max(1, L12 ** 2 // 2 ** (par.l - l1))
         if log2(reps2) > par.l:
-           return inf, inf
+            return inf, inf
         memory = log2((2 * L1 + L12 + L1234) + _mem_matrix(n, k, par.r))
         if memory > memory_bound:
             return inf, inf
@@ -519,21 +521,26 @@ class MayOzerovD3(SDAlgorithm):
         Tg = _gaussian_elimination_complexity(n, k, par.r)
         T_tree = 4 * _list_merge_complexity(L1, l1, self._hmap) + 2 * _list_merge_complexity(L12, par.l - l1,
                                                                                              self._hmap) \
-                 + _indyk_motwani_complexity(L1234, n - k - par.l, w - 2 * par.p, self._hmap)
-        T_rep = int(ceil(2 ** (max(par.l - log2(reps2), 0) + 3 * max(l1 - log2(reps1), 0))))
+            + _indyk_motwani_complexity(L1234, n -
+                                        k - par.l, w - 2 * par.p, self._hmap)
+        T_rep = int(
+            ceil(2 ** (max(par.l - log2(reps2), 0) + 3 * max(l1 - log2(reps1), 0))))
         time = Tp + log2(Tg + T_rep * T_tree)
         time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
-            verbose_information[VerboseInformation.CONSTRAINTS.value] = [l1, par.l - l1]
+            verbose_information[VerboseInformation.CONSTRAINTS.value] = [
+                l1, par.l - l1]
             verbose_information[VerboseInformation.REPRESENTATIONS.value] = Tp
-            verbose_information[VerboseInformation.TREE.value] = log2(T_rep * T_tree)
+            verbose_information[VerboseInformation.TREE.value] = log2(
+                T_rep * T_tree)
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
-            verbose_information[VerboseInformation.REPRESENTATIONS.value] = [reps1, reps2]
+            verbose_information[VerboseInformation.REPRESENTATIONS.value] = [
+                reps1, reps2]
             verbose_information[VerboseInformation.LISTS.value] = [log2(L1), log2(L12), log2(L1234),
                                                                    2 * log2(L1234) + log2(
                                                                        binom(n - k - par.l, w - 2 * par.p)) - (
-                                                                               n - par.l)]
+                n - par.l)]
             return verbose_information
 
         return time, memory

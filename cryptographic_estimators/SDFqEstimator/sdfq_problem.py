@@ -15,16 +15,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-
 from ..base_problem import BaseProblem
-from math import comb, log2
-from sage.all import GF
-from .sd_constants import *
+from math import log2, comb
+from .sdfq_constants import *
 
 
-class SDProblem(BaseProblem):
+class SDFqProblem(BaseProblem):
     """
-    Construct an instance of the Syndrome Decoding Problem
+    Construct an instance of the Syndrome Decoding over Fq Problem
 
     INPUT:
 
@@ -33,9 +31,10 @@ class SDProblem(BaseProblem):
     - ``w`` -- error weight
     - ``q`` -- size of the basefield of the code
     - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
+    - ``is_syndrome_zero`` -- if set to true, special algorithmic optimizations can be applied (default: True)
     """
 
-    def __init__(self, n: int, k: int, w: int, q=2, **kwargs):
+    def __init__(self, n: int, k: int, w: int, q: int, **kwargs):  # Fill with parameters
         super().__init__(**kwargs)
         if k > n:
             raise ValueError("k must be smaller or equal to n")
@@ -43,16 +42,18 @@ class SDProblem(BaseProblem):
             raise ValueError("w must be smaller or equal to n-k")
         if w <= 0 or k <= 0:
             raise ValueError("w and k must be at least 1")
-        self.parameters[SD_CODE_LENGTH] = n
-        self.parameters[SD_CODE_DIMENSION] = k
-        self.parameters[SD_ERROR_WEIGHT] = w
-        self.baseField = GF(q)
+        if q <= 2:
+            raise ValueError("q must be at least 3")
+        self.parameters[SDFQ_CODE_LENGTH] = n
+        self.parameters[SDFQ_CODE_DIMENSION] = k
+        self.parameters[SDFQ_ERROR_WEIGHT] = w
+        self.parameters[SDFQ_ERROR_FIELD_SIZE] = q
 
-        self.nsolutions = kwargs.get("nsolutions", max(
-            self.expected_number_solutions(), 0))
+        self.nsolutions = kwargs.get("nsolutions", max(self.expected_number_solutions(), 0))
+        self.is_syndrome_zero = kwargs.get("is_syndrome_zero", True)
 
-    def to_bitcomplexity_time(self, basic_operations: float):
-        """
+    def to_bitcomplexity_time(self, basic_operations:float):
+        """ 
         Returns the bit-complexity corresponding to basic_operations field additions
 
         INPUT:
@@ -60,42 +61,44 @@ class SDProblem(BaseProblem):
         - ``basic_operations`` -- Number of field additions (logarithmic)
 
         """
-        q = self.baseField.characteristic()
-        n = self.parameters[SD_CODE_LENGTH]
-        return log2(log2(q)) + log2(n) + basic_operations
+        _,_,_,q=self.get_parameters()
+        return basic_operations + log2(log2(q))
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
-        """
+        """ 
         Returns the memory bit-complexity associated to a given number of elements to store
 
         INPUT:
 
-        - ``elements_to_store`` -- number of memory operations (logarithmic)
+        - ``elements_to_store`` -- number of elements to store (logarithmic)
 
         """
         return self.to_bitcomplexity_time(elements_to_store)
 
     def expected_number_solutions(self):
-        """
-        Returns the logarithm of the expected number of existing solutions to the problem
+        """ 
+         Returns the logarithm of the expected number of existing solutions to the problem
 
         """
-        n, k, w = self.get_parameters()
-        return log2(comb(n, w)) - (n - k)
+        n, k, w, q = self.get_parameters()
+        Nw = log2(comb(n, w)) + log2(q-1)*(w-2) + log2(q)*(k + 1 - n)
+        return max(Nw, 0)
 
     def __repr__(self):
+        """ 
         """
-        """
-        n, k, w  = self.get_parameters()
+        n, k, w, q = self.get_parameters()
         rep = "syndrome decoding problem with (n,k,w) = " \
-              + "(" + str(n) + "," + str(k) + "," + str(w) + ") over Finite Field of size 2"
+              + "(" + str(n) + "," + str(k) + "," + str(w) + ") over Finite Field of size " + str(q)
+
         return rep
 
     def get_parameters(self):
+        """ 
+        Returns the ISD paramters n, k, w, q
         """
-        Returns the ISD paramters n, k, w
-        """
-        n = self.parameters[SD_CODE_LENGTH]
-        k = self.parameters[SD_CODE_DIMENSION]
-        w = self.parameters[SD_ERROR_WEIGHT]
-        return n, k, w
+        n = self.parameters[SDFQ_CODE_LENGTH]
+        k = self.parameters[SDFQ_CODE_DIMENSION]
+        w = self.parameters[SDFQ_ERROR_WEIGHT]
+        q = self.parameters[SDFQ_ERROR_FIELD_SIZE]
+        return n, k, w, q
