@@ -77,7 +77,7 @@ class PEProblem(BaseProblem):
     def __repr__(self):
         """
         """
-        n, k, q = self.get_parameters()
+        n, k, q, _ = self.get_parameters()
         rep = "permutation equivalence problem with (n,k,q) = " \
               + "(" + str(n) + "," + str(k) + "," + str(q) + ")"
 
@@ -85,6 +85,6 @@ class PEProblem(BaseProblem):
 
     def get_parameters(self):
         """
-        Returns n, k, q
+        Returns n, k, q and h
         """
         return self.parameters.values()

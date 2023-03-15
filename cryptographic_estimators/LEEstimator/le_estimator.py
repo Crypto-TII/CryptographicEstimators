@@ -57,6 +57,34 @@ class LEEstimator(BaseEstimator):
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
 
+        TESTS:
+
+            sage: from cryptographic_estimators.LEEstimator import LEEstimator
+            sage: A = LEEstimator(n=200, k=110, q=31, bit_complexities=1)
+            sage: A.table(precision=3) # long time
+            +-----------+------------------+
+            |           |     estimate     |
+            +-----------+---------+--------+
+            | algorithm |    time | memory |
+            +-----------+---------+--------+
+            | Leon      | 105.356 | 33.624 |
+            | Beullens  | 123.109 | 42.252 |
+            | BBPS      |  97.495 | 33.624 |
+            +-----------+---------+--------+
+
+            sage: from cryptographic_estimators.LEEstimator import LEEstimator
+            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import Leon
+            sage: A = LEEstimator(200,110,31,excluded_algorithms=[Leon])
+            sage: A.table(precision=3, show_all_parameters=1) # long time
+            +-----------+----------------------------------------------+
+            |           |                   estimate                   |
+            +-----------+---------+--------+---------------------------+
+            | algorithm |    time | memory |         parameters        |
+            +-----------+---------+--------+---------------------------+
+            | Beullens  | 123.109 | 42.252 |         {'w': 79}         |
+            | BBPS      |  97.495 | 33.624 | {'w': 102, 'w_prime': 60} |
+            +-----------+---------+--------+---------------------------+
+
         """
         super(LEEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,

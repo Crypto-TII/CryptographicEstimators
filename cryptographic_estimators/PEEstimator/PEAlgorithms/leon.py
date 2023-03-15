@@ -21,6 +21,13 @@ class Leon(PEAlgorithm):
         - ``codewords_needed_for_success`` -- Number of low word codewords needed for success (default = 100)
         - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
 
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Leon
+            sage: from cryptographic_estimators.PEEstimator import PEProblem
+            sage: Leon(PEProblem(n=100,k=50,q=3))
+            Leon estimator for permutation equivalence problem with (n,k,q) = (100,50,3)
+
         """
         super().__init__(problem, **kwargs)
         self._name = "Leon"
@@ -76,20 +83,10 @@ class Leon(PEAlgorithm):
         -  ``parameters`` -- dictionary including parameters
         -  ``verbose_information`` -- unused
 
-        EXAMPLES::
-            sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Leon
-            sage: from cryptographic_estimators.PEEstimator import PEProblem
-            sage: A = Leon(PEProblem(n=100,k=50,q=3))
-            sage: A._time_and_memory_complexity({"w": 20})
-            (36.42124342248697, 25.270887705262858)
-
         """
         return self._compute_time_complexity(parameters),\
                self._compute_memory_complexity(parameters)
 
     def __repr__(self):
-        """
-
-        """
         rep = "Leon estimator for " + str(self.problem)
         return rep

@@ -18,6 +18,13 @@ class Leon(PELeon, LEAlgorithm):
         - ``codewords_needed_for_success`` -- Number of low word codewords needed for success (default = 100)
         - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
 
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import Leon
+            sage: from cryptographic_estimators.LEEstimator import LEProblem
+            sage: Leon(LEProblem(n=100,k=50,q=3))
+            Leon estimator for permutation equivalence problem with (n,k,q) = (100,50,3)
+
         """
         LEAlgorithm.__init__(self, problem, **kwargs)
         self._name = "Leon"

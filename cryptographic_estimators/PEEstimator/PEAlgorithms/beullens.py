@@ -22,9 +22,13 @@ class Beullens(PEAlgorithm):
         - ``problem`` -- PEProblem object including all necessary parameters
         - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
 
-        INPUT:
+        EXAMPLES::
 
-        - ``problem`` -- PEProblem object including all necessary parameters
+            sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Beullens
+            sage: from cryptographic_estimators.PEEstimator import PEProblem
+            sage: Beullens(PEProblem(n=100,k=50,q=3))
+            Beullens estimator for permutation equivalence problem with (n,k,q) = (100,50,3)
+
         """
         super().__init__(problem, **kwargs)
         self._name = "Beullens"
@@ -60,13 +64,6 @@ class Beullens(PEAlgorithm):
         -  ``parameters`` -- dictionary including parameters
         -  ``verbose_information`` -- if set to a dictionary `lists`,
                                       `list_cost` and `norm_factor` will be returned.
-
-        EXAMPLES::
-            sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Beullens
-            sage: from cryptographic_estimators.PEEstimator import PEProblem
-            sage: A = Beullens(PEProblem(n=100,k=50,q=31))
-            sage: A._time_and_memory_complexity({"w": 42})
-            (51.75635665488292, 32.51986575846053)
 
         """
         n, k, q, _ = self.problem.get_parameters()

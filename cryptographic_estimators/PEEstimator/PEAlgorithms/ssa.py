@@ -14,6 +14,13 @@ class SSA(PEAlgorithm):
 
         - ``problem`` -- PEProblem object including all necessary parameters
 
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import SSA
+            sage: from cryptographic_estimators.PEEstimator import PEProblem
+            sage: SSA(PEProblem(n=100,k=50,q=3))
+            Support Splitting Algorithm estimator for permutation equivalence problem with (n,k,q) = (100,50,3)
+
         """
 
         super().__init__(problem, **kwargs)
@@ -35,17 +42,10 @@ class SSA(PEAlgorithm):
         -  ``parameters`` -- dictionary including parameters
         -  ``verbose_information`` -- unused
 
-        EXAMPLES::
-            sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import SSA
-            sage: from cryptographic_estimators.PEEstimator import PEProblem
-            sage: A = SSA(PEProblem(n=100,k=50,q=3))
-            sage: A._time_and_memory_complexity({})
-            (94.50375226997703, 13.872674880270605)
-
         """
         return self._compute_time_complexity(parameters), \
                self._compute_memory_complexity(parameters)
 
     def __repr__(self):
-        rep = "Support Splliting Algorithm estimator for " + str(self.problem)
+        rep = "Support Splitting Algorithm estimator for " + str(self.problem)
         return rep

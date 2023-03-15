@@ -7,6 +7,7 @@ from math import log2, inf, log, comb as binom, factorial
 from ...SDFqEstimator.sdfq_estimator import SDFqEstimator
 from ...base_constants import BASE_BIT_COMPLEXITIES,BASE_MEMORY_BOUND,BASE_NSOLUTIONS
 
+
 class BBPS(LEAlgorithm):
 
     def __init__(self, problem: LEProblem, **kwargs):
@@ -30,7 +31,7 @@ class BBPS(LEAlgorithm):
 
         """
         super().__init__(problem, **kwargs)
-        self._name = "Beullens"
+        self._name = "BBPS"
         n, k, q = self.problem.get_parameters()
 
         self.set_parameter_ranges('w_prime', gv_distance(n, k, q), n - k + 2)
