@@ -58,12 +58,3 @@ def hamming_ball(n: int, q: int, w: int):
     for i in range(0, w + 1):
         S += binomial(n, i) * (q - 1) ** i
     return log2(S)
-
-
-def isd_cost(n, k, q, w):
-    """
-
-    """
-    if n-k<w-2:
-        return 100000
-    return log2((k * k + k * k * q) * binomial(n, w) // binomial(n - k, w - 2) // binomial(k, 2))

@@ -8,18 +8,16 @@ class Leon(PELeon, LEAlgorithm):
 
     def __init__(self, problem: LEProblem, **kwargs):
         """
-            Complexity estimate of Leons algorithm (
+        Complexity estimate of Leons algorithm [Leo82]_
+        Estimates are adapted versions of the scripts derived in [Beu20]_ with the code accessible at
+        https://github.com/WardBeullens/LESS_Attack
 
-            TODO add reference to Leons paper
+        INPUT:
 
-            Estimates are adapted versions of the scripts derived in <TODO add paolos paper> with the code accessible at
-            <ADD GITHUB LINK>
+        - ``problem`` -- PEProblem object including all necessary parameters
+        - ``codewords_needed_for_success`` -- Number of low word codewords needed for success (default = 100)
+        - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
 
-            INPUT:
-
-            - ``problem`` -- PEProblem object including all necessary parameters
-            - ``codewords_needed_for_success`` -- Number of low word codewords needed for success (default = 100)
-            - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
         """
         LEAlgorithm.__init__(self, problem, **kwargs)
         self._name = "Leon"

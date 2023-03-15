@@ -45,13 +45,31 @@ class BBPS(LEAlgorithm):
     def w(self):
         """
         Return the optimal parameter $w$ used in the algorithm optimization
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
+            sage: from cryptographic_estimators.LEEstimator import LEProblem
+            sage: A = BBPS(LEProblem(n=200,k=110,q=31))
+            sage: A.w()
+            102
+
         """
         return self._get_optimal_parameter("w")
 
     @optimal_parameter
     def w_prime(self):
         """
-        Return the optimal parameter $w$ used in the algorithm optimization
+        Return the optimal parameter $w_prime$ used in the algorithm optimization
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
+            sage: from cryptographic_estimators.LEEstimator import LEProblem
+            sage: A = BBPS(LEProblem(n=200,k=110,q=31))
+            sage: A.w_prime()
+            60
+
         """
         return self._get_optimal_parameter("w_prime")
 
@@ -63,14 +81,6 @@ class BBPS(LEAlgorithm):
 
         -  ``parameters`` -- dictionary including parameters
         -  ``verbose_information`` -- if set to a dictionary within `Nw_prime`, c_isd` and `lists` will be returned.
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
-            sage: from cryptographic_estimators.LEEstimator import LEProblem
-            sage: A = BBPS(LEProblem(n=100,k=50,q=3))
-            sage: A.p()
-            2
 
         """
         w = parameters["w"]

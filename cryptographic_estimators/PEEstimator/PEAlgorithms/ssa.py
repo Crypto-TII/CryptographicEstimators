@@ -9,11 +9,10 @@ class SSA(PEAlgorithm):
 
     def __init__(self, problem: PEProblem, **kwargs):
         """
-        Complexity estimate of Support Splitting Algorithm
+        Complexity estimate of Support Splitting Algorithm [Sen06]_
+        https://hal.inria.fr/inria-00073037/document
 
-        TODO add reference to SSA paper
-
-        rough Estimate according to <TODO add paolos paper>
+        rough Estimate according to https://eprint.iacr.org/2022/967.pdf
 
         INPUT:
 
@@ -48,13 +47,14 @@ class SSA(PEAlgorithm):
         EXAMPLES::
             sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import SSA
             sage: from cryptographic_estimators.PEEstimator import PEProblem
-            sage: A = SSA(PEProblem(n=100,k=50,q=3,w=10))
-            sage: A.w()
-            2
+            sage: A = SSA(PEProblem(n=100,k=50,q=3))
+            sage: A._time_and_memory_complexity({})
+            (94.50375226997703, 13.872674880270605)
 
         """
         return self._compute_time_complexity(parameters), \
                self._compute_memory_complexity(parameters)
+
     def __repr__(self):
         rep = "Support Splliting Algorithm estimator for " + str(self.problem)
         return rep

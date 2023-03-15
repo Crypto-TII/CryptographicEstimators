@@ -108,6 +108,10 @@ References
 .. [Dua20] \João Diogo Duarte.
             *On the Complexity of the Crossbred Algorithm*
 
+.. [Leo82] \JJeffrey S. Leon.
+            *Computing automorphism groups of error-correcting codes*
+            https://doi.org/10.1109/TIT.1982.1056498
+
 .. _ref-K:
 
 **K**
@@ -143,6 +147,10 @@ References
 .. [CGMT02] \Nicolas Courtois, Louis Goubin, Willi Meier, and Jean-Daniel Tacier.
             *Solving Underdefined Systems of Multivariate Quadratic Equations*
             https://link.springer.com/chapter/10.1007/3-540-45664-3_15
+
+.. [Sen06] \Nicolas Sendrier
+            *The Support Splitting Algorithm*
+            https://hal.inria.fr/inria-00073037/document
 
 .. _ref-O:
 

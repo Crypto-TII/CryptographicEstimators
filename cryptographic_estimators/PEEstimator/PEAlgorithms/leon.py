@@ -10,18 +10,17 @@ class Leon(PEAlgorithm):
 
     def __init__(self, problem: PEProblem, **kwargs):
         """
-            Complexity estimate of Leons algorithm
+        Complexity estimate of Leons algorithm [Leo82]_
+        Estimates are adapted versions of the scripts derived in [Beu20]_ with the code accessible at
+        https://github.com/WardBeullens/LESS_Attack
 
-            TODO add reference to Leons paper
 
-            Estimates are adapted versions of the scripts derived in <TODO add paolos paper> with the code accessible at
-            <ADD GITHUB LINK>
+        INPUT:
 
-            INPUT:
+        - ``problem`` -- PEProblem object including all necessary parameters
+        - ``codewords_needed_for_success`` -- Number of low word codewords needed for success (default = 100)
+        - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
 
-            - ``problem`` -- PEProblem object including all necessary parameters
-            - ``codewords_needed_for_success`` -- Number of low word codewords needed for success (default = 100)
-            - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
         """
         super().__init__(problem, **kwargs)
         self._name = "Leon"
@@ -40,6 +39,13 @@ class Leon(PEAlgorithm):
     def w(self):
         """
         Return the optimal parameter $w$ used in the algorithm optimization
+
+        EXAMPLES::
+            sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Leon
+            sage: from cryptographic_estimators.PEEstimator import PEProblem
+            sage: A = Leon(PEProblem(n=100,k=50,q=3))
+            sage: A.w()
+            20
 
         """
         n, k, q, _ = self.problem.get_parameters()
@@ -79,9 +85,9 @@ class Leon(PEAlgorithm):
         EXAMPLES::
             sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Leon
             sage: from cryptographic_estimators.PEEstimator import PEProblem
-            sage: A = Leon(PEProblem(n=100,k=50,q=3,w=10))
-            sage: A.w()
-            2
+            sage: A = Leon(PEProblem(n=100,k=50,q=3))
+            sage: A._time_and_memory_complexity({"w": 20})
+            (36.42124342248697, 25.270887705262858)
 
         """
         return self._compute_time_complexity(parameters),\

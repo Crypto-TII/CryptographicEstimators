@@ -23,7 +23,7 @@ from math import inf
 
 class LEEstimator(BaseEstimator):
     """
-    Construct an instance of Permutation Code Equivalence Estimator
+    Construct an instance of the Linear Code Equivalence Estimator
 
     INPUT:
 

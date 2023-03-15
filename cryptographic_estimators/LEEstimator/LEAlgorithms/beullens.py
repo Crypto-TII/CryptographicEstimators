@@ -31,6 +31,15 @@ class Beullens(LEAlgorithm):
     def w(self):
         """
         Return the optimal parameter $w$ used in the algorithm optimization
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import Beullens
+            sage: from cryptographic_estimators.LEEstimator import LEProblem
+            sage: A = Beullens(LEProblem(n=100,k=50,q=3))
+            sage: A.w()
+            34
+
         """
         return self._get_optimal_parameter("w")
 
@@ -43,13 +52,6 @@ class Beullens(LEAlgorithm):
         -  ``parameters`` -- dictionary including parameters
         -  ``verbose_information`` -- if set to a dictionary with additional information will be returned.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.LEEstimator.SDFqAlgorithms import BBPS
-            sage: from cryptographic_estimators.LEEstimator import LEProblem
-            sage: A = BBPS(LEProblem(n=100,k=50,q=3,w=10))
-            sage: A.p()
-            2
         """
         n, k, q = self.problem.get_parameters()
         w = parameters["w"]
@@ -76,9 +78,15 @@ class Beullens(LEAlgorithm):
         return max(list_computation, normal_form_cost) + log2(n), list_size + log2(n)
 
     def _compute_time_complexity(self, parameters: dict):
+        """
+
+        """
         return self._time_and_memory_complexity(parameters)[0]
 
     def _compute_memory_complexity(self, parameters: dict):
+        """
+
+        """
         return self._time_and_memory_complexity(parameters)[1]
 
     def _get_verbose_information(self):

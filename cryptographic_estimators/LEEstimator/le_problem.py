@@ -70,7 +70,6 @@ class LEProblem(BaseProblem):
 
         """
         n, k, q = self.get_parameters()
-        # todo: check for correctness
         return log2(q) * k * k + log2(factorial(n)) - log2(q) * n * (k - 1)
 
     def __repr__(self):

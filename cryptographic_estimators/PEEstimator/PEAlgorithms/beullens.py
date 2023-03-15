@@ -14,7 +14,7 @@ class Beullens(PEAlgorithm):
         """
         Complexity estimate of Beullens algorithm
 
-        Estimates are adapted versions of the scripts derived in [W20] with the code accessible at
+        Estimates are adapted versions of the scripts derived in [Beu20]_ with the code accessible at
         https://github.com/WardBeullens/LESS_Attack
 
         INPUT:
@@ -42,6 +42,14 @@ class Beullens(PEAlgorithm):
     def w(self):
         """
         Return the optimal parameter $w$ used in the algorithm optimization
+
+        EXAMPLES::
+            sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Beullens
+            sage: from cryptographic_estimators.PEEstimator import PEProblem
+            sage: A = Beullens(PEProblem(n=100,k=50,q=31))
+            sage: A.w()
+            42
+
         """
         return self._get_optimal_parameter("w")
 
@@ -52,12 +60,13 @@ class Beullens(PEAlgorithm):
         -  ``parameters`` -- dictionary including parameters
         -  ``verbose_information`` -- if set to a dictionary `lists`,
                                       `list_cost` and `norm_factor` will be returned.
+
         EXAMPLES::
             sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Beullens
             sage: from cryptographic_estimators.PEEstimator import PEProblem
-            sage: A = Beullens(PEProblem(n=100,k=50,q=3))
-            sage: A.w()
-            2
+            sage: A = Beullens(PEProblem(n=100,k=50,q=31))
+            sage: A._time_and_memory_complexity({"w": 42})
+            (51.75635665488292, 32.51986575846053)
 
         """
         n, k, q, _ = self.problem.get_parameters()
@@ -89,9 +98,15 @@ class Beullens(PEAlgorithm):
         return max(list_computation, normal_form_cost + log2(n)), max(m_isd, list_size + log2(n))
 
     def _compute_time_complexity(self, parameters: dict):
+        """
+
+        """
         return self._time_and_memory_complexity(parameters)[0]
 
     def _compute_memory_complexity(self, parameters: dict):
+        """
+
+        """
         return self._time_and_memory_complexity(parameters)[1]
 
     def _get_verbose_information(self):
