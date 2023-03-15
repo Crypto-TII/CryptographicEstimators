@@ -5,6 +5,7 @@ from ...base_algorithm import optimal_parameter
 from ...PEEstimator.pe_helper import gv_distance
 from math import log2, inf, log, comb as binom, factorial
 from ...SDFqEstimator.sdfq_estimator import SDFqEstimator
+from ...base_constants import BASE_BIT_COMPLEXITIES,BASE_MEMORY_BOUND,BASE_NSOLUTIONS
 
 class BBPS(LEAlgorithm):
 
@@ -12,13 +13,20 @@ class BBPS(LEAlgorithm):
         """
         Complexity estimate of Alessandro Barenghi, Jean-Francois Biasse, Edoardo Persichetti and Paolo Santini algorithm
 
-        Estimates are adapted versions of the scripts derived in [BBPS20] with the code accessible at
+        Estimates are adapted versions of the scripts derived in [BBPS20]_ with the code accessible at
         https://github.com/paolo-santini/LESS_project
 
         INPUT:
 
         - ``problem`` -- PEProblem object including all necessary parameters
         - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
+
+        EXAMPLES::
+
+        sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
+        sage: from cryptographic_estimators.LEEstimator import LEProblem
+        sage: BBPS(LEProblem(n=100,k=50,q=3))
+        BBPS estimator for permutation equivalence problem with (n,k,q) = (100,50,3)
 
         """
         super().__init__(problem, **kwargs)
@@ -28,10 +36,10 @@ class BBPS(LEAlgorithm):
         self.set_parameter_ranges('w_prime', gv_distance(n, k, q), n - k + 2)
         self.set_parameter_ranges('w', gv_distance(n, k, q), n)
 
-        self._SDFqEstimator_parameters = kwargs.get("sd_parameters", {})
-        self._SDFqEstimator_parameters.pop("bit_complexities", None)
-        self._SDFqEstimator_parameters.pop("nsolutions", None)
-        self._SDFqEstimator_parameters.pop("memory_bound", None)
+        self._SDFqEstimator_parameters = kwargs.get(LE_SD_PARAMETERS, {})
+        self._SDFqEstimator_parameters.pop(BASE_BIT_COMPLEXITIES, None)
+        self._SDFqEstimator_parameters.pop(BASE_NSOLUTIONS, None)
+        self._SDFqEstimator_parameters.pop(BASE_MEMORY_BOUND, None)
 
     @optimal_parameter
     def w(self):
@@ -52,14 +60,15 @@ class BBPS(LEAlgorithm):
         Return time complexity of BBPS algorithm
 
         INPUT:
+
         -  ``parameters`` -- dictionary including parameters
-        -  ``verbose_information`` -- if set to a dictionary within `Nw_prime`,
-                                      `c_isd` and `lists` will be returned.
+        -  ``verbose_information`` -- if set to a dictionary within `Nw_prime`, c_isd` and `lists` will be returned.
 
         EXAMPLES::
-            sage: from cryptographic_estimators.LEEstimator.SDFqAlgorithms import BBPS
+
+            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
             sage: from cryptographic_estimators.LEEstimator import LEProblem
-            sage: A = BBPS(LEProblem(n=100,k=50,q=3,w=10))
+            sage: A = BBPS(LEProblem(n=100,k=50,q=3))
             sage: A.p()
             2
 
@@ -105,7 +114,6 @@ class BBPS(LEAlgorithm):
             verbose_information[VerboseInformation.LISTS] = L_prime
             verbose_information[VerboseInformation.ISD] = c_isd
 
-            # todo fix memory
         return time, self.SDFqEstimator.fastest_algorithm().memory_complexity()
 
     def _compute_time_complexity(self, parameters):
