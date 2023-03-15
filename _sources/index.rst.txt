@@ -163,23 +163,6 @@ SDFqAlgorithms
     SDFqEstimator/SDFqAlgorithms/stern
 
 -----------
-SEEstimator
------------
-
-.. toctree::
-
-    SEEstimator/se_estimator
-    SEEstimator/se_problem
-    SEEstimator/se_algorithm
-
-SEAlgorithms
-============
-
-.. toctree::
-
-    SEEstimator/SEAlgorithms/sample
-
------------
 LEEstimator
 -----------
 
