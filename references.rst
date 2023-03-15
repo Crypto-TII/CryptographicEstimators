@@ -180,7 +180,7 @@ References
 
 **W**
 
-.. [W20] \Ward Beullens.
+.. [Beu20] \Ward Beullens.
             *Not enough LESS: An improved algorithm for solving Code Equivalence Problems over Fq*
             https://doi.org/10.1007/978-3-030-81652-0\_15
 .. _ref-X:

@@ -13,17 +13,14 @@ class Beullens(LEAlgorithm):
         """
         Complexity estimate of Beullens algorithm
 
-        Estimates are adapted versions of the scripts derived in [W20] with the code accessible at
+        Estimates are adapted versions of the scripts derived in [Beu20]_ with the code accessible at
         https://github.com/WardBeullens/LESS_Attack
 
         INPUT:
 
-        - ``problem`` -- PEProblem object including all necessary parameters
+        - ``problem`` -- LEProblem object including all necessary parameters
         - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
 
-        INPUT:
-
-        - ``problem`` -- PEProblem object including all necessary parameters
         """
         super().__init__(problem, **kwargs)
         self._name = "Beullens"
@@ -39,14 +36,15 @@ class Beullens(LEAlgorithm):
 
     def _time_and_memory_complexity(self, parameters, verbose_information=None):
         """
-        Return time complexity of Beulens algorithm
+        Return time and memory complexity of Beulens algorithm for given parameters
 
         INPUT:
+
         -  ``parameters`` -- dictionary including parameters
-        -  ``verbose_information`` -- if set to a dictionary within `Nw_prime`,
-                                      `c_isd` and `lists` will be returned.
+        -  ``verbose_information`` -- if set to a dictionary with additional information will be returned.
 
         EXAMPLES::
+
             sage: from cryptographic_estimators.LEEstimator.SDFqAlgorithms import BBPS
             sage: from cryptographic_estimators.LEEstimator import LEProblem
             sage: A = BBPS(LEProblem(n=100,k=50,q=3,w=10))
@@ -78,19 +76,9 @@ class Beullens(LEAlgorithm):
         return max(list_computation, normal_form_cost) + log2(n), list_size + log2(n)
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        INPUT:
-        -  ``parameters`` -- dictionary including parameters
-
-        """
         return self._time_and_memory_complexity(parameters)[0]
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        INPUT:
-        -  ``parameters`` -- dictionary including parameters
-
-        """
         return self._time_and_memory_complexity(parameters)[1]
 
     def _get_verbose_information(self):
@@ -102,8 +90,5 @@ class Beullens(LEAlgorithm):
         return verb
 
     def __repr__(self):
-        """
-
-        """
         rep = "Beullens estimator for " + str(self.problem)
         return rep
