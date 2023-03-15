@@ -1,2 +1,2 @@
-from .sample import Sample
-# TODO: Remember to add the algorithms to the import above
+from .kmp import KMP
+from .sbc import SBC

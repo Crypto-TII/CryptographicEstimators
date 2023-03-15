@@ -69,6 +69,10 @@ References
 
 **E**
 
+.. [KMP19] \Eliane Koussa, Gilles Macario{-}Rat and Jacques Patarin.
+            *On the complexity of the Permuted Kernel Problem*
+            https://eprint.iacr.org/2019/412.pdf
+
 .. _ref-F:
 
 **F**
@@ -147,6 +151,10 @@ References
 .. _ref-P:
 
 **P**
+
+.. [SBC22] \Paolo Santini, Marco Baldi, and Franco Chiaraluce
+            *Computational Hardness of the Permuted Kernel and Subcode Equivalence Problems*
+            https://eprint.iacr.org/2022/1749.pdf
 
 .. _ref-Q:
 
