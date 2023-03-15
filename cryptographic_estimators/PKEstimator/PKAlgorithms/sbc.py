@@ -13,11 +13,8 @@ class SBC(PKAlgorithm):
     """
     Complexity estimate of the SBC algorithm
 
-    Originally proposed in
-    #Todo : Add references to KMP paper and Santini paper
-
-    The estimates are adapted versions of the code accompanying [SANTINI ET AL], original code is accessible at
-    <<GITHUB LINK>>
+    The estimates are adapted versions of the code accompanying [SBC22]_, original code is accessible at
+    https://github.com/secomms/pkpattack
 
     """
 
@@ -40,6 +37,15 @@ class SBC(PKAlgorithm):
     def d(self):
         """
         Return the optimal parameter $d$ used in the algorithm optimization
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
+            sage: from cryptographic_estimators.PKEstimator import PKProblem
+            sage: A = SBC(PKProblem(n=100,m=50,q=31,ell=2))
+            sage: A.d()
+            35
+
         """
         return self._get_optimal_parameter("d")
 
@@ -47,6 +53,15 @@ class SBC(PKAlgorithm):
     def w(self):
         """
         Return the optimal parameter $w$ used in the algorithm optimization
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
+            sage: from cryptographic_estimators.PKEstimator import PKProblem
+            sage: A = SBC(PKProblem(n=100,m=50,q=31,ell=2))
+            sage: A.w()
+            57
+
         """
         return self._get_optimal_parameter("w")
 
@@ -54,6 +69,15 @@ class SBC(PKAlgorithm):
     def w1(self):
         """
         Return the optimal parameter $u$ used in the algorithm optimization
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
+            sage: from cryptographic_estimators.PKEstimator import PKProblem
+            sage: A = SBC(PKProblem(n=100,m=50,q=31,ell=2))
+            sage: A.w1()
+            28
+
         """
         return self._get_optimal_parameter("w1")
 

@@ -5,17 +5,12 @@ from ...base_algorithm import optimal_parameter
 from math import log2, factorial
 
 
-
 class KMP(PKAlgorithm):
     """
         Complexity estimate of the KMP algorithm
 
-        Originally proposed in
-        #Todo : Add references to KMP paper and Santini paper
-        #santini: https://eprint.iacr.org/2022/1749.pdf
-
-        The estimates are adapted versions of the code accompanying [SANTINI ET AL], original code is accessible at
-        <<GITHUB LINK>>
+        Originally proposed in [KMP19]_ . The estimates are adapted versions of the code accompanying [SBC22], original
+        code is accessible at https://github.com/secomms/pkpattack
 
     """
 
@@ -30,6 +25,15 @@ class KMP(PKAlgorithm):
     def u(self):
         """
         Return the optimal parameter $u$ used in the algorithm optimization
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import KMP
+            sage: from cryptographic_estimators.PKEstimator import PKProblem
+            sage: A = KMP(PKProblem(n=100,m=50,q=31,ell=2))
+            sage: A.u()
+            24
+
         """
         return self._get_optimal_parameter("u")
 
