@@ -37,7 +37,6 @@ class PKProblem(BaseProblem):
 
 
     def __init__(self, n: int, m: int, q: int, ell=1, **kwargs):
-
         super().__init__(**kwargs)
 
         self.parameters[PK_COLUMNS] = n
@@ -72,7 +71,6 @@ class PKProblem(BaseProblem):
         - ``elements_to_store`` -- number of Fq elements the algorithm needs to store (logarithmic)
 
         """
-
         return elements_to_store + log2(log2(self.parameters[PK_FIELD_SIZE]))
 
     def expected_number_solutions(self):
@@ -84,8 +82,6 @@ class PKProblem(BaseProblem):
         return log2(factorial(n)) - log2(q) * m *ell
 
     def __repr__(self):
-        """
-        """
         n, m, q, ell = self.get_parameters()
         rep = "permuted kernel problem with (n,m,q,ell) = " \
               + "(" + str(n) + "," + str(m) + "," + str(q) + "," + str(ell) + ")"
@@ -93,6 +89,4 @@ class PKProblem(BaseProblem):
         return rep
 
     def get_parameters(self):
-        """
-        """
         return self.parameters.values()

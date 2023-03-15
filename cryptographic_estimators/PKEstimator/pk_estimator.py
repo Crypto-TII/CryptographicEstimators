@@ -63,6 +63,32 @@ class PKEstimator(BaseEstimator):
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
 
+        EXAMPLES:
+
+            sage: from cryptographic_estimators.PKEstimator import PKEstimator
+            sage: A = PKEstimator(n=100,m=50,q=31,ell=2)
+            sage: A.table()
+            +-----------+----------------+
+            |           |    estimate    |
+            +-----------+-------+--------+
+            | algorithm |  time | memory |
+            +-----------+-------+--------+
+            | KMP       | 243.8 |  243.7 |
+            | SBC       | 194.3 |  187.9 |
+            +-----------+-------+--------+
+
+            sage: from cryptographic_estimators.PKEstimator import PKEstimator
+            sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import KMP
+            sage: A = PKEstimator(n=100,m=50,q=31,ell=2,excluded_algorithms=[KMP])
+            sage: A.table(precision=3, show_all_parameters=1)
+            +-----------+--------------------------------------------------+
+            |           |                     estimate                     |
+            +-----------+---------+---------+------------------------------+
+            | algorithm |    time |  memory |          parameters          |
+            +-----------+---------+---------+------------------------------+
+            | SBC       | 194.266 | 187.945 | {'d': 35, 'w': 57, 'w1': 28} |
+            +-----------+---------+---------+------------------------------+
+
         """
         super(PKEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,

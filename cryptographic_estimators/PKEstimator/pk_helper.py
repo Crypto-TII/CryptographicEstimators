@@ -30,6 +30,5 @@ def cost_for_finding_subcode(q: int, n: int, k: int, d: int, w: int, Nw: int):
     """
 
     """
-    # TODO remplae with call to our SDFq estimator
     c_isd = beullens_lee_brickell_adaptation(q, n, k, d, w, Nw)
     return max(0, c_isd)

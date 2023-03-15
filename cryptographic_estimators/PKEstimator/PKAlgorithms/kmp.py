@@ -7,10 +7,17 @@ from math import log2, factorial
 
 class KMP(PKAlgorithm):
     """
-        Complexity estimate of the KMP algorithm
+    Complexity estimate of the KMP algorithm
 
-        Originally proposed in [KMP19]_ . The estimates are adapted versions of the code accompanying [SBC22], original
-        code is accessible at https://github.com/secomms/pkpattack
+    Originally proposed in [KMP19]_ . The estimates are adapted versions of the code accompanying [SBC22]_, original
+    code is accessible at https://github.com/secomms/pkpattack
+
+    EXAMPLES::
+
+        sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import KMP
+        sage: from cryptographic_estimators.PKEstimator import PKProblem
+        sage: KMP(PKProblem(n=100,m=50,q=31,ell=2))
+        KMP estimator for the permuted kernel problem with (n,m,q,ell) = (100,50,31,2)
 
     """
 
@@ -42,6 +49,7 @@ class KMP(PKAlgorithm):
         Computes the time and memory complexity of the KMP algorithm in number of Fq additions and Fq elements resp.
 
         INPUT:
+
         -  ``parameters`` -- dictionary including parameters
         -  ``verbose_information`` -- if set to a dictionary `L1`, `L1`, and `final_list` will be returned.
 
@@ -70,6 +78,7 @@ class KMP(PKAlgorithm):
         """
 
         INPUT:
+
         -  ``parameters`` -- dictionary including parameters
 
         """
@@ -79,6 +88,7 @@ class KMP(PKAlgorithm):
         """
 
         INPUT:
+
         -  ``parameters`` -- dictionary including parameters
 
         """

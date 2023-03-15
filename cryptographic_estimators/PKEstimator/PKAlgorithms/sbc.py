@@ -7,14 +7,19 @@ from ..pk_helper import gauss_binomial, cost_for_finding_subcode
 from ...SDFqEstimator.sdfq_estimator import SDFqEstimator
 
 
-
-
 class SBC(PKAlgorithm):
     """
     Complexity estimate of the SBC algorithm
 
     The estimates are adapted versions of the code accompanying [SBC22]_, original code is accessible at
     https://github.com/secomms/pkpattack
+
+    EXAMPLES::
+
+        sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
+        sage: from cryptographic_estimators.PKEstimator import PKProblem
+        sage: SBC(PKProblem(n=100,m=50,q=31,ell=2))
+        SBC estimator for the permuted kernel problem with (n,m,q,ell) = (100,50,31,2)
 
     """
 
@@ -86,6 +91,7 @@ class SBC(PKAlgorithm):
         Computes the time and memory complexity of the SBC algorithm in number of Fq additions and Fq elements resp.
 
         INPUT:
+
         -  ``parameters`` -- dictionary including parameters
         -  ``verbose_information`` -- if set to a dictionary `L1`, `L1`, and `final_list` will be returned.
 
@@ -151,6 +157,7 @@ class SBC(PKAlgorithm):
         """
 
         INPUT:
+
         -  ``parameters`` -- dictionary including parameters
 
         """
@@ -160,6 +167,7 @@ class SBC(PKAlgorithm):
         """
 
         INPUT:
+
         -  ``parameters`` -- dictionary including parameters
 
         """
