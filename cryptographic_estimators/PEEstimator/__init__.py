@@ -1,5 +1,7 @@
 from .pe_algorithm import PEAlgorithm
 from .pe_estimator import PEEstimator
 from .pe_problem import PEProblem
-from .PEAlgorithms import Sample
+from .PEAlgorithms import Leon
+from .PEAlgorithms import Beullens
+from .PEAlgorithms import SSA
 # TODO: Remember to add the algorithms to the import above

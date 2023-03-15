@@ -46,6 +46,10 @@ References
             *Unbalanced  Oil  and Vinegar Signature Schemes*
             https://link.springer.com/chapter/10.1007/3-540-48910-X_15
 
+.. [BBPS20] \Alessandro Barenghi, Jean-Francois Biasse, Edoardo Persichetti and Paolo Santini
+            *{LESS-FM:} Fine-Tuning Signatures from the Code Equivalence Problem*
+            https://doi.org/10.1007/978-3-030-81293-5\_2
+
 .. _ref-B:
 
 **B**
@@ -108,6 +112,10 @@ References
 .. [Dua20] \João Diogo Duarte.
             *On the Complexity of the Crossbred Algorithm*
 
+.. [Leo82] \JJeffrey S. Leon.
+            *Computing automorphism groups of error-correcting codes*
+            https://doi.org/10.1109/TIT.1982.1056498
+
 .. _ref-K:
 
 **K**
@@ -143,6 +151,10 @@ References
 .. [CGMT02] \Nicolas Courtois, Louis Goubin, Willi Meier, and Jean-Daniel Tacier.
             *Solving Underdefined Systems of Multivariate Quadratic Equations*
             https://link.springer.com/chapter/10.1007/3-540-45664-3_15
+
+.. [Sen06] \Nicolas Sendrier
+            *The Support Splitting Algorithm*
+            https://hal.inria.fr/inria-00073037/document
 
 .. _ref-O:
 
@@ -184,6 +196,9 @@ References
 
 **W**
 
+.. [Beu20] \Ward Beullens.
+            *Not enough LESS: An improved algorithm for solving Code Equivalence Problems over Fq*
+            https://doi.org/10.1007/978-3-030-81652-0\_15
 .. _ref-X:
 
 **X**

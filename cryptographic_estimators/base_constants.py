@@ -19,6 +19,7 @@
 BASE_BIT_COMPLEXITIES = "bit_complexities"
 BASE_COMPLEXITY_TYPE = "complexity_type"
 BASE_MEMORY_ACCESS = "memory_access"
+BASE_MEMORY_BOUND = "memory_bound"
 BASE_ESTIMATE = "ESTIMATE"
 BASE_TILDEO = "TILDEO"
 
@@ -33,3 +34,4 @@ BASE_TIME = "time"
 BASE_MEMORY = "memory"
 BASE_PARAMETERS = "parameters"
 BASE_ALGORITHM = "algorithm"
+BASE_NSOLUTIONS = "nsolutions"

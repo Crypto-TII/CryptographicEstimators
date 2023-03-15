@@ -19,6 +19,7 @@
 from ..PEEstimator.pe_algorithm import PEAlgorithm
 from ..PEEstimator.pe_problem import PEProblem
 from ..base_estimator import BaseEstimator
+from math import inf
 
 
 class PEEstimator(BaseEstimator):
@@ -29,19 +30,22 @@ class PEEstimator(BaseEstimator):
 
     - ``n`` -- code length
     - ``k`` -- code dimension
+    - ``q`` -- field size
     - ``excluded_algorithms`` -- a list/tuple of excluded algorithms (default: None)
+    - ``sd_parameters`` -- dictionary of parameters for SDEstimator used as a subroutine by some algorithms (default: {})
     - ``nsolutions`` -- no. of solutions
 
     """
     excluded_algorithms_by_default = []
 
-    def __init__(self, **kwargs):  # Add estimator parameters
+    def __init__(self, n: int, k: int, q: int, memory_bound=inf, **kwargs):  # Add estimator parameters
         if not kwargs.get("excluded_algorithms"):
             kwargs["excluded_algorithms"] = []
 
         kwargs["excluded_algorithms"] += self.excluded_algorithms_by_default
         super(PEEstimator, self).__init__(
-            PEAlgorithm, PEProblem(**kwargs), **kwargs)
+            PEAlgorithm, PEProblem(n, k, q, memory_bound=memory_bound, **kwargs), **kwargs)
+
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
               show_all_parameters=0, precision=1, truncate=0):
@@ -56,6 +60,32 @@ class PEEstimator(BaseEstimator):
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
 
+        TESTS:
+            sage: from cryptographic_estimators.PEEstimator import PEEstimator
+            sage: A = PEEstimator(n=100, k=42, q=7, bit_complexities=1, workfactor_accuracy=10)
+            sage: A.table(precision=3) # long time
+            +-----------+------------------+
+            |           |     estimate     |
+            +-----------+---------+--------+
+            | algorithm |    time | memory |
+            +-----------+---------+--------+
+            | Leon      |  48.156 | 24.603 |
+            | Beullens  |  43.839 | 24.603 |
+            | SSA       | 179.625 | 15.437 |
+            +-----------+---------+--------+
+
+            sage: from cryptographic_estimators.PEEstimator import PEEstimator
+            sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Leon
+            sage: A = PEEstimator(100,50,7,excluded_algorithms=[Leon])
+            sage: A.table(precision=3, show_all_parameters=1) # long time
+            +-----------+-------------------------------+
+            |           |            estimate           |
+            +-----------+---------+--------+------------+
+            | algorithm |    time | memory | parameters |
+            +-----------+---------+--------+------------+
+            | Beullens  |  43.360 | 25.117 | {'w': 26}  |
+            | SSA       | 157.113 | 15.362 |     {}     |
+            +-----------+---------+--------+------------+
         """
         super(PEEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,
