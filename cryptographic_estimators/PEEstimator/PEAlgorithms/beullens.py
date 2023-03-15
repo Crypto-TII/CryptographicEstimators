@@ -4,6 +4,8 @@ from ..pe_constants import *
 from ...base_algorithm import optimal_parameter
 from ..pe_helper import median_size_of_random_orbit, hamming_ball, isd_cost
 from math import log, ceil, log2, inf
+from ...base_constants import BASE_MEMORY_BOUND, BASE_NSOLUTIONS, BASE_BIT_COMPLEXITIES
+from ...SDFqEstimator.sdfq_estimator import SDFqEstimator
 
 
 class Beullens(PEAlgorithm):
@@ -26,8 +28,15 @@ class Beullens(PEAlgorithm):
         """
         super().__init__(problem, **kwargs)
         self._name = "Beullens"
-        n, _, _, _ = self.problem.get_parameters()
-        self.set_parameter_ranges('w', 0, n)
+        n, k, _, _ = self.problem.get_parameters()
+        self.set_parameter_ranges('w', 0, n - k)
+
+        self.SDFqEstimator = None
+
+        self._SDFqEstimator_parameters = kwargs.get(PE_SD_PARAMETERS, {})
+        self._SDFqEstimator_parameters.pop(BASE_BIT_COMPLEXITIES, None)
+        self._SDFqEstimator_parameters.pop(BASE_NSOLUTIONS, None)
+        self._SDFqEstimator_parameters.pop(BASE_MEMORY_BOUND, None)
 
     @optimal_parameter
     def w(self):
@@ -63,29 +72,26 @@ class Beullens(PEAlgorithm):
             return inf, inf
 
         list_size = (search_space_size + log2(2 * log2(n))) / 2
-        list_computation = isd_cost(n, k, q, w) - search_space_size + list_size + 1
-        # Todo exchange with call to SD estimator (remember to set correct number of solutions)
+
+        self.SDFqEstimator = SDFqEstimator(n=n, k=k, w=w, q=q, bit_complexities=0, nsolutions=0,
+                                           memory_bound=self.problem.memory_bound, **self._SDFqEstimator_parameters)
+        c_isd = self.SDFqEstimator.fastest_algorithm().time_complexity()
+        m_isd = self.SDFqEstimator.fastest_algorithm().memory_complexity()
+        list_computation = c_isd - search_space_size + list_size + 1
+
         normal_form_cost = 1 + list_size
 
         if verbose_information is not None:
-            verbose_information[VerboseInformation.LISTS_SIZE] = list_size
-            verbose_information[VerboseInformation.LISTS] = list_computation
-            verbose_information[VerboseInformation.NORMAL_FORM] = normal_form_cost
+            verbose_information[VerboseInformation.LISTS_SIZE.value] = list_size
+            verbose_information[VerboseInformation.LIST_COMPUTATION.value] = list_computation
+            verbose_information[VerboseInformation.NORMAL_FORM.value] = normal_form_cost
 
-        # todo carefull when changing to Fq estimator, Fq estimation does not have to be scaled with n as it returns
-        #      already the number of Fq additions not row operations
-        return max(list_computation, normal_form_cost) + log2(n), list_size + log2(n)
+        return max(list_computation, normal_form_cost + log2(n)), max(m_isd, list_size + log2(n))
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-
-        """
         return self._time_and_memory_complexity(parameters)[0]
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-
-        """
         return self._time_and_memory_complexity(parameters)[1]
 
     def _get_verbose_information(self):
