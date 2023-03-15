@@ -166,11 +166,15 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../PEEstimator/pe_estimator.html">pe_estimator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PEEstimator/pe_helper.html">pe_helper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../PEEstimator/pe_problem.html">pe_problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../PEEstimator/pe_algorithm.html">pe_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PEEstimator/pe_constants.html">pe_constants</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../PEEstimator/PEAlgorithms/sample.html">sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PEEstimator/PEAlgorithms/ssa.html">ssa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PEEstimator/PEAlgorithms/beullens.html">beullens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PEEstimator/PEAlgorithms/leon.html">leon</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../PKEstimator/pk_algorithm.html">pk_algorithm</a></li>
@@ -261,10 +265,14 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_estimator.html">le_estimator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_problem.html">le_problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_helper.html">le_helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_constants.html">le_constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_algorithm.html">le_algorithm</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/LEAlgorithms/sample.html">sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/LEAlgorithms/beullens.html">beullens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/LEAlgorithms/bbps.html">bbps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/LEAlgorithms/leon.html">leon</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../DummyEstimator/dummy_algorithm.html">dummy_algorithm</a></li>
@@ -419,8 +427,9 @@ sage: A.table()
 | Stern         | 22.3 |   16.0 |
 +—————+——+——–+</p>
 </div></blockquote>
-<dl>
-<dt>TESTS:</dt><dd><p>sage: from cryptographic_estimators.SDEstimator import SDEstimator
+<p>TESTS:</p>
+<blockquote>
+<div><p>sage: from cryptographic_estimators.SDEstimator import SDEstimator
 sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1, workfactor_accuracy=10)
 sage: A.table(show_tilde_o_time=1, precision=0) # long time
 +—————+—————+——————+
@@ -456,8 +465,7 @@ sage: A.table(precision=3, show_all_parameters=1) # long time
 | Prange        | 173.388 |  21.576 |                          {‘r’: 7}                          |
 | Stern         | 151.409 |  49.814 |                 {‘r’: 7, ‘p’: 4, ‘l’: 39}                  |
 +—————+———+———+————————————————————+</p>
-</dd>
-</dl>
+</div></blockquote>
 </dd></dl>
 
 </dd></dl>

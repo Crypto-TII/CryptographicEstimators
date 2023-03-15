@@ -166,11 +166,15 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../PEEstimator/pe_estimator.html">pe_estimator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PEEstimator/pe_helper.html">pe_helper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../PEEstimator/pe_problem.html">pe_problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../PEEstimator/pe_algorithm.html">pe_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PEEstimator/pe_constants.html">pe_constants</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../PEEstimator/PEAlgorithms/sample.html">sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PEEstimator/PEAlgorithms/ssa.html">ssa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PEEstimator/PEAlgorithms/beullens.html">beullens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PEEstimator/PEAlgorithms/leon.html">leon</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../PKEstimator/pk_algorithm.html">pk_algorithm</a></li>
@@ -261,10 +265,14 @@
 <ul class="current">
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">le_estimator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="le_problem.html">le_problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="le_helper.html">le_helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="le_constants.html">le_constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="le_algorithm.html">le_algorithm</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="LEAlgorithms/sample.html">sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LEAlgorithms/beullens.html">beullens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LEAlgorithms/bbps.html">bbps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LEAlgorithms/leon.html">leon</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../DummyEstimator/dummy_algorithm.html">dummy_algorithm</a></li>
@@ -311,13 +319,14 @@
 <span id="le-estimator"></span><h1>le_estimator<a class="headerlink" href="#module-cryptographic_estimators.LEEstimator.le_estimator" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="cryptographic_estimators.LEEstimator.le_estimator.LEEstimator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.LEEstimator.le_estimator.</span></span><span class="sig-name descname"><span class="pre">LEEstimator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.LEEstimator.le_estimator.LEEstimator" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.LEEstimator.le_estimator.</span></span><span class="sig-name descname"><span class="pre">LEEstimator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.LEEstimator.le_estimator.LEEstimator" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../base_estimator.html#cryptographic_estimators.base_estimator.BaseEstimator" title="cryptographic_estimators.base_estimator.BaseEstimator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code></a></p>
-<p>Construct an instance of Linear Code Equivalence Estimator</p>
+<p>Construct an instance of the Linear Code Equivalence Estimator</p>
 <p>INPUT:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – code length</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">k</span></code> – code dimension</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">q</span></code> – field size</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">excluded_algorithms</span></code> – a list/tuple of excluded algorithms (default: None)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">nsolutions</span></code> – no. of solutions</p></li>
 </ul>
@@ -396,6 +405,33 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">precision</span></code> – number of decimal digits output (default: 1)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">truncate</span></code> – truncate rather than round the output (default: false)</p></li>
 </ul>
+<p>TESTS:</p>
+<blockquote>
+<div><p>sage: from cryptographic_estimators.LEEstimator import LEEstimator
+sage: A = LEEstimator(n=200, k=110, q=31, bit_complexities=1)
+sage: A.table(precision=3) # long time
++———–+——————+
+|           |     estimate     |
++———–+———+——–+
+| algorithm |    time | memory |
++———–+———+——–+
+| Leon      | 105.356 | 33.624 |
+| Beullens  | 123.109 | 42.252 |
+| BBPS      |  97.495 | 33.624 |
++———–+———+——–+</p>
+<p>sage: from cryptographic_estimators.LEEstimator import LEEstimator
+sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import Leon
+sage: A = LEEstimator(200,110,31,excluded_algorithms=[Leon])
+sage: A.table(precision=3, show_all_parameters=1) # long time
++———–+———————————————-+
+|           |                   estimate                   |
++———–+———+——–+—————————+
+| algorithm |    time | memory |         parameters        |
++———–+———+——–+—————————+
+| Beullens  | 123.109 | 42.252 |         {‘w’: 79}         |
+| BBPS      |  97.495 | 33.624 | {‘w’: 102, ‘w_prime’: 60} |
++———–+———+——–+—————————+</p>
+</div></blockquote>
 </dd></dl>
 
 </dd></dl>

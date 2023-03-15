@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="pe_algorithm" href="pe_algorithm.html" /><link rel="prev" title="pe_estimator" href="pe_estimator.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="pe_algorithm" href="pe_algorithm.html" /><link rel="prev" title="pe_helper" href="pe_helper.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
         <title>pe_problem - TII-Estimators documentation</title>
@@ -166,11 +166,15 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="pe_estimator.html">pe_estimator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pe_helper.html">pe_helper</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">pe_problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pe_algorithm.html">pe_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pe_constants.html">pe_constants</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="PEAlgorithms/sample.html">sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEAlgorithms/ssa.html">ssa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEAlgorithms/beullens.html">beullens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEAlgorithms/leon.html">leon</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../PKEstimator/pk_algorithm.html">pk_algorithm</a></li>
@@ -261,10 +265,14 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_estimator.html">le_estimator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_problem.html">le_problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_helper.html">le_helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_constants.html">le_constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_algorithm.html">le_algorithm</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/LEAlgorithms/sample.html">sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/LEAlgorithms/beullens.html">beullens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/LEAlgorithms/bbps.html">bbps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/LEAlgorithms/leon.html">leon</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../DummyEstimator/dummy_algorithm.html">dummy_algorithm</a></li>
@@ -311,13 +319,15 @@
 <span id="pe-problem"></span><h1>pe_problem<a class="headerlink" href="#module-cryptographic_estimators.PEEstimator.pe_problem" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="cryptographic_estimators.PEEstimator.pe_problem.PEProblem">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.PEEstimator.pe_problem.</span></span><span class="sig-name descname"><span class="pre">PEProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.PEEstimator.pe_problem.PEProblem" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.PEEstimator.pe_problem.</span></span><span class="sig-name descname"><span class="pre">PEProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.PEEstimator.pe_problem.PEProblem" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../base_problem.html#cryptographic_estimators.base_problem.BaseProblem" title="cryptographic_estimators.base_problem.BaseProblem"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseProblem</span></code></a></p>
 <p>Construct an instance of the Permutation Code Equivalence Problem</p>
 <p>INPUT:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – code length</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">k</span></code> – code dimension</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">q</span></code> – field size</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">h</span></code> – dimension of the hull (Default: min(n,n-k), i.e., code is assumed to be weakly self dual)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">nsolutions</span></code> – number of (expected) solutions of the problem in logarithmic scale</p></li>
 </ul>
 <dl class="py method">
@@ -329,22 +339,23 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.PEEstimator.pe_problem.PEProblem.get_parameters">
 <span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.PEEstimator.pe_problem.PEProblem.get_parameters" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Returns n, k, q and h</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.PEEstimator.pe_problem.PEProblem.to_bitcomplexity_memory">
-<span class="sig-name descname"><span class="pre">to_bitcomplexity_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basic_operations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.PEEstimator.pe_problem.PEProblem.to_bitcomplexity_memory" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the memory bit-complexity associated to a given number of elements to store</p>
+<span class="sig-name descname"><span class="pre">to_bitcomplexity_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elements_to_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.PEEstimator.pe_problem.PEProblem.to_bitcomplexity_memory" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the memory bit-complexity associated to a given number of Fq elements to store</p>
 <p>INPUT:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">elements_to_store</span></code> – number of memory operations (logarithmic)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">elements_to_store</span></code> – number of elements to store (logarithmic)</p></li>
 </ul>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.PEEstimator.pe_problem.PEProblem.to_bitcomplexity_time">
 <span class="sig-name descname"><span class="pre">to_bitcomplexity_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basic_operations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.PEEstimator.pe_problem.PEProblem.to_bitcomplexity_time" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the bit-complexity corresponding to basic_operations field additions</p>
+<dd><p>Returns the bit-complexity corresponding to basic_operations Fq additions</p>
 <p>INPUT:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">basic_operations</span></code> – Number of field additions (logarithmic)</p></li>
@@ -369,14 +380,14 @@
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="pe_estimator.html">
+          <a class="prev-page" href="pe_helper.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">pe_estimator</div>
+                <div class="title">pe_helper</div>
                 
               </div>
             </a>

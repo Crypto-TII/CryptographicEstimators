@@ -164,11 +164,15 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="PEEstimator/pe_estimator.html">pe_estimator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/pe_helper.html">pe_helper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PEEstimator/pe_problem.html">pe_problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PEEstimator/pe_algorithm.html">pe_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/pe_constants.html">pe_constants</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html">sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html">ssa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html">beullens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html">leon</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="PKEstimator/pk_algorithm.html">pk_algorithm</a></li>
@@ -259,10 +263,14 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="LEEstimator/le_estimator.html">le_estimator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="LEEstimator/le_problem.html">le_problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/le_helper.html">le_helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/le_constants.html">le_constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="LEEstimator/le_algorithm.html">le_algorithm</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html">sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html">beullens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html">bbps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html">leon</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="DummyEstimator/dummy_algorithm.html">dummy_algorithm</a></li>
@@ -373,6 +381,14 @@
 </li>
         <li><a href="base_problem.html#cryptographic_estimators.base_problem.BaseProblem">BaseProblem (class in cryptographic_estimators.base_problem)</a>
 </li>
+        <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS">BBPS (class in cryptographic_estimators.LEEstimator.LEAlgorithms.bbps)</a>
+</li>
+        <li><a href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens">Beullens (class in cryptographic_estimators.LEEstimator.LEAlgorithms.beullens)</a>
+
+        <ul>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens">(class in cryptographic_estimators.PEEstimator.PEAlgorithms.beullens)</a>
+</li>
+        </ul></li>
         <li><a href="PKEstimator/pk_helper.html#cryptographic_estimators.PKEstimator.pk_helper.beullens_lee_brickell_adaptation">beullens_lee_brickell_adaptation() (in module cryptographic_estimators.PKEstimator.pk_helper)</a>
 </li>
         <li><a href="SDEstimator/SDWorkfactorModels/workfactor_helper.html#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.binary_entropy">binary_entropy() (in module cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper)</a>
@@ -456,7 +472,11 @@
 </li>
           <li><a href="LEEstimator/le_estimator.html#cryptographic_estimators.LEEstimator.le_estimator.LEEstimator.complexity_type">(cryptographic_estimators.LEEstimator.le_estimator.LEEstimator property)</a>
 </li>
-          <li><a href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.complexity_type">(cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample property)</a>
+          <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.complexity_type">(cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS property)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.complexity_type">(cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens property)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.complexity_type">(cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon property)</a>
 </li>
           <li><a href="MQEstimator/mq_algorithm.html#cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm.complexity_type">(cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm property)</a>
 </li>
@@ -490,7 +510,11 @@
 </li>
           <li><a href="PEEstimator/pe_estimator.html#cryptographic_estimators.PEEstimator.pe_estimator.PEEstimator.complexity_type">(cryptographic_estimators.PEEstimator.pe_estimator.PEEstimator property)</a>
 </li>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.complexity_type">(cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample property)</a>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.complexity_type">(cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens property)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.complexity_type">(cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon property)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.complexity_type">(cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA property)</a>
 </li>
           <li><a href="PKEstimator/pk_algorithm.html#cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm.complexity_type">(cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm property)</a>
 </li>
@@ -562,6 +586,8 @@
 </li>
         </ul></li>
         <li><a href="PKEstimator/pk_helper.html#cryptographic_estimators.PKEstimator.pk_helper.cost_for_finding_subcode">cost_for_finding_subcode() (in module cryptographic_estimators.PKEstimator.pk_helper)</a>
+</li>
+        <li><a href="LEEstimator/le_helper.html#cryptographic_estimators.LEEstimator.le_helper.cost_to_find_random_2dim_subcodes_with_support_w">cost_to_find_random_2dim_subcodes_with_support_w() (in module cryptographic_estimators.LEEstimator.le_helper)</a>
 </li>
         <li><a href="MQEstimator/MQAlgorithms/crossbred.html#cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred.Crossbred">Crossbred (class in cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred)</a>
 </li>
@@ -636,10 +662,24 @@
 </li>
         </ul></li>
         <li>
+    cryptographic_estimators.LEEstimator.le_constants
+
+        <ul>
+          <li><a href="LEEstimator/le_constants.html#module-cryptographic_estimators.LEEstimator.le_constants">module</a>
+</li>
+        </ul></li>
+        <li>
     cryptographic_estimators.LEEstimator.le_estimator
 
         <ul>
           <li><a href="LEEstimator/le_estimator.html#module-cryptographic_estimators.LEEstimator.le_estimator">module</a>
+</li>
+        </ul></li>
+        <li>
+    cryptographic_estimators.LEEstimator.le_helper
+
+        <ul>
+          <li><a href="LEEstimator/le_helper.html#module-cryptographic_estimators.LEEstimator.le_helper">module</a>
 </li>
         </ul></li>
         <li>
@@ -650,10 +690,24 @@
 </li>
         </ul></li>
         <li>
-    cryptographic_estimators.LEEstimator.LEAlgorithms.sample
+    cryptographic_estimators.LEEstimator.LEAlgorithms.bbps
 
         <ul>
-          <li><a href="LEEstimator/LEAlgorithms/sample.html#module-cryptographic_estimators.LEEstimator.LEAlgorithms.sample">module</a>
+          <li><a href="LEEstimator/LEAlgorithms/bbps.html#module-cryptographic_estimators.LEEstimator.LEAlgorithms.bbps">module</a>
+</li>
+        </ul></li>
+        <li>
+    cryptographic_estimators.LEEstimator.LEAlgorithms.beullens
+
+        <ul>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#module-cryptographic_estimators.LEEstimator.LEAlgorithms.beullens">module</a>
+</li>
+        </ul></li>
+        <li>
+    cryptographic_estimators.LEEstimator.LEAlgorithms.leon
+
+        <ul>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#module-cryptographic_estimators.LEEstimator.LEAlgorithms.leon">module</a>
 </li>
         </ul></li>
         <li>
@@ -726,6 +780,8 @@
           <li><a href="MQEstimator/MQAlgorithms/crossbred.html#module-cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred">module</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     cryptographic_estimators.MQEstimator.MQAlgorithms.dinur1
 
@@ -733,8 +789,6 @@
           <li><a href="MQEstimator/MQAlgorithms/dinur1.html#module-cryptographic_estimators.MQEstimator.MQAlgorithms.dinur1">module</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2
 
@@ -813,10 +867,24 @@
 </li>
         </ul></li>
         <li>
+    cryptographic_estimators.PEEstimator.pe_constants
+
+        <ul>
+          <li><a href="PEEstimator/pe_constants.html#module-cryptographic_estimators.PEEstimator.pe_constants">module</a>
+</li>
+        </ul></li>
+        <li>
     cryptographic_estimators.PEEstimator.pe_estimator
 
         <ul>
           <li><a href="PEEstimator/pe_estimator.html#module-cryptographic_estimators.PEEstimator.pe_estimator">module</a>
+</li>
+        </ul></li>
+        <li>
+    cryptographic_estimators.PEEstimator.pe_helper
+
+        <ul>
+          <li><a href="PEEstimator/pe_helper.html#module-cryptographic_estimators.PEEstimator.pe_helper">module</a>
 </li>
         </ul></li>
         <li>
@@ -827,10 +895,24 @@
 </li>
         </ul></li>
         <li>
-    cryptographic_estimators.PEEstimator.PEAlgorithms.sample
+    cryptographic_estimators.PEEstimator.PEAlgorithms.beullens
 
         <ul>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#module-cryptographic_estimators.PEEstimator.PEAlgorithms.sample">module</a>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#module-cryptographic_estimators.PEEstimator.PEAlgorithms.beullens">module</a>
+</li>
+        </ul></li>
+        <li>
+    cryptographic_estimators.PEEstimator.PEAlgorithms.leon
+
+        <ul>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#module-cryptographic_estimators.PEEstimator.PEAlgorithms.leon">module</a>
+</li>
+        </ul></li>
+        <li>
+    cryptographic_estimators.PEEstimator.PEAlgorithms.ssa
+
+        <ul>
+          <li><a href="PEEstimator/PEAlgorithms/ssa.html#module-cryptographic_estimators.PEEstimator.PEAlgorithms.ssa">module</a>
 </li>
         </ul></li>
         <li>
@@ -1313,7 +1395,11 @@
 </li>
           <li><a href="LEEstimator/le_algorithm.html#cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm.get_optimal_parameters_dict">(cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm method)</a>
 </li>
-          <li><a href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.get_optimal_parameters_dict">(cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample method)</a>
+          <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.get_optimal_parameters_dict">(cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.get_optimal_parameters_dict">(cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.get_optimal_parameters_dict">(cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon method)</a>
 </li>
           <li><a href="MQEstimator/mq_algorithm.html#cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm.get_optimal_parameters_dict">(cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm method)</a>
 </li>
@@ -1343,7 +1429,11 @@
 </li>
           <li><a href="PEEstimator/pe_algorithm.html#cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm.get_optimal_parameters_dict">(cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm method)</a>
 </li>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.get_optimal_parameters_dict">(cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample method)</a>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.get_optimal_parameters_dict">(cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.get_optimal_parameters_dict">(cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.get_optimal_parameters_dict">(cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA method)</a>
 </li>
           <li><a href="PKEstimator/pk_algorithm.html#cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm.get_optimal_parameters_dict">(cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm method)</a>
 </li>
@@ -1460,6 +1550,8 @@
 </li>
         <li><a href="base_estimator.html#cryptographic_estimators.base_estimator.groups">groups() (in module cryptographic_estimators.base_estimator)</a>
 </li>
+        <li><a href="PEEstimator/pe_helper.html#cryptographic_estimators.PEEstimator.pe_helper.gv_distance">gv_distance() (in module cryptographic_estimators.PEEstimator.pe_helper)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -1468,6 +1560,8 @@
   <h2>H</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="PEEstimator/pe_helper.html#cryptographic_estimators.PEEstimator.pe_helper.hamming_ball">hamming_ball() (in module cryptographic_estimators.PEEstimator.pe_helper)</a>
+</li>
         <li><a href="base_algorithm.html#cryptographic_estimators.base_algorithm.BaseAlgorithm.has_optimal_parameter">has_optimal_parameter() (cryptographic_estimators.base_algorithm.BaseAlgorithm method)</a>
 
         <ul>
@@ -1477,7 +1571,11 @@
 </li>
           <li><a href="LEEstimator/le_algorithm.html#cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm.has_optimal_parameter">(cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm method)</a>
 </li>
-          <li><a href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.has_optimal_parameter">(cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample method)</a>
+          <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.has_optimal_parameter">(cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.has_optimal_parameter">(cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.has_optimal_parameter">(cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon method)</a>
 </li>
           <li><a href="MQEstimator/mq_algorithm.html#cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm.has_optimal_parameter">(cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm method)</a>
 </li>
@@ -1507,7 +1605,11 @@
 </li>
           <li><a href="PEEstimator/pe_algorithm.html#cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm.has_optimal_parameter">(cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm method)</a>
 </li>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.has_optimal_parameter">(cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample method)</a>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.has_optimal_parameter">(cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.has_optimal_parameter">(cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.has_optimal_parameter">(cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA method)</a>
 </li>
           <li><a href="PKEstimator/pk_algorithm.html#cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm.has_optimal_parameter">(cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm method)</a>
 </li>
@@ -1610,6 +1712,8 @@
 </li>
         <li><a href="MQEstimator/mq_problem.html#cryptographic_estimators.MQEstimator.mq_problem.MQProblem.is_underdefined_system">is_underdefined_system() (cryptographic_estimators.MQEstimator.mq_problem.MQProblem method)</a>
 </li>
+        <li><a href="LEEstimator/le_constants.html#cryptographic_estimators.LEEstimator.le_constants.VerboseInformation.ISD">ISD (cryptographic_estimators.LEEstimator.le_constants.VerboseInformation attribute)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -1682,14 +1786,18 @@
 </li>
         <li><a href="LEEstimator/le_estimator.html#cryptographic_estimators.LEEstimator.le_estimator.LEEstimator">LEEstimator (class in cryptographic_estimators.LEEstimator.le_estimator)</a>
 </li>
+        <li><a href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon">Leon (class in cryptographic_estimators.LEEstimator.LEAlgorithms.leon)</a>
+
+        <ul>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon">(class in cryptographic_estimators.PEEstimator.PEAlgorithms.leon)</a>
+</li>
+        </ul></li>
         <li><a href="LEEstimator/le_problem.html#cryptographic_estimators.LEEstimator.le_problem.LEProblem">LEProblem (class in cryptographic_estimators.LEEstimator.le_problem)</a>
 </li>
         <li><a href="base_estimator.html#cryptographic_estimators.base_estimator.lie_algebras">lie_algebras() (in module cryptographic_estimators.base_estimator)</a>
 </li>
         <li><a href="base_estimator.html#cryptographic_estimators.base_estimator.lie_conformal_algebras">lie_conformal_algebras() (in module cryptographic_estimators.base_estimator)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="MQEstimator/mq_algorithm.html#cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm.linear_algebra_constant">linear_algebra_constant() (cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm method)</a>
 
         <ul>
@@ -1718,12 +1826,24 @@
           <li><a href="MQEstimator/MQAlgorithms/mht.html#cryptographic_estimators.MQEstimator.MQAlgorithms.mht.MHT.linear_algebra_constant">(cryptographic_estimators.MQEstimator.MQAlgorithms.mht.MHT method)</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="PEEstimator/pe_constants.html#cryptographic_estimators.PEEstimator.pe_constants.VerboseInformation.LIST_COMPUTATION">LIST_COMPUTATION (cryptographic_estimators.PEEstimator.pe_constants.VerboseInformation attribute)</a>
+</li>
         <li><a href="SDEstimator/SDWorkfactorModels/workfactor_helper.html#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.list_of_random_tuples">list_of_random_tuples() (in module cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper)</a>
 </li>
-        <li><a href="SDEstimator/sd_constants.html#cryptographic_estimators.SDEstimator.sd_constants.VerboseInformation.LISTS">LISTS (cryptographic_estimators.SDEstimator.sd_constants.VerboseInformation attribute)</a>
+        <li><a href="LEEstimator/le_constants.html#cryptographic_estimators.LEEstimator.le_constants.VerboseInformation.LISTS">LISTS (cryptographic_estimators.LEEstimator.le_constants.VerboseInformation attribute)</a>
 
         <ul>
+          <li><a href="SDEstimator/sd_constants.html#cryptographic_estimators.SDEstimator.sd_constants.VerboseInformation.LISTS">(cryptographic_estimators.SDEstimator.sd_constants.VerboseInformation attribute)</a>
+</li>
           <li><a href="SDFqEstimator/sdfq_constants.html#cryptographic_estimators.SDFqEstimator.sdfq_constants.VerboseInformation.LISTS">(cryptographic_estimators.SDFqEstimator.sdfq_constants.VerboseInformation attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="LEEstimator/le_constants.html#cryptographic_estimators.LEEstimator.le_constants.VerboseInformation.LISTS_SIZE">LISTS_SIZE (cryptographic_estimators.LEEstimator.le_constants.VerboseInformation attribute)</a>
+
+        <ul>
+          <li><a href="PEEstimator/pe_constants.html#cryptographic_estimators.PEEstimator.pe_constants.VerboseInformation.LISTS_SIZE">(cryptographic_estimators.PEEstimator.pe_constants.VerboseInformation attribute)</a>
 </li>
         </ul></li>
         <li><a href="PKEstimator/pk_helper.html#cryptographic_estimators.PKEstimator.pk_helper.lof">lof() (in module cryptographic_estimators.PKEstimator.pk_helper)</a>
@@ -1754,6 +1874,8 @@
 </li>
         <li><a href="SDEstimator/SDWorkfactorModels/may_ozerov.html#cryptographic_estimators.SDEstimator.SDWorkfactorModels.may_ozerov.MayOzerovScipyModel">MayOzerovScipyModel (class in cryptographic_estimators.SDEstimator.SDWorkfactorModels.may_ozerov)</a>
 </li>
+        <li><a href="PEEstimator/pe_helper.html#cryptographic_estimators.PEEstimator.pe_helper.median_size_of_random_orbit">median_size_of_random_orbit() (in module cryptographic_estimators.PEEstimator.pe_helper)</a>
+</li>
         <li><a href="base_algorithm.html#cryptographic_estimators.base_algorithm.BaseAlgorithm.memory_access">memory_access (cryptographic_estimators.base_algorithm.BaseAlgorithm property)</a>
 
         <ul>
@@ -1769,7 +1891,11 @@
 </li>
           <li><a href="LEEstimator/le_estimator.html#cryptographic_estimators.LEEstimator.le_estimator.LEEstimator.memory_access">(cryptographic_estimators.LEEstimator.le_estimator.LEEstimator property)</a>
 </li>
-          <li><a href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.memory_access">(cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample property)</a>
+          <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.memory_access">(cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS property)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.memory_access">(cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens property)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.memory_access">(cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon property)</a>
 </li>
           <li><a href="MQEstimator/mq_algorithm.html#cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm.memory_access">(cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm property)</a>
 </li>
@@ -1803,7 +1929,11 @@
 </li>
           <li><a href="PEEstimator/pe_estimator.html#cryptographic_estimators.PEEstimator.pe_estimator.PEEstimator.memory_access">(cryptographic_estimators.PEEstimator.pe_estimator.PEEstimator property)</a>
 </li>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.memory_access">(cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample property)</a>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.memory_access">(cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens property)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.memory_access">(cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon property)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.memory_access">(cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA property)</a>
 </li>
           <li><a href="PKEstimator/pk_algorithm.html#cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm.memory_access">(cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm property)</a>
 </li>
@@ -1871,7 +2001,11 @@
 </li>
           <li><a href="LEEstimator/le_algorithm.html#cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm.memory_complexity">(cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm method)</a>
 </li>
-          <li><a href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.memory_complexity">(cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample method)</a>
+          <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.memory_complexity">(cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.memory_complexity">(cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.memory_complexity">(cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon method)</a>
 </li>
           <li><a href="MQEstimator/mq_algorithm.html#cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm.memory_complexity">(cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm method)</a>
 </li>
@@ -1901,7 +2035,11 @@
 </li>
           <li><a href="PEEstimator/pe_algorithm.html#cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm.memory_complexity">(cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm method)</a>
 </li>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.memory_complexity">(cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample method)</a>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.memory_complexity">(cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.memory_complexity">(cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.memory_complexity">(cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA method)</a>
 </li>
           <li><a href="PKEstimator/pk_algorithm.html#cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm.memory_complexity">(cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm method)</a>
 </li>
@@ -1984,11 +2122,19 @@
 </li>
           <li><a href="LEEstimator/le_algorithm.html#module-cryptographic_estimators.LEEstimator.le_algorithm">cryptographic_estimators.LEEstimator.le_algorithm</a>
 </li>
+          <li><a href="LEEstimator/le_constants.html#module-cryptographic_estimators.LEEstimator.le_constants">cryptographic_estimators.LEEstimator.le_constants</a>
+</li>
           <li><a href="LEEstimator/le_estimator.html#module-cryptographic_estimators.LEEstimator.le_estimator">cryptographic_estimators.LEEstimator.le_estimator</a>
+</li>
+          <li><a href="LEEstimator/le_helper.html#module-cryptographic_estimators.LEEstimator.le_helper">cryptographic_estimators.LEEstimator.le_helper</a>
 </li>
           <li><a href="LEEstimator/le_problem.html#module-cryptographic_estimators.LEEstimator.le_problem">cryptographic_estimators.LEEstimator.le_problem</a>
 </li>
-          <li><a href="LEEstimator/LEAlgorithms/sample.html#module-cryptographic_estimators.LEEstimator.LEAlgorithms.sample">cryptographic_estimators.LEEstimator.LEAlgorithms.sample</a>
+          <li><a href="LEEstimator/LEAlgorithms/bbps.html#module-cryptographic_estimators.LEEstimator.LEAlgorithms.bbps">cryptographic_estimators.LEEstimator.LEAlgorithms.bbps</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#module-cryptographic_estimators.LEEstimator.LEAlgorithms.beullens">cryptographic_estimators.LEEstimator.LEAlgorithms.beullens</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#module-cryptographic_estimators.LEEstimator.LEAlgorithms.leon">cryptographic_estimators.LEEstimator.LEAlgorithms.leon</a>
 </li>
           <li><a href="MQEstimator/degree_of_regularity.html#module-cryptographic_estimators.MQEstimator.degree_of_regularity">cryptographic_estimators.MQEstimator.degree_of_regularity</a>
 </li>
@@ -2034,11 +2180,19 @@
 </li>
           <li><a href="PEEstimator/pe_algorithm.html#module-cryptographic_estimators.PEEstimator.pe_algorithm">cryptographic_estimators.PEEstimator.pe_algorithm</a>
 </li>
+          <li><a href="PEEstimator/pe_constants.html#module-cryptographic_estimators.PEEstimator.pe_constants">cryptographic_estimators.PEEstimator.pe_constants</a>
+</li>
           <li><a href="PEEstimator/pe_estimator.html#module-cryptographic_estimators.PEEstimator.pe_estimator">cryptographic_estimators.PEEstimator.pe_estimator</a>
+</li>
+          <li><a href="PEEstimator/pe_helper.html#module-cryptographic_estimators.PEEstimator.pe_helper">cryptographic_estimators.PEEstimator.pe_helper</a>
 </li>
           <li><a href="PEEstimator/pe_problem.html#module-cryptographic_estimators.PEEstimator.pe_problem">cryptographic_estimators.PEEstimator.pe_problem</a>
 </li>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#module-cryptographic_estimators.PEEstimator.PEAlgorithms.sample">cryptographic_estimators.PEEstimator.PEAlgorithms.sample</a>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#module-cryptographic_estimators.PEEstimator.PEAlgorithms.beullens">cryptographic_estimators.PEEstimator.PEAlgorithms.beullens</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#module-cryptographic_estimators.PEEstimator.PEAlgorithms.leon">cryptographic_estimators.PEEstimator.PEAlgorithms.leon</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/ssa.html#module-cryptographic_estimators.PEEstimator.PEAlgorithms.ssa">cryptographic_estimators.PEEstimator.PEAlgorithms.ssa</a>
 </li>
           <li><a href="PKEstimator/pk_algorithm.html#module-cryptographic_estimators.PKEstimator.pk_algorithm">cryptographic_estimators.PKEstimator.pk_algorithm</a>
 </li>
@@ -2175,6 +2329,12 @@
         </ul></li>
         <li><a href="MQEstimator/series/nmonomial.html#cryptographic_estimators.MQEstimator.series.nmonomial.NMonomialSeries">NMonomialSeries (class in cryptographic_estimators.MQEstimator.series.nmonomial)</a>
 </li>
+        <li><a href="LEEstimator/le_constants.html#cryptographic_estimators.LEEstimator.le_constants.VerboseInformation.NORMAL_FORM">NORMAL_FORM (cryptographic_estimators.LEEstimator.le_constants.VerboseInformation attribute)</a>
+
+        <ul>
+          <li><a href="PEEstimator/pe_constants.html#cryptographic_estimators.PEEstimator.pe_constants.VerboseInformation.NORMAL_FORM">(cryptographic_estimators.PEEstimator.pe_constants.VerboseInformation attribute)</a>
+</li>
+        </ul></li>
         <li><a href="MQEstimator/series/hilbert.html#cryptographic_estimators.MQEstimator.series.hilbert.HilbertSeries.npolynomials">npolynomials (cryptographic_estimators.MQEstimator.series.hilbert.HilbertSeries property)</a>
 </li>
         <li><a href="MQEstimator/mq_problem.html#cryptographic_estimators.MQEstimator.mq_problem.MQProblem.npolynomials">npolynomials() (cryptographic_estimators.MQEstimator.mq_problem.MQProblem method)</a>
@@ -2209,6 +2369,8 @@
         </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="PEEstimator/pe_helper.html#cryptographic_estimators.PEEstimator.pe_helper.number_of_weight_d_codewords">number_of_weight_d_codewords() (in module cryptographic_estimators.PEEstimator.pe_helper)</a>
+</li>
         <li><a href="MQEstimator/series/hilbert.html#cryptographic_estimators.MQEstimator.series.hilbert.HilbertSeries.nvariables">nvariables (cryptographic_estimators.MQEstimator.series.hilbert.HilbertSeries property)</a>
 </li>
         <li><a href="MQEstimator/mq_problem.html#cryptographic_estimators.MQEstimator.mq_problem.MQProblem.nvariables">nvariables() (cryptographic_estimators.MQEstimator.mq_problem.MQProblem method)</a>
@@ -2241,6 +2403,8 @@
           <li><a href="MQEstimator/MQAlgorithms/mht.html#cryptographic_estimators.MQEstimator.MQAlgorithms.mht.MHT.nvariables_reduced">(cryptographic_estimators.MQEstimator.MQAlgorithms.mht.MHT method)</a>
 </li>
         </ul></li>
+        <li><a href="LEEstimator/le_constants.html#cryptographic_estimators.LEEstimator.le_constants.VerboseInformation.NW">NW (cryptographic_estimators.LEEstimator.le_constants.VerboseInformation attribute)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -2260,7 +2424,11 @@
 </li>
           <li><a href="LEEstimator/le_algorithm.html#cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm.optimal_parameters">(cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm method)</a>
 </li>
-          <li><a href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.optimal_parameters">(cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample method)</a>
+          <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.optimal_parameters">(cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.optimal_parameters">(cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.optimal_parameters">(cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon method)</a>
 </li>
           <li><a href="MQEstimator/mq_algorithm.html#cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm.optimal_parameters">(cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm method)</a>
 </li>
@@ -2290,7 +2458,11 @@
 </li>
           <li><a href="PEEstimator/pe_algorithm.html#cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm.optimal_parameters">(cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm method)</a>
 </li>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.optimal_parameters">(cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample method)</a>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.optimal_parameters">(cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.optimal_parameters">(cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.optimal_parameters">(cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA method)</a>
 </li>
           <li><a href="PKEstimator/pk_algorithm.html#cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm.optimal_parameters">(cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm method)</a>
 </li>
@@ -2414,7 +2586,11 @@
 </li>
           <li><a href="LEEstimator/le_algorithm.html#cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm.parameter_names">(cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm method)</a>
 </li>
-          <li><a href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.parameter_names">(cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample method)</a>
+          <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.parameter_names">(cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.parameter_names">(cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.parameter_names">(cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon method)</a>
 </li>
           <li><a href="MQEstimator/mq_algorithm.html#cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm.parameter_names">(cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm method)</a>
 </li>
@@ -2444,7 +2620,11 @@
 </li>
           <li><a href="PEEstimator/pe_algorithm.html#cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm.parameter_names">(cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm method)</a>
 </li>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.parameter_names">(cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample method)</a>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.parameter_names">(cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.parameter_names">(cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.parameter_names">(cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA method)</a>
 </li>
           <li><a href="PKEstimator/pk_algorithm.html#cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm.parameter_names">(cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm method)</a>
 </li>
@@ -2504,7 +2684,11 @@
 </li>
           <li><a href="LEEstimator/le_algorithm.html#cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm.parameter_ranges">(cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm property)</a>
 </li>
-          <li><a href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.parameter_ranges">(cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample property)</a>
+          <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.parameter_ranges">(cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS property)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.parameter_ranges">(cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens property)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.parameter_ranges">(cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon property)</a>
 </li>
           <li><a href="MQEstimator/mq_algorithm.html#cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm.parameter_ranges">(cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm property)</a>
 </li>
@@ -2534,7 +2718,11 @@
 </li>
           <li><a href="PEEstimator/pe_algorithm.html#cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm.parameter_ranges">(cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm property)</a>
 </li>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.parameter_ranges">(cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample property)</a>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.parameter_ranges">(cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens property)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.parameter_ranges">(cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon property)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.parameter_ranges">(cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA property)</a>
 </li>
           <li><a href="PKEstimator/pk_algorithm.html#cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm.parameter_ranges">(cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm property)</a>
 </li>
@@ -2667,6 +2855,8 @@
           <li><a href="SDEstimator/SDAlgorithms/stern.html#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.r">(cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern method)</a>
 </li>
         </ul></li>
+        <li><a href="PEEstimator/pe_helper.html#cryptographic_estimators.PEEstimator.pe_helper.random_sparse_vec_orbit">random_sparse_vec_orbit() (in module cryptographic_estimators.PEEstimator.pe_helper)</a>
+</li>
         <li><a href="MQEstimator/degree_of_regularity.html#cryptographic_estimators.MQEstimator.degree_of_regularity.regular_system">regular_system() (in module cryptographic_estimators.MQEstimator.degree_of_regularity)</a>
 </li>
         <li><a href="SDEstimator/sd_constants.html#cryptographic_estimators.SDEstimator.sd_constants.VerboseInformation.REPRESENTATIONS">REPRESENTATIONS (cryptographic_estimators.SDEstimator.sd_constants.VerboseInformation attribute)</a>
@@ -2692,7 +2882,11 @@
 </li>
           <li><a href="LEEstimator/le_estimator.html#cryptographic_estimators.LEEstimator.le_estimator.LEEstimator.reset">(cryptographic_estimators.LEEstimator.le_estimator.LEEstimator method)</a>
 </li>
-          <li><a href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.reset">(cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample method)</a>
+          <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.reset">(cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.reset">(cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.reset">(cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon method)</a>
 </li>
           <li><a href="MQEstimator/mq_algorithm.html#cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm.reset">(cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm method)</a>
 </li>
@@ -2726,7 +2920,11 @@
 </li>
           <li><a href="PEEstimator/pe_estimator.html#cryptographic_estimators.PEEstimator.pe_estimator.PEEstimator.reset">(cryptographic_estimators.PEEstimator.pe_estimator.PEEstimator method)</a>
 </li>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.reset">(cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample method)</a>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.reset">(cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.reset">(cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.reset">(cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA method)</a>
 </li>
           <li><a href="PKEstimator/pk_algorithm.html#cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm.reset">(cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm method)</a>
 </li>
@@ -2797,14 +2995,8 @@
   <h2>S</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample">Sample (class in cryptographic_estimators.LEEstimator.LEAlgorithms.sample)</a>
-
-        <ul>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample">(class in cryptographic_estimators.PEEstimator.PEAlgorithms.sample)</a>
+        <li><a href="SEEstimator/SEAlgorithms/sample.html#cryptographic_estimators.SEEstimator.SEAlgorithms.sample.Sample">Sample (class in cryptographic_estimators.SEEstimator.SEAlgorithms.sample)</a>
 </li>
-          <li><a href="SEEstimator/SEAlgorithms/sample.html#cryptographic_estimators.SEEstimator.SEAlgorithms.sample.Sample">(class in cryptographic_estimators.SEEstimator.SEAlgorithms.sample)</a>
-</li>
-        </ul></li>
         <li><a href="PKEstimator/PKAlgorithms/sbc.html#cryptographic_estimators.PKEstimator.PKAlgorithms.sbc.SBC">SBC (class in cryptographic_estimators.PKEstimator.PKAlgorithms.sbc)</a>
 </li>
         <li><a href="PKEstimator/pk_constants.html#cryptographic_estimators.PKEstimator.pk_constants.VerboseInformation.SBC_ISD">SBC_ISD (cryptographic_estimators.PKEstimator.pk_constants.VerboseInformation attribute)</a>
@@ -2850,7 +3042,11 @@
 </li>
           <li><a href="LEEstimator/le_algorithm.html#cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm.set_parameter_ranges">(cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm method)</a>
 </li>
-          <li><a href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.set_parameter_ranges">(cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample method)</a>
+          <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.set_parameter_ranges">(cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.set_parameter_ranges">(cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.set_parameter_ranges">(cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon method)</a>
 </li>
           <li><a href="MQEstimator/mq_algorithm.html#cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm.set_parameter_ranges">(cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm method)</a>
 </li>
@@ -2880,7 +3076,11 @@
 </li>
           <li><a href="PEEstimator/pe_algorithm.html#cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm.set_parameter_ranges">(cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm method)</a>
 </li>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.set_parameter_ranges">(cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample method)</a>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.set_parameter_ranges">(cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.set_parameter_ranges">(cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.set_parameter_ranges">(cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA method)</a>
 </li>
           <li><a href="PKEstimator/pk_algorithm.html#cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm.set_parameter_ranges">(cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm method)</a>
 </li>
@@ -2940,7 +3140,11 @@
 </li>
           <li><a href="LEEstimator/le_algorithm.html#cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm.set_parameters">(cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm method)</a>
 </li>
-          <li><a href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.set_parameters">(cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample method)</a>
+          <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.set_parameters">(cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.set_parameters">(cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.set_parameters">(cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon method)</a>
 </li>
           <li><a href="MQEstimator/mq_algorithm.html#cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm.set_parameters">(cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm method)</a>
 </li>
@@ -2970,7 +3174,11 @@
 </li>
           <li><a href="PEEstimator/pe_algorithm.html#cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm.set_parameters">(cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm method)</a>
 </li>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.set_parameters">(cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample method)</a>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.set_parameters">(cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.set_parameters">(cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.set_parameters">(cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA method)</a>
 </li>
           <li><a href="PKEstimator/pk_algorithm.html#cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm.set_parameters">(cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm method)</a>
 </li>
@@ -3022,6 +3230,8 @@
         <li><a href="base_estimator.html#cryptographic_estimators.base_estimator.simplicial_complexes">simplicial_complexes() (in module cryptographic_estimators.base_estimator)</a>
 </li>
         <li><a href="base_estimator.html#cryptographic_estimators.base_estimator.simplicial_sets">simplicial_sets() (in module cryptographic_estimators.base_estimator)</a>
+</li>
+        <li><a href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA">SSA (class in cryptographic_estimators.PEEstimator.PEAlgorithms.ssa)</a>
 </li>
         <li><a href="SDEstimator/SDAlgorithms/stern.html#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern">Stern (class in cryptographic_estimators.SDEstimator.SDAlgorithms.stern)</a>
 
@@ -3076,7 +3286,11 @@
 </li>
           <li><a href="LEEstimator/le_algorithm.html#cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm.time_complexity">(cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm method)</a>
 </li>
-          <li><a href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.time_complexity">(cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample method)</a>
+          <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.time_complexity">(cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.time_complexity">(cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.time_complexity">(cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon method)</a>
 </li>
           <li><a href="MQEstimator/mq_algorithm.html#cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm.time_complexity">(cryptographic_estimators.MQEstimator.mq_algorithm.MQAlgorithm method)</a>
 </li>
@@ -3106,7 +3320,11 @@
 </li>
           <li><a href="PEEstimator/pe_algorithm.html#cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm.time_complexity">(cryptographic_estimators.PEEstimator.pe_algorithm.PEAlgorithm method)</a>
 </li>
-          <li><a href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.time_complexity">(cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample method)</a>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.time_complexity">(cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.time_complexity">(cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.time_complexity">(cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA method)</a>
 </li>
           <li><a href="PKEstimator/pk_algorithm.html#cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm.time_complexity">(cryptographic_estimators.PKEstimator.pk_algorithm.PKAlgorithm method)</a>
 </li>
@@ -3227,11 +3445,13 @@
 </li>
         <li><a href="MQEstimator/MQAlgorithms/boolean_solve_fxl.html#cryptographic_estimators.MQEstimator.MQAlgorithms.boolean_solve_fxl.BooleanSolveFXL.variant">variant() (cryptographic_estimators.MQEstimator.MQAlgorithms.boolean_solve_fxl.BooleanSolveFXL method)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="PKEstimator/pk_constants.html#cryptographic_estimators.PKEstimator.pk_constants.VerboseInformation">VerboseInformation (class in cryptographic_estimators.PKEstimator.pk_constants)</a>
+        <li><a href="LEEstimator/le_constants.html#cryptographic_estimators.LEEstimator.le_constants.VerboseInformation">VerboseInformation (class in cryptographic_estimators.LEEstimator.le_constants)</a>
 
         <ul>
+          <li><a href="PEEstimator/pe_constants.html#cryptographic_estimators.PEEstimator.pe_constants.VerboseInformation">(class in cryptographic_estimators.PEEstimator.pe_constants)</a>
+</li>
+          <li><a href="PKEstimator/pk_constants.html#cryptographic_estimators.PKEstimator.pk_constants.VerboseInformation">(class in cryptographic_estimators.PKEstimator.pk_constants)</a>
+</li>
           <li><a href="SDEstimator/sd_constants.html#cryptographic_estimators.SDEstimator.sd_constants.VerboseInformation">(class in cryptographic_estimators.SDEstimator.sd_constants)</a>
 </li>
           <li><a href="SDFqEstimator/sdfq_constants.html#cryptographic_estimators.SDFqEstimator.sdfq_constants.VerboseInformation">(class in cryptographic_estimators.SDFqEstimator.sdfq_constants)</a>
@@ -3245,8 +3465,20 @@
   <h2>W</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="PKEstimator/PKAlgorithms/sbc.html#cryptographic_estimators.PKEstimator.PKAlgorithms.sbc.SBC.w">w() (cryptographic_estimators.PKEstimator.PKAlgorithms.sbc.SBC method)</a>
+        <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.w">w() (cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS method)</a>
+
+        <ul>
+          <li><a href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.w">(cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens method)</a>
 </li>
+          <li><a href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.w">(cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.w">(cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens method)</a>
+</li>
+          <li><a href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.w">(cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon method)</a>
+</li>
+          <li><a href="PKEstimator/PKAlgorithms/sbc.html#cryptographic_estimators.PKEstimator.PKAlgorithms.sbc.SBC.w">(cryptographic_estimators.PKEstimator.PKAlgorithms.sbc.SBC method)</a>
+</li>
+        </ul></li>
         <li><a href="PKEstimator/PKAlgorithms/sbc.html#cryptographic_estimators.PKEstimator.PKAlgorithms.sbc.SBC.w1">w1() (cryptographic_estimators.PKEstimator.PKAlgorithms.sbc.SBC method)</a>
 
         <ul>
@@ -3267,6 +3499,8 @@
           <li><a href="SDEstimator/SDAlgorithms/both_may.html#cryptographic_estimators.SDEstimator.SDAlgorithms.both_may.BothMay.w2">(cryptographic_estimators.SDEstimator.SDAlgorithms.both_may.BothMay method)</a>
 </li>
         </ul></li>
+        <li><a href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.w_prime">w_prime() (cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS method)</a>
+</li>
         <li><a href="SDEstimator/SDWorkfactorModels/workfactor_helper.html#cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper.wrap">wrap() (in module cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper)</a>
 </li>
     </ul></td>

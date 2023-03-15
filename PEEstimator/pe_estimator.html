@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="pe_problem" href="pe_problem.html" /><link rel="prev" title="base_estimator" href="../base_estimator.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="pe_helper" href="pe_helper.html" /><link rel="prev" title="base_estimator" href="../base_estimator.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
         <title>pe_estimator - TII-Estimators documentation</title>
@@ -166,11 +166,15 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">pe_estimator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pe_helper.html">pe_helper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pe_problem.html">pe_problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pe_algorithm.html">pe_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pe_constants.html">pe_constants</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="PEAlgorithms/sample.html">sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEAlgorithms/ssa.html">ssa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEAlgorithms/beullens.html">beullens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEAlgorithms/leon.html">leon</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../PKEstimator/pk_algorithm.html">pk_algorithm</a></li>
@@ -261,10 +265,14 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_estimator.html">le_estimator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_problem.html">le_problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_helper.html">le_helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_constants.html">le_constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../LEEstimator/le_algorithm.html">le_algorithm</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/LEAlgorithms/sample.html">sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/LEAlgorithms/beullens.html">beullens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/LEAlgorithms/bbps.html">bbps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LEEstimator/LEAlgorithms/leon.html">leon</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../DummyEstimator/dummy_algorithm.html">dummy_algorithm</a></li>
@@ -311,14 +319,16 @@
 <span id="pe-estimator"></span><h1>pe_estimator<a class="headerlink" href="#module-cryptographic_estimators.PEEstimator.pe_estimator" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="cryptographic_estimators.PEEstimator.pe_estimator.PEEstimator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.PEEstimator.pe_estimator.</span></span><span class="sig-name descname"><span class="pre">PEEstimator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.PEEstimator.pe_estimator.PEEstimator" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.PEEstimator.pe_estimator.</span></span><span class="sig-name descname"><span class="pre">PEEstimator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.PEEstimator.pe_estimator.PEEstimator" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../base_estimator.html#cryptographic_estimators.base_estimator.BaseEstimator" title="cryptographic_estimators.base_estimator.BaseEstimator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code></a></p>
 <p>Construct an instance of Permutation Code Equivalence Estimator</p>
 <p>INPUT:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">n</span></code> – code length</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">k</span></code> – code dimension</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">q</span></code> – field size</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">excluded_algorithms</span></code> – a list/tuple of excluded algorithms (default: None)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sd_parameters</span></code> – dictionary of parameters for SDEstimator used as a subroutine by some algorithms (default: {})</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">nsolutions</span></code> – no. of solutions</p></li>
 </ul>
 <dl class="py method">
@@ -396,6 +406,33 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">precision</span></code> – number of decimal digits output (default: 1)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">truncate</span></code> – truncate rather than round the output (default: false)</p></li>
 </ul>
+<dl>
+<dt>TESTS:</dt><dd><p>sage: from cryptographic_estimators.PEEstimator import PEEstimator
+sage: A = PEEstimator(n=100, k=42, q=7, bit_complexities=1, workfactor_accuracy=10)
+sage: A.table(precision=3) # long time
++———–+——————+
+|           |     estimate     |
++———–+———+——–+
+| algorithm |    time | memory |
++———–+———+——–+
+| Leon      |  48.156 | 24.603 |
+| Beullens  |  43.839 | 24.603 |
+| SSA       | 179.625 | 15.437 |
++———–+———+——–+</p>
+<p>sage: from cryptographic_estimators.PEEstimator import PEEstimator
+sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Leon
+sage: A = PEEstimator(100,50,7,excluded_algorithms=[Leon])
+sage: A.table(precision=3, show_all_parameters=1) # long time
++———–+——————————-+
+|           |            estimate           |
++———–+———+——–+————+
+| algorithm |    time | memory | parameters |
++———–+———+——–+————+
+| Beullens  |  43.360 | 25.117 | {‘w’: 26}  |
+| SSA       | 157.113 | 15.362 |     {}     |
++———–+———+——–+————+</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -407,12 +444,12 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="pe_problem.html">
+          <a class="next-page" href="pe_helper.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">pe_problem</div>
+                <div class="title">pe_helper</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>

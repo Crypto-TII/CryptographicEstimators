@@ -26,15 +26,19 @@ PEEstimator
 .. toctree::
 
     PEEstimator/pe_estimator
+    PEEstimator/pe_helper
     PEEstimator/pe_problem
     PEEstimator/pe_algorithm
+    PEEstimator/pe_constants
 
 PEAlgorithms
 ============
 
 .. toctree::
 
-    PEEstimator/PEAlgorithms/sample
+    PEEstimator/PEAlgorithms/ssa
+    PEEstimator/PEAlgorithms/beullens
+    PEEstimator/PEAlgorithms/leon
 
 -----------
 PKEstimator
@@ -183,6 +187,8 @@ LEEstimator
 
     LEEstimator/le_estimator
     LEEstimator/le_problem
+    LEEstimator/le_helper
+    LEEstimator/le_constants
     LEEstimator/le_algorithm
 
 LEAlgorithms
@@ -190,7 +196,9 @@ LEAlgorithms
 
 .. toctree::
 
-    LEEstimator/LEAlgorithms/sample
+    LEEstimator/LEAlgorithms/beullens
+    LEEstimator/LEAlgorithms/bbps
+    LEEstimator/LEAlgorithms/leon
 
 --------------
 DummyEstimator

@@ -166,11 +166,15 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="PEEstimator/pe_estimator.html">pe_estimator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/pe_helper.html">pe_helper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PEEstimator/pe_problem.html">pe_problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PEEstimator/pe_algorithm.html">pe_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/pe_constants.html">pe_constants</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html">sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html">ssa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html">beullens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html">leon</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="PKEstimator/pk_algorithm.html">pk_algorithm</a></li>
@@ -261,10 +265,14 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="LEEstimator/le_estimator.html">le_estimator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="LEEstimator/le_problem.html">le_problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/le_helper.html">le_helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/le_constants.html">le_constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="LEEstimator/le_algorithm.html">le_algorithm</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html">sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html">beullens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html">bbps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html">leon</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="DummyEstimator/dummy_algorithm.html">dummy_algorithm</a></li>
@@ -419,6 +427,14 @@ TII cryptanalysis library following SageMath guidelines.</p>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/pe_helper.html">pe_helper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="PEEstimator/pe_helper.html#cryptographic_estimators.PEEstimator.pe_helper.gv_distance"><code class="docutils literal notranslate"><span class="pre">gv_distance()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="PEEstimator/pe_helper.html#cryptographic_estimators.PEEstimator.pe_helper.hamming_ball"><code class="docutils literal notranslate"><span class="pre">hamming_ball()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="PEEstimator/pe_helper.html#cryptographic_estimators.PEEstimator.pe_helper.median_size_of_random_orbit"><code class="docutils literal notranslate"><span class="pre">median_size_of_random_orbit()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="PEEstimator/pe_helper.html#cryptographic_estimators.PEEstimator.pe_helper.number_of_weight_d_codewords"><code class="docutils literal notranslate"><span class="pre">number_of_weight_d_codewords()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="PEEstimator/pe_helper.html#cryptographic_estimators.PEEstimator.pe_helper.random_sparse_vec_orbit"><code class="docutils literal notranslate"><span class="pre">random_sparse_vec_orbit()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="PEEstimator/pe_problem.html">pe_problem</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="PEEstimator/pe_problem.html#cryptographic_estimators.PEEstimator.pe_problem.PEProblem"><code class="docutils literal notranslate"><span class="pre">PEProblem</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="PEEstimator/pe_problem.html#cryptographic_estimators.PEEstimator.pe_problem.PEProblem.expected_number_solutions"><code class="docutils literal notranslate"><span class="pre">PEProblem.expected_number_solutions()</span></code></a></li>
@@ -447,26 +463,73 @@ TII cryptanalysis library following SageMath guidelines.</p>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/pe_constants.html">pe_constants</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="PEEstimator/pe_constants.html#cryptographic_estimators.PEEstimator.pe_constants.VerboseInformation"><code class="docutils literal notranslate"><span class="pre">VerboseInformation</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/pe_constants.html#cryptographic_estimators.PEEstimator.pe_constants.VerboseInformation.LISTS_SIZE"><code class="docutils literal notranslate"><span class="pre">VerboseInformation.LISTS_SIZE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/pe_constants.html#cryptographic_estimators.PEEstimator.pe_constants.VerboseInformation.LIST_COMPUTATION"><code class="docutils literal notranslate"><span class="pre">VerboseInformation.LIST_COMPUTATION</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/pe_constants.html#cryptographic_estimators.PEEstimator.pe_constants.VerboseInformation.NORMAL_FORM"><code class="docutils literal notranslate"><span class="pre">VerboseInformation.NORMAL_FORM</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 <section id="pealgorithms">
 <h3>PEAlgorithms<a class="headerlink" href="#pealgorithms" title="Permalink to this heading">#</a></h3>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html">sample</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample"><code class="docutils literal notranslate"><span class="pre">Sample</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.complexity_type"><code class="docutils literal notranslate"><span class="pre">Sample.complexity_type</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.get_optimal_parameters_dict"><code class="docutils literal notranslate"><span class="pre">Sample.get_optimal_parameters_dict()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.has_optimal_parameter"><code class="docutils literal notranslate"><span class="pre">Sample.has_optimal_parameter()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.memory_access"><code class="docutils literal notranslate"><span class="pre">Sample.memory_access</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.memory_complexity"><code class="docutils literal notranslate"><span class="pre">Sample.memory_complexity()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">Sample.optimal_parameters()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.parameter_names"><code class="docutils literal notranslate"><span class="pre">Sample.parameter_names()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Sample.parameter_ranges</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.reset"><code class="docutils literal notranslate"><span class="pre">Sample.reset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.set_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Sample.set_parameter_ranges()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.set_parameters"><code class="docutils literal notranslate"><span class="pre">Sample.set_parameters()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/sample.html#cryptographic_estimators.PEEstimator.PEAlgorithms.sample.Sample.time_complexity"><code class="docutils literal notranslate"><span class="pre">Sample.time_complexity()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html">ssa</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA"><code class="docutils literal notranslate"><span class="pre">SSA</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.complexity_type"><code class="docutils literal notranslate"><span class="pre">SSA.complexity_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.get_optimal_parameters_dict"><code class="docutils literal notranslate"><span class="pre">SSA.get_optimal_parameters_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.has_optimal_parameter"><code class="docutils literal notranslate"><span class="pre">SSA.has_optimal_parameter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.memory_access"><code class="docutils literal notranslate"><span class="pre">SSA.memory_access</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.memory_complexity"><code class="docutils literal notranslate"><span class="pre">SSA.memory_complexity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">SSA.optimal_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.parameter_names"><code class="docutils literal notranslate"><span class="pre">SSA.parameter_names()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.parameter_ranges"><code class="docutils literal notranslate"><span class="pre">SSA.parameter_ranges</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.reset"><code class="docutils literal notranslate"><span class="pre">SSA.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.set_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">SSA.set_parameter_ranges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.set_parameters"><code class="docutils literal notranslate"><span class="pre">SSA.set_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/ssa.html#cryptographic_estimators.PEEstimator.PEAlgorithms.ssa.SSA.time_complexity"><code class="docutils literal notranslate"><span class="pre">SSA.time_complexity()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html">beullens</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens"><code class="docutils literal notranslate"><span class="pre">Beullens</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.complexity_type"><code class="docutils literal notranslate"><span class="pre">Beullens.complexity_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.get_optimal_parameters_dict"><code class="docutils literal notranslate"><span class="pre">Beullens.get_optimal_parameters_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.has_optimal_parameter"><code class="docutils literal notranslate"><span class="pre">Beullens.has_optimal_parameter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.memory_access"><code class="docutils literal notranslate"><span class="pre">Beullens.memory_access</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.memory_complexity"><code class="docutils literal notranslate"><span class="pre">Beullens.memory_complexity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">Beullens.optimal_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.parameter_names"><code class="docutils literal notranslate"><span class="pre">Beullens.parameter_names()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Beullens.parameter_ranges</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.reset"><code class="docutils literal notranslate"><span class="pre">Beullens.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.set_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Beullens.set_parameter_ranges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.set_parameters"><code class="docutils literal notranslate"><span class="pre">Beullens.set_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.time_complexity"><code class="docutils literal notranslate"><span class="pre">Beullens.time_complexity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/beullens.html#cryptographic_estimators.PEEstimator.PEAlgorithms.beullens.Beullens.w"><code class="docutils literal notranslate"><span class="pre">Beullens.w()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html">leon</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon"><code class="docutils literal notranslate"><span class="pre">Leon</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.complexity_type"><code class="docutils literal notranslate"><span class="pre">Leon.complexity_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.get_optimal_parameters_dict"><code class="docutils literal notranslate"><span class="pre">Leon.get_optimal_parameters_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.has_optimal_parameter"><code class="docutils literal notranslate"><span class="pre">Leon.has_optimal_parameter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.memory_access"><code class="docutils literal notranslate"><span class="pre">Leon.memory_access</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.memory_complexity"><code class="docutils literal notranslate"><span class="pre">Leon.memory_complexity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">Leon.optimal_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.parameter_names"><code class="docutils literal notranslate"><span class="pre">Leon.parameter_names()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Leon.parameter_ranges</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.reset"><code class="docutils literal notranslate"><span class="pre">Leon.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.set_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Leon.set_parameter_ranges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.set_parameters"><code class="docutils literal notranslate"><span class="pre">Leon.set_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.time_complexity"><code class="docutils literal notranslate"><span class="pre">Leon.time_complexity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PEEstimator/PEAlgorithms/leon.html#cryptographic_estimators.PEEstimator.PEAlgorithms.leon.Leon.w"><code class="docutils literal notranslate"><span class="pre">Leon.w()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1659,6 +1722,21 @@ TII cryptanalysis library following SageMath guidelines.</p>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/le_helper.html">le_helper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="LEEstimator/le_helper.html#cryptographic_estimators.LEEstimator.le_helper.cost_to_find_random_2dim_subcodes_with_support_w"><code class="docutils literal notranslate"><span class="pre">cost_to_find_random_2dim_subcodes_with_support_w()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/le_constants.html">le_constants</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="LEEstimator/le_constants.html#cryptographic_estimators.LEEstimator.le_constants.VerboseInformation"><code class="docutils literal notranslate"><span class="pre">VerboseInformation</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/le_constants.html#cryptographic_estimators.LEEstimator.le_constants.VerboseInformation.ISD"><code class="docutils literal notranslate"><span class="pre">VerboseInformation.ISD</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/le_constants.html#cryptographic_estimators.LEEstimator.le_constants.VerboseInformation.LISTS"><code class="docutils literal notranslate"><span class="pre">VerboseInformation.LISTS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/le_constants.html#cryptographic_estimators.LEEstimator.le_constants.VerboseInformation.LISTS_SIZE"><code class="docutils literal notranslate"><span class="pre">VerboseInformation.LISTS_SIZE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/le_constants.html#cryptographic_estimators.LEEstimator.le_constants.VerboseInformation.NORMAL_FORM"><code class="docutils literal notranslate"><span class="pre">VerboseInformation.NORMAL_FORM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/le_constants.html#cryptographic_estimators.LEEstimator.le_constants.VerboseInformation.NW"><code class="docutils literal notranslate"><span class="pre">VerboseInformation.NW</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="LEEstimator/le_algorithm.html">le_algorithm</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="LEEstimator/le_algorithm.html#cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm"><code class="docutils literal notranslate"><span class="pre">LEAlgorithm</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="LEEstimator/le_algorithm.html#cryptographic_estimators.LEEstimator.le_algorithm.LEAlgorithm.complexity_type"><code class="docutils literal notranslate"><span class="pre">LEAlgorithm.complexity_type</span></code></a></li>
@@ -1683,20 +1761,60 @@ TII cryptanalysis library following SageMath guidelines.</p>
 <h3>LEAlgorithms<a class="headerlink" href="#lealgorithms" title="Permalink to this heading">#</a></h3>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html">sample</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample"><code class="docutils literal notranslate"><span class="pre">Sample</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.complexity_type"><code class="docutils literal notranslate"><span class="pre">Sample.complexity_type</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.get_optimal_parameters_dict"><code class="docutils literal notranslate"><span class="pre">Sample.get_optimal_parameters_dict()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.has_optimal_parameter"><code class="docutils literal notranslate"><span class="pre">Sample.has_optimal_parameter()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.memory_access"><code class="docutils literal notranslate"><span class="pre">Sample.memory_access</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.memory_complexity"><code class="docutils literal notranslate"><span class="pre">Sample.memory_complexity()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">Sample.optimal_parameters()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.parameter_names"><code class="docutils literal notranslate"><span class="pre">Sample.parameter_names()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Sample.parameter_ranges</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.reset"><code class="docutils literal notranslate"><span class="pre">Sample.reset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.set_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Sample.set_parameter_ranges()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.set_parameters"><code class="docutils literal notranslate"><span class="pre">Sample.set_parameters()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/sample.html#cryptographic_estimators.LEEstimator.LEAlgorithms.sample.Sample.time_complexity"><code class="docutils literal notranslate"><span class="pre">Sample.time_complexity()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html">beullens</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens"><code class="docutils literal notranslate"><span class="pre">Beullens</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.complexity_type"><code class="docutils literal notranslate"><span class="pre">Beullens.complexity_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.get_optimal_parameters_dict"><code class="docutils literal notranslate"><span class="pre">Beullens.get_optimal_parameters_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.has_optimal_parameter"><code class="docutils literal notranslate"><span class="pre">Beullens.has_optimal_parameter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.memory_access"><code class="docutils literal notranslate"><span class="pre">Beullens.memory_access</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.memory_complexity"><code class="docutils literal notranslate"><span class="pre">Beullens.memory_complexity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">Beullens.optimal_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.parameter_names"><code class="docutils literal notranslate"><span class="pre">Beullens.parameter_names()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Beullens.parameter_ranges</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.reset"><code class="docutils literal notranslate"><span class="pre">Beullens.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.set_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Beullens.set_parameter_ranges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.set_parameters"><code class="docutils literal notranslate"><span class="pre">Beullens.set_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.time_complexity"><code class="docutils literal notranslate"><span class="pre">Beullens.time_complexity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/beullens.html#cryptographic_estimators.LEEstimator.LEAlgorithms.beullens.Beullens.w"><code class="docutils literal notranslate"><span class="pre">Beullens.w()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html">bbps</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS"><code class="docutils literal notranslate"><span class="pre">BBPS</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.complexity_type"><code class="docutils literal notranslate"><span class="pre">BBPS.complexity_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.get_optimal_parameters_dict"><code class="docutils literal notranslate"><span class="pre">BBPS.get_optimal_parameters_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.has_optimal_parameter"><code class="docutils literal notranslate"><span class="pre">BBPS.has_optimal_parameter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.memory_access"><code class="docutils literal notranslate"><span class="pre">BBPS.memory_access</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.memory_complexity"><code class="docutils literal notranslate"><span class="pre">BBPS.memory_complexity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">BBPS.optimal_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.parameter_names"><code class="docutils literal notranslate"><span class="pre">BBPS.parameter_names()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.parameter_ranges"><code class="docutils literal notranslate"><span class="pre">BBPS.parameter_ranges</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.reset"><code class="docutils literal notranslate"><span class="pre">BBPS.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.set_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">BBPS.set_parameter_ranges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.set_parameters"><code class="docutils literal notranslate"><span class="pre">BBPS.set_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.time_complexity"><code class="docutils literal notranslate"><span class="pre">BBPS.time_complexity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.w"><code class="docutils literal notranslate"><span class="pre">BBPS.w()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/bbps.html#cryptographic_estimators.LEEstimator.LEAlgorithms.bbps.BBPS.w_prime"><code class="docutils literal notranslate"><span class="pre">BBPS.w_prime()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html">leon</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon"><code class="docutils literal notranslate"><span class="pre">Leon</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.complexity_type"><code class="docutils literal notranslate"><span class="pre">Leon.complexity_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.get_optimal_parameters_dict"><code class="docutils literal notranslate"><span class="pre">Leon.get_optimal_parameters_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.has_optimal_parameter"><code class="docutils literal notranslate"><span class="pre">Leon.has_optimal_parameter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.memory_access"><code class="docutils literal notranslate"><span class="pre">Leon.memory_access</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.memory_complexity"><code class="docutils literal notranslate"><span class="pre">Leon.memory_complexity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">Leon.optimal_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.parameter_names"><code class="docutils literal notranslate"><span class="pre">Leon.parameter_names()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Leon.parameter_ranges</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.reset"><code class="docutils literal notranslate"><span class="pre">Leon.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.set_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Leon.set_parameter_ranges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.set_parameters"><code class="docutils literal notranslate"><span class="pre">Leon.set_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.time_complexity"><code class="docutils literal notranslate"><span class="pre">Leon.time_complexity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="LEEstimator/LEAlgorithms/leon.html#cryptographic_estimators.LEEstimator.LEAlgorithms.leon.Leon.w"><code class="docutils literal notranslate"><span class="pre">Leon.w()</span></code></a></li>
 </ul>
 </li>
 </ul>
