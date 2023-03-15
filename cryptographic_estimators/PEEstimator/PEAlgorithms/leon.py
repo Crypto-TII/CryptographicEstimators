@@ -1,7 +1,7 @@
 from ...PEEstimator.pe_algorithm import PEAlgorithm
 from ...PEEstimator.pe_problem import PEProblem
 from ...base_algorithm import optimal_parameter
-from ..pe_helper import gv_distance, number_of_weight_d_codewords, isd_cost
+from ..pe_helper import gv_distance, number_of_weight_d_codewords
 from ...SDFqEstimator.sdfq_estimator import SDFqEstimator
 from math import log, ceil, log2
 

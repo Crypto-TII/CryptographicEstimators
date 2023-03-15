@@ -2,7 +2,7 @@ from ..pe_algorithm import PEAlgorithm
 from ..pe_problem import PEProblem
 from ..pe_constants import *
 from ...base_algorithm import optimal_parameter
-from ..pe_helper import median_size_of_random_orbit, hamming_ball, isd_cost
+from ..pe_helper import median_size_of_random_orbit, hamming_ball
 from math import log, ceil, log2, inf
 from ...base_constants import BASE_MEMORY_BOUND, BASE_NSOLUTIONS, BASE_BIT_COMPLEXITIES
 from ...SDFqEstimator.sdfq_estimator import SDFqEstimator
