@@ -8,29 +8,22 @@ class SSA(PEAlgorithm):
     def __init__(self, problem: PEProblem, **kwargs):
         """
         Complexity estimate of Support Splitting Algorithm [Sen06]_
-        https://hal.inria.fr/inria-00073037/document
-
-        rough Estimate according to https://eprint.iacr.org/2022/967.pdf
+        Rough Estimate according to [BBPS20]_
 
         INPUT:
 
         - ``problem`` -- PEProblem object including all necessary parameters
+
         """
 
         super().__init__(problem, **kwargs)
         self._name = "SSA"
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-
-        """
         n, _, q, h = self.problem.get_parameters()
         return log2(n ** 3 + n ** 2 * q ** h * log(h))
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-
-        """
         n, k, q, h = self.problem.get_parameters()
 
         return log2(n*h+n*k+n*(n-k))

@@ -25,8 +25,5 @@ class Leon(PELeon, LEAlgorithm):
         PELeon.__init__(self, PEProblem(n=n, k=k, q=q), **kwargs)
 
     def __repr__(self):
-        """
-
-        """
         rep = "Leon estimator for " + str(self.problem)
         return rep

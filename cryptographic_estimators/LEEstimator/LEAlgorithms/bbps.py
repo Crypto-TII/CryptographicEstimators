@@ -11,7 +11,7 @@ class BBPS(LEAlgorithm):
 
     def __init__(self, problem: LEProblem, **kwargs):
         """
-        Complexity estimate of Alessandro Barenghi, Jean-Francois Biasse, Edoardo Persichetti and Paolo Santini algorithm
+        Complexity estimate of [BBPS20]_ algorithm.
 
         Estimates are adapted versions of the scripts derived in [BBPS20]_ with the code accessible at
         https://github.com/paolo-santini/LESS_project
@@ -23,10 +23,10 @@ class BBPS(LEAlgorithm):
 
         EXAMPLES::
 
-        sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
-        sage: from cryptographic_estimators.LEEstimator import LEProblem
-        sage: BBPS(LEProblem(n=100,k=50,q=3))
-        BBPS estimator for permutation equivalence problem with (n,k,q) = (100,50,3)
+            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
+            sage: from cryptographic_estimators.LEEstimator import LEProblem
+            sage: BBPS(LEProblem(n=100,k=50,q=3))
+            BBPS estimator for permutation equivalence problem with (n,k,q) = (100,50,3)
 
         """
         super().__init__(problem, **kwargs)

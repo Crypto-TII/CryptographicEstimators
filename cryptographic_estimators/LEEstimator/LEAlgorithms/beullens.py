@@ -78,15 +78,9 @@ class Beullens(LEAlgorithm):
         return max(list_computation, normal_form_cost) + log2(n), list_size + log2(n)
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-
-        """
         return self._time_and_memory_complexity(parameters)[0]
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-
-        """
         return self._time_and_memory_complexity(parameters)[1]
 
     def _get_verbose_information(self):

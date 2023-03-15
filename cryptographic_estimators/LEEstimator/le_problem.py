@@ -73,8 +73,6 @@ class LEProblem(BaseProblem):
         return log2(q) * k * k + log2(factorial(n)) - log2(q) * n * (k - 1)
 
     def __repr__(self):
-        """
-        """
         n, k, q = self.get_parameters()
         rep = "permutation equivalence problem with (n,k,q) = " \
               + "(" + str(n) + "," + str(k) + "," + str(q) + ")"

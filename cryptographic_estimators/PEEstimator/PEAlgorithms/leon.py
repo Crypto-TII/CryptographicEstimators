@@ -56,9 +56,6 @@ class Leon(PEAlgorithm):
         return d
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-
-        """
         n, k, q, _ = self.problem.get_parameters()
         w = parameters["w"]
         N = number_of_weight_d_codewords(n, k, q, w)
@@ -68,9 +65,6 @@ class Leon(PEAlgorithm):
         return c_isd + log2(ceil(2 * (0.57 + log(N))))
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-
-        """
         n, k, q, _ = self.problem.get_parameters()
         return self.SDFqEstimator.fastest_algorithm().memory_complexity()
 
