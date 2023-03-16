@@ -162,7 +162,6 @@ class BallCollision(SDAlgorithm):
                  - 2 * log2(binom(k1, par.p)) - 2 * log2(binom(par.l // 2, par.pl)) - solutions, 0)
         Tg = _gaussian_elimination_complexity(n, k, par.r)
         time = Tp + log2(Tg + _list_merge_complexity(L1, par.l, self._hmap))
-        # time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
