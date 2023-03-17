@@ -54,8 +54,11 @@ class NMonomialSeries(object):
                 raise ValueError(
                     "the order of finite field q must be a prime power")
             self._q = q
-            self._series_of_degree = (
-                (1 - z ** self._q) ** self._n) / ((1 - z) ** self._n)
+            if q < self._max_prec:
+                self._series_of_degree = (
+                    (1 - z ** self._q) ** self._n) / ((1 - z) ** self._n)
+            else:
+                self._series_of_degree = 1 / ((1 - z) ** self._n)
         else:
             self._series_of_degree = 1 / ((1 - z) ** self._n)
 
