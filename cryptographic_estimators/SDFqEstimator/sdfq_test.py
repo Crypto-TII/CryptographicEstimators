@@ -3,6 +3,14 @@ from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import *
 from cryptographic_estimators.SDFqEstimator import SDFqProblem
 from math import  floor, log2, ceil, comb, comb as binomial, log2 as log
 
+# global parameters
+params = {"nsolutions": 0}
+
+
+def ISD_COST(n: int, k: int, w: int, q: int):
+    return log2((k * k + k * k * q)) + log2(binomial(n, w)) - log2(binomial(n - k, w - 2)) - log2(binomial(k, 2)) + log2(k) + log2(log(q))
+
+
 def peters_isd(n: int, k: int, q: int, w: int):
     x = k//2
     log2q = log2(q)
@@ -39,19 +47,37 @@ def peters_isd(n: int, k: int, q: int, w: int):
     #print("parameters p=",bestp, " and l=",bestl," yield 2^",mincost," bit ops");
     return mincost#, bestp, bestl
 
-def test_sdfq():
+
+def test_sdfq_LeeBrickell():
+    ranges = 1.0
+    n, k, w, q = 256, 128, 128, 251
+    t = ISD_COST(n, k, q, w)
+    assert(t - ranges < LeeBrickell(SDFqProblem(n, k, w, q, **params)).time_complexity() < t + ranges)
+
+    n, k, w, q = 961, 771, 48, 31
+    t = ISD_COST(n, k, q, w)
+    assert(t - ranges < LeeBrickell(SDFqProblem(n, k, w, q, **params)).time_complexity() < t + ranges)
+
+
+def test_sdfq_stern():
+    ranges = 0.3
+    n, k, w, q = 256, 128, 128, 251
+    t = peters_isd(n, k, q, w)
+    assert(t - ranges < Stern(SDFqProblem(n, k, w, q, **params)).time_complexity() < t + ranges)
+
+    n, k, w, q = 961,771, 48,31
+    t = peters_isd(n, k, q, w)
+    assert(t - ranges < Stern(SDFqProblem(n, k, w, q, **params)).time_complexity() < t + ranges)
+
+def test_sdfq_stern_range():
     ranges = 5.
-    params = {"nsolutions": 0}
 
-    for n in range(20, 100, 5):
+    for n in range(20, 100, 3):
         for k in range(int(0.2 * n), int(0.8 * n)):
-            for w in range(1, n-k-1):
-                for q in [3, 7, 17, 31]:
-                    if q > n:
-                        continue
-
-                    t1 = Stern(SDFqProblem(n,k,w,q, **params)).time_complexity()
-                    t2 = peters_isd(n,k,q,w)
-
+            for w in range(1, min(n - k - 1, int(0.5 * n))):
+                for q in [3, 7, 11, 17, 53, 103, 151, 199, 251]:
+                    t1 = Stern(SDFqProblem(n, k, w, q, **params)).time_complexity()
+                    t2 = peters_isd(n, k, q, w)
                     assert t2 - ranges < t1 < t2 + ranges
+
 

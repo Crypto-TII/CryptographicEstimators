@@ -69,21 +69,6 @@ class LeeBrickell(SDFqAlgorithm):
             return True
         return False
 
-    def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based
-        on the `_parameter_ranges` and already set parameters in
-        `_optimal_parameters`
-        """
-        new_ranges = self._fix_ranges_for_already_set_parmeters()
-
-        _, k, _, _ = self.problem.get_parameters()
-        for p in range(new_ranges["p"]["min"], min(k, new_ranges["p"]["max"])):
-            indices = {"p": p}
-            if self._are_parameters_invalid(indices):
-                continue
-            yield indices
-
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """
         Return time complexity of Lee-Brickell's algorithm over Fq, q > 2 for
