@@ -3,9 +3,10 @@ on:
   pull_request:
 
 jobs:
-   runs-on: ubuntu-22.04
-   if: contains(github.event.head_commit.message, 'run pytest')
-   concurrency: ci-${{github.ref}}
+  builds-and-run-pytest:
+    runs-on: ubuntu-22.04
+    concurrency: ci-${{github.ref}}
+    if: contains(github.event.head_commit.message, 'please build')
     steps:
       - name: Checkout
         uses: actions/checkout@v3
