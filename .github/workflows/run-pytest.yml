@@ -1,6 +1,6 @@
-name: Build the docker image and run sage tests
+name: run-pytest
 on:
-  pull_request:
+  push
 
 jobs:
   builds-and-run-pytest:
