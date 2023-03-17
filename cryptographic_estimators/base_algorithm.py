@@ -64,7 +64,7 @@ class BaseAlgorithm:
     @property
     def memory_access(self):
         """
-        Returns the attribtue _memory_access
+        Returns the attribute _memory_access
 
         """
         return self._memory_access
@@ -72,7 +72,7 @@ class BaseAlgorithm:
     @memory_access.setter
     def memory_access(self, new_memory_access: Union[int, Callable[[float], float]]):
         """
-        Sets the attribtue _memory_access and resets internal state respectively
+        Sets the attribute _memory_access and resets internal state respectively
 
         INPUT:
 
@@ -96,7 +96,7 @@ class BaseAlgorithm:
     @complexity_type.setter
     def complexity_type(self, input_type: Union[int, str]):
         """
-        Sets the attribtue _complexity_type and resets internal state respectively
+        Sets the attribute _complexity_type and resets internal state respectively
 
         INPUT:
 
