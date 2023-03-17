@@ -21,7 +21,7 @@ from ...helper import ComplexityType
 from ...SDEstimator.sd_algorithm import SDAlgorithm
 from ...SDEstimator.sd_problem import SDProblem
 from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matrix, _list_merge_complexity, min_max, \
-    binom, log2, ceil, inf
+    binom, log2, ceil, inf, _list_merge_async_complexity
 from ...helper import memory_access_cost
 from types import SimpleNamespace
 from ..sd_constants import *
@@ -217,6 +217,7 @@ class BJMMd2(SDAlgorithm):
         super(BJMMd2, self).__init__(problem, **kwargs)
         self._name = "BJMMd2"
         self.initialize_parameter_ranges()
+        self.doom = problem.doom
 
     def initialize_parameter_ranges(self):
         """
@@ -321,9 +322,16 @@ class BJMMd2(SDAlgorithm):
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound
 
+        qc = self.doom > 1
+
         L1 = binom(k1, par.p1)
         if self._is_early_abort_possible(log2(L1)):
             return inf, inf
+
+        if qc:
+            L1b = binom(k1, max(par.p1 - 1, 0)) * k
+            if self._is_early_abort_possible(log2(L1b)):
+                return inf, inf
 
         reps = (binom(par.p, par.p / 2) *
                 binom(k1 - par.p, par.p1 - par.p / 2)) ** 2
@@ -334,17 +342,28 @@ class BJMMd2(SDAlgorithm):
             return inf, inf
 
         L12 = max(1, L1 ** 2 // 2 ** l1)
+        qc_advantage = 0
+        if qc:
+            L12b = max(1, (L1 * L1b) // 2 ** l1)
+            qc_advantage = log2(k)
+
 
         memory = log2((2 * L1 + L12) + _mem_matrix(n, k, par.r))
         if memory > memory_bound:
             return inf, inf
 
-        Tp = max(log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p)) - 2 * log2(
-            binom((k + par.l) // 2, par.p)) - solutions,
+        Tp = max(log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p + qc))
+                 - log2(binom(k1, par.p))- log2(binom(k1, max(par.p-qc, 0))) - qc_advantage - solutions,
             0)
         Tg = _gaussian_elimination_complexity(n, k, par.r)
-        T_tree = 2 * _list_merge_complexity(L1, l1, self._hmap) + \
-            _list_merge_complexity(L12, par.l - l1, self._hmap)
+        if qc:
+            T_tree = _list_merge_async_complexity(L1, L1b, l1, self._hmap) \
+                     + _list_merge_complexity(L1, l1, self._hmap) \
+                     + _list_merge_async_complexity(L12, L12b, par.l - l1, self._hmap)
+        else:
+            T_tree = 2 * _list_merge_complexity(L1, l1, self._hmap) + \
+                _list_merge_complexity(L12, par.l - l1, self._hmap)
+
         T_rep = int(ceil(2 ** (l1 - log2(reps))))
 
         time = Tp + log2(Tg + T_rep * T_tree)

@@ -34,6 +34,8 @@ class SDEstimator(BaseEstimator):
     - ``w`` -- error weight
     - ``excluded_algorithms`` -- a list/tuple of excluded algorithms (default: None)
     - ``nsolutions`` -- no. of solutions
+    # TODO does it make sense to put this parameter here?
+    - ``c`` -- Markov chain parameter
 
     TODO: Maybe we should add the optional_parameters dictionary here?
 
@@ -124,6 +126,10 @@ class SDEstimator(BaseEstimator):
             | Stern         | 151.409 |  49.814 |                 {'r': 7, 'p': 4, 'l': 39}                  |
             +---------------+---------+---------+------------------------------------------------------------+
 
+            sage: from cryptographic_estimators.SDEstimator import SDEstimator
+            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import *
+            sage: A = SDEstimator(16386,16386//2,128,doom=True,excluded_algorithms=[BJMMdw,BJMMpdw,MayOzerov])
+            sage: A.table(precision=3, show_all_parameters=1) # long time
         """
         super(SDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,

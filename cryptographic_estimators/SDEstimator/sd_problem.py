@@ -31,11 +31,12 @@ class SDProblem(BaseProblem):
     - ``n`` -- code length
     - ``k`` -- code dimension
     - ``w`` -- error weight
-    - ``q`` -- size of the basefield of the code
     - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
+    - ``doom`` -- boolean value indicating the existence of multiple syndromes, allowing to apply the DOOM technique
+
     """
 
-    def __init__(self, n: int, k: int, w: int, q=2, **kwargs):
+    def __init__(self, n: int, k: int, w: int, **kwargs):
         super().__init__(**kwargs)
         if k > n:
             raise ValueError("k must be smaller or equal to n")
@@ -46,10 +47,16 @@ class SDProblem(BaseProblem):
         self.parameters[SD_CODE_LENGTH] = n
         self.parameters[SD_CODE_DIMENSION] = k
         self.parameters[SD_ERROR_WEIGHT] = w
-        self.baseField = GF(q)
 
         self.nsolutions = kwargs.get("nsolutions", max(
             self.expected_number_solutions(), 0))
+        # is set to 1, s.t. log(doom) = 0 is the standard value
+        self.doom = kwargs.get("doom", 1)
+
+        if self.nsolutions < 0:
+            raise ValueError("nsolutions cannot be negative")
+        if self.doom < 1:
+            raise ValueError("doom cannot be less than 1")
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """
@@ -60,9 +67,8 @@ class SDProblem(BaseProblem):
         - ``basic_operations`` -- Number of field additions (logarithmic)
 
         """
-        q = self.baseField.characteristic()
         n = self.parameters[SD_CODE_LENGTH]
-        return log2(log2(q)) + log2(n) + basic_operations
+        return log2(log2(2)) + log2(n) + basic_operations
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """

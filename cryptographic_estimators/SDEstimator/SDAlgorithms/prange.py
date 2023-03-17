@@ -19,9 +19,9 @@
 from ...SDEstimator.sd_algorithm import SDAlgorithm
 from ...SDEstimator.sd_problem import SDProblem
 from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matrix, binom, log2
-from ...helper import ComplexityType
 from ..sd_constants import *
 from ..SDWorkfactorModels.prange import PrangeScipyModel
+from math import sqrt
 
 
 class Prange(SDAlgorithm):
@@ -50,6 +50,8 @@ class Prange(SDAlgorithm):
         self._name = "Prange"
         super(Prange, self).__init__(problem, **kwargs)
         self.scipy_model = PrangeScipyModel
+        self.doom = log2(problem.doom)
+
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """
@@ -67,7 +69,7 @@ class Prange(SDAlgorithm):
         r = parameters["r"]
         memory = log2(_mem_matrix(n, k, r))
 
-        Tp = max(log2(binom(n, w)) - log2(binom(n - k, w)) - solutions, 0)
+        Tp = max(log2(binom(n, w)) - log2(binom(n - k, w)) - solutions - self.doom, 0)
         Tg = log2(_gaussian_elimination_complexity(n, k, r))
         time = Tp + Tg
 

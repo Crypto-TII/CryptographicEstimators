@@ -17,6 +17,7 @@
 
 
 from math import log2, comb, inf, ceil
+from sage.all import RealField, matrix, identity_matrix
 
 
 def binom(n: int, k: int):
@@ -160,6 +161,35 @@ def _list_merge_complexity(L: float, l: int, hmap: bool):
         return 2 * L + L ** 2 // 2 ** l
 
 
+def _list_merge_async_complexity(L1: float, L2: float, l: int, hmap: bool = True):
+    """
+    Complexity estimate of merging two lists exact
+
+    INPUT:
+
+    - ``L`` -- size of lists to be merged
+    - ``l`` -- amount of bits used for matching
+    - ``hmap`` -- indicates if hashmap is being used (Default 0: no hashmap)
+
+    EXAMPLES::
+
+        sage: from cryptographic_estimators.SDEstimator import _list_merge_async_complexity
+        sage: _list_merge_async_complexity(L1=2**16,L2=2**14,l=16,hmap=1) # random
+
+    """
+
+    if L1 == 1 and L2==1:
+        return 1
+    if L1==1:
+        return L2
+    if L2==1:
+        return L1
+    if not hmap:
+        return 0 #to be implemented
+    else:
+        return L1+L2 + L1*L2 // 2 ** l
+
+
 def _indyk_motwani_complexity(L: float, l: int, w: int, hmap: bool):
     """
     Complexity of Indyk-Motwani nearest neighbor search
@@ -205,3 +235,51 @@ def _mitm_nn_complexity(L: float, l: int, w: int, hmap: bool):
         return _list_merge_complexity(L, l, hmap)
     L1 = L * binom(l / 2, w / 2)
     return _list_merge_complexity(L1, l, hmap)
+
+
+def marcovchain_number_perms(n: int, k: int, w: int, c: int, p: int, l: int):
+    """
+
+    returns the number of expected iteration in logarithmic notation
+
+    INPUT:
+
+    - ``n`` -- code length
+    - ``k`` -- code dimension
+    - ``w`` -- weight
+    - ``c`` -- number of coordinates to exchange during each gaussian elimination
+    - ``p`` -- weight of the good state
+    - ``l`` -- window
+
+    EXAMPLES::
+        p = 3
+        n = 2918
+        k = n//2
+        w = 56
+        l = 0
+        c = 95
+        number_perms(n,k,w,c,p,l)
+    """
+    R1 = RealField(150)
+
+    def transition(u: int, d: int, c: int, n: int, k: int, w: int, l: int):
+        # from u to u+d by exchanging c columns
+        return R1(sum(binom(w-u, i) * binom(n-k-l-w+u, c-i) * binom(u, i-d) * binom(k+l-u, c+d-i)
+                      for i in range(max(d, 0), min(w-u+1, c+1, c+d+1))))/R1(binom(n-k-l, c) * binom(k+l, c))
+    A = matrix(R1, w+1, w+1)
+    for i in range(w+1):
+        for j in range(w+1):
+            A[i,j] = transition(i, j-i, c, n, k, w, l)
+
+    # transition matrix excluding success-state
+    B = A[[i for i in range(w+1) if i!=p],[i for i in range(w+1) if i!=p]]
+
+    # fundamental matrix of markov process
+    R = (identity_matrix(R1, w, w)-B)**(-1)
+
+    # initial state of markov chain
+    state = [(binom(n-k,w-i)*binom(k,i))/binom(n,w) for i in range(w+1) if i!=p]
+
+    # number of permutations
+    return log2(sum(state[i]*sum(R[i,j] for j in range(w)) for i in range(w))) - log2(n-k)
+

@@ -46,6 +46,10 @@ class SDAlgorithm(BaseAlgorithm):
         n, k, _  = self.problem.get_parameters()
         self.set_parameter_ranges("r", 0, n - k)
 
+        self.c = kwargs.get("c", 0)
+        if self.c < 0:
+            raise ValueError("c cannot be less than 0")
+
     @optimal_parameter
     def r(self):
         """

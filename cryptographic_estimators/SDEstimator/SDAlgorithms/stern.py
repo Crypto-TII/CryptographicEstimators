@@ -24,7 +24,7 @@ from ...helper import memory_access_cost
 from types import SimpleNamespace
 from ..sd_constants import *
 from ..SDWorkfactorModels.stern import SternScipyModel
-
+from math import sqrt
 
 class Stern(SDAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
@@ -53,6 +53,7 @@ class Stern(SDAlgorithm):
         super(Stern, self).__init__(problem, **kwargs)
         self.initialize_parameter_ranges()
         self.scipy_model = SternScipyModel
+        self.doom = log2(sqrt(problem.doom))
 
     def initialize_parameter_ranges(self):
         """
@@ -154,8 +155,8 @@ class Stern(SDAlgorithm):
         if memory > memory_bound:
             return inf, memory_bound + 1
 
-        Tp = max(0, log2(binom(n, w)) - log2(binom(n - k, w - 2 * par.p)
-                                             ) - log2(binom(k1, par.p) ** 2) - solutions)
+        Tp = max(0, log2(binom(n, w)) - log2(binom(n - k, w - 2 * par.p))
+                 - log2(binom(k1, par.p) ** 2) - solutions - self.doom)
 
         # We use Indyk-Motwani (IM) taking into account the possibility of multiple existing solutions
         # with correct weight distribution, decreasing the amount of necessary projections
