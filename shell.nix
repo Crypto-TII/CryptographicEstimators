@@ -10,6 +10,7 @@ let
 		furo
 		autopep8
 		pip
+		pytest
 	]; 
 	requireSageTests = false;
   };
@@ -23,6 +24,7 @@ let
 	pip
     autopep8
 	sage
+	pytest
   ]);
 in
 { pkgs ? import <nixpkgs> {} }:

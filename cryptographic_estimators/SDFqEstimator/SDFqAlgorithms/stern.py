@@ -44,7 +44,7 @@ class Stern(SDFqAlgorithm):
         """
         n, k, w, _ = self.problem.get_parameters()
         s = self.full_domain
-        self.set_parameter_ranges("p", 0, min_max(w // 2, 30, s))
+        self.set_parameter_ranges("p", 0, min_max(max(w // 2, 1), 30, s))
         self.set_parameter_ranges("l", 0, min_max(n - k, 400, s))
 
     @optimal_parameter
@@ -156,7 +156,7 @@ class Stern(SDFqAlgorithm):
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
-            verbose_information[VerboseInformation.LISTS.value] = [log2(L2), log2(L)]
+            verbose_information[VerboseInformation.LISTS.value] = [log2(L2), log2(L), log2(ops), log2(ops + Tg), solutions]
 
         return time, memory
 

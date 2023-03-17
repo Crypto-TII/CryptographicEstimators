@@ -31,8 +31,9 @@ class Leon(PEAlgorithm):
         """
         super().__init__(problem, **kwargs)
         self._name = "Leon"
-        self._codewords_needed_for_success = kwargs.get("codewords_needed_for_success", 100)
-        n, _, _, _ = self.problem.get_parameters()
+        n, k, q, _ = self.problem.get_parameters()
+        self._codewords_needed_for_success = kwargs.get("codewords_needed_for_success",
+                                                        min(100, int(number_of_weight_d_codewords(n, k, q, gv_distance(n, k, q) + 3))))
         self.set_parameter_ranges('w', 0, n)
 
         self.SDFqEstimator = None
@@ -58,7 +59,7 @@ class Leon(PEAlgorithm):
         n, k, q, _ = self.problem.get_parameters()
         d = gv_distance(n, k, q)
 
-        while number_of_weight_d_codewords(n, k, q, d) < self._codewords_needed_for_success:
+        while number_of_weight_d_codewords(n, k, q, d) < self._codewords_needed_for_success and d < n-k:
             d += 1
         return d
 
@@ -69,6 +70,7 @@ class Leon(PEAlgorithm):
         self.SDFqEstimator = SDFqEstimator(n=n, k=k, w=w, q=q, nsolutions=0, memory_bound=self.problem.memory_bound,
                                            bit_complexities=0, **self._SDFqEstimator_parameters)
         c_isd = self.SDFqEstimator.fastest_algorithm().time_complexity()
+        #print(w, N, c_isd)
         return c_isd + log2(ceil(2 * (0.57 + log(N))))
 
     def _compute_memory_complexity(self, parameters: dict):
