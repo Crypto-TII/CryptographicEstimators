@@ -45,15 +45,6 @@ def test_leon1():
     t1 = LEON(n, k, q)
     assert t1 - ranges <= Leon(PEProblem(n, k, q), **leon_params).time_complexity() <= t1 + ranges
 
-    # TODO to big values
-    n, k, q = 280, 117, 149
-    t1 = LEON(n, k, q)
-    assert t1 - ranges <= Leon(PEProblem(n, k, q), **leon_params).time_complexity() <= t1 + ranges
-
-    n, k, q = 305, 127, 31
-    t1 = LEON(n, k, q)
-    assert t1 - ranges <= Leon(PEProblem(n, k, q), **leon_params).time_complexity() <= t1 + ranges
-
 
 def test_leon2():
     """

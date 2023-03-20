@@ -8,10 +8,16 @@ params = {"nsolutions": 0}
 
 
 def ISD_COST(n: int, k: int, w: int, q: int):
+    """
+
+    """
     return log2((k * k + k * k * q)) + log2(binomial(n, w)) - log2(binomial(n - k, w - 2)) - log2(binomial(k, 2)) + log2(k) + log2(log(q))
 
 
 def peters_isd(n: int, k: int, q: int, w: int):
+    """
+
+    """
     x = k//2
     log2q = log2(q)
     mincost = 10000000
@@ -49,6 +55,9 @@ def peters_isd(n: int, k: int, q: int, w: int):
 
 
 def test_sdfq_LeeBrickell():
+    """
+    special value test for Lee-Brickell
+    """
     ranges = 1.0
     n, k, w, q = 256, 128, 128, 251
     t = ISD_COST(n, k, q, w)
@@ -60,6 +69,9 @@ def test_sdfq_LeeBrickell():
 
 
 def test_sdfq_stern():
+    """
+    special value test for Stern
+    """
     ranges = 0.3
     n, k, w, q = 256, 128, 128, 251
     t = peters_isd(n, k, q, w)
@@ -69,7 +81,11 @@ def test_sdfq_stern():
     t = peters_isd(n, k, q, w)
     assert(t - ranges < Stern(SDFqProblem(n, k, w, q, **params)).time_complexity() < t + ranges)
 
+
 def test_sdfq_stern_range():
+    """
+    range test for Stern
+    """
     ranges = 5.
 
     for n in range(20, 100, 3):
