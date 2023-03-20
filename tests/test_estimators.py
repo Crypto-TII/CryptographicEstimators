@@ -16,6 +16,7 @@ def test_estimates_with_bjorklund():
     expected_result = {
         'Bjorklund': {'estimate': {'time': 95.50814347964285, 'memory': 36.48546485189783, 'parameters': {'lambda_': 16/49}}, 'additional_information': {}},
         'ExhaustiveSearch': {'estimate': {'time': 52.48921146923813, 'memory': 16.844129532345626, 'parameters': {}}, 'additional_information': {}}}
+
     assert expected_result == result
 
 
