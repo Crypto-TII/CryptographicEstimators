@@ -204,8 +204,6 @@ class MQProblem(BaseProblem):
         """
         """
         n, m, q = self.get_problem_parameters()
-        rep = "MQ problem with (n,m,q) = " \
-              + "(" + str(n) + "," + str(m) + "," + \
-            str(q) + ") over " + str(self.baseField)
+        rep = f"MQ problem with (n,m,q) = ({str(n)}, {str(m)}, {str(q)})"
 
         return rep
