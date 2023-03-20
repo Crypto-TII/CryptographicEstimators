@@ -1,6 +1,8 @@
 name: run-pytest
 on:
-  push
+  pull_request:
+    branches:
+      - main
 
 jobs:
   builds-and-run-pytest:
@@ -10,7 +12,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -39,4 +41,4 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Run pytest
-        run: sage --python3 -m pytest test/
+        run: make pytest
