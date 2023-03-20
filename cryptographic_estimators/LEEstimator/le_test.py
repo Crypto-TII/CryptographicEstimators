@@ -15,30 +15,19 @@ def peters_isd(n: int, k: int, q: int, w: int):
     for p in range(0, max_p):
         Anum=max(binomial(x,p), 1)
         Bnum=max(binomial(k-x,p), 1)
-        #print(n,k,q,w,p,Anum)
         limit = min(floor(log(Anum)/log(q)+p*log(q-1)/log(q))+10 +1, n-k)
         for l in range(0, limit):
             if l > n-k-(w-2*p):
                 continue
-            #if(q==2):
             ops=0.5*(n-k)**2*(n+k)+ ((0.5*k-p+1)+(Anum+Bnum)*(q-1)**p)*l+ q/(q-1.)*(w-2*p+1)*2*p*(1+(q-2)/(q-1.))*Anum*Bnum*(q-1)**(2*p)/q**l
-            #else:
-            #    ops=(n-k)**2*(n+k)\
-            #         + ((0.5*k-p+1)+(Anum+Bnum)*(q-1)**p)*l\
-            #         + q/(q-1.)*(w-2*p+1)*2*p*(1+(q-2)/(q-1.))*\
-            #           Anum*Bnum*(q-1)**(2*p)/q**l
 
-            #prob=Anum*Bnum*binomial(n-k-l,w-2*p)/binomial(n,w)
             prob=log2(binomial(n,w)) - (log2(Anum)+log2(Bnum)+log2(binomial(n-k-l,w-2*p)))
             cost=log2(ops)+log2(log2q)+prob
-            #print(p,l,cost, prob, log2(ops))
             if cost<mincost:
                 mincost=cost
                 bestp=p
                 bestl=l
 
-    #print("Given q=",q,", n=",n,", k=",k,", w=",w);
-    #print("parameters p=",bestp, " and l=",bestl," yield 2^",mincost," bit ops");
     return mincost, bestp, bestl
 
 
@@ -74,7 +63,6 @@ def improved_linear_beullens(n, k, q):
     best_w_prime = 0
 
     for w_prime in range(w_in, max_w):
-        # print(w_prime);
         Nw_prime = binomial(n, w_prime) * (q - 1)**(w_prime - 1) * (q**k - 1) / (q**n - 1)
 
         for w in range(w_prime + 1, min(2 * w_prime, n)):
@@ -82,9 +70,7 @@ def improved_linear_beullens(n, k, q):
             # zeta probability in the paper
 
             L_prime = (2 * Nw_prime**2 / (pr_w_w_prime) * (2 * log(n * 1.)))**0.25
-
             if L_prime < Nw_prime:
-
                 x = 2 * w_prime - w
                 pw = 0.5 * binomial(n, w - w_prime) * binomial(n - (w - w_prime), w - w_prime) * binomial(
                     n - 2 * (w - w_prime), 2 * w_prime - w) * factorial(2 * w_prime - w) * (q - 1)**(w - 2 * w_prime + 1) / (
@@ -97,7 +83,7 @@ def improved_linear_beullens(n, k, q):
 
                     C_isd, p, l = peters_isd(n, k, q, w_prime)
                     # cost = C_isd+log2(2*log(1.-L_prime/Nw_prime)/log(1.-1/Nw_prime)/Nw_prime);
-                    #                    cost = C_isd+ log2(L_prime/Nw_prime);
+                    # cost = C_isd+ log2(L_prime/Nw_prime);
 
                     if L_prime < Nw_prime / 2:
                         cost = C_isd + log2(L_prime / Nw_prime)
@@ -110,7 +96,6 @@ def improved_linear_beullens(n, k, q):
                         cost = C_isd + log2(2 * log(1. - L_prime / Nw_prime) / tmp / Nw_prime)
 
                     if cost < best_cost:
-                        #print(cost);
                         best_cost = cost
                         best_w = w
                         best_w_prime = w_prime
@@ -205,7 +190,7 @@ def beullens_attack_cost(n, k, q, verbose=False, LEP=True):
         c = beullens_attack_cost_fixed_W(n, k, W, q, False, LEP)
         if c is not None and c < best_cost:
             best_cost = c
-            best_W = W;
+            best_W = W
 
     if best_cost == 10000000:
         return None

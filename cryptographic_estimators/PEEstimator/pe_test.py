@@ -10,7 +10,7 @@ leon_params = {"bit_complexities": 0, "sd_parameters": {"excluded_algorithms": [
 
 
 def minimal_w(n: int, k: int, q: int):
-    w = 1;
+    w = 1
     S = 0
     limit = min(100, int(number_of_weight_d_codewords(n, k, q, gv_distance(n, k, q) + 3)))
     while True:
@@ -53,21 +53,21 @@ def test_leon2():
     """
     ranges = 2.
     n, k= 250, 150
-    q_values = [11, 17, 53, 103, 151, 199, 251];
+    q_values = [11, 17, 53, 103, 151, 199, 251]
     for q in q_values:
         t1 = LEON(n, k, q)
         assert t1 - ranges <= Leon(PEProblem(n, k, q), **leon_params).time_complexity() <= t1 + ranges
 
 
-#def test_leon():
-#    """
-#    tests leon on small instances
-#    """
-#    ranges = 2.
-#    for n in range(10, 100, 5):
-#        for k in range(int(0.3*n), int(0.7*n), 5):
-#            for q in [3, 7, 17, 31]:
-#                t1 = Leon(PEProblem(n, k, q), **leon_params).time_complexity()
-#                t2 = LEON(n, k, q)
-#                assert t2 - ranges < t1 < t2 + ranges
+def test_leon():
+    """
+    tests leon on small instances
+    """
+    ranges = 4.5
+    for n in range(10, 100, 5):
+        for k in range(int(0.3*n), int(0.7*n), 5):
+            for q in [3, 7, 17, 31]:
+                t1 = Leon(PEProblem(n, k, q), **leon_params).time_complexity()
+                t2 = LEON(n, k, q)
+                assert t2 - ranges < t1 < t2 + ranges
 
