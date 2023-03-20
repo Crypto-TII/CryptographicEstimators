@@ -29,7 +29,6 @@ class SDProblem(BaseProblem):
     - ``n`` -- code length
     - ``k`` -- code dimension
     - ``w`` -- error weight
-    - ``q`` -- size of the basefield of the code
     - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
     """
 
