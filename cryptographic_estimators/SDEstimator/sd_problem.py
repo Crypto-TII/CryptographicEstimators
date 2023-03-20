@@ -15,8 +15,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
+
 from ..base_problem import BaseProblem
 from math import comb, log2
+from sage.all import GF
 from .sd_constants import *
 
 
@@ -56,9 +58,8 @@ class SDProblem(BaseProblem):
         - ``basic_operations`` -- Number of field additions (logarithmic)
 
         """
-        q = self.baseField.characteristic()
         n = self.parameters[SD_CODE_LENGTH]
-        return log2(log2(q)) + log2(n) + basic_operations
+        return log2(n) + basic_operations
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
