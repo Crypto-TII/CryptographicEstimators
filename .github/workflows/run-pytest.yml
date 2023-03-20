@@ -40,4 +40,4 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Run pytest
-        run: make pytest
+        run: make docker-pytest
