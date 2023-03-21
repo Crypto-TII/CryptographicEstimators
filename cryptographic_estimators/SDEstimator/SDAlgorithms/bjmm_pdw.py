@@ -21,7 +21,6 @@ from ...SDEstimator.sd_algorithm import SDAlgorithm
 from ...SDEstimator.sd_problem import SDProblem
 from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matrix, _list_merge_complexity, \
     _mitm_nn_complexity, binom, log2, ceil, inf, min_max
-from ...helper import memory_access_cost
 from scipy.special import binom as binom_sp
 from scipy.optimize import fsolve
 from warnings import filterwarnings
@@ -250,7 +249,6 @@ class BJMMpdw(SDAlgorithm):
                 T_rep = int(ceil(2 ** max(l1 - log2(reps), 0)))
 
                 time = Tp + log2(Tg + T_rep * T_tree)
-                time += memory_access_cost(memory, self.memory_access)
                 if time < local_time:
                     local_time = time
                     local_mem = memory

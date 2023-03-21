@@ -22,7 +22,6 @@ from ...SDEstimator.sd_algorithm import SDAlgorithm
 from ...SDEstimator.sd_problem import SDProblem
 from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matrix, _list_merge_complexity, min_max, \
     binom, log2, ceil, inf, _list_merge_async_complexity
-from ...helper import memory_access_cost
 from types import SimpleNamespace
 from ..sd_constants import *
 from ..SDWorkfactorModels.bjmm import BJMMScipyModel
@@ -367,7 +366,6 @@ class BJMMd2(SDAlgorithm):
         T_rep = int(ceil(2 ** (l1 - log2(reps))))
 
         time = Tp + log2(Tg + T_rep * T_tree)
-        time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.CONSTRAINTS.value] = [
@@ -574,7 +572,6 @@ class BJMMd3(SDAlgorithm):
             ceil(2 ** (3 * max(0, l1 - log2(reps1)) + max(0, l2 - log2(reps2)))))
 
         time = Tp + log2(Tg + T_rep * T_tree)
-        time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.CONSTRAINTS.value] = [

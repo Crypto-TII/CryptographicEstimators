@@ -1,6 +1,6 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-#
+
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -151,7 +151,7 @@ class SDEstimator(BaseEstimator):
             | Prange    | 153.584 | 27.170 |                    {'r': 10}                    |
             | Stern     | 132.635 | 38.001 |            {'r': 10, 'p': 2, 'l': 32}           |
             +-----------+---------+--------+-------------------------------------------------+
-
+            
         """
         super(SDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,
