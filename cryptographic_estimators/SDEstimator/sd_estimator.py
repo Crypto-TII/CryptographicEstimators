@@ -88,7 +88,7 @@ class SDEstimator(BaseEstimator):
 
             sage: from cryptographic_estimators.SDEstimator import SDEstimator
             sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1, workfactor_accuracy=10)
-            sage: A.table(show_tilde_o_time=1, precision=0) # long time
+            sage: A.table(show_tilde_o_time=1, workfactor_accuracy=20, precision=0) # long time
             +---------------+---------------+------------------+
             |               |    estimate   | tilde_o_estimate |
             +---------------+------+--------+-------+----------+
