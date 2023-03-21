@@ -384,6 +384,29 @@ process.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_access_cost">
+<span class="sig-name descname"><span class="pre">memory_access_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_access_cost" title="Permalink to this definition">#</a></dt>
+<dd><p>INPUT:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">`mem</span></code> – memory consumption of an algorithm</p></li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model </dt><dd><dl>
+<dt>(default: 0, choices: </dt><dd><p>0 - constant, 
+1 - logarithmic, 
+2 - square-root, 
+3 - cube-root or deploy custom function which takes as input the</p>
+<blockquote>
+<div><p>logarithm of the total memory usage)</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_complexity">
 <span class="sig-name descname"><span class="pre">memory_complexity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_complexity" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the memory complexity of the algorithm</p>
@@ -548,6 +571,7 @@ process.</p>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.initialize_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Stern.initialize_parameter_ranges()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.l"><code class="docutils literal notranslate"><span class="pre">Stern.l()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_access"><code class="docutils literal notranslate"><span class="pre">Stern.memory_access</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_access_cost"><code class="docutils literal notranslate"><span class="pre">Stern.memory_access_cost()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_complexity"><code class="docutils literal notranslate"><span class="pre">Stern.memory_complexity()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">Stern.optimal_parameters()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.p"><code class="docutils literal notranslate"><span class="pre">Stern.p()</span></code></a></li>

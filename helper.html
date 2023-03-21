@@ -347,14 +347,6 @@ INPUT:</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="cryptographic_estimators.helper.memory_access_cost">
-<span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.helper.</span></span><span class="sig-name descname"><span class="pre">memory_access_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_access</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.helper.memory_access_cost" title="Permalink to this definition">#</a></dt>
-<dd><p>INPUT:
-- <code class="docutils literal notranslate"><span class="pre">`mem</span></code> – memory consumption of an algorithm
-- <code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)</p>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="cryptographic_estimators.helper.round_or_truncate">
 <span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.helper.</span></span><span class="sig-name descname"><span class="pre">round_or_truncate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.helper.round_or_truncate" title="Permalink to this definition">#</a></dt>
 <dd><p>eiter rounds or truncates <cite>x</cite> if <cite>truncate</cite> is <cite>true</cite></p>
@@ -431,7 +423,6 @@ INPUT:</p>
 </li>
 <li><a class="reference internal" href="#cryptographic_estimators.helper.concat_all_tables"><code class="docutils literal notranslate"><span class="pre">concat_all_tables()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.helper.concat_pretty_tables"><code class="docutils literal notranslate"><span class="pre">concat_pretty_tables()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.helper.memory_access_cost"><code class="docutils literal notranslate"><span class="pre">memory_access_cost()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.helper.round_or_truncate"><code class="docutils literal notranslate"><span class="pre">round_or_truncate()</span></code></a></li>
 </ul>
 </li>

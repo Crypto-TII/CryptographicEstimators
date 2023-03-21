@@ -388,6 +388,29 @@ cryptographic techniques. pp. 520–536. Springer (2012)</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.memory_access_cost">
+<span class="sig-name descname"><span class="pre">memory_access_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.memory_access_cost" title="Permalink to this definition">#</a></dt>
+<dd><p>INPUT:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">`mem</span></code> – memory consumption of an algorithm</p></li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model </dt><dd><dl>
+<dt>(default: 0, choices: </dt><dd><p>0 - constant, 
+1 - logarithmic, 
+2 - square-root, 
+3 - cube-root or deploy custom function which takes as input the</p>
+<blockquote>
+<div><p>logarithm of the total memory usage)</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.memory_complexity">
 <span class="sig-name descname"><span class="pre">memory_complexity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.memory_complexity" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the memory complexity of the algorithm</p>
@@ -551,6 +574,29 @@ process.</p>
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.memory_access">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">memory_access</span></span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.memory_access" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the attribtue _memory_access</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.memory_access_cost">
+<span class="sig-name descname"><span class="pre">memory_access_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.memory_access_cost" title="Permalink to this definition">#</a></dt>
+<dd><p>INPUT:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">`mem</span></code> – memory consumption of an algorithm</p></li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model </dt><dd><dl>
+<dt>(default: 0, choices: </dt><dd><p>0 - constant, 
+1 - logarithmic, 
+2 - square-root, 
+3 - cube-root or deploy custom function which takes as input the</p>
+<blockquote>
+<div><p>logarithm of the total memory usage)</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ul>
 </dd></dl>
 
 <dl class="py method">
@@ -748,6 +794,29 @@ process.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.memory_access_cost">
+<span class="sig-name descname"><span class="pre">memory_access_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.memory_access_cost" title="Permalink to this definition">#</a></dt>
+<dd><p>INPUT:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">`mem</span></code> – memory consumption of an algorithm</p></li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model </dt><dd><dl>
+<dt>(default: 0, choices: </dt><dd><p>0 - constant, 
+1 - logarithmic, 
+2 - square-root, 
+3 - cube-root or deploy custom function which takes as input the</p>
+<blockquote>
+<div><p>logarithm of the total memory usage)</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.memory_complexity">
 <span class="sig-name descname"><span class="pre">memory_complexity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.memory_complexity" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the memory complexity of the algorithm</p>
@@ -940,6 +1009,7 @@ process.</p>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.has_optimal_parameter"><code class="docutils literal notranslate"><span class="pre">BJMM.has_optimal_parameter()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.initialize_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">BJMM.initialize_parameter_ranges()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.memory_access"><code class="docutils literal notranslate"><span class="pre">BJMM.memory_access</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.memory_access_cost"><code class="docutils literal notranslate"><span class="pre">BJMM.memory_access_cost()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.memory_complexity"><code class="docutils literal notranslate"><span class="pre">BJMM.memory_complexity()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">BJMM.optimal_parameters()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM.parameter_names"><code class="docutils literal notranslate"><span class="pre">BJMM.parameter_names()</span></code></a></li>
@@ -958,6 +1028,7 @@ process.</p>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.initialize_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">BJMMd2.initialize_parameter_ranges()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.l"><code class="docutils literal notranslate"><span class="pre">BJMMd2.l()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.memory_access"><code class="docutils literal notranslate"><span class="pre">BJMMd2.memory_access</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.memory_access_cost"><code class="docutils literal notranslate"><span class="pre">BJMMd2.memory_access_cost()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.memory_complexity"><code class="docutils literal notranslate"><span class="pre">BJMMd2.memory_complexity()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">BJMMd2.optimal_parameters()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd2.p"><code class="docutils literal notranslate"><span class="pre">BJMMd2.p()</span></code></a></li>
@@ -978,6 +1049,7 @@ process.</p>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.initialize_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">BJMMd3.initialize_parameter_ranges()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.l"><code class="docutils literal notranslate"><span class="pre">BJMMd3.l()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.memory_access"><code class="docutils literal notranslate"><span class="pre">BJMMd3.memory_access</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.memory_access_cost"><code class="docutils literal notranslate"><span class="pre">BJMMd3.memory_access_cost()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.memory_complexity"><code class="docutils literal notranslate"><span class="pre">BJMMd3.memory_complexity()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">BJMMd3.optimal_parameters()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMMd3.p"><code class="docutils literal notranslate"><span class="pre">BJMMd3.p()</span></code></a></li>

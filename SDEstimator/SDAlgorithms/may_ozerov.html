@@ -384,6 +384,29 @@ In: Annual International Conference on the Theory and Applications of Cryptograp
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerov.memory_access_cost">
+<span class="sig-name descname"><span class="pre">memory_access_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerov.memory_access_cost" title="Permalink to this definition">#</a></dt>
+<dd><p>INPUT:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">`mem</span></code> – memory consumption of an algorithm</p></li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model </dt><dd><dl>
+<dt>(default: 0, choices: </dt><dd><p>0 - constant, 
+1 - logarithmic, 
+2 - square-root, 
+3 - cube-root or deploy custom function which takes as input the</p>
+<blockquote>
+<div><p>logarithm of the total memory usage)</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerov.memory_complexity">
 <span class="sig-name descname"><span class="pre">memory_complexity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerov.memory_complexity" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the memory complexity of the algorithm</p>
@@ -543,6 +566,29 @@ In: Annual International Conference on the Theory and Applications of Cryptograp
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD2.memory_access">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">memory_access</span></span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD2.memory_access" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the attribtue _memory_access</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD2.memory_access_cost">
+<span class="sig-name descname"><span class="pre">memory_access_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD2.memory_access_cost" title="Permalink to this definition">#</a></dt>
+<dd><p>INPUT:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">`mem</span></code> – memory consumption of an algorithm</p></li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model </dt><dd><dl>
+<dt>(default: 0, choices: </dt><dd><p>0 - constant, 
+1 - logarithmic, 
+2 - square-root, 
+3 - cube-root or deploy custom function which takes as input the</p>
+<blockquote>
+<div><p>logarithm of the total memory usage)</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ul>
 </dd></dl>
 
 <dl class="py method">
@@ -734,6 +780,29 @@ process.</p>
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD3.memory_access">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">memory_access</span></span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD3.memory_access" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the attribtue _memory_access</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD3.memory_access_cost">
+<span class="sig-name descname"><span class="pre">memory_access_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD3.memory_access_cost" title="Permalink to this definition">#</a></dt>
+<dd><p>INPUT:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">`mem</span></code> – memory consumption of an algorithm</p></li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model </dt><dd><dl>
+<dt>(default: 0, choices: </dt><dd><p>0 - constant, 
+1 - logarithmic, 
+2 - square-root, 
+3 - cube-root or deploy custom function which takes as input the</p>
+<blockquote>
+<div><p>logarithm of the total memory usage)</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ul>
 </dd></dl>
 
 <dl class="py method">
@@ -929,6 +998,7 @@ process.</p>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerov.has_optimal_parameter"><code class="docutils literal notranslate"><span class="pre">MayOzerov.has_optimal_parameter()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerov.initialize_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">MayOzerov.initialize_parameter_ranges()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerov.memory_access"><code class="docutils literal notranslate"><span class="pre">MayOzerov.memory_access</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerov.memory_access_cost"><code class="docutils literal notranslate"><span class="pre">MayOzerov.memory_access_cost()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerov.memory_complexity"><code class="docutils literal notranslate"><span class="pre">MayOzerov.memory_complexity()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerov.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">MayOzerov.optimal_parameters()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerov.parameter_names"><code class="docutils literal notranslate"><span class="pre">MayOzerov.parameter_names()</span></code></a></li>
@@ -947,6 +1017,7 @@ process.</p>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD2.initialize_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">MayOzerovD2.initialize_parameter_ranges()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD2.l"><code class="docutils literal notranslate"><span class="pre">MayOzerovD2.l()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD2.memory_access"><code class="docutils literal notranslate"><span class="pre">MayOzerovD2.memory_access</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD2.memory_access_cost"><code class="docutils literal notranslate"><span class="pre">MayOzerovD2.memory_access_cost()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD2.memory_complexity"><code class="docutils literal notranslate"><span class="pre">MayOzerovD2.memory_complexity()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD2.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">MayOzerovD2.optimal_parameters()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD2.p"><code class="docutils literal notranslate"><span class="pre">MayOzerovD2.p()</span></code></a></li>
@@ -967,6 +1038,7 @@ process.</p>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD3.initialize_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">MayOzerovD3.initialize_parameter_ranges()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD3.l"><code class="docutils literal notranslate"><span class="pre">MayOzerovD3.l()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD3.memory_access"><code class="docutils literal notranslate"><span class="pre">MayOzerovD3.memory_access</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD3.memory_access_cost"><code class="docutils literal notranslate"><span class="pre">MayOzerovD3.memory_access_cost()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD3.memory_complexity"><code class="docutils literal notranslate"><span class="pre">MayOzerovD3.memory_complexity()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD3.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">MayOzerovD3.optimal_parameters()</span></code></a></li>
 <li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerovD3.p"><code class="docutils literal notranslate"><span class="pre">MayOzerovD3.p()</span></code></a></li>
