@@ -160,6 +160,7 @@
   <ul>
 <li class="toctree-l1"><a class="reference internal" href="../base_constants.html">base_constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../base_algorithm.html">base_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../main.html">main</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../helper.html">helper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../base_problem.html">base_problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../base_estimator.html">base_estimator</a></li>
@@ -422,7 +423,7 @@ sage: A.table()
 <p>TESTS:</p>
 <blockquote>
 <div><p>sage: from cryptographic_estimators.SDEstimator import SDEstimator
-sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1, workfactor_accuracy=10)
+sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1, workfactor_accuracy=25)
 sage: A.table(show_tilde_o_time=1, precision=0) # long time
 +—————+—————+——————+
 |               |    estimate   | tilde_o_estimate |

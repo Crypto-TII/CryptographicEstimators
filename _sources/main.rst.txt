@@ -1,0 +1,10 @@
+----
+main
+----
+
+.. automodule:: cryptographic_estimators.main
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

@@ -15,6 +15,7 @@ TII cryptanalysis library following SageMath guidelines.
 
     base_constants
     base_algorithm
+    main
     helper
     base_problem
     base_estimator
