@@ -34,11 +34,7 @@ class SDEstimator(BaseEstimator):
     - ``w`` -- error weight
     - ``excluded_algorithms`` -- a list/tuple of excluded algorithms (default: None)
     - ``nsolutions`` -- no. of solutions
-    # TODO does it make sense to put this parameter here?
-    - ``c`` -- Markov chain parameter
-
     TODO: Maybe we should add the optional_parameters dictionary here?
-
     """
 
     excluded_algorithms_by_default = [BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3]
