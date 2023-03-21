@@ -56,7 +56,7 @@ class SDProblem(BaseProblem):
         self.doom = kwargs.get("doom", 1)
         self.qc = kwargs.get("qc", 0)
         if self.qc == 1:
-            if n // 2 == k:
+            if (n // 2) != k:
                 raise ValueError("n // 2 == k")
             self.doom = k
 

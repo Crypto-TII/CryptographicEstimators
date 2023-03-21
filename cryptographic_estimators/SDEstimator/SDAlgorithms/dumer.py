@@ -58,7 +58,7 @@ class Dumer(SDAlgorithm):
         self._name = "Dumer"
         self.initialize_parameter_ranges()
         self.scipy_model = DumerScipyModel
-        self.doom = log2(sqrt(problem.doom))
+        self.doom = log2(problem.doom)
 
     def initialize_parameter_ranges(self):
         """

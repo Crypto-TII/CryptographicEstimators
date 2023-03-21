@@ -53,7 +53,7 @@ class Stern(SDAlgorithm):
         super(Stern, self).__init__(problem, **kwargs)
         self.initialize_parameter_ranges()
         self.scipy_model = SternScipyModel
-        self.doom = log2(sqrt(problem.doom))
+        self.doom = log2(problem.doom)
 
     def initialize_parameter_ranges(self):
         """
