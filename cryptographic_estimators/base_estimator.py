@@ -16,13 +16,14 @@
 # ****************************************************************************
 
 
-from .helper import concat_all_tables, round_or_truncate, ComplexityType
-from prettytable import PrettyTable
+from .helper import round_or_truncate, ComplexityType
+# from prettytable import PrettyTable
 from typing import Union, Callable
 from math import isinf
 from sage.all import *
 from .base_constants import *
 from .base_algorithm import *
+from .estimation_renderer import EstimationRenderer
 
 
 class BaseEstimator(object):
@@ -258,64 +259,64 @@ class BaseEstimator(object):
 
         return self.estimates
 
-    def _create_initial_table_containing_algorithm_column(self):
-        """
-        creates a `PrettyTable` with the analysis results, containg
-            - expected runtime and memory
-            - optimal parameters
+    # def _create_initial_table_containing_algorithm_column(self):
+    #     """
+    #     creates a `PrettyTable` with the analysis results, containg
+    #         - expected runtime and memory
+    #         - optimal parameters
 
-        """
-        tbl = PrettyTable([BASE_ALGORITHM])
-        tbl.padding_width = 1
-        tbl.title = ' '
-        tbl.align[BASE_ALGORITHM] = "l"
+    #     """
+    #     tbl = PrettyTable([BASE_ALGORITHM])
+    #     tbl.padding_width = 1
+    #     tbl.title = ' '
+    #     tbl.align[BASE_ALGORITHM] = "l"
 
-        for i in self.estimates.keys():
-            tbl.add_row([i])
+    #     for i in self.estimates.keys():
+    #         tbl.add_row([i])
 
-        return tbl
+    #     return tbl
 
-    def _create_subtable_containing_all_columns(self, sub_table_name: str,
-                                                show_all_parameters: bool):
-        """
-        Creates a `PrettyTable` subtable.
+    # def _create_subtable_containing_all_columns(self, sub_table_name: str,
+    #                                             show_all_parameters: bool):
+    #     """
+    #     Creates a `PrettyTable` subtable.
 
-        INPUT:
+    #     INPUT:
 
-        - ``sub_table_name`` -- TODO
-        - ``show_all_parameters`` --  TODO
+    #     - ``sub_table_name`` -- TODO
+    #     - ``show_all_parameters`` --  TODO
 
-        """
-        key = list(self.estimates.keys())[0]
-        table_columns = [i for i in list(self.estimates[key][sub_table_name].keys()) if
-                         i != BASE_PARAMETERS or show_all_parameters]
-        tbl = PrettyTable(table_columns, min_table_width=len(sub_table_name))
-        tbl.padding_width = 1
-        tbl.title = sub_table_name
-        if BASE_TIME in table_columns:
-            tbl.align[BASE_TIME] = "r"
-        if BASE_MEMORY in table_columns:
-            tbl.align[BASE_MEMORY] = "r"
-        return tbl
+    #     """
+    #     key = list(self.estimates.keys())[0]
+    #     table_columns = [i for i in list(self.estimates[key][sub_table_name].keys()) if
+    #                      i != BASE_PARAMETERS or show_all_parameters]
+    #     tbl = PrettyTable(table_columns, min_table_width=len(sub_table_name))
+    #     tbl.padding_width = 1
+    #     tbl.title = sub_table_name
+    #     if BASE_TIME in table_columns:
+    #         tbl.align[BASE_TIME] = "r"
+    #     if BASE_MEMORY in table_columns:
+    #         tbl.align[BASE_MEMORY] = "r"
+    #     return tbl
 
-    def _add_rows(self, tbl, truncate, precision):
-        """
+    # def _add_rows(self, tbl, truncate, precision):
+    #     """
 
-        INPUT:
+    #     INPUT:
 
-        - ``tbl`` -- current `PrettyTable` table
-        - ``truncate`` -- bool: if set the value will be truncated
-        - ``precision`` -- number of decimal digits to round/truncate to
+    #     - ``tbl`` -- current `PrettyTable` table
+    #     - ``truncate`` -- bool: if set the value will be truncated
+    #     - ``precision`` -- number of decimal digits to round/truncate to
 
-        """
-        for i in self.estimates.keys():
-            row = [self.estimates[i][tbl.title][k] for k in tbl.field_names]
-            row = [round_or_truncate(i, truncate, precision)
-                   if i in RR else i for i in row]
-            tbl.add_row(row)
-        return tbl
+    #     """
+    #     for i in self.estimates.keys():
+    #         row = [self.estimates[i][tbl.title][k] for k in tbl.field_names]
+    #         row = [round_or_truncate(i, truncate, precision)
+    #                if i in RR else i for i in row]
+    #         tbl.add_row(row)
+    #     return tbl
 
-    def table(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0):
+    def table(self, **kwargs):
         """
         Print table describing the complexity of each algorithm and its optimal parameters
 
@@ -328,37 +329,39 @@ class BaseEstimator(object):
         - ``truncate`` -- truncate rather than round the output (default: false)
 
         """
+        renderer = EstimationRenderer(**kwargs)
+        renderer.as_table(self.estimate())
 
-        self.include_tildeo = show_tilde_o_time
-        self.include_quantum = show_quantum_complexity
-        est = self.estimate()
+        # self.include_tildeo = show_tilde_o_time
+        # self.include_quantum = show_quantum_complexity
+        # est = self.estimate()
 
-        if est is None:
-            print("No algorithms associated with this estimator.")
-        key = list(est.keys())[0]
-        tables = []
-        tbl = self._create_initial_table_containing_algorithm_column()
-        tables.append(tbl)
+        # if est is None:
+        #     print("No algorithms associated with this estimator.")
+        # key = list(est.keys())[0]
+        # tables = []
+        # tbl = self._create_initial_table_containing_algorithm_column()
+        # tables.append(tbl)
 
-        for j in est[key].keys().__reversed__():
-            if j == BASE_QUANTUMO and not show_quantum_complexity:
-                continue
-            if j == BASE_TILDEO_ESTIMATE and not show_tilde_o_time:
-                continue
-            if j == BASE_ADDITIONALO:
-                continue
+        # for j in est[key].keys().__reversed__():
+        #     if j == BASE_QUANTUMO and not show_quantum_complexity:
+        #         continue
+        #     if j == BASE_TILDEO_ESTIMATE and not show_tilde_o_time:
+        #         continue
+        #     if j == BASE_ADDITIONALO:
+        #         continue
 
-            tbl = self._create_subtable_containing_all_columns(
-                j, show_all_parameters)
-            self._add_rows(tbl, truncate, precision)
-            tables.append(tbl)
+        #     tbl = self._create_subtable_containing_all_columns(
+        #         j, show_all_parameters)
+        #     self._add_rows(tbl, truncate, precision)
+        #     tables.append(tbl)
 
-            if j == BASE_QUANTUMO:
-                tbl._min_width = {BASE_TIME: len(BASE_QUANTUMO)}
+        #     if j == BASE_QUANTUMO:
+        #         tbl._min_width = {BASE_TIME: len(BASE_QUANTUMO)}
 
-        tbl_join = concat_all_tables(tables)
+        # tbl_join = concat_all_tables(tables)
 
-        print(tbl_join)
+        # print(tbl_join)
 
     def fastest_algorithm(self, use_tilde_o_time=False):
         """
