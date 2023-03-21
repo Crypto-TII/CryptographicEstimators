@@ -18,7 +18,6 @@
 
 from ..base_problem import BaseProblem
 from math import comb, log2
-from sage.all import GF
 from .sd_constants import *
 
 
@@ -59,7 +58,8 @@ class SDProblem(BaseProblem):
 
         """
         n = self.parameters[SD_CODE_LENGTH]
-        return log2(n) + basic_operations
+        q = 2
+        return log2(log2(q)) + log2(n) + basic_operations
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
