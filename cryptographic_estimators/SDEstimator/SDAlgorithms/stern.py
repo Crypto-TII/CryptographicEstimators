@@ -52,7 +52,6 @@ class Stern(SDAlgorithm):
         super(Stern, self).__init__(problem, **kwargs)
         self.initialize_parameter_ranges()
         self.scipy_model = SternScipyModel
-        self.doom = log2(problem.doom)
 
     def initialize_parameter_ranges(self):
         """
@@ -155,7 +154,7 @@ class Stern(SDAlgorithm):
             return inf, memory_bound + 1
 
         Tp = max(0, log2(binom(n, w)) - log2(binom(n - k, w - 2 * par.p))
-                 - log2(binom(k1, par.p) ** 2) - solutions - self.doom)
+                 - log2(binom(k1, par.p) ** 2) - solutions)
 
         # We use Indyk-Motwani (IM) taking into account the possibility of multiple existing solutions
         # with correct weight distribution, decreasing the amount of necessary projections

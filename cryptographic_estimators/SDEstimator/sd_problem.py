@@ -32,7 +32,6 @@ class SDProblem(BaseProblem):
     - ``k`` -- code dimension
     - ``w`` -- error weight
     - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
-    - ``doom`` -- boolean value indicating the existence of multiple syndromes, allowing to apply the DOOM technique
     - ``qc`` -- if set, the problem is an Quasi-Cyclic problem instance with k = n/2.
 
     """
@@ -53,7 +52,7 @@ class SDProblem(BaseProblem):
             self.expected_number_solutions(), 0))
         # is set to 1, s.t. log(doom) = 0 is the standard value
 
-        self.doom = kwargs.get("doom", 1)
+        self.doom = 1
         self.qc = kwargs.get("qc", 0)
         if self.qc == 1:
             if (n // 2) != k:

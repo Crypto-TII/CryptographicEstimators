@@ -124,7 +124,7 @@ class SDEstimator(BaseEstimator):
 
             sage: from cryptographic_estimators.SDEstimator import SDEstimator
             sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import *
-            sage: A = SDEstimator(16386,16386//2,128,doom=16386//2,excluded_algorithms=[BJMMdw,BJMMpdw,MayOzerov,BothMay,BallCollision])
+            sage: A = SDEstimator(16386,16386//2,128,qc=True,excluded_algorithms=[BJMMdw,BJMMpdw,MayOzerov,BothMay,BallCollision,Stern,Dumer])
             sage: A.table(precision=3, show_all_parameters=1)
             +-----------+--------------------------------------------------------------------+
             |           |                              estimate                              |
@@ -132,24 +132,7 @@ class SDEstimator(BaseEstimator):
             | algorithm |    time | memory |                    parameters                   |
             +-----------+---------+--------+-------------------------------------------------+
             | BJMM      | 138.242 | 51.146 | {'r': 10, 'depth': 2, 'p': 4, 'p1': 3, 'l': 71} |
-            | Dumer     | 133.239 | 38.010 |            {'r': 10, 'l': 27, 'p': 2}           |
             | Prange    | 153.584 | 27.170 |                    {'r': 10}                    |
-            | Stern     | 132.635 | 38.001 |            {'r': 10, 'p': 2, 'l': 32}           |
-            +-----------+---------+--------+-------------------------------------------------+
-
-            sage: from cryptographic_estimators.SDEstimator import SDEstimator
-            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import *
-            sage: A = SDEstimator(16386,16386//2,128,qc=True,excluded_algorithms=[BJMMdw,BJMMpdw,MayOzerov,BothMay,BallCollision])
-            sage: A.table(precision=3, show_all_parameters=1)
-            +-----------+--------------------------------------------------------------------+
-            |           |                              estimate                              |
-            +-----------+---------+--------+-------------------------------------------------+
-            | algorithm |    time | memory |                    parameters                   |
-            +-----------+---------+--------+-------------------------------------------------+
-            | BJMM      | 138.242 | 51.146 | {'r': 10, 'depth': 2, 'p': 4, 'p1': 3, 'l': 71} |
-            | Dumer     | 133.239 | 38.010 |            {'r': 10, 'l': 27, 'p': 2}           |
-            | Prange    | 153.584 | 27.170 |                    {'r': 10}                    |
-            | Stern     | 132.635 | 38.001 |            {'r': 10, 'p': 2, 'l': 32}           |
             +-----------+---------+--------+-------------------------------------------------+
             
         """

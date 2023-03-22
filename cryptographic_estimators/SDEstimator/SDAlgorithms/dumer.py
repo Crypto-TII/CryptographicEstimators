@@ -57,7 +57,6 @@ class Dumer(SDAlgorithm):
         self._name = "Dumer"
         self.initialize_parameter_ranges()
         self.scipy_model = DumerScipyModel
-        self.doom = log2(problem.doom)
 
     def initialize_parameter_ranges(self):
         """
@@ -135,7 +134,7 @@ class Dumer(SDAlgorithm):
             return inf, memory_bound + 1
 
         Tp = max(
-            log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p)) - log2(binom(k1, par.p) ** 2) - solutions - self.doom, 0)
+            log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p)) - log2(binom(k1, par.p) ** 2) - solutions, 0)
         Tg = _gaussian_elimination_complexity(n, k, par.r)
         time = Tp + log2(Tg + _list_merge_complexity(L1, par.l, self._hmap))
 
