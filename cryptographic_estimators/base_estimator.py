@@ -16,8 +16,7 @@
 # ****************************************************************************
 
 
-from .helper import round_or_truncate, ComplexityType
-# from prettytable import PrettyTable
+from .helper import ComplexityType
 from typing import Union, Callable
 from math import isinf
 from sage.all import *
