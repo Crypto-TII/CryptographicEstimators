@@ -178,7 +178,7 @@
       "estimator_id": "MQEstimator",
       "algorithm_id": "MQAlgorithm",
       "display_label": "Multivariate Quadratic Estimator",
-      "landing_page_content": "# Multivariate Quadratic Estimator   \n\nThis project provides an estimator for the hardness of the multivariate quadratic problem. This problem is defined as follows: \n\nLet $\\mathbb{F}_{q}$ be a field with $q$ elements, and let $\\mathbb{F}_{q}[x_1, x_2, \\ldots, x_n]$ be the ring of polynomials in the variables $x_1, x_2, \\ldots, x_n$ and coefficients in $\\mathbb{F}_{q}$.  Given $p_1, p_2, \\ldots, p_m \\in \\; \\mathbb{F}_{q}[x_1, x_2, \\ldots, x_n]$ the  multivariate quadratic problem asks to find a vector $\\mathbf a \\in \\; \\mathbb{F}_q^n$ satisfying $p_{i}(\\mathbf a ) = 0$ for all $i=1,2,\\ldots,m$.  \n\nMore details on the theoretical foundations of the estimator can be found in the corresponding paper:  *[[BMSV22]](https://eprint.iacr.org/2022/708.pdf) Emanuele Bellini, Rusydi H. Makarim, Carlo Sanna, and Javier Verbel. An Estimator for the Hardness of the MQ Problem. AFRICACRYPT 2022, 13th International Conference on Cryptography.*",
+      "landing_page_content": "# Multivariate Quadratic Estimator\n\nThis project provides an estimator for the hardness of the multivariate quadratic problem. This problem is defined as follows: \n\nLet $\\mathbb{F}_{q}$ be a field with $q$ elements, and let $\\mathbb{F}_{q}[x_1, x_2, \\ldots, x_n]$ be the ring of polynomials in the variables $x_1, x_2, \\ldots, x_n$ and coefficients in $\\mathbb{F}_{q}$. Given $p_1, p_2, \\ldots, p_m \\in \\; \\mathbb{F}_{q}[x_1, x_2, \\ldots, x_n]$ the  multivariate quadratic problem asks to find a vector $\\mathbf a \\in \\; \\mathbb{F}_q^n$ satisfying $p_{i}(\\mathbf a ) = 0$ for all $i=1,2,\\ldots,m$. \n\nMore details on the theoretical foundations of the estimator can be found in the corresponding paper: \n\n*[[BMSV22]](https://eprint.iacr.org/2022/708.pdf) Emanuele Bellini, Rusydi H. Makarim, Carlo Sanna, and Javier Verbel. An Estimator for the Hardness of the MQ Problem. AFRICACRYPT 2022, 13th International Conference on Cryptography.*\n",
       "problem_parameters": [
         {
           "id": "n",
@@ -376,7 +376,7 @@
           "type": "switch",
           "display_label": "Bit complexities",
           "default_value": true,
-          "tooltip": "Show complexities as count of bit operations. If false, show number of elmentary operations"
+          "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
         },
         {
           "id": "included_algorithms",
@@ -508,7 +508,6 @@
                 "type": "number",
                 "direction": "column",
                 "display_label": "Memory limit",
-                "default_value": null,
                 "placeholder": "Insert value",
                 "caption": "Leave empty if no limit is desired",
                 "tooltip": "Log2 of the maximum number of bits of memory available"
@@ -528,7 +527,7 @@
               "type": "switch",
               "display_label": "Bit complexities",
               "default_value": true,
-              "tooltip": "Show complexities as count of bit operations. If false, show number of elmentary operations"
+              "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
         },
         {
               "id": "included_algorithms",
@@ -559,7 +558,31 @@
               "tooltip": "Number of decimal digits to display"
        }
         ],
-		"optional_parameters":[]
+		"optional_parameters":[
+       {
+              "id": "cost_for_list_operation",
+              "type": "number",
+              "display_label": "List operation cost (Time)",
+              "direction": "column",
+              "placeholder",: "Insert value",
+              "tooltip": "Cost in Fq additions for one list operation in the SBC and KMP algorithms"
+       },
+      {
+              "id": "memory_for_list_element",
+              "type": "number",
+              "display_label": "List operation cost (Memory)",
+              "direction": "column",
+              "placeholder": "Insert value",
+              "tooltip": "Memory in Fq elements for one list element in the SBC and KMP algorithms"
+      },
+      {
+              "id": "sd_parameters",
+              "type": "number",
+              "display_label": "optional parameters of SDEstimator",
+              "direction": "column",
+              "tooltip": "Dictionary of optional parameter arguments for SDEstimator used by SBC algorithm"
+      }
+        ]
 		}
 	]
 }
