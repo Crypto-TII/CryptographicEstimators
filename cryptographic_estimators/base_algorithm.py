@@ -239,10 +239,8 @@ class BaseAlgorithm:
         """
         raise NotImplementedError
 
-
     def _find_optimal_tilde_o_parameters(self):
         raise NotImplementedError
-
 
     def _get_optimal_parameter_methods_(self):
         """
@@ -427,10 +425,9 @@ class BaseAlgorithm:
             if self.bit_complexities:
                 self._time_complexity = self.problem.to_bitcomplexity_time(
                     self._time_complexity)
+            self._time_complexity += self.memory_access_cost(
+                self.memory_complexity())
 
-            if self._memory_access != 0:
-                self._time_complexity += self.memory_access_cost(
-                    self.memory_complexity())
         else:
             self._time_complexity = self._compute_tilde_o_time_complexity(
                 params)
