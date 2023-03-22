@@ -76,9 +76,9 @@ class F5(MQAlgorithm):
         """
         return self._degrees
 
-    def time_complexity(self):
+    def _compute_time_complexity(self, parameters: dict):
         """
-        Return the time complexity of the F5 algorithm
+        Return the time complexity of the algorithm for a given set of parameters
 
         EXAMPLES::
 
@@ -86,31 +86,22 @@ class F5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = F5(MQProblem(n=10, m=15, q=3))
             sage: E.time_complexity()
-            19.934452517671986
+            21.263349932579764
 
         TESTS::
 
             sage: F5(MQProblem(n=10, m=12, q=5)).time_complexity()
-            25.934452517671986
+            28.36509910914556
 
         """
-        memory = self.memory_complexity()
-        if self.bit_complexities:
-            memory = self.problem.to_bitcomplexity_memory(memory)
-        if memory > self.problem.memory_bound:
-            self._time_complexity = inf
-            self._memory_complexity = inf
-            return inf
+        if self.problem.is_overdefined_system():
+            self._time_complexity = self._time_complexity_semi_regular_system()
+        else:
+            self._time_complexity = self._time_complexity_regular_system()
 
-        if self._time_complexity is None:
-            if self.problem.is_overdefined_system():
-                self._time_complexity = self._time_complexity_semi_regular_system()
-            else:
-                self._time_complexity = self._time_complexity_regular_system()
-
-            if self.complexity_type == ComplexityType.ESTIMATE.value:
-                self._time_complexity = max(
-                    self._time_complexity, self._time_complexity_fglm())
+        if self.complexity_type == ComplexityType.ESTIMATE.value:
+            self._time_complexity = max(
+                self._time_complexity, self._time_complexity_fglm())
 
         return self._time_complexity
 
@@ -182,9 +173,9 @@ class F5(MQAlgorithm):
         h = self._h
         return h * log2(q) + w * log2(binomial(n + dreg, dreg))
 
-    def memory_complexity(self):
+    def _compute_memory_complexity(self, parameters: dict):
         """
-        Return the memory complexity of the F5 algorithm
+        Return the memory complexity of the algorithm for a given set of parameters
 
         EXAMPLES::
 
@@ -192,15 +183,14 @@ class F5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: F5_ = F5(MQProblem(n=10, m=12, q=5))
             sage: F5_.memory_complexity()
-            24.578308707446713
+            26.16327120816787
         """
-        if self._memory_complexity is None:
-            n, m, q = self.get_reduced_parameters()
-            if self._dreg is None:
-                self._dreg = degree_of_regularity.quadratic_system(n, m, q)
-            dreg = self._dreg
-            self._memory_complexity = log2(
-                max(binomial(n + dreg - 1, dreg) ** 2, m * n ** 2))
-            if self._memory_complexity == m * n ** 2 and self.complexity_type == ComplexityType.TILDEO.value:
-                self._memory_complexity = 0
+        n, m, q = self.get_reduced_parameters()
+        if self._dreg is None:
+            self._dreg = degree_of_regularity.quadratic_system(n, m, q)
+        dreg = self._dreg
+        self._memory_complexity = log2(
+            max(binomial(n + dreg - 1, dreg) ** 2, m * n ** 2))
+        if self._memory_complexity == m * n ** 2:
+            self._memory_complexity = 0
         return self._memory_complexity

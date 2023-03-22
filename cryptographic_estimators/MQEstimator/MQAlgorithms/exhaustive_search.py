@@ -54,9 +54,9 @@ class ExhaustiveSearch(MQAlgorithm):
         super().__init__(problem, **kwargs)
         self._name = "ExhaustiveSearch"
 
-    def time_complexity(self):
+    def _compute_time_complexity(self, parameters: dict):
         """
-        Return the time complexity of the exhaustive search algorithm
+        Return the time complexity of the algorithm for a given set of parameters
 
         EXAMPLES::
 
@@ -73,9 +73,6 @@ class ExhaustiveSearch(MQAlgorithm):
             sage: E0.time_complexity() == E1.time_complexity()
             True
         """
-        if self._time_complexity is not None:
-            return self._time_complexity
-
         n, _, q = self.get_reduced_parameters()
         nsolutions = 2 ** self.problem.nsolutions
         self._time_complexity = n * log2(q)
@@ -92,9 +89,9 @@ class ExhaustiveSearch(MQAlgorithm):
                     self._time_complexity)
         return self._time_complexity
 
-    def memory_complexity(self):
+    def _compute_memory_complexity(self, parameters: dict):
         """
-        Return the memory complexity of the exhaustive search algorithm
+        Return the memory complexity of the algorithm for a given set of parameters
 
         EXAMPLES::
 
@@ -111,9 +108,6 @@ class ExhaustiveSearch(MQAlgorithm):
             sage: E0.memory_complexity() == E1.memory_complexity()
             True
         """
-        if self._memory_complexity is not None:
-            return self._memory_complexity
-
         n, m, _ = self.get_reduced_parameters()
         self._memory_complexity = 0
         if self.complexity_type == ComplexityType.ESTIMATE.value:
