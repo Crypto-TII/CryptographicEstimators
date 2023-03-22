@@ -91,7 +91,7 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
             sage: E.k()
-            7
+            6
         """
         return self._get_optimal_parameter('k')
 
@@ -282,11 +282,11 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
             sage: E._compute_time_complexity({'k': 4, 'D': 6, 'd':4})
-            29.77510134996699
+            29.775097103935266
 
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), bit_complexities=False)
             sage: E.time_complexity()
-            19.56992234329735
+            18.987710898481645
         """
         k = parameters['k']
         D = parameters['D']
@@ -295,15 +295,14 @@ class Crossbred(MQAlgorithm):
         w = self.linear_algebra_constant()
         np = self._ncols_in_preprocessing_step(k=k, D=D, d=d)
         nl = self._ncols_in_linearization_step(k=k, d=d)
-        complexity_wiedemann = 3 * \
-            binomial(k + d, d) * binomial(n + 2, 2) * np ** 2
-        complexity_gaussian = np ** w
         complexity = Infinity
         if np > 1 and log2(np) > 1:
-            complexity = min(
-                complexity_gaussian, complexity_wiedemann) + (m * q ** (n - k) * nl ** w)
+            complexity_wiedemann = log2(3) + log2(binomial(k + d, d))  + log2(binomial(n + 2, 2)) + log2(np) * 2
+            complexity_gaussian = log2(np) * w
+            complexity_prep = min(complexity_gaussian, complexity_wiedemann)
+            complexity = max(complexity_prep, log2(m) + log2(q) * (n - k)  +  log2(nl) * w)
         h = self._h
-        return h * log2(q) + log2(complexity)
+        return h * log2(q) + complexity
 
     def _compute_memory_complexity(self, parameters: dict):
         """
@@ -323,7 +322,7 @@ class Crossbred(MQAlgorithm):
 
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), bit_complexities=False)
             sage: E.memory_complexity()
-            19.38013126659691
+            18.987846879917335
         """
         k = parameters['k']
         D = parameters['D']
@@ -350,7 +349,7 @@ class Crossbred(MQAlgorithm):
 
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), complexity_type=1)
             sage: E.time_complexity()
-            19.39681379895914
+            19.07029393169382
         """
         k = parameters['k']
         D = parameters['D']
