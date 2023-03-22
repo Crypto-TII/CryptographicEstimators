@@ -304,6 +304,12 @@ class BaseAlgorithm:
                       for i in ranges}
         return new_ranges
 
+    def _are_parameters_invalid(self, parameters: dict):
+        """
+        Specifies constraints on the parameters
+        """
+        return False
+
     def _valid_choices(self):
         """
         Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
@@ -315,7 +321,8 @@ class BaseAlgorithm:
         keys = [i for i in indices]
         stop = False
         while not stop:
-            yield indices
+            if not self._are_parameters_invalid(indices):
+                yield indices
             indices[next(iter(indices))] += 1
             for i in range(len(keys)):
                 if indices[keys[i]] > new_ranges[keys[i]]["max"]:
