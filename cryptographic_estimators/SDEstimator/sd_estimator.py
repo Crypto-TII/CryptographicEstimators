@@ -34,7 +34,7 @@ class SDEstimator(BaseEstimator):
     - ``w`` -- error weight
     - ``excluded_algorithms`` -- a list/tuple of excluded algorithms (default: None)
     - ``nsolutions`` -- no. of solutions
-    TODO: Maybe we should add the optional_parameters dictionary here?
+
     """
 
     excluded_algorithms_by_default = [BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3]

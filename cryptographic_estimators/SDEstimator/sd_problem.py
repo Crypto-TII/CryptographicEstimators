@@ -33,7 +33,7 @@ class SDProblem(BaseProblem):
     - ``w`` -- error weight
     - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
     - ``doom`` -- boolean value indicating the existence of multiple syndromes, allowing to apply the DOOM technique
-    - ``qc`` -- if set the problem is a Quasi-Cyclic problem instance with k = n/2.
+    - ``qc`` -- if set, the problem is an Quasi-Cyclic problem instance with k = n/2.
 
     """
 
@@ -57,7 +57,7 @@ class SDProblem(BaseProblem):
         self.qc = kwargs.get("qc", 0)
         if self.qc == 1:
             if (n // 2) != k:
-                raise ValueError("n // 2 == k")
+                raise ValueError("The Quasi Cyclic setting only allows for codes of the form: n // 2 == k")
             self.doom = k
 
         if self.nsolutions < 0:
@@ -75,7 +75,7 @@ class SDProblem(BaseProblem):
 
         """
         n = self.parameters[SD_CODE_LENGTH]
-        return log2(log2(2)) + log2(n) + basic_operations
+        return log2(n) + basic_operations
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
