@@ -32,19 +32,7 @@ class SSA(PEAlgorithm):
 
     def _compute_memory_complexity(self, parameters: dict):
         n, k, q, h = self.problem.get_parameters()
-
-        return log2(n*h+n*k+n*(n-k))
-
-    def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """
-
-        INPUT:
-        -  ``parameters`` -- dictionary including parameters
-        -  ``verbose_information`` -- unused
-
-        """
-        return self._compute_time_complexity(parameters), \
-               self._compute_memory_complexity(parameters)
+        return log2(n * h + n * k + n * (n - k))
 
     def __repr__(self):
         rep = "Support Splitting Algorithm estimator for " + str(self.problem)
