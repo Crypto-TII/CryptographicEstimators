@@ -47,9 +47,9 @@ class SBC(PKAlgorithm):
 
             sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
             sage: from cryptographic_estimators.PKEstimator import PKProblem
-            sage: A = SBC(PKProblem(n=100,m=50,q=31,ell=2))
+            sage: A = SBC(PKProblem(n=40,m=10,q=7,ell=2))
             sage: A.d()
-            35
+            4
 
         """
         return self._get_optimal_parameter("d")
@@ -63,9 +63,9 @@ class SBC(PKAlgorithm):
 
             sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
             sage: from cryptographic_estimators.PKEstimator import PKProblem
-            sage: A = SBC(PKProblem(n=100,m=50,q=31,ell=2))
+            sage: A = SBC(PKProblem(n=40,m=10,q=7,ell=2))
             sage: A.w()
-            57
+            32
 
         """
         return self._get_optimal_parameter("w")
@@ -79,9 +79,9 @@ class SBC(PKAlgorithm):
 
             sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
             sage: from cryptographic_estimators.PKEstimator import PKProblem
-            sage: A = SBC(PKProblem(n=100,m=50,q=31,ell=2))
+            sage: A = SBC(PKProblem(n=40,m=10,q=7,ell=2))
             sage: A.w1()
-            28
+            5
 
         """
         return self._get_optimal_parameter("w1")
@@ -116,8 +116,7 @@ class SBC(PKAlgorithm):
         best_u = 0
         n, m, q, ell = self.problem.get_parameters()
 
-        N_w = log2(binomial(n, w)) + log2((q ** d - 1) ** (w - d)) + gauss_binomial(m, d, q) - gauss_binomial(n, d,
-                                                                                                              q)  # number of expected subcodes
+        N_w = log2(binomial(n, w)) + log2(q)* d* (w - d) + gauss_binomial(m, d, q) - gauss_binomial(n, d,q)  # number of expected subcodes
 
         if N_w < 0:  # continue only if at least one subcode exists in expectation
             return inf, inf
