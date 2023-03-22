@@ -499,42 +499,66 @@
           {
 				"id": "use_parity_row",
                 "type": "switch",
-				"display_label": "Append extra row",
+				"display_label": "Use parity row",
                 "default_value": false,
                 "tooltip": "Enables trick of appending extra (all one) row to the matrix, i.e., m -> m+1"
           },
           {
-          "id": "memory_bound",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Memory limit",
-          "default_value": null,
-          "placeholder": "Insert value",
-          "caption": "Leave empty if no limit is desired",
-          "tooltip": "Log2 of the maximum number of bits of memory available"
+                "id": "memory_bound",
+                "type": "number",
+                "direction": "column",
+                "display_label": "Memory limit",
+                "default_value": null,
+                "placeholder": "Insert value",
+                "caption": "Leave empty if no limit is desired",
+                "tooltip": "Log2 of the maximum number of bits of memory available"
         },
         {
-          "id": "nsolutions",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Number of solutions",
-          "placeholder": "Insert value",
-          "tooltip": "Log2 of number of existing solutions of which one has to be found"
+              "id": "nsolutions",
+              "type": "number",
+              "direction": "column",
+              "display_label": "Number of solutions",
+              "placeholder": "Insert value",
+              "tooltip": "Log2 of number of existing solutions of which one has to be found"
         }
         ],
 		"estimator_parameters": [
-			{
-				"id": "included_algorithms",
-				"type": "multiple_selector",
-				"direction": "column",
-				"display_label": "Included algorithms",
-				"tooltip": "Algorithms to include for optimization",
-				"default_value": [],
-				"excluded_algorithms": [],
-				"options": [],
-				"dependencies": []
-			}
-		],
+        {
+              "id": "bit_complexities",
+              "type": "switch",
+              "display_label": "Bit complexities",
+              "default_value": true,
+              "tooltip": "Show complexities as count of bit operations. If false, show number of elmentary operations"
+        },
+        {
+              "id": "included_algorithms",
+              "type": "multiple_selector",
+              "direction": "column",
+              "display_label": "Included algorithms",
+              "tooltip": "Algorithms to include for optimization",
+              "default_value": [],
+              "excluded_algorithms": [],
+              "options": [],
+              "dependencies": []
+        },
+        {
+              "id": "include_tildeo",
+              "type": "switch",
+              "display_label": "Tilde-O complexity",
+              "default_value": false,
+              "tooltip": "Include complexity estimates that disregard polynomial factors",
+              "dependencies": []
+       },
+       {
+              "id": "precision",
+              "type": "number",
+              "direction": "column",
+              "display_label": "Decimal precision",
+              "default_value": 0,
+              "placeholder": "Insert value",
+              "tooltip": "Number of decimal digits to display"
+       }
+        ],
 		"optional_parameters":[]
 		}
 	]
