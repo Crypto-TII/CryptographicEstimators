@@ -464,7 +464,7 @@
 		"estimator_id": "PKEstimator",
 		"algorithm_id": "PKAlgorithm",
 		"display_label": "PKEstimator",
-		"landing_page_content": "# Permuted Kernel Estimator\n\nThis project provides an estimator for the hardness of the permuted kernel problem. This problem is defined as follows: \n\nGiven two matrices $\\mathbf{A} \\in \\; \\mathbb{F}_{q}^{m\\times n}$ and $\\mathbf{V} \\in \\; \\mathbb{F}_{q}^{\\ell \\times n}$, the permuted kernel problem asks to find a permutation $\\mathbf{P} \\in \\mathbb{F}_{q}^{m\\times n}$ such that $\\mathbf{A}(\\mathbf{V} \\mathbf{P}) = 0$\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers: \n\n*[[SBC22]](https://eprint.iacr.org/2022/1749.pdf) Paolo Santini, Marco Baldi, and Franco Chiaraluce. Computational hardness of the permuted kernel and subcode equivalence problems.*",
+		"landing_page_content": " # Permuted Kernel Estimator\n\nThis project provides an estimator for the hardness of the permuted kernel problem. This problem is defined as follows: \n\nGiven two matrices $\\mathbf{A} \\in \\; \\mathbb{F}_{q}^{m\\times n}$ and $\\mathbf{V} \\in \\; \\mathbb{F}_{q}^{\\ell \\times n}$, the permuted kernel problem asks to find a permutation $\\mathbf{P} \\in \\mathbb{F}_{q}^{m\\times n}$ such that $\\mathbf{A}(\\mathbf{V} \\mathbf{P})^\\top = 0$\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers: \n\n*[[SBC22]](https://eprint.iacr.org/2022/1749.pdf) Paolo Santini, Marco Baldi, and Franco Chiaraluce. Computational hardness of the permuted kernel and subcode equivalence problems.*",
 		"problem_parameters": [
 			{
 				"id": "n",
