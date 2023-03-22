@@ -36,7 +36,7 @@ class MQProblem(BaseProblem):
     - ``n`` -- number of variables
     - ``m`` -- number of polynomials
     - ``q`` -- order of the finite field (default: None)
-    - ``nsolutions`` --  number of (expected) solutions of the problem in logarithmic scale
+    - ``nsolutions`` --  number of solutions of the problem in logarithmic scale (default: expected_number_solutions)
     - ``memory_bound`` -- maximum allowed memory to use for solving the problem
 
     """
@@ -65,7 +65,6 @@ class MQProblem(BaseProblem):
         INPUT:
 
         - ``basic_operations`` -- Number of field additions (logarithmic)
-        - ``theta`` -- exponent of the conversion factor
 
         """
         q = self.parameters[MQ_FIELD_SIZE]
