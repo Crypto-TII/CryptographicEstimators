@@ -65,9 +65,9 @@ class PKEstimator(BaseEstimator):
 
         EXAMPLES:
 
-            sage: from cryptographic_estimators.PKEstimator import PKEstimator
-            sage: A = PKEstimator(n=100,m=50,q=31,ell=2)
-            sage: A.table()
+            >>> from cryptographic_estimators.PKEstimator import PKEstimator
+            >>> A = PKEstimator(n=100,m=50,q=31,ell=2)
+            >>> A.table()
             +-----------+----------------+
             |           |    estimate    |
             +-----------+-------+--------+
@@ -77,10 +77,10 @@ class PKEstimator(BaseEstimator):
             | SBC       | 194.3 |  187.9 |
             +-----------+-------+--------+
 
-            sage: from cryptographic_estimators.PKEstimator import PKEstimator
-            sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import KMP
-            sage: A = PKEstimator(n=100,m=50,q=31,ell=2,excluded_algorithms=[KMP])
-            sage: A.table(precision=3, show_all_parameters=1)
+            python: from cryptographic_estimators.PKEstimator import PKEstimator
+            python: from cryptographic_estimators.PKEstimator.PKAlgorithms import KMP
+            python: A = PKEstimator(n=100,m=50,q=31,ell=2,excluded_algorithms=[KMP])
+            python: A.table(precision=3, show_all_parameters=1)
             +-----------+--------------------------------------------------+
             |           |                     estimate                     |
             +-----------+---------+---------+------------------------------+
