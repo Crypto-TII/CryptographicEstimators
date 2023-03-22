@@ -86,6 +86,17 @@ class SBC(PKAlgorithm):
         """
         return self._get_optimal_parameter("w1")
 
+    def _are_parameters_invalid(self, parameters: dict):
+        d = parameters["d"]
+        w = parameters["w"]
+        w1 = parameters["w1"]
+
+        n, m, q, ell = self.problem.get_parameters()
+
+        if w1 > w or w < d or n - w < m - d or (d == 1 and w > n - m):
+            return True
+        return False
+
     def _compute_time_and_memory(self, parameters: dict, verbose_information=None):
         """
         Computes the time and memory complexity of the SBC algorithm in number of Fq additions and Fq elements resp.
@@ -104,9 +115,6 @@ class SBC(PKAlgorithm):
         memory = inf
         best_u = 0
         n, m, q, ell = self.problem.get_parameters()
-
-        if w1 > w or w < d or n - w < m - d or (d == 1 and w > n - m):
-            return inf, inf
 
         N_w = log2(binomial(n, w)) + log2((q ** d - 1) ** (w - d)) + gauss_binomial(m, d, q) - gauss_binomial(n, d,
                                                                                                               q)  # number of expected subcodes
