@@ -74,6 +74,15 @@ class BBPS(LEAlgorithm):
         """
         return self._get_optimal_parameter("w_prime")
 
+    def _are_parameters_invalid(self, parameters: dict):
+        w = parameters["w"]
+        w_prime = parameters["w_prime"]
+        n, k, q = self.problem.get_parameters()
+
+        if w < w_prime + 1 or w > 2 * w_prime - 1 or w_prime > n-k:
+            return True
+        return False
+
     def _time_and_memory_complexity(self, parameters, verbose_information=None):
         """
         Return time complexity of BBPS algorithm
@@ -87,9 +96,6 @@ class BBPS(LEAlgorithm):
         w = parameters["w"]
         w_prime = parameters["w_prime"]
         n, k, q = self.problem.get_parameters()
-
-        if w < w_prime + 1 or w > 2 * w_prime - 1 or w_prime > n-k:
-            return inf, inf
 
         self.SDFqEstimator=SDFqEstimator(n=n, k=k, w=w_prime, q=q, bit_complexities=0, nsolutions=0,
                                          memory_bound=self.problem.memory_bound, **self._SDFqEstimator_parameters)
@@ -121,9 +127,9 @@ class BBPS(LEAlgorithm):
             time += log2(L_prime)
 
         if verbose_information is not None:
-            verbose_information[VerboseInformation.NW] = Nw_prime
-            verbose_information[VerboseInformation.LISTS] = L_prime
-            verbose_information[VerboseInformation.ISD] = c_isd
+            verbose_information[VerboseInformation.NW.value] = Nw_prime
+            verbose_information[VerboseInformation.LISTS.value] = L_prime
+            verbose_information[VerboseInformation.ISD.value] = c_isd
 
         return time, self.SDFqEstimator.fastest_algorithm().memory_complexity()
 
