@@ -65,9 +65,9 @@ class MHT(MQAlgorithm):
         self._n_reduced = n
         self._m_reduced = m
 
-    def time_complexity(self):
+    def _compute_time_complexity(self, parameters: dict):
         """
-        Return the time complexity of mht algorithm
+        Return the time complexity of the algorithm for a given set of parameters
 
         EXAMPLES::
 
@@ -75,7 +75,7 @@ class MHT(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = MHT(MQProblem(n=183, m=12, q=4), w=2.8)
             sage: E.time_complexity()
-            24.628922047916475
+            26.628922047916475
         """
         n, m, _ = self.problem.get_problem_parameters()
         w = self.linear_algebra_constant()
@@ -83,15 +83,13 @@ class MHT(MQAlgorithm):
             time = 0
         else:
             time = m
-        if self.complexity_type == ComplexityType.ESTIMATE.value:
-            time += log2(m * n ** w)
-        else:
-            time += 0
+
+        time += log2(m * n ** w)
         return time
 
-    def memory_complexity(self):
+    def _compute_memory_complexity(self, parameters: dict):
         """
-        Return the memory complexity of MHT algorithm
+        Return the memory complexity of the algorithm for a given set of parameters
 
         EXAMPLES::
 
@@ -99,7 +97,7 @@ class MHT(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = MHT(MQProblem(n=183, m=12, q=4), w=2.8)
             sage: E.memory_complexity()
-            18.61636217728924
+            19.61636217728924
         """
         n, m, q = self.problem.get_problem_parameters()
         if self.complexity_type == ComplexityType.ESTIMATE.value:
