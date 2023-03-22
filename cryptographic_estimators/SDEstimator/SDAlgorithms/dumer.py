@@ -118,9 +118,6 @@ class Dumer(SDAlgorithm):
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
 
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
-
         memory_bound = self.problem.memory_bound
 
         L1 = binom(k1, par.p)
