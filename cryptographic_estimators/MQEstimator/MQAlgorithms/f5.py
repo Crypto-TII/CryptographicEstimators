@@ -86,12 +86,12 @@ class F5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = F5(MQProblem(n=10, m=15, q=3))
             sage: E.time_complexity()
-            21.263349932579764
+            29.077131123796804
 
         TESTS::
 
             sage: F5(MQProblem(n=10, m=12, q=5)).time_complexity()
-            28.36509910914556
+            35.53502411058788
 
         """
         if self.problem.is_overdefined_system():
@@ -99,9 +99,8 @@ class F5(MQAlgorithm):
         else:
             self._time_complexity = self._time_complexity_regular_system()
 
-        if self.complexity_type == ComplexityType.ESTIMATE.value:
-            self._time_complexity = max(
-                self._time_complexity, self._time_complexity_fglm())
+        self._time_complexity = max(
+            self._time_complexity, self._time_complexity_fglm())
 
         return self._time_complexity
 
@@ -144,8 +143,7 @@ class F5(MQAlgorithm):
             self._dreg = degree_of_regularity.quadratic_system(n, m, q)
         dreg = self._dreg
         time = w * log2(binomial(n + dreg - 1, dreg))
-        if self.complexity_type == ComplexityType.ESTIMATE.value:
-            time += w * log2(m)
+        time += w * log2(m)
         h = self._h
         return h * log2(q) + time
 
@@ -159,7 +157,7 @@ class F5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: F5_ = F5(MQProblem(n=5, m=10, q=3))
             sage: F5_._time_complexity_semi_regular_system()
-            11.614709844115207
+            18.258566033889934
         """
         if not self.problem.is_overdefined_system():
             raise ValueError(
@@ -171,7 +169,7 @@ class F5(MQAlgorithm):
             self._dreg = degree_of_regularity.quadratic_system(n, m, q)
         dreg = self._dreg
         h = self._h
-        return h * log2(q) + w * log2(binomial(n + dreg, dreg))
+        return h * log2(q) + w * log2(m * binomial(n + dreg, dreg))
 
     def _compute_memory_complexity(self, parameters: dict):
         """
@@ -194,3 +192,71 @@ class F5(MQAlgorithm):
         if self._memory_complexity == m * n ** 2:
             self._memory_complexity = 0
         return self._memory_complexity
+
+
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
+        """
+        Return the Ō time complexity of the algorithm for a given set of parameters
+
+        """
+        if self.problem.is_overdefined_system():
+            self._time_complexity = self._tilde_o_time_complexity_semi_regular_system(parameters)
+        else:
+            self._time_complexity = self._tilde_o_time_complexity_regular_system(parameters)
+
+        self._time_complexity = max(
+            self._time_complexity, self._tilde_o_time_complexity_fglm(parameters))
+
+        return self._time_complexity
+
+    def _tilde_o_time_complexity_fglm(self, parameters: dict):
+        """
+        Return the Ō time complexity of the FGLM algorithm for this system
+
+        """
+        n, _, q = self.get_reduced_parameters()
+        D = 2 ** self.problem.nsolutions
+        h = self._h
+        return h * log2(q) + log2(D ** 3)
+
+    def _tilde_o_time_complexity_regular_system(self, parameters: dict):
+        """
+        Return the Ō time complexity for regular system
+
+        """
+        if not (self.problem.is_square_system() or self.problem.is_underdefined_system()):
+            raise ValueError(
+                "regularity assumption is valid only on square or underdefined system")
+
+        n, m, q = self.get_reduced_parameters()
+        w = self.linear_algebra_constant()
+        if self._dreg is None:
+            self._dreg = degree_of_regularity.quadratic_system(n, m, q)
+        dreg = self._dreg
+        time = w * log2(binomial(n + dreg - 1, dreg))
+        h = self._h
+        return h * log2(q) + time
+
+    def _tilde_o_time_complexity_semi_regular_system(self,  parameters: dict):
+        """
+        Return the Ō time complexity for semi-regular system
+
+        """
+        if not self.problem.is_overdefined_system():
+            raise ValueError(
+                "semi regularity assumption is valid only on overdefined system")
+
+        n, m, q = self.get_reduced_parameters()
+        w = self.linear_algebra_constant()
+        if self._dreg is None:
+            self._dreg = degree_of_regularity.quadratic_system(n, m, q)
+        dreg = self._dreg
+        h = self._h
+        return h * log2(q) + w * log2(binomial(n + dreg, dreg))
+
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
+        """
+        Return the Ō  memory complexity of the algorithm for a given set of parameters
+
+        """
+        return self._compute_memory_complexity(parameters)
