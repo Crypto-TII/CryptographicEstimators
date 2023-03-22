@@ -239,6 +239,9 @@ class BaseAlgorithm:
         """
         raise NotImplementedError
 
+    def _find_optimal_tilde_o_parameters(self):
+        raise NotImplementedError
+
     def _get_optimal_parameter_methods_(self):
         """
         Return a list of methods decorated with @optimal_parameter ordered by linenumber of appearance
