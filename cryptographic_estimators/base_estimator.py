@@ -316,7 +316,7 @@ class BaseEstimator(object):
     #         tbl.add_row(row)
     #     return tbl
 
-    def table(self, **kwargs):
+    def table(self, show_quantum_complexity=false, show_tilde_o_time=false, show_all_parameters=false, precision=1, truncate=false):
         """
         Print table describing the complexity of each algorithm and its optimal parameters
 
@@ -329,11 +329,13 @@ class BaseEstimator(object):
         - ``truncate`` -- truncate rather than round the output (default: false)
 
         """
-        renderer = EstimationRenderer(**kwargs)
+        self.include_tildeo = show_tilde_o_time
+        self.include_quantum = show_quantum_complexity
+        renderer = EstimationRenderer(
+            show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate
+        )
         renderer.as_table(self.estimate())
 
-        # self.include_tildeo = show_tilde_o_time
-        # self.include_quantum = show_quantum_complexity
         # est = self.estimate()
 
         # if est is None:
