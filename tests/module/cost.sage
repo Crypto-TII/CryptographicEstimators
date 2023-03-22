@@ -43,12 +43,15 @@ def peters_isd(n,k,q,w):
     mincost=10000000;
     bestp=0;
     bestl=0;
-    max_p = min(11,floor(k/2));
+    max_p = min(w//2,floor(k/2));
     for p in range(1,max_p):
         Anum=binomial(x,p);
         Bnum=binomial(k-x,p);
         #for(l=1,floor(log(Anum)/log(q)+p*log(q-1)/log(q))+10,\
         for l in range(1,floor( log(Anum)/log(q)+p*log(q-1)/log(q))+10 +1):
+            if (n-k-l <= w-2*p):
+                continue
+
            # if(q==2):
             ops=0.5*(n-k)^2*(n+k)+ ((0.5*k-p+1)+(Anum+Bnum)*(q-1)^p)*l+ q/(q-1.)*(w-2*p+1)*2*p*(1+(q-2)/(q-1.))*Anum*Bnum*(q-1)^(2*p)/q^l;
           #ops=(n-k)^2*(n+k)\
