@@ -49,6 +49,7 @@ class Leon(PEAlgorithm):
         Return the optimal parameter $w$ used in the algorithm optimization
 
         EXAMPLES::
+
             sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Leon
             sage: from cryptographic_estimators.PEEstimator import PEProblem
             sage: A = Leon(PEProblem(n=100,k=50,q=3))
