@@ -107,7 +107,7 @@ class SDEstimator(BaseEstimator):
             +---------------+------+--------+-------+----------+
 
             sage: from cryptographic_estimators.SDEstimator import SDEstimator
-            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
+            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw, BJMM_plus
             sage: A = SDEstimator(3488,2720,64,excluded_algorithms=[BJMMdw,BJMM_plus])
             sage: A.table(precision=3, show_all_parameters=1) # long time
             +---------------+--------------------------------------------------------------------------------+
@@ -137,8 +137,7 @@ class SDEstimator(BaseEstimator):
             | BallCollision | 157.098 |  49.814 |             {'r': 7, 'p': 4, 'pl': 0, 'l': 39}             |
             | BJMMpdw       | 149.878 |  86.221 |            {'r': 7, 'p': 12, 'p1': 8, 'w2': 0}             |
             | BJMM          | 148.587 | 104.057 | {'r': 7, 'depth': 3, 'p': 16, 'p1': 6, 'p2': 12, 'l': 197} |
-            | BJMM_plus     | 151.611 |  69.508 |        {'r': 7, 'p': 8, 'p1': 5, 'l': 92, 'l1': 33}        |
-            | BothMay       | 148.170 |  87.995 |   {'r': 7, 'p': 12, 'w1': 0, 'w2': 0, 'p1': 9, 'l': 79}    |
+            | BJMM_plus     | 148.719 |  97.541 |      {'r': 7, 'p': 14, 'p1': 10, 'l': 167, 'l1': 81}       |            | BothMay       | 148.170 |  87.995 |   {'r': 7, 'p': 12, 'w1': 0, 'w2': 0, 'p1': 9, 'l': 79}    |
             | Dumer         | 157.238 |  58.019 |                 {'r': 7, 'l': 47, 'p': 5}                  |
             | MayOzerov     | 147.232 |  86.592 | {'r': 7, 'depth': 3, 'p': 12, 'p1': 5, 'p2': 10, 'l': 95}  |
             | Prange        | 177.819 |  21.576 |                          {'r': 7}                          |

@@ -60,12 +60,12 @@ class BJMM_plus(SDAlgorithm):
             sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM_plus
             sage: from cryptographic_estimators.SDEstimator import SDProblem
             sage: BJMM_plus(SDProblem(n=1284,k=1028,w=24)).time_complexity()
-            66.36606914551831
+            66.34605703336426
  
             sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM_plus
             sage: from cryptographic_estimators.SDEstimator import SDProblem
             sage: BJMM_plus(SDProblem(3488,2720,64)).time_complexity()
-            145.49184095252332
+            142.1110119263271
         """
 
         super(BJMM_plus, self).__init__(problem, **kwargs)
