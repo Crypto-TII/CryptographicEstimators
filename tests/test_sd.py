@@ -184,16 +184,19 @@ def bjmm_depth_2_qc_complexity(n: int, k: int, w: int, mem=inf, hmap=1, mmt=0, q
     return time + log2(n), memory
 
 
-ranges = 2.
+ranges = 1.
 def test_bjmm_plus1():
     t1, m = bjmm_depth_2_qc_complexity(1284, 1028, 24)
     t2 = BJMM_plus(SDProblem(1284, 1028, 24)).time_complexity()
     assert t1 - ranges <= t2 <= t1 + ranges
+
+
 def test_bjmm_plus2():
     t1, m = bjmm_depth_2_qc_complexity(3488, 2720, 64)
     t2 = BJMM_plus(SDProblem(3488, 2720, 64)).time_complexity()
     print(t1, t2)
     assert t1 - ranges <= t2 <= t1 + ranges
 
+
 #test_bjmm_plus1()
-test_bjmm_plus2()
+#test_bjmm_plus2()

@@ -37,7 +37,8 @@ class BJMM_plus(SDAlgorithm):
         improves information set decoding. In: Annual international conference on the theory and applications of
         cryptographic techniques. pp. 520–536. Springer (2012)
 
-        [EZ23]_ TODO
+        Additionally, the improvements by [EZ23]_ are incorporated.
+
         expected weight distribution::
 
             +--------------------------+-------------------+-------------------+

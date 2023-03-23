@@ -50,6 +50,9 @@ References
             *{LESS-FM:} Fine-Tuning Signatures from the Code Equivalence Problem*
             https://doi.org/10.1007/978-3-030-81293-5\_2
 
+.. [EZ23] \Andre Esser and Floyd Zweydinger
+            *New Time-Memory Trade-Offs for Subset Sum -- Improving ISD in Theory and Practice*
+            https://eprint.iacr.org/2022/1329.pdf
 .. _ref-B:
 
 **B**
