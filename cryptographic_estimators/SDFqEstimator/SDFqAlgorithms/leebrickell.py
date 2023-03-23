@@ -32,17 +32,9 @@ class LeeBrickell(SDFqAlgorithm):
         """
         self._name = "LeeBrickell"
         super(LeeBrickell, self).__init__(problem, **kwargs)
-        self.initialize_parameter_ranges()
-        self.is_syndrome_zero = int(problem.is_syndrome_zero)
-
-    def initialize_parameter_ranges(self):
-        """
-        initialize the parameter ranges for p, l to start the optimisation 
-        process.
-        """
         _, _, w, _ = self.problem.get_parameters()
-        s = self.full_domain
-        self.set_parameter_ranges("p", 0, min_max(w // 2, 20, s))
+        self.set_parameter_ranges("p", 0, max(w // 2,1))
+        self.is_syndrome_zero = int(problem.is_syndrome_zero)
     
     @optimal_parameter
     def p(self):
@@ -89,8 +81,6 @@ class LeeBrickell(SDFqAlgorithm):
         """
         n, k, w, q = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
 
         solutions = self.problem.nsolutions
         enum = binom(k, par.p) * (q-1)**(max(0, par.p-self.is_syndrome_zero))
@@ -109,7 +99,5 @@ class LeeBrickell(SDFqAlgorithm):
         return time, memory
 
     def __repr__(self):
-        """
-        """
         rep = "Lee-Brickell estimator for " + str(self.problem)
         return rep

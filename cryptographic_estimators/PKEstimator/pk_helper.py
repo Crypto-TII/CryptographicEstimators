@@ -2,15 +2,12 @@ from math import log2, comb as binomial, factorial, inf
 
 
 def gauss_binomial(m: int, r: int, q: int):
-    """
-
-    """
     return log2(q) * (r * (m - r))
 
 
 def beullens_lee_brickell_adaptation(n: int, k: int, d: int, w: int, Nw: int):
     """
-
+    Running time of Beullens LeeBrickel adaptation for finding d-dimensional subcode with support w
     """
     if w < d or n-w < k-d:
         return inf

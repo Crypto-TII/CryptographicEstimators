@@ -36,7 +36,6 @@ class PKProblem(BaseProblem):
 
     """
 
-
     def __init__(self, n: int, m: int, q: int, ell=1, **kwargs):
         super().__init__(**kwargs)
 
@@ -80,7 +79,7 @@ class PKProblem(BaseProblem):
 
         """
         n, m, q, ell = self.get_parameters()
-        return log2(factorial(n)) - log2(q) * m *ell
+        return log2(factorial(n)) - log2(q) * m * ell
 
     def __repr__(self):
         n, m, q, ell = self.get_parameters()
