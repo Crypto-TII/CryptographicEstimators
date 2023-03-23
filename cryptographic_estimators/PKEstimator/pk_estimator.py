@@ -91,6 +91,7 @@ class PKEstimator(BaseEstimator):
             | SBC       | 241.319 | 236.722 | {'d': 1, 'w': 38, 'w1': 2} |
             +-----------+---------+---------+----------------------------+
 
+
         """
         super(PKEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,
