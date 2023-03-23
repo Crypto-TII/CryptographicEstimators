@@ -18,8 +18,8 @@ class SBC(PKAlgorithm):
 
         sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
         sage: from cryptographic_estimators.PKEstimator import PKProblem
-        sage: SBC(PKProblem(n=100,m=50,q=31,ell=2))
-        SBC estimator for the permuted kernel problem with (n,m,q,ell) = (100,50,31,2)
+        sage: SBC(PKProblem(n=20,m=10,q=7,ell=2))
+        SBC estimator for the permuted kernel problem with (n,m,q,ell) = (20,10,7,2)
 
     """
 
@@ -47,9 +47,9 @@ class SBC(PKAlgorithm):
 
             sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
             sage: from cryptographic_estimators.PKEstimator import PKProblem
-            sage: A = SBC(PKProblem(n=40,m=10,q=7,ell=2))
+            sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
             sage: A.d()
-            4
+            3
 
         """
         return self._get_optimal_parameter("d")
@@ -63,9 +63,9 @@ class SBC(PKAlgorithm):
 
             sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
             sage: from cryptographic_estimators.PKEstimator import PKProblem
-            sage: A = SBC(PKProblem(n=40,m=10,q=7,ell=2))
+            sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
             sage: A.w()
-            32
+            11
 
         """
         return self._get_optimal_parameter("w")
@@ -79,7 +79,7 @@ class SBC(PKAlgorithm):
 
             sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
             sage: from cryptographic_estimators.PKEstimator import PKProblem
-            sage: A = SBC(PKProblem(n=40,m=10,q=7,ell=2))
+            sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
             sage: A.w1()
             5
 

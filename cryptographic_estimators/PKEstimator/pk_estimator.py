@@ -81,7 +81,7 @@ class PKEstimator(BaseEstimator):
 
             sage: from cryptographic_estimators.PKEstimator import PKEstimator
             sage: A = PKEstimator(n=100,m=50,q=31,ell=2)
-            sage: A.table(precision=3, show_all_parameters=1) # long test
+            sage: A.table(precision=3, show_all_parameters=1) # long time
             +-----------+------------------------------------------------+
             |           |                    estimate                    |
             +-----------+---------+---------+----------------------------+
