@@ -74,7 +74,7 @@ class PKEstimator(BaseEstimator):
             | algorithm |  time | memory |
             +-----------+-------+--------+
             | KMP       | 243.8 |  243.7 |
-            | SBC       | 194.3 |  187.9 |
+            | SBC       | 241.3 |  236.7 |
             +-----------+-------+--------+
 
             python: from cryptographic_estimators.PKEstimator import PKEstimator
