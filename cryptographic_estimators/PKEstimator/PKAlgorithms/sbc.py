@@ -2,7 +2,7 @@ from ..pk_algorithm import PKAlgorithm
 from ..pk_problem import PKProblem
 from ..pk_constants import *
 from ...base_algorithm import optimal_parameter
-from math import log2, factorial, inf, comb as binomial
+from math import factorial, inf, comb as binomial, log2
 from ..pk_helper import gauss_binomial, cost_for_finding_subcode
 from ...SDFqEstimator.sdfq_estimator import SDFqEstimator
 
@@ -108,7 +108,7 @@ class SBC(PKAlgorithm):
         if w1 > w or w < d or n - w < m - d or (d == 1 and w > n - m):
             return inf, inf
 
-        N_w = log2(binomial(n, w)) + log2((q ** d - 1) ** (w - d)) + gauss_binomial(m, d, q) - gauss_binomial(n, d,
+        N_w = log2(binomial(n, w)) + log2((q ** d - 1)) * (w - d) + gauss_binomial(m, d, q) - gauss_binomial(n, d,
                                                                                                               q)  # number of expected subcodes
 
         if N_w < 0:  # continue only if at least one subcode exists in expectation

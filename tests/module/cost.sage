@@ -192,8 +192,44 @@ def linear_beullens(n,k,q):
                     best_L = L;
                     best_Nw2 = Nw2;
                     
-    return best_cost, best_w, best_L, best_Nw2;     
+    return best_cost, best_w, best_L, best_Nw2;
 
+
+# Cost of Prange's ISD adaption to find d-dimensional subcodes with support size w
+
+def beullens_isd(q, n, k, d, w, Nw):
+    success_pr = binomial(w, d) * binomial(n - w, k - d) / binomial(n, k);
+    c_iter = k ^ 3 + binomial(k, d);
+
+    #print(c_iter, 1 - (1 - success_pr) ^ Nw)
+    return log2(c_iter) - log2(1 - (1 - success_pr) ^ Nw);
+
+
+# Cost of ISD; depending on d, it considers either Peter's ISD or Belleuns' ISD
+def cost_isd(q, n, k, d, w, Nw):
+    if d == 1:
+
+        # c_isd = peters_isd(q,n,k,w);
+
+        # if c_isd.imag()!=0:
+
+        pr_isd = binomial(w, 1) * binomial(n - w, k - 1) / binomial(n, k);
+        cost = k ^ 3 + binomial(k, 1);
+
+        if (k - 2) < (n - w):
+            pr_isd += binomial(w, 2) * binomial(n - w, k - 2) / binomial(n, k);
+            cost += binomial(k, 2) * (q - 1);
+
+        if pr_isd == 0:
+            c_isd = 10000000000;
+        else:
+            c_isd = log2(cost / (1 - (1 - pr_isd) ^ Nw));
+
+    else:
+
+        c_isd = beullens_isd(q, n, k, d, w, Nw);
+
+    return max(0, c_isd);
 ##Testing the complexity on some instances
 
 #n = 200;

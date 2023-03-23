@@ -69,4 +69,4 @@ add-copyright:
 	@python3 scripts/create_copyright.py
 
 docker-pytest:
-	@docker run --name pytest-estimators -d -it ${image_name} sh && docker exec pytest-estimators sage --python3 -m pytest -vv && sage tests/test_sdfq.sage && sage tests/test_le.sage && sage tests/test_pe.sage  && make stop-container-and-remove container_name="pytest-estimators"
+	@docker run --name pytest-estimators -d -it ${image_name} sh && docker exec pytest-estimators sage --python3 -m pytest -vv && sage tests/test_sdfq.sage && sage tests/test_le.sage && sage tests/test_pe.sage && sage tests/test_pk.sage  && make stop-container-and-remove container_name="pytest-estimators"
