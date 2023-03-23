@@ -99,6 +99,7 @@ class SDEstimator(BaseEstimator):
             | BJMMdw        |   24 |     14 |    -- |       -- |
             | BJMMpdw       |   24 |     15 |    -- |       -- |
             | BJMM          |   23 |     15 |     9 |        7 |
+            | BJMM_plus     |   23 |     15 |    -- |       -- |
             | BothMay       |   23 |     14 |     9 |        7 |
             | Dumer         |   23 |     16 |    11 |        3 |
             | MayOzerov     |   23 |     15 |     9 |        8 |
