@@ -510,7 +510,7 @@
         {
           "id": "q",
           "type": "number",
-          "display_label": "Base Field Sie",
+          "display_label": "Base Field Size",
           "placeholder": "Insert parameter",
           "tooltip": "Size of the underlying base field",
           "dependencies": []
@@ -534,9 +534,7 @@
           "excluded_algorithms": [],
           "options": [],
           "dependencies": []
-        }
-      ],
-      "optional_parameters": [
+        },
         {
           "id": "memory_bound",
           "type": "number",
@@ -548,24 +546,6 @@
           "tooltip": "Log2 of the maximum number of bits of memory available"
         },
         {
-          "id": "precision",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Decimal precision",
-          "default_value": 0,
-          "placeholder": "Insert value",
-          "tooltip": "Number of decimal digits to display"
-        },
-        {
-          "id": "nsolutions",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Number of solutions",
-          "default_value": 0,
-          "placeholder": "Insert value",
-          "tooltip": "Log2 of number of existing solutions of which one has to be found"
-        },
-        {
           "id": "memory_access",
           "type": "selector",
           "direction": "column",
@@ -573,6 +553,25 @@
           "default_value": "Constant",
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
           "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
+        },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
+        }
+      ],
+      "optional_parameters": [
+        {
+          "id": "nsolutions",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Number of solutions",
+          "placeholder": "Insert value",
+          "tooltip": "Log2 of number of existing solutions of which one has to be found, if not specified it will be fixed to the number of solutions in expectation"
         }
       ]
 	}
