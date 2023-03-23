@@ -76,18 +76,6 @@ class Leon(PEAlgorithm):
         n, k, q, _ = self.problem.get_parameters()
         return self.SDFqEstimator.fastest_algorithm().memory_complexity()
 
-
-    def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """
-
-        INPUT:
-        -  ``parameters`` -- dictionary including parameters
-        -  ``verbose_information`` -- unused
-
-        """
-        return self._compute_time_complexity(parameters),\
-               self._compute_memory_complexity(parameters)
-
     def __repr__(self):
         rep = "Leon estimator for " + str(self.problem)
         return rep
