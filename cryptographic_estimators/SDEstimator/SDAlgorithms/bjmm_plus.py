@@ -17,15 +17,12 @@
 
 
 from ...base_algorithm import optimal_parameter
-from ...helper import ComplexityType
 from ...SDEstimator.sd_algorithm import SDAlgorithm
 from ...SDEstimator.sd_problem import SDProblem
 from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matrix, _list_merge_complexity, min_max, \
     binom, log2, ceil, inf, _list_merge_async_complexity
 from types import SimpleNamespace
 from ..sd_constants import *
-from ..SDWorkfactorModels.bjmm import BJMMScipyModel
-from typing import Union
 
 
 class BJMM_plus(SDAlgorithm):
@@ -57,8 +54,17 @@ class BJMM_plus(SDAlgorithm):
             sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM_plus
             sage: from cryptographic_estimators.SDEstimator import SDProblem
             sage: BJMM_plus(SDProblem(n=100,k=50,w=10))
-            BJMM estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 2
+            BJMM+ estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 2
 
+            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM_plus
+            sage: from cryptographic_estimators.SDEstimator import SDProblem
+            sage: BJMM_plus(SDProblem(n=1284,k=1028,w=24)).time_complexity()
+            66.36606914551831
+ 
+            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM_plus
+            sage: from cryptographic_estimators.SDEstimator import SDProblem
+            sage: BJMM_plus(SDProblem(3488,2720,64)).time_complexity()
+            145.49184095252332
         """
 
         super(BJMM_plus, self).__init__(problem, **kwargs)
@@ -107,7 +113,7 @@ class BJMM_plus(SDAlgorithm):
             sage: from cryptographic_estimators.SDEstimator import SDProblem
             sage: A = BJMM_plus(SDProblem(n=100,k=50,w=10))
             sage: A.l1()
-            8
+            2
 
         """
         return self._get_optimal_parameter("l1")
@@ -155,7 +161,8 @@ class BJMM_plus(SDAlgorithm):
             par.l >= n - k or\
             n - k - par.l < w - 2 * par.p or \
             k1 - par.p < par.p1 - par.p / 2 or \
-            par.p1 < par.p / 2:
+            par.p1 < par.p / 2 or\
+            par.l1 > par.l1:
             return True
         return False
 
@@ -171,8 +178,8 @@ class BJMM_plus(SDAlgorithm):
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
                 for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
-                    L1 = log2(binom(k//2, p1))
-                    for l1 in range(min(new_ranges["l1"]["min"], L1), new_ranges["p1"]["max"]):
+                    L1 = int(log2(binom(k//2, p1)))
+                    for l1 in range(max(L1-5, 0), L1+10):
                         indices = {"p": p, "p1": p1, "l": l, "l1": l1,
                                    "r": self._optimal_parameters["r"]}
                         if self._are_parameters_invalid(indices):
@@ -249,5 +256,5 @@ class BJMM_plus(SDAlgorithm):
     def __repr__(self):
         """
         """
-        rep = "BJMM+ estimator in depth 2 for " + str(self.problem)
+        rep = "BJMM+ estimator for " + str(self.problem)
         return rep

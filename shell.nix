@@ -10,6 +10,7 @@ let
 		furo
 		autopep8
 		pip
+		pytest
 	]; 
 	requireSageTests = false;
   };
@@ -23,6 +24,7 @@ let
 	pip
     autopep8
 	sage
+    pytest
   ]);
 in
 { pkgs ? import <nixpkgs> {} }:
@@ -38,4 +40,11 @@ stdenv.mkDerivation {
     nodePackages.pyright
 	tree
   ];
+
+  shellHook = ''
+    export PIP_PREFIX=$(pwd)/_build/pip_packages
+    export PYTHONPATH="$PIP_PREFIX/${my-python.sitePackages}:$PYTHONPATH"
+    export PATH="$PIP_PREFIX/bin:$PATH"
+    # unset SOURCE_DATE_EPOCH
+  '';
 }
