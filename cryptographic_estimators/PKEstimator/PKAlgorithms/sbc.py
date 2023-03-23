@@ -73,7 +73,7 @@ class SBC(PKAlgorithm):
     @optimal_parameter
     def w1(self):
         """
-        Return the optimal parameter $u$ used in the algorithm optimization
+        Return the optimal parameter $w1$ used in the algorithm optimization
 
         EXAMPLES::
 
@@ -127,7 +127,7 @@ class SBC(PKAlgorithm):
             c_isd = self.SDFqEstimator.fastest_algorithm().time_complexity()
         else:
             self.SDFqEstimator = None
-            c_isd = cost_for_finding_subcode(q, n, m, d, w, N_w)
+            c_isd = cost_for_finding_subcode(n, m, d, w, N_w)
 
         w2 = w - w1
         T_K = factorial(n) // factorial(n - w1) + factorial(n) // factorial(n - w2) \
@@ -161,23 +161,9 @@ class SBC(PKAlgorithm):
         return time, memory
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-
-        INPUT:
-
-        -  ``parameters`` -- dictionary including parameters
-
-        """
         return self._compute_time_and_memory(parameters)[0]
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-
-        INPUT:
-
-        -  ``parameters`` -- dictionary including parameters
-
-        """
         return self._compute_time_and_memory(parameters)[1]
 
     def _get_verbose_information(self):

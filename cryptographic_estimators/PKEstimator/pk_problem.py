@@ -32,6 +32,7 @@ class PKProblem(BaseProblem):
     - ``ell`` -- rows of the matrix whose permutation should lie in the kernel
     - ``use_parity_row`` -- enables trick of appending extra (all one) row to the matrix, i.e., m -> m+1 (default:False)
     - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
+    - ``memory_bound`` -- maximum allowed memory to use for solving the problem
 
     """
 

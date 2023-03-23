@@ -75,23 +75,9 @@ class KMP(PKAlgorithm):
         return time, memory
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-
-        INPUT:
-
-        -  ``parameters`` -- dictionary including parameters
-
-        """
         return self._compute_time_and_memory(parameters)[0]
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-
-        INPUT:
-
-        -  ``parameters`` -- dictionary including parameters
-
-        """
         return self._compute_time_and_memory(parameters)[1]
 
     def _get_verbose_information(self):
