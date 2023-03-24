@@ -71,12 +71,12 @@ class MQEstimator(BaseEstimator):
             +------------------+--------+--------+
             | Bjorklund        | 42.451 | 15.316 |
             | BooleanSolveFXL  | 16.584 |  4.240 |
-            | Crossbred        | 17.672 | 16.785 |
+            | Crossbred        | 16.784 | 16.785 |
             | DinurFirst       | 32.111 | 19.493 |
             | DinurSecond      | 20.349 | 15.801 |
             | ExhaustiveSearch | 17.966 | 11.720 |
-            | F5               | 30.972 | 23.158 |
-            | HybridF5         | 17.169 |  3.906 |
+            | F5               | 27.747 | 23.158 |
+            | HybridF5         | 21.076 |  3.906 |
             | Lokshtanov       | 67.123 | 16.105 |
             +------------------+--------+--------+
 
