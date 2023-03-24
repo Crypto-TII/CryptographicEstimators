@@ -126,7 +126,7 @@ class HybridF5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: H = HybridF5(MQProblem(q=256, n=10, m=10))
             sage: H._compute_time_complexity({'k':2})
-            49.30344886621613
+            39.98152077132876
 
         """
         k = parameters['k']
@@ -134,9 +134,8 @@ class HybridF5(MQAlgorithm):
         w = self.linear_algebra_constant()
         degrees = self.degree_of_polynomials()
         E = F5(MQProblem(n=n-k, m=m, q=q), w=w, degrees=degrees)
-        E.complexity_type = ComplexityType.ESTIMATE.value
         h = self._h
-        return log2(q ** k) + E.time_complexity() + h * log2(q)
+        return log2(q) * k + E._compute_time_complexity({}) + h * log2(q)
 
     def _compute_memory_complexity(self, parameters: dict):
         """
