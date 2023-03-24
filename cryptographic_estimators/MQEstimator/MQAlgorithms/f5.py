@@ -84,8 +84,8 @@ class F5(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = F5(MQProblem(n=10, m=15, q=3))
-            sage: E._compute_time_complexity({})
+            sage: E = F5(MQProblem(n=10, m=15, q=3), bit_complexities=False)
+            sage: E.time_complexity()
             23.841343113280505
 
         TESTS::
@@ -108,7 +108,7 @@ class F5(MQAlgorithm):
         """
         Return the time complexity of the FGLM algorithm for this system
 
-        EXAMPLES::
+        TEST::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -125,12 +125,12 @@ class F5(MQAlgorithm):
         """
         Return the time complexity for regular system
 
-        EXAMPLES::
+        TEST::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = F5(MQProblem(n=10, m=5, q=31))
-            sage: E._time_complexity_regular_system()
+            sage: E = F5(MQProblem(n=10, m=5, q=31), bit_complexities=True)
+            sage: E.time_complexity()
             15.954559846999834
         """
         if not (self.problem.is_square_system() or self.problem.is_underdefined_system()):
@@ -155,8 +155,8 @@ class F5(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: F5_ = F5(MQProblem(n=5, m=10, q=31))
-            sage: F5_._time_complexity_semi_regular_system()
+            sage: F5_ = F5(MQProblem(n=5, m=10, q=31), bit_complexities=False)
+            sage: F5_.time_complexity()
             14.93663793900257
         """
         if not self.problem.is_overdefined_system():
@@ -181,8 +181,8 @@ class F5(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: F5_ = F5(MQProblem(n=10, m=12, q=5))
-            sage: F5_._compute_memory_complexity({})
+            sage: F5_ = F5(MQProblem(n=10, m=12, q=5), bit_complexities=False)
+            sage: F5_.memory_complexity()
             24.578308707446713
         """
         n, m, q = self.get_reduced_parameters()
@@ -257,6 +257,5 @@ class F5(MQAlgorithm):
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
         Return the Ō  memory complexity of the algorithm for a given set of parameters
-
         """
         return self._compute_memory_complexity(parameters)
