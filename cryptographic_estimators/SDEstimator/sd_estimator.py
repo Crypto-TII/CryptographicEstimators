@@ -1,6 +1,6 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-#
+
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -87,7 +87,7 @@ class SDEstimator(BaseEstimator):
         TESTS:
 
             sage: from cryptographic_estimators.SDEstimator import SDEstimator
-            sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1, workfactor_accuracy=10)
+            sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1, workfactor_accuracy=25)
             sage: A.table(show_tilde_o_time=1, precision=0) # long time
             +---------------+---------------+------------------+
             |               |    estimate   | tilde_o_estimate |
@@ -124,6 +124,24 @@ class SDEstimator(BaseEstimator):
             | Stern         | 151.409 |  49.814 |                 {'r': 7, 'p': 4, 'l': 39}                  |
             +---------------+---------+---------+------------------------------------------------------------+
 
+            sage: from cryptographic_estimators.SDEstimator import SDEstimator
+            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
+            sage: A = SDEstimator(3488,2720,64,excluded_algorithms=[BJMMdw],memory_access=1)
+            sage: A.table(precision=3, show_all_parameters=1) # long time
+            +---------------+--------------------------------------------------------------------------------+
+            |               |                                    estimate                                    |
+            +---------------+---------+---------+------------------------------------------------------------+
+            | algorithm     |    time |  memory |                         parameters                         |
+            +---------------+---------+---------+------------------------------------------------------------+
+            | BallCollision | 157.098 |  49.814 |             {'r': 7, 'p': 4, 'pl': 0, 'l': 39}             |
+            | BJMMpdw       | 149.878 |  86.221 |            {'r': 7, 'p': 12, 'p1': 8, 'w2': 0}             |
+            | BJMM          | 148.587 | 104.057 | {'r': 7, 'depth': 3, 'p': 16, 'p1': 6, 'p2': 12, 'l': 197} |
+            | BothMay       | 148.170 |  87.995 |   {'r': 7, 'p': 12, 'w1': 0, 'w2': 0, 'p1': 9, 'l': 79}    |
+            | Dumer         | 157.238 |  58.019 |                 {'r': 7, 'l': 47, 'p': 5}                  |
+            | MayOzerov     | 147.232 |  86.592 | {'r': 7, 'depth': 3, 'p': 12, 'p1': 5, 'p2': 10, 'l': 95}  |
+            | Prange        | 177.819 |  21.576 |                          {'r': 7}                          |
+            | Stern         | 157.047 |  49.814 |                 {'r': 7, 'p': 4, 'l': 39}                  |
+            +---------------+---------+---------+------------------------------------------------------------+
         """
         super(SDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,

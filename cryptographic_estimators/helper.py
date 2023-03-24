@@ -28,25 +28,6 @@ class ComplexityType(Enum):
     TILDEO = 1
 
 
-def memory_access_cost(mem: float, memory_access):
-    """
-    INPUT:
-    - ```mem`` -- memory consumption of an algorithm
-    - ```memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-    """
-    if memory_access == 0:
-        return 0
-    elif memory_access == 1:
-        return log2(mem)
-    elif memory_access == 2:
-        return mem / 2
-    elif memory_access == 3:
-        return mem / 3
-    elif callable(memory_access):
-        return memory_access(mem)
-    return 0
-
-
 def concat_all_tables(tables):
     """
 
