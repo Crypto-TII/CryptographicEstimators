@@ -39,7 +39,7 @@ def kmp_cost_numerical(n,r,ell,q):
     best_L2 = -1;
     best_num_coll = -1;
 
-    for u in range(2,r):
+    for u in range(2,r+1):
 
 
         u1 = floor((n-r+u)/2);

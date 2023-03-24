@@ -131,10 +131,13 @@ class SBC(PKAlgorithm):
         L = min(factorial(n) // factorial(n - w1), factorial(n) // factorial(n - w2))
         size_K = max(1, factorial(n) // factorial(n - w) // q ** (d * ell))
         for u in range(1, m):
-
-            T_L = factorial(n) // factorial(m + w - u) + size_K + factorial(n) // q ** (ell * (u - d)) / factorial(
-                m + w - u) * size_K
-            L = max(L, min(factorial(n) / factorial(m + w - u), size_K))
+            if u > d:
+                T_L = factorial(n) // factorial(m + w - u) + size_K + factorial(n) // q ** (ell * (u - d)) // factorial(
+                    m + w - u) * size_K
+            else:
+                T_L = factorial(n) // factorial(m + w - u) + size_K + factorial(n) *  q ** (ell * (d - u)) // factorial(
+                    m + w - u) * size_K
+            L = max(L, min(factorial(n) // factorial(m + w - u), size_K))
 
             T_test = factorial(n - w) // q ** ((u - d) * ell) // factorial(m - u) * size_K
 

@@ -29,6 +29,7 @@ class LeeBrickell(SDFqAlgorithm):
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: LeeBrickell(SDFqProblem(n=100,k=50,w=10,q=5))
             Lee-Brickell estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 5
+
         """
         self._name = "LeeBrickell"
         super(LeeBrickell, self).__init__(problem, **kwargs)

@@ -44,12 +44,12 @@ def peters_isd(n,k,q,w):
     bestp=0;
     bestl=0;
     max_p = min(w//2,floor(k/2));
-    for p in range(1,max_p):
+    for p in range(0,max_p):
         Anum=binomial(x,p);
         Bnum=binomial(k-x,p);
         #for(l=1,floor(log(Anum)/log(q)+p*log(q-1)/log(q))+10,\
         for l in range(1,floor( log(Anum)/log(q)+p*log(q-1)/log(q))+10 +1):
-            if (n-k-l <= w-2*p):
+            if n-k-l <= w-2*p:
                 continue
 
            # if(q==2):
@@ -138,7 +138,9 @@ def improved_linear_beullens(n,k,q):
                     if L_prime < Nw_prime/2:
                         cost = C_isd+ log2(L_prime/Nw_prime);
                     else:
-                        cost = C_isd+log2(2*log(1.-L_prime/Nw_prime)/log(1.-1/Nw_prime)/Nw_prime);
+                        #Nw_prime = Nw_prime.n()
+                        #print(Nw_prime, 1/Nw_prime, 1.-1./Nw_prime, log(1.-1./Nw_prime))
+                        cost = C_isd+log2(2*log(1.-L_prime/Nw_prime)/log(1.-1./Nw_prime)/Nw_prime);
                     
                     
                     if cost < best_cost:

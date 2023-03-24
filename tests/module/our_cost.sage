@@ -26,7 +26,7 @@ def compute_new_cost(n,m,q,ell):
     best_u = 0;
     best_isd = 0;
     
-    for d in range(1,m):
+    for d in range(1,m+1):
 
         for w in range(1,n):
 
@@ -74,7 +74,7 @@ def compute_new_cost(n,m,q,ell):
 #                                    print("T_K = ",log2(T_K),", T_L = ", log2(T_L), ", T_test = ",log2(T_test));
 #                                    print("[d, w, w1, u] = ",[d,w,w1,u]);
 #                                    print("-----------------------");
-
+    print(best_d, best_w, best_w1, best_u, best_isd, best_cost)
     return best_d, best_w, best_w1, best_u, best_isd, best_cost;
 
    

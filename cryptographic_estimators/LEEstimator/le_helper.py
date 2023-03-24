@@ -1,5 +1,4 @@
-from math import log2, \
-    comb as binomial
+from math import log2, comb as binomial
 
 def cost_to_find_random_2dim_subcodes_with_support_w(n: int, k: int, w: int):
     """

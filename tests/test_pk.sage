@@ -1,13 +1,15 @@
 from cryptographic_estimators.PKEstimator import PKProblem
 from cryptographic_estimators.PKEstimator.PKAlgorithms import KMP, SBC
-
+from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Prange, LeeBrickell
 load('tests/module/cost.sage')
 load('tests/module/kmp_cost.sage')
 load('tests/module/our_cost.sage')
 
 
 # global parameters
-params = {"nsolutions": 0}
+params = {"bit_complexities": False, "cost_for_list_operation": 1, "memory_for_list_element": 1,
+          "sd_parameters": {"excluded_algorithms": [Prange, LeeBrickell]}}
+ranges = 0.1
 
 
 def test_kmp():
@@ -19,10 +21,8 @@ def test_kmp():
     q = 509
     ell = 1
 
-    ranges = 2.
-    t1 = KMP(PKProblem(n, m, q, ell)).time_complexity()
+    t1 = KMP(PKProblem(n, m, q, ell), **params).time_complexity()
     _, _, _, _, _, t2 = kmp_cost_numerical(n, m, ell, q)
-    t2 += log2(n)
     assert t1 - ranges <= t2 <= t1 + ranges
 
 def test_sbc():
@@ -34,11 +34,9 @@ def test_sbc():
     q = 509
     ell = 1
 
-    ranges = 2.
-    A = SBC(PKProblem(n, m, q, ell))
+    A = SBC(PKProblem(n, m, q, ell), **params)
     t1 = A.time_complexity()
     _, _, _, _, _, t2 = compute_new_cost(n, m, q, ell)
-    t2 += log2(n)
     assert t1 - ranges <= t2 <= t1 + ranges
 
 
@@ -46,19 +44,17 @@ def test_kmp_range():
     """
     small value test
     """
-    ranges = 3.
-
+    # we adapted the KMP algorithm to allow to enumerate on m.
     for n in range(30, 100):
         for m in range(int(0.3 * n), int(0.7 * n)):
             for ell in range(1, 2):
                 for q in [7, 11, 17, 53, 103, 151, 199, 251]:
                     if q^ell < n:
                         continue
-                    t1 = KMP(PKProblem(n, m, q, ell)).time_complexity()
+                    A = KMP(PKProblem(n, m, q, ell), **params)
+                    t1 = A.time_complexity()
                     _, _, _, _, _, t2 = kmp_cost_numerical(n, m, ell, q)
-                    t2 += log2(n)
 
-                    print(n, m, q, ell, t1, t2)
                     assert t2 - ranges < t1 < t2 + ranges
 
 
@@ -66,24 +62,26 @@ def test_sbc_range():
     """
     small value test
     """
-    ranges = 3.
-
-    for n in range(30, 100):
-        for m in range(int(0.3 * n), int(0.7 * n)):
-            for ell in range(1, 2):
-                for q in [7, 11, 17, 53, 103, 151, 199, 251]:
+    # we need to check bigger values, because the `gaussian_binomial` is to imprecise.
+    for n in range(30, 50):
+        for m in range(10, 30):
+            for ell in range(1,2):
+                for q in [ 53, 103, 151, 199, 251]:
                     if q^ell < n:
                         continue
-                    t1 = SBC(PKProblem(n, m, q, ell)).time_complexity()
+                    if l == 1:
+                        ranges = 3
+                    else:
+                        ranges = 0.2
+                    t1 = SBC(PKProblem(n, m, q, ell), **params).time_complexity()
                     _, _, _, _, _, t2 = compute_new_cost(n, m, q, ell)
-                    t2 += log2(n)
 
                     print(n, m, q, ell, t1, t2)
                     assert t2 - ranges < t1 < t2 + ranges
 
 
 if __name__ == "__main__":
-    test_kmp_range()
+    #test_kmp()
+    #test_sbc()
+    #test_kmp_range()
     test_sbc_range()
-    test_kmp()
-    test_sbc()
