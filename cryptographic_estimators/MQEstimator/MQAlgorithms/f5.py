@@ -85,13 +85,13 @@ class F5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = F5(MQProblem(n=10, m=15, q=3))
-            sage: E.time_complexity()
-            29.077131123796804
+            sage: E._compute_time_complexity({})
+            23.841343113280505
 
         TESTS::
 
             sage: F5(MQProblem(n=10, m=12, q=5)).time_complexity()
-            35.53502411058788
+            31.950061609866715
 
         """
         if self.problem.is_overdefined_system():
@@ -129,9 +129,9 @@ class F5(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = F5(MQProblem(n=10, m=5, q=3))
+            sage: E = F5(MQProblem(n=10, m=5, q=31))
             sage: E._time_complexity_regular_system()
-            12.643856189774725
+            15.954559846999834
         """
         if not (self.problem.is_square_system() or self.problem.is_underdefined_system()):
             raise ValueError(
@@ -142,8 +142,8 @@ class F5(MQAlgorithm):
         if self._dreg is None:
             self._dreg = degree_of_regularity.quadratic_system(n, m, q)
         dreg = self._dreg
-        time = w * log2(binomial(n + dreg - 1, dreg))
-        time += w * log2(m)
+        time = w * log2(binomial(n + dreg, dreg))
+        time += log2(m)
         h = self._h
         return h * log2(q) + time
 
@@ -155,9 +155,9 @@ class F5(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: F5_ = F5(MQProblem(n=5, m=10, q=3))
+            sage: F5_ = F5(MQProblem(n=5, m=10, q=31))
             sage: F5_._time_complexity_semi_regular_system()
-            18.258566033889934
+            14.93663793900257
         """
         if not self.problem.is_overdefined_system():
             raise ValueError(
@@ -168,8 +168,10 @@ class F5(MQAlgorithm):
         if self._dreg is None:
             self._dreg = degree_of_regularity.quadratic_system(n, m, q)
         dreg = self._dreg
+        time = w * log2(binomial(n + dreg, dreg))
+        time += log2(m)
         h = self._h
-        return h * log2(q) + w * log2(m * binomial(n + dreg, dreg))
+        return h * log2(q) + time
 
     def _compute_memory_complexity(self, parameters: dict):
         """
@@ -180,8 +182,8 @@ class F5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: F5_ = F5(MQProblem(n=10, m=12, q=5))
-            sage: F5_.memory_complexity()
-            26.16327120816787
+            sage: F5_._compute_memory_complexity({})
+            24.578308707446713
         """
         n, m, q = self.get_reduced_parameters()
         if self._dreg is None:
@@ -189,8 +191,6 @@ class F5(MQAlgorithm):
         dreg = self._dreg
         self._memory_complexity = log2(
             max(binomial(n + dreg - 1, dreg) ** 2, m * n ** 2))
-        if self._memory_complexity == m * n ** 2:
-            self._memory_complexity = 0
         return self._memory_complexity
 
 
@@ -233,7 +233,7 @@ class F5(MQAlgorithm):
         if self._dreg is None:
             self._dreg = degree_of_regularity.quadratic_system(n, m, q)
         dreg = self._dreg
-        time = w * log2(binomial(n + dreg - 1, dreg))
+        time = w * log2(binomial(n + dreg, dreg))
         h = self._h
         return h * log2(q) + time
 
