@@ -83,7 +83,6 @@ class MHT(MQAlgorithm):
             time = 0
         else:
             time = m
-
         time += log2(m * n ** w)
         return time
 
@@ -100,8 +99,27 @@ class MHT(MQAlgorithm):
             19.61636217728924
         """
         n, m, q = self.problem.get_problem_parameters()
-        if self.complexity_type == ComplexityType.ESTIMATE.value:
-            memory = log2(m * n ** 2)
+        return log2(m * n ** 2)
+
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
+        """
+        Return the Ō time complexity of the algorithm for a given set of parameters
+
+        """
+        _, m, _ = self.get_reduced_parameters()
+        if is_power_of_two(self.problem.order_of_the_field()):
+            time = 0
         else:
-            memory = 0
-        return memory
+            time = m
+        return time
+
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
+        """
+        Return the Ō memory complexity of the algorithm for a given set of parameters
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+        """
+        return 0

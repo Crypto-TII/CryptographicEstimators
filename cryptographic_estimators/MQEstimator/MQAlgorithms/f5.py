@@ -95,14 +95,11 @@ class F5(MQAlgorithm):
 
         """
         if self.problem.is_overdefined_system():
-            self._time_complexity = self._time_complexity_semi_regular_system()
+            time = self._time_complexity_semi_regular_system()
         else:
-            self._time_complexity = self._time_complexity_regular_system()
+            time = self._time_complexity_regular_system()
 
-        self._time_complexity = max(
-            self._time_complexity, self._time_complexity_fglm())
-
-        return self._time_complexity
+        return max(time, self._time_complexity_fglm())
 
     def _time_complexity_fglm(self):
         """
@@ -129,7 +126,7 @@ class F5(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = F5(MQProblem(n=10, m=5, q=31), bit_complexities=True)
+            sage: E = F5(MQProblem(n=10, m=5, q=31), bit_complexities=False)
             sage: E.time_complexity()
             15.954559846999834
         """
@@ -189,9 +186,8 @@ class F5(MQAlgorithm):
         if self._dreg is None:
             self._dreg = degree_of_regularity.quadratic_system(n, m, q)
         dreg = self._dreg
-        self._memory_complexity = log2(
-            max(binomial(n + dreg - 1, dreg) ** 2, m * n ** 2))
-        return self._memory_complexity
+        memory = max(log2(binomial(n + dreg - 1, dreg)) * 2, log2(m * n ** 2))
+        return memory
 
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
@@ -200,21 +196,18 @@ class F5(MQAlgorithm):
 
         """
         if self.problem.is_overdefined_system():
-            self._time_complexity = self._tilde_o_time_complexity_semi_regular_system(parameters)
+            time = self._tilde_o_time_complexity_semi_regular_system(parameters)
         else:
-            self._time_complexity = self._tilde_o_time_complexity_regular_system(parameters)
+            time = self._tilde_o_time_complexity_regular_system(parameters)
 
-        self._time_complexity = max(
-            self._time_complexity, self._tilde_o_time_complexity_fglm(parameters))
-
-        return self._time_complexity
+        return max(time, self._tilde_o_time_complexity_fglm(parameters))
 
     def _tilde_o_time_complexity_fglm(self, parameters: dict):
         """
         Return the Ō time complexity of the FGLM algorithm for this system
 
         """
-        n, _, q = self.get_reduced_parameters()
+        _, _, q = self.get_reduced_parameters()
         D = 2 ** self.problem.nsolutions
         h = self._h
         return h * log2(q) + log2(D ** 3)

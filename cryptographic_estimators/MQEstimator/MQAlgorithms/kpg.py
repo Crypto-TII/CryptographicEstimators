@@ -98,3 +98,21 @@ class KPG(MQAlgorithm):
         """
         n, m, _ = self.problem.get_problem_parameters()
         return log2(m * n ** 2)
+
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
+        """
+        Return the Ō time complexity of the algorithm for a given set of parameters
+
+        """
+        return 0
+
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
+        """
+        Return the Ō memory complexity of the algorithm for a given set of parameters
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+        """
+        return 0

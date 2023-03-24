@@ -65,7 +65,6 @@ class MQProblem(BaseProblem):
         INPUT:
 
         - ``basic_operations`` -- Number of field additions (logarithmic)
-        - ``theta`` -- exponent of the conversion factor
 
         """
         q = self.parameters[MQ_FIELD_SIZE]

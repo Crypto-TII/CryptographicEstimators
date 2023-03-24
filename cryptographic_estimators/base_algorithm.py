@@ -395,18 +395,20 @@ class BaseAlgorithm:
             params = self.__set_dict(**kwargs)
 
         if self._complexity_type == ComplexityType.ESTIMATE.value:
-            self._time_complexity = self._compute_time_complexity(params)
+            temp_time_complexity = self._compute_time_complexity(params)
             if self.bit_complexities:
-                self._time_complexity = self.problem.to_bitcomplexity_time(
-                    self._time_complexity)
+                temp_time_complexity = self.problem.to_bitcomplexity_time(
+                    temp_time_complexity)
             
             if self._memory_access != 0:
-                self._time_complexity += self.memory_access_cost(self.memory_complexity())
+                temp_time_complexity += self.memory_access_cost(self.memory_complexity())
         else:
-            self._time_complexity = self._compute_tilde_o_time_complexity(
+            temp_time_complexity = self._compute_tilde_o_time_complexity(
                 params)
 
-        return self._time_complexity
+        if kwargs == {}:
+            self._time_complexity = temp_time_complexity
+        return temp_time_complexity
 
     def memory_complexity(self, **kwargs):
         """
@@ -431,15 +433,17 @@ class BaseAlgorithm:
             params = self.__set_dict(**kwargs)
 
         if self._complexity_type == ComplexityType.ESTIMATE.value:
-            self._memory_complexity = self._compute_memory_complexity(params)
+            temp_memory_complexity = self._compute_memory_complexity(params)
             if self.bit_complexities:
-                self._memory_complexity = self.problem.to_bitcomplexity_memory(
-                    self._memory_complexity)
+                temp_memory_complexity = self.problem.to_bitcomplexity_memory(
+                    temp_memory_complexity)
         else:
-            self._memory_complexity = self._compute_tilde_o_memory_complexity(
+            temp_memory_complexity = self._compute_tilde_o_memory_complexity(
                 params)
 
-        return self._memory_complexity
+        if kwargs == {}:
+            self._memory_complexity = temp_memory_complexity
+        return temp_memory_complexity
 
     def optimal_parameters(self):
         """
