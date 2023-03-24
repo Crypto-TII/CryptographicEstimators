@@ -30,14 +30,16 @@ class BJMM_plus(SDAlgorithm):
         """
         Complexity estimate of BJMM+ algorithm in depth 2
 
-        [MMT11] May, A., Meurer, A., Thomae, E.: Decoding random linear codes in  2^(0.054n). In: International Conference
+        This class incorporates the improvements by [EZ23]_, a time-memory tradeoff which improves over the BJMM
+        algorithm in terms of memory usages.
+
+        [MMT11]_ May, A., Meurer, A., Thomae, E.: Decoding random linear codes in  2^(0.054n). In: International Conference
         on the Theory and Application of Cryptology and Information Security. pp. 107–124. Springer (2011)
 
-        [BJMM12] Becker, A., Joux, A., May, A., Meurer, A.: Decoding random binary linear codes in 2^(n/20): How 1+ 1= 0
+        [BJMM12]_ Becker, A., Joux, A., May, A., Meurer, A.: Decoding random binary linear codes in 2^(n/20): How 1 + 1= 0
         improves information set decoding. In: Annual international conference on the theory and applications of
         cryptographic techniques. pp. 520–536. Springer (2012)
 
-        Additionally, the improvements by [EZ23]_ are incorporated.
 
         expected weight distribution::
 
@@ -66,6 +68,7 @@ class BJMM_plus(SDAlgorithm):
             sage: from cryptographic_estimators.SDEstimator import SDProblem
             sage: BJMM_plus(SDProblem(3488,2720,64)).time_complexity()
             142.1110119263271
+
         """
 
         super(BJMM_plus, self).__init__(problem, **kwargs)
@@ -85,7 +88,7 @@ class BJMM_plus(SDAlgorithm):
         self.set_parameter_ranges("p", 0, min_max(35, w, s))
         self.set_parameter_ranges("p1", 0, min_max(35, w, s))
         self.set_parameter_ranges("l", 0, min_max(500, n - k, s))
-        self.set_parameter_ranges("l1", 0, min_max(500, n - k, s))
+        self.set_parameter_ranges("l1", 0, min_max(200, n - k, s))
 
     @optimal_parameter
     def l(self):
@@ -162,8 +165,7 @@ class BJMM_plus(SDAlgorithm):
             par.l >= n - k or\
             n - k - par.l < w - 2 * par.p or \
             k1 - par.p < par.p1 - par.p / 2 or \
-            par.p1 < par.p / 2 or\
-            par.l1 > par.l1:
+            par.p1 < par.p / 2:
             return True
         return False
 
@@ -179,8 +181,9 @@ class BJMM_plus(SDAlgorithm):
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
                 for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
-                    L1 = int(log2(binom(k//2, p1)))
-                    for l1 in range(max(L1-5, 0), L1+10):
+                    L1 = int(log2(binom((k+l)//2, p1)))
+                    d1 = self._adjust_radius
+                    for l1 in range(max(L1-d1, 0), L1+d1):
                         indices = {"p": p, "p1": p1, "l": l, "l1": l1,
                                    "r": self._optimal_parameters["r"]}
                         if self._are_parameters_invalid(indices):
@@ -255,7 +258,5 @@ class BJMM_plus(SDAlgorithm):
         return time, memory
 
     def __repr__(self):
-        """
-        """
         rep = "BJMM+ estimator for " + str(self.problem)
         return rep

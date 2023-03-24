@@ -33,10 +33,10 @@ class BJMM(SDAlgorithm):
         """
         Complexity estimate of BJMM algorithm in depth 2,3
 
-        [MMT11] May, A., Meurer, A., Thomae, E.: Decoding random linear codes in  2^(0.054n). In: International Conference
+        [MMT11]_ May, A., Meurer, A., Thomae, E.: Decoding random linear codes in  2^(0.054n). In: International Conference
         on the Theory and Application of Cryptology and Information Security. pp. 107–124. Springer (2011)
 
-        [BJMM12] Becker, A., Joux, A., May, A., Meurer, A.: Decoding random binary linear codes in 2^(n/20): How 1+ 1= 0
+        [BJMM12]_ Becker, A., Joux, A., May, A., Meurer, A.: Decoding random binary linear codes in 2^(n/20): How 1+ 1= 0
         improves information set decoding. In: Annual international conference on the theory and applications of
         cryptographic techniques. pp. 520–536. Springer (2012)
 
