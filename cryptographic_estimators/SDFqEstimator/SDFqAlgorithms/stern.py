@@ -156,7 +156,7 @@ class Stern(SDFqAlgorithm):
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
-            verbose_information[VerboseInformation.LISTS.value] = [log2(L2), log2(L), log2(ops), log2(ops + Tg), solutions]
+            verbose_information[VerboseInformation.LISTS.value] = [log2(L2), log2(L)]
 
         return time, memory
 
