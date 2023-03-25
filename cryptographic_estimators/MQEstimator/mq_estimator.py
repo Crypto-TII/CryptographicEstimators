@@ -51,7 +51,7 @@ class MQEstimator(BaseEstimator):
             | algorithm        | time | memory |
             +------------------+------+--------+
             | Bjorklund        | 80.3 |   31.5 |
-            | BooleanSolveFXL  | 42.6 |    5.6 |
+            | BooleanSolveFXL  | 42.6 |   16.1 |
             | Crossbred        | 39.4 |   37.9 |
             | DinurFirst       | 57.7 |   37.9 |
             | DinurSecond      | 42.8 |   33.6 |
@@ -72,7 +72,7 @@ class MQEstimator(BaseEstimator):
             | algorithm        |   time | memory |
             +------------------+--------+--------+
             | Bjorklund        | 42.451 | 15.316 |
-            | BooleanSolveFXL  | 16.584 |  4.240 |
+            | BooleanSolveFXL  | 16.584 | 11.720 |
             | Crossbred        | 16.784 | 16.785 |
             | DinurFirst       | 32.111 | 19.493 |
             | DinurSecond      | 20.349 | 15.801 |
@@ -110,7 +110,7 @@ class MQEstimator(BaseEstimator):
             +------------------+-------+--------+
             | algorithm        |  time | memory |
             +------------------+-------+--------+
-            | BooleanSolveFXL  |  67.9 |    6.5 |
+            | BooleanSolveFXL  |  67.9 |   17.1 |
             | Crossbred        |  60.4 |   44.5 |
             | ExhaustiveSearch |  67.1 |   17.1 |
             | F5               |  78.3 |   71.9 |
