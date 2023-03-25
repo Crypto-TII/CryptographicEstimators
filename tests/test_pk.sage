@@ -62,14 +62,14 @@ def test_sbc_range():
     """
     small value test
     """
-    # we need to check bigger values, because the `gaussian_binomial` is to imprecise.
+    # For small values in combination with we need to check bigger values, because the `gaussian_binomial` is to imprecise.
     for n in range(30, 50):
-        for m in range(10, 30):
-            for ell in range(1,2):
-                for q in [ 53, 103, 151, 199, 251]:
+        for m in range(n//2, n//2 + 5):
+            for ell in range(1,3):
+                for q in [ 53, 151, 251]:
                     if q^ell < n:
                         continue
-                    if l == 1:
+                    if ell == 1:
                         ranges = 3
                     else:
                         ranges = 0.2

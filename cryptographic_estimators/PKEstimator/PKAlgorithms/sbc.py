@@ -109,7 +109,7 @@ class SBC(PKAlgorithm):
             return inf, inf
 
         N_w = log2(binomial(n, w)) + log2((q ** d - 1)) * (w - d) + gauss_binomial(m, d, q) - gauss_binomial(n, d,
-                                                                                                              q)  # number of expected subcodes
+                                                                                                             q)  # number of expected subcodes
 
         if N_w < 0:  # continue only if at least one subcode exists in expectation
             return inf, inf
@@ -131,11 +131,12 @@ class SBC(PKAlgorithm):
         L = min(factorial(n) // factorial(n - w1), factorial(n) // factorial(n - w2))
         size_K = max(1, factorial(n) // factorial(n - w) // q ** (d * ell))
         for u in range(1, m):
+
             if u > d:
-                T_L = factorial(n) // factorial(m + w - u) + size_K + factorial(n) // q ** (ell * (u - d)) // factorial(
-                    m + w - u) * size_K
+                T_L = factorial(n) // factorial(m + w - u) + size_K + factorial(n) // factorial(m + w - u) * size_K \
+                      // q ** (ell * (u - d))
             else:
-                T_L = factorial(n) // factorial(m + w - u) + size_K + factorial(n) *  q ** (ell * (d - u)) // factorial(
+                T_L = factorial(n) // factorial(m + w - u) + size_K + factorial(n) * q ** (ell * (d - u)) // factorial(
                     m + w - u) * size_K
             L = max(L, min(factorial(n) // factorial(m + w - u), size_K))
 
