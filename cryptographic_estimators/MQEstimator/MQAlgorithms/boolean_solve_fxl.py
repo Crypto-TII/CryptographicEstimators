@@ -189,8 +189,8 @@ class BooleanSolveFXL(MQAlgorithm):
             a = binomial(n - k + 2, 2)
             T = binomial(n - k + wit_deg - 2, wit_deg)
             N = binomial(n - k + wit_deg, wit_deg)
-            memory_complexity = m * a + \
-                (T * a * log2(N) + N * log2(m)) / log2(q)
+            memory_complexity = max(m * a + \
+                (T * a * log2(N) + N * log2(m)) / log2(q), m * n ** 2)
         elif variant == MQ_DETERMINISTIC:
             memory_complexity = max(
                 binomial(n - k + wit_deg - 1, wit_deg) ** 2, m * n ** 2)
@@ -254,7 +254,7 @@ class BooleanSolveFXL(MQAlgorithm):
         n, m, q = self.get_reduced_parameters()
         k = parameters['k']
         wit_deg = witness_degree.quadratic_system(n=n - k, m=m, q=q)
-        memory = log2(binomial(n - k + wit_deg, wit_deg) ** 2)
+        memory = max(log2(binomial(n - k + wit_deg, wit_deg)) * 2, log2(m * n ** 2))
         return memory
 
     def _find_optimal_tilde_o_parameters(self):

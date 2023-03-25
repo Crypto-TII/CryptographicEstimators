@@ -251,6 +251,7 @@ class F5(MQAlgorithm):
         """
         Return the Ō  memory complexity of the algorithm for a given set of parameters
         """
+        n, m, q = self.get_reduced_parameters()
         if self._dreg is None:
             self._dreg = degree_of_regularity.quadratic_system(n, m, q)
         dreg = self._dreg

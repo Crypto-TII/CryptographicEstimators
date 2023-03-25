@@ -158,8 +158,8 @@ class HybridF5(MQAlgorithm):
         n, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
         degrees = self.degree_of_polynomials()
-        E = F5(MQProblem(n=n - k, m=m, q=q), w=w, degrees=degrees, bit_complexities=False, complexity_type=1)
-        return E.memory_complexity()
+        E = F5(MQProblem(n=n - k, m=m, q=q), w=w, degrees=degrees, bit_complexities=False)
+        return max(E.memory_complexity(), log2(m * n ** 2))
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
@@ -206,7 +206,7 @@ class HybridF5(MQAlgorithm):
         w = self.linear_algebra_constant()
         degrees = self.degree_of_polynomials()
         E = F5(MQProblem(n=n - k, m=m, q=q), w=w, degrees=degrees, complexity_type=1)
-        return E.memory_complexity()
+        return max(E.memory_complexity(), log2(m * n ** 2))
 
     def _find_optimal_tilde_o_parameters(self):
         """
@@ -216,7 +216,8 @@ class HybridF5(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = HybridF5(MQProblem(q=7, n=10, m=12))
-            sage: E._find_optimal_tilde_o_parameters()
+            sage: E = HybridF5(MQProblem(q=7, n=10, m=12), complexity_type=1)
+            sage: E.optimal_parameters()
+            {'k': 3}
         """
         self._find_optimal_parameters()
