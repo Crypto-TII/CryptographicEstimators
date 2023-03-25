@@ -251,4 +251,7 @@ class F5(MQAlgorithm):
         """
         Return the Ō  memory complexity of the algorithm for a given set of parameters
         """
-        return self._compute_memory_complexity(parameters)
+        if self._dreg is None:
+            self._dreg = degree_of_regularity.quadratic_system(n, m, q)
+        dreg = self._dreg
+        return log2(binomial(n + dreg - 1, dreg)) * 2
