@@ -136,8 +136,8 @@ class BooleanSolveFXL(MQAlgorithm):
 
             sage: from  cryptographic_estimators.MQEstimator.MQAlgorithms.boolean_solve_fxl import BooleanSolveFXL
             sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7))
-            sage: E._compute_time_complexity({'k':2, 'variant':'las_vegas'})
+            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), bit_complexities=False)
+            sage: E.time_complexity(k=2, variant = 'las_vegas')
             33.35111811760744
         """
         k = parameters['k']
@@ -173,11 +173,10 @@ class BooleanSolveFXL(MQAlgorithm):
 
             sage: from  cryptographic_estimators.MQEstimator.MQAlgorithms.boolean_solve_fxl import BooleanSolveFXL
             sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7))
-            sage: E._compute_memory_complexity({'k':2, 'variant':'las_vegas'})
+            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), bit_complexities=False)
+            sage: E.memory_complexity(k=2, variant='las_vegas')
             16.26373284384231
 
-            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), bit_complexities=False)
             sage: E.memory_complexity()
             11.614709844115207
         """
@@ -213,11 +212,10 @@ class BooleanSolveFXL(MQAlgorithm):
 
             sage: from  cryptographic_estimators.MQEstimator.MQAlgorithms.boolean_solve_fxl import BooleanSolveFXL
             sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7))
-            sage: E._compute_tilde_o_time_complexity({'k':2, 'variant':'las_vegas'})
+            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), complexity_type=1)
+            sage: E.time_complexity(k=2, variant='las_vegas')
             26.274302520556613
 
-            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), complexity_type=1)
             sage: E.time_complexity()
             24.014054533787938
         """
@@ -249,8 +247,8 @@ class BooleanSolveFXL(MQAlgorithm):
 
             sage: from  cryptographic_estimators.MQEstimator.MQAlgorithms.boolean_solve_fxl import BooleanSolveFXL
             sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7))
-            sage: E._compute_tilde_o_memory_complexity({'k':2, 'variant':'las_vegas'})
+            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), complexity_type=1)
+            sage: E.memory_complexity(k=2, variant='las_vegas')
             20.659592676441402
         """
         n, m, q = self.get_reduced_parameters()
@@ -267,7 +265,8 @@ class BooleanSolveFXL(MQAlgorithm):
 
             sage: from  cryptographic_estimators.MQEstimator.MQAlgorithms.boolean_solve_fxl import BooleanSolveFXL
             sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7))
-            sage: E._find_optimal_tilde_o_parameters()
+            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), complexity_type=1)
+            sage: E.optimal_parameters()
+            {'k': 4, 'variant': 'deterministic'}
         """
         self._find_optimal_parameters()
