@@ -49,7 +49,6 @@ class PKEstimator(BaseEstimator):
         super(PKEstimator, self).__init__(
             PKAlgorithm, PKProblem(n, m, q, ell=ell, memory_bound=memory_bound, **kwargs), **kwargs)
 
-
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
               show_all_parameters=0, precision=1, truncate=0):
         """
@@ -72,7 +71,6 @@ class PKEstimator(BaseEstimator):
             |           |    estimate    |
             +-----------+-------+--------+
             | algorithm |  time | memory |
-            +-----------+-------+--------+
             | KMP       | 146.4 |  105.5 |
             | SBC       | 137.6 |   42.8 |
             +-----------+-------+--------+

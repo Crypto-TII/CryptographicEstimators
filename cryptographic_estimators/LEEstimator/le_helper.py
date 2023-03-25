@@ -1,6 +1,7 @@
 from math import log2, inf, \
     comb as binomial
 
+
 def cost_to_find_random_2dim_subcodes_with_support_w(n: int, k: int, w: int):
     """
     returns the cost of finding a 2 dimensional subcode in a code of length n and dimension k and support w

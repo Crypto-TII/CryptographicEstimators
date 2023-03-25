@@ -10,7 +10,8 @@ from ..sdfq_constants import *
 class Stern(SDFqAlgorithm):
     def __init__(self, problem: SDFqProblem, **kwargs):
         """
-        Construct an instance of Stern's estimator [Ste1988]_, [BLP2008]_.  TODO [Peters]
+        Construct an instance of Stern's estimator [Peters11]_, [Ste1988]_, [BLP2008]_.
+
         Expected weight distribution::
             +-------------------------+---------+-------------+-------------+
             | <----+ n - k - l +----> |<-- l -->|<--+ k/2 +-->|<--+ k/2 +-->|
@@ -145,7 +146,7 @@ class Stern(SDFqAlgorithm):
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
-            verbose_information[VerboseInformation.LISTS.value] = [log2(L2), log2(L), log2(ops), log2(ops + Tg), solutions]
+            verbose_information[VerboseInformation.LISTS.value] = [log2(L2), log2(L)]
 
         return time, memory
 

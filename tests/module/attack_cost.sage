@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import random
-from math import *
+from math import factorial, log, sqrt, ceil
 import math
 
 def binomial(n,k):
@@ -34,6 +34,7 @@ def orbit_size(n,w,q,LEP=True):
     
 def Hamming_Ball(n,q,w):
     S = 0
+    # count all vectors with weight < \omega
     for i in range(0,w+1):
         S += binomial(n,i) * (q-1)**i
     return int(S)
@@ -108,29 +109,30 @@ def minimal_w(n,k,q):
     
 
 def ISD_COST(n,k,w,q):
+    #return (k*k + binomial(k,2)*q)*binomial(n,w)//binomial(n-k,w-2)//binomial(k,2)
     return (k*k + k*k*q)*binomial(n,w)//binomial(n-k,w-2)//binomial(k,2)
-    
+
 
 def LEON(n,k,q):
     w , N = minimal_w(n,k,q)
     S = ceil(2*(0.57+log(N)))*ISD_COST(n,k,w,q)
     
-    #print("Leon attack cost (log_2 of #row ops):%f, w: %d, N: %d " % (log(S,2),w,N))
+    # print("Leon attack cost (log_2 of #row ops):%f, w: %d, N: %d " % (log(S,2),w,N), n, k, q)
     return log(S,2);
 
 
 #print("proposed LESS-I parameters: ")
-#attack_cost(250,125,53)
+#print(attack_cost(250,125,53))
 #LEON(250,125,53)
 #
 #print("\noriginal LESS-II parameters: ")
-#attack_cost(106,45,7)
+#print(attack_cost(106,45,7))
 #LEON(106,45,7)
 #
 #print("\nproposed LESS-III parameters (larger field size): ")
-#attack_cost(280,117,149,LEP=False)
+#print(attack_cost(280,117,149,LEP=False))
 #LEON(280,117,149)
 #
 #print("\nproposed LESS-III parameters (fixed field size): ")
-#attack_cost(305,127,31,LEP=False)
+#print(attack_cost(305,127,31,LEP=False))
 #LEON(305,127,31)

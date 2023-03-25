@@ -2,7 +2,7 @@ from ..pk_algorithm import PKAlgorithm
 from ..pk_problem import PKProblem
 from ..pk_constants import *
 from ...base_algorithm import optimal_parameter
-from math import log2, factorial, inf, comb as binomial
+from math import factorial, inf, comb as binomial, log2
 from ..pk_helper import gauss_binomial, cost_for_finding_subcode
 from ...SDFqEstimator.sdfq_estimator import SDFqEstimator
 
@@ -49,7 +49,11 @@ class SBC(PKAlgorithm):
             sage: from cryptographic_estimators.PKEstimator import PKProblem
             sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
             sage: A.d()
+<<<<<<< HEAD
             3
+=======
+            1
+>>>>>>> feat/intensive_testing
 
         """
         return self._get_optimal_parameter("d")
@@ -65,7 +69,11 @@ class SBC(PKAlgorithm):
             sage: from cryptographic_estimators.PKEstimator import PKProblem
             sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
             sage: A.w()
+<<<<<<< HEAD
             11
+=======
+            38
+>>>>>>> feat/intensive_testing
 
         """
         return self._get_optimal_parameter("w")
@@ -81,7 +89,11 @@ class SBC(PKAlgorithm):
             sage: from cryptographic_estimators.PKEstimator import PKProblem
             sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
             sage: A.w1()
+<<<<<<< HEAD
             5
+=======
+            2
+>>>>>>> feat/intensive_testing
 
         """
         return self._get_optimal_parameter("w1")
@@ -116,7 +128,10 @@ class SBC(PKAlgorithm):
         best_u = 0
         n, m, q, ell = self.problem.get_parameters()
 
-        N_w = log2(binomial(n, w)) + log2(q)* d* (w - d) + gauss_binomial(m, d, q) - gauss_binomial(n, d,q)  # number of expected subcodes
+
+
+        N_w = log2(binomial(n, w)) + log2((q ** d - 1)) * (w - d) + gauss_binomial(m, d, q) - gauss_binomial(n, d,
+                                                                                                             q)  # number of expected subcodes
 
         if N_w < 0:  # continue only if at least one subcode exists in expectation
             return inf, inf
@@ -139,9 +154,13 @@ class SBC(PKAlgorithm):
         size_K = max(1, factorial(n) // factorial(n - w) // q ** (d * ell))
         for u in range(1, m):
 
-            T_L = factorial(n) // factorial(m + w - u) + size_K + factorial(n) // q ** (ell * (u - d)) / factorial(
-                m + w - u) * size_K
-            L = max(L, min(factorial(n) / factorial(m + w - u), size_K))
+            if u > d:
+                T_L = factorial(n) // factorial(m + w - u) + size_K + factorial(n) // factorial(m + w - u) * size_K \
+                      // q ** (ell * (u - d))
+            else:
+                T_L = factorial(n) // factorial(m + w - u) + size_K + factorial(n) * q ** (ell * (d - u)) // factorial(
+                    m + w - u) * size_K
+            L = max(L, min(factorial(n) // factorial(m + w - u), size_K))
 
             T_test = factorial(n - w) // q ** ((u - d) * ell) // factorial(m - u) * size_K
 

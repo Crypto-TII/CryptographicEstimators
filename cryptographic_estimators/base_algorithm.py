@@ -419,13 +419,14 @@ class BaseAlgorithm:
                 return self._time_complexity
             else:
                 params = self.optimal_parameters()
+                if not self._do_valid_parameters_in_current_ranges_exist():
+                    self._time_complexity = inf
+                    self._memory_complexity = inf
+                    return inf
         else:
             params = self.__set_dict(**kwargs)
 
-        if not self._do_valid_parameters_in_current_ranges_exist():
-            self._time_complexity = inf
-            self._memory_complexity = inf
-            return inf
+
 
         if self._complexity_type == ComplexityType.ESTIMATE.value:
             self._time_complexity = self._compute_time_complexity(params)
