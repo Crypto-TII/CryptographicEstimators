@@ -99,8 +99,8 @@ class Bjorklund(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Bjorklund(MQProblem(n=10, m=12, q=2))
-            sage: E._compute_time_complexity({'lambda_':7/10})
+            sage: E = Bjorklund(MQProblem(n=10, m=12, q=2), bit_complexities=False)
+            sage: E.time_complexity(lambda_=7/10)
             49.97565549640329
         """
         lambda_ = parameters['lambda_']
@@ -123,8 +123,8 @@ class Bjorklund(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Bjorklund(MQProblem(n=10, m=12, q=2))
-            sage: E._compute_memory_complexity({'lambda_':7/10})
+            sage: E = Bjorklund(MQProblem(n=10, m=12, q=2), bit_complexities=False)
+            sage: E.memory_complexity(lambda_=7/10)
             10.225233514599497
         """
         lambda_ = parameters['lambda_']
@@ -148,8 +148,8 @@ class Bjorklund(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Bjorklund(MQProblem(n=10, m=12, q=2))
-            sage: E._compute_tilde_o_time_complexity({'lambda_':7/10})
+            sage: E = Bjorklund(MQProblem(n=10, m=12, q=2), complexity_type=1)
+            sage: E.time_complexity(lambda_=7/10)
             8.03225
         """
         n = self.nvariables_reduced()
@@ -164,8 +164,8 @@ class Bjorklund(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Bjorklund(MQProblem(n=10, m=12, q=2))
-            sage: E._compute_tilde_o_memory_complexity({'lambda_':7/10})
+            sage: E = Bjorklund(MQProblem(n=10, m=12, q=2), complexity_type=1)
+            sage: E.memory_complexity(lambda_=7/10)
             3
         """
         n = self.nvariables_reduced()
@@ -180,8 +180,9 @@ class Bjorklund(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Bjorklund(MQProblem(n=10, m=12, q=2))
-            sage: E._find_optimal_tilde_o_parameters()
+            sage: E = Bjorklund(MQProblem(n=10, m=12, q=2), complexity_type=1)
+            sage: E.optimal_parameters()
+            {'lambda_': 0.19677}
         """
         self._optimal_parameters['lambda_'] = 0.19677
 
