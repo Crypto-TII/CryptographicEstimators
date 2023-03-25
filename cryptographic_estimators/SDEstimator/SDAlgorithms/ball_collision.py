@@ -30,8 +30,7 @@ class BallCollision(SDAlgorithm):
         """
         Complexity estimate of the ball collision decoding algorithm
 
-        [BLP11] Bernstein, D.J., Lange, T., Peters, C.:  Smaller decoding exponents: ball-collision decoding.
-        In: Annual Cryptology Conference. pp. 743–760. Springer (2011)
+        Introduced in [BLP11]_.
 
         expected weight distribution::
 
@@ -39,6 +38,7 @@ class BallCollision(SDAlgorithm):
         | <-+ n - k - l +->|<- l/2 ->|<- l/2 ->|<--+ k/2 +-->|<--+ k/2 +-->|
         |    w - 2p - 2pl  |   pl    |   pl    |      p      |      p      |
         +------------------+---------+---------+-------------+-------------+
+
         INPUT:
 
         - ``problem`` -- SDProblem object including all necessary parameters
