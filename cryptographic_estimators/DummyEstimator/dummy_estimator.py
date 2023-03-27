@@ -27,6 +27,7 @@ class DummyEstimator(BaseEstimator):
     Construct an instance of DummyEstimator
 
     INPUT:
+
     - ``problem_parameter1`` -- First parameter of the problem
     - ``problem_parameter2`` -- Second parameter of the problem
     - ``memory_bound`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)  

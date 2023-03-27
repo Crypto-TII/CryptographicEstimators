@@ -40,7 +40,7 @@ class SDFqEstimator(BaseEstimator):
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
 
-        EXAMPLES:
+        EXAMPLES::
 
             sage: from cryptographic_estimators.SDFqEstimator import SDFqEstimator
             sage: A = SDFqEstimator(n=100,k=50,w=10,q=5)
@@ -55,7 +55,8 @@ class SDFqEstimator(BaseEstimator):
             | LeeBrickell | 25.4 |   13.5 |
             +-------------+------+--------+
 
-        TESTS:
+        TESTS::
+
             sage: from cryptographic_estimators.SDFqEstimator import SDFqEstimator
             sage: A = SDFqEstimator(961,771,48,31)
             sage: A.table(precision=3, show_all_parameters=1) # long time
