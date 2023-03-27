@@ -71,6 +71,7 @@ class PKEstimator(BaseEstimator):
             |           |    estimate    |
             +-----------+-------+--------+
             | algorithm |  time | memory |
+            +-----------+-------+--------+
             | KMP       | 146.4 |  105.5 |
             | SBC       | 137.6 |   42.8 |
             +-----------+-------+--------+
@@ -88,7 +89,6 @@ class PKEstimator(BaseEstimator):
             | KMP       | 243.808 | 243.722 |         {'u': 24}          |
             | SBC       | 241.319 | 236.722 | {'d': 1, 'w': 38, 'w1': 2} |
             +-----------+---------+---------+----------------------------+
-
 
         """
         super(PKEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
