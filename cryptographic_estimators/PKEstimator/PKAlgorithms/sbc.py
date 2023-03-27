@@ -49,11 +49,7 @@ class SBC(PKAlgorithm):
             sage: from cryptographic_estimators.PKEstimator import PKProblem
             sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
             sage: A.d()
-<<<<<<< HEAD
             3
-=======
-            1
->>>>>>> feat/intensive_testing
 
         """
         return self._get_optimal_parameter("d")
@@ -69,11 +65,7 @@ class SBC(PKAlgorithm):
             sage: from cryptographic_estimators.PKEstimator import PKProblem
             sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
             sage: A.w()
-<<<<<<< HEAD
             11
-=======
-            38
->>>>>>> feat/intensive_testing
 
         """
         return self._get_optimal_parameter("w")
@@ -89,11 +81,7 @@ class SBC(PKAlgorithm):
             sage: from cryptographic_estimators.PKEstimator import PKProblem
             sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
             sage: A.w1()
-<<<<<<< HEAD
             5
-=======
-            2
->>>>>>> feat/intensive_testing
 
         """
         return self._get_optimal_parameter("w1")
