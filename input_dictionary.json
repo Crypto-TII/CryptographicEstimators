@@ -566,13 +566,6 @@
               "direction": "column",
               "placeholder": "Insert value",
               "tooltip": "Memory in Fq elements for one list element in the SBC and KMP algorithms"
-      },
-      {
-              "id": "sd_parameters",
-              "type": "number",
-              "display_label": "optional parameters of SDEstimator",
-              "direction": "column",
-              "tooltip": "Dictionary of optional parameter arguments for SDEstimator used by SBC algorithm"
       }
         ]
 		}
