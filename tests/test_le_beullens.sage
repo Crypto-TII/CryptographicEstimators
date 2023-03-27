@@ -28,7 +28,6 @@ def test_beullens2():
     """
     small `n` test.
     """
-    ranges = 0.1
     for n in range(100, 103):
         for k in range(50, 53):
             for q in [7, 11]:

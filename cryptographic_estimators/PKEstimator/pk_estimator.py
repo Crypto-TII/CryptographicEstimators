@@ -49,7 +49,6 @@ class PKEstimator(BaseEstimator):
         super(PKEstimator, self).__init__(
             PKAlgorithm, PKProblem(n, m, q, ell=ell, memory_bound=memory_bound, **kwargs), **kwargs)
 
-
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
               show_all_parameters=0, precision=1, truncate=0):
         """
@@ -65,9 +64,9 @@ class PKEstimator(BaseEstimator):
 
         EXAMPLES:
 
-            >>> from cryptographic_estimators.PKEstimator import PKEstimator
-            >>> A = PKEstimator(n=100,m=50,q=31,ell=2)
-            >>> A.table()
+            sage: from cryptographic_estimators.PKEstimator import PKEstimator
+            sage: A = PKEstimator(n=100,m=50,q=31,ell=2)
+            sage: A.table()
             +-----------+----------------+
             |           |    estimate    |
             +-----------+-------+--------+
@@ -76,18 +75,6 @@ class PKEstimator(BaseEstimator):
             | KMP       | 243.8 |  243.7 |
             | SBC       | 241.3 |  236.7 |
             +-----------+-------+--------+
-
-            python: from cryptographic_estimators.PKEstimator import PKEstimator
-            python: from cryptographic_estimators.PKEstimator.PKAlgorithms import KMP
-            python: A = PKEstimator(n=100,m=50,q=31,ell=2,excluded_algorithms=[KMP])
-            python: A.table(precision=3, show_all_parameters=1)
-            +-----------+--------------------------------------------------+
-            |           |                     estimate                     |
-            +-----------+---------+---------+------------------------------+
-            | algorithm |    time |  memory |          parameters          |
-            +-----------+---------+---------+------------------------------+
-            | SBC       | 194.266 | 187.945 | {'d': 35, 'w': 57, 'w1': 28} |
-            +-----------+---------+---------+------------------------------+
 
         """
         super(PKEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
