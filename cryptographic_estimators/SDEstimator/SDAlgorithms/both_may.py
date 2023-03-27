@@ -21,7 +21,6 @@ from ...SDEstimator.sd_algorithm import SDAlgorithm
 from ...SDEstimator.sd_problem import SDProblem
 from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matrix, _indyk_motwani_complexity, binom, \
     log2, inf, ceil
-from ...helper import memory_access_cost
 from types import SimpleNamespace
 from ..sd_constants import *
 from ..SDWorkfactorModels import BothMayScipyModel
@@ -187,9 +186,6 @@ class BothMay(SDAlgorithm):
         par = SimpleNamespace(**parameters)
         k1 = k // 2
 
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
-
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound
 
@@ -220,7 +216,6 @@ class BothMay(SDAlgorithm):
         T_rep = int(ceil(2 ** max(0, par.l - log2(reps))))
 
         time = Tp + log2(Tg + T_rep * T_tree)
-        time += memory_access_cost(memory, self.memory_access)
         if verbose_information is not None:
             verbose_information[VerboseInformation.CONSTRAINTS.value] = [par.l]
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp

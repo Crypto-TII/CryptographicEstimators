@@ -31,8 +31,8 @@ class Beullens(LEAlgorithm):
         """
         super().__init__(problem, **kwargs)
         self._name = "Beullens"
-        n, _, _ = self.problem.get_parameters()
-        self.set_parameter_ranges('w', 0, n)
+        n, k, _ = self.problem.get_parameters()
+        self.set_parameter_ranges('w', 0, n-k+1)
 
     @optimal_parameter
     def w(self):
@@ -78,9 +78,9 @@ class Beullens(LEAlgorithm):
         normal_form_cost = 1 + log2(q) + list_size
 
         if verbose_information is not None:
-            verbose_information[VerboseInformation.LISTS_SIZE] = list_size
-            verbose_information[VerboseInformation.LISTS] = list_computation
-            verbose_information[VerboseInformation.NORMAL_FORM] = normal_form_cost
+            verbose_information[VerboseInformation.LISTS_SIZE.value] = list_size
+            verbose_information[VerboseInformation.LISTS.value] = list_computation
+            verbose_information[VerboseInformation.NORMAL_FORM.value] = normal_form_cost
 
         return max(list_computation, normal_form_cost) + log2(n), list_size + log2(n)
 

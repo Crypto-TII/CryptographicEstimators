@@ -14,18 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
-
-
- 
 
 
 from ..base_problem import BaseProblem
 from ..MQEstimator.mq_helper import ngates
 from math import log2
-from sage.functions.other import ceil
 from .mq_constants import *
+from sage.functions.other import ceil
 from sage.arith.misc import is_prime_power
+from sage.all import GF
+
 
 class MQProblem(BaseProblem):
     """
@@ -41,7 +39,7 @@ class MQProblem(BaseProblem):
 
     """
 
-    def __init__(self, n: int, m: int, q:int, **kwargs):
+    def __init__(self, n: int, m: int, q: int, **kwargs):
         if n < 1:
             raise ValueError("n must be >= 1")
 
@@ -55,7 +53,8 @@ class MQProblem(BaseProblem):
         self.parameters[MQ_NUMBER_VARIABLES] = n
         self.parameters[MQ_NUMBER_POLYNOMIALS] = m
         self.parameters[MQ_FIELD_SIZE] = q
-        self.nsolutions = kwargs.get("nsolutions", self.expected_number_solutions())
+        self.nsolutions = kwargs.get(
+            "nsolutions", self.expected_number_solutions())
         self._theta = kwargs.get("theta", 2)
 
     def to_bitcomplexity_time(self, basic_operations: float):
@@ -204,8 +203,7 @@ class MQProblem(BaseProblem):
         """
         """
         n, m, q = self.get_problem_parameters()
-        rep = "MQ problem with (n,m,q) = " \
-              + "(" + str(n) + "," + str(m) + "," + \
-            str(q) + ") over " + str(self.baseField)
+        base_field = GF(q)
+        rep = f"MQ problem with (n,m,q) = ({str(n)}, {str(m)}, {str(q)}) over {str(base_field)}"
 
         return rep

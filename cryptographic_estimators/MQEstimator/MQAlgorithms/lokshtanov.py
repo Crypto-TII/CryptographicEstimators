@@ -57,6 +57,9 @@ class Lokshtanov(MQAlgorithm):
         if not isinstance(q, (int, Integer)):
             raise TypeError("q must be an integer")
 
+        if q > 1024:
+            raise TypeError("q too big to run this algorithm")
+
         super().__init__(problem, **kwargs)
         self._name = "Lokshtanov et al."
 

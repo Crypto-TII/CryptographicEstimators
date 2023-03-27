@@ -20,7 +20,6 @@ from ...base_algorithm import optimal_parameter
 from ...SDEstimator.sd_algorithm import SDAlgorithm
 from ...SDEstimator.sd_problem import SDProblem
 from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matrix, _list_merge_complexity, binom, log2, min_max, inf
-from ...helper import memory_access_cost
 from types import SimpleNamespace
 from ..sd_constants import *
 from ..SDWorkfactorModels.stern import SternScipyModel
@@ -139,9 +138,6 @@ class Stern(SDAlgorithm):
         par = SimpleNamespace(**parameters)
         k1 = k // 2
 
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
-
         memory_bound = self.problem.memory_bound
 
         L1 = binom(k1, par.p)
@@ -175,8 +171,6 @@ class Stern(SDAlgorithm):
         Tg = _gaussian_elimination_complexity(n, k, par.r)
         time = Tp + log2(Tg + _list_merge_complexity(L1,
                          par.l, self._hmap) * l_part_iterations)
-
-        time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp

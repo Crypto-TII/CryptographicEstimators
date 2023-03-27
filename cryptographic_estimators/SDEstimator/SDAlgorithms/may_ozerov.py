@@ -22,7 +22,6 @@ from ...SDEstimator.sd_algorithm import SDAlgorithm
 from ...SDEstimator.sd_problem import SDProblem
 from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matrix, _list_merge_complexity, \
     _indyk_motwani_complexity, min_max, binom, log2, ceil, inf
-from ...helper import memory_access_cost
 from types import SimpleNamespace
 from ..sd_constants import *
 from ..SDWorkfactorModels.may_ozerov import MayOzerovScipyModel
@@ -288,9 +287,6 @@ class MayOzerovD2(SDAlgorithm):
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
 
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
-
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound
         L1 = binom(k1, par.p1)
@@ -321,7 +317,6 @@ class MayOzerovD2(SDAlgorithm):
 
         T_rep = int(ceil(2 ** max(par.l - log2(reps), 0)))
         time = Tp + log2(Tg + T_rep * T_tree)
-        time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.CONSTRAINTS.value] = [par.l]
@@ -489,9 +484,6 @@ class MayOzerovD3(SDAlgorithm):
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
 
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
-
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound
         L1 = binom(k1, par.p1)
@@ -526,7 +518,6 @@ class MayOzerovD3(SDAlgorithm):
         T_rep = int(
             ceil(2 ** (max(par.l - log2(reps2), 0) + 3 * max(l1 - log2(reps1), 0))))
         time = Tp + log2(Tg + T_rep * T_tree)
-        time += memory_access_cost(memory, self.memory_access)
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.CONSTRAINTS.value] = [
