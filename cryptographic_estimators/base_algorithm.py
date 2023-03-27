@@ -434,9 +434,8 @@ class BaseAlgorithm:
                 self._time_complexity = self.problem.to_bitcomplexity_time(
                     self._time_complexity)
 
-            if self._memory_access != 0:
-                self._time_complexity += self.memory_access_cost(
-                    self.memory_complexity())
+            self._time_complexity += self.memory_access_cost(self.memory_complexity())
+
         else:
             self._time_complexity = self._compute_tilde_o_time_complexity(
                 params)
