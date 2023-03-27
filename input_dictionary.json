@@ -578,8 +578,8 @@
           "type": "selector",
           "direction": "column",
           "display_label": "Code word search",
-          "default_value": "Code word search",
-          "tooltip": "In the case of 'Code word search', the time complexity of finding small code words is computed. As opposed in the 'Syndrome decoding' case, in which the time complexity for generic syndrome decoding is computed.",
+          "default_value": 1,
+          "tooltip": "Indicates if a small code word is searched, i.e., if the syndrome is equal to the zero.",
           "options": ["Syndrome decoding", "Code word search"]
         }
       ]
