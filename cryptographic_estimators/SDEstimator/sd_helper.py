@@ -205,3 +205,29 @@ def _mitm_nn_complexity(L: float, l: int, w: int, hmap: bool):
         return _list_merge_complexity(L, l, hmap)
     L1 = L * binom(l / 2, w / 2)
     return _list_merge_complexity(L1, l, hmap)
+
+
+def _list_merge_async_complexity(L1: float, L2: float, l: int, hmap: bool = True):
+    """
+    Complexity estimate of merging two lists exact
+    INPUT:
+    - ``L`` -- size of lists to be merged
+    - ``l`` -- amount of bits used for matching
+    - ``hmap`` -- indicates if hashmap is being used (Default 0: no hashmap)
+    EXAMPLES::
+        sage: from cryptographic_estimators.SDEstimator import _list_merge_async_complexity
+        sage: _list_merge_async_complexity(L1=2**16,L2=2**14,l=16,hmap=1) # random
+    """
+
+    if L1 == 1 and L2==1:
+        return 1
+    if L1==1:
+        return L2
+    if L2==1:
+        return L1
+    if not hmap:
+        L = max(L1, L2)
+        return max(1, 2 * int(log2(L)) * L + (L1 * L2) // 2 ** l)
+    else:
+        return L1+L2 + L1*L2 // 2 ** l
+

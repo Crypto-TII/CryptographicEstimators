@@ -1,5 +1,5 @@
 from cryptographic_estimators.SDEstimator.SDAlgorithms import Prange, Dumer, BallCollision, BJMMd2, BJMMd3, BJMM, BJMMdw,\
-    BJMMpdw, BothMay, MayOzerov, MayOzerovD2, MayOzerovD3, Stern
+    BJMMpdw, BothMay, MayOzerov, MayOzerovD2, MayOzerovD3, Stern, BJMM_plus
 from cryptographic_estimators.SDEstimator import SDProblem
 from math import log2
 from module.estimator import prange_complexity, dumer_complexity, stern_complexity, ball_collision_decoding_complexity, \
@@ -62,6 +62,24 @@ def test_all():
 
             print(A1, T1, T2)
             assert T2 - ranges <= T1 <= T2 + ranges
+            
+            
+def test_bjmm_plus1():
+    t = bjmm_depth_2_qc_complexity(1284, 1028, 24)
+    t1 = t["time"] + log2(1284)
+    t2 = BJMM_plus(SDProblem(1284, 1028, 24)).time_complexity()
+    assert t1 - ranges <= t2 <= t1 + ranges
+
+
+def test_bjmm_plus2():
+    t = bjmm_depth_2_qc_complexity(3488, 2720, 64)
+    t1 = t["time"]+ log2(3488)
+    t2 = BJMM_plus(SDProblem(3488, 2720, 64)).time_complexity()
+    assert t1 - ranges <= t2 <= t1 + ranges
+
 
 if __name__ == "__main__":
     test_all()
+    test_bjmm_plus1()
+    test_bjmm_plus2()
+    
