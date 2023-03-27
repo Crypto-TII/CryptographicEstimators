@@ -132,9 +132,7 @@ class HybridF5(MQAlgorithm):
         n, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
         degrees = self.degree_of_polynomials()
-        E = F5(MQProblem(n=n-k, m=m, q=q), w=w, degrees=degrees)
-        E.complexity_type = ComplexityType.ESTIMATE.value
-        E.bit_complexities = False
+        E = F5(MQProblem(n=n-k, m=m, q=q), w=w, degrees=degrees, bit_complexities=False)
         h = self._h
         return log2(q) * k + E.time_complexity() + h * log2(q)
 
