@@ -514,6 +514,24 @@
           "placeholder": "Insert parameter",
           "tooltip": "Size of the underlying base field",
           "dependencies": []
+        },
+        {
+          "id": "memory_bound",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "default_value": null,
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+          "id": "nsolutions",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Number of solutions",
+          "placeholder": "Insert value",
+          "tooltip": "Log2 of number of existing solutions of which one has to be found, if not specified it will be fixed to the number of solutions in expectation"
         }
       ],
       "estimator_parameters": [
@@ -536,16 +554,6 @@
           "dependencies": []
         },
         {
-          "id": "memory_bound",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Memory limit",
-          "default_value": null,
-          "placeholder": "Insert value",
-          "caption": "Leave empty if no limit is desired",
-          "tooltip": "Log2 of the maximum number of bits of memory available"
-        },
-        {
           "id": "memory_access",
           "type": "selector",
           "direction": "column",
@@ -562,18 +570,18 @@
           "default_value": 0,
           "placeholder": "Insert value",
           "tooltip": "Number of decimal digits to display"
-        },
-        {
-          "id": "nsolutions",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Number of solutions",
-          "placeholder": "Insert value",
-          "tooltip": "Log2 of number of existing solutions of which one has to be found, if not specified it will be fixed to the number of solutions in expectation"
         }
       ],
       "optional_parameters": [
-
+        {
+          "id": "is_syndrome_zero",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Code word search",
+          "default_value": "Code word search",
+          "tooltip": "In the case of 'Code word search', the time complexity of finding small code words is computed. As opposed in the 'Syndrome decoding' case, in which the time complexity for generic syndrome decoding is computed.",
+          "options": ["Syndrome decoding", "Code word search"]
+        }
       ]
 	}
 	]
