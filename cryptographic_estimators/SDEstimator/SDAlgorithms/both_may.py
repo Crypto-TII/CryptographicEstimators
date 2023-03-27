@@ -186,9 +186,6 @@ class BothMay(SDAlgorithm):
         par = SimpleNamespace(**parameters)
         k1 = k // 2
 
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
-
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound
 
