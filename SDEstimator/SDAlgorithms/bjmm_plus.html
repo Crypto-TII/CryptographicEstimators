@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="ball_collision" href="ball_collision.html" /><link rel="prev" title="bjmm_plus" href="bjmm_plus.html" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="stern" href="stern.html" /><link rel="prev" title="prange" href="prange.html" />
 
     <link rel="shortcut icon" href="../../_static/favicon.ico"/><!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
-        <title>stern - TII-Estimators documentation</title>
+        <title>bjmm_plus - TII-Estimators documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -271,8 +271,8 @@
 <li class="toctree-l1"><a class="reference internal" href="bjmm.html">bjmm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dumer.html">dumer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prange.html">prange</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bjmm_plus.html">bjmm_plus</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">stern</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">bjmm_plus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stern.html">stern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ball_collision.html">ball_collision</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bjmm_pdw.html">bjmm_pdw</a></li>
 </ul>
@@ -309,18 +309,21 @@
           </label>
         </div>
         <article role="main">
-          <section id="module-cryptographic_estimators.SDEstimator.SDAlgorithms.stern">
-<span id="stern"></span><h1>stern<a class="headerlink" href="#module-cryptographic_estimators.SDEstimator.SDAlgorithms.stern" title="Permalink to this heading">#</a></h1>
+          <section id="module-cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus">
+<span id="bjmm-plus"></span><h1>bjmm_plus<a class="headerlink" href="#module-cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDAlgorithms.stern.</span></span><span class="sig-name descname"><span class="pre">Stern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../sd_problem.html#cryptographic_estimators.SDEstimator.sd_problem.SDProblem" title="cryptographic_estimators.SDEstimator.sd_problem.SDProblem"><span class="pre">SDProblem</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.</span></span><span class="sig-name descname"><span class="pre">BJMM_plus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../sd_problem.html#cryptographic_estimators.SDEstimator.sd_problem.SDProblem" title="cryptographic_estimators.SDEstimator.sd_problem.SDProblem"><span class="pre">SDProblem</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../sd_algorithm.html#cryptographic_estimators.SDEstimator.sd_algorithm.SDAlgorithm" title="cryptographic_estimators.SDEstimator.sd_algorithm.SDAlgorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">SDAlgorithm</span></code></a></p>
-<p>Construct an instance of Stern’s estimator <span id="id1">[Ste1988]</span>, <span id="id2">[BLP2008]</span>.</p>
-<p>Expected weight distribution:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+-------------------------+---------+-------------+-------------+</span>
-<span class="o">|</span> <span class="o">&lt;----+</span> <span class="n">n</span> <span class="o">-</span> <span class="n">k</span> <span class="o">-</span> <span class="n">l</span> <span class="o">+----&gt;</span> <span class="o">|&lt;--</span> <span class="n">l</span> <span class="o">--&gt;|&lt;--+</span> <span class="n">k</span><span class="o">/</span><span class="mi">2</span> <span class="o">+--&gt;|&lt;--+</span> <span class="n">k</span><span class="o">/</span><span class="mi">2</span> <span class="o">+--&gt;|</span>
-<span class="o">|</span>          <span class="n">w</span> <span class="o">-</span> <span class="mi">2</span><span class="n">p</span>         <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span>      <span class="n">p</span>      <span class="o">|</span>      <span class="n">p</span>      <span class="o">|</span>
-<span class="o">+-------------------------+---------+-------------+-------------+</span>
+<p>Complexity estimate of BJMM+ algorithm in depth 2</p>
+<p>This class incorporates the improvements by <a class="reference internal" href="../../references.html#ez23" id="id1"><span>[EZ23]</span></a>, regarding a time-memory tradeoff which improves over the
+BJMM algorithm in terms of memory usages.</p>
+<p>For further reference see <span id="id2">[MMT11]</span> and <span id="id3">[BJMM12]</span>.</p>
+<p>expected weight distribution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+--------------------------+-------------------+-------------------+</span>
+<span class="o">|</span> <span class="o">&lt;-----+</span> <span class="n">n</span> <span class="o">-</span> <span class="n">k</span> <span class="o">-</span> <span class="n">l</span> <span class="o">+-----&gt;|&lt;--+</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">+--&gt;|&lt;--+</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">+--&gt;|</span>
+<span class="o">|</span>           <span class="n">w</span> <span class="o">-</span> <span class="mi">2</span><span class="n">p</span>         <span class="o">|</span>        <span class="n">p</span>          <span class="o">|</span>        <span class="n">p</span>          <span class="o">|</span>
+<span class="o">+--------------------------+-------------------+-------------------+</span>
 </pre></div>
 </div>
 <p>INPUT:</p>
@@ -328,27 +331,37 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">problem</span></code> – SDProblem object including all necessary parameters</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator.SDAlgorithms</span> <span class="kn">import</span> <span class="n">Stern</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator.SDAlgorithms</span> <span class="kn">import</span> <span class="n">BJMM_plus</span>
 <span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator</span> <span class="kn">import</span> <span class="n">SDProblem</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">Stern</span><span class="p">(</span><span class="n">SDProblem</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
-<span class="n">Stern</span> <span class="n">estimator</span> <span class="k">for</span> <span class="n">syndrome</span> <span class="n">decoding</span> <span class="n">problem</span> <span class="k">with</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">w</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="n">over</span> <span class="n">Finite</span> <span class="n">Field</span> <span class="n">of</span> <span class="n">size</span> <span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">BJMM_plus</span><span class="p">(</span><span class="n">SDProblem</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">BJMM</span><span class="o">+</span> <span class="n">estimator</span> <span class="k">for</span> <span class="n">syndrome</span> <span class="n">decoding</span> <span class="n">problem</span> <span class="k">with</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">w</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="n">over</span> <span class="n">Finite</span> <span class="n">Field</span> <span class="n">of</span> <span class="n">size</span> <span class="mi">2</span>
+
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator.SDAlgorithms</span> <span class="kn">import</span> <span class="n">BJMM_plus</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator</span> <span class="kn">import</span> <span class="n">SDProblem</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">BJMM_plus</span><span class="p">(</span><span class="n">SDProblem</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1284</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">1028</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">24</span><span class="p">))</span><span class="o">.</span><span class="n">time_complexity</span><span class="p">()</span>
+<span class="mf">66.34605703336426</span>
+
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator.SDAlgorithms</span> <span class="kn">import</span> <span class="n">BJMM_plus</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator</span> <span class="kn">import</span> <span class="n">SDProblem</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">BJMM_plus</span><span class="p">(</span><span class="n">SDProblem</span><span class="p">(</span><span class="mi">3488</span><span class="p">,</span><span class="mi">2720</span><span class="p">,</span><span class="mi">64</span><span class="p">))</span><span class="o">.</span><span class="n">time_complexity</span><span class="p">()</span>
+<span class="mf">142.1110119263271</span>
 </pre></div>
 </div>
 <dl class="py property">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.complexity_type">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">complexity_type</span></span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.complexity_type" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.complexity_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">complexity_type</span></span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.complexity_type" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the attribute _complexity_type</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.get_optimal_parameters_dict">
-<span class="sig-name descname"><span class="pre">get_optimal_parameters_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.get_optimal_parameters_dict" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.get_optimal_parameters_dict">
+<span class="sig-name descname"><span class="pre">get_optimal_parameters_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.get_optimal_parameters_dict" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the optimal parameters dictionary</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.has_optimal_parameter">
-<span class="sig-name descname"><span class="pre">has_optimal_parameter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.has_optimal_parameter" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.has_optimal_parameter">
+<span class="sig-name descname"><span class="pre">has_optimal_parameter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.has_optimal_parameter" title="Permalink to this definition">#</a></dt>
 <dd><p>Return <cite>True</cite> if the algorithm has optimal parameter</p>
 <p>TESTS:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators</span> <span class="kn">import</span> <span class="n">BaseAlgorithm</span><span class="p">,</span> <span class="n">BaseProblem</span>
@@ -359,35 +372,49 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.initialize_parameter_ranges">
-<span class="sig-name descname"><span class="pre">initialize_parameter_ranges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.initialize_parameter_ranges" title="Permalink to this definition">#</a></dt>
-<dd><p>initialize the parameter ranges for p, l to start the optimisation 
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.initialize_parameter_ranges">
+<span class="sig-name descname"><span class="pre">initialize_parameter_ranges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.initialize_parameter_ranges" title="Permalink to this definition">#</a></dt>
+<dd><p>initialize the parameter ranges for p, p1, l to start the optimisation
 process.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.l">
-<span class="sig-name descname"><span class="pre">l</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.l" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.l">
+<span class="sig-name descname"><span class="pre">l</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.l" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the optimal parameter $l$ used in the algorithm optimization</p>
 <p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator.SDAlgorithms</span> <span class="kn">import</span> <span class="n">Stern</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator.SDAlgorithms</span> <span class="kn">import</span> <span class="n">BJMM_plus</span>
 <span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator</span> <span class="kn">import</span> <span class="n">SDProblem</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">Stern</span><span class="p">(</span><span class="n">SDProblem</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">BJMM_plus</span><span class="p">(</span><span class="n">SDProblem</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
 <span class="n">sage</span><span class="p">:</span> <span class="n">A</span><span class="o">.</span><span class="n">l</span><span class="p">()</span>
-<span class="mi">9</span>
+<span class="mi">8</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.l1">
+<span class="sig-name descname"><span class="pre">l1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.l1" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the optimal parameter $l$ used in the algorithm optimization</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator.SDAlgorithms</span> <span class="kn">import</span> <span class="n">BJMM_plus</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator</span> <span class="kn">import</span> <span class="n">SDProblem</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">BJMM_plus</span><span class="p">(</span><span class="n">SDProblem</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span><span class="o">.</span><span class="n">l1</span><span class="p">()</span>
+<span class="mi">2</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_access">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">memory_access</span></span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_access" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.memory_access">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">memory_access</span></span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.memory_access" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the attribute _memory_access</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_access_cost">
-<span class="sig-name descname"><span class="pre">memory_access_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_access_cost" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.memory_access_cost">
+<span class="sig-name descname"><span class="pre">memory_access_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.memory_access_cost" title="Permalink to this definition">#</a></dt>
 <dd><p>INPUT:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">`mem</span></code> – memory consumption of an algorithm</p></li>
@@ -409,8 +436,8 @@ process.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_complexity">
-<span class="sig-name descname"><span class="pre">memory_complexity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_complexity" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.memory_complexity">
+<span class="sig-name descname"><span class="pre">memory_complexity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.memory_complexity" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the memory complexity of the algorithm</p>
 <p>INPUT:</p>
 <ul class="simple">
@@ -419,8 +446,8 @@ process.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.optimal_parameters">
-<span class="sig-name descname"><span class="pre">optimal_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.optimal_parameters" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.optimal_parameters">
+<span class="sig-name descname"><span class="pre">optimal_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.optimal_parameters" title="Permalink to this definition">#</a></dt>
 <dd><p>Return a dictionary of optimal parameters</p>
 <p>TESTS:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators</span> <span class="kn">import</span> <span class="n">BaseAlgorithm</span><span class="p">,</span> <span class="n">BaseProblem</span>
@@ -431,13 +458,13 @@ process.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.p">
-<span class="sig-name descname"><span class="pre">p</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.p" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.p">
+<span class="sig-name descname"><span class="pre">p</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.p" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the optimal parameter $p$ used in the algorithm optimization</p>
 <p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator.SDAlgorithms</span> <span class="kn">import</span> <span class="n">Stern</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator.SDAlgorithms</span> <span class="kn">import</span> <span class="n">BJMM_plus</span>
 <span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator</span> <span class="kn">import</span> <span class="n">SDProblem</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">Stern</span><span class="p">(</span><span class="n">SDProblem</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">BJMM_plus</span><span class="p">(</span><span class="n">SDProblem</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
 <span class="n">sage</span><span class="p">:</span> <span class="n">A</span><span class="o">.</span><span class="n">p</span><span class="p">()</span>
 <span class="mi">2</span>
 </pre></div>
@@ -445,8 +472,22 @@ process.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.parameter_names">
-<span class="sig-name descname"><span class="pre">parameter_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.parameter_names" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.p1">
+<span class="sig-name descname"><span class="pre">p1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.p1" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the optimal parameter $p1$ used in the algorithm optimization</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator.SDAlgorithms</span> <span class="kn">import</span> <span class="n">BJMM_plus</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDEstimator</span> <span class="kn">import</span> <span class="n">SDProblem</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">BJMM_plus</span><span class="p">(</span><span class="n">SDProblem</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span><span class="o">.</span><span class="n">p1</span><span class="p">()</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.parameter_names">
+<span class="sig-name descname"><span class="pre">parameter_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.parameter_names" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the list with the names of the algorithm’s parameters</p>
 <p>TESTS:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators</span> <span class="kn">import</span> <span class="n">BaseAlgorithm</span><span class="p">,</span> <span class="n">BaseProblem</span>
@@ -457,26 +498,26 @@ process.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.parameter_ranges">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameter_ranges</span></span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.parameter_ranges" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.parameter_ranges">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameter_ranges</span></span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.parameter_ranges" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the set ranges in which for optimal parameters are searched by the optimization algorithm (used only for complexity type estimate)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.r">
-<span class="sig-name descname"><span class="pre">r</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.r" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.r">
+<span class="sig-name descname"><span class="pre">r</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.r" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the optimal parameter $r$ used in the optimization of the M4RI Gaussian elimination</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.reset">
-<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.reset" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.reset" title="Permalink to this definition">#</a></dt>
 <dd><p>Resets internal state of the algorithm</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.set_parameter_ranges">
-<span class="sig-name descname"><span class="pre">set_parameter_ranges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.set_parameter_ranges" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.set_parameter_ranges">
+<span class="sig-name descname"><span class="pre">set_parameter_ranges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.set_parameter_ranges" title="Permalink to this definition">#</a></dt>
 <dd><p>Set range of specific parameter (if optimal parameter is already set, it must fall in that range)</p>
 <p>INPUT:</p>
 <ul class="simple">
@@ -487,8 +528,8 @@ process.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.set_parameters">
-<span class="sig-name descname"><span class="pre">set_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.set_parameters" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.set_parameters">
+<span class="sig-name descname"><span class="pre">set_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.set_parameters" title="Permalink to this definition">#</a></dt>
 <dd><p>Set optimal parameters to predifined values:</p>
 <p>INPUT:</p>
 <ul class="simple">
@@ -497,8 +538,8 @@ process.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.time_complexity">
-<span class="sig-name descname"><span class="pre">time_complexity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.time_complexity" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.time_complexity">
+<span class="sig-name descname"><span class="pre">time_complexity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.time_complexity" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the time complexity of the algorithm</p>
 <p>INPUT:</p>
 <ul class="simple">
@@ -515,23 +556,23 @@ process.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="ball_collision.html">
+          <a class="next-page" href="stern.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">ball_collision</div>
+                <div class="title">stern</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="bjmm_plus.html">
+          <a class="prev-page" href="prange.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">bjmm_plus</div>
+                <div class="title">prange</div>
                 
               </div>
             </a>
@@ -565,25 +606,27 @@ process.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">stern</a><ul>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern"><code class="docutils literal notranslate"><span class="pre">Stern</span></code></a><ul>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.complexity_type"><code class="docutils literal notranslate"><span class="pre">Stern.complexity_type</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.get_optimal_parameters_dict"><code class="docutils literal notranslate"><span class="pre">Stern.get_optimal_parameters_dict()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.has_optimal_parameter"><code class="docutils literal notranslate"><span class="pre">Stern.has_optimal_parameter()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.initialize_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Stern.initialize_parameter_ranges()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.l"><code class="docutils literal notranslate"><span class="pre">Stern.l()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_access"><code class="docutils literal notranslate"><span class="pre">Stern.memory_access</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_access_cost"><code class="docutils literal notranslate"><span class="pre">Stern.memory_access_cost()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.memory_complexity"><code class="docutils literal notranslate"><span class="pre">Stern.memory_complexity()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">Stern.optimal_parameters()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.p"><code class="docutils literal notranslate"><span class="pre">Stern.p()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.parameter_names"><code class="docutils literal notranslate"><span class="pre">Stern.parameter_names()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Stern.parameter_ranges</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.r"><code class="docutils literal notranslate"><span class="pre">Stern.r()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.reset"><code class="docutils literal notranslate"><span class="pre">Stern.reset()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.set_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Stern.set_parameter_ranges()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.set_parameters"><code class="docutils literal notranslate"><span class="pre">Stern.set_parameters()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.stern.Stern.time_complexity"><code class="docutils literal notranslate"><span class="pre">Stern.time_complexity()</span></code></a></li>
+<li><a class="reference internal" href="#">bjmm_plus</a><ul>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus"><code class="docutils literal notranslate"><span class="pre">BJMM_plus</span></code></a><ul>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.complexity_type"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.complexity_type</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.get_optimal_parameters_dict"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.get_optimal_parameters_dict()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.has_optimal_parameter"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.has_optimal_parameter()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.initialize_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.initialize_parameter_ranges()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.l"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.l()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.l1"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.l1()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.memory_access"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.memory_access</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.memory_access_cost"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.memory_access_cost()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.memory_complexity"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.memory_complexity()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.optimal_parameters"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.optimal_parameters()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.p"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.p()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.p1"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.p1()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.parameter_names"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.parameter_names()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.parameter_ranges"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.parameter_ranges</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.r"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.r()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.reset"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.reset()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.set_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.set_parameter_ranges()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.set_parameters"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.set_parameters()</span></code></a></li>
+<li><a class="reference internal" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_plus.BJMM_plus.time_complexity"><code class="docutils literal notranslate"><span class="pre">BJMM_plus.time_complexity()</span></code></a></li>
 </ul>
 </li>
 </ul>

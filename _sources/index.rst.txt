@@ -197,6 +197,7 @@ SDAlgorithms
     SDEstimator/SDAlgorithms/bjmm
     SDEstimator/SDAlgorithms/dumer
     SDEstimator/SDAlgorithms/prange
+    SDEstimator/SDAlgorithms/bjmm_plus
     SDEstimator/SDAlgorithms/stern
     SDEstimator/SDAlgorithms/ball_collision
     SDEstimator/SDAlgorithms/bjmm_pdw

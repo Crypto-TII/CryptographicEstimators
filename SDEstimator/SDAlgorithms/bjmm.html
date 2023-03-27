@@ -271,6 +271,7 @@
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">bjmm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dumer.html">dumer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prange.html">prange</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjmm_plus.html">bjmm_plus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stern.html">stern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ball_collision.html">ball_collision</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bjmm_pdw.html">bjmm_pdw</a></li>
@@ -315,11 +316,7 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.</span></span><span class="sig-name descname"><span class="pre">BJMM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../sd_problem.html#cryptographic_estimators.SDEstimator.sd_problem.SDProblem" title="cryptographic_estimators.SDEstimator.sd_problem.SDProblem"><span class="pre">SDProblem</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm.BJMM" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../sd_algorithm.html#cryptographic_estimators.SDEstimator.sd_algorithm.SDAlgorithm" title="cryptographic_estimators.SDEstimator.sd_algorithm.SDAlgorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">SDAlgorithm</span></code></a></p>
 <p>Complexity estimate of BJMM algorithm in depth 2,3</p>
-<p>[MMT11] May, A., Meurer, A., Thomae, E.: Decoding random linear codes in  2^(0.054n). In: International Conference
-on the Theory and Application of Cryptology and Information Security. pp. 107–124. Springer (2011)</p>
-<p>[BJMM12] Becker, A., Joux, A., May, A., Meurer, A.: Decoding random binary linear codes in 2^(n/20): How 1+ 1= 0
-improves information set decoding. In: Annual international conference on the theory and applications of
-cryptographic techniques. pp. 520–536. Springer (2012)</p>
+<p>The algorithm was introduced in <span id="id1">[BJMM12]</span>  as an extension of <span id="id2">[MMT11]</span>.</p>
 <p>expected weight distribution:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+--------------------------+-------------------+-------------------+</span>
 <span class="o">|</span> <span class="o">&lt;-----+</span> <span class="n">n</span> <span class="o">-</span> <span class="n">k</span> <span class="o">-</span> <span class="n">l</span> <span class="o">+-----&gt;|&lt;--+</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">+--&gt;|&lt;--+</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">+--&gt;|</span>

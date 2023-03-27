@@ -271,6 +271,7 @@
 <li class="toctree-l1"><a class="reference internal" href="bjmm.html">bjmm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dumer.html">dumer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prange.html">prange</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjmm_plus.html">bjmm_plus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stern.html">stern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ball_collision.html">ball_collision</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bjmm_pdw.html">bjmm_pdw</a></li>
@@ -315,8 +316,7 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.</span></span><span class="sig-name descname"><span class="pre">MayOzerov</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../sd_problem.html#cryptographic_estimators.SDEstimator.sd_problem.SDProblem" title="cryptographic_estimators.SDEstimator.sd_problem.SDProblem"><span class="pre">SDProblem</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.may_ozerov.MayOzerov" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../sd_algorithm.html#cryptographic_estimators.SDEstimator.sd_algorithm.SDAlgorithm" title="cryptographic_estimators.SDEstimator.sd_algorithm.SDAlgorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">SDAlgorithm</span></code></a></p>
 <p>Complexity estimate of May-Ozerov algorithm in depth 2 and 3</p>
-<p>[MO15] May, A., Ozerov, I.: On computing nearest neighbors with applications to decoding of binary linear codes.
-In: Annual International Conference on the Theory and Applications of Cryptographic Techniques. pp. 203-228 . Springer (2015)</p>
+<p>Introduced in <a class="reference internal" href="../../references.html#mo15" id="id1"><span>[MO15]</span></a>.</p>
 <p>expected weight distribution:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+--------------------------+-------------------+-------------------+</span>
 <span class="o">|</span> <span class="o">&lt;-----+</span> <span class="n">n</span> <span class="o">-</span> <span class="n">k</span> <span class="o">-</span> <span class="n">l</span> <span class="o">+-----&gt;|&lt;--+</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">+--&gt;|&lt;--+</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">+--&gt;|</span>
