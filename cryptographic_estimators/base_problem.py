@@ -27,7 +27,7 @@ class BaseProblem(object):
 
     - ``parameters`` -- dict of parameters of the problem.
     - ``nsolutions`` -- number of solutions of the problem
-    - ``memory_bound`` -- maximum allowed memory to use for solving the problem
+    - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
 
     """
 
