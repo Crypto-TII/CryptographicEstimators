@@ -33,8 +33,7 @@ class MayOzerov(SDAlgorithm):
         """
         Complexity estimate of May-Ozerov algorithm in depth 2 and 3
 
-        [MO15] May, A., Ozerov, I.: On computing nearest neighbors with applications to decoding of binary linear codes.
-        In: Annual International Conference on the Theory and Applications of Cryptographic Techniques. pp. 203-228 . Springer (2015)
+        Introduced in [MO15]_.
 
         expected weight distribution::
 
