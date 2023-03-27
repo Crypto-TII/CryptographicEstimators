@@ -57,30 +57,32 @@ class LEEstimator(BaseEstimator):
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
 
+        EXAMPLES:
+
+            sage: from cryptographic_estimators.LEEstimator import LEEstimator
+            sage: A = LEEstimator(n=30, k=20, q=251)
+            sage: A.table(show_all_parameters=1)
+            +-----------+------------------------------------------+
+            |           |                 estimate                 |
+            +-----------+------+--------+--------------------------+
+            | algorithm | time | memory |        parameters        |
+            +-----------+------+--------+--------------------------+
+            | Leon      | 34.2 |   12.2 |         {'w': 9}         |
+            | Beullens  | 29.7 |   14.4 |        {'w': 11}         |
+            | BBPS      | 27.6 |   12.2 | {'w': 14, 'w_prime': 10} |
+            +-----------+------+--------+--------------------------+
+
         TESTS:
 
             sage: from cryptographic_estimators.LEEstimator import LEEstimator
-            sage: A = LEEstimator(n=200, k=110, q=31, bit_complexities=1)
-            sage: A.table(precision=3) # long time
-            +-----------+------------------+
-            |           |     estimate     |
-            +-----------+---------+--------+
-            | algorithm |    time | memory |
-            +-----------+---------+--------+
-            | Leon      | 105.356 | 33.624 |
-            | Beullens  | 123.109 | 42.252 |
-            | BBPS      |  97.495 | 33.624 |
-            +-----------+---------+--------+
-
-            sage: from cryptographic_estimators.LEEstimator import LEEstimator
-            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import Leon
-            sage: A = LEEstimator(200,110,31,excluded_algorithms=[Leon])
+            sage: A = LEEstimator(n=200, k=110, q=31)
             sage: A.table(precision=3, show_all_parameters=1) # long time
             +-----------+----------------------------------------------+
             |           |                   estimate                   |
             +-----------+---------+--------+---------------------------+
             | algorithm |    time | memory |         parameters        |
             +-----------+---------+--------+---------------------------+
+            | Leon      | 105.356 | 33.624 |         {'w': 59}         |
             | Beullens  | 123.109 | 42.252 |         {'w': 79}         |
             | BBPS      |  97.495 | 33.624 | {'w': 102, 'w_prime': 60} |
             +-----------+---------+--------+---------------------------+

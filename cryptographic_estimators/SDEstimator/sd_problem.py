@@ -18,7 +18,6 @@
 
 from ..base_problem import BaseProblem
 from math import comb, log2
-from sage.all import GF
 from .sd_constants import *
 
 
@@ -31,11 +30,12 @@ class SDProblem(BaseProblem):
     - ``n`` -- code length
     - ``k`` -- code dimension
     - ``w`` -- error weight
-    - ``q`` -- size of the basefield of the code
     - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
+    - ``memory_bound`` -- maximum allowed memory to use for solving the problem
+
     """
 
-    def __init__(self, n: int, k: int, w: int, q=2, **kwargs):
+    def __init__(self, n: int, k: int, w: int, **kwargs):
         super().__init__(**kwargs)
         if k > n:
             raise ValueError("k must be smaller or equal to n")
@@ -46,7 +46,6 @@ class SDProblem(BaseProblem):
         self.parameters[SD_CODE_LENGTH] = n
         self.parameters[SD_CODE_DIMENSION] = k
         self.parameters[SD_ERROR_WEIGHT] = w
-        self.baseField = GF(q)
 
         self.nsolutions = kwargs.get("nsolutions", max(
             self.expected_number_solutions(), 0))
@@ -60,8 +59,8 @@ class SDProblem(BaseProblem):
         - ``basic_operations`` -- Number of field additions (logarithmic)
 
         """
-        q = self.baseField.characteristic()
         n = self.parameters[SD_CODE_LENGTH]
+        q = 2
         return log2(log2(q)) + log2(n) + basic_operations
 
     def to_bitcomplexity_memory(self, elements_to_store: float):

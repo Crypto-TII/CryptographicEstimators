@@ -87,6 +87,8 @@ class SDAlgorithm(BaseAlgorithm):
                     tmp_memory = self.problem.to_bitcomplexity_memory(
                         tmp_memory)
 
+                tmp_time += self.memory_access_cost(tmp_memory)
+
                 if tmp_time < time and tmp_memory < self.problem.memory_bound:
                     time, memory = tmp_time, tmp_memory
                     self._current_minimum_for_early_abort = tmp_time

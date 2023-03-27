@@ -10,7 +10,8 @@ from ..sdfq_constants import *
 class Stern(SDFqAlgorithm):
     def __init__(self, problem: SDFqProblem, **kwargs):
         """
-        Construct an instance of Stern's estimator [Ste1988]_, [BLP2008]_.  TODO [Peters]
+        Construct an instance of Stern's estimator [Peters11]_, [Ste1988]_, [BLP2008]_.
+
         Expected weight distribution::
             +-------------------------+---------+-------------+-------------+
             | <----+ n - k - l +----> |<-- l -->|<--+ k/2 +-->|<--+ k/2 +-->|
@@ -35,17 +36,9 @@ class Stern(SDFqAlgorithm):
         """
         self._name = "Stern"
         super(Stern, self).__init__(problem, **kwargs)
-        self.initialize_parameter_ranges()
-
-    def initialize_parameter_ranges(self):
-        """
-        Initialize the parameter ranges for p, l to start the optimisation
-        process.
-        """
         n, k, w, _ = self.problem.get_parameters()
-        s = self.full_domain
-        self.set_parameter_ranges("p", 0, min_max(w // 2, 30, s))
-        self.set_parameter_ranges("l", 0, min_max(n - k, 400, s))
+        self.set_parameter_ranges("p", 0, max(w // 2, 1))
+        self.set_parameter_ranges("l", 0, n-k)
 
     @optimal_parameter
     def l(self):
@@ -125,9 +118,6 @@ class Stern(SDFqAlgorithm):
         n, k, w, q = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
-
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
 
         memory_bound = self.problem.memory_bound
 

@@ -53,7 +53,5 @@ class Prange(SDFqAlgorithm):
         return time, memory
 
     def __repr__(self):
-        """
-        """
         rep = "Prange estimator for " + str(self.problem)
         return rep

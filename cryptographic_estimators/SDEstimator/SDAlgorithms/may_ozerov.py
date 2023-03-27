@@ -287,9 +287,6 @@ class MayOzerovD2(SDAlgorithm):
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
 
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
-
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound
         L1 = binom(k1, par.p1)
@@ -486,9 +483,6 @@ class MayOzerovD3(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
-
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
 
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound

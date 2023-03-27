@@ -32,6 +32,8 @@ class PEProblem(BaseProblem):
     - ``q`` -- field size
     - ``h`` -- dimension of the hull (Default: min(n,n-k), i.e., code is assumed to be weakly self dual)
     - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
+    - ``memory_bound`` -- maximum allowed memory to use for solving the problem
+
     """
 
     def __init__(self, n: int, k: int, q: int, **kwargs):
