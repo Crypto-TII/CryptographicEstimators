@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="base_estimator" href="base_estimator.html" /><link rel="prev" title="helper" href="helper.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="dummy_estimator" href="DummyEstimator/dummy_estimator.html" /><link rel="prev" title="base_estimator" href="base_estimator.html" />
 
     <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
-        <title>base_problem - TII-Estimators documentation</title>
+        <title>estimation_renderer - TII-Estimators documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -161,9 +161,9 @@
 <li class="toctree-l1"><a class="reference internal" href="base_constants.html">base_constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="base_algorithm.html">base_algorithm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="helper.html">helper</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">base_problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base_problem.html">base_problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="base_estimator.html">base_estimator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="estimation_renderer.html">estimation_renderer</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">estimation_renderer</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="DummyEstimator/dummy_estimator.html">dummy_estimator</a></li>
@@ -308,43 +308,25 @@
           </label>
         </div>
         <article role="main">
-          <section id="module-cryptographic_estimators.base_problem">
-<span id="base-problem"></span><h1>base_problem<a class="headerlink" href="#module-cryptographic_estimators.base_problem" title="Permalink to this heading">#</a></h1>
+          <section id="module-cryptographic_estimators.estimation_renderer">
+<span id="estimation-renderer"></span><h1>estimation_renderer<a class="headerlink" href="#module-cryptographic_estimators.estimation_renderer" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="cryptographic_estimators.base_problem.BaseProblem">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.base_problem.</span></span><span class="sig-name descname"><span class="pre">BaseProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_problem.BaseProblem" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="cryptographic_estimators.estimation_renderer.EstimationRenderer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.estimation_renderer.</span></span><span class="sig-name descname"><span class="pre">EstimationRenderer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_quantum_complexity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_tilde_o_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_all_parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.estimation_renderer.EstimationRenderer" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Construct an instance of BaseProblem</p>
-<p>INPUT:</p>
+<p>Creates an estimation renderer
+INPUT:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">parameters</span></code> – dict of parameters of the problem.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">nsolutions</span></code> – number of solutions of the problem</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">memory_bound</span></code> – maximum allowed memory to use for solving the problem</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">show_quantum_complexity</span></code> – show quantum time complexity (default: false)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">show_tilde_o_time</span></code> – show Ō time complexity (default: false)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">show_all_parameters</span></code> – show all optimization parameters (default: false)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">precision</span></code> – number of decimal digits output (default: 1)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">truncate</span></code> – truncate rather than round the output (default: false)</p></li>
 </ul>
 <dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.base_problem.BaseProblem.expected_number_solutions">
-<span class="sig-name descname"><span class="pre">expected_number_solutions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_problem.BaseProblem.expected_number_solutions" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the expected number of existing solutions to the problem</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.base_problem.BaseProblem.to_bitcomplexity_memory">
-<span class="sig-name descname"><span class="pre">to_bitcomplexity_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elements_to_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_problem.BaseProblem.to_bitcomplexity_memory" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the memory bit-complexity associated to a given number of elements to store</p>
-<p>INPUT:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">elements_to_store</span></code> – number of memory elements (logarithmic)</p></li>
-</ul>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cryptographic_estimators.base_problem.BaseProblem.to_bitcomplexity_time">
-<span class="sig-name descname"><span class="pre">to_bitcomplexity_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basic_operations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.base_problem.BaseProblem.to_bitcomplexity_time" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the bit-complexity associated to a given number of basic-operations</p>
-<p>INPUT:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">basic_operations</span></code> – number of basic operations (logarithmic)</p></li>
-</ul>
+<dt class="sig sig-object py" id="cryptographic_estimators.estimation_renderer.EstimationRenderer.as_table">
+<span class="sig-name descname"><span class="pre">as_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimation_result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cryptographic_estimators.estimation_renderer.EstimationRenderer.as_table" title="Permalink to this definition">#</a></dt>
+<dd><p>Prints the given estimation dictionary as a table</p>
 </dd></dl>
 
 </dd></dl>
@@ -356,23 +338,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="base_estimator.html">
+          <a class="next-page" href="DummyEstimator/dummy_estimator.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">base_estimator</div>
+                <div class="title">dummy_estimator</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="helper.html">
+          <a class="prev-page" href="base_estimator.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">helper</div>
+                <div class="title">base_estimator</div>
                 
               </div>
             </a>
@@ -406,11 +388,9 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">base_problem</a><ul>
-<li><a class="reference internal" href="#cryptographic_estimators.base_problem.BaseProblem"><code class="docutils literal notranslate"><span class="pre">BaseProblem</span></code></a><ul>
-<li><a class="reference internal" href="#cryptographic_estimators.base_problem.BaseProblem.expected_number_solutions"><code class="docutils literal notranslate"><span class="pre">BaseProblem.expected_number_solutions()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.base_problem.BaseProblem.to_bitcomplexity_memory"><code class="docutils literal notranslate"><span class="pre">BaseProblem.to_bitcomplexity_memory()</span></code></a></li>
-<li><a class="reference internal" href="#cryptographic_estimators.base_problem.BaseProblem.to_bitcomplexity_time"><code class="docutils literal notranslate"><span class="pre">BaseProblem.to_bitcomplexity_time()</span></code></a></li>
+<li><a class="reference internal" href="#">estimation_renderer</a><ul>
+<li><a class="reference internal" href="#cryptographic_estimators.estimation_renderer.EstimationRenderer"><code class="docutils literal notranslate"><span class="pre">EstimationRenderer</span></code></a><ul>
+<li><a class="reference internal" href="#cryptographic_estimators.estimation_renderer.EstimationRenderer.as_table"><code class="docutils literal notranslate"><span class="pre">EstimationRenderer.as_table()</span></code></a></li>
 </ul>
 </li>
 </ul>

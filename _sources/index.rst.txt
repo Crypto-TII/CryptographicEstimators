@@ -18,6 +18,7 @@ TII cryptanalysis library following SageMath guidelines.
     helper
     base_problem
     base_estimator
+    estimation_renderer
 
 --------------
 DummyEstimator
