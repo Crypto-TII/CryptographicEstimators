@@ -10,6 +10,7 @@ from module.estimator import prange_complexity, dumer_complexity, stern_complexi
 ranges = 0.1
 
 test_sets = [
+    [100, 50, 10],
     [1284, 1028, 24],
     [3488, 2720, 64],
 ]
