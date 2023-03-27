@@ -46,8 +46,8 @@ class EstimationRenderer():
         Prints the given estimation dictionary as a table
         """
         estimation = deepcopy(estimation_result)
-        if estimation is None:
-            print("No algorithms associated with this estimator.")
+        if estimation == {}:
+            raise ValueError("No algorithms associated with this estimator.")
 
         key = list(estimation.keys())[0]
         tables = []
