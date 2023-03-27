@@ -194,9 +194,6 @@ class BJMMpdw(SDAlgorithm):
         if len(parameters.keys()) == 1:
             return inf, inf
 
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
-
         local_time, local_mem = inf, inf
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound

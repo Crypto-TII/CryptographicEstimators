@@ -16,7 +16,7 @@ let
   };
 
   my-python = pkgs.python3;
-  python-with-my-packages = my-python.withPackages (p: with p; [
+  mypython = my-python.withPackages (p: with p; [
 	prettytable
 	scipy
 	sphinx
@@ -24,7 +24,7 @@ let
 	pip
     autopep8
 	sage
-    pytest
+	pytest
   ]);
 in
 { pkgs ? import <nixpkgs> {} }:
@@ -34,7 +34,7 @@ stdenv.mkDerivation {
   src = ./.;
 
   buildInputs = [ 
-  	python-with-my-packages
+    mypython
 	mysage
 	ripgrep
     nodePackages.pyright
@@ -43,7 +43,7 @@ stdenv.mkDerivation {
 
   shellHook = ''
     export PIP_PREFIX=$(pwd)/_build/pip_packages
-    export PYTHONPATH="$PIP_PREFIX/${my-python.sitePackages}:$PYTHONPATH"
+    export PYTHONPATH="$PIP_PREFIX/${mypython.sitePackages}:$PYTHONPATH"
     export PATH="$PIP_PREFIX/bin:$PATH"
     # unset SOURCE_DATE_EPOCH
   '';

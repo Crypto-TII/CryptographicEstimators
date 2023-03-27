@@ -329,6 +329,12 @@ class BaseAlgorithm:
                       for i in ranges}
         return new_ranges
 
+    def _are_parameters_invalid(self, parameters: dict):
+        """
+        Specifies constraints on the parameters
+        """
+        return False
+
     def _valid_choices(self):
         """
         Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
@@ -340,7 +346,8 @@ class BaseAlgorithm:
         keys = [i for i in indices]
         stop = False
         while not stop:
-            yield indices
+            if not self._are_parameters_invalid(indices):
+                yield indices
             indices[next(iter(indices))] += 1
             for i in range(len(keys)):
                 if indices[keys[i]] > new_ranges[keys[i]]["max"]:
@@ -412,13 +419,14 @@ class BaseAlgorithm:
                 return self._time_complexity
             else:
                 params = self.optimal_parameters()
+                if not self._do_valid_parameters_in_current_ranges_exist():
+                    self._time_complexity = inf
+                    self._memory_complexity = inf
+                    return inf
         else:
             params = self.__set_dict(**kwargs)
 
-        if not self._do_valid_parameters_in_current_ranges_exist():
-            self._time_complexity = inf
-            self._memory_complexity = inf
-            return inf
+
 
         if self._complexity_type == ComplexityType.ESTIMATE.value:
             self._time_complexity = self._compute_time_complexity(params)
@@ -426,9 +434,8 @@ class BaseAlgorithm:
                 self._time_complexity = self.problem.to_bitcomplexity_time(
                     self._time_complexity)
 
-            if self._memory_access != 0:
-                self._time_complexity += self.memory_access_cost(
-                    self.memory_complexity())
+            self._time_complexity += self.memory_access_cost(self.memory_complexity())
+
         else:
             self._time_complexity = self._compute_tilde_o_time_complexity(
                 params)

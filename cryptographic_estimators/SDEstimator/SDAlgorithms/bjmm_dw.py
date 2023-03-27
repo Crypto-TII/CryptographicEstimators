@@ -69,7 +69,6 @@ class BJMMdw(SDAlgorithm):
         initialize the parameter ranges for p, p1, w1, w11, w2 to start the optimisation 
         process.
         """
-        n, k, w = self.problem.get_parameters()
         self.set_parameter_ranges("p", 0, 25)
         self.set_parameter_ranges("p1", 0, 20)
         self.set_parameter_ranges("w1", 0, 10)
@@ -227,9 +226,6 @@ class BJMMdw(SDAlgorithm):
 
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
-
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
 
         local_time, local_mem = inf, inf
         solutions = self.problem.nsolutions

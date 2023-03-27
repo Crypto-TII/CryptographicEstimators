@@ -64,6 +64,9 @@ References
 
 **C**
 
+.. [Peters11]  \Christiane Peters: Information-set decoding for linear codes over Fq.
+                https://link.springer.com/chapter/10.1007/978-3-642-12929-2_7
+
 .. [BCCCNSY10]  \Charles Bouillaguet, Hsieh-Chung Chen, Chen-Mou Cheng, Tung Chou, Ruben Niederhagen, Adi Shamir, and Bo-Yin Yang.
                 *Fast Exhaustive Search for Polynomial Systems in F_2* https://www.iacr.org/archive/ches2010/62250195/62250195.pdf
 

@@ -152,7 +152,7 @@ class BJMM(SDAlgorithm):
         """ 
         returns the optimal time and memory complexity for BJMM d3
         """
-        # return self.BJMM_depth_3._tilde_o_time_and_memory_complexity(self.BJMM_depth_3.optimal_parameters())
+
         return self.BJMM_depth_3._tilde_o_time_and_memory_complexity(parameters)
 
     def get_optimal_parameters_dict(self):
@@ -308,9 +308,6 @@ class BJMMd2(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
-
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
 
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound
@@ -513,9 +510,6 @@ class BJMMd3(SDAlgorithm):
         par = SimpleNamespace(**parameters)
 
         k1 = (k + par.l) // 2
-
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
 
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound
