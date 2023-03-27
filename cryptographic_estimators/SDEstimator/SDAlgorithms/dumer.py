@@ -31,8 +31,7 @@ class Dumer(SDAlgorithm):
         """
         Complexity estimate of Dumer's ISD algorithm
 
-        [Dum91] Dumer, I.:  On minimum distance decoding of linear codes. In: Proc. 5th Joint
-                            Soviet-Swedish Int. Workshop Inform. Theory. pp. 50–52 (1991)
+        The algorithm was introduced in [Dum91]_.
 
         expected weight distribution::
 
