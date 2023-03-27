@@ -31,6 +31,8 @@ class SDProblem(BaseProblem):
     - ``k`` -- code dimension
     - ``w`` -- error weight
     - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
+    - ``memory_bound`` -- maximum allowed memory to use for solving the problem
+
     """
 
     def __init__(self, n: int, k: int, w: int, **kwargs):

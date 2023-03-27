@@ -60,31 +60,35 @@ class PEEstimator(BaseEstimator):
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
 
-        TESTS:
-            sage: from cryptographic_estimators.PEEstimator import PEEstimator
-            sage: A = PEEstimator(n=100, k=42, q=7, bit_complexities=1, workfactor_accuracy=10)
-            sage: A.table(precision=3) # long time
-            +-----------+------------------+
-            |           |     estimate     |
-            +-----------+---------+--------+
-            | algorithm |    time | memory |
-            +-----------+---------+--------+
-            | Leon      |  48.156 | 24.603 |
-            | Beullens  |  43.839 | 24.603 |
-            | SSA       | 179.625 | 15.437 |
-            +-----------+---------+--------+
+
+        EXAMPLES::
 
             sage: from cryptographic_estimators.PEEstimator import PEEstimator
-            sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Leon
-            sage: A = PEEstimator(100,50,7,excluded_algorithms=[Leon])
+            sage: A = PEEstimator(n=60, k=20, q=7)
+            sage: A.table(precision=3, show_all_parameters=1)
+            +-----------+-------------------------------+
+            |           |            estimate           |
+            +-----------+---------+--------+------------+
+            | algorithm |    time | memory | parameters |
+            +-----------+---------+--------+------------+
+            | Leon      |  34.200 | 11.718 | {'w': 26}  |
+            | Beullens  |  29.631 | 11.901 | {'w': 25}  |
+            | SSA       | 127.480 | 14.040 |     {}     |
+            +-----------+---------+--------+------------+
+
+        TESTS::
+
+            sage: from cryptographic_estimators.PEEstimator import PEEstimator
+            sage: A = PEEstimator(n=200, k=100, q=51)
             sage: A.table(precision=3, show_all_parameters=1) # long time
             +-----------+-------------------------------+
             |           |            estimate           |
             +-----------+---------+--------+------------+
             | algorithm |    time | memory | parameters |
             +-----------+---------+--------+------------+
-            | Beullens  |  43.360 | 25.117 | {'w': 26}  |
-            | SSA       | 157.113 | 15.362 |     {}     |
+            | Leon      | 115.629 | 35.016 | {'w': 71}  |
+            | Beullens  |  99.161 | 61.851 | {'w': 85}  |
+            | SSA       | 587.237 | 18.377 |     {}     |
             +-----------+---------+--------+------------+
         """
         super(PEEstimator, self).table(show_quantum_complexity=show_quantum_complexity,

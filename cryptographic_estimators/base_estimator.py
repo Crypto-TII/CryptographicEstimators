@@ -226,7 +226,8 @@ class BaseEstimator(object):
             algorithm.memory_complexity()) else '--'
 
         est[name][BASE_ESTIMATEO][BASE_PARAMETERS] = algorithm.get_optimal_parameters_dict()
-        est[name][BASE_ADDITIONALO] = algorithm._get_verbose_information()
+
+        est[name][BASE_ADDITIONALO] = algorithm._get_verbose_information() if not isinf(algorithm.time_complexity()) else {}
 
     def estimate(self, **kwargs):
         """
@@ -296,7 +297,9 @@ class BaseEstimator(object):
         if use_tilde_o_time:
             self.complexity_type = ComplexityType.TILDEO.value
 
-        def key(algorithm): return algorithm.time_complexity()
+        def key(algorithm):
+            return algorithm.time_complexity()
+
         return min(self.algorithms(), key=key)
 
     def reset(self):
