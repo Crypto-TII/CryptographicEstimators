@@ -562,9 +562,7 @@
           "default_value": 0,
           "placeholder": "Insert value",
           "tooltip": "Number of decimal digits to display"
-        }
-      ],
-      "optional_parameters": [
+        },
         {
           "id": "nsolutions",
           "type": "number",
@@ -573,6 +571,9 @@
           "placeholder": "Insert value",
           "tooltip": "Log2 of number of existing solutions of which one has to be found, if not specified it will be fixed to the number of solutions in expectation"
         }
+      ],
+      "optional_parameters": [
+
       ]
 	}
 	]
