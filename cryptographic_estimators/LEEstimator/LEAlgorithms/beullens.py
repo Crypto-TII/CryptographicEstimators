@@ -31,8 +31,8 @@ class Beullens(LEAlgorithm):
         """
         super().__init__(problem, **kwargs)
         self._name = "Beullens"
-        n, _, _ = self.problem.get_parameters()
-        self.set_parameter_ranges('w', 0, n)
+        n, k, _ = self.problem.get_parameters()
+        self.set_parameter_ranges('w', 0, n-k+1)
 
     @optimal_parameter
     def w(self):

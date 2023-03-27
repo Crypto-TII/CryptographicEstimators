@@ -57,36 +57,6 @@ class SDFqAlgorithm(BaseAlgorithm):
             return True
         return False
 
-    def _find_optimal_parameters(self):
-        """
-        Enumerates over all valid parameter configurations withing the ranges
-        of the optimization and saves the best result in `self._optimal_parameter`
-        """
-        time = inf
-        while True:
-            stop = True
-            for params in self._valid_choices():
-                if self._are_parameters_invalid(params):
-                    continue
-                tmp_time, tmp_memory = self._time_and_memory_complexity(params)
-
-                if self.bit_complexities:
-                    tmp_memory = self.problem.to_bitcomplexity_memory(tmp_memory)
-
-                if tmp_time < time and tmp_memory < self.problem.memory_bound:
-                    time, memory = tmp_time, tmp_memory
-                    self._current_minimum_for_early_abort = tmp_time
-
-                    for i in params:
-                        self._optimal_parameters[i] = params[i]
-
-            if self._variable_parameter_ranges and len(self._optimal_parameters) > 1:
-                stop = self._adjust_parameter_ranges()
-
-            if stop:
-                break
-        self._current_minimum_for_early_abort = inf
-
     def _find_optimal_tilde_o_parameters(self):
         """
         Enumerates all valid parameter within the given ranges to find the optimal one asymptotically.

@@ -371,7 +371,9 @@ class BaseEstimator(object):
         if use_tilde_o_time:
             self.complexity_type = ComplexityType.TILDEO.value
 
-        def key(algorithm): return algorithm.time_complexity()
+        def key(algorithm):
+            return algorithm.time_complexity()
+
         return min(self.algorithms(), key=key)
 
     def reset(self):

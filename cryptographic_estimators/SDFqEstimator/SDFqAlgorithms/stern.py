@@ -10,7 +10,8 @@ from ..sdfq_constants import *
 class Stern(SDFqAlgorithm):
     def __init__(self, problem: SDFqProblem, **kwargs):
         """
-        Construct an instance of Stern's estimator [Ste1988]_, [BLP2008]_.  TODO [Peters]
+        Construct an instance of Stern's estimator [Peters11]_, [Ste1988]_, [BLP2008]_.
+
         Expected weight distribution::
             +-------------------------+---------+-------------+-------------+
             | <----+ n - k - l +----> |<-- l -->|<--+ k/2 +-->|<--+ k/2 +-->|
@@ -44,7 +45,7 @@ class Stern(SDFqAlgorithm):
         """
         n, k, w, _ = self.problem.get_parameters()
         s = self.full_domain
-        self.set_parameter_ranges("p", 0, min_max(w // 2, 30, s))
+        self.set_parameter_ranges("p", 0, min_max(max(w // 2, 1), 30, s))
         self.set_parameter_ranges("l", 0, min_max(n - k, 400, s))
 
     @optimal_parameter

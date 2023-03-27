@@ -10,12 +10,13 @@ let
 		furo
 		autopep8
 		pip
+		pytest
 	]; 
 	requireSageTests = false;
   };
 
   my-python = pkgs.python3;
-  python-with-my-packages = my-python.withPackages (p: with p; [
+  mypython = my-python.withPackages (p: with p; [
 	prettytable
 	scipy
 	sphinx
@@ -23,6 +24,7 @@ let
 	pip
     autopep8
 	sage
+	pytest
   ]);
 in
 { pkgs ? import <nixpkgs> {} }:
@@ -32,10 +34,17 @@ stdenv.mkDerivation {
   src = ./.;
 
   buildInputs = [ 
-  	python-with-my-packages
+    mypython
 	mysage
 	ripgrep
     nodePackages.pyright
 	tree
   ];
+
+  shellHook = ''
+    export PIP_PREFIX=$(pwd)/_build/pip_packages
+    export PYTHONPATH="$PIP_PREFIX/${mypython.sitePackages}:$PYTHONPATH"
+    export PATH="$PIP_PREFIX/bin:$PATH"
+    # unset SOURCE_DATE_EPOCH
+  '';
 }

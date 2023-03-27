@@ -31,8 +31,9 @@ class Leon(PEAlgorithm):
         """
         super().__init__(problem, **kwargs)
         self._name = "Leon"
-        self._codewords_needed_for_success = kwargs.get("codewords_needed_for_success", 100)
-        n, _, _, _ = self.problem.get_parameters()
+        n, k, q, _ = self.problem.get_parameters()
+        self._codewords_needed_for_success = kwargs.get("codewords_needed_for_success",
+                                                        min(100, int(number_of_weight_d_codewords(n, k, q, gv_distance(n, k, q) + 3))))
         self.set_parameter_ranges('w', 0, n)
 
         self.SDFqEstimator = None
@@ -58,7 +59,7 @@ class Leon(PEAlgorithm):
         n, k, q, _ = self.problem.get_parameters()
         d = gv_distance(n, k, q)
 
-        while number_of_weight_d_codewords(n, k, q, d) < self._codewords_needed_for_success:
+        while number_of_weight_d_codewords(n, k, q, d) < self._codewords_needed_for_success and d < n-k:
             d += 1
         return d
 

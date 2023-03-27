@@ -29,6 +29,7 @@ class LeeBrickell(SDFqAlgorithm):
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: LeeBrickell(SDFqProblem(n=100,k=50,w=10,q=5))
             Lee-Brickell estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 5
+
         """
         self._name = "LeeBrickell"
         super(LeeBrickell, self).__init__(problem, **kwargs)
@@ -68,21 +69,6 @@ class LeeBrickell(SDFqAlgorithm):
         if par.p > w or k < par.p or n - k < w - par.p:
             return True
         return False
-
-    def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based
-        on the `_parameter_ranges` and already set parameters in
-        `_optimal_parameters`
-        """
-        new_ranges = self._fix_ranges_for_already_set_parmeters()
-
-        _, k, _, _ = self.problem.get_parameters()
-        for p in range(new_ranges["p"]["min"], min(k, new_ranges["p"]["max"])):
-            indices = {"p": p}
-            if self._are_parameters_invalid(indices):
-                continue
-            yield indices
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """
