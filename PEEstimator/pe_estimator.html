@@ -398,33 +398,36 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">precision</span></code> – number of decimal digits output (default: 1)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">truncate</span></code> – truncate rather than round the output (default: false)</p></li>
 </ul>
-<dl>
-<dt>TESTS:</dt><dd><p>sage: from cryptographic_estimators.PEEstimator import PEEstimator
-sage: A = PEEstimator(n=100, k=42, q=7, bit_complexities=1, workfactor_accuracy=10)
-sage: A.table(precision=3) # long time
-+———–+——————+
-|           |     estimate     |
-+———–+———+——–+
-| algorithm |    time | memory |
-+———–+———+——–+
-| Leon      |  48.156 | 24.603 |
-| Beullens  |  43.839 | 24.603 |
-| SSA       | 179.625 | 15.437 |
-+———–+———+——–+</p>
-<p>sage: from cryptographic_estimators.PEEstimator import PEEstimator
-sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Leon
-sage: A = PEEstimator(100,50,7,excluded_algorithms=[Leon])
-sage: A.table(precision=3, show_all_parameters=1) # long time
-+———–+——————————-+
-|           |            estimate           |
-+———–+———+——–+————+
-| algorithm |    time | memory | parameters |
-+———–+———+——–+————+
-| Beullens  |  43.360 | 25.117 | {‘w’: 26}  |
-| SSA       | 157.113 | 15.362 |     {}     |
-+———–+———+——–+————+</p>
-</dd>
-</dl>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.PEEstimator</span> <span class="kn">import</span> <span class="n">PEEstimator</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">PEEstimator</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">show_all_parameters</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">+-----------+-------------------------------+</span>
+<span class="o">|</span>           <span class="o">|</span>            <span class="n">estimate</span>           <span class="o">|</span>
+<span class="o">+-----------+---------+--------+------------+</span>
+<span class="o">|</span> <span class="n">algorithm</span> <span class="o">|</span>    <span class="n">time</span> <span class="o">|</span> <span class="n">memory</span> <span class="o">|</span> <span class="n">parameters</span> <span class="o">|</span>
+<span class="o">+-----------+---------+--------+------------+</span>
+<span class="o">|</span> <span class="n">Leon</span>      <span class="o">|</span>  <span class="mf">34.200</span> <span class="o">|</span> <span class="mf">11.718</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">26</span><span class="p">}</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="n">Beullens</span>  <span class="o">|</span>  <span class="mf">29.631</span> <span class="o">|</span> <span class="mf">11.901</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">}</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="n">SSA</span>       <span class="o">|</span> <span class="mf">127.480</span> <span class="o">|</span> <span class="mf">14.040</span> <span class="o">|</span>     <span class="p">{}</span>     <span class="o">|</span>
+<span class="o">+-----------+---------+--------+------------+</span>
+</pre></div>
+</div>
+<p>TESTS:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.PEEstimator</span> <span class="kn">import</span> <span class="n">PEEstimator</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">PEEstimator</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mi">51</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">show_all_parameters</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># long time</span>
+<span class="o">+-----------+-------------------------------+</span>
+<span class="o">|</span>           <span class="o">|</span>            <span class="n">estimate</span>           <span class="o">|</span>
+<span class="o">+-----------+---------+--------+------------+</span>
+<span class="o">|</span> <span class="n">algorithm</span> <span class="o">|</span>    <span class="n">time</span> <span class="o">|</span> <span class="n">memory</span> <span class="o">|</span> <span class="n">parameters</span> <span class="o">|</span>
+<span class="o">+-----------+---------+--------+------------+</span>
+<span class="o">|</span> <span class="n">Leon</span>      <span class="o">|</span> <span class="mf">115.629</span> <span class="o">|</span> <span class="mf">35.016</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">71</span><span class="p">}</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="n">Beullens</span>  <span class="o">|</span>  <span class="mf">99.161</span> <span class="o">|</span> <span class="mf">61.851</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">85</span><span class="p">}</span>  <span class="o">|</span>
+<span class="o">|</span> <span class="n">SSA</span>       <span class="o">|</span> <span class="mf">587.237</span> <span class="o">|</span> <span class="mf">18.377</span> <span class="o">|</span>     <span class="p">{}</span>     <span class="o">|</span>
+<span class="o">+-----------+---------+--------+------------+</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
