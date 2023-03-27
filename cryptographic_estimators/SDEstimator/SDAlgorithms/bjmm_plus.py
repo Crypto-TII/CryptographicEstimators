@@ -30,16 +30,10 @@ class BJMM_plus(SDAlgorithm):
         """
         Complexity estimate of BJMM+ algorithm in depth 2
 
-        This class incorporates the improvements by [EZ23]_, a time-memory tradeoff which improves over the BJMM
-        algorithm in terms of memory usages.
+        This class incorporates the improvements by [EZ23]_, regarding a time-memory tradeoff which improves over the
+        BJMM algorithm in terms of memory usages.
 
-        [MMT11]_ May, A., Meurer, A., Thomae, E.: Decoding random linear codes in  2^(0.054n). In: International Conference
-        on the Theory and Application of Cryptology and Information Security. pp. 107–124. Springer (2011)
-
-        [BJMM12]_ Becker, A., Joux, A., May, A., Meurer, A.: Decoding random binary linear codes in 2^(n/20): How 1 + 1= 0
-        improves information set decoding. In: Annual international conference on the theory and applications of
-        cryptographic techniques. pp. 520–536. Springer (2012)
-
+        For further reference see [MMT11]_ and [BJMM12]_.
 
         expected weight distribution::
 
