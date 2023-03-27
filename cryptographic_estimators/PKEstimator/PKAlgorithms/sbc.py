@@ -18,8 +18,8 @@ class SBC(PKAlgorithm):
 
         sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
         sage: from cryptographic_estimators.PKEstimator import PKProblem
-        sage: SBC(PKProblem(n=100,m=50,q=31,ell=2))
-        SBC estimator for the permuted kernel problem with (n,m,q,ell) = (100,50,31,2)
+        sage: SBC(PKProblem(n=20,m=10,q=7,ell=2))
+        SBC estimator for the permuted kernel problem with (n,m,q,ell) = (20,10,7,2)
 
     """
 
@@ -47,9 +47,9 @@ class SBC(PKAlgorithm):
 
             sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
             sage: from cryptographic_estimators.PKEstimator import PKProblem
-            sage: A = SBC(PKProblem(n=100,m=50,q=31,ell=2))
+            sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
             sage: A.d()
-            1
+            3
 
         """
         return self._get_optimal_parameter("d")
@@ -63,9 +63,9 @@ class SBC(PKAlgorithm):
 
             sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
             sage: from cryptographic_estimators.PKEstimator import PKProblem
-            sage: A = SBC(PKProblem(n=100,m=50,q=31,ell=2))
+            sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
             sage: A.w()
-            38
+            11
 
         """
         return self._get_optimal_parameter("w")
@@ -73,18 +73,29 @@ class SBC(PKAlgorithm):
     @optimal_parameter
     def w1(self):
         """
-        Return the optimal parameter $u$ used in the algorithm optimization
+        Return the optimal parameter $w1$ used in the algorithm optimization
 
         EXAMPLES::
 
             sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
             sage: from cryptographic_estimators.PKEstimator import PKProblem
-            sage: A = SBC(PKProblem(n=100,m=50,q=31,ell=2))
+            sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
             sage: A.w1()
-            2
+            5
 
         """
         return self._get_optimal_parameter("w1")
+
+    def _are_parameters_invalid(self, parameters: dict):
+        d = parameters["d"]
+        w = parameters["w"]
+        w1 = parameters["w1"]
+
+        n, m, q, ell = self.problem.get_parameters()
+
+        if w1 > w or w < d or n - w < m - d or (d == 1 and w > n - m):
+            return True
+        return False
 
     def _compute_time_and_memory(self, parameters: dict, verbose_information=None):
         """
@@ -105,8 +116,7 @@ class SBC(PKAlgorithm):
         best_u = 0
         n, m, q, ell = self.problem.get_parameters()
 
-        if w1 > w or w < d or n - w < m - d or (d == 1 and w > n - m):
-            return inf, inf
+
 
         N_w = log2(binomial(n, w)) + log2((q ** d - 1)) * (w - d) + gauss_binomial(m, d, q) - gauss_binomial(n, d,
                                                                                                              q)  # number of expected subcodes
@@ -120,7 +130,7 @@ class SBC(PKAlgorithm):
             c_isd = self.SDFqEstimator.fastest_algorithm().time_complexity()
         else:
             self.SDFqEstimator = None
-            c_isd = cost_for_finding_subcode(q, n, m, d, w, N_w)
+            c_isd = cost_for_finding_subcode(n, m, d, w, N_w)
 
         w2 = w - w1
         T_K = factorial(n) // factorial(n - w1) + factorial(n) // factorial(n - w2) \
@@ -158,23 +168,9 @@ class SBC(PKAlgorithm):
         return time, memory
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-
-        INPUT:
-
-        -  ``parameters`` -- dictionary including parameters
-
-        """
         return self._compute_time_and_memory(parameters)[0]
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-
-        INPUT:
-
-        -  ``parameters`` -- dictionary including parameters
-
-        """
         return self._compute_time_and_memory(parameters)[1]
 
     def _get_verbose_information(self):

@@ -33,7 +33,9 @@ class Leon(PEAlgorithm):
         self._name = "Leon"
         n, k, q, _ = self.problem.get_parameters()
         self._codewords_needed_for_success = kwargs.get("codewords_needed_for_success",
-                                                        min(100, int(number_of_weight_d_codewords(n, k, q, gv_distance(n, k, q) + 3))))
+                                                        min(100, int(number_of_weight_d_codewords(n, k, q,
+                                                                                                  gv_distance(n, k,
+                                                                                                              q) + 3))))
         self.set_parameter_ranges('w', 0, n)
 
         self.SDFqEstimator = None
@@ -49,6 +51,7 @@ class Leon(PEAlgorithm):
         Return the optimal parameter $w$ used in the algorithm optimization
 
         EXAMPLES::
+
             sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Leon
             sage: from cryptographic_estimators.PEEstimator import PEProblem
             sage: A = Leon(PEProblem(n=100,k=50,q=3))
@@ -59,7 +62,7 @@ class Leon(PEAlgorithm):
         n, k, q, _ = self.problem.get_parameters()
         d = gv_distance(n, k, q)
 
-        while number_of_weight_d_codewords(n, k, q, d) < self._codewords_needed_for_success and d < n-k:
+        while number_of_weight_d_codewords(n, k, q, d) < self._codewords_needed_for_success and d < n - k:
             d += 1
         return d
 
@@ -75,18 +78,6 @@ class Leon(PEAlgorithm):
     def _compute_memory_complexity(self, parameters: dict):
         n, k, q, _ = self.problem.get_parameters()
         return self.SDFqEstimator.fastest_algorithm().memory_complexity()
-
-
-    def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """
-
-        INPUT:
-        -  ``parameters`` -- dictionary including parameters
-        -  ``verbose_information`` -- unused
-
-        """
-        return self._compute_time_complexity(parameters),\
-               self._compute_memory_complexity(parameters)
 
     def __repr__(self):
         rep = "Leon estimator for " + str(self.problem)

@@ -226,7 +226,8 @@ class BaseEstimator(object):
             algorithm.memory_complexity()) else '--'
 
         est[name][BASE_ESTIMATEO][BASE_PARAMETERS] = algorithm.get_optimal_parameters_dict()
-        est[name][BASE_ADDITIONALO] = algorithm._get_verbose_information()
+
+        est[name][BASE_ADDITIONALO] = algorithm._get_verbose_information() if not isinf(algorithm.time_complexity()) else {}
 
     def estimate(self, **kwargs):
         """
