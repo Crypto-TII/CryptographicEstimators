@@ -485,7 +485,7 @@
 				"type": "number",
 				"display_label": "Field size",
 				"placeholder": "Insert parameter",
-                "tooltip": "An integer of the form p^x for some integer x, where p is prime number.  This value indicates the number of elements in the underlying field"
+                "tooltip": "A prime number"
            },
 
           {
@@ -540,14 +540,6 @@
               "options": [],
               "dependencies": []
         },
-        {
-              "id": "include_tildeo",
-              "type": "switch",
-              "display_label": "Tilde-O complexity",
-              "default_value": false,
-              "tooltip": "Include complexity estimates that disregard polynomial factors",
-              "dependencies": []
-       },
        {
               "id": "precision",
               "type": "number",
@@ -564,7 +556,7 @@
               "type": "number",
               "display_label": "List operation cost (Time)",
               "direction": "column",
-              "placeholder",: "Insert value",
+              "placeholder": "Insert value",
               "tooltip": "Cost in Fq additions for one list operation in the SBC and KMP algorithms"
        },
       {
