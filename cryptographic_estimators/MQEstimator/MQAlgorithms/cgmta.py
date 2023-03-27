@@ -88,7 +88,7 @@ class CGMTA(MQAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.cgmta import CGMTA
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -111,7 +111,7 @@ class CGMTA(MQAlgorithm):
 
         - ``parameters`` -- dictionary including the parameters
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.cgmta import CGMTA
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem

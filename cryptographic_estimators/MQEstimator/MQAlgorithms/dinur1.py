@@ -92,6 +92,7 @@ class DinurFirst(MQAlgorithm):
     def _valid_choices(self):
         """
         Generator which yields on each call a new set of valid parameters for the optimization routine based.
+
         """
         n, m, _ = self.get_reduced_parameters()
         parameters = self._optimal_parameters
@@ -240,7 +241,7 @@ class DinurFirst(MQAlgorithm):
         """
         Return the Ō time complexity of DinurFirst et al.'s algorithm
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur1 import DinurFirst
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem

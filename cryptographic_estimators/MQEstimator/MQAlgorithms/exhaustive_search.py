@@ -58,15 +58,13 @@ class ExhaustiveSearch(MQAlgorithm):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.exhaustive_search import ExhaustiveSearch
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = ExhaustiveSearch(MQProblem(q=3, n=10, m=12), bit_complexities=False)
             sage: E.time_complexity()
             15.917197145402291
-
-        TESTS::
 
             sage: E0 = ExhaustiveSearch(MQProblem(n=15, m=12, q=3))
             sage: E1 = ExhaustiveSearch(MQProblem(n=17, m=12, q=3))
@@ -89,7 +87,7 @@ class ExhaustiveSearch(MQAlgorithm):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.exhaustive_search import ExhaustiveSearch
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -97,7 +95,6 @@ class ExhaustiveSearch(MQAlgorithm):
             sage: E.memory_complexity()
             10.228818690495881
 
-        TESTS::
 
             sage: E0 = ExhaustiveSearch(MQProblem(n=15, m=12, q=3))
             sage: E1 = ExhaustiveSearch(MQProblem(n=17, m=12, q=3))

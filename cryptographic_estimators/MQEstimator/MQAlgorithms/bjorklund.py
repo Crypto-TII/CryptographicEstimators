@@ -144,7 +144,7 @@ class Bjorklund(MQAlgorithm):
         """
         Return the Ō time complexity of Bjorklund et al.'s algorithm
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -160,7 +160,7 @@ class Bjorklund(MQAlgorithm):
         """
         Return the Ō time complexity of Bjorklund et al.'s algorithm
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -176,7 +176,7 @@ class Bjorklund(MQAlgorithm):
         """
         Return the Ō time complexity of Bjorklund et al.'s algorithm
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -189,8 +189,7 @@ class Bjorklund(MQAlgorithm):
     @staticmethod
     def _internal_time_complexity_(n: int, m: int, lambda_: float):
         """
-        Helper function. Computes the runtime of the algorithm for given 
-        n, m and lambda
+        Helper function. Computes the runtime of the algorithm for given n, m and lambda
         """
         if n <= 1:
             return 1

@@ -164,7 +164,7 @@ class Crossbred(MQAlgorithm):
         - ``D`` -- degree of the initial Macaulay matrix
         - ``d`` -- degree resulting Macaulay matrix
 
-        EXAMPLES::
+       TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -195,7 +195,7 @@ class Crossbred(MQAlgorithm):
         - ``k`` -- no. variables in the resulting system
         - ``d`` -- degree resulting Macaulay matrix
 
-        EXAMPLES::
+       TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -213,7 +213,7 @@ class Crossbred(MQAlgorithm):
 
         - ``k`` -- no. variables in the resulting system
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -242,7 +242,7 @@ class Crossbred(MQAlgorithm):
         """
         Return a list of admissible parameters `(k, D, d)`
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -276,7 +276,7 @@ class Crossbred(MQAlgorithm):
 
         - ``parameters`` -- dictionary including the parameters
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem

@@ -96,9 +96,6 @@ class Lokshtanov(MQAlgorithm):
                 stop = True
 
     def _C(self, n: int, delta: float):
-        """
-
-        """
         q = self.problem.order_of_the_field()
         np = floor(delta * n)
         resulting_degree = 2 * (q - 1) * (np + 2)
@@ -175,7 +172,7 @@ class Lokshtanov(MQAlgorithm):
 
         - ``parameters`` -- dictionary including the parameters
 
-        TEST::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem

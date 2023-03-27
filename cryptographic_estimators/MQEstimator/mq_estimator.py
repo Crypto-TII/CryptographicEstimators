@@ -61,9 +61,6 @@ class MQEstimator(BaseEstimator):
             | Lokshtanov       | 93.9 |   42.4 |
             +------------------+------+--------+
 
-
-
-
             sage: E = MQEstimator(n=15, m=15, q=2)
             sage: E.table(precision=3, truncate=1)
             +------------------+-----------------+

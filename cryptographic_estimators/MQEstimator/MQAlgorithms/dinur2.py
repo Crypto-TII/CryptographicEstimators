@@ -114,6 +114,7 @@ class DinurSecond(MQAlgorithm):
 
         - ``parameters`` -- dictionary including the parameters
 
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -141,7 +142,7 @@ class DinurSecond(MQAlgorithm):
 
         - ``parameters`` -- dictionary including the parameters
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -161,7 +162,7 @@ class DinurSecond(MQAlgorithm):
 
         - ``parameters`` -- dictionary including the parameters
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -176,7 +177,7 @@ class DinurSecond(MQAlgorithm):
         """
         Return the Ō time complexity of Bjorklund et al.'s algorithm
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem

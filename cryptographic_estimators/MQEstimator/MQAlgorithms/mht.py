@@ -69,7 +69,7 @@ class MHT(MQAlgorithm):
         """
         Return the time complexity of the algorithm for a given set of parameters
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.mht import MHT
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -90,7 +90,7 @@ class MHT(MQAlgorithm):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.mht import MHT
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem

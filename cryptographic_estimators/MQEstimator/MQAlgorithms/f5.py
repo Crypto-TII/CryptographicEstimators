@@ -181,6 +181,7 @@ class F5(MQAlgorithm):
             sage: F5_ = F5(MQProblem(n=10, m=12, q=5), bit_complexities=False)
             sage: F5_.memory_complexity()
             24.578308707446713
+
         """
         n, m, q = self.get_reduced_parameters()
         if self._dreg is None:
@@ -250,6 +251,7 @@ class F5(MQAlgorithm):
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
         Return the Ō  memory complexity of the algorithm for a given set of parameters
+
         """
         n, m, q = self.get_reduced_parameters()
         if self._dreg is None:
