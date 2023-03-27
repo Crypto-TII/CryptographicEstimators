@@ -138,8 +138,6 @@ def improved_linear_beullens(n,k,q):
                     if L_prime < Nw_prime/2:
                         cost = C_isd+ log2(L_prime/Nw_prime);
                     else:
-                        #Nw_prime = Nw_prime.n()
-                        #print(Nw_prime, 1/Nw_prime, 1.-1./Nw_prime, log(1.-1./Nw_prime))
                         cost = C_isd+log2(2*log(1.-L_prime/Nw_prime)/log(1.-1./Nw_prime)/Nw_prime);
                     
                     
