@@ -17,11 +17,10 @@
 
 
 from math import isinf
-from sage.all import *
 from typing import Union, Callable
 from .helper import ComplexityType
-from .base_constants import *
-from .base_algorithm import *
+from .base_constants import BASE_TILDEO_ESTIMATE, BASE_ADDITIONALO, BASE_BIT_COMPLEXITIES, BASE_ESTIMATEO, BASE_EXCLUDED_ALGORITHMS, BASE_MEMORY, BASE_PARAMETERS, BASE_QUANTUMO, BASE_TIME
+from .base_algorithm import BaseAlgorithm
 from .estimation_renderer import EstimationRenderer
 
 
@@ -227,7 +226,8 @@ class BaseEstimator(object):
 
         est[name][BASE_ESTIMATEO][BASE_PARAMETERS] = algorithm.get_optimal_parameters_dict()
 
-        est[name][BASE_ADDITIONALO] = algorithm._get_verbose_information() if not isinf(algorithm.time_complexity()) else {}
+        est[name][BASE_ADDITIONALO] = algorithm._get_verbose_information(
+        ) if not isinf(algorithm.time_complexity()) else {}
 
     def estimate(self, **kwargs):
         """
