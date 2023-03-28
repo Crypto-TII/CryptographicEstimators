@@ -316,7 +316,7 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_dw.</span></span><span class="sig-name descname"><span class="pre">BJMMdw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../sd_problem.html#cryptographic_estimators.SDEstimator.sd_problem.SDProblem" title="cryptographic_estimators.SDEstimator.sd_problem.SDProblem"><span class="pre">SDProblem</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_dw.BJMMdw" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../sd_algorithm.html#cryptographic_estimators.SDEstimator.sd_algorithm.SDAlgorithm" title="cryptographic_estimators.SDEstimator.sd_algorithm.SDAlgorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">SDAlgorithm</span></code></a></p>
 <dl class="simple">
-<dt>Construct an instance of BJMM’s estimator using <a href="#id1"><span class="problematic" id="id2">*</span></a>d*isjoint <a href="#id3"><span class="problematic" id="id4">*</span></a>w*eight distributions combined with</dt><dd><p>MitM-nearest neighbor search. <span id="id5">[EB2022]</span>, <span id="id6">[MMT2011]</span>, <span id="id7">[BJMM2012]</span>.</p>
+<dt>Construct an instance of BJMM’s estimator using <a href="#id1"><span class="problematic" id="id2">*</span></a>d*isjoint <a href="#id3"><span class="problematic" id="id4">*</span></a>w*eight distributions combined with</dt><dd><p>MitM-nearest neighbor search. <a class="reference internal" href="../../references.html#eb22" id="id5"><span>[EB22]</span></a>, <a class="reference internal" href="../../references.html#mmt11" id="id6"><span>[MMT11]</span></a>, <a class="reference internal" href="../../references.html#bjmm12" id="id7"><span>[BJMM12]</span></a>.</p>
 </dd>
 </dl>
 <p>Expected weight distribution:</p>
@@ -384,19 +384,15 @@ process.</p>
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_dw.BJMMdw.memory_access_cost">
 <span class="sig-name descname"><span class="pre">memory_access_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm_dw.BJMMdw.memory_access_cost" title="Permalink to this definition">#</a></dt>
 <dd><p>INPUT:</p>
-<ul>
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">`mem</span></code> – memory consumption of an algorithm</p></li>
-<li><dl>
-<dt><code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model </dt><dd><dl>
-<dt>(default: 0, choices: </dt><dd><p>0 - constant, 
-1 - logarithmic, 
-2 - square-root, 
-3 - cube-root or deploy custom function which takes as input the</p>
-<blockquote>
-<div><p>logarithm of the total memory usage)</p>
-</div></blockquote>
-</dd>
-</dl>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model </dt><dd><p>(default: 0, choices:
+0 - constant,
+1 - logarithmic,
+2 - square-root,
+3 - cube-root or deploy custom function which takes as input the
+logarithm of the total memory usage)</p>
 </dd>
 </dl>
 </li>

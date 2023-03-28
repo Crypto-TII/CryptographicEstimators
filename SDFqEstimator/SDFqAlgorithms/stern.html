@@ -316,56 +316,24 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptographic_estimators.SDFqEstimator.SDFqAlgorithms.stern.</span></span><span class="sig-name descname"><span class="pre">Stern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../sdfq_problem.html#cryptographic_estimators.SDFqEstimator.sdfq_problem.SDFqProblem" title="cryptographic_estimators.SDFqEstimator.sdfq_problem.SDFqProblem"><span class="pre">SDFqProblem</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDFqEstimator.SDFqAlgorithms.stern.Stern" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../sdfq_algorithm.html#cryptographic_estimators.SDFqEstimator.sdfq_algorithm.SDFqAlgorithm" title="cryptographic_estimators.SDFqEstimator.sdfq_algorithm.SDFqAlgorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">SDFqAlgorithm</span></code></a></p>
 <p>Construct an instance of Stern’s estimator <a class="reference internal" href="../../references.html#peters11" id="id1"><span>[Peters11]</span></a>, <span id="id2">[Ste1988]</span>, <span id="id3">[BLP2008]</span>.</p>
-<dl>
-<dt>Expected weight distribution::</dt><dd><div class="table-wrapper docutils container">
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 42%" />
-<col style="width: 15%" />
-<col style="width: 22%" />
-<col style="width: 22%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><dl class="simple">
-<dt>&lt;—-+ n - k - l +—-&gt;</dt><dd><p>w - 2p</p>
-</dd>
-</dl>
-</td>
-<td><dl class="simple">
-<dt>&lt;– l –&gt;</dt><dd><p>0</p>
-</dd>
-</dl>
-</td>
-<td><dl class="simple">
-<dt>&lt;–+ k/2 +–&gt;</dt><dd><p>p</p>
-</dd>
-</dl>
-</td>
-<td><dl class="simple">
-<dt>&lt;–+ k/2 +–&gt;</dt><dd><p>p</p>
-</dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
+<p>Expected weight distribution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+-------------------------+---------+-------------+-------------+</span>
+<span class="o">|</span> <span class="o">&lt;----+</span> <span class="n">n</span> <span class="o">-</span> <span class="n">k</span> <span class="o">-</span> <span class="n">l</span> <span class="o">+----&gt;</span> <span class="o">|&lt;--</span> <span class="n">l</span> <span class="o">--&gt;|&lt;--+</span> <span class="n">k</span><span class="o">/</span><span class="mi">2</span> <span class="o">+--&gt;|&lt;--+</span> <span class="n">k</span><span class="o">/</span><span class="mi">2</span> <span class="o">+--&gt;|</span>
+<span class="o">|</span>          <span class="n">w</span> <span class="o">-</span> <span class="mi">2</span><span class="n">p</span>         <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span>      <span class="n">p</span>      <span class="o">|</span>      <span class="n">p</span>      <span class="o">|</span>
+<span class="o">+-------------------------+---------+-------------+-------------+</span>
+</pre></div>
 </div>
-</dd>
-</dl>
-<p>INPUT:
-- <code class="docutils literal notranslate"><span class="pre">problem</span></code> – SDProblem object including all necessary parameters</p>
-<dl class="simple">
-<dt>TEST::</dt><dd><p>sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
-sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
-sage: Stern(SDFqProblem(n=961,k=771,w=48,q=31)).time_complexity()
-129.05902980703917</p>
-</dd>
-<dt>EXAMPLES::</dt><dd><p>sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
-sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
-sage: Stern(SDFqProblem(n=100,k=50,w=10,q=3))
-Stern estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 3</p>
-</dd>
-</dl>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">problem</span></code> – SDProblem object including all necessary parameters</p></li>
+</ul>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDFqEstimator.SDFqAlgorithms</span> <span class="kn">import</span> <span class="n">Stern</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDFqEstimator</span> <span class="kn">import</span> <span class="n">SDFqProblem</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">Stern</span><span class="p">(</span><span class="n">SDFqProblem</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">q</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">Stern</span> <span class="n">estimator</span> <span class="k">for</span> <span class="n">syndrome</span> <span class="n">decoding</span> <span class="n">problem</span> <span class="k">with</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">w</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="n">over</span> <span class="n">Finite</span> <span class="n">Field</span> <span class="n">of</span> <span class="n">size</span> <span class="mi">3</span>
+</pre></div>
+</div>
 <dl class="py property">
 <dt class="sig sig-object py" id="cryptographic_estimators.SDFqEstimator.SDFqAlgorithms.stern.Stern.complexity_type">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">complexity_type</span></span><a class="headerlink" href="#cryptographic_estimators.SDFqEstimator.SDFqAlgorithms.stern.Stern.complexity_type" title="Permalink to this definition">#</a></dt>
@@ -394,14 +362,14 @@ Stern estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Fi
 <dt class="sig sig-object py" id="cryptographic_estimators.SDFqEstimator.SDFqAlgorithms.stern.Stern.l">
 <span class="sig-name descname"><span class="pre">l</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDFqEstimator.SDFqAlgorithms.stern.Stern.l" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the optimal parameter $l$ used in the algorithm optimization</p>
-<dl class="simple">
-<dt>EXAMPLES::</dt><dd><p>sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
-sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
-sage: A = Stern(SDFqProblem(n=100,k=50,w=10,q=3))
-sage: A.l()
-7</p>
-</dd>
-</dl>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDFqEstimator.SDFqAlgorithms</span> <span class="kn">import</span> <span class="n">Stern</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDFqEstimator</span> <span class="kn">import</span> <span class="n">SDFqProblem</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">Stern</span><span class="p">(</span><span class="n">SDFqProblem</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">q</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span><span class="o">.</span><span class="n">l</span><span class="p">()</span>
+<span class="mi">7</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py property">
@@ -414,19 +382,15 @@ sage: A.l()
 <dt class="sig sig-object py" id="cryptographic_estimators.SDFqEstimator.SDFqAlgorithms.stern.Stern.memory_access_cost">
 <span class="sig-name descname"><span class="pre">memory_access_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDFqEstimator.SDFqAlgorithms.stern.Stern.memory_access_cost" title="Permalink to this definition">#</a></dt>
 <dd><p>INPUT:</p>
-<ul>
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">`mem</span></code> – memory consumption of an algorithm</p></li>
-<li><dl>
-<dt><code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model </dt><dd><dl>
-<dt>(default: 0, choices: </dt><dd><p>0 - constant, 
-1 - logarithmic, 
-2 - square-root, 
-3 - cube-root or deploy custom function which takes as input the</p>
-<blockquote>
-<div><p>logarithm of the total memory usage)</p>
-</div></blockquote>
-</dd>
-</dl>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model </dt><dd><p>(default: 0, choices:
+0 - constant,
+1 - logarithmic,
+2 - square-root,
+3 - cube-root or deploy custom function which takes as input the
+logarithm of the total memory usage)</p>
 </dd>
 </dl>
 </li>
@@ -459,14 +423,14 @@ sage: A.l()
 <dt class="sig sig-object py" id="cryptographic_estimators.SDFqEstimator.SDFqAlgorithms.stern.Stern.p">
 <span class="sig-name descname"><span class="pre">p</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDFqEstimator.SDFqAlgorithms.stern.Stern.p" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the optimal parameter $p$ used in the algorithm optimization</p>
-<dl class="simple">
-<dt>EXAMPLES::</dt><dd><p>sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
-sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
-sage: A = Stern(SDFqProblem(n=100,k=50,w=10,q=3))
-sage: A.p()
-2</p>
-</dd>
-</dl>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDFqEstimator.SDFqAlgorithms</span> <span class="kn">import</span> <span class="n">Stern</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.SDFqEstimator</span> <span class="kn">import</span> <span class="n">SDFqProblem</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">Stern</span><span class="p">(</span><span class="n">SDFqProblem</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">q</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span><span class="o">.</span><span class="n">p</span><span class="p">()</span>
+<span class="mi">2</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">

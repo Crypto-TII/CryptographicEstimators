@@ -400,35 +400,35 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">truncate</span></code> – truncate rather than round the output (default: false)</p></li>
 </ul>
 <p>EXAMPLES:</p>
-<blockquote>
-<div><p>sage: from cryptographic_estimators.LEEstimator import LEEstimator
-sage: A = LEEstimator(n=30, k=20, q=251)
-sage: A.table(show_all_parameters=1)
-+———–+——————————————+
-|           |                 estimate                 |
-+———–+——+——–+————————–+
-| algorithm | time | memory |        parameters        |
-+———–+——+——–+————————–+
-| Leon      | 34.2 |   12.2 |         {‘w’: 9}         |
-| Beullens  | 29.7 |   14.4 |        {‘w’: 11}         |
-| BBPS      | 27.6 |   12.2 | {‘w’: 14, ‘w_prime’: 10} |
-+———–+——+——–+————————–+</p>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.LEEstimator</span> <span class="kn">import</span> <span class="n">LEEstimator</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">LEEstimator</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mi">251</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">show_all_parameters</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">+-----------+------------------------------------------+</span>
+<span class="o">|</span>           <span class="o">|</span>                 <span class="n">estimate</span>                 <span class="o">|</span>
+<span class="o">+-----------+------+--------+--------------------------+</span>
+<span class="o">|</span> <span class="n">algorithm</span> <span class="o">|</span> <span class="n">time</span> <span class="o">|</span> <span class="n">memory</span> <span class="o">|</span>        <span class="n">parameters</span>        <span class="o">|</span>
+<span class="o">+-----------+------+--------+--------------------------+</span>
+<span class="o">|</span> <span class="n">Leon</span>      <span class="o">|</span> <span class="mf">34.2</span> <span class="o">|</span>   <span class="mf">12.2</span> <span class="o">|</span>         <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">}</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="n">Beullens</span>  <span class="o">|</span> <span class="mf">29.7</span> <span class="o">|</span>   <span class="mf">14.4</span> <span class="o">|</span>        <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">}</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="n">BBPS</span>      <span class="o">|</span> <span class="mf">27.6</span> <span class="o">|</span>   <span class="mf">12.2</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="s1">&#39;w_prime&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">}</span> <span class="o">|</span>
+<span class="o">+-----------+------+--------+--------------------------+</span>
+</pre></div>
+</div>
 <p>TESTS:</p>
-<blockquote>
-<div><p>sage: from cryptographic_estimators.LEEstimator import LEEstimator
-sage: A = LEEstimator(n=200, k=110, q=31)
-sage: A.table(precision=3, show_all_parameters=1) # long time
-+———–+———————————————-+
-|           |                   estimate                   |
-+———–+———+——–+—————————+
-| algorithm |    time | memory |         parameters        |
-+———–+———+——–+—————————+
-| Leon      | 105.356 | 33.624 |         {‘w’: 59}         |
-| Beullens  | 123.109 | 42.252 |         {‘w’: 79}         |
-| BBPS      |  97.495 | 33.624 | {‘w’: 102, ‘w_prime’: 60} |
-+———–+———+——–+—————————+</p>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.LEEstimator</span> <span class="kn">import</span> <span class="n">LEEstimator</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span> <span class="o">=</span> <span class="n">LEEstimator</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">110</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">A</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">show_all_parameters</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># long time</span>
+<span class="o">+-----------+----------------------------------------------+</span>
+<span class="o">|</span>           <span class="o">|</span>                   <span class="n">estimate</span>                   <span class="o">|</span>
+<span class="o">+-----------+---------+--------+---------------------------+</span>
+<span class="o">|</span> <span class="n">algorithm</span> <span class="o">|</span>    <span class="n">time</span> <span class="o">|</span> <span class="n">memory</span> <span class="o">|</span>         <span class="n">parameters</span>        <span class="o">|</span>
+<span class="o">+-----------+---------+--------+---------------------------+</span>
+<span class="o">|</span> <span class="n">Leon</span>      <span class="o">|</span> <span class="mf">105.356</span> <span class="o">|</span> <span class="mf">33.624</span> <span class="o">|</span>         <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">59</span><span class="p">}</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="n">Beullens</span>  <span class="o">|</span> <span class="mf">123.109</span> <span class="o">|</span> <span class="mf">42.252</span> <span class="o">|</span>         <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">79</span><span class="p">}</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="n">BBPS</span>      <span class="o">|</span>  <span class="mf">97.495</span> <span class="o">|</span> <span class="mf">33.624</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">102</span><span class="p">,</span> <span class="s1">&#39;w_prime&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">}</span> <span class="o">|</span>
+<span class="o">+-----------+---------+--------+---------------------------+</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>

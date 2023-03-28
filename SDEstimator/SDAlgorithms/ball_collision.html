@@ -319,19 +319,10 @@
 <p>Introduced in <span id="id1">[BLP11]</span>.</p>
 <p>expected weight distribution:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+------------------+---------+---------+-------------+-------------+</span>
+<span class="o">|</span> <span class="o">&lt;-+</span> <span class="n">n</span> <span class="o">-</span> <span class="n">k</span> <span class="o">-</span> <span class="n">l</span> <span class="o">+-&gt;|&lt;-</span> <span class="n">l</span><span class="o">/</span><span class="mi">2</span> <span class="o">-&gt;|&lt;-</span> <span class="n">l</span><span class="o">/</span><span class="mi">2</span> <span class="o">-&gt;|&lt;--+</span> <span class="n">k</span><span class="o">/</span><span class="mi">2</span> <span class="o">+--&gt;|&lt;--+</span> <span class="n">k</span><span class="o">/</span><span class="mi">2</span> <span class="o">+--&gt;|</span>
+<span class="o">|</span>    <span class="n">w</span> <span class="o">-</span> <span class="mi">2</span><span class="n">p</span> <span class="o">-</span> <span class="mi">2</span><span class="n">pl</span>  <span class="o">|</span>   <span class="n">pl</span>    <span class="o">|</span>   <span class="n">pl</span>    <span class="o">|</span>      <span class="n">p</span>      <span class="o">|</span>      <span class="n">p</span>      <span class="o">|</span>
+<span class="o">+------------------+---------+---------+-------------+-------------+</span>
 </pre></div>
-</div>
-<div class="line-block">
-<div class="line">&lt;-+ n - k - l +-&gt;|&lt;- l/2 -&gt;|&lt;- l/2 -&gt;|&lt;–+ k/2 +–&gt;|&lt;–+ k/2 +–&gt;|</div>
-<div class="line-block">
-<div class="line">w - 2p - 2pl  |   pl    |   pl    |      p      |      p      |</div>
-</div>
-</div>
-<div class="table-wrapper docutils container">
-<table class="docutils align-default">
-<tbody>
-</tbody>
-</table>
 </div>
 <p>INPUT:</p>
 <ul class="simple">
@@ -392,19 +383,15 @@
 <dt class="sig sig-object py" id="cryptographic_estimators.SDEstimator.SDAlgorithms.ball_collision.BallCollision.memory_access_cost">
 <span class="sig-name descname"><span class="pre">memory_access_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.SDEstimator.SDAlgorithms.ball_collision.BallCollision.memory_access_cost" title="Permalink to this definition">#</a></dt>
 <dd><p>INPUT:</p>
-<ul>
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">`mem</span></code> – memory consumption of an algorithm</p></li>
-<li><dl>
-<dt><code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model </dt><dd><dl>
-<dt>(default: 0, choices: </dt><dd><p>0 - constant, 
-1 - logarithmic, 
-2 - square-root, 
-3 - cube-root or deploy custom function which takes as input the</p>
-<blockquote>
-<div><p>logarithm of the total memory usage)</p>
-</div></blockquote>
-</dd>
-</dl>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">`memory_access</span></code> – specifies the memory access cost model </dt><dd><p>(default: 0, choices:
+0 - constant,
+1 - logarithmic,
+2 - square-root,
+3 - cube-root or deploy custom function which takes as input the
+logarithm of the total memory usage)</p>
 </dd>
 </dl>
 </li>
