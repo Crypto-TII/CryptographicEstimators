@@ -65,17 +65,17 @@ class MHT(MQAlgorithm):
         self._n_reduced = n
         self._m_reduced = m
 
-    def time_complexity(self):
+    def _compute_time_complexity(self, parameters: dict):
         """
-        Return the time complexity of mht algorithm
+        Return the time complexity of the algorithm for a given set of parameters
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.mht import MHT
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = MHT(MQProblem(n=183, m=12, q=4), w=2.8)
             sage: E.time_complexity()
-            24.628922047916475
+            26.628922047916475
         """
         n, m, _ = self.problem.get_problem_parameters()
         w = self.linear_algebra_constant()
@@ -83,27 +83,43 @@ class MHT(MQAlgorithm):
             time = 0
         else:
             time = m
-        if self.complexity_type == ComplexityType.ESTIMATE.value:
-            time += log2(m * n ** w)
-        else:
-            time += 0
+        time += log2(m * n ** w)
         return time
 
-    def memory_complexity(self):
+    def _compute_memory_complexity(self, parameters: dict):
         """
-        Return the memory complexity of MHT algorithm
+        Return the memory complexity of the algorithm for a given set of parameters
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.mht import MHT
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = MHT(MQProblem(n=183, m=12, q=4), w=2.8)
             sage: E.memory_complexity()
-            18.61636217728924
+            19.61636217728924
         """
         n, m, q = self.problem.get_problem_parameters()
-        if self.complexity_type == ComplexityType.ESTIMATE.value:
-            memory = log2(m * n ** 2)
+        return log2(m * n ** 2)
+
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
+        """
+        Return the Ō time complexity of the algorithm for a given set of parameters
+
+        """
+        _, m, _ = self.get_reduced_parameters()
+        if is_power_of_two(self.problem.order_of_the_field()):
+            time = 0
         else:
-            memory = 0
-        return memory
+            time = m
+        return time
+
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
+        """
+        Return the Ō memory complexity of the algorithm for a given set of parameters
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+        """
+        return 0

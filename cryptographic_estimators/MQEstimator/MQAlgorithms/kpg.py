@@ -68,41 +68,51 @@ class KPG(MQAlgorithm):
         self._n_reduced = n
         self._m_reduced = m
 
-    def time_complexity(self):
+    def _compute_time_complexity(self, parameters: dict):
         """
-        Return the time complexity of kpg algorithm
+        Return the time complexity of the algorithm for a given set of parameters
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.kpg import KPG
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = KPG(MQProblem(n=183, m=12, q=4), w=2.8)
             sage: E.time_complexity()
-            24.628922047916475
+            26.628922047916475
         """
         n, m, _ = self.problem.get_problem_parameters()
         w = self.linear_algebra_constant()
-        if self.complexity_type == ComplexityType.ESTIMATE.value:
-            time = log2(m * n ** w)
-        else:
-            time = 0
-        return time
+        return log2(m * n ** w)
 
-    def memory_complexity(self):
+    def _compute_memory_complexity(self, parameters: dict):
         """
-        Return the memory complexity of kpg algorithm
+        Return the memory complexity of the algorithm for a given set of parameters
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.kpg import KPG
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = KPG(MQProblem(n=183, m=12, q=4), w=2.8)
             sage: E.memory_complexity()
-            18.61636217728924
+            19.61636217728924
         """
         n, m, _ = self.problem.get_problem_parameters()
-        if self.complexity_type == ComplexityType.ESTIMATE.value:
-            memory = log2(m * n ** 2)
-        else:
-            memory = 0
-        return memory
+        return log2(m * n ** 2)
+
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
+        """
+        Return the Ō time complexity of the algorithm for a given set of parameters
+
+        """
+        return 0
+
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
+        """
+        Return the Ō memory complexity of the algorithm for a given set of parameters
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+        """
+        return 0
