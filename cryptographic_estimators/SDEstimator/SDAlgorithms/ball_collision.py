@@ -55,7 +55,7 @@ class BallCollision(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
 
         self.set_parameter_ranges("p", 0, w // 2)
-
+        self._name="BallCollision"
         s = self.full_domain
         self.set_parameter_ranges("l", 0, min_max(300, n - k, s))
         self.set_parameter_ranges("pl", 0, min_max(10, w, s))
