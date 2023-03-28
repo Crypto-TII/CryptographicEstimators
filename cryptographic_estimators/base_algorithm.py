@@ -21,11 +21,11 @@ from .helper import ComplexityType
 from .base_problem import BaseProblem
 import functools
 from math import inf, log2
-from .base_constants import *
+from .base_constants import BASE_BIT_COMPLEXITIES, BASE_COMPLEXITY_TYPE, BASE_ESTIMATE, BASE_MEMORY_ACCESS, BASE_TILDEO
 
 
 class BaseAlgorithm:
-    def __init__(self, problem, **kwargs):
+    def __init__(self, problem: BaseProblem, **kwargs):
         """
         Base class for algorithms complexity estimator
 
