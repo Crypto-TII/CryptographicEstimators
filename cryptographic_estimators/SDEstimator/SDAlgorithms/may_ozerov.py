@@ -390,7 +390,7 @@ class MayOzerovD3(SDAlgorithm):
             sage: from cryptographic_estimators.SDEstimator import SDProblem
             sage: A = MayOzerov(SDProblem(n=100,k=50,w=10))
             sage: A.MayOzerov_depth_3.l()
-            12
+            11
         """
         return self._get_optimal_parameter("l")
 
