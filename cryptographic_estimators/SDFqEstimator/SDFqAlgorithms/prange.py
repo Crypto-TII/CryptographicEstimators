@@ -7,7 +7,7 @@ from ..sdfq_constants import *
 class Prange(SDFqAlgorithm):
     def __init__(self, problem: SDFqProblem, **kwargs):
         """
-        Construct an instance of Prange's estimator [Pra1962]_
+        Construct an instance of Prange's estimator [Pra62]_
         expected weight distribution::
             +--------------------------------+-------------------------------+
             | <----------+ n - k +---------> | <----------+ k +------------> |

@@ -64,7 +64,7 @@ References
 
 **C**
 
-.. [Peters11]  \Christiane Peters: Information-set decoding for linear codes over Fq.
+.. [Pet11]  \Christiane Peters: Information-set decoding for linear codes over Fq.
                 https://link.springer.com/chapter/10.1007/978-3-642-12929-2_7
 
 .. [BCCCNSY10]  \Charles Bouillaguet, Hsieh-Chung Chen, Chen-Mou Cheng, Tung Chou, Ruben Niederhagen, Adi Shamir, and Bo-Yin Yang.
@@ -193,7 +193,7 @@ References
 **P**
 
 
-.. [LB188] \Pil Joong Le and Ernest Brickell.
+.. [LB88] \Pil Joong Le and Ernest Brickell.
            *An observation on the security of McEliece’s public-key cryptosystem*
            https://doi.org/10.1007/3-540-45961-8\_25
 
