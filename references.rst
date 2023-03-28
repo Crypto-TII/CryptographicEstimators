@@ -193,7 +193,7 @@ References
 **P**
 
 
-.. [LB88] \Pil Joong Le and Ernest Brickell.
+.. [LB88] \Pil Joong Lee and Ernest Brickell.
            *An observation on the security of McEliece’s public-key cryptosystem*
            https://doi.org/10.1007/3-540-45961-8\_25
 
