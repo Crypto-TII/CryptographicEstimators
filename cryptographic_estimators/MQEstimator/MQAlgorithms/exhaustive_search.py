@@ -54,11 +54,11 @@ class ExhaustiveSearch(MQAlgorithm):
         super().__init__(problem, **kwargs)
         self._name = "ExhaustiveSearch"
 
-    def time_complexity(self):
+    def _compute_time_complexity(self, parameters: dict):
         """
-        Return the time complexity of the exhaustive search algorithm
+        Return the time complexity of the algorithm for a given set of parameters
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.exhaustive_search import ExhaustiveSearch
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -66,37 +66,28 @@ class ExhaustiveSearch(MQAlgorithm):
             sage: E.time_complexity()
             15.917197145402291
 
-        TESTS::
-
             sage: E0 = ExhaustiveSearch(MQProblem(n=15, m=12, q=3))
             sage: E1 = ExhaustiveSearch(MQProblem(n=17, m=12, q=3))
             sage: E0.time_complexity() == E1.time_complexity()
             True
         """
-        if self._time_complexity is not None:
-            return self._time_complexity
-
         n, _, q = self.get_reduced_parameters()
         nsolutions = 2 ** self.problem.nsolutions
-        self._time_complexity = n * log2(q)
-        if self.complexity_type == ComplexityType.ESTIMATE.value:
-            if q == 2:
-                self._time_complexity += log2(4 * log2(n))
-            else:
-                self._time_complexity += log2(log(n, q))
-            self._time_complexity -= log2(nsolutions + 1)
-            h = self._h
-            self._time_complexity += h * log2(q)
-            if self.bit_complexities:
-                self._time_complexity = self.problem.to_bitcomplexity_time(
-                    self._time_complexity)
-        return self._time_complexity
+        time = n * log2(q)
+        if q == 2:
+            time += log2(4 * log2(n))
+        else:
+            time += log2(log(n, q))
+        time -= log2(nsolutions + 1)
+        h = self._h
+        time += h * log2(q)
+        return time
 
-    def memory_complexity(self):
+    def _compute_memory_complexity(self, parameters: dict):
         """
-        Return the memory complexity of the exhaustive search algorithm
+        Return the memory complexity of the algorithm for a given set of parameters
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.exhaustive_search import ExhaustiveSearch
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -104,21 +95,32 @@ class ExhaustiveSearch(MQAlgorithm):
             sage: E.memory_complexity()
             10.228818690495881
 
-        TESTS::
 
             sage: E0 = ExhaustiveSearch(MQProblem(n=15, m=12, q=3))
             sage: E1 = ExhaustiveSearch(MQProblem(n=17, m=12, q=3))
             sage: E0.memory_complexity() == E1.memory_complexity()
             True
         """
-        if self._memory_complexity is not None:
-            return self._memory_complexity
-
         n, m, _ = self.get_reduced_parameters()
-        self._memory_complexity = 0
-        if self.complexity_type == ComplexityType.ESTIMATE.value:
-            self._memory_complexity = log2(m * n ** 2)
-            if self.bit_complexities:
-                self._memory_complexity = self.problem.to_bitcomplexity_time(
-                    self._memory_complexity)
-        return self._memory_complexity
+        return log2(m * n ** 2)
+
+
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
+        """
+        Return the Ō time complexity of the algorithm for a given set of parameters
+
+        """
+        n, _, q = self.get_reduced_parameters()
+        return  n * log2(q)
+
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
+        """
+        Return the Ō memory complexity of the algorithm for a given set of parameters
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+        """
+        return 0
+

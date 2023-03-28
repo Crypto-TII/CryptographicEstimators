@@ -29,12 +29,12 @@ class PKProblem(BaseProblem):
     - ``n`` -- columns of the matrix
     - ``m`` -- rows of the matrix
     - ``q`` -- size of the field
-    - ``ell`` -- rows of the matrix whose permutation should lie in the kernel
-    - ``use_parity_row`` -- enables trick of appending extra (all one) row to the matrix, i.e., m -> m+1 (default:False)
-    - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
-    - ``memory_bound`` -- maximum allowed memory to use for solving the problem
+    - ``ell`` -- number of rows of the matrix whose permutation should lie in the kernel (default: 1)
+    - ``use_parity_row`` -- enables trick of appending extra (all one) row to the matrix, i.e., m -> m+1 (default: false)
+    - ``nsolutions`` -- number of solutions of the problem in logarithmic scale (default: expected_number_solutions)
 
     """
+
 
     def __init__(self, n: int, m: int, q: int, ell=1, **kwargs):
         super().__init__(**kwargs)

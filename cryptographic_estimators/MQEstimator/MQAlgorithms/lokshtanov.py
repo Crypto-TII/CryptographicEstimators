@@ -99,9 +99,6 @@ class Lokshtanov(MQAlgorithm):
                 stop = True
 
     def _C(self, n: int, delta: float):
-        """
-
-        """
         q = self.problem.order_of_the_field()
         np = floor(delta * n)
         resulting_degree = 2 * (q - 1) * (np + 2)
@@ -121,8 +118,8 @@ class Lokshtanov(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9))
-            sage: E._compute_time_complexity({'delta':2/10})
+            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), bit_complexities=False)
+            sage: E.time_complexity(delta=2/10)
             214.16804105519708
         """
         delta = parameters['delta']
@@ -141,7 +138,7 @@ class Lokshtanov(MQAlgorithm):
 
     def _compute_memory_complexity(self, parameters: dict):
         """
-        Return the memory complexity of Lokshtanov et al.'s algorithm
+        Return the memory complexity of the algorithm for a given set of parameters
 
         INPUT:
 
@@ -151,8 +148,8 @@ class Lokshtanov(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9))
-            sage: E._compute_memory_complexity({'delta':2/10})
+            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), bit_complexities=False)
+            sage: E.memory_complexity(delta=2/10)
             27.471075081419315
         """
         delta = parameters['delta']
@@ -171,19 +168,19 @@ class Lokshtanov(MQAlgorithm):
         return log2(memory)
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        r"""
-        Return the `\widetilde{O}` time complexity of Lokshtanov et al.'s algorithm
+        """
+        Return the Ō time complexity of the algorithm for a given set of parameters
 
         INPUT:
 
         - ``parameters`` -- dictionary including the parameters
 
-        TEST::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9))
-            sage: E._compute_tilde_o_time_complexity({'delta':2/10})
+            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
+            sage: E.time_complexity(delta=2/10)
             6.339850002884624
         """
         delta = parameters['delta']
@@ -200,7 +197,7 @@ class Lokshtanov(MQAlgorithm):
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
         r"""
-        Return the `\widetilde{O}` time complexity of Lokshtanov et al.'s algorithm
+        Return the Ō time complexity of the algorithm for a given set of parameters
 
         INPUT:
 
@@ -210,8 +207,8 @@ class Lokshtanov(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9))
-            sage: E._compute_tilde_o_memory_complexity({'delta':2/10})
+            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
+            sage: E.memory_complexity(delta=2/10)
             25.359400011538497
         """
         delta = parameters['delta']
@@ -220,14 +217,13 @@ class Lokshtanov(MQAlgorithm):
 
     def _find_optimal_tilde_o_parameters(self):
         """
-        Return the Ō time complexity of DinurFirst et al.'s algorithm
+        Return the optimal parameters to achieve the optimal Ō time complexity.
 
         EXAMPLES::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9))
-            sage: E.complexity_type = "TILDEO"
+            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
             sage: E.optimal_parameters()
             {'delta': 0.9975}
         """

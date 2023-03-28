@@ -76,49 +76,36 @@ class F5(MQAlgorithm):
         """
         return self._degrees
 
-    def time_complexity(self):
+    def _compute_time_complexity(self, parameters: dict):
         """
-        Return the time complexity of the F5 algorithm
+        Return the time complexity of the algorithm for a given set of parameters
 
         EXAMPLES::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = F5(MQProblem(n=10, m=15, q=3))
+            sage: E = F5(MQProblem(n=10, m=15, q=3), bit_complexities=False)
             sage: E.time_complexity()
-            19.934452517671986
+            23.841343113280505
 
         TESTS::
 
             sage: F5(MQProblem(n=10, m=12, q=5)).time_complexity()
-            25.934452517671986
+            31.950061609866715
 
         """
-        memory = self.memory_complexity()
-        if self.bit_complexities:
-            memory = self.problem.to_bitcomplexity_memory(memory)
-        if memory > self.problem.memory_bound:
-            self._time_complexity = inf
-            self._memory_complexity = inf
-            return inf
+        if self.problem.is_overdefined_system():
+            time = self._time_complexity_semi_regular_system()
+        else:
+            time = self._time_complexity_regular_system()
 
-        if self._time_complexity is None:
-            if self.problem.is_overdefined_system():
-                self._time_complexity = self._time_complexity_semi_regular_system()
-            else:
-                self._time_complexity = self._time_complexity_regular_system()
-
-            if self.complexity_type == ComplexityType.ESTIMATE.value:
-                self._time_complexity = max(
-                    self._time_complexity, self._time_complexity_fglm())
-
-        return self._time_complexity
+        return max(time, self._time_complexity_fglm())
 
     def _time_complexity_fglm(self):
         """
         Return the time complexity of the FGLM algorithm for this system
 
-        EXAMPLES::
+        TEST::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -135,13 +122,13 @@ class F5(MQAlgorithm):
         """
         Return the time complexity for regular system
 
-        EXAMPLES::
+        TEST::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = F5(MQProblem(n=10, m=5, q=3))
-            sage: E._time_complexity_regular_system()
-            12.643856189774725
+            sage: E = F5(MQProblem(n=10, m=5, q=31), bit_complexities=False)
+            sage: E.time_complexity()
+            15.954559846999834
         """
         if not (self.problem.is_square_system() or self.problem.is_underdefined_system()):
             raise ValueError(
@@ -152,9 +139,8 @@ class F5(MQAlgorithm):
         if self._dreg is None:
             self._dreg = degree_of_regularity.quadratic_system(n, m, q)
         dreg = self._dreg
-        time = w * log2(binomial(n + dreg - 1, dreg))
-        if self.complexity_type == ComplexityType.ESTIMATE.value:
-            time += w * log2(m)
+        time = w * log2(binomial(n + dreg, dreg))
+        time += log2(m)
         h = self._h
         return h * log2(q) + time
 
@@ -166,9 +152,89 @@ class F5(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: F5_ = F5(MQProblem(n=5, m=10, q=3))
-            sage: F5_._time_complexity_semi_regular_system()
-            11.614709844115207
+            sage: F5_ = F5(MQProblem(n=5, m=10, q=31), bit_complexities=False)
+            sage: F5_.time_complexity()
+            14.93663793900257
+        """
+        if not self.problem.is_overdefined_system():
+            raise ValueError(
+                "semi regularity assumption is valid only on overdefined system")
+
+        n, m, q = self.get_reduced_parameters()
+        w = self.linear_algebra_constant()
+        if self._dreg is None:
+            self._dreg = degree_of_regularity.quadratic_system(n, m, q)
+        dreg = self._dreg
+        time = w * log2(binomial(n + dreg, dreg))
+        time += log2(m)
+        h = self._h
+        return h * log2(q) + time
+
+    def _compute_memory_complexity(self, parameters: dict):
+        """
+        Return the memory complexity of the algorithm for a given set of parameters
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
+            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            sage: F5_ = F5(MQProblem(n=10, m=12, q=5), bit_complexities=False)
+            sage: F5_.memory_complexity()
+            24.578308707446713
+
+        """
+        n, m, q = self.get_reduced_parameters()
+        if self._dreg is None:
+            self._dreg = degree_of_regularity.quadratic_system(n, m, q)
+        dreg = self._dreg
+        memory = max(log2(binomial(n + dreg - 1, dreg)) * 2, log2(m * n ** 2))
+        return memory
+
+
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
+        """
+        Return the Ō time complexity of the algorithm for a given set of parameters
+
+        """
+        if self.problem.is_overdefined_system():
+            time = self._tilde_o_time_complexity_semi_regular_system(parameters)
+        else:
+            time = self._tilde_o_time_complexity_regular_system(parameters)
+
+        return max(time, self._tilde_o_time_complexity_fglm(parameters))
+
+    def _tilde_o_time_complexity_fglm(self, parameters: dict):
+        """
+        Return the Ō time complexity of the FGLM algorithm for this system
+
+        """
+        _, _, q = self.get_reduced_parameters()
+        D = 2 ** self.problem.nsolutions
+        h = self._h
+        return h * log2(q) + log2(D ** 3)
+
+    def _tilde_o_time_complexity_regular_system(self, parameters: dict):
+        """
+        Return the Ō time complexity for regular system
+
+        """
+        if not (self.problem.is_square_system() or self.problem.is_underdefined_system()):
+            raise ValueError(
+                "regularity assumption is valid only on square or underdefined system")
+
+        n, m, q = self.get_reduced_parameters()
+        w = self.linear_algebra_constant()
+        if self._dreg is None:
+            self._dreg = degree_of_regularity.quadratic_system(n, m, q)
+        dreg = self._dreg
+        time = w * log2(binomial(n + dreg, dreg))
+        h = self._h
+        return h * log2(q) + time
+
+    def _tilde_o_time_complexity_semi_regular_system(self,  parameters: dict):
+        """
+        Return the Ō time complexity for semi-regular system
+
         """
         if not self.problem.is_overdefined_system():
             raise ValueError(
@@ -182,25 +248,13 @@ class F5(MQAlgorithm):
         h = self._h
         return h * log2(q) + w * log2(binomial(n + dreg, dreg))
 
-    def memory_complexity(self):
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
-        Return the memory complexity of the F5 algorithm
+        Return the Ō  memory complexity of the algorithm for a given set of parameters
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: F5_ = F5(MQProblem(n=10, m=12, q=5))
-            sage: F5_.memory_complexity()
-            24.578308707446713
         """
-        if self._memory_complexity is None:
-            n, m, q = self.get_reduced_parameters()
-            if self._dreg is None:
-                self._dreg = degree_of_regularity.quadratic_system(n, m, q)
-            dreg = self._dreg
-            self._memory_complexity = log2(
-                max(binomial(n + dreg - 1, dreg) ** 2, m * n ** 2))
-            if self._memory_complexity == m * n ** 2 and self.complexity_type == ComplexityType.TILDEO.value:
-                self._memory_complexity = 0
-        return self._memory_complexity
+        n, m, q = self.get_reduced_parameters()
+        if self._dreg is None:
+            self._dreg = degree_of_regularity.quadratic_system(n, m, q)
+        dreg = self._dreg
+        return log2(binomial(n + dreg - 1, dreg)) * 2

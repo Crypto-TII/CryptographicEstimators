@@ -79,11 +79,16 @@ class CGMTA(MQAlgorithm):
         self._n_reduced = n
         self._m_reduced = m
 
-    def time_complexity(self):
+    def _compute_time_complexity(self, parameters: dict):
         """
-        Return the time complexity of CGMT-A algorithm
+        Return the time complexity of the algorithm for a given set of parameters
 
-        EXAMPLES::
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.cgmta import CGMTA
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -92,25 +97,21 @@ class CGMTA(MQAlgorithm):
             23.137080884841787
 
         """
-        if self._time_complexity is not None:
-            return self._time_complexity
         n, m, q = self.problem.get_problem_parameters()
         k = self._k
-        self._time_complexity = (m - k) * log2(q)
-        if self.complexity_type == ComplexityType.ESTIMATE.value:
-            self._time_complexity += log2(2 * k * binomial(n - k, 2))
-            if self.bit_complexities:
-                self._time_complexity = self.problem.to_bitcomplexity_time(
-                    self._time_complexity)
-        else:
-            self._time_complexity = 0
-        return self._time_complexity
+        time = (m - k) * log2(q)
+        time += log2(2 * k * binomial(n - k, 2))
+        return time
 
-    def memory_complexity(self):
+    def _compute_memory_complexity(self, parameters: dict):
         """
-        Return the memory complexity of CGMT-A algorithm
+        Return the memory complexity of the algorithm for a given set of parameters
 
-        EXAMPLES::
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.cgmta import CGMTA
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -118,16 +119,34 @@ class CGMTA(MQAlgorithm):
             sage: E.memory_complexity()
             7.339850002884624
         """
-        if self._memory_complexity is not None:
-            return self._memory_complexity
         q = self.problem.order_of_the_field()
         k = self._k
-        self._memory_complexity = k * log2(q)
-        if self.complexity_type == ComplexityType.ESTIMATE.value:
-            self._memory_complexity += log2(2 * k)
-            if self.bit_complexities:
-                self._memory_complexity = self.problem.to_bitcomplexity_memory(
-                    self._memory_complexity)
-        else:
-            self._memory_complexity = 0
-        return self._memory_complexity
+        memory = k * log2(q)
+        memory += log2(2 * k)
+        return memory
+
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
+        """
+        Return the Ō time complexity of the algorithm for a given set of parameters
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+        """
+        _, m, q = self.problem.get_problem_parameters()
+        k = self._k
+        return (m - k) * log2(q)
+
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
+        """
+        Return the Ō memory complexity of the algorithm for a given set of parameters
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+        """
+        q = self.problem.order_of_the_field()
+        k = self._k
+        return  k * log2(q)
+
+
