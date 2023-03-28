@@ -33,8 +33,7 @@ class MayOzerov(SDAlgorithm):
         """
         Complexity estimate of May-Ozerov algorithm in depth 2 and 3
 
-        [MO15] May, A., Ozerov, I.: On computing nearest neighbors with applications to decoding of binary linear codes.
-        In: Annual International Conference on the Theory and Applications of Cryptographic Techniques. pp. 203-228 . Springer (2015)
+        Introduced in [MO15]_.
 
         expected weight distribution::
 
@@ -269,9 +268,9 @@ class MayOzerovD2(SDAlgorithm):
         new_ranges = self._fix_ranges_for_already_set_parmeters()
         n, k, w = self.problem.get_parameters()
 
-        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
-            for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
-                for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
+        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"])+1, 2):
+            for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])+1):
+                for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]+1):
                     indices = {"p": p, "p1": p1, "l": l,
                                "r": self._optimal_parameters["r"]}
                     if self._are_parameters_invalid(indices):
@@ -294,15 +293,13 @@ class MayOzerovD2(SDAlgorithm):
         if self._is_early_abort_possible(log2(L1)):
             return inf, inf
 
-        reps = (binom(par.p, par.p / 2) *
-                binom(k1 - par.p, par.p1 - par.p / 2)) ** 2
+        reps = (binom(par.p, par.p // 2) *
+                binom(k1 - par.p, par.p1 - par.p // 2)) ** 2
 
-        l1 = int(ceil(log2(reps)))
-
-        if log2(reps) > par.l:
+        if log2(reps) > par.l + 1:
             return inf, inf
 
-        L12 = max(1, L1 ** 2 // 2 ** l1)
+        L12 = max(1, L1 ** 2 // 2 ** par.l)
 
         memory = log2((2 * L1 + L12) + _mem_matrix(n, k, par.r))
         if memory > memory_bound:
@@ -393,7 +390,7 @@ class MayOzerovD3(SDAlgorithm):
             sage: from cryptographic_estimators.SDEstimator import SDProblem
             sage: A = MayOzerov(SDProblem(n=100,k=50,w=10))
             sage: A.MayOzerov_depth_3.l()
-            12
+            11
         """
         return self._get_optimal_parameter("l")
 
@@ -502,7 +499,7 @@ class MayOzerovD3(SDAlgorithm):
                  binom(k1 - par.p, par.p2 - par.p // 2)) ** 2
 
         L1234 = max(1, L12 ** 2 // 2 ** (par.l - l1))
-        if log2(reps2) > par.l:
+        if log2(reps2) > par.l+1:
             return inf, inf
         memory = log2((2 * L1 + L12 + L1234) + _mem_matrix(n, k, par.r))
         if memory > memory_bound:
