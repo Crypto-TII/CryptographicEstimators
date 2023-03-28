@@ -1,11 +1,11 @@
 from ..le_algorithm import LEAlgorithm
 from ..le_problem import LEProblem
-from ..le_constants import  *
+from ..le_constants import *
 from ...base_algorithm import optimal_parameter
 from ...PEEstimator.pe_helper import gv_distance
 from math import log2, inf, log, comb as binom, factorial
-from ...SDFqEstimator.sdfq_estimator import SDFqEstimator
-from ...base_constants import BASE_BIT_COMPLEXITIES,BASE_MEMORY_BOUND,BASE_NSOLUTIONS
+from ...SDFqEstimator.sdfq_estimator import SDFqEstimator, SDFqProblem
+from ...base_constants import BASE_BIT_COMPLEXITIES, BASE_MEMORY_BOUND, BASE_NSOLUTIONS
 
 
 class BBPS(LEAlgorithm):
@@ -26,8 +26,8 @@ class BBPS(LEAlgorithm):
 
             sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
             sage: from cryptographic_estimators.LEEstimator import LEProblem
-            sage: BBPS(LEProblem(n=100,k=50,q=3))
-            BBPS estimator for permutation equivalence problem with (n,k,q) = (100,50,3)
+            sage: BBPS(LEProblem(30,20,251))
+            BBPS estimator for permutation equivalence problem with (n,k,q) = (30,20,251)
 
         """
         super().__init__(problem, **kwargs)
@@ -51,9 +51,9 @@ class BBPS(LEAlgorithm):
 
             sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
             sage: from cryptographic_estimators.LEEstimator import LEProblem
-            sage: A = BBPS(LEProblem(n=200,k=110,q=31))
+            sage: A = BBPS(LEProblem(30,20,251))
             sage: A.w()
-            102
+            14
 
         """
         return self._get_optimal_parameter("w")
@@ -67,12 +67,21 @@ class BBPS(LEAlgorithm):
 
             sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
             sage: from cryptographic_estimators.LEEstimator import LEProblem
-            sage: A = BBPS(LEProblem(n=200,k=110,q=31))
+            sage: A = BBPS(LEProblem(30,20,251))
             sage: A.w_prime()
-            60
+            10
 
         """
         return self._get_optimal_parameter("w_prime")
+
+    def _are_parameters_invalid(self, parameters: dict):
+        w = parameters["w"]
+        w_prime = parameters["w_prime"]
+        n, k, q = self.problem.get_parameters()
+
+        if w < w_prime + 1 or w > 2 * w_prime - 1 or w_prime > n - k:
+            return True
+        return False
 
     def _time_and_memory_complexity(self, parameters, verbose_information=None):
         """
@@ -86,16 +95,12 @@ class BBPS(LEAlgorithm):
         """
         w = parameters["w"]
         w_prime = parameters["w_prime"]
-        n, k, q = self.problem.get_parameters()
 
-        if w < w_prime + 1 or w > 2 * w_prime - 1 or w_prime > n-k:
+        n, k, q = self.problem.get_parameters()
+        Nw_prime = (log2(binom(n, w_prime)) + log2(q - 1) * (w_prime - 1) + log2(q) * (k - n))
+        if Nw_prime < 0:
             return inf, inf
 
-        self.SDFqEstimator=SDFqEstimator(n=n, k=k, w=w_prime, q=q, bit_complexities=0, nsolutions=0,
-                                         memory_bound=self.problem.memory_bound, **self._SDFqEstimator_parameters)
-        c_isd = self.SDFqEstimator.fastest_algorithm().time_complexity()
-
-        Nw_prime = (log2(binom(n, w_prime)) + log2(q - 1) * (w_prime - 1) + log2(q) * (k - n))
         pr_w_w_prime = log2(binom(w_prime, 2 * w_prime - w)) + log2(binom(n - w_prime, w - w_prime)) - log2(
             binom(n, w_prime))  # zeta probability in the paper
 
@@ -103,27 +108,28 @@ class BBPS(LEAlgorithm):
         if L_prime > Nw_prime:
             return inf, inf
 
-        time = c_isd + L_prime - Nw_prime
-        if self._is_early_abort_possible(time):
-            return inf, inf
-
         pw = -1 + log2(binom(n, w - w_prime)) + log2(binom(n - (w - w_prime), w - w_prime)) \
              + log2(binom(n - 2 * (w - w_prime), 2 * w_prime - w)) + log2(factorial(2 * w_prime - w)) \
              + log2((q - 1)) * (w - 2 * w_prime + 1) - (log2(binom(n, w_prime)) + log2(binom(n - w_prime, w - w_prime))
                                                         + log2(binom(w_prime, 2 * w_prime - w)))
 
-        M_second = pr_w_w_prime + L_prime * 4 - 2 + pw + pr_w_w_prime
+        M_second = pr_w_w_prime + L_prime * 4 - 2 + pw + log2(2 ** pr_w_w_prime - 2 / ((2 ** Nw_prime) ** 2))
         if M_second > 0:
             return inf, inf
 
+        self.SDFqEstimator = SDFqEstimator(n=n, k=k, w=w_prime, q=q, bit_complexities=0, nsolutions=0,
+                                           memory_bound=self.problem.memory_bound, **self._SDFqEstimator_parameters)
+        c_isd = self.SDFqEstimator.fastest_algorithm().time_complexity()
+
+        time = c_isd + L_prime - Nw_prime
         # accounting for sampling L_prime different elements from set of Nw_prime elements
         if L_prime > Nw_prime - 1:
             time += log2(L_prime)
 
         if verbose_information is not None:
-            verbose_information[VerboseInformation.NW] = Nw_prime
-            verbose_information[VerboseInformation.LISTS] = L_prime
-            verbose_information[VerboseInformation.ISD] = c_isd
+            verbose_information[VerboseInformation.NW.value] = Nw_prime
+            verbose_information[VerboseInformation.LISTS.value] = L_prime
+            verbose_information[VerboseInformation.ISD.value] = c_isd
 
         return time, self.SDFqEstimator.fastest_algorithm().memory_complexity()
 

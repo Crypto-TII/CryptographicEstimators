@@ -387,28 +387,27 @@ class BaseAlgorithm:
                 return self._time_complexity
             else:
                 params = self.optimal_parameters()
-                if not self._do_valid_parameters_in_current_ranges_exist():
-                    self._time_complexity = inf
-                    self._memory_complexity = inf
-                    return inf
         else:
             params = self.__set_dict(**kwargs)
 
+        if not self._do_valid_parameters_in_current_ranges_exist():
+            self._time_complexity = inf
+            self._memory_complexity = inf
+            return inf
+
         if self._complexity_type == ComplexityType.ESTIMATE.value:
-            temp_time_complexity = self._compute_time_complexity(params)
+            self._time_complexity = self._compute_time_complexity(params)
             if self.bit_complexities:
                 temp_time_complexity = self.problem.to_bitcomplexity_time(
                     temp_time_complexity)
-            
+
             if self._memory_access != 0:
                 temp_time_complexity += self.memory_access_cost(self.memory_complexity())
         else:
-            temp_time_complexity = self._compute_tilde_o_time_complexity(
+            self._time_complexity = self._compute_tilde_o_time_complexity(
                 params)
 
-        if kwargs == {}:
-            self._time_complexity = temp_time_complexity
-        return temp_time_complexity
+        return self._time_complexity
 
     def memory_complexity(self, **kwargs):
         """
@@ -425,25 +424,24 @@ class BaseAlgorithm:
                 return self._memory_complexity
             else:
                 params = self.optimal_parameters()
-                if not self._do_valid_parameters_in_current_ranges_exist():
-                    self._time_complexity = inf
-                    self._memory_complexity = inf
-                    return inf
         else:
             params = self.__set_dict(**kwargs)
 
+        if not self._do_valid_parameters_in_current_ranges_exist():
+            self._time_complexity = inf
+            self._memory_complexity = inf
+            return inf
+
         if self._complexity_type == ComplexityType.ESTIMATE.value:
-            temp_memory_complexity = self._compute_memory_complexity(params)
+            self._memory_complexity = self._compute_memory_complexity(params)
             if self.bit_complexities:
-                temp_memory_complexity = self.problem.to_bitcomplexity_memory(
-                    temp_memory_complexity)
+                self._memory_complexity = self.problem.to_bitcomplexity_memory(
+                    self._memory_complexity)
         else:
-            temp_memory_complexity = self._compute_tilde_o_memory_complexity(
+            self._memory_complexity = self._compute_tilde_o_memory_complexity(
                 params)
 
-        if kwargs == {}:
-            self._memory_complexity = temp_memory_complexity
-        return temp_memory_complexity
+        return self._memory_complexity
 
     def optimal_parameters(self):
         """

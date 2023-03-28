@@ -49,7 +49,6 @@ class PKEstimator(BaseEstimator):
         super(PKEstimator, self).__init__(
             PKAlgorithm, PKProblem(n, m, q, ell=ell, memory_bound=memory_bound, **kwargs), **kwargs)
 
-
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
               show_all_parameters=0, precision=1, truncate=0):
         """
@@ -63,31 +62,33 @@ class PKEstimator(BaseEstimator):
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
 
-        EXAMPLES:
+        EXAMPLES::
 
             sage: from cryptographic_estimators.PKEstimator import PKEstimator
-            sage: A = PKEstimator(n=100,m=50,q=31,ell=2)
+            sage: A = PKEstimator(n=40,m=10,q=7,ell=2)
             sage: A.table()
             +-----------+----------------+
             |           |    estimate    |
             +-----------+-------+--------+
             | algorithm |  time | memory |
             +-----------+-------+--------+
-            | KMP       | 243.8 |  243.7 |
-            | SBC       | 194.3 |  187.9 |
+            | KMP       | 146.4 |  105.5 |
+            | SBC       | 137.6 |   42.8 |
             +-----------+-------+--------+
 
+        TESTS::
+
             sage: from cryptographic_estimators.PKEstimator import PKEstimator
-            sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import KMP
-            sage: A = PKEstimator(n=100,m=50,q=31,ell=2,excluded_algorithms=[KMP])
-            sage: A.table(precision=3, show_all_parameters=1)
-            +-----------+--------------------------------------------------+
-            |           |                     estimate                     |
-            +-----------+---------+---------+------------------------------+
-            | algorithm |    time |  memory |          parameters          |
-            +-----------+---------+---------+------------------------------+
-            | SBC       | 194.266 | 187.945 | {'d': 35, 'w': 57, 'w1': 28} |
-            +-----------+---------+---------+------------------------------+
+            sage: A = PKEstimator(n=100,m=50,q=31,ell=2)
+            sage: A.table(precision=3, show_all_parameters=1) # long time
+            +-----------+------------------------------------------------+
+            |           |                    estimate                    |
+            +-----------+---------+---------+----------------------------+
+            | algorithm |    time |  memory |         parameters         |
+            +-----------+---------+---------+----------------------------+
+            | KMP       | 243.808 | 243.722 |         {'u': 24}          |
+            | SBC       | 241.319 | 236.722 | {'d': 1, 'w': 38, 'w1': 2} |
+            +-----------+---------+---------+----------------------------+
 
         """
         super(PKEstimator, self).table(show_quantum_complexity=show_quantum_complexity,

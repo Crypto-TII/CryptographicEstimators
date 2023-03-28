@@ -33,8 +33,7 @@ class MayOzerov(SDAlgorithm):
         """
         Complexity estimate of May-Ozerov algorithm in depth 2 and 3
 
-        [MO15] May, A., Ozerov, I.: On computing nearest neighbors with applications to decoding of binary linear codes.
-        In: Annual International Conference on the Theory and Applications of Cryptographic Techniques. pp. 203-228 . Springer (2015)
+        Introduced in [MO15]_.
 
         expected weight distribution::
 
@@ -287,9 +286,6 @@ class MayOzerovD2(SDAlgorithm):
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
 
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
-
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound
         L1 = binom(k1, par.p1)
@@ -486,9 +482,6 @@ class MayOzerovD3(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
-
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
 
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound

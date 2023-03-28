@@ -33,12 +33,7 @@ class BJMM(SDAlgorithm):
         """
         Complexity estimate of BJMM algorithm in depth 2,3
 
-        [MMT11] May, A., Meurer, A., Thomae, E.: Decoding random linear codes in  2^(0.054n). In: International Conference
-        on the Theory and Application of Cryptology and Information Security. pp. 107–124. Springer (2011)
-
-        [BJMM12] Becker, A., Joux, A., May, A., Meurer, A.: Decoding random binary linear codes in 2^(n/20): How 1+ 1= 0
-        improves information set decoding. In: Annual international conference on the theory and applications of
-        cryptographic techniques. pp. 520–536. Springer (2012)
+        The algorithm was introduced in [BJMM12]_  as an extension of [MMT11]_.
 
         expected weight distribution::
 
@@ -157,7 +152,7 @@ class BJMM(SDAlgorithm):
         """ 
         returns the optimal time and memory complexity for BJMM d3
         """
-        # return self.BJMM_depth_3._tilde_o_time_and_memory_complexity(self.BJMM_depth_3.optimal_parameters())
+
         return self.BJMM_depth_3._tilde_o_time_and_memory_complexity(parameters)
 
     def get_optimal_parameters_dict(self):
@@ -313,9 +308,6 @@ class BJMMd2(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
-
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
 
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound
@@ -518,9 +510,6 @@ class BJMMd3(SDAlgorithm):
         par = SimpleNamespace(**parameters)
 
         k1 = (k + par.l) // 2
-
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
 
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound

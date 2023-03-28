@@ -68,30 +68,16 @@ class KMP(PKAlgorithm):
         memory = log2(L1 + L2) + log2(self.memory_for_list_element)
 
         if verbose_information is not None:
-            verbose_information[VerboseInformation.KMP_L1] = L1
-            verbose_information[VerboseInformation.KMP_L2] = L2
-            verbose_information[VerboseInformation.KMP_FINAL_LIST] = num_coll
+            verbose_information[VerboseInformation.KMP_L1.value] = log2(L1)
+            verbose_information[VerboseInformation.KMP_L2.value] = log2(L2)
+            verbose_information[VerboseInformation.KMP_FINAL_LIST.value] = log2(num_coll)
 
         return time, memory
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-
-        INPUT:
-
-        -  ``parameters`` -- dictionary including parameters
-
-        """
         return self._compute_time_and_memory(parameters)[0]
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-
-        INPUT:
-
-        -  ``parameters`` -- dictionary including parameters
-
-        """
         return self._compute_time_and_memory(parameters)[1]
 
     def _get_verbose_information(self):

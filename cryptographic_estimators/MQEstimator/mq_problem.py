@@ -36,7 +36,7 @@ class MQProblem(BaseProblem):
     - ``n`` -- number of variables
     - ``m`` -- number of polynomials
     - ``q`` -- order of the finite field (default: None)
-    - ``nsolutions`` --  number of (expected) solutions of the problem in logarithmic scale
+    - ``nsolutions`` --  number of solutions in logarithmic scale (default: max(expected_number_solutions, 0))
     - ``memory_bound`` -- maximum allowed memory to use for solving the problem
 
     """

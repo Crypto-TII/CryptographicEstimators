@@ -31,10 +31,8 @@ class BothMay(SDAlgorithm):
         """
         Complexity estimate of Both-May algorithm in depth 2 using Indyk-Motwani and / or MitM for NN search
 
-        [BotMay18] Both, L., May, A.: Decoding linear codes with high error rate and its impact for LPN security. In:
-        International Conference on Post-Quantum Cryptography. pp. 25--46. Springer (2018)
 
-        expected weight distribution::
+        For further reference see [BotMay18]_.
 
             +-------------------+---------+-------------------+-------------------+
             | <--+ n - k - l+-->|<-+ l +->|<----+ k / 2 +---->|<----+ k / 2 +---->|
@@ -185,9 +183,6 @@ class BothMay(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
-
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
 
         solutions = self.problem.nsolutions
         memory_bound = self.problem.memory_bound

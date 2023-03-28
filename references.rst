@@ -42,7 +42,7 @@ References
           *A Crossbred Algorithm for Solving Boolean Polynomial Systems*
           https://link.springer.com/chapter/10.1007/978-3-319-76620-1_1
 
-.. [KPG99]  \Aviad Kipnis, Jacques Patarin, and Louis Goubin.
+.. [KPG99] \Aviad Kipnis, Jacques Patarin, and Louis Goubin.
             *Unbalanced  Oil  and Vinegar Signature Schemes*
             https://link.springer.com/chapter/10.1007/3-540-48910-X_15
 
@@ -50,6 +50,12 @@ References
             *{LESS-FM:} Fine-Tuning Signatures from the Code Equivalence Problem*
             https://doi.org/10.1007/978-3-030-81293-5\_2
 
+.. [EZ23] \Andre Esser and Floyd Zweydinger
+            *New Time-Memory Trade-Offs for Subset Sum -- Improving ISD in Theory and Practice*
+            https://eprint.iacr.org/2022/1329.pdf
+
+.. [MO15] \Alexander May and Ilya Ozerov: On computing nearest neighbors with applications to decoding of binary linear codes.
+           https://link.springer.com/chapter/10.1007/978-3-662-46800-5_9
 .. _ref-B:
 
 **B**
@@ -58,12 +64,17 @@ References
 
 **C**
 
+.. [Peters11]  \Christiane Peters: Information-set decoding for linear codes over Fq.
+                https://link.springer.com/chapter/10.1007/978-3-642-12929-2_7
+
 .. [BCCCNSY10]  \Charles Bouillaguet, Hsieh-Chung Chen, Chen-Mou Cheng, Tung Chou, Ruben Niederhagen, Adi Shamir, and Bo-Yin Yang.
                 *Fast Exhaustive Search for Polynomial Systems in F_2* https://www.iacr.org/archive/ches2010/62250195/62250195.pdf
 
 .. _ref-D:
 
 **D**
+.. [BLP11] Daniel J. Bernstein and Tanja Lange and Christiane Peters: Smaller decoding exponents: ball-collision decoding.
+           https://link.springer.com/chapter/10.1007/978-3-642-22792-9_42
 
 .. [LPTWY17] \Daniel Lokshtanov, Ramamohan Paturi, Suguru Tamaki, Ryan Williams, and Huacheng Yu.
             *Beating Brute Force for Systems of Polynomial Equation over Finite Fields*
@@ -96,6 +107,8 @@ References
 .. _ref-I:
 
 **I**
+
+.. [Dum91] \Ilya Dumer: On minimum distance decoding of linear codes.
 
 .. [Din21a] \Itai Dinur.
             *Improved Algorithms for Solving Polynomial Systems over GF(2) by Multiple Parity-Counting*

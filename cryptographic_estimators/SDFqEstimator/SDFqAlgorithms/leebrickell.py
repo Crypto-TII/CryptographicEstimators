@@ -29,20 +29,13 @@ class LeeBrickell(SDFqAlgorithm):
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: LeeBrickell(SDFqProblem(n=100,k=50,w=10,q=5))
             Lee-Brickell estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 5
+
         """
         self._name = "LeeBrickell"
         super(LeeBrickell, self).__init__(problem, **kwargs)
-        self.initialize_parameter_ranges()
-        self.is_syndrome_zero = int(problem.is_syndrome_zero)
-
-    def initialize_parameter_ranges(self):
-        """
-        initialize the parameter ranges for p, l to start the optimisation 
-        process.
-        """
         _, _, w, _ = self.problem.get_parameters()
-        s = self.full_domain
-        self.set_parameter_ranges("p", 0, min_max(w // 2, 20, s))
+        self.set_parameter_ranges("p", 0, max(w // 2,1))
+        self.is_syndrome_zero = int(problem.is_syndrome_zero)
     
     @optimal_parameter
     def p(self):
@@ -69,21 +62,6 @@ class LeeBrickell(SDFqAlgorithm):
             return True
         return False
 
-    def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based
-        on the `_parameter_ranges` and already set parameters in
-        `_optimal_parameters`
-        """
-        new_ranges = self._fix_ranges_for_already_set_parmeters()
-
-        _, k, _, _ = self.problem.get_parameters()
-        for p in range(new_ranges["p"]["min"], min(k, new_ranges["p"]["max"])):
-            indices = {"p": p}
-            if self._are_parameters_invalid(indices):
-                continue
-            yield indices
-
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """
         Return time complexity of Lee-Brickell's algorithm over Fq, q > 2 for
@@ -104,8 +82,6 @@ class LeeBrickell(SDFqAlgorithm):
         """
         n, k, w, q = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
-        if self._are_parameters_invalid(parameters):
-            return inf, inf
 
         solutions = self.problem.nsolutions
         enum = binom(k, par.p) * (q-1)**(max(0, par.p-self.is_syndrome_zero))
@@ -124,7 +100,5 @@ class LeeBrickell(SDFqAlgorithm):
         return time, memory
 
     def __repr__(self):
-        """
-        """
         rep = "Lee-Brickell estimator for " + str(self.problem)
         return rep

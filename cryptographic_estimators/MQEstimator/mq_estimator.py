@@ -34,7 +34,7 @@ class MQEstimator(BaseEstimator):
     - ``w`` -- linear algebra constant (default: 2)
     - ``theta`` -- bit complexity exponent (default: 2)
     - ``h`` -- external hybridization parameter (default: 0)
-    - ``nsolutions`` -- no. of solutions (default: 1)
+    - ``nsolutions`` -- number of solutions in logarithmic scale (default: max(expected_number_solutions, 0))
     - ``excluded_algorithms`` -- a list/tuple of excluded algorithms (default: None)
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default 0)
