@@ -416,16 +416,12 @@ logarithm of the total memory usage)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.MQEstimator.MQAlgorithms.kpg.KPG.memory_complexity">
-<span class="sig-name descname"><span class="pre">memory_complexity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.MQEstimator.MQAlgorithms.kpg.KPG.memory_complexity" title="Permalink to this definition">#</a></dt>
-<dd><p>Return the memory complexity of kpg algorithm</p>
-<p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.MQEstimator.MQAlgorithms.kpg</span> <span class="kn">import</span> <span class="n">KPG</span>
-<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.MQEstimator.mq_problem</span> <span class="kn">import</span> <span class="n">MQProblem</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">KPG</span><span class="p">(</span><span class="n">MQProblem</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">183</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">w</span><span class="o">=</span><span class="mf">2.8</span><span class="p">)</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">E</span><span class="o">.</span><span class="n">memory_complexity</span><span class="p">()</span>
-<span class="mf">18.61636217728924</span>
-</pre></div>
-</div>
+<span class="sig-name descname"><span class="pre">memory_complexity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.MQEstimator.MQAlgorithms.kpg.KPG.memory_complexity" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the memory complexity of the algorithm</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">optimal_parameters</span></code> – if for each optimal parameter of the algorithm a value is provided the computation is done based on those parameters</p></li>
+</ul>
 </dd></dl>
 
 <dl class="py method">
@@ -518,16 +514,12 @@ logarithm of the total memory usage)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptographic_estimators.MQEstimator.MQAlgorithms.kpg.KPG.time_complexity">
-<span class="sig-name descname"><span class="pre">time_complexity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.MQEstimator.MQAlgorithms.kpg.KPG.time_complexity" title="Permalink to this definition">#</a></dt>
-<dd><p>Return the time complexity of kpg algorithm</p>
-<p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.MQEstimator.MQAlgorithms.kpg</span> <span class="kn">import</span> <span class="n">KPG</span>
-<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">cryptographic_estimators.MQEstimator.mq_problem</span> <span class="kn">import</span> <span class="n">MQProblem</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">KPG</span><span class="p">(</span><span class="n">MQProblem</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">183</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">w</span><span class="o">=</span><span class="mf">2.8</span><span class="p">)</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">E</span><span class="o">.</span><span class="n">time_complexity</span><span class="p">()</span>
-<span class="mf">24.628922047916475</span>
-</pre></div>
-</div>
+<span class="sig-name descname"><span class="pre">time_complexity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptographic_estimators.MQEstimator.MQAlgorithms.kpg.KPG.time_complexity" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the time complexity of the algorithm</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">optimal_parameters</span></code> – if for each optimal parameter of the algorithm a value is provided the computation is done based on those parameters</p></li>
+</ul>
 </dd></dl>
 
 </dd></dl>
