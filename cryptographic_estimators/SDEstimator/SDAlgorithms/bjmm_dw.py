@@ -33,7 +33,7 @@ class BJMMdw(SDAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
         """
         Construct an instance of BJMM's estimator using *d*isjoint *w*eight distributions combined with
-         MitM-nearest neighbor search. [EB2022]_, [MMT2011]_, [BJMM2012]_.
+         MitM-nearest neighbor search. [EB22]_, [MMT11]_, [BJMM12]_.
 
         Expected weight distribution::
 
