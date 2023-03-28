@@ -217,6 +217,31 @@ class BaseAlgorithm:
         """
         raise NotImplementedError
 
+    def _compute_tilde_o_time_complexity(self, parameters):
+         """
+         Compute and return the tilde-O time complexity of the algorithm for a given set of parameters
+
+         INPUT:
+
+         - ``parameters`` -- dictionary including the parameters
+
+         """
+         raise NotImplementedError
+
+    def _compute_tilde_o_memory_complexity(self, parameters):
+        """
+        Compute and return the tilde-O memory complexity of the algorithm for a given set of parameters
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+        """
+        raise NotImplementedError
+
+    def _find_optimal_tilde_o_parameters(self):
+        raise NotImplementedError
+
     def _get_optimal_parameter_methods_(self):
         """
         Return a list of methods decorated with @optimal_parameter ordered by linenumber of appearance
@@ -304,6 +329,12 @@ class BaseAlgorithm:
                       for i in ranges}
         return new_ranges
 
+    def _are_parameters_invalid(self, parameters: dict):
+         """
+         Specifies constraints on the parameters
+         """
+         return False
+
     def _valid_choices(self):
         """
         Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
@@ -315,7 +346,8 @@ class BaseAlgorithm:
         keys = [i for i in indices]
         stop = False
         while not stop:
-            yield indices
+            if not self._are_parameters_invalid(indices):
+                yield indices
             indices[next(iter(indices))] += 1
             for i in range(len(keys)):
                 if indices[keys[i]] > new_ranges[keys[i]]["max"]:
