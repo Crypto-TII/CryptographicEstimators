@@ -34,8 +34,8 @@ class BJMMpdw(SDAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
         """
          Construct an instance of BJMM's estimator in depth 2 using partially disjoint
-         weight, applying explicit MitM-NN search on second level [MMT2011]_,
-         [BJMM2012]_, [EB2022]_.
+         weight, applying explicit MitM-NN search on second level [MMT11]_,
+         [BJMM12]_, [EB22]_.
 
          Expected weight distribution::
 

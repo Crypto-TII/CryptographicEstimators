@@ -128,13 +128,13 @@ class BaseAlgorithm:
     
         - ```mem`` -- memory consumption of an algorithm
         - ```memory_access`` -- specifies the memory access cost model 
-            (default: 0, choices: 
-             0 - constant, 
-             1 - logarithmic, 
-             2 - square-root, 
-             3 - cube-root or deploy custom function which takes as input the
-                 logarithm of the total memory usage)
-    
+                (default: 0, choices:
+                0 - constant,
+                1 - logarithmic,
+                2 - square-root,
+                3 - cube-root or deploy custom function which takes as input the
+                logarithm of the total memory usage)
+
         """
         if self._memory_access == 0:
             return 0

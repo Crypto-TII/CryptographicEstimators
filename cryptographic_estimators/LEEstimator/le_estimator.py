@@ -57,7 +57,7 @@ class LEEstimator(BaseEstimator):
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
 
-        EXAMPLES:
+        EXAMPLES::
 
             sage: from cryptographic_estimators.LEEstimator import LEEstimator
             sage: A = LEEstimator(n=30, k=20, q=251)
@@ -72,7 +72,7 @@ class LEEstimator(BaseEstimator):
             | BBPS      | 27.6 |   12.2 | {'w': 14, 'w_prime': 10} |
             +-----------+------+--------+--------------------------+
 
-        TESTS:
+        TESTS::
 
             sage: from cryptographic_estimators.LEEstimator import LEEstimator
             sage: A = LEEstimator(n=200, k=110, q=31)
