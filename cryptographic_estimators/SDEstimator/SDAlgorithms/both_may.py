@@ -32,7 +32,7 @@ class BothMay(SDAlgorithm):
         Complexity estimate of Both-May algorithm in depth 2 using Indyk-Motwani and / or MitM for NN search
 
 
-        For further reference see [BotMay18]_.
+        For further reference see [BM18]_.
 
             +-------------------+---------+-------------------+-------------------+
             | <--+ n - k - l+-->|<-+ l +->|<----+ k / 2 +---->|<----+ k / 2 +---->|

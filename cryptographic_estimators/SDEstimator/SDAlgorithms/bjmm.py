@@ -378,6 +378,7 @@ class BJMMd3(SDAlgorithm):
             | <-----+ n - k - l +----->|<--+ (k + l)/2 +-->|<--+ (k + l)/2 +-->|
             |           w - 2p         |        p          |        p          |
             +--------------------------+-------------------+-------------------+
+
         INPUT:
 
         - ``problem`` -- SDProblem object including all necessary parameters
