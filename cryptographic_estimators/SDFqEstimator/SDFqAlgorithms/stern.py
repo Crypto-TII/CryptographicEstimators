@@ -10,7 +10,7 @@ from ..sdfq_constants import *
 class Stern(SDFqAlgorithm):
     def __init__(self, problem: SDFqProblem, **kwargs):
         """
-        Construct an instance of Stern's estimator [Peters11]_, [Ste1988]_, [BLP2008]_.
+        Construct an instance of Stern's estimator [Pet11]_, [Ste88]_, [BLP08]_.
 
         Expected weight distribution::
 

@@ -27,7 +27,7 @@ from ..SDWorkfactorModels.prange import PrangeScipyModel
 class Prange(SDAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
         """
-        Construct an instance of Prange's estimator [Pra1962]_
+        Construct an instance of Prange's estimator [Pra62]_
 
         expected weight distribution::
 
