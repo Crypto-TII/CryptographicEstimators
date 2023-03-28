@@ -1,6 +1,7 @@
 # Docker variables
 image_name=estimators-lib:latest
 documentation_path=$(shell pwd)
+container_name="container-for-docs"
 
 tools:
 	@sage -python -m pip install setuptools==63.0 wheel==0.38.4 sphinx==5.3.0 furo prettytable scipy pytest

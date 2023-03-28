@@ -73,7 +73,13 @@ References
 .. _ref-D:
 
 **D**
-.. [BLP11] Daniel J. Bernstein and Tanja Lange and Christiane Peters: Smaller decoding exponents: ball-collision decoding.
+
+.. [BLP08] Daniel J. Bernstein and Tanja Lange and Christiane Peters
+           *Attacking and Defending the McEliece Cryptosystem*
+           https://link.springer.com/chapter/10.1007/978-3-540-88403-3_3
+
+.. [BLP11] Daniel J. Bernstein and Tanja Lange and Christiane Peters
+           *Smaller decoding exponents: ball-collision decoding*
            https://link.springer.com/chapter/10.1007/978-3-642-22792-9_42
 
 .. [LPTWY17] \Daniel Lokshtanov, Ramamohan Paturi, Suguru Tamaki, Ryan Williams, and Huacheng Yu.
@@ -87,6 +93,10 @@ References
 .. [KMP19] \Eliane Koussa, Gilles Macario{-}Rat and Jacques Patarin.
             *On the complexity of the Permuted Kernel Problem*
             https://eprint.iacr.org/2019/412.pdf
+
+.. [Pra62] \Eugene Prange.
+            *The use of information sets in decoding cyclic codes*
+            https://doi.org/10.1109/TIT.1962.1057777
 
 .. _ref-F:
 
@@ -108,7 +118,8 @@ References
 
 **I**
 
-.. [Dum91] \Ilya Dumer: On minimum distance decoding of linear codes.
+.. [Dum91] \Ilya Dumer.
+            *On minimum distance decoding of linear codes*
 
 .. [Din21a] \Itai Dinur.
             *Improved Algorithms for Solving Polynomial Systems over GF(2) by Multiple Parity-Counting*
@@ -121,6 +132,10 @@ References
 .. _ref-J:
 
 **J**
+
+.. [Ste88] \Jacques Stern.
+            *A method for finding codewords of small weight*
+            https://doi.org/10.1007/BFb0019850
 
 .. [Dua20] \João Diogo Duarte.
             *On the Complexity of the Crossbred Algorithm*
@@ -176,6 +191,11 @@ References
 .. _ref-P:
 
 **P**
+
+
+.. [LB188] \Pil Joong Le and Ernest Brickell.
+           *An observation on the security of McEliece’s public-key cryptosystem*
+           https://doi.org/10.1007/3-540-45961-8\_25
 
 .. [SBC22] \Paolo Santini, Marco Baldi, and Franco Chiaraluce
             *Computational Hardness of the Permuted Kernel and Subcode Equivalence Problems*
