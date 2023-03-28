@@ -81,7 +81,7 @@ def test_sbc_range():
 
 
 if __name__ == "__main__":
-    #test_kmp()
-    #test_sbc()
-    #test_kmp_range()
+    test_kmp()
+    test_sbc()
+    test_kmp_range()
     test_sbc_range()

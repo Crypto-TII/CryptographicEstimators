@@ -96,11 +96,9 @@ class BBPS(LEAlgorithm):
         w = parameters["w"]
         w_prime = parameters["w_prime"]
 
-        if w == 40 and w_prime==27:
-            pass
         n, k, q = self.problem.get_parameters()
         Nw_prime = (log2(binom(n, w_prime)) + log2(q - 1) * (w_prime - 1) + log2(q) * (k - n))
-        if Nw_prime<0:
+        if Nw_prime < 0:
             return inf, inf
 
         pr_w_w_prime = log2(binom(w_prime, 2 * w_prime - w)) + log2(binom(n - w_prime, w - w_prime)) - log2(
@@ -115,12 +113,12 @@ class BBPS(LEAlgorithm):
              + log2((q - 1)) * (w - 2 * w_prime + 1) - (log2(binom(n, w_prime)) + log2(binom(n - w_prime, w - w_prime))
                                                         + log2(binom(w_prime, 2 * w_prime - w)))
 
-        M_second = pr_w_w_prime + L_prime * 4 - 2 + pw + log2(2**pr_w_w_prime-2/((2**Nw_prime)**2))
+        M_second = pr_w_w_prime + L_prime * 4 - 2 + pw + log2(2 ** pr_w_w_prime - 2 / ((2 ** Nw_prime) ** 2))
         if M_second > 0:
             return inf, inf
 
         self.SDFqEstimator = SDFqEstimator(n=n, k=k, w=w_prime, q=q, bit_complexities=0, nsolutions=0,
-                                         memory_bound=self.problem.memory_bound, **self._SDFqEstimator_parameters)
+                                           memory_bound=self.problem.memory_bound, **self._SDFqEstimator_parameters)
         c_isd = self.SDFqEstimator.fastest_algorithm().time_complexity()
 
         time = c_isd + L_prime - Nw_prime
