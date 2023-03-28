@@ -319,9 +319,8 @@ class BaseAlgorithm:
 
     def _fix_ranges_for_already_set_parmeters(self):
         """
-        returns a new parameter rangers dictionary, which fixes already 
+        Returns a new parameter rangers dictionary, which fixes already
         optimal paramters.
-
         """
         parameters = self._optimal_parameters
         ranges = self._parameter_ranges
@@ -330,10 +329,10 @@ class BaseAlgorithm:
         return new_ranges
 
     def _are_parameters_invalid(self, parameters: dict):
-         """
-         Specifies constraints on the parameters
-         """
-         return False
+        """
+        Specifies constraints on the parameters
+        """
+        return False
 
     def _valid_choices(self):
         """
