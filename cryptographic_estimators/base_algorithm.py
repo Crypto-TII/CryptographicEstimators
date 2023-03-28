@@ -133,7 +133,7 @@ class BaseAlgorithm:
                 1 - logarithmic,
                 2 - square-root,
                 3 - cube-root or deploy custom function which takes as input the
-                     logarithm of the total memory usage)
+                logarithm of the total memory usage)
 
         """
         if self._memory_access == 0:
