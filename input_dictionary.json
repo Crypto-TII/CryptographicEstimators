@@ -853,17 +853,106 @@
                 "tooltip": "Number of decimal digits to display"
           }
         ],
-		"optional_parameters":[
+		"optional_parameters":[]
+		},
+        		{
+		"estimator_id": "LEEstimator",
+		"algorithm_id": "LEAlgorithm",
+		"display_label": "Linear Equivalence",
+		"landing_page_content": "# LE Markdown + Tex Landing Page",
+		"problem_parameters": [
+        {
+            "id": "n",
+            "type": "number",
+            "display_label": "Code length",
+            "placeholder": "Insert parameter",
+            "tooltip": "Code length of the specified code",
+            "validate_fields_ids": [
+              "k"
+            ]
+        },
+        {
+            "id": "k",
+            "type": "number",
+            "display_label": "Code dimension",
+            "placeholder": "Insert parameter",
+            "tooltip": "Code dimension of specified code",
+            "dependencies": [
+              {
+                "id": "n",
+                "action": "validateLessThan"
+              }
+            ]
+        },
+        {
+            "id": "q",
+            "type": "number",
+            "display_label": "Field size",
+            "placeholder": "Insert parameter",
+            "tooltip": "A prime number"
+        },
+        {
+            "id": "memory_bound",
+            "type": "number",
+            "direction": "column",
+            "display_label": "Memory limit",
+            "placeholder": "Insert value",
+            "caption": "Leave empty if no limit is desired",
+            "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+            "id": "nsolutions",
+            "type": "number",
+            "direction": "column",
+            "display_label": "Number of solutions",
+            "placeholder": "Insert value",
+            "tooltip": "Log2 of number of existing solutions of which one has to be found"
+        }
+		],
+       "estimator_parameters": [
           {
-                "id": "sd_parameters",
-                "type": "????",
+                "id": "bit_complexities",
+                "type": "switch",
+                "display_label": "Bit complexities",
+                "default_value": true,
+                "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
+          },
+          {
+                "id": "included_algorithms",
+                "type": "multiple_selector",
                 "direction": "column",
-                "display_label": "SD parameters",
-                "default_value": {},
+                "display_label": "Included algorithms",
+                "tooltip": "Algorithms to include for optimization",
+                "default_value": [],
+                "excluded_algorithms": [],
+                "options": [],
+                "dependencies": []
+          },
+         {
+              "id": "memory_access",
+              "type": "selector",
+              "direction": "column",
+              "display_label": "Memory access cost",
+              "default_value": "Constant",
+              "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+              "options": [
+                "Constant",
+                "Logaritmic",
+                "Square root",
+                "Cube root"
+                ]
+          },
+          {
+                "id": "precision",
+                "type": "number",
+                "direction": "column",
+                "display_label": "Decimal precision",
+                "default_value": 0,
                 "placeholder": "Insert value",
                 "tooltip": "Number of decimal digits to display"
           }
-        ]
+        ],
+		"optional_parameters":[]
 		}
 	]
 }
