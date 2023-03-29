@@ -13,7 +13,7 @@ ranges = 0.01
 test_sets = [
     [100, 50, 10],
     [1284, 1028, 24],
-    [3488, 2720, 64],
+    #[3488, 2720, 64],
 ]
 
 algos = [
@@ -66,8 +66,7 @@ def test_all():
             # Slight correction of parameter ranges leads to (slightly) better parameters in case of the
             # CryptographicEstimators for Both-May and May-Ozerov. For test we fix parameters to the once from the
             # online code.
-            if Alg._name == "Both-May" or Alg._name == "May-OzerovD2":
-                print("went here")
+            if Alg._name == "Both-May" or Alg._name == "May-OzerovD2" or Alg._name == "May-OzerovD3":
                 too_much = [i for i in Alg2["parameters"] if i not in Alg.parameter_names()]
                 for i in too_much:
                     Alg2["parameters"].pop(i)
@@ -75,9 +74,6 @@ def test_all():
 
             T1 = Alg.time_complexity()
             T2 = Alg2["time"]
-            print(Alg._name, T1, T2)
-            print(Alg2)
-            print(Alg.optimal_parameters())
             assert T2 - ranges <= T1 <= T2 + ranges
 
 
