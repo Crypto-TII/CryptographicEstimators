@@ -9,7 +9,7 @@ from types import SimpleNamespace
 class LeeBrickell(SDFqAlgorithm):
     def __init__(self, problem: SDFqProblem, **kwargs):
         """
-        Construct an instance of Lee-Brickells's estimator [TODO]_
+        Construct an instance of Lee-Brickells's estimator [LB88]_
         expected weight distribution::
             +--------------------------------+-------------------------------+
             | <----------+ n - k +---------> | <----------+ k +------------> |
