@@ -11,3 +11,5 @@
 `multivariate_quadratic_estimator` originates from [MQ Estimator](https://github.com/Crypto-TII/multivariate_quadratic_estimator)
 
 `estimator.py` originates from [SD Estimator](https://github.com/Crypto-TII/syndrome_decoding_estimator)
+
+`optimize.py` originates from [SD Estimator](https://github.com/FloydZ/Improving-ISD-in-Theory-and-Practice/blob/master/optimize.py)
