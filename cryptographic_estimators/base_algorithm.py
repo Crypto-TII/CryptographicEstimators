@@ -25,7 +25,7 @@ from .base_constants import BASE_BIT_COMPLEXITIES, BASE_COMPLEXITY_TYPE, BASE_ES
 
 
 class BaseAlgorithm:
-    def __init__(self, problem: BaseProblem, **kwargs):
+    def __init__(self, problem, **kwargs):
         """
         Base class for algorithms complexity estimator
 
