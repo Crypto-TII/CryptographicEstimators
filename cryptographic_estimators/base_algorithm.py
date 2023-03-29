@@ -317,7 +317,7 @@ class BaseAlgorithm:
         """
         return self._optimal_parameters
 
-    def _fix_ranges_for_already_set_parmeters(self):
+    def _fix_ranges_for_already_set_parameters(self):
         """
         Returns a new parameter rangers dictionary, which fixes already
         optimal paramters.
@@ -340,7 +340,7 @@ class BaseAlgorithm:
         set parameters in `_optimal_parameters`
 
         """
-        new_ranges = self._fix_ranges_for_already_set_parmeters()
+        new_ranges = self._fix_ranges_for_already_set_parameters()
         indices = {i: new_ranges[i]["min"] for i in new_ranges}
         keys = [i for i in indices]
         stop = False

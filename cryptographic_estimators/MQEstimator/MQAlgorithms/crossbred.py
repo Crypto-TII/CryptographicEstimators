@@ -251,7 +251,7 @@ class Crossbred(MQAlgorithm):
             True
         """
 
-        new_ranges = self._fix_ranges_for_already_set_parmeters()
+        new_ranges = self._fix_ranges_for_already_set_parameters()
 
         k = 1
         stop = False

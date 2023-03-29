@@ -94,7 +94,7 @@ class DinurFirst(MQAlgorithm):
         Generator which yields on each call a new set of valid parameters for the optimization routine based.
 
         """
-        new_ranges = self._fix_ranges_for_already_set_parmeters()
+        new_ranges = self._fix_ranges_for_already_set_parameters()
 
         n, m, _ = self.get_reduced_parameters()
         n1_min = max(2, floor(new_ranges['kappa']['min'] * (n - 1)))
