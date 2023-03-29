@@ -63,7 +63,7 @@ test_algos = [
 
 def test_all():
     """
-    tests that all estimations match those from https://github.com/Crypto-TII/syndrome_decoding_estimator up to
+    tests that all estimations match those from https://github.com/Crypto-TII/multivariate_quadratic_estimatorup to
     a tolerance of 0.01 bit
     """
     assert len(algos) == len(test_algos)
