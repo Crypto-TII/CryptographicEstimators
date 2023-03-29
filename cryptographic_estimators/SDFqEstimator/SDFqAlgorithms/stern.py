@@ -10,24 +10,21 @@ from ..sdfq_constants import *
 class Stern(SDFqAlgorithm):
     def __init__(self, problem: SDFqProblem, **kwargs):
         """
-        Construct an instance of Stern's estimator [Peters11]_, [Ste1988]_, [BLP2008]_.
+        Construct an instance of Stern's estimator [Pet11]_, [Ste88]_, [BLP08]_.
 
         Expected weight distribution::
+
             +-------------------------+---------+-------------+-------------+
             | <----+ n - k - l +----> |<-- l -->|<--+ k/2 +-->|<--+ k/2 +-->|
             |          w - 2p         |    0    |      p      |      p      |
             +-------------------------+---------+-------------+-------------+
 
         INPUT:
+
         - ``problem`` -- SDProblem object including all necessary parameters
 
-        TEST::
-            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
-            sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
-            sage: Stern(SDFqProblem(n=961,k=771,w=48,q=31)).time_complexity()
-            129.05902980703917
-
         EXAMPLES::
+
             sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: Stern(SDFqProblem(n=100,k=50,w=10,q=3))
@@ -46,6 +43,7 @@ class Stern(SDFqAlgorithm):
         Return the optimal parameter $l$ used in the algorithm optimization
 
         EXAMPLES::
+
             sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: A = Stern(SDFqProblem(n=100,k=50,w=10,q=3))
@@ -62,6 +60,7 @@ class Stern(SDFqAlgorithm):
         Return the optimal parameter $p$ used in the algorithm optimization
 
         EXAMPLES::
+
             sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
             sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
             sage: A = Stern(SDFqProblem(n=100,k=50,w=10,q=3))

@@ -92,6 +92,7 @@ class DinurFirst(MQAlgorithm):
     def _valid_choices(self):
         """
         Generator which yields on each call a new set of valid parameters for the optimization routine based.
+
         """
         n, m, _ = self.get_reduced_parameters()
         parameters = self._optimal_parameters
@@ -148,7 +149,7 @@ class DinurFirst(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur1 import DinurFirst
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = DinurFirst(MQProblem(n=10, m=12, q=2))
-            sage: E._compute_time_complexity({'kappa':0.9, 'lambda_':0.9})
+            sage: E.time_complexity(kappa=0.9, lambda_=0.9)
             16.73237302312492
 
             sage: E = DinurFirst(MQProblem(n=10, m=12, q=2), bit_complexities=False)
@@ -185,8 +186,8 @@ class DinurFirst(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur1 import DinurFirst
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = DinurFirst(MQProblem(n=10, m=12, q=2))
-            sage: E._compute_memory_complexity({'kappa':0.9, 'lambda_':0.9})
+            sage: E = DinurFirst(MQProblem(n=10, m=12, q=2), bit_complexities=False)
+            sage: E.memory_complexity(kappa=0.9, lambda_=0.9)
             8.909893083770042
 
             sage: E = DinurFirst(MQProblem(n=10, m=12, q=2), bit_complexities=False)
@@ -211,8 +212,8 @@ class DinurFirst(MQAlgorithm):
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur1 import DinurFirst
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = DinurFirst(MQProblem(n=10, m=12, q=2))
-            sage: E._compute_tilde_o_time_complexity({'kappa':0.9, 'lambda_':0.9})
+            sage: E = DinurFirst(MQProblem(n=10, m=12, q=2), complexity_type=1)
+            sage: E.time_complexity(kappa=0.9, lambda_=0.9)
             6.9430000000000005
 
             sage: E = DinurFirst(MQProblem(n=10, m=12, q=2), complexity_type=1)
@@ -240,12 +241,11 @@ class DinurFirst(MQAlgorithm):
         """
         Return the Ō time complexity of DinurFirst et al.'s algorithm
 
-        EXAMPLES::
+        TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur1 import DinurFirst
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = DinurFirst(MQProblem(n=10, m=12, q=2))
-            sage: E.complexity_type = "TILDEO"
+            sage: E = DinurFirst(MQProblem(n=10, m=12, q=2), complexity_type=1)
             sage: E.optimal_parameters()
             {'kappa': 0.3057, 'lambda_': 0.3010299956639812}
         """

@@ -46,16 +46,29 @@ References
             *Unbalanced  Oil  and Vinegar Signature Schemes*
             https://link.springer.com/chapter/10.1007/3-540-48910-X_15
 
-.. [BBPS20] \Alessandro Barenghi, Jean-Francois Biasse, Edoardo Persichetti and Paolo Santini
+.. [BBPS20] \Alessandro Barenghi, Jean-Francois Biasse, Edoardo Persichetti and Paolo Santini.
             *{LESS-FM:} Fine-Tuning Signatures from the Code Equivalence Problem*
             https://doi.org/10.1007/978-3-030-81293-5\_2
 
-.. [EZ23] \Andre Esser and Floyd Zweydinger
+.. [EZ23] \Andre Esser and Floyd Zweydinger.
             *New Time-Memory Trade-Offs for Subset Sum -- Improving ISD in Theory and Practice*
             https://eprint.iacr.org/2022/1329.pdf
 
-.. [MO15] \Alexander May and Ilya Ozerov: On computing nearest neighbors with applications to decoding of binary linear codes.
+.. [EB22] \Andre Esser and Emanuele Bellini.
+            *Syndrome Decoding Estimator*
+            https://eprint.iacr.org/2021/1243.pdf
+
+.. [MO15] \Alexander May and Ilya Ozerov.
+           *On computing nearest neighbors with applications to decoding of binary linear codes*
            https://link.springer.com/chapter/10.1007/978-3-662-46800-5_9
+
+.. [MMT11] \Alexander May, Alexander Meurer and Enrico Thomae.
+            *Decoding random linear codes in  2^(0.054n)*
+            https://link.springer.com/chapter/10.1007/978-3-642-25385-0_6
+
+.. [BJMM12] \Anja Becker, Antoine Joux, Alexander May and Alexander Meurer.
+            *Decoding random binary linear codes in 2^(n/20): How 1+ 1= 0 improves information set decoding*
+            https://eprint.iacr.org/2012/026.pdf
 .. _ref-B:
 
 **B**
@@ -64,7 +77,7 @@ References
 
 **C**
 
-.. [Peters11]  \Christiane Peters: Information-set decoding for linear codes over Fq.
+.. [Pet11]  \Christiane Peters: Information-set decoding for linear codes over Fq.
                 https://link.springer.com/chapter/10.1007/978-3-642-12929-2_7
 
 .. [BCCCNSY10]  \Charles Bouillaguet, Hsieh-Chung Chen, Chen-Mou Cheng, Tung Chou, Ruben Niederhagen, Adi Shamir, and Bo-Yin Yang.
@@ -73,7 +86,13 @@ References
 .. _ref-D:
 
 **D**
-.. [BLP11] Daniel J. Bernstein and Tanja Lange and Christiane Peters: Smaller decoding exponents: ball-collision decoding.
+
+.. [BLP08] Daniel J. Bernstein and Tanja Lange and Christiane Peters
+           *Attacking and Defending the McEliece Cryptosystem*
+           https://link.springer.com/chapter/10.1007/978-3-540-88403-3_3
+
+.. [BLP11] Daniel J. Bernstein and Tanja Lange and Christiane Peters
+           *Smaller decoding exponents: ball-collision decoding*
            https://link.springer.com/chapter/10.1007/978-3-642-22792-9_42
 
 .. [LPTWY17] \Daniel Lokshtanov, Ramamohan Paturi, Suguru Tamaki, Ryan Williams, and Huacheng Yu.
@@ -87,6 +106,10 @@ References
 .. [KMP19] \Eliane Koussa, Gilles Macario{-}Rat and Jacques Patarin.
             *On the complexity of the Permuted Kernel Problem*
             https://eprint.iacr.org/2019/412.pdf
+
+.. [Pra62] \Eugene Prange.
+            *The use of information sets in decoding cyclic codes*
+            https://doi.org/10.1109/TIT.1962.1057777
 
 .. _ref-F:
 
@@ -108,7 +131,8 @@ References
 
 **I**
 
-.. [Dum91] \Ilya Dumer: On minimum distance decoding of linear codes.
+.. [Dum91] \Ilya Dumer.
+            *On minimum distance decoding of linear codes*
 
 .. [Din21a] \Itai Dinur.
             *Improved Algorithms for Solving Polynomial Systems over GF(2) by Multiple Parity-Counting*
@@ -121,6 +145,10 @@ References
 .. _ref-J:
 
 **J**
+
+.. [Ste88] \Jacques Stern.
+            *A method for finding codewords of small weight*
+            https://doi.org/10.1007/BFb0019850
 
 .. [Dua20] \João Diogo Duarte.
             *On the Complexity of the Crossbred Algorithm*
@@ -144,6 +172,10 @@ References
 .. [BFP12] \Luk Bettale, Jean-Charles Faugère and Ludovic Perret.
            *Solving Polynomial Systems over Finite Fields: Improved Analysis of the Hybrid Approach*
            https://doi.org/10.1145/2442829.2442843
+
+.. [BM18] \Leif Both and Alexander May.
+           *Decoding Linear Codes with High Error Rate and its Impact for LPN Security*
+           https://eprint.iacr.org/2017/1139.pdf
 
 .. _ref-M:
 
@@ -176,6 +208,11 @@ References
 .. _ref-P:
 
 **P**
+
+
+.. [LB88] \Pil Joong Lee and Ernest Brickell.
+           *An observation on the security of McEliece’s public-key cryptosystem*
+           https://doi.org/10.1007/3-540-45961-8\_25
 
 .. [SBC22] \Paolo Santini, Marco Baldi, and Franco Chiaraluce
             *Computational Hardness of the Permuted Kernel and Subcode Equivalence Problems*
