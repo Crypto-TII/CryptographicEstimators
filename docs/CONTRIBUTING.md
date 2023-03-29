@@ -6,8 +6,6 @@ This the current project structure.
 │   ├── base_estimator.py
 │   ├── base_problem.py
 │   ├── helper.py
-│   ├── libtii-cryptalib-c.dylib
-│   ├── libtii-cryptalib-c.so
 │   ├── MQEstimator
 │   │   ├── degree_of_regularity.py
 │   │   ├── mq_algorithm.py
@@ -16,13 +14,10 @@ This the current project structure.
 │   │   ├── mq_helper.py
 │   │   ├── mq_problem.py
 │   │   ├── series
-│   │   ├── temp_utils.py
 │   │   └── witness_degree.py
 │   └── SDEstimator
 │       ├── sd_algorithm.py
 │       ├── SDAlgorithms
-│       ├── sd_c_interface.py
-│       ├── sd_c_library_loader.py
 │       ├── sd_estimator.py
 │       ├── sd_helper.py
 │       └── sd_problem.py
@@ -57,8 +52,7 @@ fix/algorithm_parameter
 ```
 
 ### Pull request
-1. Last commit must be the [CHANGELOG.md](CHANGELOG.md) with a versioned tag e.g. vx.y.z. This version should match the one defined in setup.py.
-2. Create PR to master and fullfill the template.
+  1. Only create pull requests to the `develop` branch.
 
 ---
 
