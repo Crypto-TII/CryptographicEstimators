@@ -12,4 +12,4 @@
 
 `estimator.py` originates from [SD Estimator](https://github.com/Crypto-TII/syndrome_decoding_estimator)
 
-`optimize.py` originates from [SD Estimator](https://github.com/FloydZ/Improving-ISD-in-Theory-and-Practice/blob/master/optimize.py)
+`optimize.py` originates from [EZ Attack](https://github.com/FloydZ/Improving-ISD-in-Theory-and-Practice/blob/master/optimize.py)
