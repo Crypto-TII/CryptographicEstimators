@@ -282,7 +282,7 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), bit_complexities=False)
             sage: E.time_complexity(k=4, D=6, d=4)
-            29.775101349966995
+            29.77510134996699
 
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), bit_complexities=False)
             sage: E.time_complexity()
@@ -297,10 +297,10 @@ class Crossbred(MQAlgorithm):
         nl = self._ncols_in_linearization_step(k=k, d=d)
         complexity = Infinity
         if np > 1 and log2(np) > 1:
-            complexity_wiedemann = log2(3) + log2(binomial(k + d, d))  + log2(binomial(n + 2, 2)) + log2(np) * 2
-            complexity_gaussian = log2(np) * w
+            complexity_wiedemann = 3 * binomial(k + d, d) * binomial(n + 2, 2) * np ** 2
+            complexity_gaussian =  np ** w
             complexity_prep = min(complexity_gaussian, complexity_wiedemann)
-            complexity = log2(2 ** complexity_prep + 2 ** (log2(m) + log2(q) * (n - k)  +  log2(nl) * w))
+            complexity = log2(complexity_prep + m * q ** (n - k) * nl ** w)
         h = self._h
         return h * log2(q) + complexity
 
