@@ -42,7 +42,7 @@ def test_sd_raises_error_when_invalid_parameters_are_passed():
         SDEstimator(n=1, k=5, w=2, excluded_algorithms=e)
 
 
-def test_estimats_with_prange():
+def test_estimates_with_prange():
     excluded_algorithms = [Dumer, BallCollision, BJMM,
                            BJMMpdw, BJMMdw, BothMay, MayOzerov, Stern]
     sd_estimator = SDEstimator(
