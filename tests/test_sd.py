@@ -2,12 +2,11 @@ from cryptographic_estimators.SDEstimator.SDAlgorithms import Prange, Dumer, Bal
     BJMMdw, \
     BJMMpdw, BothMay, MayOzerov, MayOzerovD2, MayOzerovD3, Stern, BJMM_plus
 from cryptographic_estimators.SDEstimator import SDProblem
-from math import log2
-from module.estimator import prange_complexity, dumer_complexity, stern_complexity, ball_collision_decoding_complexity, \
+from .module.estimator import prange_complexity, dumer_complexity, stern_complexity, ball_collision_decoding_complexity, \
     bjmm_depth_2_complexity, bjmm_depth_3_complexity, bjmm_complexity, bjmm_depth_2_disjoint_weight_complexity, \
     bjmm_depth_2_partially_disjoint_weight_complexity, both_may_depth_2_complexity, may_ozerov_complexity, \
     may_ozerov_depth_2_complexity, may_ozerov_depth_3_complexity
-from module.optimize import bjmm_depth_2_qc_complexity
+from .module.optimize import bjmm_depth_2_qc_complexity
 
 ranges = 0.01
 
