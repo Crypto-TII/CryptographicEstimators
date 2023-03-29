@@ -55,6 +55,9 @@ To generate the documentation locally you can run `make doc` and then open to `/
 The aim of this project is to be maintained by the community. We want you to help us grow this library, so please feel free to submit your pull request following the [CONTRIBUTING.md](./docs/CONTRIBUTING.md) document. Also if you need any help about how to edit the `input_dictionary.json` visit [this playground](https://github.com/Crypto-TII/cryptographic_estimators_ui).
  
 ---
-<!--### Usage -->
+
+<!--### Usage 
+---
+-->
 
 
