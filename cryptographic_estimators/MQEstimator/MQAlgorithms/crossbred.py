@@ -207,7 +207,7 @@ class Crossbred(MQAlgorithm):
 
     def _admissible_parameter_series(self, k: int):
         """
-        Return a the series $S_k$ of admissible parameters
+        Return the series $S_k$ of admissible parameters
 
         INPUT:
 
@@ -250,10 +250,8 @@ class Crossbred(MQAlgorithm):
             sage: [list(x.values()) for x in E._valid_choices()][:5] == [[2, 1, 1], [3, 1, 1], [4, 1, 1], [3, 2, 1], [5, 1, 1]]
             True
         """
-        parameters = self._optimal_parameters
-        ranges = self._parameter_ranges
-        new_ranges = {i: ranges[i].copy() if i not in parameters else {"min": parameters[i], "max": parameters[i]}
-                      for i in ranges}
+
+        new_ranges = self._fix_ranges_for_already_set_parameters()
 
         k = 1
         stop = False

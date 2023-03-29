@@ -69,7 +69,7 @@ def wrap(f, g):
     return inner
 
 
-def list_of_random_tuples(x: Any, y: Any, z: int):
+def list_of_random_tuples(x: float, y: float, z: int):
     """
     """
     return [(ru(x, y)) for _ in range(z)]
@@ -78,7 +78,7 @@ def list_of_random_tuples(x: Any, y: Any, z: int):
 def may_ozerov_near_neighbor_time(list_size: float, vector_length: float, target_weight: float):
     """
     computes the asymptotic runtime of the Nearest Neighbour Algorithm by
-    May-Ozerov [MO15]
+    May-Ozerov [MO15]_
     """
     if vector_length <= 0 or list_size < 0:
         return 100
@@ -102,8 +102,8 @@ def may_ozerov_near_neighbor_time(list_size: float, vector_length: float, target
 
 def representations_asymptotic(target_weight: float, weight_to_cancel: float, vector_length: float):
     """
-    computes the binomial coefficient of the expected number of representations
-    but asymptotically
+    computes the asymptotic number of representations of a length-$vector_length$ weight-$target_weight$ vector
+    via the sum of two length-$vector_length$ weight-($target_weight$/2+$weight_to_cancel$) vectors
     """
     if target_weight == 0. or vector_length == 0.:
         return 0

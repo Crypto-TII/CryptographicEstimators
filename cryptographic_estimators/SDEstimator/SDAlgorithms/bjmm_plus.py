@@ -168,7 +168,7 @@ class BJMM_plus(SDAlgorithm):
         Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
         set parameters in `_optimal_parameters`
         """
-        new_ranges = self._fix_ranges_for_already_set_parmeters()
+        new_ranges = self._fix_ranges_for_already_set_parameters()
 
         n, k, w = self.problem.get_parameters()
 
