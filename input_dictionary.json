@@ -3,7 +3,7 @@
     {
       "estimator_id": "SDEstimator",
       "algorithm_id": "SDAlgorithm",
-      "display_label": "Binary Syndrome Decoding Problem",
+      "display_label": "Binary Syndrome Decoding",
       "landing_page_content": "# Binary Syndrome Decoding Estimator\n\n\nThis project provides an estimator for the hardness of the binary syndrome decoding problem. This problem is defined as follows:\n\nLet $\\mathbf H\\in\\mathbb{F}_2^{(n-k)\\times n}$ be the parity-check matrix of a code of length $n$ and dimension $k$. Given $\\mathbf H$, a syndrome $\\mathbf{s}\\in\\mathbb{F}_2^{n-k}$ and an integer $\\omega < n$ the syndrome decoding problem asks to find a vector $\\mathbf e \\in \\mathbb{F}_2^n$ satisfying $\\mathbf H \\mathbf e=\\mathbf s$ while $\\mathbf e$ has a Hamming weight smaller or equal to $\\omega$.\n\nThe estimator covers Information Set Decoding (ISD) algorithms to estimate the hardness of given instances. More details on the theoretical foundations of the estimator can be found in the corresponding paper:\n\n*[[EB22]](https://eprint.iacr.org/2021/1243.pdf) Andre Esser and Emanuele Bellini. Syndrome Decoding Estimator. In Public-Key Cryptography (PKC 2022), 25th IACR International Conference on Practice and Theory of Public-Key Cryptography*\n\n",
       "problem_parameters": [
         {
