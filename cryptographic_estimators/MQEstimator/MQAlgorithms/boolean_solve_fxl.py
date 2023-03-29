@@ -105,12 +105,10 @@ class BooleanSolveFXL(MQAlgorithm):
         """
         Generator which yields on each call a new set of valid parameters for the optimization routine based.
         """
-        parameters = self._optimal_parameters
-        ranges = self._parameter_ranges.copy()
-        _ = ranges.pop(MQ_VARIANT)
+        new_ranges = self. _fix_ranges_for_already_set_parmeters()
+        _ = new_ranges.pop(MQ_VARIANT)
+
         variant = MQ_LAS_VEGAS
-        new_ranges = {i: ranges[i].copy() if i not in parameters else {"min": parameters[i], "max": parameters[i]}
-                      for i in ranges}
         indices = {i: new_ranges[i]["min"] for i in new_ranges}
         stop = False
         while not stop:
