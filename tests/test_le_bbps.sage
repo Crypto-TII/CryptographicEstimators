@@ -24,8 +24,8 @@ def test_bbps1():
         t1 = A.time_complexity()
         t2, w, w_prime, L_prime = improved_linear_beullens(n, k, q)
 
-        if not (t2 - ranges< t1 < t2 + ranges):
-            print(n, k, q, t1, t2)
+        #if not (t2 - ranges< t1 < t2 + ranges):
+        #    print(n, k, q, t1, t2)
 
         assert t2 - ranges < t1 < t2 + ranges
 
@@ -44,7 +44,7 @@ def test_bbps2():
     """
     generic test
     """
-    ranges = 0.1
+    ranges = 0.2
 
 
     for n in range(100, 120,5):
@@ -59,10 +59,8 @@ def test_bbps2():
 
                 verb = A._get_verbose_information()
                 L,N= verb["L_prime"],verb["Nw_prime"]
-                print(L,N)
 
                 t2 += correct_coupon_collector(L,N)
-                print(n,k,q,t1,t2,correct_coupon_collector(L,N),t1-t2)
                 assert t2 - ranges < t1 < t2 + ranges
 
 

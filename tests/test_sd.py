@@ -87,7 +87,6 @@ def test_bjmm_plus():
         t = bjmm_depth_2_qc_complexity(n, k, w)
         t1 = t["time"]
         t2 = BJMM_plus(SDProblem(n, k, w), bit_complexities=0).time_complexity()
-        print(n, t1, t2)
         assert t1 - ranges <= t2 <= t1 + ranges
 
 
