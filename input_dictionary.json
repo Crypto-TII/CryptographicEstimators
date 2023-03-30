@@ -1,0 +1,958 @@
+{
+   "estimators": [
+    {
+      "estimator_id": "SDEstimator",
+      "algorithm_id": "SDAlgorithm",
+      "display_label": "Binary Syndrome Decoding",
+      "landing_page_content": "# Binary Syndrome Decoding Estimator\n\n\nThis project provides an estimator for the hardness of the binary syndrome decoding problem. This problem is defined as follows:\n\nLet $\\mathbf H\\in\\mathbb{F}_2^{(n-k)\\times n}$ be the parity-check matrix of a code of length $n$ and dimension $k$. Given $\\mathbf H$, a syndrome $\\mathbf{s}\\in\\mathbb{F}_2^{n-k}$ and an integer $\\omega < n$ the syndrome decoding problem asks to find a vector $\\mathbf e \\in \\mathbb{F}_2^n$ satisfying $\\mathbf H \\mathbf e=\\mathbf s$ while $\\mathbf e$ has a Hamming weight smaller or equal to $\\omega$.\n\nThe estimator covers Information Set Decoding (ISD) algorithms to estimate the hardness of given instances. More details on the theoretical foundations of the estimator can be found in the corresponding paper:\n\n*[[EB22]](https://eprint.iacr.org/2021/1243.pdf) Andre Esser and Emanuele Bellini. Syndrome Decoding Estimator. In Public-Key Cryptography (PKC 2022), 25th IACR International Conference on Practice and Theory of Public-Key Cryptography*\n\n",
+      "problem_parameters": [
+        {
+          "id": "n",
+          "type": "number",
+          "display_label": "Code length",
+          "placeholder": "Insert parameter",
+          "tooltip": "Code length of the specified code",
+          "validate_fields_ids": [
+            "k",
+            "w"
+          ]
+        },
+        {
+          "id": "k",
+          "type": "number",
+          "display_label": "Code dimension",
+          "placeholder": "Insert parameter",
+          "tooltip": "Code dimension of specified code",
+          "validate_fields_ids": [
+            "w"
+          ],
+          "dependencies": [
+            {
+              "id": "n",
+              "action": "validateLessThan"
+            }
+          ]
+        },
+        {
+          "id": "w",
+          "type": "number",
+          "display_label": "Error weight",
+          "placeholder": "Insert parameter",
+          "tooltip": "Hamming weight of the target solution",
+          "dependencies": [
+            {
+              "id": "n",
+              "action": "validateLessThan"
+            },
+            {
+              "action": "validateLessThanOperation",
+              "operation": "n - k"
+            }
+          ]
+        }
+      ],
+      "estimator_parameters": [
+        {
+          "id": "bit_complexities",
+          "type": "switch",
+          "display_label": "Bit complexities",
+          "default_value": true,
+          "tooltip": "Show complexities as count of bit operations. If false, show number of field additions"
+        },
+        {
+          "id": "hmap",
+          "type": "switch",
+          "display_label": "Hashmap",
+          "default_value": true,
+          "tooltip": "Use linear time matching between lists via hashmaps. If false, use sort-and-match"
+        },
+        {
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": [
+            "BJMMdw",
+            "BJMMpdw"
+          ],
+          "options": [],
+          "dependencies": [
+            {
+              "id": "limit_depth",
+              "parent_contains": [
+                "MayOzerov",
+                "BJMM"
+              ],
+              "action": "show"
+            }
+          ]
+        },
+        {
+          "id": "workfactor_accuracy",
+          "type": "slider",
+          "direction": "column",
+          "display_label": "Tilde-O accuracy",
+          "default_value": 1,
+          "tooltip": "Accuracy level of optimization",
+          "min": 1,
+          "max": 100,
+          "number_of_decimals": 0,
+          "step": 1
+        },
+        {
+          "id": "limit_depth",
+          "type": "switch",
+          "display_label": "Limit tree-depth",
+          "default_value": false,
+          "tooltip": "Limits the depth of May-Ozerov and BJMM algorithm to two, otherwise two and three are considered"
+        }
+      ],
+      "optional_parameters": [
+        {
+          "id": "memory_bound",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "default_value": null,
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
+        },
+        {
+          "id": "include_tildeo",
+          "type": "switch",
+          "display_label": "Tilde-O complexity",
+          "default_value": false,
+          "tooltip": "Include complexity estimates that disregard polynomial factors",
+          "dependencies": [
+            {
+              "id": "workfactor_accuracy",
+              "parent_value": true,
+              "action": "show"
+            }
+          ]
+        },
+        {
+          "id": "nsolutions",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Number of solutions",
+          "placeholder": "Insert value",
+          "tooltip": "Log2 of number of existing solutions of which one has to be found"
+        },
+        {
+          "id": "include_quantum",
+          "type": "switch",
+          "display_label": "Quantum complexity",
+          "default_value": false,
+          "tooltip": "Include quantum complexity for chosen algorithms, if implemented",
+          "dependencies": [
+            {
+              "id": "quantum_maxdepth",
+              "parent_value": true,
+              "action": "show"
+            }
+          ]
+        },
+        {
+          "id": "quantum_maxdepth",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Maximum depth",
+          "default_value": 96.0,
+          "placeholder": "Insert value",
+          "tooltip": "Maximum allowed depth of the quantum circuit"
+        },
+        {
+          "id": "memory_access",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Memory access cost",
+          "default_value": "Constant",
+          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+          "options": [
+            "Constant",
+            "Logaritmic",
+            "Square root",
+            "Cube root"
+          ]
+        }
+      ]
+    },
+    {
+      "estimator_id": "MQEstimator",
+      "algorithm_id": "MQAlgorithm",
+      "display_label": "Multivariate Quadratic",
+      "landing_page_content": "# Multivariate Quadratic Estimator\n\nThis project provides an estimator for the hardness of the multivariate quadratic problem. This problem is defined as follows: \n\nLet $\\mathbb{F}_{q}$ be a field with $q$ elements, and let $\\mathbb{F}_{q}[x_1, x_2, \\ldots, x_n]$ be the ring of polynomials in the variables $x_1, x_2, \\ldots, x_n$ and coefficients in $\\mathbb{F}_{q}$. Given $p_1, p_2, \\ldots, p_m \\in \\; \\mathbb{F}_{q}[x_1, x_2, \\ldots, x_n]$ the  multivariate quadratic problem asks to find a vector $\\mathbf a \\in \\; \\mathbb{F}_q^n$ satisfying $p_{i}(\\mathbf a ) = 0$ for all $i=1,2,\\ldots,m$. \n\nMore details on the theoretical foundations of the estimator can be found in the corresponding paper: \n\n*[[BMSV22]](https://eprint.iacr.org/2022/708.pdf) Emanuele Bellini, Rusydi H. Makarim, Carlo Sanna, and Javier Verbel. An Estimator for the Hardness of the MQ Problem. AFRICACRYPT 2022, 13th International Conference on Cryptography.*\n",
+      "problem_parameters": [
+        {
+          "id": "n",
+          "type": "number",
+          "display_label": "Number of variables",
+          "placeholder": "Insert parameter",
+          "tooltip": "The number of variables of the system to solve",
+          "validate_fields_ids": [
+            "h"
+          ]
+        },
+        {
+          "id": "m",
+          "type": "number",
+          "display_label": "Number of equations",
+          "placeholder": "Insert parameter",
+          "tooltip": "The number of equations of the system to solve"
+        },
+        {
+          "id": "q",
+          "type": "number",
+          "display_label": "Field size",
+          "placeholder": "Insert parameter",
+          "tooltip": "An integer of the form p^x for some integer x, where p is prime number.  This value indicates the number of elements in the underlying field"
+        }
+      ],
+      "estimator_parameters": [
+        {
+          "id": "w",
+          "type": "slider",
+          "direction": "column",
+          "display_label": "Matrix multiplication constant",
+          "default_value": 2.0,
+          "tooltip": "Indicates that two square matrices of size n can be multiplied by performing O(n^w) field multiplications",
+          "min": 2,
+          "max": 3,
+          "number_of_decimals": 2,
+          "step": 0.01
+        },
+        {
+          "id": "theta",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Bitcompexity exponent",
+          "default_value": 2,
+          "placeholder": "Insert value",
+          "tooltip": "The bitcomplexity of a field multiplication is assumed to be log_2(q)^(theta). Note that for theta = 0 the output gives the (log of the) necessary number of field multiplications."
+        },
+        {
+          "id": "h",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Number of variables to guess",
+          "default_value": 0,
+          "placeholder": "Insert parameter",
+          "tooltip": "Assumes that the initial system is splited into q^h subsystems of n-h variables and m equations. In this case the time complexity is given by q^h times the complexity a given subsystem. The memory complexity is given by the memory required to solve one subsystem",
+          "dependencies": [
+            {
+              "id": "n",
+              "action": "validateLessThan"
+            }
+          ]
+        },
+        {
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": [],
+          "options": [],
+          "dependencies": [
+            {
+              "id": "max_D",
+              "parent_contains": [
+                "Crossbred"
+              ],
+              "action": "show"
+            }
+          ]
+        },
+        {
+          "id": "max_D",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Max D for Crossbred",
+          "default_value": 20,
+          "placeholder": "Insert value",
+          "tooltip": "Upper bound to the parameter D "
+        }
+      ],
+      "optional_parameters": [
+        {
+          "id": "memory_bound",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "default_value": null,
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
+        },
+        {
+          "id": "include_tildeo",
+          "type": "switch",
+          "display_label": "Tilde-O complexity",
+          "default_value": false,
+          "tooltip": "Include complexity estimates that disregard polynomial factors"
+        },
+        {
+          "id": "nsolutions",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Number of solutions",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Log2 of number of existing solutions of which one has to be found"
+        },
+        {
+          "id": "include_quantum",
+          "type": "switch",
+          "display_label": "Quantum complexity",
+          "default_value": false,
+          "tooltip": "Include quantum complexity for chosen algorithms, if implemented",
+          "dependencies": [
+            {
+              "id": "quantum_maxdepth",
+              "parent_value": false,
+              "action": "show"
+            },
+            {
+              "id": "w",
+              "parent_value": true,
+              "action": "show"
+            }
+          ]
+        },
+        {
+          "id": "quantum_maxdepth",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Maximum depth",
+          "default_value": 96.0,
+          "placeholder": "Insert value",
+          "tooltip": "Maximum allowed depth of the quantum circuit"
+        },
+        {
+          "id": "memory_access",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Memory access cost",
+          "default_value": "Constant",
+          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+          "options": [
+            "Constant",
+            "Logaritmic",
+            "Square root",
+            "Cube root"
+          ]
+        }
+      ]
+    },
+    {
+      "estimator_id": "DummyEstimator",
+      "algorithm_id": "DummyAlgorithm",
+      "display_label": "Dummy",
+      "landing_page_content": "# User can write here Markdown \n and TeX content.",
+      "problem_parameters": [
+        {
+          "id": "Parameter1",
+          "type": "number",
+          "display_label": "Parameter 1",
+          "placeholder": "Insert parameter",
+          "tooltip": "This is the first problem parameter",
+          "validate_fields_ids": [
+            "Parameter2"
+          ]
+        },
+        {
+          "id": "Parameter2",
+          "type": "number",
+          "display_label": "Parameter 2",
+          "placeholder": "Insert parameter",
+          "tooltip": "This is the first problem parameter",
+          "dependencies": [
+            {
+              "id": "Parameter1",
+              "action": "validateLessThan"
+            }
+          ]
+        }
+      ],
+      "estimator_parameters": [
+        {
+          "id": "bit_complexities",
+          "type": "switch",
+          "display_label": "Bit complexities",
+          "default_value": true,
+          "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
+        },
+        {
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": [],
+          "options": [],
+          "dependencies": []
+        }
+      ],
+      "optional_parameters": [
+        {
+          "id": "memory_bound",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "default_value": null,
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
+        },
+        {
+          "id": "include_tildeo",
+          "type": "switch",
+          "display_label": "Tilde-O complexity",
+          "default_value": false,
+          "tooltip": "Include complexity estimates that disregard polynomial factors",
+          "dependencies": []
+        },
+        {
+          "id": "nsolutions",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Number of solutions",
+          "placeholder": "Insert value",
+          "tooltip": "Log2 of number of existing solutions of which one has to be found"
+        },
+        {
+          "id": "include_quantum",
+          "type": "switch",
+          "display_label": "Quantum complexity",
+          "default_value": false,
+          "tooltip": "Include quantum complexity for chosen algorithms, if implemented",
+          "dependencies": [
+            {
+              "id": "quantum_maxdepth",
+              "parent_value": true,
+              "action": "show"
+            }
+          ]
+        },
+        {
+          "id": "quantum_maxdepth",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Maximum depth",
+          "default_value": 96.0,
+          "placeholder": "Insert value",
+          "tooltip": "Maximum allowed depth of the quantum circuit"
+        },
+        {
+          "id": "memory_access",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Memory access cost",
+          "default_value": "Constant",
+          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+          "options": [
+            "Constant",
+            "Logaritmic",
+            "Square root",
+            "Cube root"
+          ]
+        }
+      ]
+    },
+    {
+      "estimator_id": "SDFQEstimator",
+      "algorithm_id": "SDFQAlgorithm",
+      "display_label": "Syndrome Decoding over Fq",
+      "landing_page_content": "# Syndrome Decoding Estimator over $\\mathbf F_q$\n\n\nThis project provides an estimator for the hardness of the syndrome decoding problem over $\\mathbf F_q$. This problem is defined as follows:\n\nLet $\\mathbf H\\in\\mathbb{F}_q^{(n-k)\\times n}$ be the parity-check matrix of a code of length $n$ and dimension $k$. Given $\\mathbf H$, a syndrome $\\mathbf{s}\\in\\mathbb{F}_q^{n-k}$ and an integer $\\omega < n$ the syndrome decoding problem asks to find a vector $\\mathbf e \\in \\mathbb{F}_q^n$ satisfying $\\mathbf H \\mathbf e=\\mathbf s$ while $\\mathbf e$ has a Hamming weight smaller or equal to $\\omega$.\n\nThe estimator covers Information Set Decoding (ISD) algorithms to estimate the hardness of given instances.",
+      "problem_parameters": [
+        {
+          "id": "n",
+          "type": "number",
+          "display_label": "Code length",
+          "placeholder": "Insert parameter",
+          "tooltip": "Code length of the specified code",
+          "validate_fields_ids": [
+            "k",
+            "w"
+          ]
+        },
+        {
+          "id": "k",
+          "type": "number",
+          "display_label": "Code dimension",
+          "placeholder": "Insert parameter",
+          "tooltip": "Code dimension of specified code",
+          "validate_fields_ids": [
+            "w"
+          ],
+          "dependencies": [
+            {
+              "id": "n",
+              "action": "validateLessThan"
+            }
+          ]
+        },
+        {
+          "id": "w",
+          "type": "number",
+          "display_label": "Error weight",
+          "placeholder": "Insert parameter",
+          "tooltip": "Hamming weight of the target solution",
+          "dependencies": [
+            {
+              "id": "n",
+              "action": "validateLessThan"
+            },
+            {
+              "action": "validateLessThanOperation",
+              "operation": "n - k"
+            }
+          ]
+        },
+        {
+          "id": "q",
+          "type": "number",
+          "display_label": "Base Field Size",
+          "placeholder": "Insert parameter",
+          "tooltip": "Size of the underlying base field",
+          "dependencies": []
+        },
+        {
+          "id": "memory_bound",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "default_value": null,
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+          "id": "nsolutions",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Number of solutions",
+          "placeholder": "Insert value",
+          "tooltip": "Log2 of number of existing solutions of which one has to be found, if not specified it will be fixed to the number of solutions in expectation"
+        }
+      ],
+      "estimator_parameters": [
+        {
+          "id": "bit_complexities",
+          "type": "switch",
+          "display_label": "Bit complexities",
+          "default_value": true,
+          "tooltip": "Show complexities as count of bit operations. If false, show number of field additions"
+        },
+        {
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": [],
+          "options": [],
+          "dependencies": []
+        },
+        {
+          "id": "memory_access",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Memory access cost",
+          "default_value": "Constant",
+          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+          "options": [
+            "Constant",
+            "Logaritmic",
+            "Square root",
+            "Cube root"
+          ]
+        },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
+        }
+      ],
+      "optional_parameters": [
+        {
+          "id": "is_syndrome_zero",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Code word search",
+          "default_value": 1,
+          "tooltip": "Indicates if a small code word is searched, i.e., if the syndrome is equal to the zero.",
+          "options": [
+            "Syndrome decoding",
+            "Code word search"
+          ]
+        }
+      ]
+    },
+    {
+      "estimator_id": "PKEstimator",
+      "algorithm_id": "PKAlgorithm",
+      "display_label": "Permuted Kernel",
+      "landing_page_content": " # Permuted Kernel Estimator\n\nThis project provides an estimator for the hardness of the permuted kernel problem. This problem is defined as follows: \n\nGiven two matrices $\\mathbf{A} \\in \\; \\mathbb{F}_{q}^{m\\times n}$ and $\\mathbf{V} \\in \\; \\mathbb{F}_{q}^{\\ell \\times n}$, the permuted kernel problem asks to find a permutation $\\mathbf{P} \\in \\mathbb{F}_{q}^{m\\times n}$ such that $\\mathbf{A}(\\mathbf{V} \\mathbf{P})^\\top = 0$\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers: \n\n[[SBC22]](https://eprint.iacr.org/2022/1749.pdf) Paolo Santini, Marco Baldi, and Franco Chiaraluce. Computational hardness of the permuted kernel and subcode equivalence problems. \n\n*[[KMP19]](https://eprint.iacr.org/2019/412.pdf) Eliane Koussa, Gilles Macario-Rat and Jacques Patarin.  On the complexity of the permuted kernel problem. Cryptology ePrint Archive, Report 2019/412 (2019).*",
+      "problem_parameters": [
+        {
+          "id": "n",
+          "type": "number",
+          "display_label": "Number of columns",
+          "placeholder": "Insert parameter",
+          "tooltip": "Number of columns of the input matrix"
+        },
+        {
+          "id": "m",
+          "type": "number",
+          "display_label": "Number of rows",
+          "placeholder": "Insert parameter",
+          "tooltip": "Number of rows of the input matrix"
+        },
+        {
+          "id": "q",
+          "type": "number",
+          "display_label": "Field size",
+          "placeholder": "Insert parameter",
+          "tooltip": "A prime number"
+        },
+        {
+          "id": "ell",
+          "type": "number",
+          "display_label": "No. of rows in the kernel",
+          "placeholder": "Insert value",
+          "default_value": 1,
+          "tooltip": "Number of rows of the matrix whose permutation should lie in the kernel"
+        },
+        {
+          "id": "use_parity_row",
+          "type": "switch",
+          "display_label": "Use parity row",
+          "default_value": false,
+          "tooltip": "Enables trick of appending extra (all one) row to the matrix, i.e., m -> m+1"
+        },
+        {
+          "id": "memory_bound",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+          "id": "nsolutions",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Number of solutions",
+          "placeholder": "Insert value",
+          "tooltip": "Log2 of number of existing solutions of which one has to be found"
+        }
+      ],
+      "estimator_parameters": [
+        {
+          "id": "bit_complexities",
+          "type": "switch",
+          "display_label": "Bit complexities",
+          "default_value": true,
+          "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
+        },
+        {
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": [],
+          "options": [],
+          "dependencies": []
+        },
+        {
+          "id": "memory_access",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Memory access cost",
+          "default_value": "Constant",
+          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+          "options": [
+            "Constant",
+            "Logaritmic",
+            "Square root",
+            "Cube root"
+            ]
+          },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
+        }
+      ],
+      "optional_parameters": [
+        {
+          "id": "cost_for_list_operation",
+          "type": "number",
+          "display_label": "List operation cost (Time)",
+          "direction": "column",
+          "placeholder": "Insert value",
+          "tooltip": "Cost in Fq additions for one list operation in the SBC and KMP algorithms"
+        },
+        {
+          "id": "memory_for_list_element",
+          "type": "number",
+          "display_label": "List operation cost (Memory)",
+          "direction": "column",
+          "placeholder": "Insert value",
+          "tooltip": "Memory in Fq elements for one list element in the SBC and KMP algorithms"
+        }
+      ]
+    },
+    {
+    "estimator_id": "PEEstimator",
+    "algorithm_id": "PEAlgorithm",
+    "display_label": "Permutation Equivalence",
+    "landing_page_content": "# Permuted Equivalence Estimator\n\nThis project provides an estimator for the hardness of the permuted equivalence problem. \n\nThis problem is defined as follows: Given two matrices $\\mathbf{G}, \\mathbf{G}' \\in \\; \\mathbb{F}_{q}^{k\\times n}$, the permuted equivalence problem asks to find an invertible matrix $\\mathbf{S} \\in \\; \\mathbb{F}_{q}^{k\\times n}$ and permutation matrix $\\mathbf{P} \\in \\; \\mathbb{F}_{q}^{n\\times n}$ such that $\\mathbf{G} = \\mathbf{S}\\mathbf{G}\\mathbf{P}$.\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers: \n\n*[[Beu20]](https://eprint.iacr.org/2020/801.pdf) Ward Beullens. Not enough LESS: An improved algorithm for solving code equivalence problems over Fq. In: Dunkelman, O., Jr., M.J.J., O’Flynn, C. (eds.) SAC 2020.*\n\n*[[Leo82]](https://ieeexplore.ieee.org/document/1056498) J. Leon. Computing automorphism groups of error-correcting codes. IEEE Transactions on Information Theory 28(3), 496–511 (1982).*\n\n*[[Sen97]](https://epubs.siam.org/doi/10.1137/S0895480195294027) Nicolas Sendrier.  On the dimension of the hull. SIAM Journal on Discrete Mathematics 10(2), 282–293 (1997).*\n\n\n",
+    "problem_parameters": [
+    {
+    "id": "n",
+    "type": "number",
+    "display_label": "Code length",
+    "placeholder": "Insert parameter",
+    "tooltip": "Code length of the specified code",
+    "validate_fields_ids": [
+    "k"
+    ]
+    },
+    {
+    "id": "k",
+    "type": "number",
+    "display_label": "Code dimension",
+    "placeholder": "Insert parameter",
+    "tooltip": "Code dimension of specified code",
+    "dependencies": [
+    {
+    "id": "n",
+    "action": "validateLessThan"
+    }
+    ]
+    },
+    {
+    "id": "q",
+    "type": "number",
+    "display_label": "Field size",
+    "placeholder": "Insert parameter",
+    "tooltip": "A prime number"
+    },
+    {
+    "id": "h",
+    "type": "number",
+    "display_label": "Hull dimension",
+    "placeholder": "Insert parameter",
+    "tooltip": "The dimension of the hull"
+    },
+    {
+    "id": "memory_bound",
+    "type": "number",
+    "direction": "column",
+    "display_label": "Memory limit",
+    "placeholder": "Insert value",
+    "caption": "Leave empty if no limit is desired",
+    "tooltip": "Log2 of the maximum number of bits of memory available"
+    },
+    {
+    "id": "nsolutions",
+    "type": "number",
+    "direction": "column",
+    "display_label": "Number of solutions",
+    "placeholder": "Insert value",
+    "tooltip": "Log2 of number of existing solutions of which one has to be found"
+    }
+    ],
+    "estimator_parameters": [
+    {
+    "id": "bit_complexities",
+    "type": "switch",
+    "display_label": "Bit complexities",
+    "default_value": true,
+    "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
+    },
+    {
+    "id": "included_algorithms",
+    "type": "multiple_selector",
+    "direction": "column",
+    "display_label": "Included algorithms",
+    "tooltip": "Algorithms to include for optimization",
+    "default_value": [],
+    "excluded_algorithms": [],
+    "options": [],
+    "dependencies": []
+    },
+    {
+    "id": "memory_access",
+    "type": "selector",
+    "direction": "column",
+    "display_label": "Memory access cost",
+    "default_value": "Constant",
+    "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+    "options": [
+    "Constant",
+    "Logaritmic",
+    "Square root",
+    "Cube root"
+    ]
+    },
+    {
+    "id": "precision",
+    "type": "number",
+    "direction": "column",
+    "display_label": "Decimal precision",
+    "default_value": 0,
+    "placeholder": "Insert value",
+    "tooltip": "Number of decimal digits to display"
+    }
+    ],
+    "optional_parameters":[]
+    },
+    {
+    "estimator_id": "LEEstimator",
+    "algorithm_id": "LEAlgorithm",
+    "display_label": "Linear Equivalence",
+    "landing_page_content": "# Linear Equivalence Estimator\n\nThis project provides an estimator for the hardness of the linear equivalence problem. \n\nThis problem is defined as follows: Given two matrices $\\mathbf{G}, \\mathbf{G}' \\in \\; \\mathbb{F}_{q}^{k\\times n}$, the linear equivalence problem asks to find an invertible matrix $\\mathbf{S} \\in \\; \\mathbb{F}_{q}^{k\\times n}$ and monomial matrix $\\mathbf{Q} \\in \\; \\mathbb{F}_{q}^{n\\times n}$ such that $\\mathbf{G} = \\mathbf{S}\\mathbf{G}\\mathbf{P}$.\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers: \n\n*[[BBPS22]](https://eprint.iacr.org/2022/967.pdf) Alessandro Barenghi, Jean-Francois Biasse, Edoardo Persichetti and Paolo Santini,. On the Computational Hardness of the Code Equivalence Problem in Cryptography.*\n\n*[[Beu20]](https://eprint.iacr.org/2020/801.pdf) Ward Beullens. Not enough LESS: An improved algorithm for solving code equivalence problems over Fq. In: Dunkelman, O., Jr., M.J.J., O’Flynn, C. (eds.) SAC 2020.*\n\n*[[Leo82]](https://ieeexplore.ieee.org/document/1056498) J. Leon. Computing automorphism groups of error-correcting codes. IEEE Transactions on Information Theory 28(3), 496–511 (1982).*",
+    "problem_parameters": [
+    {
+    "id": "n",
+    "type": "number",
+    "display_label": "Code length",
+    "placeholder": "Insert parameter",
+    "tooltip": "Code length of the specified code",
+    "validate_fields_ids": [
+    "k"
+    ]
+    },
+    {
+    "id": "k",
+    "type": "number",
+    "display_label": "Code dimension",
+    "placeholder": "Insert parameter",
+    "tooltip": "Code dimension of specified code",
+    "dependencies": [
+    {
+    "id": "n",
+    "action": "validateLessThan"
+    }
+    ]
+    },
+    {
+    "id": "q",
+    "type": "number",
+    "display_label": "Field size",
+    "placeholder": "Insert parameter",
+    "tooltip": "A prime number"
+    },
+    {
+    "id": "memory_bound",
+    "type": "number",
+    "direction": "column",
+    "display_label": "Memory limit",
+    "placeholder": "Insert value",
+    "caption": "Leave empty if no limit is desired",
+    "tooltip": "Log2 of the maximum number of bits of memory available"
+    },
+    {
+    "id": "nsolutions",
+    "type": "number",
+    "direction": "column",
+    "display_label": "Number of solutions",
+    "placeholder": "Insert value",
+    "tooltip": "Log2 of number of existing solutions of which one has to be found"
+    }
+    ],
+    "estimator_parameters": [
+    {
+    "id": "bit_complexities",
+    "type": "switch",
+    "display_label": "Bit complexities",
+    "default_value": true,
+    "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
+    },
+    {
+    "id": "included_algorithms",
+    "type": "multiple_selector",
+    "direction": "column",
+    "display_label": "Included algorithms",
+    "tooltip": "Algorithms to include for optimization",
+    "default_value": [],
+    "excluded_algorithms": [],
+    "options": [],
+    "dependencies": []
+    },
+    {
+    "id": "memory_access",
+    "type": "selector",
+    "direction": "column",
+    "display_label": "Memory access cost",
+    "default_value": "Constant",
+    "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+    "options": [
+    "Constant",
+    "Logaritmic",
+    "Square root",
+    "Cube root"
+    ]
+    },
+    {
+    "id": "precision",
+    "type": "number",
+    "direction": "column",
+    "display_label": "Decimal precision",
+    "default_value": 0,
+    "placeholder": "Insert value",
+    "tooltip": "Number of decimal digits to display"
+    }
+    ],
+    "optional_parameters":[]
+    }
+	]
+}
