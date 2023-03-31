@@ -1,5 +1,6 @@
 {
-   "estimators": [
+
+  "estimators": [
     {
       "estimator_id": "SDEstimator",
       "algorithm_id": "SDAlgorithm",
@@ -12,10 +13,7 @@
           "display_label": "Code length",
           "placeholder": "Insert parameter",
           "tooltip": "Code length of the specified code",
-          "validate_fields_ids": [
-            "k",
-            "w"
-          ]
+          "validate_fields_ids": ["k", "w"]
         },
         {
           "id": "k",
@@ -23,9 +21,7 @@
           "display_label": "Code dimension",
           "placeholder": "Insert parameter",
           "tooltip": "Code dimension of specified code",
-          "validate_fields_ids": [
-            "w"
-          ],
+          "validate_fields_ids": ["w"],
           "dependencies": [
             {
               "id": "n",
@@ -73,18 +69,12 @@
           "display_label": "Included algorithms",
           "tooltip": "Algorithms to include for optimization",
           "default_value": [],
-          "excluded_algorithms": [
-            "BJMMdw",
-            "BJMMpdw"
-          ],
+          "excluded_algorithms": ["BJMMdw", "BJMMpdw"],
           "options": [],
           "dependencies": [
             {
               "id": "limit_depth",
-              "parent_contains": [
-                "MayOzerov",
-                "BJMM"
-              ],
+              "parent_contains": ["MayOzerov", "BJMM"],
               "action": "show"
             }
           ]
@@ -181,12 +171,7 @@
           "display_label": "Memory access cost",
           "default_value": "Constant",
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-          "options": [
-            "Constant",
-            "Logaritmic",
-            "Square root",
-            "Cube root"
-          ]
+          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
         }
       ]
     },
@@ -202,9 +187,7 @@
           "display_label": "Number of variables",
           "placeholder": "Insert parameter",
           "tooltip": "The number of variables of the system to solve",
-          "validate_fields_ids": [
-            "h"
-          ]
+          "validate_fields_ids": ["h"]
         },
         {
           "id": "m",
@@ -270,9 +253,7 @@
           "dependencies": [
             {
               "id": "max_D",
-              "parent_contains": [
-                "Crossbred"
-              ],
+              "parent_contains": ["Crossbred"],
               "action": "show"
             }
           ]
@@ -358,12 +339,7 @@
           "display_label": "Memory access cost",
           "default_value": "Constant",
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-          "options": [
-            "Constant",
-            "Logaritmic",
-            "Square root",
-            "Cube root"
-          ]
+          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
         }
       ]
     },
@@ -379,9 +355,7 @@
           "display_label": "Parameter 1",
           "placeholder": "Insert parameter",
           "tooltip": "This is the first problem parameter",
-          "validate_fields_ids": [
-            "Parameter2"
-          ]
+          "validate_fields_ids": ["Parameter2"]
         },
         {
           "id": "Parameter2",
@@ -483,18 +457,13 @@
           "display_label": "Memory access cost",
           "default_value": "Constant",
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-          "options": [
-            "Constant",
-            "Logaritmic",
-            "Square root",
-            "Cube root"
-          ]
+          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
         }
       ]
     },
     {
-      "estimator_id": "SDFQEstimator",
-      "algorithm_id": "SDFQAlgorithm",
+      "estimator_id": "SDFqEstimator",
+      "algorithm_id": "SDFqAlgorithm",
       "display_label": "Syndrome Decoding over Fq",
       "landing_page_content": "# Syndrome Decoding Estimator over $\\mathbf F_q$\n\n\nThis project provides an estimator for the hardness of the syndrome decoding problem over $\\mathbf F_q$. This problem is defined as follows:\n\nLet $\\mathbf H\\in\\mathbb{F}_q^{(n-k)\\times n}$ be the parity-check matrix of a code of length $n$ and dimension $k$. Given $\\mathbf H$, a syndrome $\\mathbf{s}\\in\\mathbb{F}_q^{n-k}$ and an integer $\\omega < n$ the syndrome decoding problem asks to find a vector $\\mathbf e \\in \\mathbb{F}_q^n$ satisfying $\\mathbf H \\mathbf e=\\mathbf s$ while $\\mathbf e$ has a Hamming weight smaller or equal to $\\omega$.\n\nThe estimator covers Information Set Decoding (ISD) algorithms to estimate the hardness of given instances.",
       "problem_parameters": [
@@ -504,10 +473,7 @@
           "display_label": "Code length",
           "placeholder": "Insert parameter",
           "tooltip": "Code length of the specified code",
-          "validate_fields_ids": [
-            "k",
-            "w"
-          ]
+          "validate_fields_ids": ["k", "w"]
         },
         {
           "id": "k",
@@ -515,9 +481,7 @@
           "display_label": "Code dimension",
           "placeholder": "Insert parameter",
           "tooltip": "Code dimension of specified code",
-          "validate_fields_ids": [
-            "w"
-          ],
+          "validate_fields_ids": ["w"],
           "dependencies": [
             {
               "id": "n",
@@ -595,12 +559,7 @@
           "display_label": "Memory access cost",
           "default_value": "Constant",
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-          "options": [
-            "Constant",
-            "Logaritmic",
-            "Square root",
-            "Cube root"
-          ]
+          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
         },
         {
           "id": "precision",
@@ -620,10 +579,7 @@
           "display_label": "Code word search",
           "default_value": 1,
           "tooltip": "Indicates if a small code word is searched, i.e., if the syndrome is equal to the zero.",
-          "options": [
-            "Syndrome decoding",
-            "Code word search"
-          ]
+          "options": ["Syndrome decoding", "Code word search"]
         }
       ]
     },
@@ -713,13 +669,8 @@
           "display_label": "Memory access cost",
           "default_value": "Constant",
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-          "options": [
-            "Constant",
-            "Logaritmic",
-            "Square root",
-            "Cube root"
-            ]
-          },
+          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
+        },
         {
           "id": "precision",
           "type": "number",
@@ -750,209 +701,195 @@
       ]
     },
     {
-    "estimator_id": "PEEstimator",
-    "algorithm_id": "PEAlgorithm",
-    "display_label": "Permutation Equivalence",
-    "landing_page_content": "# Permuted Equivalence Estimator\n\nThis project provides an estimator for the hardness of the permuted equivalence problem. \n\nThis problem is defined as follows: Given two matrices $\\mathbf{G}, \\mathbf{G}' \\in \\; \\mathbb{F}_{q}^{k\\times n}$, the permuted equivalence problem asks to find an invertible matrix $\\mathbf{S} \\in \\; \\mathbb{F}_{q}^{k\\times n}$ and permutation matrix $\\mathbf{P} \\in \\; \\mathbb{F}_{q}^{n\\times n}$ such that $\\mathbf{G} = \\mathbf{S}\\mathbf{G}\\mathbf{P}$.\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers: \n\n*[[Beu20]](https://eprint.iacr.org/2020/801.pdf) Ward Beullens. Not enough LESS: An improved algorithm for solving code equivalence problems over Fq. In: Dunkelman, O., Jr., M.J.J., O’Flynn, C. (eds.) SAC 2020.*\n\n*[[Leo82]](https://ieeexplore.ieee.org/document/1056498) J. Leon. Computing automorphism groups of error-correcting codes. IEEE Transactions on Information Theory 28(3), 496–511 (1982).*\n\n*[[Sen97]](https://epubs.siam.org/doi/10.1137/S0895480195294027) Nicolas Sendrier.  On the dimension of the hull. SIAM Journal on Discrete Mathematics 10(2), 282–293 (1997).*\n\n\n",
-    "problem_parameters": [
-    {
-    "id": "n",
-    "type": "number",
-    "display_label": "Code length",
-    "placeholder": "Insert parameter",
-    "tooltip": "Code length of the specified code",
-    "validate_fields_ids": [
-    "k"
-    ]
+      "estimator_id": "PEEstimator",
+      "algorithm_id": "PEAlgorithm",
+      "display_label": "Permutation Equivalence",
+      "landing_page_content": "# Permuted Equivalence Estimator\n\nThis project provides an estimator for the hardness of the permuted equivalence problem. \n\nThis problem is defined as follows: Given two matrices $\\mathbf{G}, \\mathbf{G}' \\in \\; \\mathbb{F}_{q}^{k\\times n}$, the permuted equivalence problem asks to find an invertible matrix $\\mathbf{S} \\in \\; \\mathbb{F}_{q}^{k\\times n}$ and permutation matrix $\\mathbf{P} \\in \\; \\mathbb{F}_{q}^{n\\times n}$ such that $\\mathbf{G} = \\mathbf{S}\\mathbf{G}\\mathbf{P}$.\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers: \n\n*[[Beu20]](https://eprint.iacr.org/2020/801.pdf) Ward Beullens. Not enough LESS: An improved algorithm for solving code equivalence problems over Fq. In: Dunkelman, O., Jr., M.J.J., O’Flynn, C. (eds.) SAC 2020.*\n\n*[[Leo82]](https://ieeexplore.ieee.org/document/1056498) J. Leon. Computing automorphism groups of error-correcting codes. IEEE Transactions on Information Theory 28(3), 496–511 (1982).*\n\n*[[Sen97]](https://epubs.siam.org/doi/10.1137/S0895480195294027) Nicolas Sendrier.  On the dimension of the hull. SIAM Journal on Discrete Mathematics 10(2), 282–293 (1997).*\n\n\n",
+      "problem_parameters": [
+        {
+          "id": "n",
+          "type": "number",
+          "display_label": "Code length",
+          "placeholder": "Insert parameter",
+          "tooltip": "Code length of the specified code",
+          "validate_fields_ids": ["k"]
+        },
+        {
+          "id": "k",
+          "type": "number",
+          "display_label": "Code dimension",
+          "placeholder": "Insert parameter",
+          "tooltip": "Code dimension of specified code",
+          "dependencies": [
+            {
+              "id": "n",
+              "action": "validateLessThan"
+            }
+          ]
+        },
+        {
+          "id": "q",
+          "type": "number",
+          "display_label": "Field size",
+          "placeholder": "Insert parameter",
+          "tooltip": "A prime number"
+        },
+        {
+          "id": "h",
+          "type": "number",
+          "display_label": "Hull dimension",
+          "placeholder": "Insert parameter",
+          "tooltip": "The dimension of the hull"
+        },
+        {
+          "id": "memory_bound",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+          "id": "nsolutions",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Number of solutions",
+          "placeholder": "Insert value",
+          "tooltip": "Log2 of number of existing solutions of which one has to be found"
+        }
+      ],
+      "estimator_parameters": [
+        {
+          "id": "bit_complexities",
+          "type": "switch",
+          "display_label": "Bit complexities",
+          "default_value": true,
+          "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
+        },
+        {
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": [],
+          "options": [],
+          "dependencies": []
+        },
+        {
+          "id": "memory_access",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Memory access cost",
+          "default_value": "Constant",
+          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
+        },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
+        }
+      ],
+      "optional_parameters": []
     },
     {
-    "id": "k",
-    "type": "number",
-    "display_label": "Code dimension",
-    "placeholder": "Insert parameter",
-    "tooltip": "Code dimension of specified code",
-    "dependencies": [
-    {
-    "id": "n",
-    "action": "validateLessThan"
+      "estimator_id": "LEEstimator",
+      "algorithm_id": "LEAlgorithm",
+      "display_label": "Linear Equivalence",
+      "landing_page_content": "# Linear Equivalence Estimator\n\nThis project provides an estimator for the hardness of the linear equivalence problem. \n\nThis problem is defined as follows: Given two matrices $\\mathbf{G}, \\mathbf{G}' \\in \\; \\mathbb{F}_{q}^{k\\times n}$, the linear equivalence problem asks to find an invertible matrix $\\mathbf{S} \\in \\; \\mathbb{F}_{q}^{k\\times n}$ and monomial matrix $\\mathbf{Q} \\in \\; \\mathbb{F}_{q}^{n\\times n}$ such that $\\mathbf{G} = \\mathbf{S}\\mathbf{G}\\mathbf{P}$.\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers: \n\n*[[BBPS22]](https://eprint.iacr.org/2022/967.pdf) Alessandro Barenghi, Jean-Francois Biasse, Edoardo Persichetti and Paolo Santini,. On the Computational Hardness of the Code Equivalence Problem in Cryptography.*\n\n*[[Beu20]](https://eprint.iacr.org/2020/801.pdf) Ward Beullens. Not enough LESS: An improved algorithm for solving code equivalence problems over Fq. In: Dunkelman, O., Jr., M.J.J., O’Flynn, C. (eds.) SAC 2020.*\n\n*[[Leo82]](https://ieeexplore.ieee.org/document/1056498) J. Leon. Computing automorphism groups of error-correcting codes. IEEE Transactions on Information Theory 28(3), 496–511 (1982).*",
+      "problem_parameters": [
+        {
+          "id": "n",
+          "type": "number",
+          "display_label": "Code length",
+          "placeholder": "Insert parameter",
+          "tooltip": "Code length of the specified code",
+          "validate_fields_ids": ["k"]
+        },
+        {
+          "id": "k",
+          "type": "number",
+          "display_label": "Code dimension",
+          "placeholder": "Insert parameter",
+          "tooltip": "Code dimension of specified code",
+          "dependencies": [
+            {
+              "id": "n",
+              "action": "validateLessThan"
+            }
+          ]
+        },
+        {
+          "id": "q",
+          "type": "number",
+          "display_label": "Field size",
+          "placeholder": "Insert parameter",
+          "tooltip": "A prime number"
+        },
+        {
+          "id": "memory_bound",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+          "id": "nsolutions",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Number of solutions",
+          "placeholder": "Insert value",
+          "tooltip": "Log2 of number of existing solutions of which one has to be found"
+        }
+      ],
+      "estimator_parameters": [
+        {
+          "id": "bit_complexities",
+          "type": "switch",
+          "display_label": "Bit complexities",
+          "default_value": true,
+          "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
+        },
+        {
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": [],
+          "options": [],
+          "dependencies": []
+        },
+        {
+          "id": "memory_access",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Memory access cost",
+          "default_value": "Constant",
+          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
+        },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
+        }
+      ],
+      "optional_parameters": []
     }
-    ]
-    },
-    {
-    "id": "q",
-    "type": "number",
-    "display_label": "Field size",
-    "placeholder": "Insert parameter",
-    "tooltip": "A prime number"
-    },
-    {
-    "id": "h",
-    "type": "number",
-    "display_label": "Hull dimension",
-    "placeholder": "Insert parameter",
-    "tooltip": "The dimension of the hull"
-    },
-    {
-    "id": "memory_bound",
-    "type": "number",
-    "direction": "column",
-    "display_label": "Memory limit",
-    "placeholder": "Insert value",
-    "caption": "Leave empty if no limit is desired",
-    "tooltip": "Log2 of the maximum number of bits of memory available"
-    },
-    {
-    "id": "nsolutions",
-    "type": "number",
-    "direction": "column",
-    "display_label": "Number of solutions",
-    "placeholder": "Insert value",
-    "tooltip": "Log2 of number of existing solutions of which one has to be found"
-    }
-    ],
-    "estimator_parameters": [
-    {
-    "id": "bit_complexities",
-    "type": "switch",
-    "display_label": "Bit complexities",
-    "default_value": true,
-    "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
-    },
-    {
-    "id": "included_algorithms",
-    "type": "multiple_selector",
-    "direction": "column",
-    "display_label": "Included algorithms",
-    "tooltip": "Algorithms to include for optimization",
-    "default_value": [],
-    "excluded_algorithms": [],
-    "options": [],
-    "dependencies": []
-    },
-    {
-    "id": "memory_access",
-    "type": "selector",
-    "direction": "column",
-    "display_label": "Memory access cost",
-    "default_value": "Constant",
-    "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-    "options": [
-    "Constant",
-    "Logaritmic",
-    "Square root",
-    "Cube root"
-    ]
-    },
-    {
-    "id": "precision",
-    "type": "number",
-    "direction": "column",
-    "display_label": "Decimal precision",
-    "default_value": 0,
-    "placeholder": "Insert value",
-    "tooltip": "Number of decimal digits to display"
-    }
-    ],
-    "optional_parameters":[]
-    },
-    {
-    "estimator_id": "LEEstimator",
-    "algorithm_id": "LEAlgorithm",
-    "display_label": "Linear Equivalence",
-    "landing_page_content": "# Linear Equivalence Estimator\n\nThis project provides an estimator for the hardness of the linear equivalence problem. \n\nThis problem is defined as follows: Given two matrices $\\mathbf{G}, \\mathbf{G}' \\in \\; \\mathbb{F}_{q}^{k\\times n}$, the linear equivalence problem asks to find an invertible matrix $\\mathbf{S} \\in \\; \\mathbb{F}_{q}^{k\\times n}$ and monomial matrix $\\mathbf{Q} \\in \\; \\mathbb{F}_{q}^{n\\times n}$ such that $\\mathbf{G} = \\mathbf{S}\\mathbf{G}\\mathbf{P}$.\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers: \n\n*[[BBPS22]](https://eprint.iacr.org/2022/967.pdf) Alessandro Barenghi, Jean-Francois Biasse, Edoardo Persichetti and Paolo Santini,. On the Computational Hardness of the Code Equivalence Problem in Cryptography.*\n\n*[[Beu20]](https://eprint.iacr.org/2020/801.pdf) Ward Beullens. Not enough LESS: An improved algorithm for solving code equivalence problems over Fq. In: Dunkelman, O., Jr., M.J.J., O’Flynn, C. (eds.) SAC 2020.*\n\n*[[Leo82]](https://ieeexplore.ieee.org/document/1056498) J. Leon. Computing automorphism groups of error-correcting codes. IEEE Transactions on Information Theory 28(3), 496–511 (1982).*",
-    "problem_parameters": [
-    {
-    "id": "n",
-    "type": "number",
-    "display_label": "Code length",
-    "placeholder": "Insert parameter",
-    "tooltip": "Code length of the specified code",
-    "validate_fields_ids": [
-    "k"
-    ]
-    },
-    {
-    "id": "k",
-    "type": "number",
-    "display_label": "Code dimension",
-    "placeholder": "Insert parameter",
-    "tooltip": "Code dimension of specified code",
-    "dependencies": [
-    {
-    "id": "n",
-    "action": "validateLessThan"
-    }
-    ]
-    },
-    {
-    "id": "q",
-    "type": "number",
-    "display_label": "Field size",
-    "placeholder": "Insert parameter",
-    "tooltip": "A prime number"
-    },
-    {
-    "id": "memory_bound",
-    "type": "number",
-    "direction": "column",
-    "display_label": "Memory limit",
-    "placeholder": "Insert value",
-    "caption": "Leave empty if no limit is desired",
-    "tooltip": "Log2 of the maximum number of bits of memory available"
-    },
-    {
-    "id": "nsolutions",
-    "type": "number",
-    "direction": "column",
-    "display_label": "Number of solutions",
-    "placeholder": "Insert value",
-    "tooltip": "Log2 of number of existing solutions of which one has to be found"
-    }
-    ],
-    "estimator_parameters": [
-    {
-    "id": "bit_complexities",
-    "type": "switch",
-    "display_label": "Bit complexities",
-    "default_value": true,
-    "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
-    },
-    {
-    "id": "included_algorithms",
-    "type": "multiple_selector",
-    "direction": "column",
-    "display_label": "Included algorithms",
-    "tooltip": "Algorithms to include for optimization",
-    "default_value": [],
-    "excluded_algorithms": [],
-    "options": [],
-    "dependencies": []
-    },
-    {
-    "id": "memory_access",
-    "type": "selector",
-    "direction": "column",
-    "display_label": "Memory access cost",
-    "default_value": "Constant",
-    "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-    "options": [
-    "Constant",
-    "Logaritmic",
-    "Square root",
-    "Cube root"
-    ]
-    },
-    {
-    "id": "precision",
-    "type": "number",
-    "direction": "column",
-    "display_label": "Decimal precision",
-    "default_value": 0,
-    "placeholder": "Insert value",
-    "tooltip": "Number of decimal digits to display"
-    }
-    ],
-    "optional_parameters":[]
-    }
-	]
+  ]
 }
