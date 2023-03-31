@@ -16,15 +16,15 @@
 # ****************************************************************************
 
 
-from .dummy_algorithm import DummyAlgorithm
-from .dummy_problem import DummyProblem
+from .ps_algorithm import PSAlgorithm
+from .ps_problem import PSProblem
 from ..base_estimator import BaseEstimator
 from math import inf
 
 
-class DummyEstimator(BaseEstimator):
+class PSEstimator(BaseEstimator):
     """
-    Construct an instance of DummyEstimator
+    Construct an instance of PSEstimator
 
     INPUT:
 
@@ -36,7 +36,7 @@ class DummyEstimator(BaseEstimator):
     """
 
     def __init__(self, problem_parameter1: float, problem_parameter2, memory_bound=inf, **kwargs):
-        super(DummyEstimator, self).__init__(DummyAlgorithm, DummyProblem(problem_parameter1=problem_parameter1,
+        super(PSEstimator, self).__init__(PSAlgorithm, PSProblem(problem_parameter1=problem_parameter1,
                                                                           problem_parameter2=problem_parameter2,
                                                                           memory_bound=memory_bound, **kwargs), **kwargs)
 
@@ -53,7 +53,7 @@ class DummyEstimator(BaseEstimator):
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
         """
-        super(DummyEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
+        super(PSEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                           show_tilde_o_time=show_tilde_o_time,
                                           show_all_parameters=show_all_parameters,
                                           precision=precision, truncate=truncate)

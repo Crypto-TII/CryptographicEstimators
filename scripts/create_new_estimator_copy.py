@@ -6,7 +6,7 @@ from os import path, mkdir, system
 from src.create_algorithm import CreateAlgorithm
 from src.create_estimator import CreateEstimator
 from src.create_problem import CreateProblem
-from src.create_specific_algorithm_copy import CreateSpecificAlgorithm
+from src.create_specific_algorithm import CreateSpecificAlgorithm
 from src.create_init import CreateInit
 from src.create_constant import CreateConstants
 

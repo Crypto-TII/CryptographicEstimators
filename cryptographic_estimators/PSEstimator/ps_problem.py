@@ -90,7 +90,7 @@ class PSProblem(BaseProblem):
         """
         """
         par1, par2 = self.get_parameters()
-        rep = "dummy problem with (problem_parameter1, problem_parameter2) = " \
+        rep = "PS problem with (problem_parameter1, problem_parameter2) = " \
               + "(" + str(par1) + "," + str(par2) + ")"
 
         return rep

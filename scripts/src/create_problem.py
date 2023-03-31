@@ -16,4 +16,4 @@ class CreateProblem(BaseFileCreator):
         """
         with open(self.algorithms_path + '/DummyEstimator/dummy_problem.py', 'r') as file:
             data = file.read()
-            return data.replace('DummyProblem', self.uppercase_prefix + 'Problem')
+            return data.replace('$$Dummy$$', self.uppercase_prefix)

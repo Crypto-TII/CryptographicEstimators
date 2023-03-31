@@ -16,4 +16,6 @@ class CreateEstimator(BaseFileCreator):
         """
         with open(self.algorithms_path + '/DummyEstimator/dummy_estimator.py', 'r') as file:
             data = file.read()
+            data = data.replace('$$Dummy$$', self.uppercase_prefix)
+            data = data.replace('$$dummy$$', self.lowercase_prefix)
         return data
