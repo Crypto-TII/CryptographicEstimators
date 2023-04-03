@@ -16,7 +16,7 @@ class CreateInit():
         template = f"from .{self.lower_estimator_prefix}_algorithm import {self.upper_estimator_prefix}Algorithm\n" + \
                   f"from .{self.lower_estimator_prefix}_estimator import {self.upper_estimator_prefix}Estimator\n" + \
                   f"from .{self.lower_estimator_prefix}_problem import {self.upper_estimator_prefix}Problem\n" + \
-                  f"from .{self.upper_estimator_prefix}Algorithms import Sample\n" + \
+                  f"from .{self.upper_estimator_prefix}Algorithms import {self.upper_estimator_prefix}Algorithm1\n" + \
                   "# TODO: Remember to add the algorithms to the import above"
         return template
 
@@ -26,6 +26,6 @@ class CreateInit():
         file.close()
 
     def get_algorithms_init_content(self):
-        template = f"from .sample import Sample\n" + \
+        template = f"from .{self.lower_estimator_prefix}_algorithm1 import {self.upper_estimator_prefix}Algorithm1\n" + \
                     "# TODO: Remember to add the algorithms to the import above"
         return template

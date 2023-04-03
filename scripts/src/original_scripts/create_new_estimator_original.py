@@ -22,15 +22,14 @@ class EstimatorGenerator():
         self.estimator_path = ""
         self.algorithms_path = ""
         self.estimator_prefix = estimator_prefix
-        self.absolute_library_path = path.abspath("cryptographic_estimators")
 
     def create_estimator_folders(self):
         """
         Creates the estimator folder and the nested algorithms folder
         """
         print("# Creating folders...")
-        
-        self.estimator_path = path.join(self.absolute_library_path, self.estimator_folder_name)
+        absolute_library_path = path.abspath("cryptographic_estimators")
+        self.estimator_path = path.join(absolute_library_path, self.estimator_folder_name)
         self.algorithms_path = path.join(self.estimator_path, self.algorithms_folder_name)
 
         self.__create_folder(self.estimator_path, self.estimator_folder_name)
@@ -48,11 +47,11 @@ class EstimatorGenerator():
         Creates the Estimator,Problem, Algorithm and a Sample algorithm files
         """
         print("# Creating files...")
-        CreateProblem(self.estimator_prefix, self.estimator_path, self.absolute_library_path).write()
-        CreateEstimator(self.estimator_prefix, self.estimator_path, self.absolute_library_path).write()
-        CreateAlgorithm(self.estimator_prefix, self.estimator_path, self.absolute_library_path).write()
-        CreateConstants(self.estimator_prefix, self.estimator_path, self.absolute_library_path).write()
-        CreateSpecificAlgorithm(self.estimator_prefix, self.algorithms_path, self.absolute_library_path).write()
+        CreateProblem(self.estimator_prefix, self.estimator_path).write()
+        CreateEstimator(self.estimator_prefix, self.estimator_path).write()
+        CreateAlgorithm(self.estimator_prefix, self.estimator_path).write()
+        CreateConstants(self.estimator_prefix, self.estimator_path).write()
+        CreateSpecificAlgorithm(self.estimator_prefix, self.algorithms_path).write()
 
     def create_init_files(self):
         """
