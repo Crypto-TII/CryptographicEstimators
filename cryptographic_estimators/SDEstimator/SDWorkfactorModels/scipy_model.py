@@ -1,20 +1,20 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
+
 
 import collections
 from ..sd_estimator import SDProblem
@@ -34,10 +34,12 @@ class ScipyModel:
         self.rate = lambda x: k / n
         self.w = lambda x: w / n
 
-        self.set_vars = collections.namedtuple('SciOptModel', ' '.join(self.parameters_names))
+        self.set_vars = collections.namedtuple(
+            'SciOptModel', ' '.join(self.parameters_names))
 
         if problem.nsolutions == max(0, problem.expected_number_solutions()):
-            self.nsolutions = max(0, binomial_approximation(1, w / n) - (1 - k / n))
+            self.nsolutions = max(
+                0, binomial_approximation(1, w / n) - (1 - k / n))
         else:
             self.nsolutions = log2(problem.nsolutions) / n
 
@@ -51,7 +53,8 @@ class ScipyModel:
             bounds = []
             for i in self.parameters_names:
                 if i in parameters:
-                    bounds += [(max(parameters[i] - self.accuracy, 0), parameters[i] + self.accuracy)]
+                    bounds += [(max(parameters[i] - self.accuracy, 0),
+                                parameters[i] + self.accuracy)]
                 else:
                     bounds += [(0, 1)]
             return bounds
@@ -78,10 +81,10 @@ class ScipyModel:
 
     def _get_parameters(self, x):
         par = {}
-        par_index=0
+        par_index = 0
         for par_name in self.parameters_names:
             par[par_name] = x[par_index]
-            par_index+=1
+            par_index += 1
         return par
 
     def get_time_memory_and_parameters(self, parameters=None):
