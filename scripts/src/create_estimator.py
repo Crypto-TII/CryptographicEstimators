@@ -3,10 +3,12 @@ This module generates the Estimator class
 """
 from .base_file_creator import BaseFileCreator
 
+
 class CreateEstimator(BaseFileCreator):
 
     def write(self):
-        f = open(f"{self.estimator_path}/{self.lowercase_prefix}_estimator.py", "w", encoding="utf8")
+        f = open(
+            f"{self.estimator_path}/{self.lowercase_prefix}_estimator.py", "w", encoding="utf8")
         f.write(self._get_file_content())
         f.close()
 
