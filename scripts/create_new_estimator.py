@@ -18,7 +18,7 @@ class EstimatorGenerator():
 
     def __init__(self):
         estimator_prefix = input(
-            "Enter a prefix for your Estimator (For example for SyndromeDecoding we use SD): ")
+            "Enter a prefix for your Estimator (For example for SyndromeDecoding you could use SD): ")
         self.estimator_folder_name = estimator_prefix.upper() + "Estimator"
         self.algorithms_folder_name = estimator_prefix.upper() + "Algorithms"
         self.estimator_path = ""
@@ -55,14 +55,14 @@ class EstimatorGenerator():
         print("# Creating files...")
         CreateProblem(self.estimator_prefix, self.estimator_path,
                       self.absolute_library_path).write()
-        CreateEstimator(self.estimator_prefix, self.estimator_path,
-                        self.absolute_library_path).write()
-        CreateAlgorithm(self.estimator_prefix, self.estimator_path,
-                        self.absolute_library_path).write()
-        CreateConstants(self.estimator_prefix, self.estimator_path,
-                        self.absolute_library_path).write()
-        CreateSpecificAlgorithm(
-            self.estimator_prefix, self.algorithms_path, self.absolute_library_path).write()
+        # CreateEstimator(self.estimator_prefix, self.estimator_path,
+        #                 self.absolute_library_path).write()
+        # CreateAlgorithm(self.estimator_prefix, self.estimator_path,
+        #                 self.absolute_library_path).write()
+        # CreateConstants(self.estimator_prefix, self.estimator_path,
+        #                 self.absolute_library_path).write()
+        # CreateSpecificAlgorithm(
+        #     self.estimator_prefix, self.algorithms_path, self.absolute_library_path).write()
 
     def create_init_files(self):
         """
