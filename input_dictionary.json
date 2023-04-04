@@ -343,8 +343,8 @@
       ]
     },
     {
-      "estimator_id": "SDFQEstimator",
-      "algorithm_id": "SDFQAlgorithm",
+      "estimator_id": "SDFqEstimator",
+      "algorithm_id": "SDFqAlgorithm",
       "display_label": "Syndrome Decoding over Fq",
       "landing_page_content": "# Syndrome Decoding Estimator over $\\mathbf F_q$\n\n\nThis project provides an estimator for the hardness of the syndrome decoding problem over $\\mathbf F_q$. This problem is defined as follows:\n\nLet $\\mathbf H\\in\\mathbb{F}_q^{(n-k)\\times n}$ be the parity-check matrix of a code of length $n$ and dimension $k$. Given $\\mathbf H$, a syndrome $\\mathbf{s}\\in\\mathbb{F}_q^{n-k}$ and an integer $\\omega < n$ the syndrome decoding problem asks to find a vector $\\mathbf e \\in \\mathbb{F}_q^n$ satisfying $\\mathbf H \\mathbf e=\\mathbf s$ while $\\mathbf e$ has a Hamming weight smaller or equal to $\\omega$.\n\nThe estimator covers Information Set Decoding (ISD) algorithms to estimate the hardness of given instances.",
       "problem_parameters": [
