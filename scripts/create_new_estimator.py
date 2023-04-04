@@ -55,14 +55,14 @@ class EstimatorGenerator():
         print("# Creating files...")
         CreateProblem(self.estimator_prefix, self.estimator_path,
                       self.absolute_library_path).write()
-        # CreateEstimator(self.estimator_prefix, self.estimator_path,
-        #                 self.absolute_library_path).write()
-        # CreateAlgorithm(self.estimator_prefix, self.estimator_path,
-        #                 self.absolute_library_path).write()
-        # CreateConstants(self.estimator_prefix, self.estimator_path,
-        #                 self.absolute_library_path).write()
-        # CreateSpecificAlgorithm(
-        #     self.estimator_prefix, self.algorithms_path, self.absolute_library_path).write()
+        CreateEstimator(self.estimator_prefix, self.estimator_path,
+                        self.absolute_library_path).write()
+        CreateAlgorithm(self.estimator_prefix, self.estimator_path,
+                        self.absolute_library_path).write()
+        CreateConstants(self.estimator_prefix, self.estimator_path,
+                        self.absolute_library_path).write()
+        CreateSpecificAlgorithm(
+            self.estimator_prefix, self.algorithms_path).write()
 
     def create_init_files(self):
         """

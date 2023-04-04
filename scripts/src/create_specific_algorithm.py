@@ -3,10 +3,17 @@ This module generates the Estimator class
 """
 from .base_file_creator import BaseFileCreator
 
-class CreateSpecificAlgorithm(BaseFileCreator):
 
-    def write(self):
-        f = open(f"{self.estimator_path}/{self.lowercase_prefix}_algorithm1.py", "w", encoding="utf8")
+class CreateSpecificAlgorithm():
+
+    def __init__(self, estimator_prefix, algortihms_path):
+        self.algorithms_path = algortihms_path
+        self.lowercase_prefix = estimator_prefix.lower()
+        self.uppercase_prefix = estimator_prefix.upper()
+
+    def write(self,):
+        f = open(f"{self.algorithms_path}/{self.lowercase_prefix}_algorithm1.py",
+                 "w", encoding="utf8")
         f.write(self._get_file_content())
         f.close()
 
@@ -14,9 +21,8 @@ class CreateSpecificAlgorithm(BaseFileCreator):
         """
         Generates the file with the imports and the class definition
         """
-        with open(self.algorithms_path + '/DummyEstimator/DummyAlgorithms/dummy_algorithm1.py', 'r') as file:
+        with open('./scripts/templates/specific_algorithm.py', 'r') as file:
             data = file.read()
-            data = data.replace('$$Dummy$$', self.uppercase_prefix)
-            data = data.replace('$$dummy$$', self.lowercase_prefix)
+            data = data.replace('$$UPPER_CASE_PREFIX$$', self.uppercase_prefix)
+            data = data.replace('$$lower_case_prefix$$', self.lowercase_prefix)
             return data
-        

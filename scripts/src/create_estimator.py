@@ -16,8 +16,8 @@ class CreateEstimator(BaseFileCreator):
         """
         Generates the file with the imports and the class definition
         """
-        with open(self.algorithms_path + '/DummyEstimator/dummy_estimator.py', 'r') as file:
+        with open('./scripts/templates/estimator.py', 'r') as file:
             data = file.read()
-            data = data.replace('$$Dummy$$', self.uppercase_prefix)
-            data = data.replace('$$dummy$$', self.lowercase_prefix)
+            data = data.replace('$$UPPER_CASE_PREFIX$$', self.uppercase_prefix)
+            data = data.replace('$$lower_case_prefix$$', self.lowercase_prefix)
         return data
