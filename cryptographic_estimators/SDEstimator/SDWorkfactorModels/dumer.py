@@ -1,20 +1,20 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
+
 
 import collections
 from .scipy_model import ScipyModel
@@ -30,12 +30,16 @@ class DumerScipyModel(ScipyModel):
         super().__init__(par_names, problem, iterations, accuracy)
 
     def _build_model_and_set_constraints(self):
-        self.L1 = lambda x: binomial_approximation((self.rate(x) + x.l) / 2, x.p / 2)
+        self.L1 = lambda x: binomial_approximation(
+            (self.rate(x) + x.l) / 2, x.p / 2)
 
         self.constraints = [
-            {'type': 'ineq', 'fun': self._inject_vars(lambda x: self.rate(x) + x.l - x.p)},
-            {'type': 'ineq', 'fun': self._inject_vars(lambda x: (1. - self.rate(x) - x.l) - (self.w(x) - x.p))},
-            {'type': 'ineq', 'fun': self._inject_vars(lambda x: self.w(x) - x.p)},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: self.rate(x) + x.l - x.p)},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: (1. - self.rate(x) - x.l) - (self.w(x) - x.p))},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: self.w(x) - x.p)},
         ]
 
     def _memory(self, x):
@@ -48,7 +52,8 @@ class DumerScipyModel(ScipyModel):
         return max(0,
                    binomial_approximation(1., self.w(x))
                    - binomial_approximation(self.rate(x) + x.l, x.p)
-                   - binomial_approximation(1 - self.rate(x) - x.l, self.w(x) - x.p)
+                   - binomial_approximation(1 -
+                                            self.rate(x) - x.l, self.w(x) - x.p)
                    - self.nsolutions
                    )
 

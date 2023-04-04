@@ -2,6 +2,7 @@
 This module generates the init files for the Estimator and for the Algorithms of the estimator
 """
 
+
 class CreateInit():
     def __init__(self, estimator_prefix):
         self.upper_estimator_prefix = estimator_prefix.upper()
@@ -13,12 +14,11 @@ class CreateInit():
         file.close()
 
     def get_estimator_init_content(self):
-        template = f"from .{self.lower_estimator_prefix}_algorithm import {self.upper_estimator_prefix}Algorithm\n" + \
-                  f"from .{self.lower_estimator_prefix}_estimator import {self.upper_estimator_prefix}Estimator\n" + \
-                  f"from .{self.lower_estimator_prefix}_problem import {self.upper_estimator_prefix}Problem\n" + \
-                  f"from .{self.upper_estimator_prefix}Algorithms import Sample\n" + \
-                  "# TODO: Remember to add the algorithms to the import above"
-        return template
+        with open('./scripts/templates/estimator_init.py', 'r') as file:
+            data = file.read()
+            data = data.replace('$$lower_case_prefix$$',
+                                self.lower_estimator_prefix)
+            return data.replace('$$UPPER_CASE_PREFIX$$', self.upper_estimator_prefix)
 
     def write_algorithms_init(self, algorithm_path):
         file = open(f"{algorithm_path}/__init__.py", "w", encoding="utf8")
@@ -26,6 +26,8 @@ class CreateInit():
         file.close()
 
     def get_algorithms_init_content(self):
-        template = f"from .sample import Sample\n" + \
-                    "# TODO: Remember to add the algorithms to the import above"
-        return template
+        with open('./scripts/templates/algorithm_init.py', 'r') as file:
+            data = file.read()
+            data = data.replace('$$lower_case_prefix$$',
+                                self.lower_estimator_prefix)
+            return data.replace('$$UPPER_CASE_PREFIX$$', self.upper_estimator_prefix)
