@@ -18,6 +18,7 @@
 
 from ..base_problem import BaseProblem
 
+
 class $$UPPER_CASE_PREFIX$$Problem(BaseProblem):
     """
     Construct an instance of $$UPPER_CASE_PREFIX$$Problem. Contains the parameters to optimize
@@ -33,7 +34,7 @@ class $$UPPER_CASE_PREFIX$$Problem(BaseProblem):
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """
-        Returns the bit-complexity corresponding to a certain amount of basic_operations
+        Return the bit-complexity corresponding to a certain amount of basic_operations
 
         INPUT:
 
@@ -44,7 +45,7 @@ class $$UPPER_CASE_PREFIX$$Problem(BaseProblem):
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
-        Returns the memory bit-complexity associated to a given number of elements to store
+        Return the memory bit-complexity associated to a given number of elements to store
 
         INPUT:
 
@@ -55,14 +56,14 @@ class $$UPPER_CASE_PREFIX$$Problem(BaseProblem):
 
     def expected_number_solutions(self):
         """
-        Returns the logarithm of the expected number of existing solutions to the problem
+        Return the logarithm of the expected number of existing solutions to the problem
 
         """
         pass
 
     def get_parameters(self):
         """
-        Returns the optimizations parameters
+        Return the optimizations parameters
         """
         pass
 

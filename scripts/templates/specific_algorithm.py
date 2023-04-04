@@ -18,8 +18,6 @@
 
 from ..$$lower_case_prefix$$_algorithm import $$UPPER_CASE_PREFIX$$Algorithm
 from ..$$lower_case_prefix$$_problem import $$UPPER_CASE_PREFIX$$Problem
-from ...base_algorithm import optimal_parameter
-from math import log2
 
 
 class $$UPPER_CASE_PREFIX$$Algorithm1($$UPPER_CASE_PREFIX$$Algorithm):
@@ -30,84 +28,11 @@ class $$UPPER_CASE_PREFIX$$Algorithm1($$UPPER_CASE_PREFIX$$Algorithm):
 
     INPUT:
 
-    - ``problem`` -- $$UPPER_CASE_PREFIX$$Problem object including all necessary parameters
-    - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-    - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.$$UPPER_CASE_PREFIX$$Estimator.$$UPPER_CASE_PREFIX$$Algorithms.$$lower_case_prefix$$_algorithm1 import $$UPPER_CASE_PREFIX$$Algorithm1
-        sage: from cryptographic_estimators.$$UPPER_CASE_PREFIX$$Estimator.$$lower_case_prefix$$_problem import $$UPPER_CASE_PREFIX$$Problem
-        sage: E = $$UPPER_CASE_PREFIX$$Algorithm1($$UPPER_CASE_PREFIX$$Problem(100, 50))
-        sage: E
-        $$lower_case_prefix$$_algorithm1 estimator for the $$lower_case_prefix$$ problem with parameters 100 and 50
-
+    - ``problem`` -- an instance of the $$UPPER_CASE_PREFIX$$Problem class
     """
 
     def __init__(self, problem: $$UPPER_CASE_PREFIX$$Problem, **kwargs):
         super().__init__(problem, **kwargs)
-
-        self._name = "$$lower_case_prefix$$_algorithm1"
-        problem_par1, problem_par2 = self.problem.get_parameters()
-        self.set_parameter_ranges('optimization_parameter_1', 1, problem_par1)
-        self.set_parameter_ranges(
-            'optimization_parameter_2', 1, max(1, problem_par1 - problem_par2))
-        self.set_parameter_ranges('optimization_parameter_3', 10, 20)
-
-    @optimal_parameter
-    def optimization_parameter_3(self):
-        """
-        Return the optimal parameter $optimization_parameter_3$
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.$$UPPER_CASE_PREFIX$$Estimator.$$UPPER_CASE_PREFIX$$Algorithms.$$lower_case_prefix$$_algorithm1 import $$UPPER_CASE_PREFIX$$Algorithm1
-            sage: from cryptographic_estimators.$$UPPER_CASE_PREFIX$$Estimator.$$lower_case_prefix$$_problem import $$UPPER_CASE_PREFIX$$Problem
-            sage: E = $$UPPER_CASE_PREFIX$$Algorithm1($$UPPER_CASE_PREFIX$$Problem(100, 50))
-            sage: E.optimization_parameter_3()
-            10
-        """
-
-        # first define parameters that can be optimized independently from each other
-        problem_par1, problem_par2 = self.problem.get_parameters()
-        if problem_par1 - problem_par2 > 20:
-            return 10
-        else:
-            return 20
-
-    @optimal_parameter
-    def optimization_parameter_1(self):
-        """
-        Return the optimal parameter $optimization_parameter_1$
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.$$UPPER_CASE_PREFIX$$Estimator.$$UPPER_CASE_PREFIX$$Algorithms.$$lower_case_prefix$$_algorithm1 import $$UPPER_CASE_PREFIX$$Algorithm1
-            sage: from cryptographic_estimators.DummyEstimator.$$lower_case_prefix$$_problem import DummyProblem
-            sage: E = DummyAlgorithm1(DummyProblem(100, 50))
-            sage: E.optimization_parameter_1()
-            25
-        """
-
-        # then define all dependent parameters which need to be optimized together using the _get_optimal_parameter
-        # method
-        return self._get_optimal_parameter('optimization_parameter_1')
-
-    @optimal_parameter
-    def optimization_parameter_2(self):
-        """
-        Return the optimal parameter $optimization_parameter_2$
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.DummyEstimator.DummyAlgorithms.$$lower_case_prefix$$_algorithm1 import DummyAlgorithm1
-            sage: from cryptographic_estimators.DummyEstimator.$$lower_case_prefix$$_problem import $$UPPER_CASE_PREFIX$$Problem
-            sage: E = $$UPPER_CASE_PREFIX$$Algorithm1($$UPPER_CASE_PREFIX$$Problem(100, 50))
-            sage: E.optimization_parameter_2()
-            50
-        """
-
-        return self._get_optimal_parameter('optimization_parameter_2')
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -118,15 +43,7 @@ class $$UPPER_CASE_PREFIX$$Algorithm1($$UPPER_CASE_PREFIX$$Algorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
-        p1 = parameters["optimization_parameter_1"]
-        p2 = parameters["optimization_parameter_2"]
-        p3 = parameters["optimization_parameter_3"]
-        prob_par1, prob_par2 = self.problem.get_parameters()
-
-        time = max((16 * (prob_par1 - p1 - p2) ** 2 + (prob_par2 + 2 * p3) ** 3) * 2 ** max(0, prob_par1 - p1 - p2 - p3),
-                   2 ** p1 * p2 * p3)
-
-        return log2(time)
+        pass
 
     def _compute_memory_complexity(self, parameters: dict):
         """
@@ -137,9 +54,4 @@ class $$UPPER_CASE_PREFIX$$Algorithm1($$UPPER_CASE_PREFIX$$Algorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
-
-        p1 = parameters["optimization_parameter_1"]
-        p2 = parameters["optimization_parameter_2"]
-        p3 = parameters["optimization_parameter_3"]
-        memory = 2 ** p1 * p2 * p3
-        return log2(memory)
+        pass

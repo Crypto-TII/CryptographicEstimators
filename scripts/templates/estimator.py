@@ -21,6 +21,7 @@ from .$$lower_case_prefix$$_problem import $$UPPER_CASE_PREFIX$$Problem
 from ..base_estimator import BaseEstimator
 from math import inf
 
+
 class $$UPPER_CASE_PREFIX$$Estimator(BaseEstimator):
     """
     Construct an instance of $$UPPER_CASE_PREFIX$$Estimator
