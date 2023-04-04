@@ -20,9 +20,9 @@ from ..base_problem import BaseProblem
 from math import log2
 
 
-class $$Dummy$$Problem(BaseProblem):
+class DummyProblem(BaseProblem):
     """
-    Construct an instance of $$Dummy$$Problem. Contains the parameters to optimize
+    Construct an instance of DummyProblem. Contains the parameters to optimize
     over.
 
     INPUT:
@@ -90,7 +90,7 @@ class $$Dummy$$Problem(BaseProblem):
         """
         """
         par1, par2 = self.get_parameters()
-        rep = "$$Dummy$$ problem with (problem_parameter1, problem_parameter2) = " \
+        rep = "Dummy problem with (problem_parameter1, problem_parameter2) = " \
               + "(" + str(par1) + "," + str(par2) + ")"
 
         return rep

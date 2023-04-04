@@ -16,15 +16,15 @@
 # ****************************************************************************
 
 
-from .$$dummy$$_algorithm import $$Dummy$$Algorithm
-from .$$dummy$$_problem import $$Dummy$$Problem
+from .dummy_algorithm import DummyAlgorithm
+from .dummy_problem import DummyProblem
 from ..base_estimator import BaseEstimator
 from math import inf
 
 
-class $$Dummy$$Estimator(BaseEstimator):
+class DummyEstimator(BaseEstimator):
     """
-    Construct an instance of $$Dummy$$Estimator
+    Construct an instance of DummyEstimator
 
     INPUT:
 
@@ -36,7 +36,7 @@ class $$Dummy$$Estimator(BaseEstimator):
     """
 
     def __init__(self, problem_parameter1: float, problem_parameter2, memory_bound=inf, **kwargs):
-        super($$Dummy$$Estimator, self).__init__($$Dummy$$Algorithm, $$Dummy$$Problem(problem_parameter1=problem_parameter1,
+        super(DummyEstimator, self).__init__(DummyAlgorithm, DummyProblem(problem_parameter1=problem_parameter1,
                                                                           problem_parameter2=problem_parameter2,
                                                                           memory_bound=memory_bound, **kwargs), **kwargs)
 
@@ -53,7 +53,7 @@ class $$Dummy$$Estimator(BaseEstimator):
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
         """
-        super($$Dummy$$Estimator, self).table(show_quantum_complexity=show_quantum_complexity,
+        super(DummyEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                           show_tilde_o_time=show_tilde_o_time,
                                           show_all_parameters=show_all_parameters,
                                           precision=precision, truncate=truncate)

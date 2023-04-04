@@ -16,38 +16,38 @@
 # ****************************************************************************
 
 
-from ..$$dummy$$_algorithm import $$Dummy$$Algorithm
-from ..$$dummy$$_problem import $$Dummy$$Problem
+from ..dummy_algorithm import DummyAlgorithm
+from ..dummy_problem import DummyProblem
 from ...base_algorithm import optimal_parameter
 from math import log2
 
 
-class $$Dummy$$Algorithm1($$Dummy$$Algorithm):
+class DummyAlgorithm1(DummyAlgorithm):
     """
-    Construct an instance of $$Dummy$$Algorithm1 estimator
+    Construct an instance of DummyAlgorithm1 estimator
 
     Add reference to correponding paper here.
 
     INPUT:
 
-    - ``problem`` -- $$Dummy$$Problem object including all necessary parameters
+    - ``problem`` -- DummyProblem object including all necessary parameters
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
 
     EXAMPLES::
 
-        sage: from cryptographic_estimators.$$Dummy$$Estimator.$$Dummy$$Algorithms.$$dummy$$_algorithm1 import $$Dummy$$Algorithm1
-        sage: from cryptographic_estimators.$$Dummy$$Estimator.$$dummy$$_problem import $$Dummy$$Problem
-        sage: E = $$Dummy$$Algorithm1($$Dummy$$Problem(100, 50))
+        sage: from cryptographic_estimators.DummyEstimator.DummyAlgorithms.dummy_algorithm1 import DummyAlgorithm1
+        sage: from cryptographic_estimators.DummyEstimator.dummy_problem import DummyProblem
+        sage: E = DummyAlgorithm1(DummyProblem(100, 50))
         sage: E
-        $$dummy$$_algorithm1 estimator for the $$dummy$$ problem with parameters 100 and 50
+        dummy_algorithm1 estimator for the dummy problem with parameters 100 and 50
 
     """
 
-    def __init__(self, problem: $$Dummy$$Problem, **kwargs):
+    def __init__(self, problem: DummyProblem, **kwargs):
         super().__init__(problem, **kwargs)
 
-        self._name = "$$dummy$$_algorithm1"
+        self._name = "dummy_algorithm1"
         problem_par1, problem_par2 = self.problem.get_parameters()
         self.set_parameter_ranges('optimization_parameter_1', 1, problem_par1)
         self.set_parameter_ranges(
@@ -61,9 +61,9 @@ class $$Dummy$$Algorithm1($$Dummy$$Algorithm):
 
         EXAMPLES::
 
-            sage: from cryptographic_estimators.$$Dummy$$Estimator.$$Dummy$$Algorithms.$$dummy$$_algorithm1 import $$Dummy$$Algorithm1
-            sage: from cryptographic_estimators.$$Dummy$$Estimator.$$dummy$$_problem import $$Dummy$$Problem
-            sage: E = $$Dummy$$Algorithm1($$Dummy$$Problem(100, 50))
+            sage: from cryptographic_estimators.DummyEstimator.DummyAlgorithms.dummy_algorithm1 import DummyAlgorithm1
+            sage: from cryptographic_estimators.DummyEstimator.dummy_problem import DummyProblem
+            sage: E = DummyAlgorithm1(DummyProblem(100, 50))
             sage: E.optimization_parameter_3()
             10
         """
@@ -82,8 +82,8 @@ class $$Dummy$$Algorithm1($$Dummy$$Algorithm):
 
         EXAMPLES::
 
-            sage: from cryptographic_estimators.$$Dummy$$Estimator.$$Dummy$$Algorithms.$$dummy$$_algorithm1 import $$Dummy$$Algorithm1
-            sage: from cryptographic_estimators.DummyEstimator.$$dummy$$_problem import DummyProblem
+            sage: from cryptographic_estimators.DummyEstimator.DummyAlgorithms.dummy_algorithm1 import DummyAlgorithm1
+            sage: from cryptographic_estimators.DummyEstimator.dummy_problem import DummyProblem
             sage: E = DummyAlgorithm1(DummyProblem(100, 50))
             sage: E.optimization_parameter_1()
             25
@@ -100,9 +100,9 @@ class $$Dummy$$Algorithm1($$Dummy$$Algorithm):
 
         EXAMPLES::
 
-            sage: from cryptographic_estimators.DummyEstimator.DummyAlgorithms.$$dummy$$_algorithm1 import DummyAlgorithm1
-            sage: from cryptographic_estimators.DummyEstimator.$$dummy$$_problem import $$Dummy$$Problem
-            sage: E = $$Dummy$$Algorithm1($$Dummy$$Problem(100, 50))
+            sage: from cryptographic_estimators.DummyEstimator.DummyAlgorithms.dummy_algorithm1 import DummyAlgorithm1
+            sage: from cryptographic_estimators.DummyEstimator.dummy_problem import DummyProblem
+            sage: E = DummyAlgorithm1(DummyProblem(100, 50))
             sage: E.optimization_parameter_2()
             50
         """
