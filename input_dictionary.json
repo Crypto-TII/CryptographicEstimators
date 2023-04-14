@@ -63,7 +63,6 @@
           "direction": "column",
           "display_label": "Number of solutions",
           "placeholder": "Insert value",
-          "default_value": 0,
           "tooltip": "Log2 of number of existing solutions of which one has to be found"
         }
       ],
@@ -223,7 +222,6 @@
           "direction": "column",
           "display_label": "Number of solutions",
           "placeholder": "Insert value",
-          "default_value": 0,
           "tooltip": "Log2 of number of existing solutions of which one has to be found"
         }
       ],
@@ -417,7 +415,6 @@
           "type": "number",
           "direction": "column",
           "display_label": "Number of solutions",
-          "default_value": 0,
           "placeholder": "Insert value",
           "tooltip": "Log2 of number of existing solutions of which one has to be found, if not specified it will be fixed to the number of solutions in expectation"
         }
@@ -533,7 +530,6 @@
           "direction": "column",
           "display_label": "Number of solutions",
           "placeholder": "Insert value",
-          "default_value": 0,
           "tooltip": "Log2 of number of existing solutions of which one has to be found"
         }
       ],
@@ -653,7 +649,6 @@
           "direction": "column",
           "display_label": "Number of solutions",
           "placeholder": "Insert value",
-          "default_value": 0,
           "tooltip": "Log2 of number of existing solutions of which one has to be found"
         }
       ],
@@ -749,7 +744,6 @@
           "direction": "column",
           "display_label": "Number of solutions",
           "placeholder": "Insert value",
-          "default_value": 0,
           "tooltip": "Log2 of number of existing solutions of which one has to be found"
         }
       ],
