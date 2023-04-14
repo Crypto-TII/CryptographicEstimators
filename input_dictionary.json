@@ -44,6 +44,27 @@
               "operation": "n - k"
             }
           ]
+        },
+        {
+          "id": "memory_bound",
+          "required": false,
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "default_value": null,
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+          "id": "nsolutions",
+          "required": false,
+          "type": "number",
+          "direction": "column",
+          "display_label": "Number of solutions",
+          "placeholder": "Insert value",
+          "default_value": 0,
+          "tooltip": "Log2 of number of existing solutions of which one has to be found"
         }
       ],
       "estimator_parameters": [
@@ -100,16 +121,6 @@
       ],
       "optional_parameters": [
         {
-          "id": "memory_bound",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Memory limit",
-          "default_value": null,
-          "placeholder": "Insert value",
-          "caption": "Leave empty if no limit is desired",
-          "tooltip": "Log2 of the maximum number of bits of memory available"
-        },
-        {
           "id": "precision",
           "type": "number",
           "direction": "column",
@@ -131,14 +142,6 @@
               "action": "show"
             }
           ]
-        },
-        {
-          "id": "nsolutions",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Number of solutions",
-          "placeholder": "Insert value",
-          "tooltip": "Log2 of number of existing solutions of which one has to be found"
         },
         {
           "id": "include_quantum",
@@ -201,6 +204,27 @@
           "display_label": "Field size",
           "placeholder": "Insert parameter",
           "tooltip": "An integer of the form p^x for some integer x, where p is prime number.  This value indicates the number of elements in the underlying field"
+        },
+        {
+          "id": "memory_bound",
+          "required": false,
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "default_value": null,
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+          "id": "nsolutions",
+          "required": false,
+          "type": "number",
+          "direction": "column",
+          "display_label": "Number of solutions",
+          "placeholder": "Insert value",
+          "default_value": 0,
+          "tooltip": "Log2 of number of existing solutions of which one has to be found"
         }
       ],
       "estimator_parameters": [
@@ -269,16 +293,6 @@
       ],
       "optional_parameters": [
         {
-          "id": "memory_bound",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Memory limit",
-          "default_value": null,
-          "placeholder": "Insert value",
-          "caption": "Leave empty if no limit is desired",
-          "tooltip": "Log2 of the maximum number of bits of memory available"
-        },
-        {
           "id": "precision",
           "type": "number",
           "direction": "column",
@@ -293,15 +307,6 @@
           "display_label": "Tilde-O complexity",
           "default_value": false,
           "tooltip": "Include complexity estimates that disregard polynomial factors"
-        },
-        {
-          "id": "nsolutions",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Number of solutions",
-          "default_value": 0,
-          "placeholder": "Insert value",
-          "tooltip": "Log2 of number of existing solutions of which one has to be found"
         },
         {
           "id": "include_quantum",
@@ -397,6 +402,7 @@
         },
         {
           "id": "memory_bound",
+          "required": false,
           "type": "number",
           "direction": "column",
           "display_label": "Memory limit",
@@ -407,9 +413,11 @@
         },
         {
           "id": "nsolutions",
+          "required": false,
           "type": "number",
           "direction": "column",
           "display_label": "Number of solutions",
+          "default_value": 0,
           "placeholder": "Insert value",
           "tooltip": "Log2 of number of existing solutions of which one has to be found, if not specified it will be fixed to the number of solutions in expectation"
         }
@@ -501,6 +509,7 @@
         },
         {
           "id": "use_parity_row",
+          "required": false,
           "type": "switch",
           "display_label": "Use parity row",
           "default_value": false,
@@ -508,19 +517,23 @@
         },
         {
           "id": "memory_bound",
+          "required": false,
           "type": "number",
           "direction": "column",
           "display_label": "Memory limit",
+          "default_value": null,
           "placeholder": "Insert value",
           "caption": "Leave empty if no limit is desired",
           "tooltip": "Log2 of the maximum number of bits of memory available"
         },
         {
           "id": "nsolutions",
+          "required": false,
           "type": "number",
           "direction": "column",
           "display_label": "Number of solutions",
           "placeholder": "Insert value",
+          "default_value": 0,
           "tooltip": "Log2 of number of existing solutions of which one has to be found"
         }
       ],
@@ -624,19 +637,23 @@
         },
         {
           "id": "memory_bound",
+          "required": false,
           "type": "number",
           "direction": "column",
           "display_label": "Memory limit",
+          "default_value": null,
           "placeholder": "Insert value",
           "caption": "Leave empty if no limit is desired",
           "tooltip": "Log2 of the maximum number of bits of memory available"
         },
         {
           "id": "nsolutions",
+          "required": false,
           "type": "number",
           "direction": "column",
           "display_label": "Number of solutions",
           "placeholder": "Insert value",
+          "default_value": 0,
           "tooltip": "Log2 of number of existing solutions of which one has to be found"
         }
       ],
@@ -716,19 +733,23 @@
         },
         {
           "id": "memory_bound",
+          "required": false,
           "type": "number",
           "direction": "column",
           "display_label": "Memory limit",
+          "default_value": null,
           "placeholder": "Insert value",
           "caption": "Leave empty if no limit is desired",
           "tooltip": "Log2 of the maximum number of bits of memory available"
         },
         {
           "id": "nsolutions",
+          "required": false,
           "type": "number",
           "direction": "column",
           "display_label": "Number of solutions",
           "placeholder": "Insert value",
+          "default_value": 0,
           "tooltip": "Log2 of number of existing solutions of which one has to be found"
         }
       ],
