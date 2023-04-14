@@ -1,38 +1,23 @@
 ## Project structure
-This the current project structure. 
-```sh
-── cryptographic_estimators
-│   ├── base_algorithm.py
-│   ├── base_estimator.py
-│   ├── base_problem.py
-│   ├── helper.py
-│   ├── MQEstimator
-│   │   ├── degree_of_regularity.py
-│   │   ├── mq_algorithm.py
-│   │   ├── MQAlgorithms
-│   │   ├── mq_estimator.py
-│   │   ├── mq_helper.py
-│   │   ├── mq_problem.py
-│   │   ├── series
-│   │   └── witness_degree.py
-│   └── SDEstimator
-│       ├── sd_algorithm.py
-│       ├── SDAlgorithms
-│       ├── sd_estimator.py
-│       ├── sd_helper.py
-│       └── sd_problem.py
-```
-If you want to add a new estimator please run `make add-estimator` and it will create the basic code and folder structure for you to edit, you also can review the `DummyEstimator` to see a minimal reproduction of whats its needed to start. 
+
+If you want to add a new estimator please keep in mind the current project structure. You can run `make add-estimator` and it will create the basic code and folder structure for you to edit, you also can review the `DummyEstimator` to see a minimal reproduction of whats its needed to start. 
 
 ````python
 ── cryptographic_estimators
  │   ├── base_algorithm.py
  │   ├── base_problem.py
  │   ├── base_estimator.py
+ │   └── OneEstimator.py
+ │      ├── OneEstimator.py (Inherits from base_estimator)
+ │      ├── OneProblem.py (Inherits from base_problem)
+ │      ├── OneAlgorithm.py (Inherits from base_algorithm)
+ │      └── Algorithms
+ │          ├── List of algorithms (Inherits from NEWalgorithm.py)
+ |   └── [...]
  │   └── NEWEstimator
- │      ├── NEWestimator.py (Inherits from base_estimator)
- │      ├── NEWproblem.py (Inherits from base_problem)
- │      ├── NEWalgorithm.py (Inherits from base_algorithm)
+ │      ├── NEWEstimator.py (Inherits from base_estimator)
+ │      ├── NEWProblem.py (Inherits from base_problem)
+ │      ├── NEWAlgorithm.py (Inherits from base_algorithm)
  │      └── Algorithms
  │          ├── List of algorithms (Inherits from NEWalgorithm.py)
 ````
