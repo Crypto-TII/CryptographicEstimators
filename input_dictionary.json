@@ -222,6 +222,7 @@
           "direction": "column",
           "display_label": "Number of solutions",
           "placeholder": "Insert value",
+          "caption": "Leave empty to take expected amount of solutions",
           "tooltip": "Log2 of number of existing solutions of which one has to be found"
         }
       ],
