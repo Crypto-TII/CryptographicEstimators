@@ -16,6 +16,7 @@ docs/source
 docs/make.bat
 docs/Makefile
 venv
+.vscode
 
 # Compiled Java class files
 *.class
