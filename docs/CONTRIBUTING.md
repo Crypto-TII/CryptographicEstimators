@@ -24,24 +24,18 @@ If you want to add a new estimator please keep in mind the current project struc
 ---
 ## GIT Conventions
 ### Commits
-To contribute to this project please follow the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). These are some examples
+To contribute to this project please follow this subset of [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). These are some examples
 Type
 Must be one of the following:
- - build: Changes that affect the build system or external dependencies
- - ci: Changes to our CI configuration files and scripts (workflows)
  - docs: Documentation only changes
  - feat: A new feature
  - fix: A bug fix
- - perf: A code change that improves performance
  - refactor: A code change that neither fixes a bug nor adds a feature
- - style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
- - test: Adding missing tests or correcting existing tests
  
 ### Branching
 Branch names should be snake_case. Which means that all the text must be lowercase and replace spaces with dashes. Also we should add as a prefix based on the type of implementation. For example:
 
 ```
-poc/some_testing_branch 
 refactor/modify_base_problem
 feature/implement_dummy_estimator
 fix/algorithm_parameter

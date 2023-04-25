@@ -1,8 +1,21 @@
-# Cryptographic estimators
+# CryptographicEstimators
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Crypto-TII_CryptographicEstimators&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Crypto-TII_CryptographicEstimators)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Crypto-TII_CryptographicEstimators&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Crypto-TII_CryptographicEstimators)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Crypto-TII_CryptographicEstimators&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Crypto-TII_CryptographicEstimators)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Crypto-TII_CryptographicEstimators&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Crypto-TII_CryptographicEstimators)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Crypto-TII_CryptographicEstimators&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Crypto-TII_CryptographicEstimators)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Crypto-TII_CryptographicEstimators&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Crypto-TII_CryptographicEstimators)
 
 ## Introduction 🎉
 
-This library provides bit security estimators and asymptotic complexity estimators for cyrptographic problems. So far it covers the binary Syndrome Decoding Problem (SDEstimator) and the Multivaritate Quadratic Problem (MQEstimator).
+This library provides bit security estimators and asymptotic complexity estimators for cryptographic problems. Some of the implemented estimators are:
+ - Multivariate Quadratic
+ - Binary Syndrome Decoding
+ - Syndrome Decoding over Fq
+ - Permuted Kernel
+ - Permutation Equivalence
+ - Linear Equivalence
 
 ## Getting Started 🚀
 This project is meant to be run through a terminal or inside a docker container.
