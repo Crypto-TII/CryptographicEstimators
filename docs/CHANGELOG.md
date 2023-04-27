@@ -23,4 +23,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implemented Linear Equivalence Problem
 - Implemented Permutation Equivalence Problem
 
+[1.0.1]: https://github.com/CRYPTO-TII/CryptographicEstimators/compare/v1.0.1..v1.0.0
 [1.0.0]: https://github.com/CRYPTO-TII/CryptographicEstimators
