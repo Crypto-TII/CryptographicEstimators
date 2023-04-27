@@ -186,7 +186,6 @@ try:
         FILE_ARGUMENTS = define_file_arguments()
         current_changelog = copy.deepcopy(changelog_file.read())
         commits: List[str] = FILE_ARGUMENTS.pull_request_commits.split('\n')
-        print(commits)
         release_section = create_release_dictionary_from(commits)
         are_there_commits_to_include = any(release_section.values())
 
@@ -205,7 +204,7 @@ try:
             changelog_file.write(updated_changelog)
             changelog_file.close()
 
-            with open('VERSION', 'w') as version_file:
+            with open('./VERSION', 'w') as version_file:
                 version_file.write(f'v{new_version}')
 except Exception as e:
     print(e)
