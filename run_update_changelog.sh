@@ -20,6 +20,7 @@ last_commit_message=$(git log --format=%s -n 1)
 commit_message_allowed="/develop$"
 merged_commits_from_develop_branch=$(git log --format=oneline origin/main | grep -i -E "$commit_message_allowed" | wc -l)
 pull_request_commits=()
+should_add_last_changes_to_master=false
 
 if [[ is_valid_last_commit ]]; then
 	if [ "$merged_commits_from_develop_branch" -eq 1 ]; then
