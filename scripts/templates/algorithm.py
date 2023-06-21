@@ -30,11 +30,11 @@ class $$UPPER_CASE_PREFIX$$Algorithm(BaseAlgorithm):
         - ``problem`` -- $$UPPER_CASE_PREFIX$$Problem object including all necessary parameters
 
         """
-        self._name = "sample_name"
         super($$UPPER_CASE_PREFIX$$Algorithm, self).__init__(problem, **kwargs)
+        self._name = "sample_name"
 
     def __repr__(self):
         """
         NOTE: self._name must be instanciated via the child class
         """
-        pass
+        return "$$UPPER_CASE_PREFIX$$Algorithm"

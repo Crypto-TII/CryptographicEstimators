@@ -31,6 +31,7 @@ class $$UPPER_CASE_PREFIX$$Problem(BaseProblem):
 
     def __init__(self, **kwargs): # Fill with parameters
         super().__init__(**kwargs)
+        self.parameters = {}
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """
@@ -65,7 +66,8 @@ class $$UPPER_CASE_PREFIX$$Problem(BaseProblem):
         """
         Return the optimizations parameters
         """
-        pass
+        return list(self.parameters.values())
+
 
     def __repr__(self):
-        pass
+        return "$$UPPER_CASE_PREFIX$$Problem"
