@@ -143,6 +143,7 @@ a `test.py` file, containing:
 ```python
 from cryptographic_estimators.DUMMYEstimator import *
 A = DUMMYEstimator()
+A.table()
 ```
 and execute it via `sage test.py`. You should see the following output:
 ```bash
@@ -191,7 +192,7 @@ only make sure that estimator passes them correctly to the problem class.
 For the next step we must make sure that the algorithm `DummyAlgorihm1` is 
 actually computing something. For this add the following function together to 
 the file `dummy_algorihm1.py`:
-```
+```python
 def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
     """
     Return time complexity of DUMMYAlgorithm1's  for given set of parameters
@@ -205,9 +206,10 @@ def _time_and_memory_complexity(self, parameters: dict, verbose_information=None
 ```
 
 Now calling in the `test.py` script the `DUMMYEstimator` with the parameter `n=100`, e.g.
-```
+```python
 from cryptographic_estimators.DUMMYEstimator import *
 A = DUMMYEstimator(n=100)
+A.table()
 ```
 will show:
 ```bash 
@@ -216,7 +218,7 @@ will show:
 +-----------------+-------+--------+
 | algorithm       |  time | memory |
 +-----------------+-------+--------+
-| DUMMYAlgorithm1 | 100.0 |  100.0 |
+| DUMMYAlgorithm1 | 100.0 |   0.0  |
 +-----------------+-------+--------+
 ```
 Congratulations, you first successful complexity estimation in the CryptographicEstimators framework.
@@ -232,11 +234,65 @@ would take `2**n` basic operations. More about the `verbose_information` you
 will find in the chapter [TODO](TODO).
 
 
+# Adding a optimization parameter
 Right now our estimator does only return a static runtime, lets enhance this by
-introducing a optimization parameter `h`. 
+introducing a optimization parameter `h`, which represents the number of elements
+to precompute for a MITM-based algorithm. If `h=10`, we precompute `2**10` elements
+on a lookup table, and hence the runtime is reduced to `2**{n-h} = 2**{90}`.
 
+To add the parameter we need to inform our `DUMMYAlgorithm1` class about it, for 
+this add the the following functions
+```python
+@optimal_parameter
+def h(self):
+    return self._get_optimal_parameter("h")
 
+def _valid_choices(self):
+    new_ranges = self._fix_ranges_for_already_set_parameters()
+    for h in range(new_ranges["h"]["min"], new_ranges["h"]["max"], 2):
+        yield {"h": h} 
+```
+The first function represents a helper function to efficiently access the optimial
+parameter `h`, without the knowledge of the internals of the full implementation 
+of the class.
 
+The second function `_valid_choices()` is automatically called by the `BaseEstimator`,
+to generated valid subsets of the parameter range. In our case, such a restriction
+of parameters is rather simple, by only allowing even values for `h`. But ofcause
+you can implement arbitrary restrictions.
+
+And finally make sure to initialize all needed fields within the constructor:
+```python
+def __init__(self, problem: DUMMYProblem, **kwargs):
+    self._name = "DUMMYAlgorithm1"
+    super(DUMMYAlgorithm1, self).__init__(problem, **kwargs)
+    n = self.problem.get_parameters()[0]
+    self.set_parameter_ranges("h", 0, n)
+```
+
+If we now change our computation functions `_compute_time_complexity` and 
+`_compute_memory_complexity` to:
+```python 
+def _compute_memory_complexity(self, parameters: dict):
+    par = SimpleNamespace(**parameters)
+    n = self.problem.get_parameters()[0]
+    return max(par.h, n - par.h)
+
+def _compute_memory_complexity(self, parameters: dict):
+    par = SimpleNamespace(**parameters)
+    return par.h
+```
+
+Running our `test.py` script, yields a successful computation of a MITM-approach:
+```bash
++-----------------+---------------+
+|                 |    estimate   |
++-----------------+------+--------+
+| algorithm       | time | memory |
++-----------------+------+--------+
+| DUMMYAlgorithm1 | 50.0 |   50.0 |
++-----------------+------+--------+
+```
 
 # Change an existing estimator
 TODO lets hack into an existing estimator
