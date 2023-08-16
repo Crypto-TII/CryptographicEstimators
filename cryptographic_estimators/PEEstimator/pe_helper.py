@@ -37,7 +37,7 @@ def number_of_weight_d_codewords(n: int, k: int, q: int, d: int):
     """
     Returns the number of weight d code words in a (n,k,q) code
     """
-    return binomial(n, d) * (q - 1) ** (d - 2) * q ** (k - n + 1) * 1.
+    return binomial(n, d) * (q - 1) ** d * q ** (k - n) * 1.
 
 
 def random_sparse_vec_orbit(n: int, w: int, q: int):

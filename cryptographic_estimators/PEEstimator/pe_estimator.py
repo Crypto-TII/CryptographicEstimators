@@ -71,10 +71,12 @@ class PEEstimator(BaseEstimator):
             +-----------+---------+--------+------------+
             | algorithm |    time | memory | parameters |
             +-----------+---------+--------+------------+
-            | Leon      |  34.200 | 11.718 | {'w': 26}  |
+            | Leon      |  33.274 | 11.718 | {'w': 25}  |
             | Beullens  |  29.631 | 11.901 | {'w': 25}  |
             | SSA       | 127.480 | 14.040 |     {}     |
             +-----------+---------+--------+------------+
+
+
 
         TESTS::
 
@@ -86,10 +88,11 @@ class PEEstimator(BaseEstimator):
             +-----------+---------+--------+------------+
             | algorithm |    time | memory | parameters |
             +-----------+---------+--------+------------+
-            | Leon      |  81.851 | 34.601 | {'w': 33}  |
+            | Leon      |  82.588 | 34.601 | {'w': 33}  |
             | Beullens  |  72.962 | 44.308 | {'w': 41}  |
             | SSA       | 302.551 | 17.377 |     {}     |
             +-----------+---------+--------+------------+
+
 
         """
         super(PEEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
