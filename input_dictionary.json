@@ -44,7 +44,9 @@
               "operation": "n - k"
             }
           ]
-        },
+        }
+      ],
+      "optional_parameters": [
         {
           "id": "memory_bound",
           "required": false,
@@ -65,39 +67,6 @@
           "placeholder": "Insert value",
           "caption": "Leave empty to take expected amount of solutions",
           "tooltip": "Log2 of number of existing solutions of which one has to be found"
-        }
-      ],
-      "estimator_parameters": [
-        {
-          "id": "bit_complexities",
-          "type": "switch",
-          "display_label": "Bit complexities",
-          "default_value": true,
-          "tooltip": "Show complexities as count of bit operations. If false, show number of field additions"
-        },
-        {
-          "id": "hmap",
-          "type": "switch",
-          "display_label": "Hashmap",
-          "default_value": true,
-          "tooltip": "Use linear time matching between lists via hashmaps. If false, use sort-and-match"
-        },
-        {
-          "id": "included_algorithms",
-          "type": "multiple_selector",
-          "direction": "column",
-          "display_label": "Included algorithms",
-          "tooltip": "Algorithms to include for optimization",
-          "default_value": [],
-          "excluded_algorithms": ["BJMMdw", "BJMMpdw"],
-          "options": [],
-          "dependencies": [
-            {
-              "id": "limit_depth",
-              "parent_contains": ["MayOzerov", "BJMM"],
-              "action": "show"
-            }
-          ]
         },
         {
           "id": "workfactor_accuracy",
@@ -117,17 +86,6 @@
           "display_label": "Limit tree-depth",
           "default_value": false,
           "tooltip": "Limits the depth of May-Ozerov and BJMM algorithm to two, otherwise two and three are considered"
-        }
-      ],
-      "optional_parameters": [
-        {
-          "id": "precision",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Decimal precision",
-          "default_value": 0,
-          "placeholder": "Insert value",
-          "tooltip": "Number of decimal digits to display"
         },
         {
           "id": "include_tildeo",
@@ -144,27 +102,37 @@
           ]
         },
         {
-          "id": "include_quantum",
+          "id": "hmap",
           "type": "switch",
-          "display_label": "Quantum complexity",
-          "default_value": false,
-          "tooltip": "Include quantum complexity for chosen algorithms, if implemented",
+          "display_label": "Hashmap",
+          "default_value": true,
+          "tooltip": "Use linear time matching between lists via hashmaps. If false, use sort-and-match"
+        }
+      ],
+      "estimator_parameters": [
+        {
+          "id": "bit_complexities",
+          "type": "switch",
+          "display_label": "Bit complexities",
+          "default_value": true,
+          "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
+        },
+       {
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": ["BJMMdw", "BJMMpdw"],
+          "options": [],
           "dependencies": [
             {
-              "id": "quantum_maxdepth",
-              "parent_value": true,
+              "id": "limit_depth",
+              "parent_contains": ["MayOzerov", "BJMM"],
               "action": "show"
             }
           ]
-        },
-        {
-          "id": "quantum_maxdepth",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Maximum depth",
-          "default_value": 96.0,
-          "placeholder": "Insert value",
-          "tooltip": "Maximum allowed depth of the quantum circuit"
         },
         {
           "id": "memory_access",
@@ -174,9 +142,18 @@
           "default_value": "Constant",
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
           "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
+        },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
         }
       ]
-    },
+     },
     {
       "estimator_id": "MQEstimator",
       "algorithm_id": "MQAlgorithm",
@@ -204,7 +181,9 @@
           "display_label": "Field size",
           "placeholder": "Insert parameter",
           "tooltip": "An integer of the form p^x for some integer x, where p is prime number.  This value indicates the number of elements in the underlying field"
-        },
+        }
+      ],
+      "optional_parameters": [
         {
           "id": "memory_bound",
           "required": false,
@@ -225,9 +204,14 @@
           "placeholder": "Insert value",
           "caption": "Leave empty to take expected amount of solutions",
           "tooltip": "Log2 of number of existing solutions of which one has to be found"
-        }
-      ],
-      "estimator_parameters": [
+        },
+        {
+          "id": "include_tildeo",
+          "type": "switch",
+          "display_label": "Tilde-O complexity",
+          "default_value": false,
+          "tooltip": "Include complexity estimates that disregard polynomial factors"
+        },
         {
           "id": "w",
           "type": "slider",
@@ -239,15 +223,6 @@
           "max": 3,
           "number_of_decimals": 2,
           "step": 0.01
-        },
-        {
-          "id": "theta",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Bitcompexity exponent",
-          "default_value": 2,
-          "placeholder": "Insert value",
-          "tooltip": "The bitcomplexity of a field multiplication is assumed to be log_2(q)^(theta). Note that for theta = 0 the output gives the (log of the) necessary number of field multiplications."
         },
         {
           "id": "h",
@@ -263,6 +238,40 @@
               "action": "validateLessThan"
             }
           ]
+        },
+        {
+          "id": "max_D",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Max D for Crossbred",
+          "default_value": 20,
+          "placeholder": "Insert value",
+          "tooltip": "Upper bound to the parameter D "
+        }
+      ],
+      "estimator_parameters": [
+        {
+          "id": "bit_complexities",
+          "type": "switch",
+          "display_label": "Bit complexities",
+          "default_value": true,
+          "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations",
+          "dependencies": [
+            {
+              "id": "theta",
+              "parent_value": true,
+              "action": "show"
+            }
+          ]
+        },
+        {
+          "id": "theta",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Bitcompexity exponent",
+          "default_value": 2,
+          "placeholder": "Insert value",
+          "tooltip": "The bitcomplexity of a field multiplication is assumed to be log_2(q)^(theta). Note that for theta = 0 the output gives the (log of the) necessary number of field multiplications."
         },
         {
           "id": "included_algorithms",
@@ -282,17 +291,15 @@
           ]
         },
         {
-          "id": "max_D",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Max D for Crossbred",
-          "default_value": 20,
-          "placeholder": "Insert value",
-          "tooltip": "Upper bound to the parameter D "
-        }
-      ],
-      "optional_parameters": [
-        {
+        "id": "memory_access",
+        "type": "selector",
+        "direction": "column",
+        "display_label": "Memory access cost",
+        "default_value": "Constant",
+        "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+        "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
+      },
+      {
           "id": "precision",
           "type": "number",
           "direction": "column",
@@ -300,51 +307,7 @@
           "default_value": 0,
           "placeholder": "Insert value",
           "tooltip": "Number of decimal digits to display"
-        },
-        {
-          "id": "include_tildeo",
-          "type": "switch",
-          "display_label": "Tilde-O complexity",
-          "default_value": false,
-          "tooltip": "Include complexity estimates that disregard polynomial factors"
-        },
-        {
-          "id": "include_quantum",
-          "type": "switch",
-          "display_label": "Quantum complexity",
-          "default_value": false,
-          "tooltip": "Include quantum complexity for chosen algorithms, if implemented",
-          "dependencies": [
-            {
-              "id": "quantum_maxdepth",
-              "parent_value": false,
-              "action": "show"
-            },
-            {
-              "id": "w",
-              "parent_value": true,
-              "action": "show"
-            }
-          ]
-        },
-        {
-          "id": "quantum_maxdepth",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Maximum depth",
-          "default_value": 96.0,
-          "placeholder": "Insert value",
-          "tooltip": "Maximum allowed depth of the quantum circuit"
-        },
-        {
-          "id": "memory_access",
-          "type": "selector",
-          "direction": "column",
-          "display_label": "Memory access cost",
-          "default_value": "Constant",
-          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
-        }
+      }
       ]
     },
     {
@@ -399,7 +362,9 @@
           "placeholder": "Insert parameter",
           "tooltip": "Size of the underlying base field",
           "dependencies": []
-        },
+        }
+      ],
+      "optional_parameters": [
         {
           "id": "memory_bound",
           "required": false,
@@ -420,6 +385,15 @@
           "placeholder": "Insert value",
           "caption": "Leave empty to take expected amount of solutions",
           "tooltip": "Log2 of number of existing solutions of which one has to be found, if not specified it will be fixed to the number of solutions in expectation"
+        },
+        {
+          "id": "is_syndrome_zero",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Code word search",
+          "default_value": 1,
+          "tooltip": "Indicates if a small code word is searched, i.e., if the syndrome is equal to the zero.",
+          "options": ["Syndrome decoding", "Code word search"]
         }
       ],
       "estimator_parameters": [
@@ -431,17 +405,6 @@
           "tooltip": "Show complexities as count of bit operations. If false, show number of field additions"
         },
         {
-          "id": "included_algorithms",
-          "type": "multiple_selector",
-          "direction": "column",
-          "display_label": "Included algorithms",
-          "tooltip": "Algorithms to include for optimization",
-          "default_value": [],
-          "excluded_algorithms": [],
-          "options": [],
-          "dependencies": []
-        },
-        {
           "id": "memory_access",
           "type": "selector",
           "direction": "column",
@@ -451,6 +414,23 @@
           "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
         },
         {
+            "id": "included_algorithms",
+            "type": "multiple_selector",
+            "direction": "column",
+            "display_label": "Included algorithms",
+            "tooltip": "Algorithms to include for optimization",
+            "default_value": [],
+            "excluded_algorithms": [],
+            "options": [],
+            "dependencies": [
+              {
+                "id": "max_D",
+                "parent_contains": ["Crossbred"],
+                "action": "show"
+              }
+            ]
+        },
+        {
           "id": "precision",
           "type": "number",
           "direction": "column",
@@ -458,17 +438,6 @@
           "default_value": 0,
           "placeholder": "Insert value",
           "tooltip": "Number of decimal digits to display"
-        }
-      ],
-      "optional_parameters": [
-        {
-          "id": "is_syndrome_zero",
-          "type": "selector",
-          "direction": "column",
-          "display_label": "Code word search",
-          "default_value": 1,
-          "tooltip": "Indicates if a small code word is searched, i.e., if the syndrome is equal to the zero.",
-          "options": ["Syndrome decoding", "Code word search"]
         }
       ]
     },
@@ -514,8 +483,10 @@
           "display_label": "Use parity row",
           "default_value": false,
           "tooltip": "Enables trick of appending extra (all one) row to the matrix, i.e., m -> m+1"
-        },
-        {
+        }
+      ],
+      "optional_parameters": [
+                {
           "id": "memory_bound",
           "required": false,
           "type": "number",
@@ -535,6 +506,22 @@
           "placeholder": "Insert value",
           "caption": "Leave empty to take expected amount of solutions",
           "tooltip": "Log2 of number of existing solutions of which one has to be found"
+        },
+        {
+          "id": "cost_for_list_operation",
+          "type": "number",
+          "display_label": "List operation cost (Time)",
+          "direction": "column",
+          "placeholder": "Insert value",
+          "tooltip": "Cost in Fq additions for one list operation in the SBC and KMP algorithms"
+        },
+        {
+          "id": "memory_for_list_element",
+          "type": "number",
+          "display_label": "List operation cost (Memory)",
+          "direction": "column",
+          "placeholder": "Insert value",
+          "tooltip": "Memory in Fq elements for one list element in the SBC and KMP algorithms"
         }
       ],
       "estimator_parameters": [
@@ -574,25 +561,8 @@
           "placeholder": "Insert value",
           "tooltip": "Number of decimal digits to display"
         }
-      ],
-      "optional_parameters": [
-        {
-          "id": "cost_for_list_operation",
-          "type": "number",
-          "display_label": "List operation cost (Time)",
-          "direction": "column",
-          "placeholder": "Insert value",
-          "tooltip": "Cost in Fq additions for one list operation in the SBC and KMP algorithms"
-        },
-        {
-          "id": "memory_for_list_element",
-          "type": "number",
-          "display_label": "List operation cost (Memory)",
-          "direction": "column",
-          "placeholder": "Insert value",
-          "tooltip": "Memory in Fq elements for one list element in the SBC and KMP algorithms"
-        }
       ]
+
     },
     {
       "estimator_id": "PEEstimator",
@@ -657,6 +627,7 @@
           "tooltip": "Log2 of number of existing solutions of which one has to be found"
         }
       ],
+      "optional_parameters": [],
       "estimator_parameters": [
         {
           "id": "bit_complexities",
@@ -694,8 +665,7 @@
           "placeholder": "Insert value",
           "tooltip": "Number of decimal digits to display"
         }
-      ],
-      "optional_parameters": []
+      ]
     },
     {
       "estimator_id": "LEEstimator",
@@ -753,6 +723,7 @@
           "tooltip": "Log2 of number of existing solutions of which one has to be found"
         }
       ],
+      "optional_parameters": [],
       "estimator_parameters": [
         {
           "id": "bit_complexities",
@@ -790,8 +761,7 @@
           "placeholder": "Insert value",
           "tooltip": "Number of decimal digits to display"
         }
-      ],
-      "optional_parameters": []
+      ]
     }
   ]
 }
