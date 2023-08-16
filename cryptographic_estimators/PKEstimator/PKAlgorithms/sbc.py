@@ -179,8 +179,8 @@ class SBC(PKAlgorithm):
                 memory = local_memory
 
         if verbose_information is not None:
-            verbose_information[VerboseInformation.SBC_ISD] = c_isd
-            verbose_information[VerboseInformation.SBC_U] = best_u
+            verbose_information[VerboseInformation.SBC_ISD.value] = c_isd
+            verbose_information[VerboseInformation.SBC_U.value] = best_u
 
         return time, memory
 
