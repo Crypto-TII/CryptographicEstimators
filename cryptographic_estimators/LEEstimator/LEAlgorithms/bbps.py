@@ -19,7 +19,7 @@ from ..le_algorithm import LEAlgorithm
 from ..le_problem import LEProblem
 from ..le_constants import *
 from ...base_algorithm import optimal_parameter
-from ...PEEstimator.pe_helper import gv_distance
+from ...PEEstimator.pe_helper import gv_distance, number_of_weight_d_codewords
 from math import log2, inf, log, comb as binom, factorial
 from ...SDFqEstimator.sdfq_estimator import SDFqEstimator, SDFqProblem
 from ...base_constants import BASE_BIT_COMPLEXITIES, BASE_MEMORY_BOUND, BASE_NSOLUTIONS
@@ -70,7 +70,7 @@ class BBPS(LEAlgorithm):
             sage: from cryptographic_estimators.LEEstimator import LEProblem
             sage: A = BBPS(LEProblem(30,20,251))
             sage: A.w()
-            14
+            12
 
         """
         return self._get_optimal_parameter("w")
@@ -114,7 +114,9 @@ class BBPS(LEAlgorithm):
         w_prime = parameters["w_prime"]
 
         n, k, q = self.problem.get_parameters()
-        Nw_prime = (log2(binom(n, w_prime)) + log2(q - 1) * (w_prime - 1) + log2(q) * (k - n))
+        num_codewords = number_of_weight_d_codewords(n, k, q, w_prime)
+        Nw_prime = log2(num_codewords)
+
         if Nw_prime < 0:
             return inf, inf
 
@@ -130,7 +132,7 @@ class BBPS(LEAlgorithm):
              + log2((q - 1)) * (w - 2 * w_prime + 1) - (log2(binom(n, w_prime)) + log2(binom(n - w_prime, w - w_prime))
                                                         + log2(binom(w_prime, 2 * w_prime - w)))
 
-        M_second = pr_w_w_prime + L_prime * 4 - 2 + pw + log2(2 ** pr_w_w_prime - 2 / ((2 ** Nw_prime) ** 2))
+        M_second = pr_w_w_prime + L_prime * 4 - 2 + pw + log2(2 ** pr_w_w_prime - 2 / (num_codewords ** 2))
         if M_second > 0:
             return inf, inf
 
