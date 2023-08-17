@@ -72,8 +72,6 @@ class LEEstimator(BaseEstimator):
             | BBPS      | 25.3 |   12.2 | {'w': 12, 'w_prime': 10} |
             +-----------+------+--------+--------------------------+
 
-
-
         TESTS::
 
             sage: from cryptographic_estimators.LEEstimator import LEEstimator
