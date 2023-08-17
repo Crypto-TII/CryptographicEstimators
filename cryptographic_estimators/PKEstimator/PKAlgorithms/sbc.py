@@ -162,14 +162,19 @@ class SBC(PKAlgorithm):
             if u > d:
                 T_L = factorial(n) // factorial(m + w - u) + size_K + factorial(n) // factorial(m + w - u) * size_K \
                       // q ** (ell * (u - d))
+                T_test = factorial(n - w) // q ** ((u - d) * ell) // factorial(m - u) * size_K
             else:
                 T_L = factorial(n) // factorial(m + w - u) + size_K + factorial(n) * q ** (ell * (d - u)) // factorial(
                     m + w - u) * size_K
+                T_test = factorial(n - w)* q ** ((d - u) * ell) // factorial(m - u) * size_K
             L = max(L, min(factorial(n) // factorial(m + w - u), size_K))
 
-            T_test = factorial(n - w) // q ** ((u - d) * ell) // factorial(m - u) * size_K
 
-            local_time = log2(2 ** c_isd + (T_K + T_L + T_test) * self.cost_for_list_operation)
+
+
+
+
+            local_time = log2(int(2 ** c_isd) + (T_K + T_L + T_test) * self.cost_for_list_operation)
 
             local_memory = log2(L) + log2(self.memory_for_list_element)
 
