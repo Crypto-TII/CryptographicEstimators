@@ -76,7 +76,7 @@ class SDFqEstimator(BaseEstimator):
 
             sage: from cryptographic_estimators.SDFqEstimator import SDFqEstimator
             sage: A = SDFqEstimator(961,771,48,31)
-            sage: A.table(precision=3, show_all_parameters=1) # long time
+            sage: A.table(precision=3, show_all_parameters=1)
             +-------------+-------------------------------------+
             |             |               estimate              |
             +-------------+---------+--------+------------------+
