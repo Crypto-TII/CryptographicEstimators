@@ -33,8 +33,8 @@ Must be one of the following:
  - refactor: A code change that neither fixes a bug nor adds a feature
  
 ### Branching
-Branch names should be snake_case. Which means that all the text must be lowercase and replace spaces with dashes. Also we should add as a prefix based on the type of implementation. For example:
 
+Branch names should be snake_case. Which means that all the text must be lowercase and replace spaces with dashes. Also we should add as a prefix based on the type of implementation. For example:
 ```
 refactor/modify_base_problem
 feature/implement_dummy_estimator
@@ -132,7 +132,7 @@ cryptographic_estimators/DUMMYEstimator
 As one can see, the script generated the three main classes, each in one file, 
 `dummy_problem.py`, `dummy_estimator.py` and `dummy_algorithm.py`. Each estimator
 of the CryptographicEstimators project needs those to be functioning. So they 
-are mandatory. Additionally the script added one `dummy_algorithm1.py` file,
+are mandatory. Aditionally, the script added one `dummy_algorithm1.py` file,
 which acts like the first algorithm we want to implement.
 
 Note that the script already added all needed links to other files in they
@@ -166,18 +166,18 @@ If for any reason your output doesn't look like this, make sure that you correct
 installed [sage](https://doc.sagemath.org/html/en/installation/index.html),
 [python](https://www.python.org/downloads/) and this library via `make install`.
 
-As you can see, our new estimator doesn't estimate much. That's because we didn't
+For now, our new estimator is not estimating much. That's because we did not
 describe the problem at hand nor the algorithms `DUMMYAlgorithm1` at all.
 
-An full estimator implementation includes the following 3 important classes:
+A full estimator implementation includes the following three important classes:
   - DUMMYProblem 
   - DUMMYAlgorithm
   - DUMMYEstimator
 
-The first describes the problem at hand, whereas the second computes its complexity.
+The first describes the problem at hand, whereas the second computes the complexity of solving it via certain algorithms.
 `DUMMYEstimator` acts like a manager class, putting all together.
 
-Lets introduce a complexity parameter `n` to our problem. Therefore change the 
+Let's introduce a complexity parameter `n` to our problem. Therefore, change the 
 constructor of `DUMMYProblem` to 
 ```python
 def __init__(self, n: int, **kwargs):
@@ -193,16 +193,18 @@ def __init__(self, n: int, memory_bound=inf, **kwargs):
         **kwargs
     )
 ```
-to include the parameter `n`. Of cause you can add as much parameters as needed,
-only make sure that estimator passes them correctly to the problem class.
+to include the parameter `n`. Of course you can add as much parameters as needed,
+only make sure that the estimator passes them correctly to the problem class.
 
-As you can see, in both cases the `DUMMYProblem` and `DUMMYEstimator` do need 
+As you can see, in both cases the `DUMMYProblem` and `DUMMYEstimator` need 
 to call the constructor of their super class, this is mandatory to inherit all
 needed functions and fields for the estimation process.
 
 For the next step we must make sure that the algorithm `DummyAlgorihm1` is 
 actually computing something. For this add the following function to 
 the file `dummy_algorihm1.py`:
+
+**_<Andre: this should actually be a ```_compute_time_complexity``` and a ```_compute_memory_complexity``` function>_**
 ```python
 def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
     """
@@ -245,18 +247,28 @@ framework to compute the time and memory complexity
 for a given parameter set. The framework will iterate over a certain amount of 
 different parameter sets until it cannot reduce the (time/memory) complexity
 further. The minimum is then shown in such a table.
+**_<Andre: The iteration is unclear here as the concept of optimization parameters has not been introduced. I suggest to introduce the concept
+as a translation to the next section in which we can then explain that the optimization happens automatically.>_**
 
-Additional note that the values the function `_time_and_memory_complexity(...)`
+
+**_<Andre: The next paragraph implicitly states that the time / memory is returned in form of basic operations.
+ I think this should be highlighted better. Therefore the concept of basic operations and elements should be introduced (maybe with a reference to the eprint) >_**
+
+Additionally, note that the values the function `_time_and_memory_complexity(...)`
 returns are in logarithmic notation, meaning a successful run of `DUMMYAlgorithm1`
 would take `2**n` basic operations. More about the `verbose_information` you 
 will find in the [chapter](#Adding verbose information).
 
 
-# Adding a optimization parameter
+# Adding an optimization parameter
+**_<Andre: Static is somehow not correct, as it is changing with the input parameter n. Also it sounds like adding optimization parameters improves algorithms. 
+I think you should explain that some algorithms have optimization parameters that can be chosen freely and are usually chosen to minimize the running time.>_**
 Right now our estimator does only return a static runtime, lets enhance this by
-introducing a optimization parameter `h`, which represents the number of elements
+introducing an optimization parameter `h`, which represents the number of elements
 to precompute for a MITM-based algorithm. If `h=10`, we precompute `2**10` elements
 on a lookup table, and hence the runtime is reduced to `2**{n-h} = 2**{90}`.
+**_<Andre: The example is hard to understand without further context. I think it is a good idea to have an example, but maybe we can make it more accessible>_**
+
 
 To add the parameter we need to inform our `DUMMYAlgorithm1` class about it, for 
 this add the following functions
@@ -270,16 +282,31 @@ def _valid_choices(self):
     for h in range(new_ranges["h"]["min"], new_ranges["h"]["max"], 2):
         yield {"h": h} 
 ```
+
+**_<Andre: Maybe have a look at the other estimators, and not the SD estimator, which customizes a lot of things
+ the valid_choices does not need to be reimplemented. It will do exactly what is written there by default. Reimplementing it 
+ is just a way to speed things up.>_**
+
+**_<Andre: Note that there are two ways of implementing optimization parameters. Those that can be optimized independently based on the input 
+ paramters, e.g. if h=n/2 is simply always optimal. And there are those that need to be set in dependence of the time complexity and optiimzed together
+ the function you are using does implement a parameter of the second kind. It also should be mentioned that those of the first kind have to appear first 
+ in the code and those of the second kind come after.>_**
+
 The first function represents a helper function to efficiently access the optimal
 parameter `h`, without the knowledge of the internals of the full implementation 
 of the class. Note the function decorator `optimal_parameter`, this is mandatory
 as it makes the optimization parameter known to the whole framework. 
 
+**_<Andre: restrictions on the parameter range should be implemented via the function ```_are_parameters_invalid``` which is automatically
+ called by valid choices, which yields only in case the function returns false>_**
 The second function `_valid_choices()` is automatically called by the `BaseEstimator`,
-to generated valid subsets of the parameter range. In our case, such a restriction
-of parameters is rather simple, by only allowing even values for `h`. But of cause
+to generate valid subsets of the parameter range. In our case, such a restriction
+of parameters is rather simple, by only allowing even values for `h`. But of course
 you can implement arbitrary restrictions.
 
+
+**_<Andre: the ```get_parameters()``` function is not implemented for the DUMMYProblem yet. It's custom of the SD one. We could think
+ of making it generally available. However, I am afraid it would be unclear in which order parameters are returned.>_**
 And finally make sure to initialize all needed fields within the constructor:
 ```python
 def __init__(self, problem: DUMMYProblem, **kwargs):
@@ -289,9 +316,11 @@ def __init__(self, problem: DUMMYProblem, **kwargs):
     self.set_parameter_ranges("h", 0, n)
 ```
 
+**_<Andre: specify if limits are inclusive or exclusive >_**
 This is done by adding the function call `self.set_parameter_ranges("h", 0, n)` 
 to the constructor of `DummyAlgorihm1`. This call sets the logical lower limit 
 `0` and upper limit `n`. 
+
 
 If we now change our computation function `_time_and_memory_complexity` to:
 ```python
@@ -310,6 +339,8 @@ def _time_and_memory_complexity(self, parameters: dict, verbose_information=None
     return rt, mem
 ```
 
+**_<Andre: If we stick with this example their probably needs to be a restriction on h to be not larger than n/2? I am wondering why
+ the optimization is not suggesting to choose h=n>_**
 and running our `test.py` script, yields a successful computation of a MITM-approach:
 ```bash
 +-----------------+---------------+
@@ -322,11 +353,12 @@ and running our `test.py` script, yields a successful computation of a MITM-appr
 ```
 
 Note that the class `SimpleNamespace(...)` is used to elegantly access the 
-algorithm parameters like `par.h`. But of cause you could also access the 
+algorithm parameters like `par.h`. But of course you could also access the 
 parameters via `h = parameters["h"]`.
 
 # Advanced Topics:
 
+**_<Andre: I think this should rather be covered in the user guide>_**
 ## Benchmarking under memory constrains
 Good news: you do not have to do anything. It works right out of the box via the 
 `memory_bound` argument. So  changing the `test.py` file to `A = DUMMYEstimator(n=100, memory_bound=20)`
@@ -343,6 +375,7 @@ yields:
 
 ## Add verbose information
 
+**_<Andre: This part should again be covered in the user guide >_**
 The CryptographicEstimators framework has two ways to show verbose information
 about the algorithms at hand. The first - and simple way - is by calling the 
 `table` function with the argument `table(show_all_parameters=1)`, which results
@@ -358,6 +391,8 @@ in the following table:
 ```
 it will show all parameters and their values of each applicable algorithm.
 
+
+**_<Andre: There should be a full example of how to include verbose information, similar to the above examples.>_**
 The second way to show more information is by using the `verbose_information` 
 dictionary in the `_time_and_memory_complexity(...)` function. This dictionary 
 comes in handy if one wants to show verbose information about the algorithm,
@@ -375,6 +410,7 @@ additional data.
 
 ## Translation between different types of measurements
 
+**_<Andre: This concept should be mentioned earlier, every problem has to implement those functions to be fully operational.>_**
 The complexity of an algorithm is sometimes not measured in bit operations, but 
 in vector operations or even in matrix operations. To convert between those 
 measurements automatically, the CryptographicEstimators library offers an easy 
@@ -385,6 +421,8 @@ which are implemented by the `Problem` class of your estimation, in our case
 `DUMMYProblem`. These two functions are automatically called by the `BaseEstimator` 
 if implemented.
 
+**_<Andre: This sounds as if this would be a flexible thing. But it is not. Every algorithm has to calcualte times and memory 
+ in terms of basic ops / elements>_**
 Assumed our `DummyEstimator` estimates the complexity not in bit operations but 
 in vector operations of length `n`. To convert to bit complexity we therefore 
 change the two functions to the following:
@@ -435,8 +473,8 @@ From the client perspective this can be easily archived by adding
 A = DUMMYEstimator(n=100, excluded_algorithms=[DUMMYAlgorithm1])
 ```
 
-But it is sometimes desirable that some algorithms are excluded by standard from 
-the estimation process. This can be archive by extending the constructor of 
+But it is sometimes desirable that some algorithms are excluded by default from 
+the estimation process. This can be achieved by extending the constructor of 
 `DummyEstimator` to:
 ```python
 def __init__(self, n: int, memory_bound=inf, **kwargs):
@@ -450,19 +488,19 @@ def __init__(self, n: int, memory_bound=inf, **kwargs):
         **kwargs
     )
 ```
-
+**_<Andre: where should this line exactly go?>_**
 and add the algorithms to be ignored like this:
 ```python
 excluded_algorithms_by_default = [DUMMYAlgorithm1]
 ```
 
 # Testing the Frontend:
-After you finished with your estimator, you may want to export it to the 
-[webfronted](https://github.com/Crypto-TII/cryptographic_estimators_ui). See 
+After you finished implementing your estimator, you may want to export it to the 
+[webfrontend](https://github.com/Crypto-TII/cryptographic_estimators_ui). See 
 [this](https://github.com/Crypto-TII/cryptographic_estimators_ui/blob/main/docs/INPUTDICTIONARYGUIDE.md)
 guide for the details of the configuration possibilities.
 
-The webfronted is configured via a json file `input_dictionary.json` which is 
+The webfrontend is configured via a json file `input_dictionary.json` which is 
 already contained in this projects root directory. This file already contains 
 all estimators implemented in the CryptographicEstimators framework. To add your
 new estimator first run:
@@ -564,3 +602,23 @@ After editing it to your needs it can look like this for the `DummyEstimator`:
 
 Notice that you do not have to specify any algorithm in this configuration file.
 As this is all done automatically.
+
+
+## Further things to include
+
+List of best practices (probably to be extended)
+ - Use python syntax / features. If sage features necessary import them via import statements
+ - Avoid large float computations for example by using // instead of / when handling big numbers
+ - return values should be in logarithmic scale (if not strictly needed otherwise)
+
+Somewhere the difference between ```_compute_time_complexity()``` and ```time_complexity()``` should be clarified. 
+That is the first one returns the time for a given set of parameters in number of basic operations, while the second
+initiates a search for the optimal parameters and converts time to bit operations if specified, includes memory access costs etc.
+
+Section on speeding up the optimization
+ - implementing own ```valid_choices```
+ - or even implementing own ```find_optimal_parameters```
+
+Please also check out the Developers_guide.tex in the overleaf https://www.overleaf.com/project/63c0f277c1d1bc945bf24362 for some more things to include.
+
+
