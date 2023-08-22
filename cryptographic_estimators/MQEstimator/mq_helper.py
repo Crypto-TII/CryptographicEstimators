@@ -30,7 +30,7 @@ def ngates(q, n, theta=2):
 
     - ``q`` -- order of the finite field
     - ``n`` -- no. of multiplications (logarithmic)
-    - ``theta`` -- exponent of the conversion factor
+    - ``theta`` -- exponent of the conversion factor (default: 2)
 
     EXAMPLES::
 
@@ -47,7 +47,7 @@ def ngates(q, n, theta=2):
     """
     if not is_prime_power(q):
         raise ValueError("q must be a prime power")
-    if theta:
+    if theta != -1:
         return n + log2(log2(q)) * theta
     else:
         return n + log2(2 * log2(q) ** 2 + log2(q))
