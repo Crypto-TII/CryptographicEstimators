@@ -98,11 +98,13 @@ def attack_cost(n,k,q,verbose=False, LEP = True):
     return best_cost
     
 
+# Deviation from the original script:
+# Corrected the computation of S from +=binomial(n,w)*(q-1)**(w-1) to binomial(n,w)*(q-1)**w
 def minimal_w(n,k,q):
     w = 1;
     S = 0
     while True:
-        S += binomial(n,w)*(q-1)**(w-1)
+        S += binomial(n,w)*(q-1)**w
         if S > 100*q**(n-k):
             return w, ceil(S/q**(n-k))
         w = w+1
