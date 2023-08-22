@@ -39,8 +39,6 @@ def number_of_weight_d_codewords(n: int, k: int, q: int, d: int):
     """
     return binomial(n, d) * (q - 1) ** d // q ** (n - k)
 
-
-
 def random_sparse_vec_orbit(n: int, w: int, q: int):
     """
 
