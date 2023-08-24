@@ -433,11 +433,11 @@ the `test.py` file to `A = DUMMYEstimator(n=100, memory_bound=20)` yields:
 ```
 For more information have a look to the [user guide](../User_Guide.ipynb)
 
-## Add verbose information
+## Adding verbose information
 
-The CryptographicEstimators framework has two ways to show verbose information
-about the algorithms at hand. The first - and simple way - is by calling the 
-`table` function with the argument `table(show_all_parameters=True)`, which results
+The CryptographicEstimators framework allows to retrieve additional information about the algorithms and there optimization.
+This includes for example the possibility to display all internal optimization parameters, such as `h` in case of our MITM algorithm. 
+To display those you can use the `table` function with the argument `table(show_all_parameters=True)`, which results
 in the following table:
 ```bash
 +-----------------+----------------------------+
@@ -448,14 +448,13 @@ in the following table:
 | DUMMYAlgorithm1 | 50.0 |   50.0 | {'h': 50}  |
 +-----------------+------+--------+------------+
 ```
-it will show all parameters and their values of each applicable algorithm, see the [user guide](../User_Guide.ipynb) for
-more information.
+We refer to the [user guide](../User_Guide.ipynb) for more information.
 
-The second way to show more information is by using the `verbose_information` dictionary in the 
-`_compute_time_complexity(..), _compute_memory_complexity(...)` functions. This dictionary comes in handy if one wants
-to show verbose information about the algorithm, which are not parameters. For example list (or hashmap) sizes, which
-are used internally.
+In case you want to make more information about a specific algorithm accessible you can use the `verbose_information` dictionary in the 
+`_compute_time_complexity(..), _compute_memory_complexity(...)` functions. Such information could include information about internal 
+states for the algorithm, as for example the sizes of used lists (or hashmaps).
 
+***<Andre: doesn't the function fail because verbose_information is None? I think we need an if verbose_information is not None>***
 To use it, you can change the `compute_time_complexity` function to the following:
 ```python
 def _compute_time_complexity(self, parameters: dict, verbose_information=None):
@@ -483,8 +482,8 @@ print(A._get_verbose_information())
 Note that you can use whatever you want as the dictionary key to save your additional data.
 
 ## Exclude Algorithms
-Sometimes It's useful to exclude certain algorithms from the estimation process, because they may take long to optimize
-them, or the algorithm is not that important.
+Sometimes it might be useful to exclude certain algorithms from the estimation process, because their optimization takes 
+a long time or they are similar to other, included algorithms.
 
 From the client perspective this can be easily achieved by adding
 `excluded_algorithms=[DUMMYAlgorithm1]` to the estimator constructor:
@@ -493,7 +492,7 @@ A = DUMMYEstimator(n=100, excluded_algorithms=[DUMMYAlgorithm1])
 ```
 as shown in the [user guide](../User_Guide.ipynb)
 
-But it is sometimes desirable that some algorithms are excluded by default from the estimation process. This can be
+But sometimes it might be desirable that some algorithms are excluded by default from the estimation process. This can be
 achieved by extending the constructor of `DUMMYEstimator` to:
 ```python
 def __init__(self, n: int, memory_bound=inf, **kwargs):
@@ -525,9 +524,9 @@ class DUMMYEstimator(BaseEstimator):
 ```
 
 ## Unifying _compute_time_complexity and _compute_memory_complexity
-Sometimes it's hard to optimize the time complexity of an algorithm, without optimizing the memory at the same time. Thus,
-in this chapter we show how to optimize both at the same time.
-For this rewrite the optimization routine of your algorithm class to:
+Often computing the time complexity of an algorithm already requires computing its memory complexity. Thus,
+to prevent code duplication you should introduce a function that returns both and call this function from the respective 
+`_compute_time_complexity(...)` and `_compute_memory_complexity(...)` functions as shown in the following example:
 
 ```python
 def _compute_time_memory_complexity(self, parameters: dict, verbose_information=None):
@@ -538,7 +537,7 @@ def _compute_time_memory_complexity(self, parameters: dict, verbose_information=
     -  ``parameters`` -- dictionary including parameters
     -  ``verbose_information`` -- 
     """
-    # somehow compute them.
+    # somehow compute TIME and MEMORY.
     return TIME, MEMORY
 
 def _compute_time_complexity(self, parameters: dict, verbose_information=None):
@@ -571,14 +570,14 @@ highly undesirable. To speed things up, we list in this chapter a few tricks to 
 ### Limit the number of valid choices for an algorithm
 Often it is known that certain parameters are invalid. To make this clear to the estimation process, one can overload
 the `_are_paramters_invalid(self, parameters: dict)` function. This function takes a dictionary containing a
-optimization parameter set, and either returns if its valid/invalid as true/false. Thus, if we want to enforce our
-simple MITM algorithm to only select even `h` we can add the following code to the `DUMMYAlgorithm1` class:
+optimization parameter set, and returns false in case the parameter set is valid and true otherwise. 
+Thus, if we want to enforce our simple MITM algorithm to only select even `h` we can add the following code to the `DUMMYAlgorithm1` class:
 ```python
 def _are_parameters_invalid(self, parameters: dict):
-    if parameters["h"] % 2 == 0:
-        return True
+    if parameters["h"] % 2 != 0:
+        return False
     
-    return False
+    return True
 ```
 The CryptographicEstimators framework will automatically call this function and skip invalid optimization parameter
 sets. Notice that this is an easy way to model dependencies between different optimization parameters, i.e. reject sets
