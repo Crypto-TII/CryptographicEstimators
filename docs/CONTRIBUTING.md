@@ -575,19 +575,19 @@ Thus, if we want to enforce our simple MITM algorithm to only select even `h` we
 ```python
 def _are_parameters_invalid(self, parameters: dict):
     if parameters["h"] % 2 != 0:
-        return False
-    
-    return True
+        return True
+    return False
 ```
 The CryptographicEstimators framework will automatically call this function and skip invalid optimization parameter
-sets. Notice that this is an easy way to model dependencies between different optimization parameters, i.e. reject sets
+sets. Notice that this is an easy way to model basic dependencies between different optimization parameters, i.e. reject sets
 with two contradicting optimizations parameters.
 
 
 Sometimes this not enough, thus it can be desirable to fully replace the optimization parameter selection process with a
-custom function to further speed thing up. This can be achieved  by overloading the `_valid_choices(self)` function of
+custom function to further speed things up. This can make sense if for example one parameter should be set in to 
+specific values in dependence on another parameter. This can be achieved  by overloading the `_valid_choices(self)` function of
 the algorithm class. In this example we want to restrict the MITM algorithm from the previous chapters to only chose
-even `h`. This directly halves the computation time.
+even `h`. 
 ```python
 def _valid_choices(self) -> dict[str, int]:
     new_ranges = self._fix_ranges_for_already_set_parameters()
@@ -596,19 +596,21 @@ def _valid_choices(self) -> dict[str, int]:
 ```
 
 For simplicity the function should be implemented as a [generator](https://wiki.python.org/moin/Generators), thus not
-all valid parameter sets are saved in memory at the same time. Additionally, a dictionary with ALL parameters must be
-yielded, as otherwise the optimization process crashes. Note that this function is implemented in the `BaseAlgorithm`
-and there must be explicitly overloaded for each algorithm of your problem.
+all valid parameter sets are saved in memory at the same time. Also, a dictionary including *all* optimization parameters must be
+yielded, as otherwise the optimization process fails. Note that this function is implemented in the `BaseAlgorithm`
+and there must be explicitly overloaded for each algorithm of your problem (where you want to have a customized parameter optimization).
+Remember to always call the function `self._fix_ranges_for_already_set_parameters()` when overloading the `_valid_choices` function, which
+ensures that parameters that have been fixed to certain values by the user are not re-optimized. 
 
 ### Always compute the logarithm
-We strongly suggest to always compute the logarithm of a number and add/subtract instead of multiply/divide. Additionally,
-if possible use the python integer division `a//b` over the float division `a/b` to further speed things up. In general,
-it's a good idea to avoid the computations of big numbers. The same holds for the return values of functions, which 
+We strongly suggest to always compute the logarithm of (large) numbers and add/subtract instead of multiply/divide. Additionally,
+if possible use the python integer division `a//b` over the float division `a/b` to further speed things up and to avoid float overlows. 
+In general, it's a good idea to avoid the computations of big numbers. The same holds for the return values of functions, which 
 should be always logarithmically (if not strictly needed otherwise).
 
 # Writing Doctests
 Throughout the CryptographicEstimators library we are using [sage doctests](https://doc.sagemath.org/html/en/developer/doctesting.html).
-These tests are then automatically run our [CI](https://github.com/Crypto-TII/CryptographicEstimators/actions) to check
+These tests are then automatically run by our [CI](https://github.com/Crypto-TII/CryptographicEstimators/actions) to check
 for any errors.
 
 We strongly encourage to write examples for all optimization parameters of an algorithm. In the case our
@@ -630,7 +632,7 @@ def h(self):
     """
     return self._get_optimal_parameter("h")
 ```
-Note the new lines around `EXAMPLES::` and at the end. These are mandatory. Also note the commands the test framework is 
+Note the newlines around `EXAMPLES::` and in the end. These are mandatory. Also note the commands the test framework is 
 executing, are starting with `sage: ` and the expected result is written below the last command (`50`).
 
 Additionally, it is mandatory to also test all algorithms at least once in the corresponding `Estimator` class. E.g. in
@@ -668,10 +670,15 @@ def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
 Again note the new lines around `TESTS:` and the end of the test. Additionally, notice the `# long test` at the end of
 the last command. You can add this if the command takes a great amount of time, and you do not want to run the test to
 run on every change you make, but rather only on every commit. Tests missing the `# long test` are always executed.
+Make sure there is at least one example or test for the table function that executes fast and, hence, is not marked as long test via 
+`# long time`. This ensures that the `make testfast` command has a good coverage while still executing in reasonable time which can be very helpful
+while integrating code into the library.
+***<Andre: maybe integrate such an example in the above codeexample?>***
 
-If you imported an existing estimator to the CryptographicEstimators library we strongly encourage to load the old estimator
-as a module into `test/module` and check the newly written code against the old code. An example for such an integration
-test can be found under `tests/test_le_bbps.sage`. Its important that all tests functions start with a `test_`.
+If you incorporated an existing estimator to the CryptographicEstimators library we strongly encourage to load the old estimator
+as a module into `test/module` and write unit tests comparing the estimation results of the newly incorporated estimator against the 
+onine available code. An example for such an integration test can be found under `tests/test_le_bbps.sage`. 
+Its important that all tests functions start with a `test_`.
 
 To build and run the fast tests, execute:
 ```sh
