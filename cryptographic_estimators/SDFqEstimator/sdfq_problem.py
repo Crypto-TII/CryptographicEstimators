@@ -81,7 +81,7 @@ class SDFqProblem(BaseProblem):
 
         """
         n, k, w, q = self.get_parameters()
-        Nw = log2(comb(n, w)) + log2(q-1)*(w-2) + log2(q)*(k + 1 - n)
+        Nw = log2(comb(n, w)) + log2(q-1)*w + log2(q)*(k - n)
         return max(Nw, 0)
 
     def __repr__(self):

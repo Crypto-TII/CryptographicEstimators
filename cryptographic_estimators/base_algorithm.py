@@ -124,6 +124,8 @@ class BaseAlgorithm:
     
     def memory_access_cost(self, mem: float):
         """
+        Returns the memory access cost (in logarithmic scale) of the algorithm per basic operation
+
         INPUT:
     
         - ```mem`` -- memory consumption of an algorithm
@@ -428,12 +430,17 @@ class BaseAlgorithm:
         if self._complexity_type == ComplexityType.ESTIMATE.value:
             temp_time_complexity = self._compute_time_complexity(params)
             if self.bit_complexities:
-                temp_time_complexity = self.problem.to_bitcomplexity_time(
+                temp_basic_operation_cost = self.problem.to_bitcomplexity_time(
                     temp_time_complexity)
 
-            if self._memory_access != 0:
-                temp_time_complexity += self.memory_access_cost(
-                    self.memory_complexity())
+                if self._memory_access != 0:
+                    temp_memory_access_cost = temp_time_complexity
+                    temp_memory_access_cost += self.memory_access_cost(
+                        self.memory_complexity())
+                    temp_time_complexity = log2(int(2 ** temp_basic_operation_cost)
+                                                + int(2 ** temp_memory_access_cost))
+                else:
+                    temp_time_complexity = temp_basic_operation_cost
         else:
             temp_time_complexity = self._compute_tilde_o_time_complexity(
                 params)
