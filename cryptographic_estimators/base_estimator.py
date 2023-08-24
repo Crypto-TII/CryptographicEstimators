@@ -217,17 +217,18 @@ class BaseEstimator(object):
         name = algorithm.__class__.__name__
         algorithm.complexity_type = ComplexityType.ESTIMATE.value
         est[name][BASE_ESTIMATEO] = {}
+        
+        time = algorithm.time_complexity()
+        est[name][BASE_ESTIMATEO][BASE_TIME] = time if (time is not None and not isinf(
+            time)) else '--'
 
-        est[name][BASE_ESTIMATEO][BASE_TIME] = algorithm.time_complexity() if not isinf(
-            algorithm.time_complexity()) else '--'
-
-        est[name][BASE_ESTIMATEO][BASE_MEMORY] = algorithm.memory_complexity() if not isinf(
-            algorithm.memory_complexity()) else '--'
+        memory = algorithm.memory_complexity()
+        est[name][BASE_ESTIMATEO][BASE_MEMORY] = memory if (memory is not None and not isinf(
+            memory)) else '--'
 
         est[name][BASE_ESTIMATEO][BASE_PARAMETERS] = algorithm.get_optimal_parameters_dict()
 
-        est[name][BASE_ADDITIONALO] = algorithm._get_verbose_information(
-        ) if not isinf(algorithm.time_complexity()) else {}
+        est[name][BASE_ADDITIONALO] = algorithm._get_verbose_information() if (time is not None and not isinf(time)) else {}
 
     def estimate(self, **kwargs):
         """

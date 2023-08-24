@@ -64,3 +64,9 @@ class BaseProblem(object):
 
         """
         return NotImplementedError
+
+    def get_parameters(self):
+        """
+        Return the optimizations parameters
+        """
+        return list(self.parameters.values())

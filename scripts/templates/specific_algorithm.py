@@ -32,7 +32,8 @@ class $$UPPER_CASE_PREFIX$$Algorithm1($$UPPER_CASE_PREFIX$$Algorithm):
     """
 
     def __init__(self, problem: $$UPPER_CASE_PREFIX$$Problem, **kwargs):
-        super().__init__(problem, **kwargs)
+        self._name = "$$UPPER_CASE_PREFIX$$Algorithm1"
+        super($$UPPER_CASE_PREFIX$$Algorithm1, self).__init__(problem, **kwargs)
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -55,3 +56,6 @@ class $$UPPER_CASE_PREFIX$$Algorithm1($$UPPER_CASE_PREFIX$$Algorithm):
 
         """
         pass
+
+    def __repr__(self):
+        return "$$UPPER_CASE_PREFIX$$Algorithm1 estimator for " + str(self.problem)
