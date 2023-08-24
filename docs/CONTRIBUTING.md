@@ -146,7 +146,7 @@ def __init__(self, n: int, memory_bound=inf, **kwargs):
         **kwargs
     )
 ```
-to include the parameter `n`. Of course you can add as much parameters as needed,
+to include the parameter `n`. Of course, you can add as many parameters as needed,
 only make sure that the estimator passes them correctly to the problem class.
 
 As you can see, in both cases the `DUMMYProblem` and `DUMMYEstimator` need 
@@ -183,8 +183,13 @@ def _compute_memory_complexity(self, parameters: dict, verbose_information=None)
 The first function returns the time complexity (`n`), whereas the second function returns the memory complexity (`0`).
 Thus, this is the estimation of a brute force algorithm.
 
-*__<I think it would make sense to explain the difference between problem and optimization parameters first, that's not 
-obvious for everyone and might lead to confusion.>__*
+You may ask what's the purpose of the function parameter `verbose_information`? More on this in a later
+[chapter](#Adding verbose information). 
+
+In the following we make the distinction between `problem parameter` and `optimization parameters`. The first one are
+provided by the user, are not changed by the optimization process and fully describe the problem at hand. Whereas the 
+`optimization parameters` are, as the name suggests, optimized by the CryptographicEstimators library to find an 
+optimal one.
 
 An important thing to recognize here is, that the two functions only compute the complexity of the algorithm for a
 given set of optimization parameters. These function do *not* iterate over a set of optimization parameters, nor they try
@@ -192,7 +197,6 @@ to improve upon the given parameters in any way. They are only computing the com
 Note that the current definition of the time complexity does not use any optimization parameters. To see how to make use 
 of optimization parameters see [of how to add an optimization parameter](#Adding-an-optimization-parameter)
 
-*__<Andre: These links are not working it seems... or does it just not work in the pycharm viewer?>__*
 Now let us call the `DUMMYEstimator` via the `test.py` script with parameter `n=100`, i.e.,
 
 ```python
@@ -215,10 +219,6 @@ CryptographicEstimators framework.
 
 A few notes on what you see: 
 
-*__<this is not related to the current output but to the above code example, or not? If so I would move it up>__*
-You may ask what's the purpose of the function parameter `verbose_information`? More on this in a later
-[chapter](#Adding verbose information). 
-
 The values the two functions return are in logarithmic scale, meaning the output `n` of the estimation implies that running `DUMMYAlgorithm1`
 to solve the `DUMMYPRoblem` would require `2**n` *basic operations*. Where's `basic operation` is the minimal operation to count by the estimator. This *basic operation*
 has to be specified for each estimator and every algorithm inside the estimator uses this same unit for measuring time complexity.
@@ -230,24 +230,16 @@ The same holds for the memory consumption, which is in the amount of `basic elem
 Those basic elements may be binary or F_q vectors of certain length or integers of certain bitsize. Again, the 
 CryptographicEstimators framework provides a unified way to convert those into bits. More on this topic in the next  chapter. 
 
-
-*__<Andre: Here I would now think you mean a problem parameter set>__*
 The two functions `_compute_time_complexity(...)` and `_compute_memory_complexity(...)` are automatically called by the
 framework to compute the time and memory complexity for a given parameter set. The framework will iterate over a certain
-amount of different parameter sets until it cannot reduce the (time/memory) complexity further. The minimum is then
-shown in such a table. More on this in chapter [of how to add an optimization parameter](#Adding an optimization parameter)
+amount of different optimization parameter sets until it cannot reduce the (time/memory) complexity further. The minimum
+is then shown in such a table. More on this in chapter [of how to add an optimization parameter](#Adding an optimization parameter)
 
 
 # Translation between different types of measurements
 The complexity of an algorithm is sometimes not measured in bit operations, but in vector operations or in matrix
 operations. To convert between those measurements automatically, the CryptographicEstimators library offers an
 easy-to-use API.
-
-
-*__<Andre: Did you execute the code? My understanding is that those functions return `pass` in the standard implementation
- of the classes, this would lead to a memory and time complexity of `--` as long as the estimator is set to return bit  complexities.
- I think it would be better if those functions simply return the amount of basic operations / elements used as input which would make 
- everything true what you write. We should change it in the corresponding default implementation>__*
 
 Notably the two functions `to_bitcomplexity_time` and `to_bitcomplexity_memory` which are implemented by the `Problem`
 class of your estimation, in our case `DUMMYProblem`. These two functions are automatically called by the `BaseEstimator`
@@ -284,9 +276,8 @@ def to_bitcomplexity_memory(self, elements_to_store: float):
     return elements_to_store + log2(n)
 ```
 See the `+ log2(n)` which converts in the case of `to_bitcomplexity_time(...)` the vector operations into bit operations.
-The input parameter `basic_operations` as well as `elements_to_store` are always passed as a logarithm. 
-*__<Andre: Maybe we can add something like: Note that this is the case for
-(almost) all large values in the CryptographicEstimators, see <add link to best practices>?>__*
+The input parameter `basic_operations` as well as `elements_to_store` are always passed as a logarithm. This is the case for
+(almost) all large values in the CryptographicEstimators, see [this chapter](#Always-compute-the-logarithm).
 
 If we run our `test.py` script now, it will yield:
 ```bash
@@ -304,7 +295,6 @@ The CryptographicEstimators framework allows to add arbitrary optimizations para
 restricted) freely. The framework automatically chooses them within the defined ranges and under the given restrictions
 such that the runtime of the algorithm is minimized. 
 
-*__<Andre: Would it maybe be better to add a new algorithm? Also showing how to rename the algorithms accordingly?>__*
 Right now our `DUMMYAlgorithm1` represents a simple bruteforce algorithm, enumerating the whole search space, e.g. `2**n`
 elements. We now want to extend this algorithm to perform a Meet-in-the-Middle (MITM) approach. Therefore, we 
 introduce an optimization parameter `h`, which represents the number of elements to precompute for the MITM approach. If
@@ -314,7 +304,17 @@ recomputing them, hence the runtime is reduced to `max(2**{n-h}, 2**{h}) = 2**{9
 A well-known example for such a MITM algorithm is the [Baby-Step Giant Step](https://en.wikipedia.org/wiki/Baby-step_giant-step) 
 algorithm for solving the [discrete logarithm problem](https://en.wikipedia.org/wiki/Discrete_logarithm).
 
-To add the parameter we need to inform our `DUMMYAlgorithm1` class about it, for this add the following functions
+To implement this, let us add a new algorithm called `DUMMYAlgorithm2`. Therefor copy the `DUMMYALgorithm1` like:
+```shell
+cp cryptographic_estimators/DummyEstimator/DummyAlgorithms/dummy_algorithm1.py cryptographic_estimators/DummyEstimator/DummyAlgorithms/dummy_algorithm2.py 
+```
+and rename everything accordingly. To make the new algorithm visible to the framework add
+```python
+from .dummy_algorithm2 import DUMMYAlgorithm2
+```
+to `cryptographic_estimators/DUmmyEstimator/DummyAlgorithms/__init__.py`
+
+And finally to add the parameter we need to inform our `DUMMYAlgorithm2` class about it, for this add the following functions
 ```python
 @optimal_parameter
 def h(self):
@@ -322,32 +322,42 @@ def h(self):
 ```
 
 The function represents a helper function to efficiently access the optimal parameter `h`, without the knowledge
-of the internals of the full implementation of the class. Note the function decorator `optimal_parameter`, this is
-mandatory as it publishes the optimization parameter known to the whole framework. 
-*__<Andre: Maybe also mention that the class tracks values of computed parameters for functions with this decorator 
-and maybe refer to another section for details? >__*
+of the internals of the full implementation of the class. The nice thing about the CryptographicEstimator framework is,
+it will keep track of the optimal optimization parameters, and you are therefor able to access via:
+```python
+algo = DUMMYAlgorith2(DUMMYProblem(n=100))
+algo.time_complexity()
+optimal_h = algo._get_optimal_parameter(“h”)
+```
+
+Note the function decorator `optimal_parameter`, this is mandatory as it publishes the optimization parameter known to
+the whole framework. It is defined in `base_algorithm.py`, thus you need to add 
+```python
+from ...base_algorithm import optimal_parameter
+```
+to have access to it.
 
 If you encounter speed problems e.g. the estimation process takes to long, have a look to the following
-[chapter](#Speeding up the estimation process).
+[chapter](#Speeding-up-the-estimation-process).
 
 And finally make sure to initialize all needed fields within the constructor:
 ```python
 def __init__(self, problem: DUMMYProblem, **kwargs):
-    self._name = "DUMMYAlgorithm1"
-    super(DUMMYAlgorithm1, self).__init__(problem, **kwargs)
+    self._name = "DUMMYAlgorithm2"
+    super(DUMMYAlgorithm2, self).__init__(problem, **kwargs)
     n = self.problem.parameters["n"]
     self.set_parameter_ranges("h", 0, n)
 ```
 
-This is done by adding the function call `self.set_parameter_ranges("h", 0, n)` to the constructor of `DummyAlgorihm1`.
+This is done by adding the function call `self.set_parameter_ranges("h", 0, n)` to the constructor of `DummyAlgorihm2`.
 This call sets the logical lower limit `0` (inclusive) and upper limit `n` (inclusive). 
 
 If we now change our computations in the two functions `_compute_time__complexity` and `_compute_memory_complexity` 
-in `DUMMYAlgorithm1` to:
+in `DUMMYAlgorithm2` to:
 ```python
 def _compute_time_complexity(self, parameters: dict, verbose_information=None):
     """
-    Return time complexity of DUMMYAlgorithm1's  for given set of parameters
+    Return time complexity of DUMMYAlgorithm2's  for given set of parameters
 
     INPUT:
     -  ``parameters`` -- dictionary including parameters
@@ -355,13 +365,12 @@ def _compute_time_complexity(self, parameters: dict, verbose_information=None):
     """
     n = self.problem.parameters["n"]
     par = SimpleNamespace(**parameters)
-    memory = par.h
-    runtime = max(memory, n - par.h)
+    runtime = log2(2**par.h + 2**(n-par.h))
     return runtime
 
 def _compute_memory_complexity(self, parameters: dict, verbose_information=None):
     """
-    Return memory complexity of DUMMYAlgorithm1's  for given set of parameters
+    Return memory complexity of DUMMYAlgorithm2's  for given set of parameters
     
     INPUT:
     -  ``parameters`` -- dictionary including parameters
@@ -374,35 +383,32 @@ def _compute_memory_complexity(self, parameters: dict, verbose_information=None)
 
 and running our `test.py` script, yields a successful computation of a MITM-approach:
 ```bash
-+-----------------+---------------+
-|                 |    estimate   |
-+-----------------+------+--------+
-| algorithm       | time | memory |
-+-----------------+------+--------+
-| DUMMYAlgorithm1 | 50.0 |   50.0 |
-+-----------------+------+--------+
++-----------------+----------------+
+|                 |    estimate    |
++-----------------+-------+--------+
+| algorithm       |  time | memory |
++-----------------+-------+--------+
+| DUMMYAlgorithm1 | 100.0 |    0.0 |
+| DUMMYAlgorithm2 |  51.0 |   50.0 |
++-----------------+-------+--------+
 ```
 
 Note that the class `SimpleNamespace(...)` is used to elegantly access the algorithm parameters like `par.h`. But of
-course you could also access the parameters via `h = parameters["h"]`. 
-
-*__<Andre: this I find confusing. It currently states that runtime is the max of the memory and itself. Also the runtime 
- should be computed more accurately as `log2(2**par.h + 2**(n-par.h))` to be in line with what is done in the library>__*
-Additionally, see the runtime formula
-`runtime = max(par.h, n - par.h)`, which states that the runtime is always the maximum of the memory and runtime.
-Therefore, the CryptographicEstimators framework automatically balances the time and memory of the algorithm, resulting
-in the numbers shown in the table.
+course you could also access the parameters via `h = parameters["h"]`. Additionally, see the runtime formula 
+`runtime = log2(2**par.h + 2**(n-par.h))`. The CryptographicEstimators framework automatically balances the time and
+memory of the algorithm, resulting in the numbers shown in the table.
 
 ### Different Types of Optimization Parameters
 There are two ways of implementing optimization parameters. If a parameter has to be optimized in conjunction with other 
 parameters, meaning it has to be set in dependence of the time complexity, you can use `opt_parameter_name = self._get_optimal_parameter(“<parameter name>”)`,
 as in the example above. Note that this is usually the case.
 
-On the other hand there might be parameters that can be optimized independently based on the input (problem) parameters you can simply return 
-that value. For example, if in our case `h=n/2` is always the best choice we could return `n/2` instead. Note that in our case
-indeed `h=n/2` is optimal with respect to the time complexity. However, since the choice of `h` also influences the memory complexity
-and the CryptographicEstimators allows to put constraints on the memory consumption ***<Andre: maybe reference the corresponding section>***, we decide here to use the more flexible optimization method via the 
-autmoatic parameter search.
+On the other hand there might be parameters that can be optimized independently based on the input (problem) parameters
+you can simply return that value. For example, if in our case `h=n/2` is always the best choice we could return `n/2`
+instead. Note that in our case indeed `h=n/2` is optimal with respect to the time complexity. However, since the choice
+of `h` also influences the memory complexity and the CryptographicEstimators allows to put constraints on the memory
+consumption, [here](#Benchmarking-under-memory-constraints) or [in the User Guide](../User_Guide.ipynb) , we decide here
+to use the more flexible optimization method via the automatic parameter search.
 
 It also should be mentioned that parameters that can be optimized independently have to appear first in the code and those 
 that are optimized in conjunction come after.
@@ -410,13 +416,10 @@ that are optimized in conjunction come after.
 After a successful optimization process the optimal parameters, which minimize the runtime are saved in
 the algorithm class and can be received via:
 ```python
-algo = DUMMYAlgorithm1(DUMMYProblem(n=100))
+algo = DUMMYAlgorithm2(DUMMYProblem(n=100))
 algo.time_complexity()
 print(algo.get_optimal_parameters_dict())
 ```
-
-***<Andre: I don't understand this sentence>***
-This is particular comfortable, if in an estimation process another algorithm needs to be optimized.
 
 # Advanced Topics:
 ## Benchmarking under memory constrains
