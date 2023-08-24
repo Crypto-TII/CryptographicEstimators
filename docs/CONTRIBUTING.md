@@ -436,11 +436,11 @@ the `test.py` file to `A = DUMMYEstimator(n=100, memory_bound=20)` yields:
 ```
 For more information have a look to the [user guide](../User_Guide.ipynb)
 
-## Add verbose information
+## Adding verbose information
 
-The CryptographicEstimators framework has two ways to show verbose information
-about the algorithms at hand. The first - and simple way - is by calling the 
-`table` function with the argument `table(show_all_parameters=True)`, which results
+The CryptographicEstimators framework allows to retrieve additional information about the algorithms and there optimization.
+This includes for example the possibility to display all internal optimization parameters, such as `h` in case of our MITM algorithm. 
+To display those you can use the `table` function with the argument `table(show_all_parameters=True)`, which results
 in the following table:
 ```bash
 +-----------------+----------------------------+
@@ -451,14 +451,13 @@ in the following table:
 | DUMMYAlgorithm1 | 50.0 |   50.0 | {'h': 50}  |
 +-----------------+------+--------+------------+
 ```
-it will show all parameters and their values of each applicable algorithm, see the [user guide](../User_Guide.ipynb) for
-more information.
+We refer to the [user guide](../User_Guide.ipynb) for more information.
 
-The second way to show more information is by using the `verbose_information` dictionary in the 
-`_compute_time_complexity(..), _compute_memory_complexity(...)` functions. This dictionary comes in handy if one wants
-to show verbose information about the algorithm, which are not parameters. For example list (or hashmap) sizes, which
-are used internally.
+In case you want to make more information about a specific algorithm accessible you can use the `verbose_information` dictionary in the 
+`_compute_time_complexity(..), _compute_memory_complexity(...)` functions. Such information could include information about internal 
+states for the algorithm, as for example the sizes of used lists (or hashmaps).
 
+***<Andre: doesn't the function fail because verbose_information is None? I think we need an if verbose_information is not None>***
 To use it, you can change the `compute_time_complexity` function to the following:
 ```python
 def _compute_time_complexity(self, parameters: dict, verbose_information=None):
@@ -486,8 +485,8 @@ print(A._get_verbose_information())
 Note that you can use whatever you want as the dictionary key to save your additional data.
 
 ## Exclude Algorithms
-Sometimes It's useful to exclude certain algorithms from the estimation process, because they may take long to optimize
-them, or the algorithm is not that important.
+Sometimes it might be useful to exclude certain algorithms from the estimation process, because their optimization takes 
+a long time or they are similar to other, included algorithms.
 
 From the client perspective this can be easily achieved by adding
 `excluded_algorithms=[DUMMYAlgorithm1]` to the estimator constructor:
@@ -496,7 +495,7 @@ A = DUMMYEstimator(n=100, excluded_algorithms=[DUMMYAlgorithm1])
 ```
 as shown in the [user guide](../User_Guide.ipynb)
 
-But it is sometimes desirable that some algorithms are excluded by default from the estimation process. This can be
+But sometimes it might be desirable that some algorithms are excluded by default from the estimation process. This can be
 achieved by extending the constructor of `DUMMYEstimator` to:
 ```python
 def __init__(self, n: int, memory_bound=inf, **kwargs):
@@ -528,9 +527,9 @@ class DUMMYEstimator(BaseEstimator):
 ```
 
 ## Unifying _compute_time_complexity and _compute_memory_complexity
-Sometimes it's hard to optimize the time complexity of an algorithm, without optimizing the memory at the same time. Thus,
-in this chapter we show how to optimize both at the same time.
-For this rewrite the optimization routine of your algorithm class to:
+Often computing the time complexity of an algorithm already requires computing its memory complexity. Thus,
+to prevent code duplication you should introduce a function that returns both and call this function from the respective 
+`_compute_time_complexity(...)` and `_compute_memory_complexity(...)` functions as shown in the following example:
 
 ```python
 def _compute_time_memory_complexity(self, parameters: dict, verbose_information=None):
@@ -541,7 +540,7 @@ def _compute_time_memory_complexity(self, parameters: dict, verbose_information=
     -  ``parameters`` -- dictionary including parameters
     -  ``verbose_information`` -- 
     """
-    # somehow compute them.
+    # somehow compute TIME and MEMORY.
     return TIME, MEMORY
 
 def _compute_time_complexity(self, parameters: dict, verbose_information=None):
@@ -574,24 +573,24 @@ highly undesirable. To speed things up, we list in this chapter a few tricks to 
 ### Limit the number of valid choices for an algorithm
 Often it is known that certain parameters are invalid. To make this clear to the estimation process, one can overload
 the `_are_paramters_invalid(self, parameters: dict)` function. This function takes a dictionary containing a
-optimization parameter set, and either returns if its valid/invalid as true/false. Thus, if we want to enforce our
-simple MITM algorithm to only select even `h` we can add the following code to the `DUMMYAlgorithm1` class:
+optimization parameter set, and returns false in case the parameter set is valid and true otherwise. 
+Thus, if we want to enforce our simple MITM algorithm to only select even `h` we can add the following code to the `DUMMYAlgorithm1` class:
 ```python
 def _are_parameters_invalid(self, parameters: dict):
-    if parameters["h"] % 2 == 0:
+    if parameters["h"] % 2 != 0:
         return True
-    
     return False
 ```
 The CryptographicEstimators framework will automatically call this function and skip invalid optimization parameter
-sets. Notice that this is an easy way to model dependencies between different optimization parameters, i.e. reject sets
+sets. Notice that this is an easy way to model basic dependencies between different optimization parameters, i.e. reject sets
 with two contradicting optimizations parameters.
 
 
 Sometimes this not enough, thus it can be desirable to fully replace the optimization parameter selection process with a
-custom function to further speed thing up. This can be achieved  by overloading the `_valid_choices(self)` function of
+custom function to further speed things up. This can make sense if for example one parameter should be set in to 
+specific values in dependence on another parameter. This can be achieved  by overloading the `_valid_choices(self)` function of
 the algorithm class. In this example we want to restrict the MITM algorithm from the previous chapters to only chose
-even `h`. This directly halves the computation time.
+even `h`. 
 ```python
 def _valid_choices(self) -> dict[str, int]:
     new_ranges = self._fix_ranges_for_already_set_parameters()
@@ -600,19 +599,21 @@ def _valid_choices(self) -> dict[str, int]:
 ```
 
 For simplicity the function should be implemented as a [generator](https://wiki.python.org/moin/Generators), thus not
-all valid parameter sets are saved in memory at the same time. Additionally, a dictionary with ALL parameters must be
-yielded, as otherwise the optimization process crashes. Note that this function is implemented in the `BaseAlgorithm`
-and there must be explicitly overloaded for each algorithm of your problem.
+all valid parameter sets are saved in memory at the same time. Also, a dictionary including *all* optimization parameters must be
+yielded, as otherwise the optimization process fails. Note that this function is implemented in the `BaseAlgorithm`
+and there must be explicitly overloaded for each algorithm of your problem (where you want to have a customized parameter optimization).
+Remember to always call the function `self._fix_ranges_for_already_set_parameters()` when overloading the `_valid_choices` function, which
+ensures that parameters that have been fixed to certain values by the user are not re-optimized. 
 
 ### Always compute the logarithm
-We strongly suggest to always compute the logarithm of a number and add/subtract instead of multiply/divide. Additionally,
-if possible use the python integer division `a//b` over the float division `a/b` to further speed things up. In general,
-it's a good idea to avoid the computations of big numbers. The same holds for the return values of functions, which 
+We strongly suggest to always compute the logarithm of (large) numbers and add/subtract instead of multiply/divide. Additionally,
+if possible use the python integer division `a//b` over the float division `a/b` to further speed things up and to avoid float overlows. 
+In general, it's a good idea to avoid the computations of big numbers. The same holds for the return values of functions, which 
 should be always logarithmically (if not strictly needed otherwise).
 
 # Writing Doctests
 Throughout the CryptographicEstimators library we are using [sage doctests](https://doc.sagemath.org/html/en/developer/doctesting.html).
-These tests are then automatically run our [CI](https://github.com/Crypto-TII/CryptographicEstimators/actions) to check
+These tests are then automatically run by our [CI](https://github.com/Crypto-TII/CryptographicEstimators/actions) to check
 for any errors.
 
 We strongly encourage to write examples for all optimization parameters of an algorithm. In the case our
@@ -634,7 +635,7 @@ def h(self):
     """
     return self._get_optimal_parameter("h")
 ```
-Note the new lines around `EXAMPLES::` and at the end. These are mandatory. Also note the commands the test framework is 
+Note the newlines around `EXAMPLES::` and in the end. These are mandatory. Also note the commands the test framework is 
 executing, are starting with `sage: ` and the expected result is written below the last command (`50`).
 
 Additionally, it is mandatory to also test all algorithms at least once in the corresponding `Estimator` class. E.g. in
@@ -672,10 +673,15 @@ def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
 Again note the new lines around `TESTS:` and the end of the test. Additionally, notice the `# long test` at the end of
 the last command. You can add this if the command takes a great amount of time, and you do not want to run the test to
 run on every change you make, but rather only on every commit. Tests missing the `# long test` are always executed.
+Make sure there is at least one example or test for the table function that executes fast and, hence, is not marked as long test via 
+`# long time`. This ensures that the `make testfast` command has a good coverage while still executing in reasonable time which can be very helpful
+while integrating code into the library.
+***<Andre: maybe integrate such an example in the above codeexample?>***
 
-If you imported an existing estimator to the CryptographicEstimators library we strongly encourage to load the old estimator
-as a module into `test/module` and check the newly written code against the old code. An example for such an integration
-test can be found under `tests/test_le_bbps.sage`. Its important that all tests functions start with a `test_`.
+If you incorporated an existing estimator to the CryptographicEstimators library we strongly encourage to load the old estimator
+as a module into `test/module` and write unit tests comparing the estimation results of the newly incorporated estimator against the 
+onine available code. An example for such an integration test can be found under `tests/test_le_bbps.sage`. 
+Its important that all tests functions start with a `test_`.
 
 To build and run the fast tests, execute:
 ```sh
