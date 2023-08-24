@@ -42,7 +42,7 @@ class $$UPPER_CASE_PREFIX$$Problem(BaseProblem):
         - ``basic_operations`` -- Number of basic operations (logarithmic)
 
         """
-        pass
+        return basic_operations
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
@@ -53,7 +53,7 @@ class $$UPPER_CASE_PREFIX$$Problem(BaseProblem):
         - ``elements_to_store`` -- number of memory operations (logarithmic)
 
         """
-        pass
+        return elements_to_store
 
     def expected_number_solutions(self):
         """
@@ -67,7 +67,6 @@ class $$UPPER_CASE_PREFIX$$Problem(BaseProblem):
         Return the optimizations parameters
         """
         return list(self.parameters.values())
-
 
     def __repr__(self):
         return "$$UPPER_CASE_PREFIX$$Problem"
