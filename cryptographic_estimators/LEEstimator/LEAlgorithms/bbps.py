@@ -115,7 +115,7 @@ class BBPS(LEAlgorithm):
 
         n, k, q = self.problem.get_parameters()
         num_codewords = number_of_weight_d_codewords(n, k, q, w_prime)
-        Nw_prime = log2(num_codewords)
+        Nw_prime = 0 if num_codewords == 0 else log2(num_codewords)
 
         if Nw_prime < 0:
             return inf, inf
