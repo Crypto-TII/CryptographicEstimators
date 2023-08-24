@@ -222,7 +222,7 @@ class BaseEstimator(object):
         est[name][BASE_ESTIMATEO][BASE_TIME] = time if (time is not None and not isinf(
             time)) else '--'
 
-        memory = algorithm.time_complexity()
+        memory = algorithm.memory_complexity()
         est[name][BASE_ESTIMATEO][BASE_MEMORY] = memory if (memory is not None and not isinf(
             memory)) else '--'
 
