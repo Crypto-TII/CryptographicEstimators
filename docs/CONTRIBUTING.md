@@ -184,7 +184,7 @@ The first function returns the time complexity (`n`), whereas the second functio
 Thus, this is the estimation of a brute force algorithm.
 
 You may ask what's the purpose of the function parameter `verbose_information`? More on this in a later
-[chapter](#Adding verbose information). 
+[chapter](#Adding-verbose-information). 
 
 In the following we make the distinction between `problem parameter` and `optimization parameters`. The first one are
 provided by the user, are not changed by the optimization process and fully describe the problem at hand. Whereas the 
@@ -233,7 +233,7 @@ CryptographicEstimators framework provides a unified way to convert those into b
 The two functions `_compute_time_complexity(...)` and `_compute_memory_complexity(...)` are automatically called by the
 framework to compute the time and memory complexity for a given parameter set. The framework will iterate over a certain
 amount of different optimization parameter sets until it cannot reduce the (time/memory) complexity further. The minimum
-is then shown in such a table. More on this in chapter [of how to add an optimization parameter](#Adding an optimization parameter)
+is then shown in such a table. More on this in chapter [of how to add an optimization parameter](#Adding-an-optimization-parameter)
 
 
 # Translation between different types of measurements
@@ -457,12 +457,11 @@ In case you want to make more information about a specific algorithm accessible 
 `_compute_time_complexity(..), _compute_memory_complexity(...)` functions. Such information could include information about internal 
 states for the algorithm, as for example the sizes of used lists (or hashmaps).
 
-***<Andre: doesn't the function fail because verbose_information is None? I think we need an if verbose_information is not None>***
-To use it, you can change the `compute_time_complexity` function to the following:
+To use it, you can change the `compute_time_complexity` function in `dummy_algorithm2.py` to the following:
 ```python
 def _compute_time_complexity(self, parameters: dict, verbose_information=None):
     """
-    Return time complexity of DUMMYAlgorithm1's  for given set of parameters
+    Return time complexity of DUMMYAlgorithm2's  for given set of parameters
 
     INPUT:
     -  ``parameters`` -- dictionary including parameters
@@ -471,14 +470,15 @@ def _compute_time_complexity(self, parameters: dict, verbose_information=None):
     n = self.problem.parameters["n"]
     par = SimpleNamespace(**parameters)
     memory = par.h
-    verbose_information["List Size"] = par.h
+    if verbose_information is not None:
+        verbose_information["List Size"] = par.h
     runtime = max(memory, n - par.h)
     return runtime
 ```
 Now you can read the verbose information via `_get_verbose_information()` function like:
 ```python
-from cryptographic_estimators.DUMMYEstimator.DUMMYAlgorithms import DUMMYAlgorithm1
-A = DUMMYAlgorithm1(DUMMYProblem(n=100))
+from cryptographic_estimators.DUMMYEstimator.DUMMYAlgorithms import DUMMYAlgorithm2
+A = DUMMYAlgorithm2(DUMMYProblem(n=100))
 print(A._get_verbose_information())
 ```
 
@@ -486,10 +486,10 @@ Note that you can use whatever you want as the dictionary key to save your addit
 
 ## Exclude Algorithms
 Sometimes it might be useful to exclude certain algorithms from the estimation process, because their optimization takes 
-a long time or they are similar to other, included algorithms.
+a long time, or they are similar to other, included algorithms.
 
-From the client perspective this can be easily achieved by adding
-`excluded_algorithms=[DUMMYAlgorithm1]` to the estimator constructor:
+From the client perspective this can be easily achieved by adding `excluded_algorithms=[DUMMYAlgorithm1]` to the
+estimator constructor:
 ```python
 A = DUMMYEstimator(n=100, excluded_algorithms=[DUMMYAlgorithm1])
 ```
@@ -574,7 +574,8 @@ highly undesirable. To speed things up, we list in this chapter a few tricks to 
 Often it is known that certain parameters are invalid. To make this clear to the estimation process, one can overload
 the `_are_paramters_invalid(self, parameters: dict)` function. This function takes a dictionary containing a
 optimization parameter set, and returns false in case the parameter set is valid and true otherwise. 
-Thus, if we want to enforce our simple MITM algorithm to only select even `h` we can add the following code to the `DUMMYAlgorithm1` class:
+Thus, if we want to enforce our simple MITM algorithm to only select even `h` we can add the following code to the
+`DUMMYAlgorithm1` class:
 ```python
 def _are_parameters_invalid(self, parameters: dict):
     if parameters["h"] % 2 != 0:
@@ -584,7 +585,6 @@ def _are_parameters_invalid(self, parameters: dict):
 The CryptographicEstimators framework will automatically call this function and skip invalid optimization parameter
 sets. Notice that this is an easy way to model basic dependencies between different optimization parameters, i.e. reject sets
 with two contradicting optimizations parameters.
-
 
 Sometimes this not enough, thus it can be desirable to fully replace the optimization parameter selection process with a
 custom function to further speed things up. This can make sense if for example one parameter should be set in to 
@@ -658,14 +658,25 @@ def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
 
         sage: from cryptographic_estimators.DummyEstimator import DUMMYEstimator
         sage: A = DUMMYEstimator(n=100)
-        sage: A.table() # long time 
+        sage: A.table()
         +-----------------+----------------------------+
         |                 |          estimate          |
         +-----------------+------+--------+------------+
         | algorithm       | time | memory | parameters |
         +-----------------+------+--------+------------+
-        | DUMMYAlgorithm1 | 50.0 |   50.0 | {'h': 50}  |
+        | DUMMYAlgorithm1 | 51.0 |   50.0 | {'h': 50}  |
         +-----------------+------+--------+------------+
+        
+        sage: from cryptographic_estimators.DummyEstimator import DUMMYEstimator
+        sage: A = DUMMYEstimator(n=1000)
+        sage: A.table() # long time 
+        +-----------------+-----------------------------+
+        |                 |           estimate          |
+        +-----------------+-------+--------+------------+
+        | algorithm       |  time | memory | parameters |
+        +-----------------+-------+--------+------------+
+        | DUMMYAlgorithm1 | 501.0 |  500.0 | {'h': 500} |
+        +-----------------+-------+--------+------------+
         
     """
     ...
@@ -673,15 +684,14 @@ def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
 Again note the new lines around `TESTS:` and the end of the test. Additionally, notice the `# long test` at the end of
 the last command. You can add this if the command takes a great amount of time, and you do not want to run the test to
 run on every change you make, but rather only on every commit. Tests missing the `# long test` are always executed.
-Make sure there is at least one example or test for the table function that executes fast and, hence, is not marked as long test via 
-`# long time`. This ensures that the `make testfast` command has a good coverage while still executing in reasonable time which can be very helpful
-while integrating code into the library.
-***<Andre: maybe integrate such an example in the above codeexample?>***
+Make sure there is at least one example or test for the table function that executes fast and, hence, is not marked as
+long test via `# long time`. This ensures that the `make testfast` command has a good coverage while still executing in
+reasonable time which can be very helpful while integrating code into the library.
 
-If you incorporated an existing estimator to the CryptographicEstimators library we strongly encourage to load the old estimator
-as a module into `test/module` and write unit tests comparing the estimation results of the newly incorporated estimator against the 
-onine available code. An example for such an integration test can be found under `tests/test_le_bbps.sage`. 
-Its important that all tests functions start with a `test_`.
+If you incorporated an existing estimator to the CryptographicEstimators library we strongly encourage to load the old
+estimator as a module into `test/module` and write unit tests comparing the estimation results of the newly incorporated
+estimator against the online available code. An example for such an integration test can be found under
+`tests/test_le_bbps.sage`. Its important that all tests functions start with a `test_`.
 
 To build and run the fast tests, execute:
 ```sh
