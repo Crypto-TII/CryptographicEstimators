@@ -1,40 +1,20 @@
-## Project structure
+# General Things:
+Use python syntax/features. If sage features are necessary, import them via import statements
 
-If you want to add a new estimator please keep in mind the current project structure. You can run `make add-estimator` and it will create the basic code and folder structure for you to edit, you also can review the `DummyEstimator` to see a minimal reproduction of whats its needed to start. 
-
-````python
-── cryptographic_estimators
- │   ├── base_algorithm.py
- │   ├── base_problem.py
- │   ├── base_estimator.py
- │   └── OneEstimator.py
- │      ├── OneEstimator.py (Inherits from base_estimator)
- │      ├── OneProblem.py (Inherits from base_problem)
- │      ├── OneAlgorithm.py (Inherits from base_algorithm)
- │      └── Algorithms
- │          ├── List of algorithms (Inherits from NEWalgorithm.py)
- |   └── [...]
- │   └── NEWEstimator
- │      ├── NEWEstimator.py (Inherits from base_estimator)
- │      ├── NEWProblem.py (Inherits from base_problem)
- │      ├── NEWAlgorithm.py (Inherits from base_algorithm)
- │      └── Algorithms
- │          ├── List of algorithms (Inherits from NEWalgorithm.py)
-````
----
 ## GIT Conventions
 ### Commits
 To contribute to this project please follow this subset of [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). These are some examples
 Type
 Must be one of the following:
- - docs: Documentation only changes
- - feat: A new feature
- - fix: A bug fix
- - refactor: A code change that neither fixes a bug nor adds a feature
- 
+- docs: Documentation only changes
+- feat: A new feature
+- fix: A bug fix
+- refactor: A code change that neither fixes a bug nor adds a feature
+
 ### Branching
 
-Branch names should be snake_case. Which means that all the text must be lowercase and replace spaces with dashes. Also we should add as a prefix based on the type of implementation. For example:
+Branch names should be snake_case. Which means that all the text must be lowercase and replace spaces with dashes. Also,
+we should add as a prefix based on the type of implementation. For example:
 ```
 refactor/modify_base_problem
 feature/implement_dummy_estimator
@@ -42,46 +22,17 @@ fix/algorithm_parameter
 ```
 
 ### Pull request
-  1. Only create pull requests to the `develop` branch.
-  2. Fulfill the template
+1. Only create pull requests to the `develop` branch.
+2. Fulfill the template
 
 ---
-
-### Testing
-#### Sage tests
-
-To build and run the image based on Dockerfile.test
-```sh
-make testfast
-```
-or all tests via
-```sh
-make testall
-```
-
-
-or if you have Apple Silicon M1 Chip
-```sh
-make test-m1
-```
-#### Pytest
-```sh
-make docker-pytest
-```
-### Documenting
-Remember to document your code using [sphinx syntax](https://www.sphinx-doc.org/en/master/tutorial/automatic-doc-generation.html).
-
-# General Things:
-Use python syntax/features. If sage features are necessary, import them via import statements
-
 # Adding a new estimator
-This tutorial shows how to add your own estimator to the CryptographicEstimators 
-library. For this we implement a simple `DummyEstimator`.
+This tutorial shows how to add your own estimator to the CryptographicEstimators library. For this we implement a simple
+`DummyEstimator`.
 
-First make sure that you have a working `python` and `sage` instance on your
-current machine and have correctly [setup](https://github.com/Crypto-TII/CryptographicEstimators#installation-)
-the project. In the following we assume that you are in the root directory of 
-the project.
+First make sure that you have a working `python` and `sage` instance on your current machine and have correctly
+[setup](https://github.com/Crypto-TII/CryptographicEstimators#installation-) the project. In the following we assume 
+that you are in the root directory of the project.
 
 The next step adds all needed files for the `DummyEstimator` to the repository
 via the command:
@@ -89,7 +40,7 @@ via the command:
 >>> make add-estimator
 ```
 
-The script asks you for some basic properties of the new estimator, eg. its name:
+The script asks you for some basic properties of the new estimator, e.g. its name:
 ```
 Enter a prefix for your Estimator (For example for SyndromeDecoding you could use SD): Dummy
 # Creating folders...
@@ -206,7 +157,6 @@ For the next step we must make sure that the algorithm `DummyAlgorihm1` is
 actually computing something. For this add the following two functions to 
 the file `dummy_algorihm1.py`:
 
-*__<Andre The function get_parameters() is not implemented for the general base_problem class. It's custom.>__*
 ```python
 def _compute_time_complexity(self, parameters: dict, verbose_information=None):
     """
@@ -216,7 +166,7 @@ def _compute_time_complexity(self, parameters: dict, verbose_information=None):
     -  ``parameters`` -- dictionary including parameters
     -  ``verbose_information`` -- 
     """
-    n = self.problem.get_parameters()[0]
+    n = self.problem.parameters["n"]
     return n
 
 def _compute_memory_complexity(self, parameters: dict, verbose_information=None):
@@ -233,13 +183,14 @@ def _compute_memory_complexity(self, parameters: dict, verbose_information=None)
 The first function returns the time complexity (`n`), whereas the second function returns the memory complexity (`0`).
 Thus, this is the estimation of a brute force algorithm.
 
-*__<I think it would make sense to explain the difference between problem and optimization parameters first, thats not 
+*__<I think it would make sense to explain the difference between problem and optimization parameters first, that's not 
 obvious for everyone and might lead to confusion.>__*
+
 An important thing to recognize here is, that the two functions only compute the complexity of the algorithm for a
 given set of optimization parameters. These function do *not* iterate over a set of optimization parameters, nor they try
 to improve upon the given parameters in any way. They are only computing the complexity based on the given parameters. 
 Note that the current definition of the time complexity does not use any optimization parameters. To see how to make use 
-of optimization parameters see [of how to add an optimization parameter](#Adding an optimization parameter)
+of optimization parameters see [of how to add an optimization parameter](#Adding-an-optimization-parameter)
 
 *__<Andre: These links are not working it seems... or does it just not work in the pycharm viewer?>__*
 Now let us call the `DUMMYEstimator` via the `test.py` script with parameter `n=100`, i.e.,
@@ -264,8 +215,9 @@ CryptographicEstimators framework.
 
 A few notes on what you see: 
 
+*__<this is not related to the current output but to the above code example, or not? If so I would move it up>__*
 You may ask what's the purpose of the function parameter `verbose_information`? More on this in a later
-[chapter](#Adding verbose information). *__<this is not related to the current output but to the above code example, or not? If so I would move it up>__*
+[chapter](#Adding verbose information). 
 
 The values the two functions return are in logarithmic scale, meaning the output `n` of the estimation implies that running `DUMMYAlgorithm1`
 to solve the `DUMMYPRoblem` would require `2**n` *basic operations*. Where's `basic operation` is the minimal operation to count by the estimator. This *basic operation*
@@ -287,7 +239,6 @@ shown in such a table. More on this in chapter [of how to add an optimization pa
 
 
 # Translation between different types of measurements
-
 The complexity of an algorithm is sometimes not measured in bit operations, but in vector operations or in matrix
 operations. To convert between those measurements automatically, the CryptographicEstimators library offers an
 easy-to-use API.
@@ -297,13 +248,14 @@ easy-to-use API.
  of the classes, this would lead to a memory and time complexity of `--` as long as the estimator is set to return bit  complexities.
  I think it would be better if those functions simply return the amount of basic operations / elements used as input which would make 
  everything true what you write. We should change it in the corresponding default implementation>__*
+
 Notably the two functions `to_bitcomplexity_time` and `to_bitcomplexity_memory` which are implemented by the `Problem`
 class of your estimation, in our case `DUMMYProblem`. These two functions are automatically called by the `BaseEstimator`
 if implemented. They are therefore mandatory to implement. Note that the estimator generation script by default assumes
 that the algorithm's `basic operation` is a bitoperation and that the `basic element` is a bit.
 
-Let us assume our `DummyEstimator` estimates the complexity not in bit operations but in binary vector operations of length `n` and 
-correspondingly the `basic element` of the estimator are binary vectors of length `n`. To
+Let us assume our `DummyEstimator` estimates the complexity not in bit operations but in binary vector operations of
+length `n` and correspondingly the `basic element` of the estimator are binary vectors of length `n`. To
 convert to bit complexity we therefore change the two functions of the `DUMMYProblem` class to the following:
 
 ```python
@@ -401,7 +353,7 @@ def _compute_time_complexity(self, parameters: dict, verbose_information=None):
     -  ``parameters`` -- dictionary including parameters
     -  ``verbose_information`` -- 
     """
-    n = self.problem.get_parameters()[0]
+    n = self.problem.parameters["n"]
     par = SimpleNamespace(**parameters)
     memory = par.h
     runtime = max(memory, n - par.h)
@@ -514,7 +466,7 @@ def _compute_time_complexity(self, parameters: dict, verbose_information=None):
     -  ``parameters`` -- dictionary including parameters
     -  ``verbose_information`` -- 
     """
-    n = self.problem.get_parameters()[0]
+    n = self.problem.parameters["n"]
     par = SimpleNamespace(**parameters)
     memory = par.h
     verbose_information["List Size"] = par.h
@@ -534,7 +486,7 @@ Note that you can use whatever you want as the dictionary key to save your addit
 Sometimes It's useful to exclude certain algorithms from the estimation process, because they may take long to optimize
 them, or the algorithm is not that important.
 
-From the client perspective this can be easily archived by adding
+From the client perspective this can be easily achieved by adding
 `excluded_algorithms=[DUMMYAlgorithm1]` to the estimator constructor:
 ```python
 A = DUMMYEstimator(n=100, excluded_algorithms=[DUMMYAlgorithm1])
@@ -634,7 +586,7 @@ with two contradicting optimizations parameters.
 
 
 Sometimes this not enough, thus it can be desirable to fully replace the optimization parameter selection process with a
-custom function to further speed thing up. This can be archived, by overloading the `_valid_choices(self)` function of
+custom function to further speed thing up. This can be achieved  by overloading the `_valid_choices(self)` function of
 the algorithm class. In this example we want to restrict the MITM algorithm from the previous chapters to only chose
 even `h`. This directly halves the computation time.
 ```python
@@ -721,6 +673,24 @@ run on every change you make, but rather only on every commit. Tests missing the
 If you imported an existing estimator to the CryptographicEstimators library we strongly encourage to load the old estimator
 as a module into `test/module` and check the newly written code against the old code. An example for such an integration
 test can be found under `tests/test_le_bbps.sage`. Its important that all tests functions start with a `test_`.
+
+To build and run the fast tests, execute:
+```sh
+make testfast
+```
+or all tests execute
+```sh
+make testall
+```
+
+or if you have Apple Silicon M1 Chip
+```sh
+make test-m1
+```
+#### Pytest
+```sh
+make docker-pytest
+```
 
 ## Difference between ```_compute_time_complexity(...)``` and ```time_complexity(...)```
 The first one returns the time for a given set of parameters in number of basic operations, while the second initiates a
