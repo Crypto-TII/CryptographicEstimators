@@ -291,7 +291,7 @@ class BaseAlgorithm:
             tmp_time += self.memory_access_cost(tmp_memory)
 
             if tmp_time < time and tmp_memory <= self.problem.memory_bound:
-                time, memory = tmp_time, tmp_memory
+                time, _ = tmp_time, tmp_memory
                 self._current_minimum_for_early_abort = tmp_time
                 for i in params:
                     self._optimal_parameters[i] = params[i]
@@ -405,6 +405,27 @@ class BaseAlgorithm:
 
         self._memory_complexity = None
         self._time_complexity = None
+
+    def _include_bit_and_memory_complexity(self, params):
+        """
+
+        :return:
+        """
+        temp_time_complexity = self._compute_time_complexity(params)
+        if self.bit_complexities:
+            temp_basic_operation_cost = self.problem.to_bitcomplexity_time(
+                temp_time_complexity)
+
+            if self._memory_access != 0:
+                temp_memory_access_cost = temp_time_complexity
+                temp_memory_access_cost += self.memory_access_cost(
+                    self.memory_complexity())
+                temp_time_complexity = log2(int(2 ** temp_basic_operation_cost)
+                                            + int(2 ** temp_memory_access_cost))
+            else:
+                temp_time_complexity = temp_basic_operation_cost
+
+        return temp_time_complexity
 
     def time_complexity(self, **kwargs):
         """
