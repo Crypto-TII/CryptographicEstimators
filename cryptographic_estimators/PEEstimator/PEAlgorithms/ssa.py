@@ -48,7 +48,7 @@ class SSA(PEAlgorithm):
         return log2(n ** 3 + n ** 2 * q ** h * log(h))
 
     def _compute_memory_complexity(self, parameters: dict):
-        n, k, q, h = self.problem.get_parameters()
+        n, k, _, h = self.problem.get_parameters()
         return log2(n * h + n * k + n * (n - k))
 
     def __repr__(self):

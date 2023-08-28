@@ -108,7 +108,7 @@ class SBC(PKAlgorithm):
         w = parameters["w"]
         w1 = parameters["w1"]
 
-        n, m, q, ell = self.problem.get_parameters()
+        n, m, _, _ = self.problem.get_parameters()
 
         if w1 > w or w < d or n - w < m - d or (d == 1 and w > n - m):
             return True
