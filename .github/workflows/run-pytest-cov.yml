@@ -40,10 +40,13 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Run pytest with coverage
-        run: make docker-pytest-cov
+        run: docker run --rm -v $PWD:/home/sage/cryptographic_estimators estimators-lib make docker-pytest-cov
 
       - name: Override Coverage Source Path for Sonar
-        run: sed -i "s/<source>\/home\/cryptographic_estimators\/cryptographic_estimators<\/source>/<source>\/github\/workspace\/cryptographic_estimators<\/source>/g" coverage.xml
+        run: |
+          cat coverage.xml
+          sed -i "s/<source>\/home\/cryptographic_estimators\/cryptographic_estimators<\/source>/<source>\/github\/workspace\/cryptographic_estimators<\/source>/g" coverage.xml
+          cat coverage.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
