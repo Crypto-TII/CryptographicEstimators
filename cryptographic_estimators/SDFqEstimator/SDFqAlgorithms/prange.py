@@ -54,7 +54,7 @@ class Prange(SDFqAlgorithm):
 
         """
 
-        n, k, w, q = self.problem.get_parameters()
+        n, k, w, _ = self.problem.get_parameters()
         solutions = self.problem.nsolutions
 
         memory = log2(_mem_matrix(n, k, 0)) + log2(n)

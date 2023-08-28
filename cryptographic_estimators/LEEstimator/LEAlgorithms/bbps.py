@@ -94,7 +94,7 @@ class BBPS(LEAlgorithm):
     def _are_parameters_invalid(self, parameters: dict):
         w = parameters["w"]
         w_prime = parameters["w_prime"]
-        n, k, q = self.problem.get_parameters()
+        n, k, _ = self.problem.get_parameters()
 
         if w < w_prime + 1 or w > 2 * w_prime - 1 or w_prime > n - k:
             return True
