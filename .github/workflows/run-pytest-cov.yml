@@ -1,8 +1,7 @@
 name: run-pytest-cov
 on:
-  pull_request:
+  push:
     branches:
-      - main
       - feat/sonar-cloud-test-coverage
 
 jobs:
