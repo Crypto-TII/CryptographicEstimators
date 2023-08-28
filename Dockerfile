@@ -1,7 +1,7 @@
 FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractiv
 RUN apt update && apt install -y sagemath
-RUN sage -python3 -m pip install prettytable scipy sphinx==5.3.0 furo pytest
+RUN sage -python3 -m pip install prettytable scipy sphinx==5.3.0 furo pytest pytest-cov
 WORKDIR "/home/cryptographic_estimators/"
 COPY . .
 ENV SAGE_PKGS=/usr/share/sagemath/installed
