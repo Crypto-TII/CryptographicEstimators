@@ -42,6 +42,9 @@ jobs:
       - name: Run pytest with coverage
         run: make docker-pytest-cov
 
+      - name: Override Coverage Source Path for Sonar
+        run: sed -i "s/<source>\/home\/cryptographic_estimators\/cryptographic_estimators<\/source>/<source>\/github\/workspace\/cryptographic_estimators<\/source>/g" coverage.xml
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:

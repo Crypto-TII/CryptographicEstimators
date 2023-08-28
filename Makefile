@@ -20,7 +20,7 @@ docker-build:
 docker-build-m1:
 	@docker buildx build -t ${image_name} --platform linux/x86_64 .
 
-docker-run: 
+docker-run:
 	@docker run -it --rm ${image_name}
 
 testfast:
@@ -75,4 +75,4 @@ docker-pytest:
 	@docker run --name pytest-estimators -d -it ${image_name} sh && docker exec pytest-estimators sh -c "sage --python3 -m pytest -vv --cov-report xml:coverage.xml --cov=${PACKAGE} && ${SAGE} tests/test_sdfq.sage && ${SAGE} tests/test_le_beullens.sage && ${SAGE} tests/test_le_bbps.sage && ${SAGE} tests/test_pe.sage && ${SAGE} tests/test_pk.sage"  && make stop-container-and-remove container_name="pytest-estimators"
 
 docker-pytest-cov:
-	pytest -vv --cov-report xml:coverage.xml --cov=${PACKAGE} tests/
+	@docker run --name pytest-estimators -d -it ${image_name} sh && docker exec pytest-estimators sh -c "sage --python3 -m pytest -vv --cov-report xml:coverage.xml --cov=${PACKAGE} tests/"
