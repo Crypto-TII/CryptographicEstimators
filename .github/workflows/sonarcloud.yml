@@ -4,7 +4,7 @@ on:
     branches:
       - develop
       - main
-      - feat/sonar-cloud-test-coverage
+
 jobs:
   sonarcloud:
     name: SonarCloud
