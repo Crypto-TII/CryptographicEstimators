@@ -76,4 +76,4 @@ docker-pytest:
 
 docker-pytest-cov:
 	@docker run --name pytest-estimators -d -it ${image_name} sh && docker exec pytest-estimators sh -c "sage --python3 -m pytest -vv --cov-report xml:coverage.xml --cov=${PACKAGE} tests/test_estimators.py"
-	@echo "Report in: $(PWD)/coverage.xml"
+	@cat coverage.xml
