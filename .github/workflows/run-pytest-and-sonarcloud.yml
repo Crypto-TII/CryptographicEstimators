@@ -1,8 +1,13 @@
-name: run-pytest-cov
+name: run-pytest-ans-sonarcloud
 on:
   push:
     branches:
-      - feat/sonar-cloud-test-coverage
+      - '**'
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+    branches:
+      - develop
+      - main
 
 jobs:
   builds-and-run-pytest-coverage:
