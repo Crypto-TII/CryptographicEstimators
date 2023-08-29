@@ -43,12 +43,7 @@ jobs:
         run: docker run --rm -v $PWD:/home/cryptographic_estimators estimators-lib make docker-pytest-cov
 
       - name: Override Coverage Source Path for Sonar
-        run: |
-          realpath coverage.xml
-          ls -la
-          cat coverage.xml
-          sed -i "s/<source>\/home\/cryptographic_estimators\/cryptographic_estimators<\/source>/<source>\/github\/workspace\/cryptographic_estimators<\/source>/g" coverage.xml
-          cat coverage.xml
+        run: sed -i "s/<source>\/home\/cryptographic_estimators\/cryptographic_estimators<\/source>/<source>\/github\/workspace\/cryptographic_estimators<\/source>/g" coverage.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
