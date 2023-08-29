@@ -1,11 +1,16 @@
-name: run-pytest
+name: run-pytest-ans-sonarcloud
 on:
-  pull_request:
+  push:
     branches:
+      - '**'
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+    branches:
+      - develop
       - main
 
 jobs:
-  builds-and-run-pytest:
+  builds-and-run-pytest-coverage:
     runs-on: ubuntu-22.04
     concurrency: ci-${{github.ref}}
     steps:
@@ -39,5 +44,18 @@ jobs:
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
-      - name: Run pytest
-        run: make docker-pytest
+      - name: Run pytest with coverage
+        run: docker run --rm -v $PWD:/home/cryptographic_estimators estimators-lib make docker-pytest-cov
+
+      - name: Override Coverage Source Path for Sonar
+        run: sed -i "s/<source>\/home\/cryptographic_estimators\/cryptographic_estimators<\/source>/<source>\/github\/workspace\/cryptographic_estimators<\/source>/g" coverage.xml
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.branch.name=${{ env.GITHUB_HEAD_REF }}
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
