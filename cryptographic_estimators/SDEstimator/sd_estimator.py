@@ -94,7 +94,7 @@ class SDEstimator(BaseEstimator):
             | BJMMdw        | 23.4 |   14.7 |
             | BJMMpdw       | 23.3 |   14.3 |
             | BJMM          | 22.8 |   15.0 |
-            | BJMM_plus     | 22.8 |   15.0 |
+            | BJMMplus      | 22.8 |   15.0 |
             | BothMay       | 22.4 |   14.7 |
             | Dumer         | 22.7 |   16.4 |
             | MayOzerov     | 22.3 |   14.8 |
@@ -105,7 +105,8 @@ class SDEstimator(BaseEstimator):
         TESTS:
 
             sage: from cryptographic_estimators.SDEstimator import SDEstimator
-            sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1, workfactor_accuracy=25)
+            sage: from cryptographic_estimators.SDEstimator import BothMay
+            sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1,excluded_algorithms=[BothMay], workfactor_accuracy=25)
             sage: A.table(show_tilde_o_time=1, precision=0) # long time
             +---------------+---------------+------------------+
             |               |    estimate   | tilde_o_estimate |
@@ -116,8 +117,7 @@ class SDEstimator(BaseEstimator):
             | BJMMdw        |   24 |     14 |    -- |       -- |
             | BJMMpdw       |   24 |     15 |    -- |       -- |
             | BJMM          |   23 |     15 |     9 |        7 |
-            | BJMM_plus     |   23 |     15 |    -- |       -- |
-            | BothMay       |   23 |     14 |     9 |        7 |
+            | BJMMplus      |   23 |     15 |    -- |       -- |
             | Dumer         |   23 |     16 |    11 |        3 |
             | MayOzerov     |   23 |     15 |     9 |        8 |
             | Prange        |   29 |     13 |    11 |        0 |
@@ -136,7 +136,7 @@ class SDEstimator(BaseEstimator):
             | BallCollision | 151.460 |  49.814 |             {'r': 7, 'p': 4, 'pl': 0, 'l': 39}             |
             | BJMMpdw       | 143.448 |  86.221 |            {'r': 7, 'p': 12, 'p1': 8, 'w2': 0}             |
             | BJMM          | 141.886 | 104.057 | {'r': 7, 'depth': 3, 'p': 16, 'p1': 6, 'p2': 12, 'l': 197} |
-            | BJMM_plus     | 142.111 |  97.541 |      {'r': 7, 'p': 14, 'p1': 10, 'l': 167, 'l1': 81}       |
+            | BJMMplus      | 142.111 |  97.541 |      {'r': 7, 'p': 14, 'p1': 10, 'l': 167, 'l1': 81}       |
             | BothMay       | 141.711 |  87.995 |   {'r': 7, 'p': 12, 'w1': 0, 'w2': 0, 'p1': 9, 'l': 79}    |
             | Dumer         | 151.380 |  58.019 |                 {'r': 7, 'l': 47, 'p': 5}                  |
             | MayOzerov     | 140.795 |  86.592 | {'r': 7, 'depth': 3, 'p': 12, 'p1': 5, 'p2': 10, 'l': 95}  |
@@ -156,7 +156,7 @@ class SDEstimator(BaseEstimator):
             | BallCollision | 153.405 | 32.587 |            {'r': 7, 'p': 2, 'pl': 0, 'l': 21}           |
             | BJMMpdw       | 153.217 | 30.600 |            {'r': 7, 'p': 2, 'p1': 1, 'w2': 0}           |
             | BJMM          | 153.191 | 30.619 |      {'r': 7, 'depth': 2, 'p': 2, 'p1': 1, 'l': 21}     |
-            | BJMM_plus     | 153.210 | 24.602 |       {'r': 7, 'p': 2, 'p1': 1, 'l': 21, 'l1': 9}       |
+            | BJMMplus      | 153.210 | 24.602 |       {'r': 7, 'p': 2, 'p1': 1, 'l': 21, 'l1': 9}       |
             | BothMay       | 152.059 | 25.172 |   {'r': 7, 'p': 2, 'w1': 0, 'w2': 0, 'p1': 1, 'l': 8}   |
             | Dumer         | 153.385 | 32.608 |                {'r': 7, 'l': 21, 'p': 2}                |
             | MayOzerov     | 150.210 | 32.092 | {'r': 7, 'depth': 3, 'p': 4, 'p1': 1, 'p2': 2, 'l': 20} |
