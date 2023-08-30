@@ -61,7 +61,7 @@ class KPG(MQAlgorithm):
                 "the order of finite field q must be a power of 2")
 
         if m * (m + 1) >= n:
-            raise ValueError(f'The condition m(m + 1) < n must be satisfied')
+            raise ValueError('The condition m(m + 1) < n must be satisfied')
 
         super().__init__(problem, **kwargs)
         self._name = "KPG"
