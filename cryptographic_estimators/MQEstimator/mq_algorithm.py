@@ -62,8 +62,7 @@ class MQAlgorithm(BaseAlgorithm):
         if h < 0:
             raise ValueError("h must be >= 0")
 
-        if theta is not None:
-            if theta > 2 or theta < 0:
+        if theta is not None and (theta > 2 or theta < 0):
                 raise ValueError("theta must be None or an integer in the range 0 <= theta <= 2")
 
         self._n = n
