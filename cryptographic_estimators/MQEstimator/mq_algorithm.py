@@ -123,7 +123,7 @@ class MQAlgorithm(BaseAlgorithm):
         if self._m_reduced is not None:
             return self._m_reduced
 
-        n, m = self.problem.nvariables(), self.problem.npolynomials()
+        m = self.problem.npolynomials()
         if self.problem.is_underdefined_system():
             self._m_reduced = self.nvariables_reduced()
         else:
