@@ -64,9 +64,10 @@ def test_leon():
                 # due to slightly different calculation of "number_of_weight_d_codewords" optimal w might differ by 1
                 # for some edge cases
                 t11 = A.time_complexity()
-                t12 = A.time_complexity(w=A.optimal_parameters()["w"]+1)
+                t12 = A.time_complexity(w=A.optimal_parameters()["w"]-1)
 
                 t2 = LEON(n, k, q) + log2(n) - lee_brickell_correction(k)
+                # print(n, k, q, t11, t12, t2)
                 assert t2 - ranges < t11 < t2 + ranges or t2 - ranges < t12 < t2 + ranges
 
 

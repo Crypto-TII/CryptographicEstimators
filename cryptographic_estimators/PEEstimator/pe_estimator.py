@@ -71,25 +71,29 @@ class PEEstimator(BaseEstimator):
             +-----------+---------+--------+------------+
             | algorithm |    time | memory | parameters |
             +-----------+---------+--------+------------+
-            | Leon      |  34.200 | 11.718 | {'w': 26}  |
+            | Leon      |  33.274 | 11.718 | {'w': 25}  |
             | Beullens  |  29.631 | 11.901 | {'w': 25}  |
             | SSA       | 127.480 | 14.040 |     {}     |
             +-----------+---------+--------+------------+
 
+
+
         TESTS::
 
             sage: from cryptographic_estimators.PEEstimator import PEEstimator
-            sage: A = PEEstimator(n=200, k=100, q=51)
+            sage: A = PEEstimator(n=150, k=100, q=51)
             sage: A.table(precision=3, show_all_parameters=1) # long time
             +-----------+-------------------------------+
             |           |            estimate           |
             +-----------+---------+--------+------------+
             | algorithm |    time | memory | parameters |
             +-----------+---------+--------+------------+
-            | Leon      | 115.629 | 35.016 | {'w': 71}  |
-            | Beullens  |  99.161 | 61.851 | {'w': 85}  |
-            | SSA       | 587.237 | 18.377 |     {}     |
+            | Leon      |  82.588 | 34.601 | {'w': 33}  |
+            | Beullens  |  72.962 | 44.308 | {'w': 41}  |
+            | SSA       | 302.551 | 17.377 |     {}     |
             +-----------+---------+--------+------------+
+
+
         """
         super(PEEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,

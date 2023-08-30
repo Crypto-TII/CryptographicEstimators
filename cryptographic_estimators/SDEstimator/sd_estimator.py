@@ -1,5 +1,22 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -77,7 +94,7 @@ class SDEstimator(BaseEstimator):
             | BJMMdw        | 23.4 |   14.7 |
             | BJMMpdw       | 23.3 |   14.3 |
             | BJMM          | 22.8 |   15.0 |
-            | BJMM_plus     | 22.8 |   15.0 |
+            | BJMMplus      | 22.8 |   15.0 |
             | BothMay       | 22.4 |   14.7 |
             | Dumer         | 22.7 |   16.4 |
             | MayOzerov     | 22.3 |   14.8 |
@@ -88,7 +105,8 @@ class SDEstimator(BaseEstimator):
         TESTS:
 
             sage: from cryptographic_estimators.SDEstimator import SDEstimator
-            sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1, workfactor_accuracy=25)
+            sage: from cryptographic_estimators.SDEstimator import BothMay
+            sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1,excluded_algorithms=[BothMay], workfactor_accuracy=25)
             sage: A.table(show_tilde_o_time=1, precision=0) # long time
             +---------------+---------------+------------------+
             |               |    estimate   | tilde_o_estimate |
@@ -99,8 +117,7 @@ class SDEstimator(BaseEstimator):
             | BJMMdw        |   24 |     14 |    -- |       -- |
             | BJMMpdw       |   24 |     15 |    -- |       -- |
             | BJMM          |   23 |     15 |     9 |        7 |
-            | BJMM_plus     |   23 |     15 |    -- |       -- |
-            | BothMay       |   23 |     14 |     9 |        7 |
+            | BJMMplus      |   23 |     15 |    -- |       -- |
             | Dumer         |   23 |     16 |    11 |        3 |
             | MayOzerov     |   23 |     15 |     9 |        8 |
             | Prange        |   29 |     13 |    11 |        0 |
@@ -119,7 +136,7 @@ class SDEstimator(BaseEstimator):
             | BallCollision | 151.460 |  49.814 |             {'r': 7, 'p': 4, 'pl': 0, 'l': 39}             |
             | BJMMpdw       | 143.448 |  86.221 |            {'r': 7, 'p': 12, 'p1': 8, 'w2': 0}             |
             | BJMM          | 141.886 | 104.057 | {'r': 7, 'depth': 3, 'p': 16, 'p1': 6, 'p2': 12, 'l': 197} |
-            | BJMM_plus     | 142.111 |  97.541 |      {'r': 7, 'p': 14, 'p1': 10, 'l': 167, 'l1': 81}       |
+            | BJMMplus      | 142.111 |  97.541 |      {'r': 7, 'p': 14, 'p1': 10, 'l': 167, 'l1': 81}       |
             | BothMay       | 141.711 |  87.995 |   {'r': 7, 'p': 12, 'w1': 0, 'w2': 0, 'p1': 9, 'l': 79}    |
             | Dumer         | 151.380 |  58.019 |                 {'r': 7, 'l': 47, 'p': 5}                  |
             | MayOzerov     | 140.795 |  86.592 | {'r': 7, 'depth': 3, 'p': 12, 'p1': 5, 'p2': 10, 'l': 95}  |
@@ -131,21 +148,21 @@ class SDEstimator(BaseEstimator):
             sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
             sage: A = SDEstimator(3488,2720,64,excluded_algorithms=[BJMMdw],memory_access=3)
             sage: A.table(precision=3, show_all_parameters=1) # long time
-            +---------------+------------------------------------------------------------------------+
-            |               |                                estimate                                |
-            +---------------+---------+--------+-----------------------------------------------------+
-            | algorithm     |    time | memory |                      parameters                     |
-            +---------------+---------+--------+-----------------------------------------------------+
-            | BallCollision | 163.650 | 32.587 |          {'r': 7, 'p': 2, 'pl': 0, 'l': 21}         |
-            | BJMMpdw       | 162.998 | 30.600 |          {'r': 7, 'p': 2, 'p1': 1, 'w2': 0}         |
-            | BJMM          | 162.976 | 30.619 |    {'r': 7, 'depth': 2, 'p': 2, 'p1': 1, 'l': 21}   |
-            | BJMM_plus     | 161.294 | 24.602 |     {'r': 7, 'p': 2, 'p1': 1, 'l': 21, 'l1': 9}     |
-            | BothMay       | 160.317 | 25.172 | {'r': 7, 'p': 2, 'w1': 0, 'w2': 0, 'p1': 1, 'l': 8} |
-            | Dumer         | 163.635 | 32.608 |              {'r': 7, 'l': 21, 'p': 2}              |
-            | MayOzerov     | 160.311 | 25.179 |    {'r': 7, 'depth': 2, 'p': 2, 'p1': 1, 'l': 8}    |
-            | Prange        | 180.580 | 21.576 |                       {'r': 7}                      |
-            | Stern         | 163.260 | 32.587 |              {'r': 7, 'p': 2, 'l': 21}              |
-            +---------------+---------+--------+-----------------------------------------------------+
+            +---------------+----------------------------------------------------------------------------+
+            |               |                                  estimate                                  |
+            +---------------+---------+--------+---------------------------------------------------------+
+            | algorithm     |    time | memory |                        parameters                       |
+            +---------------+---------+--------+---------------------------------------------------------+
+            | BallCollision | 153.405 | 32.587 |            {'r': 7, 'p': 2, 'pl': 0, 'l': 21}           |
+            | BJMMpdw       | 153.217 | 30.600 |            {'r': 7, 'p': 2, 'p1': 1, 'w2': 0}           |
+            | BJMM          | 153.191 | 30.619 |      {'r': 7, 'depth': 2, 'p': 2, 'p1': 1, 'l': 21}     |
+            | BJMMplus      | 153.210 | 24.602 |       {'r': 7, 'p': 2, 'p1': 1, 'l': 21, 'l1': 9}       |
+            | BothMay       | 152.059 | 25.172 |   {'r': 7, 'p': 2, 'w1': 0, 'w2': 0, 'p1': 1, 'l': 8}   |
+            | Dumer         | 153.385 | 32.608 |                {'r': 7, 'l': 21, 'p': 2}                |
+            | MayOzerov     | 150.210 | 32.092 | {'r': 7, 'depth': 3, 'p': 4, 'p1': 1, 'p2': 2, 'l': 20} |
+            | Prange        | 173.447 | 21.576 |                         {'r': 7}                        |
+            | Stern         | 153.015 | 32.587 |                {'r': 7, 'p': 2, 'l': 21}                |
+            +---------------+---------+--------+---------------------------------------------------------+
 
         """
         super(SDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,

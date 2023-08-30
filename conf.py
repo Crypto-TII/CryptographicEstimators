@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'TII-Estimators'
+project = 'Cryptographic Estimators'
 copyright = '2022, TII'
 author = 'TII'
 

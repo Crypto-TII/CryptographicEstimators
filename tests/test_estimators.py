@@ -1,5 +1,5 @@
 from cryptographic_estimators.MQEstimator import MQEstimator, MQProblem, Bjorklund, BooleanSolveFXL, F5, HybridF5, KPG, CGMTA, MHT, Lokshtanov, DinurFirst, DinurSecond, Crossbred
-from cryptographic_estimators.SDEstimator import SDEstimator, Prange, Dumer, BallCollision, BJMM, BJMMdw, BJMMpdw, BothMay, MayOzerov, Stern, BJMM_plus
+from cryptographic_estimators.SDEstimator import SDEstimator, Prange, Dumer, BallCollision, BJMM, BJMMdw, BJMMpdw, BothMay, MayOzerov, Stern, BJMMplus
 import pytest
 
 
@@ -43,7 +43,7 @@ def test_sd_raises_error_when_invalid_parameters_are_passed():
 
 
 def test_estimates_with_prange():
-    excluded_algorithms = [Dumer, BallCollision, BJMM, BJMM_plus,
+    excluded_algorithms = [Dumer, BallCollision, BJMM, BJMMplus,
                            BJMMpdw, BJMMdw, BothMay, MayOzerov, Stern]
     sd_estimator = SDEstimator(
         100, 50, 2, excluded_algorithms=excluded_algorithms)

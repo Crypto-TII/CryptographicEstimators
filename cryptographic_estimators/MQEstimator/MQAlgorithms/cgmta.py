@@ -34,8 +34,8 @@ class CGMTA(MQAlgorithm):
 
     NOTE::
 
-        In this module the compleixties are computed
-        for k=  min(m / 2, floor(sqrt(n / 2 - sqrt(n / 2)))).
+        In this module the complexities are computed
+        for k = min(m / 2, floor(sqrt(n / 2 - sqrt(n / 2)))).
 
 
     INPUT:
@@ -72,8 +72,7 @@ class CGMTA(MQAlgorithm):
         self._k = min(m / 2, floor(sqrt(n / 2 - sqrt(n / 2))))
 
         if 2 * self._k ** 2 > n - 2 * self._k or m - 2 * self._k >= 2 * self._k ** 2:
-            raise ValueError(
-                f'The condition m - 2k < 2k^2 <= n - 2k must be satisfied')
+            raise ValueError('The condition m - 2k < 2k^2 <= n - 2k must be satisfied')
 
         self._name = "CGMT-A"
         self._n_reduced = n

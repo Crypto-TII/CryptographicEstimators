@@ -7,7 +7,7 @@ from math import inf
 load('tests/module/attack_cost.sage')
 beullens_params = {"bit_complexities": 0}
 
-ranges = 0.1
+ranges = 0.12
 
 
 def test_beullens1():

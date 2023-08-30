@@ -40,15 +40,15 @@ def header_style(section, level):
 
 with Path(SOURCE_ROOT_FOLDER, "index.rst").open(mode="w") as index_rst_file:
     index_rst_file.write("=========================\n"
-                         "TII Cryptanalysis Library\n"
+                         "CryptographicEstimators Library\n"
                          "=========================\n"
                          "\n"
-                         "This is a sample reference manual for TII cryptanalysis library.\n"
+                         "This is a sample reference manual for CryptographicEstimators library.\n"
                          "\n"
                          "To use this module, you need to import it:: \n\n"
                          "    from cryptographic_estimators import *\n\n"
                          "This reference shows a minimal example of documentation of the\n"
-                         "TII cryptanalysis library following SageMath guidelines.\n")
+                         "CryptographicEstimators library following SageMath guidelines.\n")
 
     ROOT_FOLDER = 'cryptographic_estimators/'
 

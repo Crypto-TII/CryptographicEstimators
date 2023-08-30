@@ -1,0 +1,29 @@
+{
+  "estimator_id": "$$UPPER_CASE_PREFIX$$Estimator",
+  "algorithm_id": "$$UPPER_CASE_PREFIX$$Algorithm",
+  "display_label": "$$DISPLAY_LABEL$$",
+  "landing_page_content": "# Fill with markdown or latex content",
+  "problem_parameters": [
+    {
+      "id": "Parameter1",
+      "type": "number",
+      "display_label": "Parameter 1",
+      "placeholder": "Insert parameter",
+      "tooltip": "This is the first problem parameter"
+    }
+  ],
+  "estimator_parameters": [
+    {
+      "id": "included_algorithms",
+      "type": "multiple_selector",
+      "direction": "column",
+      "display_label": "Included algorithms",
+      "tooltip": "Algorithms to include for optimization",
+      "default_value": [],
+      "excluded_algorithms": [],
+      "options": [],
+      "dependencies": []
+    }
+  ],
+  "optional_parameters": []
+}

@@ -1,3 +1,20 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
 from ..SDFqEstimator.sdfq_algorithm import SDFqAlgorithm
 from ..SDFqEstimator.sdfq_problem import SDFqProblem
 from ..base_estimator import BaseEstimator
@@ -59,7 +76,7 @@ class SDFqEstimator(BaseEstimator):
 
             sage: from cryptographic_estimators.SDFqEstimator import SDFqEstimator
             sage: A = SDFqEstimator(961,771,48,31)
-            sage: A.table(precision=3, show_all_parameters=1) # long time
+            sage: A.table(precision=3, show_all_parameters=1)
             +-------------+-------------------------------------+
             |             |               estimate              |
             +-------------+---------+--------+------------------+

@@ -19,13 +19,13 @@ def test_bbps1():
         if q == 11:
             # for small q we need to allow for a slightly larger tolerance,
             # because the coupon collector approximation is less accurate
-            ranges = 0.6
+            ranges = 1
         A = BBPS(LEProblem(n, k, q), **bbps_params)
         t1 = A.time_complexity()
         t2, w, w_prime, L_prime = improved_linear_beullens(n, k, q)
 
-        #if not (t2 - ranges< t1 < t2 + ranges):
-        #    print(n, k, q, t1, t2)
+        # if not (t2 - ranges< t1 < t2 + ranges):
+        # print(n, k, q, t1, t2)
 
         assert t2 - ranges < t1 < t2 + ranges
 

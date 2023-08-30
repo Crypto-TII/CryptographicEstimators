@@ -62,8 +62,8 @@ class MQAlgorithm(BaseAlgorithm):
         if h < 0:
             raise ValueError("h must be >= 0")
 
-        if theta > 2 or theta < 0:
-            raise ValueError("theta must be in the range 0 <= theta <= 2")
+        if theta is not None and (theta > 2 or theta < 0):
+                raise ValueError("theta must be None or an integer in the range 0 <= theta <= 2")
 
         self._n = n
         self._m = m
@@ -122,7 +122,7 @@ class MQAlgorithm(BaseAlgorithm):
         if self._m_reduced is not None:
             return self._m_reduced
 
-        n, m = self.problem.nvariables(), self.problem.npolynomials()
+        m = self.problem.npolynomials()
         if self.problem.is_underdefined_system():
             self._m_reduced = self.nvariables_reduced()
         else:

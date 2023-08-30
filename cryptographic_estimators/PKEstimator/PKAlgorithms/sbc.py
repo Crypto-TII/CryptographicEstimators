@@ -1,3 +1,20 @@
+# ****************************************************************************
+# Copyright 2023 Technology Innovation Institute
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ****************************************************************************
+
 from ..pk_algorithm import PKAlgorithm
 from ..pk_problem import PKProblem
 from ..pk_constants import *
@@ -91,7 +108,7 @@ class SBC(PKAlgorithm):
         w = parameters["w"]
         w1 = parameters["w1"]
 
-        n, m, q, ell = self.problem.get_parameters()
+        n, m, _, _ = self.problem.get_parameters()
 
         if w1 > w or w < d or n - w < m - d or (d == 1 and w > n - m):
             return True
@@ -145,14 +162,19 @@ class SBC(PKAlgorithm):
             if u > d:
                 T_L = factorial(n) // factorial(m + w - u) + size_K + factorial(n) // factorial(m + w - u) * size_K \
                       // q ** (ell * (u - d))
+                T_test = factorial(n - w) // q ** ((u - d) * ell) // factorial(m - u) * size_K
             else:
                 T_L = factorial(n) // factorial(m + w - u) + size_K + factorial(n) * q ** (ell * (d - u)) // factorial(
                     m + w - u) * size_K
+                T_test = factorial(n - w)* q ** ((d - u) * ell) // factorial(m - u) * size_K
             L = max(L, min(factorial(n) // factorial(m + w - u), size_K))
 
-            T_test = factorial(n - w) // q ** ((u - d) * ell) // factorial(m - u) * size_K
 
-            local_time = log2(2 ** c_isd + (T_K + T_L + T_test) * self.cost_for_list_operation)
+
+
+
+
+            local_time = log2(int(2 ** c_isd) + (T_K + T_L + T_test) * self.cost_for_list_operation)
 
             local_memory = log2(L) + log2(self.memory_for_list_element)
 
@@ -162,8 +184,8 @@ class SBC(PKAlgorithm):
                 memory = local_memory
 
         if verbose_information is not None:
-            verbose_information[VerboseInformation.SBC_ISD] = c_isd
-            verbose_information[VerboseInformation.SBC_U] = best_u
+            verbose_information[VerboseInformation.SBC_ISD.value] = c_isd
+            verbose_information[VerboseInformation.SBC_U.value] = best_u
 
         return time, memory
 

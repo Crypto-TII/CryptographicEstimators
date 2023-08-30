@@ -15,19 +15,26 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-from enum import  Enum
+
+from ..base_algorithm import BaseAlgorithm
+from .$$lower_case_prefix$$_problem import $$UPPER_CASE_PREFIX$$Problem
 
 
-LE_CODE_LENGTH = "code length"
-LE_CODE_DIMENSION = "code dimension"
-LE_FIELD_SIZE = "field size"
-LE_SD_PARAMETERS="sd_parameters"
+class $$UPPER_CASE_PREFIX$$Algorithm(BaseAlgorithm):
+    def __init__(self, problem: $$UPPER_CASE_PREFIX$$Problem, **kwargs):
+        """
+        Base class for $$UPPER_CASE_PREFIX$$ algorithms complexity estimator
 
-class VerboseInformation(Enum):
-    """
-    """
-    NW = "Nw_prime"
-    LISTS = "L_prime"
-    LISTS_SIZE = "list_size"
-    NORMAL_FORM = "normal_form"
-    ISD = "C_ISD"
+        INPUT:
+
+        - ``problem`` -- $$UPPER_CASE_PREFIX$$Problem object including all necessary parameters
+
+        """
+        super($$UPPER_CASE_PREFIX$$Algorithm, self).__init__(problem, **kwargs)
+        self._name = "sample_name"
+
+    def __repr__(self):
+        """
+        NOTE: self._name must be instanciated via the child class
+        """
+        return "$$UPPER_CASE_PREFIX$$Algorithm"

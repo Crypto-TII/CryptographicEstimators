@@ -111,7 +111,9 @@ def improved_linear_beullens(n,k,q):
     
     for w_prime in range(w_in,max_w):
        # print(w_prime);
-        Nw_prime = binomial(n,w_prime)*(q-1)^(w_prime-1)*(q^k-1)/(q^n-1);
+        # Deviation from the original script:
+        # Fixed amount of weight w_prime codewords
+        Nw_prime = binomial(n,w_prime)*(q-1)^(w_prime)//q^(n-k);
         
         for w in range(w_prime+1,min(2*w_prime,n)):
             

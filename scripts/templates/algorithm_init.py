@@ -1,0 +1,1 @@
+from .$$lower_case_prefix$$_algorithm1 import $$UPPER_CASE_PREFIX$$Algorithm1

@@ -110,7 +110,7 @@ class BaseAlgorithm:
                 new_type = ComplexityType.TILDEO.value
             else:
                 raise ValueError(
-                    f"the complexity type should be either the string ESTIMATE or TILDEO")
+                    "the complexity type should be either the string ESTIMATE or TILDEO")
 
         elif input_type not in [ComplexityType.ESTIMATE.value, ComplexityType.TILDEO.value]:
             raise ValueError("invalid value for complexity_type")
@@ -121,9 +121,11 @@ class BaseAlgorithm:
         if self._complexity_type != new_type:
             self.reset()
             self._complexity_type = new_type
-    
+
     def memory_access_cost(self, mem: float):
         """
+        Returns the memory access cost (in logarithmic scale) of the algorithm per basic operation
+
         INPUT:
     
         - ```mem`` -- memory consumption of an algorithm
@@ -218,15 +220,15 @@ class BaseAlgorithm:
         raise NotImplementedError
 
     def _compute_tilde_o_time_complexity(self, parameters):
-         """
-         Compute and return the tilde-O time complexity of the algorithm for a given set of parameters
+        """
+        Compute and return the tilde-O time complexity of the algorithm for a given set of parameters
 
-         INPUT:
+        INPUT:
 
-         - ``parameters`` -- dictionary including the parameters
+        - ``parameters`` -- dictionary including the parameters
 
-         """
-         raise NotImplementedError
+        """
+        raise NotImplementedError
 
     def _compute_tilde_o_memory_complexity(self, parameters):
         """
@@ -247,6 +249,7 @@ class BaseAlgorithm:
         Return a list of methods decorated with @optimal_parameter ordered by linenumber of appearance
 
         """
+
         def sort_operator(v):
             return v[1]
 
@@ -285,11 +288,11 @@ class BaseAlgorithm:
             tmp_memory = self._compute_memory_complexity(params)
             if self.bit_complexities:
                 tmp_memory = self.problem.to_bitcomplexity_memory(tmp_memory)
-            
+
             tmp_time += self.memory_access_cost(tmp_memory)
 
             if tmp_time < time and tmp_memory <= self.problem.memory_bound:
-                time, memory = tmp_time, tmp_memory
+                time, _ = tmp_time, tmp_memory
                 self._current_minimum_for_early_abort = tmp_time
                 for i in params:
                     self._optimal_parameters[i] = params[i]
@@ -404,6 +407,28 @@ class BaseAlgorithm:
         self._memory_complexity = None
         self._time_complexity = None
 
+    def _compute_estimate_time_complexity(self, params):
+        """
+
+        computes time complexity (in estimate mode) for given parameter set and converts to bit complexity
+        and adds memory access costs if set.
+        """
+        temp_time_complexity = self._compute_time_complexity(params)
+        if self.bit_complexities:
+            temp_basic_operation_cost = self.problem.to_bitcomplexity_time(
+                temp_time_complexity)
+
+            if self._memory_access != 0:
+                temp_memory_access_cost = temp_time_complexity
+                temp_memory_access_cost += self.memory_access_cost(
+                    self.memory_complexity())
+                temp_time_complexity = log2(int(2 ** temp_basic_operation_cost)
+                                            + int(2 ** temp_memory_access_cost))
+            else:
+                temp_time_complexity = temp_basic_operation_cost
+
+        return temp_time_complexity
+
     def time_complexity(self, **kwargs):
         """
         Return the time complexity of the algorithm
@@ -426,17 +451,9 @@ class BaseAlgorithm:
             params = self.__set_dict(**kwargs)
 
         if self._complexity_type == ComplexityType.ESTIMATE.value:
-            temp_time_complexity = self._compute_time_complexity(params)
-            if self.bit_complexities:
-                temp_time_complexity = self.problem.to_bitcomplexity_time(
-                    temp_time_complexity)
-
-            if self._memory_access != 0:
-                temp_time_complexity += self.memory_access_cost(
-                    self.memory_complexity())
+            temp_time_complexity = self._compute_estimate_time_complexity(params)
         else:
-            temp_time_complexity = self._compute_tilde_o_time_complexity(
-                params)
+            temp_time_complexity = self._compute_tilde_o_time_complexity(params)
 
         if kwargs == {}:
             self._time_complexity = temp_time_complexity

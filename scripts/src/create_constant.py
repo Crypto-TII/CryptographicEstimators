@@ -13,12 +13,3 @@ class CreateConstants(BaseFileCreator):
     def _get_file_content(self):
         pass
 
-    def _create_imports(self):
-        pass
-   
-    def _create_class(self):
-        pass
-
-    def _create_constructor(self):
-        pass
-
