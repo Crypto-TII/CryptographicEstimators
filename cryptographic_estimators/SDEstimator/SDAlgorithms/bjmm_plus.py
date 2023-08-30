@@ -25,7 +25,7 @@ from types import SimpleNamespace
 from ..sd_constants import *
 
 
-class BJMM_plus(SDAlgorithm):
+class BJMMplus(SDAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
         """
         Complexity estimate of BJMM+ algorithm in depth 2
@@ -48,14 +48,14 @@ class BJMM_plus(SDAlgorithm):
 
         EXAMPLES::
 
-            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM_plus
+            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMplus
             sage: from cryptographic_estimators.SDEstimator import SDProblem
-            sage: BJMM_plus(SDProblem(n=100,k=50,w=10))
+            sage: BJMMplus(SDProblem(n=100,k=50,w=10))
             BJMM+ estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 2
 
         """
 
-        super(BJMM_plus, self).__init__(problem, **kwargs)
+        super(BJMMplus, self).__init__(problem, **kwargs)
         self._name = "BJMM"
         self.initialize_parameter_ranges()
         self.limit_depth = kwargs.get("limit_depth", False)
@@ -81,9 +81,9 @@ class BJMM_plus(SDAlgorithm):
 
         EXAMPLES::
 
-            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM_plus
+            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMplus
             sage: from cryptographic_estimators.SDEstimator import SDProblem
-            sage: A = BJMM_plus(SDProblem(n=100,k=50,w=10))
+            sage: A = BJMMplus(SDProblem(n=100,k=50,w=10))
             sage: A.l()
             8
 
@@ -97,9 +97,9 @@ class BJMM_plus(SDAlgorithm):
 
         EXAMPLES::
 
-            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM_plus
+            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMplus
             sage: from cryptographic_estimators.SDEstimator import SDProblem
-            sage: A = BJMM_plus(SDProblem(n=100,k=50,w=10))
+            sage: A = BJMMplus(SDProblem(n=100,k=50,w=10))
             sage: A.l1()
             2
 
@@ -113,9 +113,9 @@ class BJMM_plus(SDAlgorithm):
 
         EXAMPLES::
 
-            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM_plus
+            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMplus
             sage: from cryptographic_estimators.SDEstimator import SDProblem
-            sage: A = BJMM_plus(SDProblem(n=100,k=50,w=10))
+            sage: A = BJMMplus(SDProblem(n=100,k=50,w=10))
             sage: A.p()
             2
         """
@@ -128,9 +128,9 @@ class BJMM_plus(SDAlgorithm):
 
         EXAMPLES::
 
-            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM_plus
+            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMplus
             sage: from cryptographic_estimators.SDEstimator import SDProblem
-            sage: A = BJMM_plus(SDProblem(n=100,k=50,w=10))
+            sage: A = BJMMplus(SDProblem(n=100,k=50,w=10))
             sage: A.p1()
             1
         """
@@ -165,9 +165,9 @@ class BJMM_plus(SDAlgorithm):
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
                 for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
-                    L1 = int(log2(binom((k+l)//2, p1)))
+                    L1 = log2(binom((k+l)//2, p1))
                     d1 = self._adjust_radius
-                    for l1 in range(max(L1-d1, 0), L1+d1):
+                    for l1 in range(max(int(L1)-d1, 0), int(L1)+d1):
                         indices = {"p": p, "p1": p1, "l": l, "l1": l1,
                                    "r": self._optimal_parameters["r"]}
                         if self._are_parameters_invalid(indices):
@@ -187,7 +187,6 @@ class BJMM_plus(SDAlgorithm):
             return inf, inf
 
         solutions = self.problem.nsolutions
-        memory_bound = self.problem.memory_bound
 
         L1 = binom(k1, par.p1)
         if self._is_early_abort_possible(log2(L1)):

@@ -64,6 +64,4 @@ class SDFqAlgorithm(BaseAlgorithm):
         verb = dict()
         _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)
         return verb
-    
-    def __repr__(self):
-        pass
+
