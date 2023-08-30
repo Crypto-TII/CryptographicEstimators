@@ -21,7 +21,6 @@ from ...SDFqEstimator.sdfq_problem import SDFqProblem
 from ...SDFqEstimator.sdfq_helper import _mem_matrix, binom, log2, min_max, inf
 from types import SimpleNamespace
 from ..sdfq_constants import *
-#from ..SDFqWorkfactorModels.stern import SternScipyModel
 
 
 class Stern(SDFqAlgorithm):

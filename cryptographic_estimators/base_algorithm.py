@@ -110,7 +110,7 @@ class BaseAlgorithm:
                 new_type = ComplexityType.TILDEO.value
             else:
                 raise ValueError(
-                    f"the complexity type should be either the string ESTIMATE or TILDEO")
+                    "the complexity type should be either the string ESTIMATE or TILDEO")
 
         elif input_type not in [ComplexityType.ESTIMATE.value, ComplexityType.TILDEO.value]:
             raise ValueError("invalid value for complexity_type")
@@ -410,7 +410,8 @@ class BaseAlgorithm:
     def _compute_estimate_time_complexity(self, params):
         """
 
-        :return:
+        computes time complexity (in estimate mode) for given parameter set and converts to bit complexity
+        and adds memory access costs if set.
         """
         temp_time_complexity = self._compute_time_complexity(params)
         if self.bit_complexities:
