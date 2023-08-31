@@ -34,7 +34,4 @@ class $$UPPER_CASE_PREFIX$$Algorithm(BaseAlgorithm):
         self._name = "sample_name"
 
     def __repr__(self):
-        """
-        NOTE: self._name must be instanciated via the child class
-        """
-        return "$$UPPER_CASE_PREFIX$$Algorithm"
+        return f"{self._name} estimator for the " + str(self.problem)

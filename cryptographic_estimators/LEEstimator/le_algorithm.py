@@ -32,7 +32,3 @@ class LEAlgorithm(BaseAlgorithm):
         """
         super(LEAlgorithm, self).__init__(problem, **kwargs)
 
-    def __repr__(self):
-        """
-        """
-        pass
