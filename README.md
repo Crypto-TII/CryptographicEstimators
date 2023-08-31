@@ -17,6 +17,8 @@ This library provides bit security estimators and asymptotic complexity estimato
  - Permutation Equivalence
  - Linear Equivalence
 
+You can also access the estimators through [this](https://estimators.crypto.tii.ae/) user friendly and installation-free web application.
+
 ## Getting Started 🚀
 This project is meant to be run through a terminal or inside a docker container.
 
@@ -62,6 +64,8 @@ sage:
 ---
 ## Documentation 📝
 To generate the documentation locally you can run `make doc` and then open to `/docs/build/html/index.html` to view it. Or you can also generated the documentation through docker via running `make docker-doc`
+
+You can read the User Guide [here](https://github.com/Crypto-TII/CryptographicEstimators/blob/develop/User_Guide.ipynb).
 
 ---
 ## Contributing 🖊️
