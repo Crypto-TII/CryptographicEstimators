@@ -32,6 +32,3 @@ class $$UPPER_CASE_PREFIX$$Algorithm(BaseAlgorithm):
         """
         super($$UPPER_CASE_PREFIX$$Algorithm, self).__init__(problem, **kwargs)
         self._name = "sample_name"
-
-    def __repr__(self):
-        return f"{self._name} estimator for the " + str(self.problem)

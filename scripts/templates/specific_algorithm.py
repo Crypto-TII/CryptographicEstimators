@@ -56,6 +56,3 @@ class $$UPPER_CASE_PREFIX$$Algorithm1($$UPPER_CASE_PREFIX$$Algorithm):
 
         """
         pass
-
-    def __repr__(self):
-        return "$$UPPER_CASE_PREFIX$$Algorithm1 estimator for " + str(self.problem)
