@@ -37,6 +37,3 @@ class PKAlgorithm(BaseAlgorithm):
 
         if self.memory_for_list_element > self.cost_for_list_operation:
             raise ValueError("Cost per list element must be at least as high as its memory usage")
-
-    def __repr__(self):
-        return f"{self._name} estimator for the " + str(self.problem)
