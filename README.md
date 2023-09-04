@@ -19,6 +19,7 @@ This library provides bit security estimators and asymptotic complexity estimato
 
 You can also access the estimators through [this](https://estimators.crypto.tii.ae/) user friendly and installation-free web application.
 
+
 ## Getting Started 🚀
 This project is meant to be run through a terminal or inside a docker container.
 

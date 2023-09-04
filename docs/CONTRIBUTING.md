@@ -436,6 +436,7 @@ the `test.py` file to `A = DUMMYEstimator(n=100, memory_bound=20)` yields:
 ```
 For more information have a look to the [user guide](User_Guide.ipynb)
 
+
 ## Adding verbose information
 
 The CryptographicEstimators framework allows to retrieve additional information about the algorithms and there optimization.
@@ -452,6 +453,7 @@ in the following table:
 +-----------------+------+--------+------------+
 ```
 We refer to the [user guide](User_Guide.ipynb) for more information.
+
 
 In case you want to make more information about a specific algorithm accessible you can use the `verbose_information` dictionary in the 
 `_compute_time_complexity(..), _compute_memory_complexity(...)` functions. Such information could include information about internal 
@@ -494,6 +496,7 @@ estimator constructor:
 A = DUMMYEstimator(n=100, excluded_algorithms=[DUMMYAlgorithm1])
 ```
 as shown in the [user guide](User_Guide.ipynb)
+
 
 But sometimes it might be desirable that some algorithms are excluded by default from the estimation process. This can be
 achieved by extending the constructor of `DUMMYEstimator` to:
