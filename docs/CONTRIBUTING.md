@@ -407,7 +407,7 @@ On the other hand there might be parameters that can be optimized independently 
 you can simply return that value. For example, if in our case `h=n/2` is always the best choice we could return `n/2`
 instead. Note that in our case indeed `h=n/2` is optimal with respect to the time complexity. However, since the choice
 of `h` also influences the memory complexity and the CryptographicEstimators allows to put constraints on the memory
-consumption, [here](#Benchmarking-under-memory-constraints) or [in the User Guide](../User_Guide.ipynb) , we decide here
+consumption, [here](#Benchmarking-under-memory-constraints) or [in the User Guide](User_Guide.ipynb) , we decide here
 to use the more flexible optimization method via the automatic parameter search.
 
 It also should be mentioned that parameters that can be optimized independently have to appear first in the code and those 
@@ -434,7 +434,8 @@ the `test.py` file to `A = DUMMYEstimator(n=100, memory_bound=20)` yields:
 | DUMMYAlgorithm1 | 80.0 |   20.0 | {'h': 20}  |
 +-----------------+------+--------+------------+
 ```
-For more information have a look to the [user guide](../User_Guide.ipynb)
+For more information have a look to the [user guide](User_Guide.ipynb)
+
 
 ## Adding verbose information
 
@@ -451,7 +452,8 @@ in the following table:
 | DUMMYAlgorithm1 | 50.0 |   50.0 | {'h': 50}  |
 +-----------------+------+--------+------------+
 ```
-We refer to the [user guide](../User_Guide.ipynb) for more information.
+We refer to the [user guide](User_Guide.ipynb) for more information.
+
 
 In case you want to make more information about a specific algorithm accessible you can use the `verbose_information` dictionary in the 
 `_compute_time_complexity(..), _compute_memory_complexity(...)` functions. Such information could include information about internal 
@@ -493,7 +495,8 @@ estimator constructor:
 ```python
 A = DUMMYEstimator(n=100, excluded_algorithms=[DUMMYAlgorithm1])
 ```
-as shown in the [user guide](../User_Guide.ipynb)
+as shown in the [user guide](User_Guide.ipynb)
+
 
 But sometimes it might be desirable that some algorithms are excluded by default from the estimation process. This can be
 achieved by extending the constructor of `DUMMYEstimator` to:

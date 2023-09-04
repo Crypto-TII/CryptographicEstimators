@@ -548,7 +548,8 @@ class BaseAlgorithm:
             parameter_method_names = [
                 i.__name__ for i in self._optimal_parameters_methods]
         return parameter_method_names
-
+    def __repr__(self):
+        return f"{self._name} estimator for the " + str(self.problem)
 
 def optimal_parameter(func):
     """
