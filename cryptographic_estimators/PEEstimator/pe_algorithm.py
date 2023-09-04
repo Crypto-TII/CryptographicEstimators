@@ -32,7 +32,3 @@ class PEAlgorithm(BaseAlgorithm):
         """
         super(PEAlgorithm, self).__init__(problem, **kwargs)
 
-    def __repr__(self):
-        """
-        """
-        pass
