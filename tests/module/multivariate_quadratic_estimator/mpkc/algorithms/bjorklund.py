@@ -192,9 +192,9 @@ class Bjorklund(BaseAlgorithm):
             return 1
         else:
             l = floor(λ * n)
-            T1 = (n + (l + 2) * m * sum_of_binomial_coefficients(n, 2) + (n - l) * 2 ** (n - l))
             s = 48 * n + 1
-            return s * sum_of_binomial_coefficients(n - l, l + 4) * (Bjorklund._T(l, l + 2, λ) + T1)
+            T1 =  s * (sum_of_binomial_coefficients(n - l, l + 4) * (n + (l + 2) * m * sum_of_binomial_coefficients(n, 2)) + (n - l) * 2 ** (n - l))
+            return  s * sum_of_binomial_coefficients(n - l, l + 4) * Bjorklund._T(l, l + 2, λ) + T1
 
     def _time_complexity_(self, λ):
         """
