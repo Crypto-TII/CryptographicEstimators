@@ -116,7 +116,8 @@ class EstimationRenderer():
         ]
 
         # 34 = len("additional_information")
-        table = PrettyTable(table_columns, min_table_width=max(len(sub_table_name), 34))
+        min_table_width = max(len(sub_table_name), 34) if not self._show_verbose_information else len(sub_table_name)
+        table = PrettyTable(table_columns, min_table_width=min_table_width)
         table.padding_width = 1
         table.title = sub_table_name
         if BASE_TIME in table_columns:
