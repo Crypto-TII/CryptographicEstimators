@@ -74,6 +74,7 @@ class Prange(SDAlgorithm):
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = Tg
+            verbose_information[VerboseInformation.LISTS.value] = 0
 
         return time, memory
 

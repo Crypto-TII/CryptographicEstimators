@@ -67,8 +67,13 @@ class SDEstimator(BaseEstimator):
         super(SDEstimator, self).__init__(SDAlgorithm, SDProblem(
             n, k, w, memory_bound=memory_bound, **kwargs), **kwargs)
 
-    def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
-              show_all_parameters=0, precision=1, truncate=0):
+    def table(self, 
+              show_quantum_complexity=0,
+              show_tilde_o_time=0,
+              show_all_parameters=0,
+              precision=1,
+              truncate=0,
+              show_verbose_information=0):
         """
         Print table describing the complexity of each algorithm and its optimal parameters
 
@@ -79,6 +84,7 @@ class SDEstimator(BaseEstimator):
         - ``show_all_parameters`` -- show all optimization parameters (default: true)
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
+        - ``show_verbose_information`` -- show additionally in a new column the `verbose_information` dictionary (default: false)
 
         EXAMPLES:
 
@@ -168,4 +174,6 @@ class SDEstimator(BaseEstimator):
         super(SDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,
                                        show_all_parameters=show_all_parameters,
-                                       precision=precision, truncate=truncate)
+                                       precision=precision, 
+                                       truncate=truncate,
+                                       show_verbose_information=show_verbose_information)

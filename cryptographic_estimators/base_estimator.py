@@ -245,7 +245,7 @@ class BaseEstimator(object):
                 self.estimates[name] = {}
 
             # used only in the GUI
-            if logger:
+            if logger: 
                 logger(
                     f"[{str(index + 1)}/{str(self.nalgorithms())}] - Processing algorithm: '{name}'")
 
@@ -260,7 +260,13 @@ class BaseEstimator(object):
 
         return self.estimates
 
-    def table(self, show_quantum_complexity=False, show_tilde_o_time=False, show_all_parameters=False, precision=1, truncate=False):
+    def table(self, 
+              show_quantum_complexity=False, 
+              show_tilde_o_time=False, 
+              show_all_parameters=False, 
+              precision=1, 
+              truncate=False,
+              show_verbose_information=True):
         """
         Print table describing the complexity of each algorithm and its optimal parameters
 
@@ -271,6 +277,7 @@ class BaseEstimator(object):
         - ``show_all_parameters`` -- show all optimization parameters (default: false)
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
+        - ``show_verbose_information`` -- show additionally in a new column the `verbose_information` dictionary (default: false)
 
         """
         self.include_tildeo = show_tilde_o_time
@@ -283,7 +290,7 @@ class BaseEstimator(object):
 
         else:
             renderer = EstimationRenderer(
-                show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate
+                show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate, show_verbose_information
             )
             renderer.as_table(estimate)
 

@@ -24,7 +24,13 @@ from sage.all import RR
 
 
 class EstimationRenderer():
-    def __init__(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0) -> None:
+    def __init__(self, 
+                 show_quantum_complexity=0,
+                 show_tilde_o_time=0,
+                 show_all_parameters=0,
+                 precision=1,
+                 truncate=0,
+                 show_verbose_information=0) -> None:
         """
         Creates an estimation renderer
         INPUT:
@@ -34,12 +40,15 @@ class EstimationRenderer():
         - ``show_all_parameters`` -- show all optimization parameters (default: false)
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
+        - ``show_verbose_information`` -- show additionally in a new column the `verbose_information` dictionary (default: false)
+
         """
         self._show_quantum_complexity = show_quantum_complexity
         self._show_tilde_o_time = show_tilde_o_time
         self._show_all_parameters = show_all_parameters
         self._precision = precision
         self._truncate = truncate
+        self._show_verbose_information = show_verbose_information
 
     def as_table(self, estimation_result: dict) -> None:
         """
@@ -48,19 +57,19 @@ class EstimationRenderer():
         estimation = deepcopy(estimation_result)
         if estimation == {}:
             raise ValueError("No algorithms associated with this estimator.")
-
+        
         key = list(estimation.keys())[0]
         tables = []
         tbl = self._create_initial_table_containing_algorithm_column(
             estimation)
         tables.append(tbl)
 
-        for j in estimation[key].keys().__reversed__():
+        for j in estimation[key].keys():
             if j == BASE_QUANTUMO and not self._show_quantum_complexity:
                 continue
             if j == BASE_TILDEO_ESTIMATE and not self._show_tilde_o_time:
                 continue
-            if j == BASE_ADDITIONALO:
+            if j == BASE_ADDITIONALO and not self._show_verbose_information:
                 continue
 
             tbl = self._create_subtable_containing_all_columns(j, estimation)
@@ -71,12 +80,11 @@ class EstimationRenderer():
                 tbl._min_width = {BASE_TIME: len(BASE_QUANTUMO)}
 
         tbl_join = concat_all_tables(tables)
-
         print(tbl_join)
 
     def _create_initial_table_containing_algorithm_column(self, estimation: dict) -> PrettyTable:
         """
-        creates a `PrettyTable` with the analysis results, containg
+        creates a `PrettyTable` with the analysis results, containing
             - expected runtime and memory
             - optimal parameters
 
@@ -101,11 +109,14 @@ class EstimationRenderer():
         - ``estimation`` the estimation dictionary containing the results
         """
         algorithm_name = list(estimation.keys())[0]
+
         table_columns = [
             i for i in list(estimation[algorithm_name][sub_table_name].keys())
             if i != BASE_PARAMETERS or self._show_all_parameters
         ]
-        table = PrettyTable(table_columns, min_table_width=len(sub_table_name))
+
+        # 34 = len("additional_information")
+        table = PrettyTable(table_columns, min_table_width=max(len(sub_table_name), 34))
         table.padding_width = 1
         table.title = sub_table_name
         if BASE_TIME in table_columns:
@@ -124,10 +135,21 @@ class EstimationRenderer():
         - ``estimation`` the estimation dictionary containing the results
 
         """
+        max_cols_in_row = 1
         for i in estimation.keys():
             row = [estimation[i][sub_table.title][k]
-                   for k in sub_table.field_names]
+                   for k in sub_table.field_names
+                   if k in estimation[i][sub_table.title].keys()]
+            
+            if max_cols_in_row < len(row):
+                max_cols_in_row = len(row)
+
+            # make sure that at least a single column is added
+            if len(row) == 0:
+                row = ["-"]*max_cols_in_row
+
             row = [round_or_truncate(
                 i, self._truncate, self._precision) if i in RR else i for i in row]
+
             sub_table.add_row(row)
         return sub_table
