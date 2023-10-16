@@ -66,7 +66,7 @@ sage:
 ## Documentation 📝
 To generate the documentation locally you can run `make doc` and then open to `/docs/build/html/index.html` to view it. Or you can also generated the documentation through docker via running `make docker-doc`
 
-You can read the User Guide [here]([https://github.com/Crypto-TII/CryptographicEstimators/blob/develop/User_Guide.ipynb](https://github.com/Crypto-TII/CryptographicEstimators/blob/main/docs/User_Guide.ipynb)).
+You can read the User Guide [here](https://github.com/Crypto-TII/CryptographicEstimators/blob/main/docs/User_Guide.ipynb).
 
 ---
 ## Contributing 🖊️

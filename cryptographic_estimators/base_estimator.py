@@ -275,6 +275,9 @@ class BaseEstimator(object):
         """
         self.include_tildeo = show_tilde_o_time
         self.include_quantum = show_quantum_complexity
+        if all(self.complexity_type):
+            self.include_tildeo = show_tilde_o_time = True
+
         estimate = self.estimate()
 
         if estimate == {}:
