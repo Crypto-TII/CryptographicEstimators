@@ -56,7 +56,7 @@ class MQAlgorithm(BaseAlgorithm):
         if q is not None and not is_prime_power(q):
             raise ValueError("q must be a prime power")
 
-        if w is not None and not 2 <= w <= 3:
+        if  w < 2 or 3 < w:
             raise ValueError("w must be in the range 2 <= w <= 3")
 
         if h < 0:
