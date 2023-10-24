@@ -37,7 +37,7 @@ class BooleanSolveFXL(MQAlgorithm):
     INPUT:
 
     - ``problem`` -- MQProblem object including all necessary parameters
-    - ``w`` -- linear algebra constant (2 <= w <= 3) (default: 2)
+    - ``w`` -- linear algebra constant (2 <= w <= 3) (default: 2.81)
     - ``h`` -- external hybridization parameter (default: 0)
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
@@ -97,7 +97,7 @@ class BooleanSolveFXL(MQAlgorithm):
             sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7))
             sage: E.variant()
-            'deterministic'
+            'las_vegas'
         """
         return self._get_optimal_parameter(MQ_VARIANT)
 
@@ -176,7 +176,7 @@ class BooleanSolveFXL(MQAlgorithm):
             16.26373284384231
 
             sage: E.memory_complexity()
-            11.614709844115207
+            11.385170393638123
         """
         k = parameters['k']
         variant = parameters[MQ_VARIANT]
@@ -265,6 +265,6 @@ class BooleanSolveFXL(MQAlgorithm):
             sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), complexity_type=1)
             sage: E.optimal_parameters()
-            {'k': 4, 'variant': 'deterministic'}
+            {'k': 4, 'variant': 'las_vegas'}
         """
         self._find_optimal_parameters()

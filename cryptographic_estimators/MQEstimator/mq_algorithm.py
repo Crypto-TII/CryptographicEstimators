@@ -32,7 +32,7 @@ class MQAlgorithm(BaseAlgorithm):
         - ``problem`` -- BaseProblem object including all necessary parameters
         - ``w`` -- linear algebra constant (default: 2)
         - ``h`` -- external hybridization parameter (default: 0)
-        - ``theta`` -- exponent of the conversion factor (default: 2)
+        - ``theta`` -- exponent of the conversion factor (default: 2.81)
         - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
         - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
 
@@ -40,7 +40,7 @@ class MQAlgorithm(BaseAlgorithm):
         super(MQAlgorithm, self).__init__(problem, **kwargs)
 
         h = kwargs.get("h", 0)
-        w = kwargs.get("w", 2)
+        w = kwargs.get("w", 2.81)
         theta = kwargs.get("theta", 2)
         n = self.problem.nvariables()
         m = self.problem.npolynomials()
