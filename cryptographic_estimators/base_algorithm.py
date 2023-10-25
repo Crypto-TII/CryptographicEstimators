@@ -34,13 +34,24 @@ class BaseAlgorithm:
         - ``problem`` -- BaseProblem object including all necessary parameters
         - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
         - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default 0)
-        - ``bit_complexities`` -- deterimines if complexity is given in bit operations or basic operations (default 1: in bit)
+        - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
 
         """
+
         self.bit_complexities = kwargs.get(BASE_BIT_COMPLEXITIES, 1)
         self._complexity_type = kwargs.get(
             BASE_COMPLEXITY_TYPE, ComplexityType.ESTIMATE.value)
         self._memory_access = kwargs.get(BASE_MEMORY_ACCESS, 0)
+
+        if not callable(self._memory_access) and self._memory_access not in [0, 1, 2, 3]:
+            raise ValueError("memory_access must either 0, 1, 2, 3 or a sage function")
+
+        if self._complexity_type not in [0, 1]:
+            raise ValueError("complexity_type must either 0 or 1")
+
+        if self.bit_complexities not in [0, 1]:
+            raise ValueError("bit_complexities must either 0 or 1")
+
 
         self._optimal_parameters = dict()
         self._verbose_information = dict()
