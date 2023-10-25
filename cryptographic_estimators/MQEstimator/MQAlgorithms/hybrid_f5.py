@@ -41,7 +41,7 @@ class HybridF5(MQAlgorithm):
 
     - ``problem`` -- MQProblem object including all necessary parameters
     - ``h`` -- external hybridization parameter (default: 0)
-    - ``w`` -- linear algebra constant (2 <= w <= 3) (default: 2)
+    - ``w`` -- linear algebra constant (2 <= w <= 3) (default: 2.81)
     - ``degrees`` -- a list/tuple of degree of the polynomials (default: [2]*m, i.e. quadratic system)
 
     EXAMPLES::
@@ -99,7 +99,7 @@ class HybridF5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: H = HybridF5(MQProblem(q=31, n=23, m=23))
             sage: H.k()
-            2
+            5
 
         TESTS::
 
@@ -126,7 +126,7 @@ class HybridF5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: H = HybridF5(MQProblem(q=256, n=10, m=10), bit_complexities=False)
             sage: H.time_complexity(k=2)
-            39.98152077132876
+            48.348655805287535
 
         """
         k = parameters['k']
@@ -175,7 +175,7 @@ class HybridF5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: H = HybridF5(MQProblem(q=7, n=10, m=12), complexity_type=1)
             sage: H.time_complexity(k=3)
-            22.23584595738985
+            27.830427339832752
 
         """
         k = parameters['k']
@@ -220,7 +220,7 @@ class HybridF5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = HybridF5(MQProblem(q=7, n=10, m=12), complexity_type=1)
             sage: E.optimal_parameters()
-            {'k': 3}
+            {'k': 6}
 
         """
         self._find_optimal_parameters()
