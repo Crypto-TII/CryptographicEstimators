@@ -36,6 +36,9 @@ class BaseProblem(object):
         self.nsolutions = None
         self.memory_bound = inf if "memory_bound" not in kwargs else kwargs["memory_bound"]
 
+        if self.memory_bound < 0:
+            raise ValueError("memory_bound must be either inf or a number >= 0")
+
     def expected_number_solutions(self):
         """
         Returns the expected number of existing solutions to the problem

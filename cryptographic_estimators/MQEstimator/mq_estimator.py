@@ -142,8 +142,8 @@ class MQEstimator(BaseEstimator):
             | algorithm        | time | memory |             parameters            | time | memory |                     parameters                    |
             +------------------+------+--------+-----------------------------------+------+--------+---------------------------------------------------+
             | Bjorklund        | 80.3 |   31.5 |         {'lambda_': 13/41}        | 32.9 |   32.9 |                {'lambda_': 0.19677}               |
-            | BooleanSolveFXL  | 46.3 |   16.1 | {'k': 40, 'variant': 'las_vegas'} | 43.2 |    1.6 |         {'k': 40, 'variant': 'las_vegas'}         |
-            | Crossbred        | 39.8 |   37.9 |     {'D': 6, 'd': 1, 'k': 15}     | 38.0 |   37.9 |             {'D': 6, 'd': 1, 'k': 15}             |
+            | BooleanSolveFXL  | 46.3 |   16.1 | {'k': 40, 'variant': 'las_vegas'} | 43.2 |   16.1 |         {'k': 40, 'variant': 'las_vegas'}         |
+            | Crossbred        | 44.7 |   30.6 |     {'D': 5, 'd': 1, 'k': 13}     | 38.7 |   30.6 |             {'D': 5, 'd': 1, 'k': 13}             |
             | DinurFirst       | 57.7 |   37.9 | {'kappa': 13/40, 'lambda_': 7/40} | 28.5 |   28.5 | {'kappa': 0.3057, 'lambda_': 0.18665241123894338} |
             | DinurSecond      | 42.8 |   33.6 |             {'n1': 7}             | 33.4 |   25.8 |             {'n1': 7.592592592592592}             |
             | ExhaustiveSearch | 44.4 |   16.1 |                 {}                | 41.0 |    0.0 |                         {}                        |
