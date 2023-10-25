@@ -1,5 +1,5 @@
 from .bjorklund import Bjorklund
-from .boolean_solve_fxl import BooleanSolveFXL
+from .booleansolve_fxl import BooleanSolveFXL
 from .cgmta import CGMTA
 from .crossbred import Crossbred
 from .dinur1 import DinurFirst
