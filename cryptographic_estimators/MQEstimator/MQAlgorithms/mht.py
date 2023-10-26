@@ -33,7 +33,7 @@ class MHT(MQAlgorithm):
     INPUT:
 
     - ``problem`` -- MQProblem object including all necessary parameters
-    - ``w`` -- linear algebra constant (2 <= w <= 3) (default: 2)
+    - ``w`` -- linear algebra constant (2 <= w <= 3) (default: 2.81)
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O comp
 
