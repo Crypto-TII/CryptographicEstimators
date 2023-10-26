@@ -126,13 +126,13 @@ class Lokshtanov(MQAlgorithm):
                 np = floor(delta * n_temp)
                 k = 2  # Degree of the polynomials
                 time = log2(100 * log2(q) * (q - 1))
-                time1 = log2(n_temp) + (n_temp - np) * log2(q)
+                time1 =  (n_temp - np) * log2(q)
                 resulting_degree = k * (q - 1) * (np + 2)
                 if  self._is_early_abort_possible(time1):
                     return inf
                 M = NMonomialSeries(n=n_temp - np, q=q, max_prec=resulting_degree +
                                                             1).nmonomials_up_to_degree(resulting_degree)
-                time2 = log2(n_temp) +  log2(M) + np * log2(q) + 6 * q * log2(n_temp)
+                time2 = log2(M) + np * log2(q) + 6 * q * log2(n_temp)
                 a = 0
                 if abs(time1 - time2) < 1:
                     a = 1
