@@ -24,7 +24,7 @@ from math import log2
 from sage.all import Integer
 from sage.rings.infinity import Infinity
 from sage.arith.misc import binomial
-from ..mq_constants import *
+from ..mq_constants import MQ_VARIANT, MQ_LAS_VEGAS, MQ_DETERMINISTIC
 
 
 class BooleanSolveFXL(MQAlgorithm):
