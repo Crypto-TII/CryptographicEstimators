@@ -52,7 +52,7 @@ class MQEstimator(BaseEstimator):
             +------------------+------+--------+
             | Bjorklund        | 80.3 |   31.5 |
             | BooleanSolveFXL  | 46.3 |   16.1 |
-            | Crossbred        | 39.8 |   37.9 |
+            | Crossbred        | 44.7 |   30.6 |
             | DinurFirst       | 57.7 |   37.9 |
             | DinurSecond      | 42.8 |   33.6 |
             | ExhaustiveSearch | 44.4 |   16.1 |
@@ -70,7 +70,7 @@ class MQEstimator(BaseEstimator):
             +------------------+--------+--------+
             | Bjorklund        | 42.451 | 15.316 |
             | BooleanSolveFXL  | 20.339 | 11.720 |
-            | Crossbred        | 17.672 | 16.785 |
+            | Crossbred        | 20.342 |  8.980 |
             | DinurFirst       | 32.111 | 19.493 |
             | DinurSecond      | 20.349 | 15.801 |
             | ExhaustiveSearch | 17.966 | 11.720 |
@@ -107,12 +107,12 @@ class MQEstimator(BaseEstimator):
             +------------------+-------+--------+
             | algorithm        |  time | memory |
             +------------------+-------+--------+
-            | BooleanSolveFXL  |  68.8 |   26.1 |
-            | Crossbred        |  60.4 |   44.5 |
+            | BooleanSolveFXL  |  71.1 |   17.1 |
+            | Crossbred        |  64.3 |   39.0 |
             | ExhaustiveSearch |  67.1 |   17.1 |
-            | F5               |  78.3 |   71.9 |
-            | HybridF5         |  67.8 |   26.7 |
-            | Lokshtanov       | 174.5 |   44.9 |
+            | F5               | 107.4 |   71.9 |
+            | HybridF5         |  74.5 |   17.1 |
+            | Lokshtanov       | 168.8 |   44.9 |
             +------------------+-------+--------+
 
         TESTS::
@@ -143,7 +143,7 @@ class MQEstimator(BaseEstimator):
             +------------------+------+--------+-----------------------------------+------+--------+---------------------------------------------------+
             | Bjorklund        | 80.3 |   31.5 |         {'lambda_': 13/41}        | 32.9 |   32.9 |                {'lambda_': 0.19677}               |
             | BooleanSolveFXL  | 46.3 |   16.1 | {'k': 40, 'variant': 'las_vegas'} | 43.2 |   16.1 |         {'k': 40, 'variant': 'las_vegas'}         |
-            | Crossbred        | 39.8 |   37.9 |     {'D': 6, 'd': 1, 'k': 15}     | 38.0 |   37.9 |             {'D': 6, 'd': 1, 'k': 15}             |
+            | Crossbred        | 44.7 |   30.6 |     {'D': 5, 'd': 1, 'k': 13}     | 38.7 |   30.6 |             {'D': 5, 'd': 1, 'k': 13}             |
             | DinurFirst       | 57.7 |   37.9 | {'kappa': 13/40, 'lambda_': 7/40} | 28.5 |   28.5 | {'kappa': 0.3057, 'lambda_': 0.18665241123894338} |
             | DinurSecond      | 42.8 |   33.6 |             {'n1': 7}             | 33.4 |   25.8 |             {'n1': 7.592592592592592}             |
             | ExhaustiveSearch | 44.4 |   16.1 |                 {}                | 41.0 |    0.0 |                         {}                        |
