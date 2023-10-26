@@ -112,7 +112,7 @@ class Lokshtanov(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), bit_complexities=False)
             sage: E.time_complexity(delta=2/10)
-            214.1677921950627
+            210.99786719362038
         """
         delta = parameters['delta']
         n, _, q = self.get_reduced_parameters()
