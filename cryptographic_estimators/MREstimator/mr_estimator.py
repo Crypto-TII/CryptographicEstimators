@@ -16,15 +16,16 @@
 # ****************************************************************************
 
 
-from .minrank_algorithm import MINRANKAlgorithm
-from .minrank_problem import MINRANKProblem
+from .mr_algorithm import MRAlgorithm
+from .mr_problem import MRProblem
+from .mr_constants import *
 from ..base_estimator import BaseEstimator
 from math import inf
 
 
-class MINRANKEstimator(BaseEstimator):
+class MREstimator(BaseEstimator):
     """
-    Construct an instance of MINRANKEstimator
+    Construct an instance of MREstimator
 
     INPUT:
 
@@ -34,11 +35,10 @@ class MINRANKEstimator(BaseEstimator):
     excluded_algorithms_by_default = []
 
     def __init__(self, q: int, m: int, n: int, k: int, r: int, use_gate_count= False, memory_bound=inf, **kwargs): # Fill with parameters
-        super(MINRANKEstimator, self).__init__(
-            MINRANKAlgorithm,
-            MINRANKProblem(q, m, n, k, r,use_gate_count,memory_bound=memory_bound, **kwargs),
+        super(MREstimator, self).__init__(
+            MRAlgorithm,
+            MRProblem(q, m, n, k, r,use_gate_count,memory_bound=memory_bound, **kwargs),
             **kwargs
-            
         )
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
@@ -54,7 +54,7 @@ class MINRANKEstimator(BaseEstimator):
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: False)
         """
-        super(MINRANKEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
+        super(MREstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                           show_tilde_o_time=show_tilde_o_time,
                                           show_all_parameters=show_all_parameters,
                                           precision=precision, truncate=truncate)

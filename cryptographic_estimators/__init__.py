@@ -9,4 +9,4 @@ from . import PKEstimator
 from . import LEEstimator
 from . import PEEstimator
 from . import DummyEstimator
-from . import MINRANKEstimator
+from . import MREstimator

@@ -15,30 +15,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-
-from ..base_algorithm import BaseAlgorithm
-from .minrank_problem import MINRANKProblem
 from math import log2
 
+def _strassen_complexity_(rank, ncols):
+    """Returns the complexity of Gaussian elimination using Strassen algorithm"""
+    w = 2.81
+    return log2(7 * rank)  + (w - 1) * log2(ncols)
 
-class MINRANKAlgorithm(BaseAlgorithm):
-    def __init__(self, problem: MINRANKProblem, **kwargs):
-        """
-        Base class for MINRANK algorithms complexity estimator
-
-        INPUT:
-
-        - ``problem`` -- MINRANKProblem object including all necessary parameters
-
-        """
-        super(MINRANKAlgorithm, self).__init__(problem, **kwargs)
-        self._name = "sample_name"
-        
-        
-    def _ngates(self, nmul):
-    
-        q = self.problem.parameters["q"]
-    
-        if q != 2:
-            nmul = nmul * log2(q) ** 2
-        return nmul
+def _bw_complexity_(row_density, ncols):
+    """Returns the complexity of block Wiedemann to find elements in the kernel of a matrix"""
+    return log2(3 * row_density) + 2 * log2(ncols)
