@@ -15,11 +15,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-MR_Q = "q"
-MR_M= "m"
-MR_N = "n"
-MR_K = "k"
-MR_R = "r"
-MR_USE_GATE_COUNT="use_gate_count"
+MR_FIELD_SIZE = "field size"
+MR_NUMBER_OF_ROWS = "number of rows"
+MR_NUMBER_OF_COLUMNS = "number of columns"
+MR_LENGTH_SOLUTION_VECTOR = "size of the solution vector"
+MR_TARGET_RANK = "target rank"
+MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS = "a"
+MR_NUMBER_OF_COEFFICIENTS_TO_GUESS = "lv"
+MR_REDUCED_NUMBER_OF_COLUMNS = "nprime"
+MR_LINEAR_VARIABLES_DEGREE = "b"
 
-
+MR_STRASSEN = "strassen"
+MR_BLOCK_WIEDEMANN = "block-wiedemann"
+MR_VARIANT = "variant"

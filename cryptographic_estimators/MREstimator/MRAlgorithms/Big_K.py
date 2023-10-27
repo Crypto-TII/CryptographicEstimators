@@ -16,12 +16,12 @@
 # ****************************************************************************
 
 
-from ..minrank_algorithm import MINRANKAlgorithm
-from ..minrank_problem import MINRANKProblem
-from math import ceil, log2
-from ..minrank_constants import *
+from cryptographic_estimators.MINRANKEstimator.minrank_algorithm import MINRANKAlgorithm
+from cryptographic_estimators.MINRANKEstimator.minrank_problem import MINRANKProblem
+from math import log2
+from cryptographic_estimators.MINRANKEstimator.minrank_constants import *
 
-class Kernel_Search(MINRANKAlgorithm):
+class Big_K(MINRANKAlgorithm):
     """
     Construct an instance of Kernel_Search estimator
 
@@ -33,8 +33,8 @@ class Kernel_Search(MINRANKAlgorithm):
     """
 
     def __init__(self, problem: MINRANKProblem, **kwargs):
-        self._name = "Kernel_Search"
-        super(Kernel_Search, self).__init__(problem, **kwargs)
+        self._name = "Big_K"
+        super(Big_K, self).__init__(problem, **kwargs)
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -51,20 +51,14 @@ class Kernel_Search(MINRANKAlgorithm):
         k = self.problem.parameters[MR_K]
         r = self.problem.parameters[MR_R]
         use_gate_count= self.problem.parameters[MR_USE_GATE_COUNT]
-        
-        time = 0
         w=2
-        use_gate_count= True
+        time = 0
         if k > 0:
-            a = ceil(k / m)
-            main_factor = q ** (a * r)
-            second_factor = max(1, k ** w)
-            time = main_factor * second_factor
-            
+            time = max(q ** (max(0, m * (n - r) - k + 1)) * (m * (n - r)) ** w, 1)
             if use_gate_count:
-                time = self._ngates(time)
-            
+                  time = self._ngates(time)
             time = log2(time)
+        
         
         return time
 
@@ -88,10 +82,11 @@ class Kernel_Search(MINRANKAlgorithm):
         memory  = 0
         
         if k > 0:
-            memory = max(1, 2 * k * m * n)
+            memory = max((m * (n - r)) ** 2, 1)
             if use_gate_count:
                 memory = log2(q) * memory
-        
+
             memory = log2(memory)
+
     
         return memory
