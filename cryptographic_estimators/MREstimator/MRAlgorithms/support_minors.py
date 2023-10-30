@@ -17,7 +17,7 @@
 
 from cryptographic_estimators.MREstimator.minrank_algorithm import MRAlgorithm
 from cryptographic_estimators.MREstimator.minrank_problem import MRProblem
-from math import log2, inf
+from math import log2, inf, ceil
 from sage.function.other import binomial
 from .mr_constants import *
 from .mr_helper import _strassen_complexity_, _bw_complexity_
@@ -29,12 +29,22 @@ class SupportMinors(MRAgorithm):
     r"""
     Construct an instance of SupportMinors estimator
 
-    Add reference to correponding paper here.
+    Add reference to corresponding paper here.
 
     INPUT:
 
     - ``problem`` -- an instance of the MRProblem class
     """
+
+    def __init__(self, problem: MRProblem, **kwargs):
+        self._name = "support_minors"
+        super(Support_Minors, self).__init__(problem, **kwargs)
+
+        _, m, n, k, _ = self.problem.get_problem_parameters()
+        self.set_parameter_ranges('a', 0, ceil(k/m))
+        self.set_parameter_ranges('lv', 0, k)
+        self.set_parameter_ranges('b', 1, n)
+        self.set_parameter_ranges('nprime', 1, n)
 
     @optimal_parameter
     def a(self):
@@ -47,7 +57,7 @@ class SupportMinors(MRAgorithm):
     @optimal_parameter
     def lv(self):
         """
-        Return the optimal `lv`, i.e. no. of coefficients of the solution to guess
+        Return the optimal `lv`, i.e. no. of entries to guess in the solution
 
         """
         return self._get_optimal_parameter('lv')
@@ -55,7 +65,7 @@ class SupportMinors(MRAgorithm):
     @optimal_parameter
     def b(self):
         """
-        Return the optimal `b`, i.e. the degree of the linear variables in the Macaulay matrix.
+        Return the optimal `b`, i.e. the degree of the linear variables in the Macaulay matrix
 
         """
         return self._get_optimal_parameter('b')
@@ -63,7 +73,7 @@ class SupportMinors(MRAgorithm):
     @optimal_parameter
     def nprime(self):
         """
-        Return the optimal `nprime`, i.e. the reduced number of columns
+        Return the optimal `nprime`, i.e. the number of columns to be selected
 
         """
         return self._get_optimal_parameter('nprime')
@@ -76,9 +86,6 @@ class SupportMinors(MRAgorithm):
         """
         return self._get_optimal_parameter('nprime')
 
-    def __init__(self, problem: MRProblem, **kwargs):
-        self._name = "support_minors"
-        super(Support_Minors, self).__init__(problem, **kwargs)
 
     def _expected_dimension_of_support_minors_equations(self,q, m, n, K, r, b):
         """
@@ -108,14 +115,19 @@ class SupportMinors(MRAgorithm):
         return temp
 
 
-    def _is_condition_satisfied(self,q, m, n, K, r, b):
+    def _are_parameters_invalid(self, parameters: dict):
         """
-        Return the true value of the condition
-        ``dimension(q, n, K, r, b) - 1 <= expected_dimension_of_support_minors_equations(q, m, n, K, r, b)``
+        Specifies constraints on the parameters
+        """
+        a = parameters["a"]
+        lv = parameters["lv"]
+        b = parameters["b"]
+        nprime = parameters["nprime"]
+        q, m, _, k_reduced, r =  self.get_problem_parameters_reduced(a, lv)
+        dim = self._dimension(q, nprime, k_reduced +  1, r, b) - 1
+        exp = self._expected_dimension_of_support_minors_equations(q, m, nprime, k_reduced + 1, r, b)
+        return dim < exp
 
-        """
-        return self._dimension(q, n, K, r, b) - 1 <= self._expected_dimension_of_support_minors_equations(q, m, n, K, r,
-                                                                                                         b)
 
     def _sm_time_complexity_helper_(self, q, K, r, nprime, b, variant):
         if variant == MR_BLOCK_WIEDEMANN:
