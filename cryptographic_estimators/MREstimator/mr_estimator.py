@@ -34,10 +34,10 @@ class MREstimator(BaseEstimator):
     """
     excluded_algorithms_by_default = []
 
-    def __init__(self, q: int, m: int, n: int, k: int, r: int, use_gate_count= False, memory_bound=inf, **kwargs): # Fill with parameters
+    def __init__(self, q: int, m: int, n: int, k: int, r: int, memory_bound=inf, **kwargs):
         super(MREstimator, self).__init__(
             MRAlgorithm,
-            MRProblem(q, m, n, k, r,use_gate_count,memory_bound=memory_bound, **kwargs),
+            MRProblem(q, m, n, k, r, memory_bound=memory_bound, **kwargs),
             **kwargs
         )
 
@@ -53,6 +53,20 @@ class MREstimator(BaseEstimator):
         - ``show_all_parameters`` -- show all optimization parameters (default: False)
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: False)
+
+        EXAMPLES::
+
+            sage:  from cryptographic_estimators.MREstimator import MREstimator
+            sage: MRE = MREstimator(q=7, m=9, n=10, k=15, r=4)
+            sage: MRE.table(show_all_parameters=1)
+            +---------------+-------------------------------------------------------------------------------+
+            |               |                                    estimate                                   |
+            +---------------+------+--------+---------------------------------------------------------------+
+            | algorithm     | time | memory |                           parameters                          |
+            +---------------+------+--------+---------------------------------------------------------------+
+            | SupportMinors |  7.6 |    3.6 | {'a': 1, 'lv': 4, 'b': 1, 'nprime': 4, 'variant': 'strassen'} |
+            +---------------+------+--------+---------------------------------------------------------------+
+
         """
         super(MREstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                           show_tilde_o_time=show_tilde_o_time,

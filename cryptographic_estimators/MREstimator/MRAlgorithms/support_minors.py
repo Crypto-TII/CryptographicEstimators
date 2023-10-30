@@ -15,30 +15,30 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-from cryptographic_estimators.MREstimator.minrank_algorithm import MRAlgorithm
-from cryptographic_estimators.MREstimator.minrank_problem import MRProblem
+from ...MREstimator.mr_algorithm import MRAlgorithm
+from ...MREstimator.mr_problem import MRProblem
+from ...base_algorithm import optimal_parameter
 from math import log2, inf, ceil
-from sage.function.other import binomial
-from .mr_constants import *
-from .mr_helper import _strassen_complexity_, _bw_complexity_
+from sage.arith.misc import binomial
+from ..mr_constants import *
+from ..mr_helper import _strassen_complexity_, _bw_complexity_
 
 
-
-
-class SupportMinors(MRAgorithm):
+class SupportMinors(MRAlgorithm):
     r"""
     Construct an instance of SupportMinors estimator
 
-    Add reference to corresponding paper here.
 
     INPUT:
 
     - ``problem`` -- an instance of the MRProblem class
+    - ``w`` -- linear algebra constant (default: 2)
+    - ``theta`` -- exponent of the conversion factor (default: 2.81)
     """
 
     def __init__(self, problem: MRProblem, **kwargs):
         self._name = "support_minors"
-        super(Support_Minors, self).__init__(problem, **kwargs)
+        super(SupportMinors, self).__init__(problem, **kwargs)
 
         _, m, n, k, _ = self.problem.get_problem_parameters()
         self.set_parameter_ranges('a', 0, ceil(k/m))
@@ -51,40 +51,75 @@ class SupportMinors(MRAgorithm):
         """
         Return the optimal `a`, i.e. no. of vectors to guess in the kernel of the low-rank matrix
 
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
+            sage: SM.a()
+            1
         """
-        return self._get_optimal_parameter('a')
+        return self._get_optimal_parameter(MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS)
 
     @optimal_parameter
     def lv(self):
         """
         Return the optimal `lv`, i.e. no. of entries to guess in the solution
 
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
+            sage: SM.lv()
+            4
         """
-        return self._get_optimal_parameter('lv')
+        return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
     @optimal_parameter
     def b(self):
         """
         Return the optimal `b`, i.e. the degree of the linear variables in the Macaulay matrix
 
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
+            sage: SM.b()
+            1
         """
-        return self._get_optimal_parameter('b')
+        return self._get_optimal_parameter(MR_LINEAR_VARIABLES_DEGREE)
 
     @optimal_parameter
     def nprime(self):
         """
         Return the optimal `nprime`, i.e. the number of columns to be selected
 
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
+            sage: SM.nprime()
+            4
         """
-        return self._get_optimal_parameter('nprime')
+        return self._get_optimal_parameter(MR_REDUCED_NUMBER_OF_COLUMNS)
 
     @optimal_parameter
     def variant(self):
         """
         Return the optimal `variant`
 
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
+            sage: SM.nprime()
+            'strassen'
         """
-        return self._get_optimal_parameter('nprime')
+        return self._get_optimal_parameter(MR_VARIANT)
 
 
     def _expected_dimension_of_support_minors_equations(self,q, m, n, K, r, b):
@@ -128,6 +163,36 @@ class SupportMinors(MRAgorithm):
         exp = self._expected_dimension_of_support_minors_equations(q, m, nprime, k_reduced + 1, r, b)
         return dim < exp
 
+    def _valid_choices(self):
+        """
+        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
+        set parameters in `_optimal_parameters`
+
+        """
+        new_ranges = self._fix_ranges_for_already_set_parameters()
+        _ = new_ranges.pop(MR_VARIANT)
+        indices = {i: new_ranges[i]["min"] for i in new_ranges}
+        variant = MR_STRASSEN
+        keys = [i for i in indices]
+        stop = False
+        while not stop:
+            if not self._are_parameters_invalid(indices):
+                aux = indices.copy()
+                aux.update({MR_VARIANT: variant})
+                yield aux
+            indices[next(iter(indices))] += 1
+            for i in range(len(keys)):
+                if indices[keys[i]] > new_ranges[keys[i]]["max"]:
+                    indices[keys[i]] = new_ranges[keys[i]]["min"]
+                    if i != len(keys) - 1:
+                        indices[keys[i + 1]] += 1
+                    elif i == len(keys) - 1 and MR_VARIANT == MR_STRASSEN:
+                        variant = MR_BLOCK_WIEDEMANN
+                        indices = {i: new_ranges[i]["min"] for i in new_ranges}
+                    else:
+                        stop = True
+                else:
+                    break
 
     def _sm_time_complexity_helper_(self, q, K, r, nprime, b, variant):
         if variant == MR_BLOCK_WIEDEMANN:
@@ -135,7 +200,7 @@ class SupportMinors(MRAgorithm):
 
         else:
             time = _strassen_complexity_(rank=self._dimension(q, nprime, K, r, b) - 1,
-                                                            ncols=self.dimension(q, nprime, K, r, b))
+                                                            ncols=self._dimension(q, nprime, K, r, b))
         return time
 
     def _sm_memory_complexity_helper_(self, q, K, r, nprime, b, variant):
@@ -161,11 +226,11 @@ class SupportMinors(MRAgorithm):
         nprime = parameters[MR_REDUCED_NUMBER_OF_COLUMNS]
         b = parameters[MR_LINEAR_VARIABLES_DEGREE]
         variant = parameters[MR_VARIANT]
-        q, m, n, k, r = self.get_parameters()
+        q, m, n, k, r = self.problem.get_problem_parameters()
         time = _strassen_complexity_(m, n)
         k_hybrid = k - a * m - lv
         if k_hybrid > 0:
-            time = _sm_time_complexity_helper_(q=q, K=k_hybrid + 1, r=r, nprime=nprime, b=b, variant=variant)
+            time = self._sm_time_complexity_helper_(q=q, K=k_hybrid + 1, r=r, nprime=nprime, b=b, variant=variant)
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
@@ -184,12 +249,12 @@ class SupportMinors(MRAgorithm):
         b = parameters[MR_LINEAR_VARIABLES_DEGREE]
         variant = parameters[MR_VARIANT]
 
-        q, m, n, k, r = self.get_parameters()
+        q, m, n, k, r = self.problem.get_problem_parameters()
 
         memory = log2(log2(q)) +  log2(m * n) +  log2(k)
         k_hybrid = k - a * m - lv
         if k_hybrid > 0:
-            memory = _sm_memory_complexity_helper_(q=q, K=k_hybrid + 1, r=r, nprime=nprime, b=b, variant=variant)
+            memory = self._sm_memory_complexity_helper_(q=q, K=k_hybrid + 1, r=r, nprime=nprime, b=b, variant=variant)
         return memory
 
 
