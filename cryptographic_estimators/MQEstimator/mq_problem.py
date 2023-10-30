@@ -37,14 +37,10 @@ class MQProblem(BaseProblem):
     - ``m`` -- number of polynomials
     - ``q`` -- order of the finite field (default: None)
     - ``theta`` -- exponent of the conversion factor (default: 2)
+        - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
+        - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
     - ``nsolutions`` --  number of solutions in logarithmic scale (default: max(expected_number_solutions, 0))
     - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
-
-    NOTE:
-
-    - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
-    - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
-
 
     """
 
