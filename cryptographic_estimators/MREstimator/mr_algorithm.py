@@ -31,11 +31,71 @@ class MRAlgorithm(BaseAlgorithm):
 
         """
         super(MRAlgorithm, self).__init__(problem, **kwargs)
-        self._name = "sample_name"
+        w = kwargs.get("w", 2.81)
+        theta = kwargs.get("theta", 2)
+        self._name = "BaseMRAlgorithm"
 
-    def _ngates(self, nmul):
-        q = self.problem.parameters["q"]
+        if  w < 2 or 3 < w:
+            raise ValueError("w must be in the range 2 <= w <= 3")
 
-        if q != 2:
-            nmul = nmul * log2(q) ** 2
-        return nmul
+        if theta is not None and (theta > 2 or theta < 0):
+                raise ValueError("theta must be None or an integer in the range 0 <= theta <= 2")
+
+        self.problem.theta = theta
+
+    def linear_algebra_constant(self):
+        """
+        Return the linear algebra constant
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MREstimator.mq_algorithm import MRAlgorithm
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: MRAlgorithm(MRProblem(n=10, m=5, q=4), w=2).linear_algebra_constant()
+            2
+        """
+        return self._w
+
+    def get_problem_parameters_reduced(self, a, lv):
+        """
+        Return the problem parameters of the reduced instance, i.e., after guessing `a` kernel vectors
+        and `lv` entries in the solution vector
+
+        INPUT:
+
+        - ``a`` -- no. of vectors to guess in the kernel of the low-rank matrix
+        - ``lv`` -- no. of entries to guess in the solution vector
+        """
+        q, m, n, k, r = self.problem.get_problem_parameters()
+        q_reduced = q
+        m_reduced = m
+        n_reduced = n - a
+        k_reduced = k - a * m - lv
+        r_reduced = r
+        return q_reduced, m_reduced, n_reduced, k_reduced, r_reduced
+
+    def cost_reduction(self, a, lv):
+        """
+        Return the cost of cost of computing the reduced instance, i.e., the obtained instance after one guess of
+        `a` kernel vectors  and `lv` entries in the solution vector
+
+        INPUT:
+
+        - ``a`` -- no. of vectors to guess in the kernel of the low-rank matrix
+        - ``lv`` -- no. of entries to guess in the solution vector
+        """
+        q, m, n, k, r = self.problem.get_problem_parameters()
+        w = self.linear_algebra_constant()
+        return max(w * log2(min(K, a * m)), log2(lv * m * n))
+
+    def hybridization_factor(self, a, lv):
+        """
+        Return the logarithm of the number of reduced instances to be solved
+
+        INPUT:
+
+        - ``a`` -- no. of vectors to guess in the kernel of the low-rank matrix
+        - ``lv``no. of entries to guess in the solution vector
+        """
+        q, _, _, _, r = self.problem.get_problem_parameters()
+        return (r * a + lv)  *  log2(q)
