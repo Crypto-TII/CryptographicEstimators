@@ -125,13 +125,12 @@ class MRProblem(BaseProblem):
         """
         self._theta = value
 
-
     def expected_number_solutions(self):
         """
         Return the logarithm of the expected number of existing solutions to the problem
 
         """
-        q, n, m, k, r = self.get_problem_parameters()
+        q, m, n, k, r = self.get_problem_parameters()
         if k + 1 <= (m - r) * (n - r):
             return 0
         else:
@@ -224,7 +223,7 @@ class MRProblem(BaseProblem):
         m = self.ncolumns()
         k = self.length_solution_vector()
         r = self.target_rank()
-        return q, n, m, k, r
+        return q, m, n, k, r
 
     def __repr__(self):
         """
@@ -236,7 +235,7 @@ class MRProblem(BaseProblem):
             sage: MRP
             MinRank problem with (q, n, m, k, r) = (7,10,10,15,4)
         """
-        q, n, m, k, r = self.get_problem_parameters()
+        q, m, n, k, r = self.get_problem_parameters()
         rep = "MinRank problem with (q, n, m, k, r) = " \
               + "("+ str(q) + "," + str(m) + "," + str(n) + "," + \
               str(k) + "," + str(r)  + ")"
