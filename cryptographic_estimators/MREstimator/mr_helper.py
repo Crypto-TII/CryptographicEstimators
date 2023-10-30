@@ -16,6 +16,11 @@
 # ****************************************************************************
 
 from math import log2
+from enum import Enum
+
+class Variant(Enum):
+     strassen = 1
+     block_wiedemann = 2
 
 def _strassen_complexity_(rank, ncols):
     """Returns the complexity of Gaussian elimination using Strassen algorithm"""

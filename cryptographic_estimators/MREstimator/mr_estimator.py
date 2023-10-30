@@ -56,16 +56,17 @@ class MREstimator(BaseEstimator):
 
         EXAMPLES::
 
-            sage:  from cryptographic_estimators.MREstimator import MREstimator
+            sage: from cryptographic_estimators.MREstimator import MREstimator
             sage: MRE = MREstimator(q=7, m=9, n=10, k=15, r=4)
             sage: MRE.table(show_all_parameters=1)
-            +---------------+-------------------------------------------------------------------------------+
-            |               |                                    estimate                                   |
-            +---------------+------+--------+---------------------------------------------------------------+
-            | algorithm     | time | memory |                           parameters                          |
-            +---------------+------+--------+---------------------------------------------------------------+
-            | SupportMinors |  7.6 |    3.6 | {'a': 1, 'lv': 4, 'b': 1, 'nprime': 4, 'variant': 'strassen'} |
-            +---------------+------+--------+---------------------------------------------------------------+
+            +---------------+----------------------------------------------------------------------+
+            |               |                               estimate                               |
+            +---------------+------+--------+------------------------------------------------------+
+            | algorithm     | time | memory |                      parameters                      |
+            +---------------+------+--------+------------------------------------------------------+
+            | SupportMinors |  7.6 |    3.6 | {'a': 1, 'lv': 5, 'b': 1, 'nprime': 4, 'variant': 1} |
+            +---------------+------+--------+------------------------------------------------------+
+
 
         """
         super(MREstimator, self).table(show_quantum_complexity=show_quantum_complexity,
