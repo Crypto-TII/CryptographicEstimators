@@ -21,8 +21,7 @@ from ...base_algorithm import optimal_parameter
 from math import log2, inf, ceil
 from sage.arith.misc import binomial
 from ..mr_constants import *
-from ..mr_helper import _strassen_complexity_, _bw_complexity_
-
+from ..mr_helper import _strassen_complexity_, _bw_complexity_, Variant
 
 class SupportMinors(MRAlgorithm):
     r"""
@@ -45,6 +44,7 @@ class SupportMinors(MRAlgorithm):
         self.set_parameter_ranges('lv', 0, k)
         self.set_parameter_ranges('b', 1, n)
         self.set_parameter_ranges('nprime', 1, n)
+        self.set_parameter_ranges('variant', 1, 2)
 
     @optimal_parameter
     def a(self):
@@ -72,7 +72,7 @@ class SupportMinors(MRAlgorithm):
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
             sage: SM.lv()
-            4
+            5
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
@@ -116,10 +116,13 @@ class SupportMinors(MRAlgorithm):
             sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
-            sage: SM.nprime()
+            sage: SM.variant()
             'strassen'
         """
-        return self._get_optimal_parameter(MR_VARIANT)
+        if self._get_optimal_parameter(MR_VARIANT) == Variant.block_wiedemann.value:
+            return Variant.block_wiedemann.name
+        else:
+            return Variant.strassen.name
 
 
     def _expected_dimension_of_support_minors_equations(self,q, m, n, K, r, b):
@@ -163,39 +166,8 @@ class SupportMinors(MRAlgorithm):
         exp = self._expected_dimension_of_support_minors_equations(q, m, nprime, k_reduced + 1, r, b)
         return dim < exp
 
-    def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
-        set parameters in `_optimal_parameters`
-
-        """
-        new_ranges = self._fix_ranges_for_already_set_parameters()
-        _ = new_ranges.pop(MR_VARIANT)
-        indices = {i: new_ranges[i]["min"] for i in new_ranges}
-        variant = MR_STRASSEN
-        keys = [i for i in indices]
-        stop = False
-        while not stop:
-            if not self._are_parameters_invalid(indices):
-                aux = indices.copy()
-                aux.update({MR_VARIANT: variant})
-                yield aux
-            indices[next(iter(indices))] += 1
-            for i in range(len(keys)):
-                if indices[keys[i]] > new_ranges[keys[i]]["max"]:
-                    indices[keys[i]] = new_ranges[keys[i]]["min"]
-                    if i != len(keys) - 1:
-                        indices[keys[i + 1]] += 1
-                    elif i == len(keys) - 1 and MR_VARIANT == MR_STRASSEN:
-                        variant = MR_BLOCK_WIEDEMANN
-                        indices = {i: new_ranges[i]["min"] for i in new_ranges}
-                    else:
-                        stop = True
-                else:
-                    break
-
     def _sm_time_complexity_helper_(self, q, K, r, nprime, b, variant):
-        if variant == MR_BLOCK_WIEDEMANN:
+        if variant == Variant.block_wiedemann.value or variant == Variant.block_wiedemann.name:
             time = _bw_complexity_(row_density=K * (r + 1), ncols=self._dimension(q, nprime, K, r, b))
 
         else:
@@ -205,7 +177,7 @@ class SupportMinors(MRAlgorithm):
 
     def _sm_memory_complexity_helper_(self, q, K, r, nprime, b, variant):
         ncols = self._dimension(q, nprime, K, r, b)
-        if variant == MR_BLOCK_WIEDEMANN:
+        if variant == Variant.block_wiedemann.value or variant == Variant.block_wiedemann.name:
             memory = log2(log2(q)) + log2(2 * ncols)
 
         else:

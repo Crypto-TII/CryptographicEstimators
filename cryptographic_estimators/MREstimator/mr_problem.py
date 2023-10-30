@@ -219,8 +219,8 @@ class MRProblem(BaseProblem):
         Return the problem parameters `q`, `m`, `n`, `k`, `r`
         """
         q = self.order_of_the_field()
-        n = self.nrows()
-        m = self.ncolumns()
+        m = self.nrows()
+        n = self.ncolumns()
         k = self.length_solution_vector()
         r = self.target_rank()
         return q, m, n, k, r
@@ -233,10 +233,10 @@ class MRProblem(BaseProblem):
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: MRP = MRProblem(q=7, m=9, n=10, k=15, r=4)
             sage: MRP
-            MinRank problem with (q, n, m, k, r) = (7,10,10,15,4)
+            MinRank problem with (q, m, n, k, r) = (7,9,10,15,4)
         """
         q, m, n, k, r = self.get_problem_parameters()
-        rep = "MinRank problem with (q, n, m, k, r) = " \
+        rep = "MinRank problem with (q, m, n, k, r) = " \
               + "("+ str(q) + "," + str(m) + "," + str(n) + "," + \
               str(k) + "," + str(r)  + ")"
         return rep

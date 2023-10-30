@@ -33,6 +33,7 @@ class MRAlgorithm(BaseAlgorithm):
         super(MRAlgorithm, self).__init__(problem, **kwargs)
         w = kwargs.get("w", 2.81)
         theta = kwargs.get("theta", 2)
+        self._w = w
         self._name = "BaseMRAlgorithm"
 
         if  w < 2 or 3 < w:
@@ -49,9 +50,9 @@ class MRAlgorithm(BaseAlgorithm):
 
         TESTS::
 
-            sage: from cryptographic_estimators.MREstimator.mq_algorithm import MRAlgorithm
+            sage: from cryptographic_estimators.MREstimator.mr_algorithm import MRAlgorithm
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: MRAlgorithm(MRProblem(n=10, m=5, q=4), w=2).linear_algebra_constant()
+            sage: MRAlgorithm(MRProblem(q=7, m=9, n=10, k=15, r=4), w=2).linear_algebra_constant()
             2
         """
         return self._w
