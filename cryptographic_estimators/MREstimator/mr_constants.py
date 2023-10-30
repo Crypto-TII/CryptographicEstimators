@@ -15,6 +15,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
+MR_VARIANT = "variant"
+MR_STRASSEN = "strassen"
+MR_BLOCK_WIEDEMANN = "block-wiedemann"
+
 MR_FIELD_SIZE = "field size"
 MR_NUMBER_OF_ROWS = "number of rows"
 MR_NUMBER_OF_COLUMNS = "number of columns"
@@ -25,6 +29,3 @@ MR_NUMBER_OF_COEFFICIENTS_TO_GUESS = "lv"
 MR_REDUCED_NUMBER_OF_COLUMNS = "nprime"
 MR_LINEAR_VARIABLES_DEGREE = "b"
 
-MR_STRASSEN = "strassen"
-MR_BLOCK_WIEDEMANN = "block-wiedemann"
-MR_VARIANT = "variant"
