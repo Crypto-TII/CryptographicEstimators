@@ -66,7 +66,7 @@ class F5(MQAlgorithm):
         self._time_complexity = None
         self._memory_complexity = None
         self._dreg = None
-        self._ncols = None
+        self._ncols_at_degree_dreg = None
 
     def degree_of_polynomials(self):
         """
@@ -90,12 +90,12 @@ class F5(MQAlgorithm):
         return self._dreg
 
     def _get_number_of_columns_at_degree_of_regularity(self):
-        if self._ncols is None:
+        if self._ncols_at_degree_dreg is None:
             n, _, q = self.get_reduced_parameters()
             dreg = self._get_degree_of_regularity()
             NM = NMonomialSeries(q=q, n=n, max_prec=min(dreg, n) + 2)
-            self._ncols = max(NM.nmonomials_of_degree(dreg), 1)
-        return self._ncols
+            self._ncols_at_degree_dreg = max(NM.nmonomials_of_degree(dreg), 1)
+        return self._ncols_at_degree_dreg
 
     def _compute_time_complexity(self, parameters: dict):
         """
