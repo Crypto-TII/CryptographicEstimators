@@ -146,6 +146,10 @@ References
 
 **J**
 
+.. \John Baena, Pierre Briaud, Daniel Cabarcas, Ray Perlner, Daniel Smith-Tone and Javier Verbel.
+   *Improving Support-Minors rank attacks: applications to GeMSS and Rainbow*
+   https://eprint.iacr.org/2021/1677.pdf
+
 .. [Ste88] \Jacques Stern.
             *A method for finding codewords of small weight*
             https://doi.org/10.1007/BFb0019850
@@ -153,7 +157,7 @@ References
 .. [Dua20] \João Diogo Duarte.
             *On the Complexity of the Crossbred Algorithm*
 
-.. [Leo82] \JJeffrey S. Leon.
+.. [Leo82] \Jeffrey S. Leon.
             *Computing automorphism groups of error-correcting codes*
             https://doi.org/10.1109/TIT.1982.1056498
 
