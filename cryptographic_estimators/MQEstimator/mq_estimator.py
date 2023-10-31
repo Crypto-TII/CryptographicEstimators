@@ -74,8 +74,8 @@ class MQEstimator(BaseEstimator):
             | DinurFirst       | 32.111 | 19.493 |
             | DinurSecond      | 20.349 | 15.801 |
             | ExhaustiveSearch | 17.966 | 11.720 |
-            | F5               | 27.747 | 23.158 |
-            | HybridF5         | 21.076 | 11.720 |
+            | F5               | 24.736 | 20.829 |
+            | HybridF5         | 16.906 | 11.720 |
             | Lokshtanov       | 62.854 | 16.105 |
             +------------------+--------+--------+
 
