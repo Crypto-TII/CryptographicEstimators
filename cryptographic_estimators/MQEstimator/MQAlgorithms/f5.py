@@ -37,9 +37,7 @@ class F5(MQAlgorithm):
     - ``degrees`` -- a list/tuple of degree of the polynomials (default: [2]*m)
     
     
-    .. NOTE:: The F5 time complexity formula takes into account the field equations. Hence, the number columns in a Macaulay
-    matrix corresponding to monomials of degree exactly  `D` in a polynomial ring with `n` variables over `GF(q)` is the 
-    coefficient of `z^D`     in the series `H(z) = (1 - z^q)^n / (1-z)^n`
+    .. NOTE:: Complexity formula taken from Proposition 1 [BFP09]_ .
 
     EXAMPLES::
 
@@ -91,10 +89,9 @@ class F5(MQAlgorithm):
 
     def _get_number_of_columns_at_degree_of_regularity(self):
         if self._ncols_at_degree_dreg is None:
-            n, _, q = self.get_reduced_parameters()
+            n, _, _ = self.get_reduced_parameters()
             dreg = self._get_degree_of_regularity()
-            NM = NMonomialSeries(q=q, n=n, max_prec=min(dreg, n) + 2)
-            self._ncols_at_degree_dreg = max(NM.nmonomials_of_degree(dreg), 1)
+            self._ncols_at_degree_dreg = max(binomial(n + dreg - 1, dreg), 1)
         return self._ncols_at_degree_dreg
 
     def _compute_time_complexity(self, parameters: dict):
@@ -107,12 +104,12 @@ class F5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = F5(MQProblem(n=10, m=15, q=3), bit_complexities=False)
             sage: E.time_complexity()
-            29.939974302245272
+            30.550746998589286
 
         TESTS::
 
             sage: F5(MQProblem(n=10, m=12, q=5)).time_complexity()
-            40.46631424550428
+            40.548132826157364
             sage: E = F5(MQProblem(n=1, m=15, q=2), bit_complexities=False)
             sage: E.time_complexity()
             3.9068905956085187
@@ -158,7 +155,7 @@ class F5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: F5_ = F5(MQProblem(n=10, m=12, q=5), bit_complexities=False)
             sage: F5_.memory_complexity()
-            24.5200748422132
+            24.578308707446713
 
         """
         n, m, _ = self.get_reduced_parameters()
