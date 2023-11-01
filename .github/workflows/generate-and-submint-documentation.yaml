@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [ closed ]
     branches:
-      - main
+      - feature/add-read-the-docs
 
 jobs:
   generate-documentation:
