@@ -12,7 +12,7 @@ cryptographic_estimators.egg-info/
 .scannerwork
 __pycache__
 docs/_build
-docs/build/doctrees/
+docs/build/.doctrees/
 docs/source
 venv
 .vscode
