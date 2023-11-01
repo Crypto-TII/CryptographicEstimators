@@ -3,11 +3,11 @@ on:
   pull_request:
     types: [ closed ]
     branches:
-      - feature/add-read-the-docs
+      - main
 
 jobs:
   generate-documentation:
-    if: github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'feature/add-read-the-docs'
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -56,7 +56,7 @@ jobs:
     - name: Update develop branch
       uses: morbalint/git-merge-action@v1
       with:
-        target: ${{ github.event.pull_request.base.ref }}
-        source: ${{ github.event.pull_request.head.ref }}
+        target: 'develop'
+        source: 'main'
         token: ${{ secrets.AUTHORIZATION_TOKEN }}
         strategy_options: 'ours'
