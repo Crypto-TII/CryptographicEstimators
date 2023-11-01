@@ -11,10 +11,9 @@ _build/
 cryptographic_estimators.egg-info/
 .scannerwork
 __pycache__
-docs/build
+docs/_build
+docs/build/doctrees/
 docs/source
-docs/make.bat
-docs/Makefile
 venv
 .vscode
 
