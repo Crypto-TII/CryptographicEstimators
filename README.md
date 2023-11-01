@@ -1,4 +1,4 @@
-# CryptographicEstimators
+# Cryptographic Estimators
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Crypto-TII_CryptographicEstimators&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Crypto-TII_CryptographicEstimators)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Crypto-TII_CryptographicEstimators&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Crypto-TII_CryptographicEstimators)
