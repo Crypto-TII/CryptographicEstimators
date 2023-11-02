@@ -2,18 +2,18 @@
 from sage.all_cmdline import *
 
 from math import log2
-from .module.multivariate_quadratic_estimator.mpkc.algorithms.bjorklund import Bjorklund as TestBjorklund
-from .module.multivariate_quadratic_estimator.mpkc.algorithms.boolean_solve_fxl import BooleanSolveFXL as TestBooleanSolveFXL
-from .module.multivariate_quadratic_estimator.mpkc.algorithms.cgmta import CGMTA as TestCGMTA
-from .module.multivariate_quadratic_estimator.mpkc.algorithms.crossbred import Crossbred as TestCrossbred
-from .module.multivariate_quadratic_estimator.mpkc.algorithms.dinur1 import DinurFirst as TestDinurFirst
-from .module.multivariate_quadratic_estimator.mpkc.algorithms.dinur2 import DinurSecond as TestDinurSecond
-from .module.multivariate_quadratic_estimator.mpkc.algorithms.exhaustive_search import ExhaustiveSearch as TestExhaustiveSearch
-from .module.multivariate_quadratic_estimator.mpkc.algorithms.f5 import F5 as TestF5
-from .module.multivariate_quadratic_estimator.mpkc.algorithms.hybrid_f5 import HybridF5 as TestHybridF5
-from .module.multivariate_quadratic_estimator.mpkc.algorithms.kpg import KPG as TestKPG
-from .module.multivariate_quadratic_estimator.mpkc.algorithms.lokshtanov import Lokshtanov as TestLokshtanov
-from .module.multivariate_quadratic_estimator.mpkc.algorithms.mht import MHT as TestMHT
+from module.multivariate_quadratic_estimator.mpkc.algorithms.bjorklund import Bjorklund as TestBjorklund
+from module.multivariate_quadratic_estimator.mpkc.algorithms.boolean_solve_fxl import BooleanSolveFXL as TestBooleanSolveFXL
+from module.multivariate_quadratic_estimator.mpkc.algorithms.cgmta import CGMTA as TestCGMTA
+from module.multivariate_quadratic_estimator.mpkc.algorithms.crossbred import Crossbred as TestCrossbred
+from module.multivariate_quadratic_estimator.mpkc.algorithms.dinur1 import DinurFirst as TestDinurFirst
+from module.multivariate_quadratic_estimator.mpkc.algorithms.dinur2 import DinurSecond as TestDinurSecond
+from module.multivariate_quadratic_estimator.mpkc.algorithms.exhaustive_search import ExhaustiveSearch as TestExhaustiveSearch
+from module.multivariate_quadratic_estimator.mpkc.algorithms.f5 import F5 as TestF5
+from module.multivariate_quadratic_estimator.mpkc.algorithms.hybrid_f5 import HybridF5 as TestHybridF5
+from module.multivariate_quadratic_estimator.mpkc.algorithms.kpg import KPG as TestKPG
+from module.multivariate_quadratic_estimator.mpkc.algorithms.lokshtanov import Lokshtanov as TestLokshtanov
+from module.multivariate_quadratic_estimator.mpkc.algorithms.mht import MHT as TestMHT
 from cryptographic_estimators.MQEstimator.MQAlgorithms import Bjorklund, BooleanSolveFXL, CGMTA, Crossbred, \
     DinurFirst, DinurSecond, ExhaustiveSearch, F5, HybridF5, KPG, Lokshtanov, MHT
 
