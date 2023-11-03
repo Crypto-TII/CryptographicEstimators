@@ -1,0 +1,10 @@
+------------
+sdfq_problem
+------------
+
+.. automodule:: cryptographic_estimators.SDFqEstimator.sdfq_problem
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

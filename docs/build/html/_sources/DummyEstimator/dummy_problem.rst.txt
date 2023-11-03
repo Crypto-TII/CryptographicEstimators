@@ -1,0 +1,10 @@
+-------------
+dummy_problem
+-------------
+
+.. automodule:: cryptographic_estimators.DummyEstimator.dummy_problem
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+
