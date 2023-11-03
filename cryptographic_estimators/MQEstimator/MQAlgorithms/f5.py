@@ -115,9 +115,6 @@ class F5(MQAlgorithm):
             3.9068905956085187
 
         """
-        if self.problem.is_underdefined_system():
-            raise ValueError("The input system cannot be underdefined")
-
         _, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
         ncols = self._get_number_of_columns_at_degree_of_regularity()
@@ -169,9 +166,6 @@ class F5(MQAlgorithm):
         Return the Ō time complexity of the algorithm for a given set of parameters
 
         """
-        if self.problem.is_underdefined_system():
-            raise ValueError("The input system cannot be underdefined")
-
         q = self.problem.order_of_the_field()
         w = self.linear_algebra_constant()
         ncols = self._get_number_of_columns_at_degree_of_regularity()
