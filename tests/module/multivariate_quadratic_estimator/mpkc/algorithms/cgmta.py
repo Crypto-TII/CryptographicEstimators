@@ -68,7 +68,7 @@ class CGMTA(BaseAlgorithm):
         self._k = min(m / 2, floor(sqrt(n / 2 - sqrt(n / 2))))
 
         if not 2 * self._k ** 2 <= n - 2 * self._k or not m - 2 * self._k < 2 * self._k ** 2:
-            raise ValueError(f'The condition m - 2k < 2k^2 <= n - 2k must be satisfied')
+            raise ValueError('The condition m - 2k < 2k^2 <= n - 2k must be satisfied')
 
         self._n_reduced = n
         self._m_reduced = m

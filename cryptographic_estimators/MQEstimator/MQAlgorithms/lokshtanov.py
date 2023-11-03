@@ -20,7 +20,7 @@ from ...MQEstimator.series.nmonomial import NMonomialSeries
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...base_algorithm import optimal_parameter
-from math import log2, inf
+from math import log2
 from sage.functions.other import ceil, floor
 from sage.all import Integer
 from sage.arith.misc import is_power_of_two
@@ -98,6 +98,14 @@ class Lokshtanov(MQAlgorithm):
             if l > l_max:
                 stop = True
 
+    def _C(self, n: int, delta: float):
+        q = self.problem.order_of_the_field()
+        np = floor(delta * n)
+        resulting_degree = 2 * (q - 1) * (np + 2)
+        M = NMonomialSeries(n=n - np, q=q, max_prec=resulting_degree +
+                            1).nmonomials_up_to_degree(resulting_degree)
+        return n * (q ** (n - np) + M * q ** np * n ** (6 * q))
+
     def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
@@ -112,7 +120,7 @@ class Lokshtanov(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), bit_complexities=False)
             sage: E.time_complexity(delta=2/10)
-            210.99786719362038
+            214.16804105519708
         """
         delta = parameters['delta']
         n, _, q = self.get_reduced_parameters()
@@ -122,23 +130,11 @@ class Lokshtanov(MQAlgorithm):
             if not 0 < delta < 1:
                 raise ValueError("delta must be in the range 0 < delta < 1")
             else:
-                n_temp = n - 1
-                np = floor(delta * n_temp)
-                k = 2  # Degree of the polynomials
-                time = log2(100 * log2(q) * (q - 1))
-                time1 =  (n_temp - np) * log2(q)
-                resulting_degree = k * (q - 1) * (np + 2)
-                if  self._is_early_abort_possible(time1):
-                    return inf
-                M = NMonomialSeries(n=n_temp - np, q=q, max_prec=resulting_degree +
-                                                            1).nmonomials_up_to_degree(resulting_degree)
-                time2 = log2(M) + np * log2(q) + 6 * q * log2(n_temp)
-                a = 0
-                if abs(time1 - time2) < 1:
-                    a = 1
-                time += max(time1, time2) + a
+                time = 100 * log2(q) * (q - 1) * \
+                    sum([self._C(n - i, delta) for i in range(1, n)])
+
         h = self._h
-        return h * log2(q) + time
+        return h * log2(q) + log2(time)
 
     def _compute_memory_complexity(self, parameters: dict):
         """
