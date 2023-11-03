@@ -1,0 +1,10 @@
+-----------------
+workfactor_helper
+-----------------
+
+.. automodule:: cryptographic_estimators.SDEstimator.SDWorkfactorModels.workfactor_helper
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+
