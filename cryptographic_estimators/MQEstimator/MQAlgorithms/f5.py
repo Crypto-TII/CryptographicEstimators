@@ -32,7 +32,7 @@ class F5(MQAlgorithm):
 
     - ``problem`` -- MQProblem object including all necessary parameters
     - ``h`` -- external hybridization parameter (default: 0)
-    - ``w`` -- linear algebra constant (default: 2)
+    - ``w`` -- linear algebra constant (default: 2.81)
     - ``degrees`` -- a list/tuple of degree of the polynomials (default: [2]*m)
 
     EXAMPLES::
@@ -86,12 +86,12 @@ class F5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = F5(MQProblem(n=10, m=15, q=3), bit_complexities=False)
             sage: E.time_complexity()
-            23.841343113280505
+            31.91479638293766
 
         TESTS::
 
             sage: F5(MQProblem(n=10, m=12, q=5)).time_complexity()
-            31.950061609866715
+            42.45351487952387
 
         """
         if self.problem.is_overdefined_system():
@@ -128,7 +128,7 @@ class F5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = F5(MQProblem(n=10, m=5, q=31), bit_complexities=False)
             sage: E.time_complexity()
-            15.954559846999834
+            21.606156585034768
         """
         if not (self.problem.is_square_system() or self.problem.is_underdefined_system()):
             raise ValueError(
@@ -154,7 +154,7 @@ class F5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: F5_ = F5(MQProblem(n=5, m=10, q=31), bit_complexities=False)
             sage: F5_.time_complexity()
-            14.93663793900257
+            19.64059542586923
         """
         if not self.problem.is_overdefined_system():
             raise ValueError(

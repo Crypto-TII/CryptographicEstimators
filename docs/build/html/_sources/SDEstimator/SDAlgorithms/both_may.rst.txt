@@ -1,0 +1,10 @@
+--------
+both_may
+--------
+
+.. automodule:: cryptographic_estimators.SDEstimator.SDAlgorithms.both_may
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+
