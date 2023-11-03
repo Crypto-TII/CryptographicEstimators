@@ -126,7 +126,7 @@ class HybridF5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: H = HybridF5(MQProblem(q=256, n=10, m=10), bit_complexities=False)
             sage: H.time_complexity(k=2)
-            48.348655805287535
+            46.38042019731107
 
         """
         k = parameters['k']
@@ -175,7 +175,7 @@ class HybridF5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: H = HybridF5(MQProblem(q=7, n=10, m=12), complexity_type=1)
             sage: H.time_complexity(k=3)
-            27.830427339832752
+            26.38447672418113
 
         """
         k = parameters['k']
@@ -220,7 +220,7 @@ class HybridF5(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = HybridF5(MQProblem(q=7, n=10, m=12), complexity_type=1)
             sage: E.optimal_parameters()
-            {'k': 6}
+            {'k': 9}
 
         """
         self._find_optimal_parameters()
