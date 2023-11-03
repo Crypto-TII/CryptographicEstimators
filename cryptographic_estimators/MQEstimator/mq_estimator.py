@@ -43,7 +43,7 @@ class MQEstimator(BaseEstimator):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator import MQEstimator
-            sage: E = MQEstimator(q=2, m=42, n=41, memory_bound=45)
+            sage: E = MQEstimator(q=2, m=42, n=41, memory_bound=45, w=2)
             sage: E.table() # long time
             +------------------+---------------+
             |                  |    estimate   |
@@ -61,7 +61,7 @@ class MQEstimator(BaseEstimator):
             | Lokshtanov       | 93.9 |   42.4 |
             +------------------+------+--------+
 
-            sage: E = MQEstimator(n=15, m=15, q=2)
+            sage: E = MQEstimator(n=15, m=15, q=2, w=2)
             sage: E.table(precision=3, truncate=1)
             +------------------+-----------------+
             |                  |     estimate    |
@@ -100,7 +100,7 @@ class MQEstimator(BaseEstimator):
         EXAMPLES::
 
             sage: from cryptographic_estimators.MQEstimator import MQEstimator
-            sage: E = MQEstimator(q=3, m=42, n=41, memory_bound=45)
+            sage: E = MQEstimator(q=3, m=42, n=41, memory_bound=45, w=2)
             sage: E.table() # long time
             +------------------+----------------+
             |                  |    estimate    |
@@ -118,7 +118,7 @@ class MQEstimator(BaseEstimator):
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator import MQEstimator
-            sage: E = MQEstimator(q=16, m=42, n=41, complexity_type=1)
+            sage: E = MQEstimator(q=16, m=42, n=41, complexity_type=1, w=2)
             sage: E.table(show_tilde_o_time=1, show_all_parameters=1) # long time
             +------------------+-------------------------------------------------------+-------------------------------------------------------+
             |                  |                        estimate                       |                    tilde_o_estimate                   |
@@ -134,7 +134,7 @@ class MQEstimator(BaseEstimator):
             +------------------+-------+--------+--------------------------------------+-------+--------+--------------------------------------+
 
 
-            sage: E = MQEstimator(q=2, m=42, n=41)
+            sage: E = MQEstimator(q=2, m=42, n=41, w=2.81)
             sage: E.table(show_tilde_o_time=1, show_all_parameters=1) # long time
             +------------------+---------------------------------------------------+-------------------------------------------------------------------+
             |                  |                      estimate                     |                          tilde_o_estimate                         |
@@ -142,16 +142,17 @@ class MQEstimator(BaseEstimator):
             | algorithm        | time | memory |             parameters            | time | memory |                     parameters                    |
             +------------------+------+--------+-----------------------------------+------+--------+---------------------------------------------------+
             | Bjorklund        | 80.3 |   31.5 |         {'lambda_': 13/41}        | 32.9 |   32.9 |                {'lambda_': 0.19677}               |
-            | BooleanSolveFXL  | 46.3 |   16.1 | {'k': 40, 'variant': 'las_vegas'} | 43.2 |   16.1 |         {'k': 40, 'variant': 'las_vegas'}         |
-            | Crossbred        | 39.8 |   37.9 |     {'D': 6, 'd': 1, 'k': 15}     | 38.0 |   37.9 |             {'D': 6, 'd': 1, 'k': 15}             |
+            | BooleanSolveFXL  | 46.3 |   16.1 | {'k': 40, 'variant': 'las_vegas'} | 43.2 |    1.6 |         {'k': 40, 'variant': 'las_vegas'}         |
+            | Crossbred        | 44.7 |   30.6 |     {'D': 5, 'd': 1, 'k': 13}     | 38.7 |   30.6 |             {'D': 5, 'd': 1, 'k': 13}             |
             | DinurFirst       | 57.7 |   37.9 | {'kappa': 13/40, 'lambda_': 7/40} | 28.5 |   28.5 | {'kappa': 0.3057, 'lambda_': 0.18665241123894338} |
             | DinurSecond      | 42.8 |   33.6 |             {'n1': 7}             | 33.4 |   25.8 |             {'n1': 7.592592592592592}             |
             | ExhaustiveSearch | 44.4 |   16.1 |                 {}                | 41.0 |    0.0 |                         {}                        |
-            | F5               | 62.9 |   57.0 |                 {}                | 57.5 |   57.0 |                         {}                        |
-            | HybridF5         | 48.6 |   16.1 |             {'k': 40}             | 43.2 |   16.1 |                     {'k': 40}                     |
+            | F5               | 86.2 |   57.0 |                 {}                | 80.8 |   57.0 |                         {}                        |
+            | HybridF5         | 49.8 |   16.1 |             {'k': 40}             | 44.5 |   16.1 |                     {'k': 40}                     |
             | Lokshtanov       | 93.9 |   42.4 |          {'delta': 1/41}          | 35.9 |    5.1 |                 {'delta': 0.8765}                 |
             +------------------+------+--------+-----------------------------------+------+--------+---------------------------------------------------+
-        """
+
+"""
 
         super(MQEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,

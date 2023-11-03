@@ -1,0 +1,10 @@
+-----
+dumer
+-----
+
+.. automodule:: cryptographic_estimators.SDEstimator.SDAlgorithms.dumer
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+
