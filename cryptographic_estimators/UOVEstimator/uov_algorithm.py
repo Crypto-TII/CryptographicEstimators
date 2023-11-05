@@ -69,4 +69,4 @@ class UOVAlgorithm(BaseAlgorithm):
         """
         """
         n, m, q = self.problem.get_parameters()
-        return f"{self._name} estimator for the UOV signature scheme with parmaters (q, n, m) = ({q}, {n}, {m})"
+        return f"{self._name} estimator for the UOV signature scheme with parameters (q, n, m) = ({q}, {n}, {m})"
