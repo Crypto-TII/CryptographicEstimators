@@ -15,3 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
+
+UOV_NUMBER_VARIABLES = "number of variables"
+UOV_NUMBER_POLYNOMIALS = "number of polynomials"
+UOV_FIELD_SIZE = "field size"

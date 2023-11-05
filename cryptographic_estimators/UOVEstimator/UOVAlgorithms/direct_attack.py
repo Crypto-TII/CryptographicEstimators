@@ -27,7 +27,7 @@ class DirectAttack(UOVAlgorithm):
 
     The most straightforward attack against UOV, (and even against most of the MPKC 
     cryptosystems) is the direct attack, where the attacker aims to solve an instance of the 
-    MQ problem associated with the public ke [TW12].
+    MQ problem associated with the public key [TW12]_.
 
     INPUT:
 
