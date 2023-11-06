@@ -49,7 +49,7 @@ class Crossbred(MQAlgorithm):
 
     - ``problem`` -- MQProblem object including all necessary parameters
     - ``h`` -- external hybridization parameter (default: 0)
-    - ``w`` -- linear algebra constant (2 <= w <= 3) (default: 2)
+    - ``w`` -- linear algebra constant (2 <= w <= 3) (default: 2.81)
     - ``max_D`` -- upper bound to the parameter D (default: 20)
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
@@ -91,7 +91,8 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
             sage: E.k()
-            7
+            5
+
         """
         return self._get_optimal_parameter('k')
 
@@ -106,7 +107,7 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), max_D = 10)
             sage: E.D()
-            5
+            3
         """
         return self._get_optimal_parameter('D')
 
@@ -280,11 +281,11 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), bit_complexities=False)
             sage: E.time_complexity(k=4, D=6, d=4)
-            29.77510134996699
+            34.73981968512528
 
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), bit_complexities=False)
             sage: E.time_complexity()
-            19.56992234329735
+            22.458852587425618
         """
         k = parameters['k']
         D = parameters['D']
@@ -320,7 +321,7 @@ class Crossbred(MQAlgorithm):
 
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), bit_complexities=False)
             sage: E.memory_complexity()
-            19.38013126659691
+            8.027905996569885
         """
         k = parameters['k']
         D = parameters['D']
@@ -343,11 +344,11 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), complexity_type=1)
             sage: E.time_complexity(k=4, D=6, d=4)
-            26.190185554770082
+            31.154855478621304
 
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), complexity_type=1)
             sage: E.time_complexity()
-            19.39681379895914
+            18.87406087363563
         """
         k = parameters['k']
         D = parameters['D']
@@ -388,6 +389,6 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), complexity_type=1)
             sage: E.optimal_parameters()
-            {'D': 5, 'd': 1, 'k': 7}
+            {'D': 3, 'd': 1, 'k': 5}
         """
         self._find_optimal_parameters()

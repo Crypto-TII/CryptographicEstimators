@@ -36,12 +36,22 @@ class MQProblem(BaseProblem):
     - ``n`` -- number of variables
     - ``m`` -- number of polynomials
     - ``q`` -- order of the finite field (default: None)
+    - ``theta`` -- exponent of the conversion factor (default: 2)
+        - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
+        - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
     - ``nsolutions`` --  number of solutions in logarithmic scale (default: max(expected_number_solutions, 0))
-    - ``memory_bound`` -- maximum allowed memory to use for solving the problem
+    - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
 
     """
 
     def __init__(self, n: int, m: int, q:int, **kwargs):
+        super().__init__(**kwargs)
+        self.parameters[MQ_NUMBER_VARIABLES] = n
+        self.parameters[MQ_NUMBER_POLYNOMIALS] = m
+        self.parameters[MQ_FIELD_SIZE] = q
+        self.nsolutions = kwargs.get("nsolutions", self.expected_number_solutions())
+        self._theta = kwargs.get("theta", 2)
+
         if n < 1:
             raise ValueError("n must be >= 1")
 
@@ -51,12 +61,12 @@ class MQProblem(BaseProblem):
         if q is not None and not is_prime_power(q):
             raise ValueError("q must be a prime power")
 
-        super().__init__(**kwargs)
-        self.parameters[MQ_NUMBER_VARIABLES] = n
-        self.parameters[MQ_NUMBER_POLYNOMIALS] = m
-        self.parameters[MQ_FIELD_SIZE] = q
-        self.nsolutions = kwargs.get("nsolutions", self.expected_number_solutions())
-        self._theta = kwargs.get("theta", 2)
+        if self._theta is not None and not (0 <= self._theta <= 2):
+            raise ValueError("theta must be either None or 0<=theta <= 2")
+
+        if self.nsolutions  < 0:
+            raise ValueError("nsolutions must be >= 0")
+
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """
