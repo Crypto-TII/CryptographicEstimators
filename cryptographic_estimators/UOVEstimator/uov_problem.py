@@ -48,14 +48,14 @@ class UOVProblem(BaseProblem):
         if m < 1:
             raise ValueError("m must be >= 1")
 
-        if m <= n:
-            raise ValueError("n must be > n")
+        if n <= m:
+            raise ValueError("n must be > m")
 
         if not is_prime_power(q):
             raise ValueError("q must be a prime power")
         
-        if theta < 0 and theta != -1:
-            raise ValueError("theta must be greater or equal than 0 or equals to -1")
+        if theta is not None and not (0 <= theta <= 2):
+            raise ValueError("theta must be either None or 0 <=theta <= 2")
 
         if cost_one_hash < 0:
             raise ValueError("The cost of computing one hash must be >= 0")
@@ -110,14 +110,21 @@ class UOVProblem(BaseProblem):
 
     def expected_number_solutions(self):
         """
-        Return the logarithm of the expected number of existing solutions to the problem
-
+        Returns the logarithm of the expected number of existing solutions to the problem
         """
-        raise NotImplementedError
+        n, m, q = self.get_parameters()
+        return log2(q) * (n - m)
 
     def get_parameters(self):
         """
         Return the optimizations parameters
+
+        TESTS::
+
+            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
+            sage: E = UOVProblem(n=14, m=8, q=4)
+            sage: E.get_parameters()
+            [14, 8, 4]
         """
         return list(self.parameters.values())
 
