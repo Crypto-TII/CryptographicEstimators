@@ -40,7 +40,7 @@ class UOVProblem(BaseProblem):
         super().__init__(**kwargs)
 
         theta = kwargs.get("theta", 2)
-        cost_hash = kwargs.get("cost_hash", 17)
+        cost_one_hash = kwargs.get("cost_one_hash", 17)
         
         if n < 1:
             raise ValueError("n must be >= 1")
@@ -57,28 +57,44 @@ class UOVProblem(BaseProblem):
         if theta < 0 and theta != -1:
             raise ValueError("theta must be greater or equal than 0 or equals to -1")
 
-        if cost_hash < 0:
-            raise ValueError("cost_hash must be greater or equals than 0")
+        if cost_one_hash < 0:
+            raise ValueError("The cost of computing one hash must be >= 0")
   
         self.parameters[UOV_NUMBER_VARIABLES] = n
         self.parameters[UOV_NUMBER_POLYNOMIALS] = m
         self.parameters[UOV_FIELD_SIZE] = q
         self._theta = theta
-        self._cost_hash = cost_hash
+        self._cost_one_hash = cost_one_hash
 
-    def to_bitcomplexity_time(self, basic_operations: float, number_of_hashes=0):
+    def hashes_to_basic_operations(self, number_of_hashes=0):
         """
-        Return the bit-complexity corresponding to a certain amount of basic_operations
+        Return the number basic operations corresponding to a certain amount of hashes
+
+        INPUT:
+
+        - ``number_of_hashes`` -- Number of hashes  (logarithmic) (default: 0)
+
+        """
+        bit_complexity_one_hash = self._cost_one_hash
+        number_of_basic_operations = 0
+        if number_of_hashes != 0:
+            bit_complexity_all_hashes = number_of_hashes + bit_complexity_one_hash
+            bit_complexity_one_basic_operation = self.to_bitcomplexity_time(1)
+            number_of_basic_operations =  bit_complexity_all_hashes - bit_complexity_one_basic_operation
+        return number_of_basic_operations
+
+    def to_bitcomplexity_time(self, basic_operations: float):
+        """
+        Return the bit-complexity corresponding to a certain amount of basic operations
 
         INPUT:
 
         - ``basic_operations`` -- Number of basic operations (logarithmic)
-        - ``number_of_hashes`` -- Number of hashes  (logarithmic) (default: 0)
 
         """
         q = self.parameters[UOV_FIELD_SIZE]
         theta = self._theta
-        return ngates(q, basic_operations, theta=theta) + number_of_hashes + self._cost_hash
+        return ngates(q, basic_operations, theta=theta)
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
@@ -149,20 +165,20 @@ class UOVProblem(BaseProblem):
         self._theta = value
 
     @property
-    def cost_hash(self):
+    def cost_one_hash(self):
         """
         returns the bit-complexity of computing one hash
 
         """
-        return self._cost_hash
+        return self._cost_one_hash
 
-    @cost_hash.setter
-    def cost_hash(self, value: float):
+    @cost_one_hash.setter
+    def cost_one_hash(self, value: float):
         """
         sets the bit-complexity of computing one hash
 
         """
-        self._cost_hash = value
+        self._cost_one_hash = value
 
     def __repr__(self):
         n, m, q = self.get_problem_parameters()
