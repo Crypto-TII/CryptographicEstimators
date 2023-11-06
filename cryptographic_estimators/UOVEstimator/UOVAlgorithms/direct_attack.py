@@ -32,6 +32,11 @@ class DirectAttack(UOVAlgorithm):
     INPUT:
 
     - ``problem`` -- an instance of the UOVProblem class
+    - ``w`` -- linear algebra constant (default: 2)
+    - ``h`` -- external hybridization parameter (default: 0)
+    - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
+    - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
+
     """
 
     def __init__(self, problem: UOVProblem, **kwargs):
