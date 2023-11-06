@@ -36,6 +36,7 @@ class DirectAttack(UOVAlgorithm):
     - ``h`` -- external hybridization parameter (default: 0)
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
+    - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
 
     """
 
@@ -45,8 +46,20 @@ class DirectAttack(UOVAlgorithm):
         self._name = "DirectAttack"
         n, m, q = self.problem.get_parameters()
 
-        self._MQEstimator = MQEstimator(n, m, q)
-        self._fastest_algorithm = self._MQEstimator.fastest_algorithm()
+        complexity_type = self.complexity_type()
+        h = self._h
+        nsolutions = self.problem.nsolutions()
+        self._MQEstimator = MQEstimator(n, m, q,
+                                        bit_complexities=0,
+                                        memory_access=0,
+                                        h = h,
+                                        complexity_type=mq_complexity_type)
+        self._fastest_algorithm = None
+
+    def get_fastest_mq_algorithm(self):
+        if self._fastest_algorithm is None:
+            self._fastest_algorithm = self._MQEstimator.fastest_algorithm()
+        return self._fastest_algorithm
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -64,7 +77,9 @@ class DirectAttack(UOVAlgorithm):
             sage: A.time_complexity()
             22.000568934770925
         """
-        self._MQEstimator.complexity_type = 0
+        fastest_algorithm = self.get_fastest_mq_algorithm()
+        fastest_algorithm.complexity_type = self.complexity_type()
+        fastest_algorithm.bit_complexities = self.complexity_type()
         return self._fastest_algorithm.time_complexity()
 
     def _compute_memory_complexity(self, parameters: dict):

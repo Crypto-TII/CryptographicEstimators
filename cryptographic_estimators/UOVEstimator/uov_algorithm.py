@@ -33,6 +33,7 @@ class UOVAlgorithm(BaseAlgorithm):
         - ``h`` -- external hybridization parameter (default: 0)
         - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
         - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
+        - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
 
         """
         super(UOVAlgorithm, self).__init__(problem, **kwargs)

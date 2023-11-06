@@ -48,6 +48,9 @@ class UOVProblem(BaseProblem):
         if m < 1:
             raise ValueError("m must be >= 1")
 
+        if m <= n:
+            raise ValueError("n must be > n")
+
         if not is_prime_power(q):
             raise ValueError("q must be a prime power")
         
