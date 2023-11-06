@@ -63,7 +63,7 @@ class UOVEstimator(BaseEstimator):
             +--------------+-------+--------+
             | algorithm    |  time | memory |
             +--------------+-------+--------+
-            | DirectAttack | 126.9 |  110.2 |
+            | DirectAttack | 149.9 |  113.2 |
             +--------------+-------+--------+
 
         TESTS::
@@ -71,13 +71,13 @@ class UOVEstimator(BaseEstimator):
             sage: from cryptographic_estimators.UOVEstimator import UOVEstimator
             sage: A = UOVEstimator(n=40, m=44, q=256)
             sage: A.table(show_tilde_o_time=1)
-            +--------------+---------------+------------------+
-            |              |    estimate   | tilde_o_estimate |
-            +--------------+------+--------+-------+----------+
-            | algorithm    | time | memory |  time |   memory |
-            +--------------+------+--------+-------+----------+
-            | DirectAttack | 96.6 |   93.5 |  90.5 |     90.5 |
-            +--------------+------+--------+-------+----------+
+            +--------------+----------------+------------------+
+            |              |    estimate    | tilde_o_estimate |
+            +--------------+-------+--------+-------+----------+
+            | algorithm    |  time | memory |  time |   memory |
+            +--------------+-------+--------+-------+----------+
+            | DirectAttack | 137.7 |   55.7 |  97.4 |     48.7 |
+            +--------------+-------+--------+-------+----------+
         """
         super(UOVEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                           show_tilde_o_time=show_tilde_o_time,

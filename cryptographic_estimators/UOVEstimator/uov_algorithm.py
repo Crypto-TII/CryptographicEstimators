@@ -38,7 +38,7 @@ class UOVAlgorithm(BaseAlgorithm):
         super(UOVAlgorithm, self).__init__(problem, **kwargs)
 
         h = kwargs.get("h", 0)
-        w = kwargs.get("w", 2)
+        w = kwargs.get("w", 2.81)
         n = self.problem.nvariables()
         m = self.problem.npolynomials()
         q = self.problem.order_of_the_field()
