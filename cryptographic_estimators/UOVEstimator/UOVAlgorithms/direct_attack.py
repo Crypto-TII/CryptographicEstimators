@@ -19,7 +19,9 @@
 from ..uov_algorithm import UOVAlgorithm
 from ..uov_problem import UOVProblem
 from ...MQEstimator.mq_estimator import MQEstimator
-
+from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
+from ...base_constants import BASE_MEMORY_BOUND, BASE_NSOLUTIONS, BASE_BIT_COMPLEXITIES, BASE_EXCLUDED_ALGORITHMS
+from math import log2
 
 class DirectAttack(UOVAlgorithm):
     """
@@ -34,6 +36,8 @@ class DirectAttack(UOVAlgorithm):
     - ``problem`` -- an instance of the UOVProblem class
     - ``w`` -- linear algebra constant (default: 2)
     - ``h`` -- external hybridization parameter (default: 0)
+    - ``nsolutions`` -- number of solutions in logarithmic scale (default: expected_number_solutions))
+    - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
     - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
@@ -46,20 +50,32 @@ class DirectAttack(UOVAlgorithm):
         self._name = "DirectAttack"
         n, m, q = self.problem.get_parameters()
 
-        complexity_type = self.complexity_type()
+        w = self.linear_algebra_constant()
         h = self._h
-        nsolutions = self.problem.nsolutions()
-        self._MQEstimator = MQEstimator(n, m, q,
-                                        bit_complexities=0,
+        nsolutions = self.expected_number_solutions()
+        excluded_algorithms = kwargs.get(BASE_EXCLUDED_ALGORITHMS, [Lokshtanov])
+        complexity_type = self.complexity_type
+        self._MQEstimator = MQEstimator(n=n, m=m, q=q,
+                                        w=w,
+                                        h=h,
+                                        nsolutions=nsolutions,
+                                        excluded_algorithms=excluded_algorithms,
                                         memory_access=0,
-                                        h = h,
-                                        complexity_type=mq_complexity_type)
+                                        complexity_type=complexity_type,
+                                        bit_complexities=0)
         self._fastest_algorithm = None
 
     def get_fastest_mq_algorithm(self):
         if self._fastest_algorithm is None:
             self._fastest_algorithm = self._MQEstimator.fastest_algorithm()
         return self._fastest_algorithm
+
+    def expected_number_solutions(self):
+        """
+        Returns the logarithm of the expected number of existing solutions to the problem
+        """
+        n, m, q = self.problem.get_parameters()
+        return log2(q) * (n - m)
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -73,13 +89,13 @@ class DirectAttack(UOVAlgorithm):
 
             sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.direct_attack import DirectAttack
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
-            sage: A = DirectAttack(UOVProblem(n=10, m=12, q=5))
+            sage: A = DirectAttack(UOVProblem(n=14, m=12, q=5))
             sage: A.time_complexity()
-            22.000568934770925
+            29.54708305178623
+
         """
         fastest_algorithm = self.get_fastest_mq_algorithm()
-        fastest_algorithm.complexity_type = self.complexity_type()
-        fastest_algorithm.bit_complexities = self.complexity_type()
+        fastest_algorithm.complexity_type = self.complexity_type
         return self._fastest_algorithm.time_complexity()
 
     def _compute_memory_complexity(self, parameters: dict):
@@ -94,11 +110,13 @@ class DirectAttack(UOVAlgorithm):
 
             sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.direct_attack import DirectAttack
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
-            sage: A = DirectAttack(UOVProblem(n=10, m=12, q=5))
+            sage: A = DirectAttack(UOVProblem(n=14, m=12, q=5))
             sage: A.memory_complexity()
-            20.965093767318066
+            16.13937148392593
+
         """
-        self._MQEstimator.complexity_type = 0
+        fastest_algorithm = self.get_fastest_mq_algorithm()
+        fastest_algorithm.complexity_type = self.complexity_type
         return self._fastest_algorithm.memory_complexity()
     
     def _compute_tilde_o_time_complexity(self, parameters: dict):
@@ -113,11 +131,12 @@ class DirectAttack(UOVAlgorithm):
 
             sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.direct_attack import DirectAttack
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
-            sage: A = DirectAttack(UOVProblem(n=10, m=12, q=5), complexity_type=1)
+            sage: A = DirectAttack(UOVProblem(n=14, m=12, q=5), complexity_type=1)
             sage: A.time_complexity()
-            19.39681379895914
+            23.520125380651073
         """
-        self._MQEstimator.complexity_type = 1
+        fastest_algorithm = self.get_fastest_mq_algorithm()
+        fastest_algorithm.complexity_type = self.complexity_type
         return self._fastest_algorithm.time_complexity()
     
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
@@ -132,10 +151,10 @@ class DirectAttack(UOVAlgorithm):
 
             sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.direct_attack import DirectAttack
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
-            sage: A = DirectAttack(UOVProblem(n=10, m=12, q=5), complexity_type=1)
+            sage: A = DirectAttack(UOVProblem(n=14, m=12, q=5), complexity_type=1)
             sage: A.memory_complexity()
-            19.38013126659691
+            14.554408983204775
         """
-
-        self._MQEstimator.complexity_type = 1
+        fastest_algorithm = self.get_fastest_mq_algorithm()
+        fastest_algorithm.complexity_type = self.complexity_type
         return self._fastest_algorithm.memory_complexity()

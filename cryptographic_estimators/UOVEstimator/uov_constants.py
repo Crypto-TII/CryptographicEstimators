@@ -19,3 +19,5 @@
 UOV_NUMBER_VARIABLES = "number of variables"
 UOV_NUMBER_POLYNOMIALS = "number of polynomials"
 UOV_FIELD_SIZE = "field size"
+
+UOV_DIRECT_ATTACK_MQ_PARAMETERS = "mq parameters"

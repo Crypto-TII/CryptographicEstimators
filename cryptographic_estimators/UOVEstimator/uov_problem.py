@@ -29,10 +29,13 @@ class UOVProblem(BaseProblem):
 
     INPUT: 
         
-        - ``n`` -- number of variables
-        - ``m`` -- number of polynomials
-        - ``q`` -- order of the finite field
-        - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
+    - ``n`` -- number of variables
+    - ``m`` -- number of polynomials
+    - ``q`` -- order of the finite field
+    - ``theta`` -- exponent of the conversion factor (default: 2)
+    - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
+    - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
+    - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
 
     """
 
@@ -107,13 +110,6 @@ class UOVProblem(BaseProblem):
         """
         q = self.parameters[UOV_FIELD_SIZE]
         return log2(ceil(log2(q))) + elements_to_store
-
-    def expected_number_solutions(self):
-        """
-        Returns the logarithm of the expected number of existing solutions to the problem
-        """
-        n, m, q = self.get_parameters()
-        return log2(q) * (n - m)
 
     def get_parameters(self):
         """

@@ -28,7 +28,18 @@ class UOVEstimator(BaseEstimator):
 
     INPUT:
 
-    - ``excluded_algorithm`` -- A list/tuple of excluded algorithms (default: None)
+    - ``n`` -- number of variables
+    - ``m`` -- number of polynomials
+    - ``q`` -- order of the finite field (default: None)
+    - ``w`` -- linear algebra constant (default: 2)
+    - ``theta`` -- exponent of the conversion factor (default: 2)
+        - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
+        - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
+    - ``h`` -- external hybridization parameter (default: 0)
+    - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
+    - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
+    - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
+    - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
 
     """
     excluded_algorithms_by_default = []
@@ -56,27 +67,47 @@ class UOVEstimator(BaseEstimator):
         EXAMPLES::
 
             sage: from cryptographic_estimators.UOVEstimator import UOVEstimator
-            sage: A = UOVEstimator(n=112, m=44, q=256)
+            sage: A = UOVEstimator(n=14, m=12, q=8)
+            sage: A.table()
+            +--------------+---------------+
+            |              |    estimate   |
+            +--------------+------+--------+
+            | algorithm    | time | memory |
+            +--------------+------+--------+
+            | DirectAttack | 33.2 |   21.8 |
+            +--------------+------+--------+
+
+        TESTS::
+
+            sage: from cryptographic_estimators.UOVEstimator import UOVEstimator
+            sage: A = UOVEstimator(n=112, m=44, q=256) # long time
             sage: A.table()
             +--------------+----------------+
             |              |    estimate    |
             +--------------+-------+--------+
             | algorithm    |  time | memory |
             +--------------+-------+--------+
-            | DirectAttack | 149.9 |  113.2 |
+            | DirectAttack | 144.5 |   59.5 |
             +--------------+-------+--------+
 
-        TESTS::
-
-            sage: from cryptographic_estimators.UOVEstimator import UOVEstimator
-            sage: A = UOVEstimator(n=40, m=44, q=256)
-            sage: A.table(show_tilde_o_time=1)
+            sage: A = UOVEstimator(n=66, m=64, q=16)
+            sage: A.table(show_tilde_o_time=1) # long time
             +--------------+----------------+------------------+
             |              |    estimate    | tilde_o_estimate |
             +--------------+-------+--------+-------+----------+
             | algorithm    |  time | memory |  time |   memory |
             +--------------+-------+--------+-------+----------+
-            | DirectAttack | 137.7 |   55.7 |  97.4 |     48.7 |
+            | DirectAttack | 166.1 |   48.1 | 150.2 |     45.1 |
+            +--------------+-------+--------+-------+----------+
+
+            sage: A = UOVEstimator(n=78, m=64, q=16)
+            sage: A.table(show_tilde_o_time=1) # long time
+            +--------------+----------------+------------------+
+            |              |    estimate    | tilde_o_estimate |
+            +--------------+-------+--------+-------+----------+
+            | algorithm    |  time | memory |  time |   memory |
+            +--------------+-------+--------+-------+----------+
+            | DirectAttack | 166.1 |   48.1 | 150.2 |     45.1 |
             +--------------+-------+--------+-------+----------+
         """
         super(UOVEstimator, self).table(show_quantum_complexity=show_quantum_complexity,

@@ -45,15 +45,6 @@ class UOVAlgorithm(BaseAlgorithm):
         q = self.problem.order_of_the_field()
         self._name = "BaseUOVAlgorithm"
 
-        if n < 1:
-            raise ValueError("n must be >= 1")
-
-        if m < 1:
-            raise ValueError("m must be >= 1")
-
-        if q is not None and not is_prime_power(q):
-            raise ValueError("q must be a prime power")
-
         if w is not None and not 2 <= w <= 3:
             raise ValueError("w must be in the range 2 <= w <= 3")
 
@@ -65,6 +56,21 @@ class UOVAlgorithm(BaseAlgorithm):
         self._q = q
         self._w = w
         self._h = h
+
+
+    def linear_algebra_constant(self):
+        """
+        Return the linear algebra constant
+
+        TESTS::
+
+            sage: from cryptographic_estimators.UOVEstimator.uov_algorithm import UOVAlgorithm
+            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
+            sage: UOVAlgorithm(UOVProblem(n=10, m=5, q=4), w=2).linear_algebra_constant()
+            2
+        """
+        return self._w
+
 
     def __repr__(self):
         """
