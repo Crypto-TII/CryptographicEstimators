@@ -1,0 +1,10 @@
+----------
+may_ozerov
+----------
+
+.. automodule:: cryptographic_estimators.SDEstimator.SDWorkfactorModels.may_ozerov
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+
