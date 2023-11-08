@@ -21,7 +21,11 @@ from ...base_algorithm import optimal_parameter
 from math import log2, inf, ceil
 from sage.arith.misc import binomial
 from ..mr_constants import *
-from ..mr_helper import _strassen_complexity_, _bw_complexity_, Variant
+from ...MREstimator.mr_helper import Variant,_strassen_complexity_,_bw_complexity_
+
+
+
+
 
 class SupportMinors(MRAlgorithm):
     r"""
@@ -39,12 +43,14 @@ class SupportMinors(MRAlgorithm):
         self._name = "support_minors"
         super(SupportMinors, self).__init__(problem, **kwargs)
 
-        _, m, n, k, _ = self.problem.get_parameters()
-        self.set_parameter_ranges('a', 0, ceil(k/m))
+        q, m, n, k, r = self.problem.get_parameters()
+        self.set_parameter_ranges('a', 0,  ceil(k / m))
         self.set_parameter_ranges('lv', 0, k)
         self.set_parameter_ranges('b', 1, n)
         self.set_parameter_ranges('nprime', 1, n)
         self.set_parameter_ranges('variant', 1, 2)
+
+
 
     @optimal_parameter
     def a(self):
@@ -119,10 +125,7 @@ class SupportMinors(MRAlgorithm):
             sage: SM.variant()
             'strassen'
         """
-        if self._get_optimal_parameter(MR_VARIANT) == Variant.block_wiedemann.value:
-            return Variant.block_wiedemann.name
-        else:
-            return Variant.strassen.name
+        return self._get_optimal_parameter(MR_VARIANT)
 
 
     def _expected_dimension_of_support_minors_equations(self,q, m, n, K, r, b):
@@ -167,7 +170,7 @@ class SupportMinors(MRAlgorithm):
         return dim < exp
 
     def _sm_time_complexity_helper_(self, q, K, r, nprime, b, variant):
-        if variant == Variant.block_wiedemann.value or variant == Variant.block_wiedemann.name:
+        if variant == Variant.block_wiedemann.value:
             time = _bw_complexity_(row_density=K * (r + 1), ncols=self._dimension(q, nprime, K, r, b))
 
         else:
@@ -177,7 +180,7 @@ class SupportMinors(MRAlgorithm):
 
     def _sm_memory_complexity_helper_(self, q, K, r, nprime, b, variant):
         ncols = self._dimension(q, nprime, K, r, b)
-        if variant == Variant.block_wiedemann.value or variant == Variant.block_wiedemann.name:
+        if variant == Variant.block_wiedemann.value:
             memory = log2(log2(q)) + log2(2 * ncols)
 
         else:
@@ -199,10 +202,13 @@ class SupportMinors(MRAlgorithm):
         b = parameters[MR_LINEAR_VARIABLES_DEGREE]
         variant = parameters[MR_VARIANT]
         q, m, n, k, r = self.problem.get_parameters()
-        time = _strassen_complexity_(m, n)
+        time = self.hybridization_factor(a,lv)
+        time = time + _strassen_complexity_(m, n)
         k_hybrid = k - a * m - lv
         if k_hybrid > 0:
-            time = self._sm_time_complexity_helper_(q=q, K=k_hybrid + 1, r=r, nprime=nprime, b=b, variant=variant)
+            t = self._sm_time_complexity_helper_(q=q, K=k_hybrid + 1, r=r, nprime=nprime, b=b, variant=variant)
+            time = time + log2(2 ** t + min(k_hybrid, (a * m)) ** self._w)
+
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
@@ -230,4 +236,11 @@ class SupportMinors(MRAlgorithm):
         return memory
 
 
+    def get_optimal_parameters_dict(self):
+        """
+        Returns the optimal parameters dictionary
+
+        """
+        self._optimal_parameters['variant']= Variant(self._optimal_parameters['variant']).name
+        return self._optimal_parameters
     

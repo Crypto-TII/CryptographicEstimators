@@ -18,7 +18,7 @@
 
 from ..base_algorithm import BaseAlgorithm
 from .mr_problem import MRProblem
-
+from math import log2
 
 class MRAlgorithm(BaseAlgorithm):
     def __init__(self, problem: MRProblem, **kwargs):
@@ -36,7 +36,7 @@ class MRAlgorithm(BaseAlgorithm):
         self._w = w
         self._name = "BaseMRAlgorithm"
 
-        if  w < 2 or 3 < w:
+        if  w <= 2 or 3 <= w:
             raise ValueError("w must be in the range 2 <= w <= 3")
 
         if theta is not None and (theta > 2 or theta < 0):
@@ -87,7 +87,7 @@ class MRAlgorithm(BaseAlgorithm):
         """
         q, m, n, k, r = self.problem.get_parameters()
         w = self.linear_algebra_constant()
-        return max(w * log2(min(K, a * m)), log2(lv * m * n))
+        return max(w * log2(min(k, a * m)), log2(lv * m * n))
 
     def hybridization_factor(self, a, lv):
         """

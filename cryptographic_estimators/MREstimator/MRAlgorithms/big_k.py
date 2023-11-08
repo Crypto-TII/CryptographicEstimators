@@ -39,8 +39,8 @@ class BigK(MRAlgorithm):
         super(BigK, self).__init__(problem, **kwargs)
 
         q, m, n, k, r = self.problem.get_parameters()
-        self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)))
-        self.set_parameter_ranges('lv', 0, r)
+        self.set_parameter_ranges('a', 0, ceil(k / m))
+        self.set_parameter_ranges('lv', 0, k)
 
 
     @optimal_parameter
@@ -100,7 +100,7 @@ class BigK(MRAlgorithm):
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, n, k, r = self.problem.get_parameters()
 
-        time = ((a * r)+lv)*log2(q) #
+        time = self.hybridization_factor(a,lv)
         k_hybrid = k - a * m - lv
         if k_hybrid > 0:
             time += self._sm_time_complexity_helper_(q, m, n - a, k_hybrid, r)

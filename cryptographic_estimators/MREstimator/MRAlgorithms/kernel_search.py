@@ -39,8 +39,8 @@ class KernelSearch(MRAlgorithm):
         super(KernelSearch, self).__init__(problem, **kwargs)
 
         q, m, n, k, r = self.problem.get_parameters()
-        self.set_parameter_ranges('a', 0, min (n - r, ceil(k / m)))
-        self.set_parameter_ranges('lv', 0, r)
+        self.set_parameter_ranges('a', 0, ceil(k / m))
+        self.set_parameter_ranges('lv', 0, k)
 
     @optimal_parameter
     def a(self):
@@ -78,6 +78,7 @@ class KernelSearch(MRAlgorithm):
         main_factor = q ** (a * r)
         second_factor = max(1, K ** self._w)
         time = main_factor * second_factor
+        time = time*(log2(q) ** 2)
         time = log2(time)
         return time
 
@@ -100,10 +101,10 @@ class KernelSearch(MRAlgorithm):
 
         q, m, n, k, r = self.problem.get_parameters()
 
-        time = ((a * r)+lv)*log2(q)
+        time = self.hybridization_factor(a,lv)
         k_hybrid = k - a * m - lv
         if k_hybrid > 0:
-            time += self._sm_time_complexity_helper_(q, m, k_hybrid, r)
+            time += log2(2**self._sm_time_complexity_helper_(q, m, k_hybrid, r) + min(k_hybrid, (a * m)) ** self._w)
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
