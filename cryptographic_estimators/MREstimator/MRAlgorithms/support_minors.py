@@ -39,7 +39,7 @@ class SupportMinors(MRAlgorithm):
         self._name = "support_minors"
         super(SupportMinors, self).__init__(problem, **kwargs)
 
-        _, m, n, k, _ = self.problem.get_problem_parameters()
+        _, m, n, k, _ = self.problem.get_parameters()
         self.set_parameter_ranges('a', 0, ceil(k/m))
         self.set_parameter_ranges('lv', 0, k)
         self.set_parameter_ranges('b', 1, n)
@@ -198,7 +198,7 @@ class SupportMinors(MRAlgorithm):
         nprime = parameters[MR_REDUCED_NUMBER_OF_COLUMNS]
         b = parameters[MR_LINEAR_VARIABLES_DEGREE]
         variant = parameters[MR_VARIANT]
-        q, m, n, k, r = self.problem.get_problem_parameters()
+        q, m, n, k, r = self.problem.get_parameters()
         time = _strassen_complexity_(m, n)
         k_hybrid = k - a * m - lv
         if k_hybrid > 0:
@@ -221,7 +221,7 @@ class SupportMinors(MRAlgorithm):
         b = parameters[MR_LINEAR_VARIABLES_DEGREE]
         variant = parameters[MR_VARIANT]
 
-        q, m, n, k, r = self.problem.get_problem_parameters()
+        q, m, n, k, r = self.problem.get_parameters()
 
         memory = log2(log2(q)) +  log2(m * n) +  log2(k)
         k_hybrid = k - a * m - lv

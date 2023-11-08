@@ -38,9 +38,9 @@ class KernelSearch(MRAlgorithm):
         self._name = "kernel_search"
         super(KernelSearch, self).__init__(problem, **kwargs)
 
-        _, m, n, k, _ = self.problem.get_problem_parameters()
-        self.set_parameter_ranges('a', 0, ceil(k / m))
-        self.set_parameter_ranges('lv', 0, k)
+        q, m, n, k, r = self.problem.get_parameters()
+        self.set_parameter_ranges('a', 0, min (n - r, ceil(k / m)))
+        self.set_parameter_ranges('lv', 0, r)
 
     @optimal_parameter
     def a(self):
@@ -79,7 +79,6 @@ class KernelSearch(MRAlgorithm):
         second_factor = max(1, K ** self._w)
         time = main_factor * second_factor
         time = log2(time)
-
         return time
 
     def _sm_memory_complexity_helper_(self, m, n, K):
@@ -98,9 +97,10 @@ class KernelSearch(MRAlgorithm):
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
-        q, m, n, k, r = self.get_parameters() #verify order of parameters.
 
-        time = (a * r)*log2(q) + lv*log2(q)
+        q, m, n, k, r = self.problem.get_parameters()
+
+        time = ((a * r)+lv)*log2(q)
         k_hybrid = k - a * m - lv
         if k_hybrid > 0:
             time += self._sm_time_complexity_helper_(q, m, k_hybrid, r)
@@ -118,7 +118,7 @@ class KernelSearch(MRAlgorithm):
 
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
-        q, m, n, k, r = self.problem.get_problem_parameters()
+        q, m, n, k, r = self.problem.get_parameters()
         k_hybrid = k - a * m - lv
         memory = 0
         if k_hybrid > 0:

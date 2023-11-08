@@ -130,7 +130,7 @@ class MRProblem(BaseProblem):
         Return the logarithm of the expected number of existing solutions to the problem
 
         """
-        q, m, n, k, r = self.get_problem_parameters()
+        q, m, n, k, r = self.get_parameters()
         if k + 1 <= (m - r) * (n - r):
             return 0
         else:
@@ -214,16 +214,7 @@ class MRProblem(BaseProblem):
         """
         return self.parameters[MR_TARGET_RANK]
 
-    def get_problem_parameters(self):
-        """
-        Return the problem parameters `q`, `m`, `n`, `k`, `r`
-        """
-        q = self.order_of_the_field()
-        m = self.nrows()
-        n = self.ncolumns()
-        k = self.length_solution_vector()
-        r = self.target_rank()
-        return q, m, n, k, r
+
 
     def __repr__(self):
         """
@@ -235,7 +226,7 @@ class MRProblem(BaseProblem):
             sage: MRP
             MinRank problem with (q, m, n, k, r) = (7,9,10,15,4)
         """
-        q, m, n, k, r = self.get_problem_parameters()
+        q, m, n, k, r = self.get_parameters()
         rep = "MinRank problem with (q, m, n, k, r) = " \
               + "("+ str(q) + "," + str(m) + "," + str(n) + "," + \
               str(k) + "," + str(r)  + ")"

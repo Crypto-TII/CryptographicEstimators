@@ -67,7 +67,7 @@ class MRAlgorithm(BaseAlgorithm):
         - ``a`` -- no. of vectors to guess in the kernel of the low-rank matrix
         - ``lv`` -- no. of entries to guess in the solution vector
         """
-        q, m, n, k, r = self.problem.get_problem_parameters()
+        q, m, n, k, r = self.problem.get_parameters()
         q_reduced = q
         m_reduced = m
         n_reduced = n - a
@@ -77,7 +77,7 @@ class MRAlgorithm(BaseAlgorithm):
 
     def cost_reduction(self, a, lv):
         """
-        Return the cost of cost of computing the reduced instance, i.e., the obtained instance after one guess of
+        Return the cost of computing the reduced instance, i.e., the obtained instance after one guess of
         `a` kernel vectors  and `lv` entries in the solution vector
 
         INPUT:
@@ -85,7 +85,7 @@ class MRAlgorithm(BaseAlgorithm):
         - ``a`` -- no. of vectors to guess in the kernel of the low-rank matrix
         - ``lv`` -- no. of entries to guess in the solution vector
         """
-        q, m, n, k, r = self.problem.get_problem_parameters()
+        q, m, n, k, r = self.problem.get_parameters()
         w = self.linear_algebra_constant()
         return max(w * log2(min(K, a * m)), log2(lv * m * n))
 
@@ -98,5 +98,5 @@ class MRAlgorithm(BaseAlgorithm):
         - ``a`` -- no. of vectors to guess in the kernel of the low-rank matrix
         - ``lv``no. of entries to guess in the solution vector
         """
-        q, _, _, _, r = self.problem.get_problem_parameters()
+        q, _, _, _, r = self.problem.get_parameters()
         return (r * a + lv)  *  log2(q)
