@@ -32,17 +32,11 @@ class MRAlgorithm(BaseAlgorithm):
         """
         super(MRAlgorithm, self).__init__(problem, **kwargs)
         w = kwargs.get("w", 2.81)
-        theta = kwargs.get("theta", 2)
         self._w = w
         self._name = "BaseMRAlgorithm"
 
-        if  w <= 2 or 3 <= w:
+        if  w < 2 or 3 < w:
             raise ValueError("w must be in the range 2 <= w <= 3")
-
-        if theta is not None and (theta > 2 or theta < 0):
-                raise ValueError("theta must be None or an integer in the range 0 <= theta <= 2")
-
-        self.problem.theta = theta
 
     def linear_algebra_constant(self):
         """

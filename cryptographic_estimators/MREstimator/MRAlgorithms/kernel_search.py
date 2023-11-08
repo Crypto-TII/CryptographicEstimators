@@ -39,8 +39,8 @@ class KernelSearch(MRAlgorithm):
         super(KernelSearch, self).__init__(problem, **kwargs)
 
         q, m, n, k, r = self.problem.get_parameters()
-        self.set_parameter_ranges('a', 0, ceil(k / m))
-        self.set_parameter_ranges('lv', 0, k)
+        self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m))-1)
+        self.set_parameter_ranges('lv', 0, r-1)
 
     @optimal_parameter
     def a(self):
@@ -68,23 +68,24 @@ class KernelSearch(MRAlgorithm):
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: KS = KernelSearch(MRProblem(q=7, m=9, n=10, k=15, r=4))
             sage: KS.lv()
-            5
+            0
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
     def _sm_time_complexity_helper_(self, q, m, K, r):
-
-        a = ceil(K / m)
-        main_factor = q ** (a * r)
-        second_factor = max(1, K ** self._w)
-        time = main_factor * second_factor
-        time = time*(log2(q) ** 2)
-        time = log2(time)
+        time = 0
+        if K > 0:
+           a = ceil(K / m)
+           second_factor = max(1, K ** self._w)
+           time = (a * r)*log2(q)+log2(second_factor)
         return time
 
     def _sm_memory_complexity_helper_(self, m, n, K):
-        memory = max(1, 2 * K * m * n)
-        memory = log2(memory)
+        memory=0
+        if K>0:
+           memory = max(1, 2 * K * m * n)
+           memory = log2(memory)
+
         return memory
 
     def _compute_time_complexity(self, parameters: dict):
@@ -100,11 +101,10 @@ class KernelSearch(MRAlgorithm):
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
 
         q, m, n, k, r = self.problem.get_parameters()
-
-        time = self.hybridization_factor(a,lv)
+        time = self.hybridization_factor(a, lv)
         k_hybrid = k - a * m - lv
-        if k_hybrid > 0:
-            time += log2(2**self._sm_time_complexity_helper_(q, m, k_hybrid, r) + min(k_hybrid, (a * m)) ** self._w)
+        time_complexity = self._sm_time_complexity_helper_(q, m, k_hybrid, r)
+        time += log2(2**time_complexity + min(k, (a * m)) ** self._w)
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
@@ -121,7 +121,5 @@ class KernelSearch(MRAlgorithm):
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, n, k, r = self.problem.get_parameters()
         k_hybrid = k - a * m - lv
-        memory = 0
-        if k_hybrid > 0:
-            memory = self._sm_memory_complexity_helper_(m, n - a, k_hybrid)
+        memory = self._sm_memory_complexity_helper_(m, n - a, k_hybrid)
         return memory

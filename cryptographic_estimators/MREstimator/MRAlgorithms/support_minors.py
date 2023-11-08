@@ -35,8 +35,8 @@ class SupportMinors(MRAlgorithm):
     INPUT:
 
     - ``problem`` -- an instance of the MRProblem class
-    - ``w`` -- linear algebra constant (default: 2)
-    - ``theta`` -- exponent of the conversion factor (default: 2.81)
+    - ``w`` -- linear algebra constant (default: 2.81)
+    - ``theta`` -- exponent of the conversion factor (default: 2)
     """
 
     def __init__(self, problem: MRProblem, **kwargs):
@@ -44,10 +44,10 @@ class SupportMinors(MRAlgorithm):
         super(SupportMinors, self).__init__(problem, **kwargs)
 
         q, m, n, k, r = self.problem.get_parameters()
-        self.set_parameter_ranges('a', 0,  ceil(k / m))
-        self.set_parameter_ranges('lv', 0, k)
-        self.set_parameter_ranges('b', 1, n)
-        self.set_parameter_ranges('nprime', 1, n)
+        self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)) - 1)
+        self.set_parameter_ranges('lv', 0, r - 1)
+        self.set_parameter_ranges('b', 1, r+1)
+        self.set_parameter_ranges('nprime', r + 1, n)
         self.set_parameter_ranges('variant', 1, 2)
 
 
@@ -78,7 +78,7 @@ class SupportMinors(MRAlgorithm):
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
             sage: SM.lv()
-            5
+            0
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
@@ -108,7 +108,7 @@ class SupportMinors(MRAlgorithm):
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
             sage: SM.nprime()
-            4
+            8
         """
         return self._get_optimal_parameter(MR_REDUCED_NUMBER_OF_COLUMNS)
 
@@ -121,11 +121,12 @@ class SupportMinors(MRAlgorithm):
 
             sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
+            sage: SM = SupportMinors(MRProblem(q=7, m=9, n=9, k=20, r=4))
             sage: SM.variant()
-            'strassen'
+            'block_wiedemann'
         """
-        return self._get_optimal_parameter(MR_VARIANT)
+
+        return  Variant(self._get_optimal_parameter(MR_VARIANT)).name
 
 
     def _expected_dimension_of_support_minors_equations(self,q, m, n, K, r, b):
@@ -164,10 +165,12 @@ class SupportMinors(MRAlgorithm):
         lv = parameters["lv"]
         b = parameters["b"]
         nprime = parameters["nprime"]
-        q, m, _, k_reduced, r =  self.get_problem_parameters_reduced(a, lv)
+        q, m, n_reduced, k_reduced, r =  self.get_problem_parameters_reduced(a, lv)
+        if nprime < r + b or nprime > n_reduced:
+            return True
         dim = self._dimension(q, nprime, k_reduced +  1, r, b) - 1
         exp = self._expected_dimension_of_support_minors_equations(q, m, nprime, k_reduced + 1, r, b)
-        return dim < exp
+        return dim >= exp
 
     def _sm_time_complexity_helper_(self, q, K, r, nprime, b, variant):
         if variant == Variant.block_wiedemann.value:
@@ -201,14 +204,15 @@ class SupportMinors(MRAlgorithm):
         nprime = parameters[MR_REDUCED_NUMBER_OF_COLUMNS]
         b = parameters[MR_LINEAR_VARIABLES_DEGREE]
         variant = parameters[MR_VARIANT]
+
         q, m, n, k, r = self.problem.get_parameters()
-        time = self.hybridization_factor(a,lv)
-        time = time + _strassen_complexity_(m, n)
+        time = self.hybridization_factor(a, lv)
         k_hybrid = k - a * m - lv
         if k_hybrid > 0:
             t = self._sm_time_complexity_helper_(q=q, K=k_hybrid + 1, r=r, nprime=nprime, b=b, variant=variant)
             time = time + log2(2 ** t + min(k_hybrid, (a * m)) ** self._w)
-
+        else:
+            time = time + _strassen_complexity_(m, n)
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
