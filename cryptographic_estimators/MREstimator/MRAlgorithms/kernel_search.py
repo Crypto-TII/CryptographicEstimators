@@ -98,9 +98,9 @@ class KernelSearch(MRAlgorithm):
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
-        q, m, n, k, r = self.problem.get_problem_parameters()
+        q, m, n, k, r = self.get_parameters() #verify order of parameters.
 
-        time = log2(q ** (a * r)) + log2(q ** lv)
+        time = (a * r)*log2(q) + lv*log2(q)
         k_hybrid = k - a * m - lv
         if k_hybrid > 0:
             time += self._sm_time_complexity_helper_(q, m, k_hybrid, r)
