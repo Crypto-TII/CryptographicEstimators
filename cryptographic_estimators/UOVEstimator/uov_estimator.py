@@ -20,7 +20,7 @@ from .uov_algorithm import UOVAlgorithm
 from .uov_problem import UOVProblem
 from ..base_estimator import BaseEstimator
 from math import inf
-
+from ..MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
 
 class UOVEstimator(BaseEstimator):
     """
@@ -36,7 +36,7 @@ class UOVEstimator(BaseEstimator):
         - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
         - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
     - ``h`` -- external hybridization parameter (default: 0)
-    - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
+    - ``excluded_algorithms`` -- a list/tuple of algorithms to be excluded (default: [])
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
     - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
@@ -80,8 +80,8 @@ class UOVEstimator(BaseEstimator):
         TESTS::
 
             sage: from cryptographic_estimators.UOVEstimator import UOVEstimator
-            sage: A = UOVEstimator(n=112, m=44, q=256) # long time
-            sage: A.table()
+            sage: A = UOVEstimator(n=112, m=44, q=256)
+            sage: A.table() # long time
             +--------------+----------------+
             |              |    estimate    |
             +--------------+-------+--------+

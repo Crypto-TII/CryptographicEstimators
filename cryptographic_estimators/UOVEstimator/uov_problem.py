@@ -33,8 +33,9 @@ class UOVProblem(BaseProblem):
     - ``m`` -- number of polynomials
     - ``q`` -- order of the finite field
     - ``theta`` -- exponent of the conversion factor (default: 2)
-    - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
-    - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
+        - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
+        - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
+    - ``cost_one_hash`` -- bit complexity of computing one hash value (default: 17)
     - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
 
     """
@@ -58,7 +59,7 @@ class UOVProblem(BaseProblem):
             raise ValueError("q must be a prime power")
         
         if theta is not None and not (0 <= theta <= 2):
-            raise ValueError("theta must be either None or 0 <=theta <= 2")
+            raise ValueError("theta must be either None or 0 <= theta <= 2")
 
         if cost_one_hash < 0:
             raise ValueError("The cost of computing one hash must be >= 0")
@@ -69,21 +70,19 @@ class UOVProblem(BaseProblem):
         self._theta = theta
         self._cost_one_hash = cost_one_hash
 
-    def hashes_to_basic_operations(self, number_of_hashes=0):
+    def hashes_to_basic_operations(self, number_of_hashes: float):
         """
         Return the number basic operations corresponding to a certain amount of hashes
 
         INPUT:
 
-        - ``number_of_hashes`` -- Number of hashes  (logarithmic) (default: 0)
+        - ``number_of_hashes`` -- Number of hashes  (logarithmic) (default: None)
 
         """
         bit_complexity_one_hash = self._cost_one_hash
-        number_of_basic_operations = 0
-        if number_of_hashes != 0:
-            bit_complexity_all_hashes = number_of_hashes + bit_complexity_one_hash
-            bit_complexity_one_basic_operation = self.to_bitcomplexity_time(1)
-            number_of_basic_operations =  bit_complexity_all_hashes - bit_complexity_one_basic_operation
+        bit_complexity_all_hashes = number_of_hashes + bit_complexity_one_hash
+        bit_complexity_one_basic_operation = self.to_bitcomplexity_time(1)
+        number_of_basic_operations =  bit_complexity_all_hashes - bit_complexity_one_basic_operation
         return number_of_basic_operations
 
     def to_bitcomplexity_time(self, basic_operations: float):

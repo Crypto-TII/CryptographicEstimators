@@ -38,24 +38,15 @@ class UOVAlgorithm(BaseAlgorithm):
         """
         super(UOVAlgorithm, self).__init__(problem, **kwargs)
 
-        h = kwargs.get("h", 0)
-        w = kwargs.get("w", 2.81)
-        n = self.problem.nvariables()
-        m = self.problem.npolynomials()
-        q = self.problem.order_of_the_field()
+        self._h = kwargs.get("h", 0)
+        self._w = kwargs.get("w", 2.81)
         self._name = "BaseUOVAlgorithm"
 
-        if w is not None and not 2 <= w <= 3:
+        if self._w is not None and not 2 <= self._w <= 3:
             raise ValueError("w must be in the range 2 <= w <= 3")
 
-        if h < 0:
+        if self._h < 0:
             raise ValueError("h must be >= 0")
-
-        self._n = n
-        self._m = m
-        self._q = q
-        self._w = w
-        self._h = h
 
 
     def linear_algebra_constant(self):
