@@ -32,7 +32,7 @@ jobs:
       id: built-image
       with:
         context: .
-        file: ./docker/Dockerfile
+        file: ./Dockerfile
         push: false
         load: true
         tags: estimators-lib:latest
