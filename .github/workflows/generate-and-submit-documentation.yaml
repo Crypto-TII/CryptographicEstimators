@@ -1,11 +1,13 @@
 name: Generate and submit documentation
 on:
-  push:
+  pull_request:
+    types: [ closed ]
     branches:
-      - 'fix/github-workflows'
+      - main
 
 jobs:
   generate-documentation:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -44,3 +46,17 @@ jobs:
 
     - name: Generate documentation
       run: docker run --rm -v $PWD:/home/cryptographic_estimators/ estimators-lib make doc
+
+    - name: Commit & Push changes
+      uses: actions-js/push@master
+      with:
+        github_token: ${{ secrets.AUTHORIZATION_TOKEN }}
+        message: "Update documentation"
+
+    - name: Update develop branch
+      uses: morbalint/git-merge-action@v1
+      with:
+        target: 'develop'
+        source: 'main'
+        token: ${{ secrets.AUTHORIZATION_TOKEN }}
+        strategy_options: 'ours'
