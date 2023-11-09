@@ -1,12 +1,14 @@
 name: Update changelog
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
-      - 'fix/github-workflows'
+      - main
 
 jobs:
   update-changelog:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -32,3 +34,30 @@ jobs:
           message: 'Changelog version updated'
           tags: true
           force: true
+
+      - name: create tags
+        if: ${{env.should_add_last_changes_to_master == 'true'}}
+        run: |
+          project_version=$(cat VERSION)
+          tag_name="$project_version"
+          release_message="Version $project_version"
+          echo "tag_name=$tag_name" >> $GITHUB_ENV
+          echo "release_message=$release_message" >> $GITHUB_ENV
+
+      - name: create-push-tags
+        if: ${{env.should_add_last_changes_to_master == 'true'}}
+        id: 'tag_create'
+        uses: rickstaa/action-create-tag@v1
+        with:
+          github_token: ${{ secrets.AUTHORIZATION_TOKEN }}
+          tag: ${{env.tag_name}}
+          tag_exists_error: false
+          message: ${{env.release_message}}
+
+      - name: create-develop-branch
+        uses: morbalint/git-merge-action@v1
+        with:
+          target: 'develop'
+          source: 'main'
+          token: ${{ secrets.AUTHORIZATION_TOKEN }}
+          strategy_options: 'ours'
