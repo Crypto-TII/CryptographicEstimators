@@ -2,7 +2,7 @@ name: Generate and submit documentation
 on:
   push:
     branches:
-      - fix/github-workflows
+      - 'fix/github-workflows'
 
 jobs:
   generate-documentation:
