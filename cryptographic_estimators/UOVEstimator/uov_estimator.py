@@ -74,7 +74,7 @@ class UOVEstimator(BaseEstimator):
             +--------------+------+--------+
             | algorithm    | time | memory |
             +--------------+------+--------+
-            | DirectAttack | 33.2 |   21.8 |
+            | DirectAttack | 35.1 |   21.2 |
             +--------------+------+--------+
 
         TESTS::
