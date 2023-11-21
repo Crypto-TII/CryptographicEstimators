@@ -271,11 +271,15 @@ class BaseEstimator(object):
 
     def _table_problem(self, renderer, estimate):
         """
+        Print table describing the complexity of each algorithm and its optimal parameters for problems
+
         """
         return renderer.as_table(estimate)
     
     def _table_scheme(self, renderer, estimate):
         """
+        Print table describing the complexity of each algorithm and its optimal parameters for schemes
+
         """
         attack_type_list = [algorithm.attack_type for algorithm in self._algorithms]
         return renderer.as_table(estimate, attack_type_list)

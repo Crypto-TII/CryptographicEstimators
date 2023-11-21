@@ -56,7 +56,7 @@ class EstimationRenderer():
         tables.append(tbl)
 
         if attack_types != None:
-            tbl = self._create_column_attack_type(attack_types)
+            tbl = self._create_attack_type_column(attack_types)
             tables.append(tbl)
 
         for j in estimation[key].keys().__reversed__():
@@ -95,10 +95,12 @@ class EstimationRenderer():
 
         return table
     
-    def _create_column_attack_type(self, attack_types: list) -> PrettyTable:
+    def _create_attack_type_column(self, attack_types: list) -> PrettyTable:
         """
+        creates a `PrettyTable` with the attack type for each algorithm
+
         """
-        table = PrettyTable(["attack type"])
+        table = PrettyTable(["attack_type"])
         table.padding_width = 1
         table.title = ' '
 
