@@ -59,7 +59,7 @@ class BaseEstimator(object):
         self.bit_complexities = self._bit_complexities
         self.include_tildeo = kwargs.get("include_tildeo", False)
         self.include_quantum = kwargs.get("include_quantum", False)
-        self._estimatator_type = BASE_ESTIMATOR_TYPE
+        self._estimator_type = BASE_ESTIMATOR_TYPE
 
         included_algorithms = (Algorithm for Algorithm in alg.__subclasses__(
         ) if Algorithm not in excluded_algorithms)
@@ -146,7 +146,7 @@ class BaseEstimator(object):
         Returns the type of the estimator. Either problem or scheme
 
         """
-        return self._estimatator_type
+        return self._estimator_type
 
     def algorithms(self):
         """
@@ -277,8 +277,8 @@ class BaseEstimator(object):
     def _table_scheme(self, renderer, estimate):
         """
         """
-        attack_type_list = [algorithm.attack_type() for algorithm in self._algorithms]
-        return renderer.as_table(estimate)
+        attack_type_list = [algorithm.attack_type for algorithm in self._algorithms]
+        return renderer.as_table(estimate, attack_type_list)
 
     def table(self, show_quantum_complexity=False, show_tilde_o_time=False, show_all_parameters=False, precision=1, truncate=False):
         """
@@ -308,7 +308,7 @@ class BaseEstimator(object):
             renderer = EstimationRenderer(
                 show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate
             )
-            if self.estimator_type() == BASE_ESTIMATOR_TYPE:
+            if self.estimator_type == BASE_ESTIMATOR_TYPE:
                 return self._table_problem(renderer, estimate)
             else:
                 return self._table_scheme(renderer, estimate)

@@ -50,6 +50,7 @@ class UOVEstimator(BaseEstimator):
             UOVProblem(n=n, m=m, q=q, memory_bound=memory_bound, **kwargs),
             **kwargs
         )
+        self._estimator_type = "scheme"
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
               show_all_parameters=0, precision=1, truncate=0):
