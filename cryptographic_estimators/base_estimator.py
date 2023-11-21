@@ -140,6 +140,14 @@ class BaseEstimator(object):
             for i in self._algorithms:
                 i.bit_complexities = new_bit_complexities
 
+    @property
+    def estimator_type(self):
+        """
+        Returns the type of the estimator. Either problem or scheme
+
+        """
+        return self._estimatator_type
+
     def algorithms(self):
         """
         Return a list of considered algorithms
@@ -261,6 +269,17 @@ class BaseEstimator(object):
 
         return self.estimates
 
+    def _table_problem(self, renderer, estimate):
+        """
+        """
+        return renderer.as_table(estimate)
+    
+    def _table_scheme(self, renderer, estimate):
+        """
+        """
+        attack_type_list = [algorithm.attack_type() for algorithm in self._algorithms]
+        return renderer.as_table(estimate)
+
     def table(self, show_quantum_complexity=False, show_tilde_o_time=False, show_all_parameters=False, precision=1, truncate=False):
         """
         Print table describing the complexity of each algorithm and its optimal parameters
@@ -289,7 +308,10 @@ class BaseEstimator(object):
             renderer = EstimationRenderer(
                 show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate
             )
-            renderer.as_table(estimate)
+            if self.estimator_type() == BASE_ESTIMATOR_TYPE:
+                return self._table_problem(renderer, estimate)
+            else:
+                return self._table_scheme(renderer, estimate)
 
     def fastest_algorithm(self, use_tilde_o_time=False):
         """

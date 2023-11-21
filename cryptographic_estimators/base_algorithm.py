@@ -105,6 +105,14 @@ class BaseAlgorithm:
 
         """
         return self._complexity_type
+    
+    @property
+    def attack_type(self):
+        """
+        Returns the attack type of the algorithm
+
+        """
+        return self._attack_type
 
     @complexity_type.setter
     def complexity_type(self, input_type: Union[int, str]):
