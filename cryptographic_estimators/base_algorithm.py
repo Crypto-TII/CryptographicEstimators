@@ -21,7 +21,7 @@ from .helper import ComplexityType
 from .base_problem import BaseProblem
 import functools
 from math import inf, log2
-from .base_constants import BASE_BIT_COMPLEXITIES, BASE_COMPLEXITY_TYPE, BASE_ESTIMATE, BASE_MEMORY_ACCESS, BASE_TILDEO
+from .base_constants import BASE_BIT_COMPLEXITIES, BASE_COMPLEXITY_TYPE, BASE_ESTIMATE, BASE_MEMORY_ACCESS, BASE_TILDEO, BASE_ATTACK_TYPE
 
 
 class BaseAlgorithm:
@@ -63,6 +63,8 @@ class BaseAlgorithm:
         self._current_minimum_for_early_abort = inf
         for i in self._optimal_parameters_methods:
             self._parameter_ranges[i.__name__] = {}
+
+        self._attack_type = BASE_ATTACK_TYPE
 
     @property
     def parameter_ranges(self):

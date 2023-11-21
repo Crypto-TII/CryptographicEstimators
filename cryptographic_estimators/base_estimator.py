@@ -19,7 +19,7 @@
 from math import isinf
 from typing import Union, Callable
 from .helper import ComplexityType
-from .base_constants import BASE_TILDEO_ESTIMATE, BASE_ADDITIONALO, BASE_BIT_COMPLEXITIES, BASE_ESTIMATEO, BASE_EXCLUDED_ALGORITHMS, BASE_MEMORY, BASE_PARAMETERS, BASE_QUANTUMO, BASE_TIME
+from .base_constants import BASE_TILDEO_ESTIMATE, BASE_ADDITIONALO, BASE_BIT_COMPLEXITIES, BASE_ESTIMATEO, BASE_EXCLUDED_ALGORITHMS, BASE_MEMORY, BASE_PARAMETERS, BASE_QUANTUMO, BASE_TIME, BASE_ESTIMATOR_TYPE
 from .base_algorithm import BaseAlgorithm
 from .estimation_renderer import EstimationRenderer
 
@@ -59,6 +59,7 @@ class BaseEstimator(object):
         self.bit_complexities = self._bit_complexities
         self.include_tildeo = kwargs.get("include_tildeo", False)
         self.include_quantum = kwargs.get("include_quantum", False)
+        self._estimatator_type = BASE_ESTIMATOR_TYPE
 
         included_algorithms = (Algorithm for Algorithm in alg.__subclasses__(
         ) if Algorithm not in excluded_algorithms)
