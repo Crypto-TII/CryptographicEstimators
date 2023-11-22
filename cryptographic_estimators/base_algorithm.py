@@ -321,8 +321,6 @@ class BaseAlgorithm:
                 self._find_optimal_parameters()
             elif self.complexity_type == ComplexityType.TILDEO.value:
                 self._find_optimal_tilde_o_parameters()
-            else:
-                assert False
 
         return self._optimal_parameters.get(key)
 
@@ -340,7 +338,7 @@ class BaseAlgorithm:
         """
         parameters = self._optimal_parameters
         ranges = self._parameter_ranges
-        new_ranges = {i: ranges[i].copy() if i not in parameters else {"min": parameters[i], "max": parameters[i] + 1}
+        new_ranges = {i: ranges[i].copy() if i not in parameters else {"min": parameters[i], "max": parameters[i]}
                       for i in ranges}
         return new_ranges
 
