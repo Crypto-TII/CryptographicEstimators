@@ -70,46 +70,46 @@ class UOVEstimator(BaseEstimator):
             sage: from cryptographic_estimators.UOVEstimator import UOVEstimator
             sage: A = UOVEstimator(n=14, m=12, q=8)
             sage: A.table()
-            +--------------+---------------+
-            |              |    estimate   |
-            +--------------+------+--------+
-            | algorithm    | time | memory |
-            +--------------+------+--------+
-            | DirectAttack | 33.2 |   21.8 |
-            +--------------+------+--------+
+            +--------------+--------------+---------------+
+            |              |              |    estimate   |
+            +--------------+--------------+------+--------+
+            | algorithm    | attack_type  | time | memory |
+            +--------------+--------------+------+--------+
+            | DirectAttack | key-recovery | 33.2 |   21.8 |
+            +--------------+--------------+------+--------+
 
         TESTS::
 
             sage: from cryptographic_estimators.UOVEstimator import UOVEstimator
             sage: A = UOVEstimator(n=112, m=44, q=256)
             sage: A.table() # long time
-            +--------------+----------------+
-            |              |    estimate    |
-            +--------------+-------+--------+
-            | algorithm    |  time | memory |
-            +--------------+-------+--------+
-            | DirectAttack | 144.5 |   59.5 |
-            +--------------+-------+--------+
+            +--------------+--------------+----------------+
+            |              |              |    estimate    |
+            +--------------+--------------+-------+--------+
+            | algorithm    | attack_type  |  time | memory |
+            +--------------+--------------+-------+--------+
+            | DirectAttack | key-recovery | 144.5 |   59.5 |
+            +--------------+--------------+-------+--------+
 
             sage: A = UOVEstimator(n=66, m=64, q=16)
             sage: A.table(show_tilde_o_time=1) # long time
-            +--------------+----------------+------------------+
-            |              |    estimate    | tilde_o_estimate |
-            +--------------+-------+--------+-------+----------+
-            | algorithm    |  time | memory |  time |   memory |
-            +--------------+-------+--------+-------+----------+
-            | DirectAttack | 166.1 |   48.1 | 150.2 |     45.1 |
-            +--------------+-------+--------+-------+----------+
+            +--------------+--------------+----------------+------------------+
+            |              |              |    estimate    | tilde_o_estimate |
+            +--------------+--------------+-------+--------+-------+----------+
+            | algorithm    | attack_type  |  time | memory |  time |   memory |
+            +--------------+--------------+-------+--------+-------+----------+
+            | DirectAttack | key-recovery | 166.1 |   48.1 | 150.2 |     45.1 |
+            +--------------+--------------+-------+--------+-------+----------+
 
             sage: A = UOVEstimator(n=78, m=64, q=16)
             sage: A.table(show_tilde_o_time=1) # long time
-            +--------------+----------------+------------------+
-            |              |    estimate    | tilde_o_estimate |
-            +--------------+-------+--------+-------+----------+
-            | algorithm    |  time | memory |  time |   memory |
-            +--------------+-------+--------+-------+----------+
-            | DirectAttack | 166.1 |   48.1 | 150.2 |     45.1 |
-            +--------------+-------+--------+-------+----------+
+            +--------------+--------------+----------------+------------------+
+            |              |              |    estimate    | tilde_o_estimate |
+            +--------------+--------------+-------+--------+-------+----------+
+            | algorithm    | attack_type  |  time | memory |  time |   memory |
+            +--------------+--------------+-------+--------+-------+----------+
+            | DirectAttack | key-recovery | 166.1 |   48.1 | 150.2 |     45.1 |
+            +--------------+--------------+-------+--------+-------+----------+
         """
         super(UOVEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                           show_tilde_o_time=show_tilde_o_time,
