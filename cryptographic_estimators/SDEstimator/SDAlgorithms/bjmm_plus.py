@@ -165,9 +165,7 @@ class BJMMplus(SDAlgorithm):
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
                 for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
-                    L1 = log2(binom((k+l)//2, p1))
-                    d1 = self._adjust_radius
-                    for l1 in range(max(int(L1)-d1, 0), int(L1)+d1):
+                    for l1 in range(new_ranges["l1"]["min"], min(l, new_ranges["l1"]["max"])):
                         indices = {"p": p, "p1": p1, "l": l, "l1": l1,
                                    "r": self._optimal_parameters["r"]}
                         if self._are_parameters_invalid(indices):
