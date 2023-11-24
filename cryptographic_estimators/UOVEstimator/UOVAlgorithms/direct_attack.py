@@ -92,7 +92,7 @@ class DirectAttack(UOVAlgorithm):
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
             sage: A = DirectAttack(UOVProblem(n=14, m=12, q=5))
             sage: A.time_complexity()
-            29.54708305178623
+            29.92041846257129
 
         """
         fastest_algorithm = self.get_fastest_mq_algorithm()
@@ -113,7 +113,7 @@ class DirectAttack(UOVAlgorithm):
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
             sage: A = DirectAttack(UOVProblem(n=14, m=12, q=5))
             sage: A.memory_complexity()
-            16.13937148392593
+            12.339850002884624
 
         """
         fastest_algorithm = self.get_fastest_mq_algorithm()
@@ -134,7 +134,7 @@ class DirectAttack(UOVAlgorithm):
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
             sage: A = DirectAttack(UOVProblem(n=14, m=12, q=5), complexity_type=1)
             sage: A.time_complexity()
-            23.520125380651073
+            23.609416039920553
         """
         fastest_algorithm = self.get_fastest_mq_algorithm()
         fastest_algorithm.complexity_type = self.complexity_type
@@ -154,7 +154,7 @@ class DirectAttack(UOVAlgorithm):
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
             sage: A = DirectAttack(UOVProblem(n=14, m=12, q=5), complexity_type=1)
             sage: A.memory_complexity()
-            14.554408983204775
+            19.595388618985982
         """
         fastest_algorithm = self.get_fastest_mq_algorithm()
         fastest_algorithm.complexity_type = self.complexity_type
