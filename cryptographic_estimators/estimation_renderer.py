@@ -41,7 +41,7 @@ class EstimationRenderer():
         self._precision = precision
         self._truncate = truncate
 
-    def as_table(self, estimation_result: dict) -> None:
+    def as_table(self, estimation_result: dict, attack_types = None) -> None:
         """
         Prints the given estimation dictionary as a table
         """
@@ -54,6 +54,10 @@ class EstimationRenderer():
         tbl = self._create_initial_table_containing_algorithm_column(
             estimation)
         tables.append(tbl)
+
+        if attack_types != None:
+            tbl = self._create_attack_type_column(attack_types)
+            tables.append(tbl)
 
         for j in estimation[key].keys().__reversed__():
             if j == BASE_QUANTUMO and not self._show_quantum_complexity:
@@ -89,6 +93,20 @@ class EstimationRenderer():
         for i in estimation.keys():
             table.add_row([i])
 
+        return table
+    
+    def _create_attack_type_column(self, attack_types: list) -> PrettyTable:
+        """
+        creates a `PrettyTable` with the attack type for each algorithm
+
+        """
+        table = PrettyTable(["attack_type"])
+        table.padding_width = 1
+        table.title = ' '
+
+        for i in attack_types:
+            table.add_row([i])
+    
         return table
 
     def _create_subtable_containing_all_columns(self, sub_table_name: str, estimation: dict):

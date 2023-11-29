@@ -35,3 +35,6 @@ BASE_MEMORY = "memory"
 BASE_PARAMETERS = "parameters"
 BASE_ALGORITHM = "algorithm"
 BASE_NSOLUTIONS = "nsolutions"
+
+BASE_ATTACK_TYPE = "algorithm"
+BASE_ESTIMATOR_TYPE = "problem"
