@@ -72,7 +72,7 @@ class KernelSearch(MRAlgorithm):
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
-    def _sm_time_complexity_helper_(self, q, m, K, r):
+    def _ks_time_complexity_helper_(self, q, m, K, r):
         time = 0
         if K > 0:
            a = ceil(K / m)
@@ -80,7 +80,7 @@ class KernelSearch(MRAlgorithm):
            time = (a * r)*log2(q)+log2(second_factor)
         return time
 
-    def _sm_memory_complexity_helper_(self, m, n, K):
+    def _ks_memory_complexity_helper_(self, m, n, K):
         memory=0
         if K>0:
            memory = max(1, 2 * K * m * n)
@@ -103,7 +103,7 @@ class KernelSearch(MRAlgorithm):
         q, m, n, k, r = self.problem.get_parameters()
         time = self.hybridization_factor(a, lv)
         k_hybrid = k - a * m - lv
-        time_complexity = self._sm_time_complexity_helper_(q, m, k_hybrid, r)
+        time_complexity = self._ks_time_complexity_helper_(q, m, k_hybrid, r)
         time += log2(2**time_complexity + min(k, (a * m)) ** self._w)
         return time
 
@@ -121,5 +121,5 @@ class KernelSearch(MRAlgorithm):
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, n, k, r = self.problem.get_parameters()
         k_hybrid = k - a * m - lv
-        memory = self._sm_memory_complexity_helper_(m, n - a, k_hybrid)
+        memory = self._ks_memory_complexity_helper_(m, n - a, k_hybrid)
         return memory

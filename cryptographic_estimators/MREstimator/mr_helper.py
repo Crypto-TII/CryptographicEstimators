@@ -30,3 +30,4 @@ def _strassen_complexity_(rank, ncols):
 def _bw_complexity_(row_density, ncols):
     """Returns the complexity of block Wiedemann to find elements in the kernel of a matrix"""
     return log2(3 * row_density) + 2 * log2(ncols)
+

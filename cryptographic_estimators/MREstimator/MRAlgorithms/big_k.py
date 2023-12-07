@@ -72,14 +72,14 @@ class BigK(MRAlgorithm):
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
-    def _sm_time_complexity_helper_(self, q, m, n, K, r):
+    def _bk_time_complexity_helper_(self, q, m, n, K, r):
         time = 0
         if K > 0:
             time = max(q ** (max(0, m * (n - r) - K + 1)) * (m * (n - r)) ** self._w, 1)
             time = log2(time)
         return time
 
-    def _sm_memory_complexity_helper_(self, m, n, r):
+    def _bk_memory_complexity_helper_(self, m, n, r):
         memory = max((m * (n - r)) ** 2, 1)
         memory = log2(memory)
         return memory
@@ -99,7 +99,7 @@ class BigK(MRAlgorithm):
 
         time = self.hybridization_factor(a, lv)
         k_hybrid = k - a * m - lv
-        time += log2(2 ** self._sm_time_complexity_helper_(q, m, n - a, k_hybrid, r) + min(k, (a * m)) ** self._w)
+        time += log2(2 ** self._bk_time_complexity_helper_(q, m, n - a, k_hybrid, r) + min(k, (a * m)) ** self._w)
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
@@ -113,5 +113,5 @@ class BigK(MRAlgorithm):
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         q, m, n, k, r = self.problem.get_parameters()
-        memory = self._sm_memory_complexity_helper_(m, n - a, r)
+        memory = self._bk_memory_complexity_helper_(m, n - a, r)
         return memory

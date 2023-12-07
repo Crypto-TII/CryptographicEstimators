@@ -91,6 +91,7 @@ class MRProblem(BaseProblem):
         theta = self._theta
         return ngates(q, basic_operations, theta=theta)
 
+
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
         Return the memory bit-complexity associated to a given number of elements to store
