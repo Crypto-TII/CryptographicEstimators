@@ -23,11 +23,23 @@ class Variant(Enum):
      block_wiedemann = 2
 
 def _strassen_complexity_(rank, ncols):
-    """Returns the complexity of Gaussian elimination using Strassen algorithm"""
+    """Returns the complexity of Gaussian elimination using Strassen algorithm
+
+     INPUT:
+     - ``rank`` -- target rank
+     - ``ncols`` -- no. of columns
+
+    """
     w = 2.81
     return log2(7 * rank)  + (w - 1) * log2(ncols)
 
 def _bw_complexity_(row_density, ncols):
-    """Returns the complexity of block Wiedemann to find elements in the kernel of a matrix"""
+    """Returns the complexity of block Wiedemann to find elements in the kernel of a matrix
+
+     INPUT:
+    - ``row_density`` -- row density
+    - ``ncols`` -- no. of columns
+
+    """
     return log2(3 * row_density) + 2 * log2(ncols)
 

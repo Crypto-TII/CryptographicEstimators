@@ -28,6 +28,7 @@ class MRAlgorithm(BaseAlgorithm):
         INPUT:
 
         - ``problem`` -- MRProblem object including all necessary parameters
+        - ``w`` -- linear algebra constant (default: 3)
 
         """
         super(MRAlgorithm, self).__init__(problem, **kwargs)
