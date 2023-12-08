@@ -39,7 +39,7 @@ class BigK(MRAlgorithm):
         super(BigK, self).__init__(problem, **kwargs)
 
         q, m, n, k, r = self.problem.get_parameters()
-        self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)) - 1)
+        self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m) - 1))
         self.set_parameter_ranges('lv', 0, r - 1)
 
     @optimal_parameter
@@ -72,10 +72,10 @@ class BigK(MRAlgorithm):
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
-    def _bk_time_complexity_helper_(self, q, m, n, K, r):
+    def _bk_time_complexity_helper_(self, q, m, n, k, r):
         time = 0
-        if K > 0:
-            time = max(q ** (max(0, m * (n - r) - K + 1)) * (m * (n - r)) ** self._w, 1)
+        if k > 0:
+            time = max(q ** (max(0, m * (n - r) - k + 1)) * (m * (n - r)) ** self._w, 1)
             time = log2(time)
         return time
 

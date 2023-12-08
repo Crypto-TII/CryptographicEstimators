@@ -31,7 +31,7 @@ class MRAlgorithm(BaseAlgorithm):
 
         """
         super(MRAlgorithm, self).__init__(problem, **kwargs)
-        w = kwargs.get("w", 2.81)
+        w = kwargs.get("w", 3)
         self._w = w
         self._name = "BaseMRAlgorithm"
 
@@ -69,19 +69,21 @@ class MRAlgorithm(BaseAlgorithm):
         r_reduced = r
         return q_reduced, m_reduced, n_reduced, k_reduced, r_reduced
 
-    def cost_reduction(self, a, lv):
+    def cost_reduction(self, a):
         """
         Return the cost of computing the reduced instance, i.e., the obtained instance after one guess of
-        `a` kernel vectors  and `lv` entries in the solution vector
+        `a` kernel vectors.
 
         INPUT:
 
         - ``a`` -- no. of vectors to guess in the kernel of the low-rank matrix
-        - ``lv`` -- no. of entries to guess in the solution vector
+
         """
-        q, m, n, k, r = self.problem.get_parameters()
+        if a == 0:
+            return 0
+        _, m, _, k, _ = self.problem.get_parameters()
         w = self.linear_algebra_constant()
-        return max(w * log2(min(k, a * m)), log2(lv * m * n))
+        return w * log2(min(k, a * m))
 
     def hybridization_factor(self, a, lv):
         """

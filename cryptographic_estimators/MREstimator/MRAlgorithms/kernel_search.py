@@ -39,8 +39,8 @@ class KernelSearch(MRAlgorithm):
         super(KernelSearch, self).__init__(problem, **kwargs)
 
         q, m, n, k, r = self.problem.get_parameters()
-        self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m))-1)
-        self.set_parameter_ranges('lv', 0, r-1)
+        self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)))
+        self.set_parameter_ranges('lv', 0, r)
 
     @optimal_parameter
     def a(self):
@@ -72,18 +72,18 @@ class KernelSearch(MRAlgorithm):
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
-    def _ks_time_complexity_helper_(self, q, m, K, r):
+    def _ks_time_complexity_helper_(self, q, m, k, r):
         time = 0
-        if K > 0:
-           a = ceil(K / m)
-           second_factor = max(1, K ** self._w)
-           time = (a * r)*log2(q)+log2(second_factor)
+        w = self._w
+        if k > 0:
+           a = ceil(k / m)
+           time = (a * r) * log2(q) + w * log2(k)
         return time
 
-    def _ks_memory_complexity_helper_(self, m, n, K):
+    def _ks_memory_complexity_helper_(self, m, n, k):
         memory=0
-        if K>0:
-           memory = max(1, 2 * K * m * n)
+        if k>0:
+           memory = max(1, 2 * k * m * n)
            memory = log2(memory)
 
         return memory
@@ -96,15 +96,28 @@ class KernelSearch(MRAlgorithm):
 
         - ``parameters`` -- dictionary including the parameters
 
+        TESTS::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.kernel_search import KernelSearch
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: KS = KernelSearch(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            sage: KS.lv()
+            3
+            sage: KS.a()
+            4
+            sage: KS.time_complexity(a=4, lv=4)
+            151.4220647661728
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
-
-        q, m, n, k, r = self.problem.get_parameters()
+        q, m, _, k, r = self.problem.get_parameters()
+        _, _, _, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
-        k_hybrid = k - a * m - lv
-        time_complexity = self._ks_time_complexity_helper_(q, m, k_hybrid, r)
-        time += log2(2**time_complexity + min(k, (a * m)) ** self._w)
+        time_complexity = self._ks_time_complexity_helper_(q, m, k_reduced, r)
+        reduction_cost = self.cost_reduction(a)
+        time += max(time_complexity, reduction_cost)
+        if abs(time_complexity - reduction_cost) < 0:
+            time += 1
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
