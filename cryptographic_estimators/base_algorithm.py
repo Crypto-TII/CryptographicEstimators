@@ -21,7 +21,7 @@ from .helper import ComplexityType
 from .base_problem import BaseProblem
 import functools
 from math import inf, log2
-from .base_constants import BASE_BIT_COMPLEXITIES, BASE_COMPLEXITY_TYPE, BASE_ESTIMATE, BASE_MEMORY_ACCESS, BASE_TILDEO
+from .base_constants import BASE_BIT_COMPLEXITIES, BASE_COMPLEXITY_TYPE, BASE_ESTIMATE, BASE_MEMORY_ACCESS, BASE_TILDEO, BASE_ATTACK_TYPE
 
 
 class BaseAlgorithm:
@@ -64,6 +64,8 @@ class BaseAlgorithm:
         for i in self._optimal_parameters_methods:
             self._parameter_ranges[i.__name__] = {}
 
+        self._attack_type = BASE_ATTACK_TYPE
+
     @property
     def parameter_ranges(self):
         """
@@ -103,6 +105,14 @@ class BaseAlgorithm:
 
         """
         return self._complexity_type
+    
+    @property
+    def attack_type(self):
+        """
+        Returns the attack type of the algorithm
+
+        """
+        return self._attack_type
 
     @complexity_type.setter
     def complexity_type(self, input_type: Union[int, str]):
