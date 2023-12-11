@@ -28,8 +28,28 @@ class MREstimator(BaseEstimator):
     Construct an instance of MREstimator
 
     INPUT:
-
+    - ``q`` -- order of the finite field
+    - ``m`` -- number of rows of the input matrices
+    - ``n`` -- number of columns of the input matrices
+    - ``k`` -- length of the solution vector
+    - ``r`` -- target rank
+    - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
     - ``excluded_algorithm`` -- A list/tuple of excluded algorithms (default: None)
+
+    EXAMPLES::
+
+        sage: from cryptographic_estimators.MREstimator import MREstimator
+        sage: MRE = MREstimator(q=16, m=15, n=15, k=78, r=6)
+        sage: MRE.table()
+        +---------------+----------------+
+        |               |    estimate    |
+        +---------------+-------+--------+
+        | algorithm     |  time | memory |
+        +---------------+-------+--------+
+        | SupportMinors | 144.0 |   11.8 |
+        | KernelSearch  | 147.7 |   14.3 |
+        | BigK          | 154.7 |   13.8 |
+        +---------------+-------+--------+
 
     """
     excluded_algorithms_by_default = []

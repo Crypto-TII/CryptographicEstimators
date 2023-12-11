@@ -30,17 +30,27 @@ class KernelSearch(MRAlgorithm):
     INPUT:
 
     - ``problem`` -- an instance of the MRProblem class
-    - ``w`` -- linear algebra constant (default: 2)
+    - ``w`` -- linear algebra constant (default: 3)
     - ``theta`` -- exponent of the conversion factor (default: 2.81)
+
+    EXAMPLES::
+
+        sage: from cryptographic_estimators.MREstimator.MRAlgorithms.kernel_search import KernelSearch
+        sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+        sage: E = KernelSearch(MRProblem(q=7, m=9, n=10, k=15, r=4))
+        sage: E
+        KernelSearch estimator for the MinRank problem with (q, m, n, k, r) = (7,9,10,15,4)
+
     """
 
     def __init__(self, problem: MRProblem, **kwargs):
-        self._name = "kernel_search"
+
         super(KernelSearch, self).__init__(problem, **kwargs)
 
         q, m, n, k, r = self.problem.get_parameters()
         self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)))
         self.set_parameter_ranges('lv', 0, r)
+        self._name = "KernelSearch"
 
     @optimal_parameter
     def a(self):
@@ -128,11 +138,19 @@ class KernelSearch(MRAlgorithm):
 
         - ``parameters`` -- dictionary including the parameters
 
+        TESTS::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.kernel_search import KernelSearch
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: KS = KernelSearch(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            sage: KS.memory_complexity(a=4, lv=4)
+            14.17367713630342
+
         """
 
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, n, k, r = self.problem.get_parameters()
-        k_hybrid = k - a * m - lv
-        memory = self._ks_memory_complexity_helper_(m, n - a, k_hybrid)
+        _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
+        memory = self._ks_memory_complexity_helper_(m, n_reduced, k_reduced)
         return memory
