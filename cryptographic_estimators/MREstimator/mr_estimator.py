@@ -18,7 +18,6 @@
 
 from .mr_algorithm import MRAlgorithm
 from .mr_problem import MRProblem
-from .mr_constants import *
 from ..base_estimator import BaseEstimator
 from math import inf
 

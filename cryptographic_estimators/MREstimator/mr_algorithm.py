@@ -97,3 +97,9 @@ class MRAlgorithm(BaseAlgorithm):
         """
         q, _, _, _, r = self.problem.get_parameters()
         return (r * a + lv)  *  log2(q)
+
+    def __repr__(self):
+        """
+        """
+        q, m, n, k, r = self.problem.get_parameters()
+        return f"{self._name} estimator for the MinRank problem with (q, m, n, k, r) = ({q}, {m}, {n}, {k}, {r})"

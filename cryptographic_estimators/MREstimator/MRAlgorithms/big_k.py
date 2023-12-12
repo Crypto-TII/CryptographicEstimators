@@ -19,7 +19,7 @@ from ...MREstimator.mr_algorithm import MRAlgorithm
 from ...MREstimator.mr_problem import MRProblem
 from ...base_algorithm import optimal_parameter
 from math import log2, ceil
-from ..mr_constants import *
+from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, MR_NUMBER_OF_COEFFICIENTS_TO_GUESS
 
 
 class BigK(MRAlgorithm):
@@ -31,7 +31,7 @@ class BigK(MRAlgorithm):
 
     - ``problem`` -- an instance of the MRProblem class
     - ``w`` -- linear algebra constant (default: 3)
-    - ``theta`` -- exponent of the conversion factor (default: 2.81)
+    - ``theta`` -- exponent of the conversion factor (default: 2)
 
 
     EXAMPLES::
@@ -40,7 +40,7 @@ class BigK(MRAlgorithm):
         sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
         sage: E = BigK(MRProblem(q=7, m=9, n=10, k=15, r=4))
         sage: E
-        BigK estimator for the MinRank problem with (q, m, n, k, r) = (7,9,10,15,4)
+        BigK estimator for the MinRank problem with (q, m, n, k, r) = (7, 9, 10, 15, 4)
 
     """
 
@@ -133,8 +133,8 @@ class BigK(MRAlgorithm):
 
         TESTS::
 
-            sage:  from cryptographic_estimators.MREstimator.MRAlgorithms.big_k import BigK
-            sage:  from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.big_k import BigK
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: BK = BigK(MRProblem(q=16, m=15, n=15, k=78, r=6))
             sage: BK.memory_complexity(a=4, lv=4)
             14.45763738099176

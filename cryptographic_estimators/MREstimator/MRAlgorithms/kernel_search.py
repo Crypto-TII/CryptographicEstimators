@@ -19,7 +19,7 @@ from ...MREstimator.mr_algorithm import MRAlgorithm
 from ...MREstimator.mr_problem import MRProblem
 from ...base_algorithm import optimal_parameter
 from math import log2, ceil
-from ..mr_constants import *
+from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, MR_NUMBER_OF_COEFFICIENTS_TO_GUESS
 
 
 class KernelSearch(MRAlgorithm):
@@ -39,7 +39,7 @@ class KernelSearch(MRAlgorithm):
         sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
         sage: E = KernelSearch(MRProblem(q=7, m=9, n=10, k=15, r=4))
         sage: E
-        KernelSearch estimator for the MinRank problem with (q, m, n, k, r) = (7,9,10,15,4)
+        KernelSearch estimator for the MinRank problem with (q, m, n, k, r) = (7, 9, 10, 15, 4)
 
     """
 
@@ -51,6 +51,7 @@ class KernelSearch(MRAlgorithm):
         self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)))
         self.set_parameter_ranges('lv', 0, r)
         self._name = "KernelSearch"
+
 
     @optimal_parameter
     def a(self):
