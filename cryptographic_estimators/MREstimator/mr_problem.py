@@ -23,6 +23,7 @@ from sage.arith.misc import is_prime_power
 from sage.functions.other import ceil
 from math import log2
 
+
 class MRProblem(BaseProblem):
     """
     Construct an instance of MRProblem. Contains the parameters to optimize
@@ -46,7 +47,7 @@ class MRProblem(BaseProblem):
 
     """
 
-    def __init__(self, q: int, m: int, n: int, k: int, r: int,  **kwargs):
+    def __init__(self, q: int, m: int, n: int, k: int, r: int, **kwargs):
         super().__init__(**kwargs)
         self.parameters[MR_FIELD_SIZE] = q
         self.parameters[MR_NUMBER_OF_ROWS] = m
@@ -90,7 +91,6 @@ class MRProblem(BaseProblem):
         q = self.parameters[MR_FIELD_SIZE]
         theta = self._theta
         return ngates(q, basic_operations, theta=theta)
-
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
@@ -200,7 +200,7 @@ class MRProblem(BaseProblem):
             sage: MRP.nmatrices()
             16
         """
-        return self.length_solution_vector() +  1
+        return self.length_solution_vector() + 1
 
     def target_rank(self):
         """"
@@ -215,8 +215,6 @@ class MRProblem(BaseProblem):
         """
         return self.parameters[MR_TARGET_RANK]
 
-
-
     def __repr__(self):
         """
 
@@ -229,6 +227,6 @@ class MRProblem(BaseProblem):
         """
         q, m, n, k, r = self.get_parameters()
         rep = "MinRank problem with (q, m, n, k, r) = " \
-              + "("+ str(q) + "," + str(m) + "," + str(n) + "," + \
-              str(k) + "," + str(r)  + ")"
+              + "(" + str(q) + "," + str(m) + "," + str(n) + "," + \
+              str(k) + "," + str(r) + ")"
         return rep

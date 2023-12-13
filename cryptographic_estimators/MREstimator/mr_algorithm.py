@@ -20,6 +20,7 @@ from ..base_algorithm import BaseAlgorithm
 from .mr_problem import MRProblem
 from math import log2
 
+
 class MRAlgorithm(BaseAlgorithm):
     def __init__(self, problem: MRProblem, **kwargs):
         """
@@ -30,13 +31,21 @@ class MRAlgorithm(BaseAlgorithm):
         - ``problem`` -- MRProblem object including all necessary parameters
         - ``w`` -- linear algebra constant (default: 3)
 
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MREstimator.mr_algorithm import MRAlgorithm
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: E = MRAlgorithm(MRProblem(q=7, m=9, n=10, k=15, r=4))
+            sage: E
+            BaseMRAlgorithm estimator for the MinRank problem with (q, m, n, k, r) = (7, 9, 10, 15, 4)
+
         """
         super(MRAlgorithm, self).__init__(problem, **kwargs)
         w = kwargs.get("w", 3)
         self._w = w
         self._name = "BaseMRAlgorithm"
 
-        if  w < 2 or 3 < w:
+        if w < 2 or 3 < w:
             raise ValueError("w must be in the range 2 <= w <= 3")
 
     def linear_algebra_constant(self):
@@ -96,7 +105,7 @@ class MRAlgorithm(BaseAlgorithm):
         - ``lv``no. of entries to guess in the solution vector
         """
         q, _, _, _, r = self.problem.get_parameters()
-        return (r * a + lv)  *  log2(q)
+        return (r * a + lv) * log2(q)
 
     def __repr__(self):
         """

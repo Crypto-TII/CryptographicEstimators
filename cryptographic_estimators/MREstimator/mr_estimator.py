@@ -39,16 +39,6 @@ class MREstimator(BaseEstimator):
 
         sage: from cryptographic_estimators.MREstimator import MREstimator
         sage: MRE = MREstimator(q=16, m=15, n=15, k=78, r=6)
-        sage: MRE.table()
-        +---------------+----------------+
-        |               |    estimate    |
-        +---------------+-------+--------+
-        | algorithm     |  time | memory |
-        +---------------+-------+--------+
-        | SupportMinors | 144.0 |   11.8 |
-        | KernelSearch  | 147.7 |   14.3 |
-        | BigK          | 154.7 |   13.8 |
-        +---------------+-------+--------+
 
     """
     excluded_algorithms_by_default = []
@@ -165,6 +155,6 @@ class MREstimator(BaseEstimator):
 
             """
         super(MREstimator, self).table(show_quantum_complexity=show_quantum_complexity,
-                                          show_tilde_o_time=show_tilde_o_time,
-                                          show_all_parameters=show_all_parameters,
-                                          precision=precision, truncate=truncate)
+                                       show_tilde_o_time=show_tilde_o_time,
+                                       show_all_parameters=show_all_parameters,
+                                       precision=precision, truncate=truncate)

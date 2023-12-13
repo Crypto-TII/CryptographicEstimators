@@ -18,9 +18,11 @@
 from math import log2
 from enum import Enum
 
+
 class Variant(Enum):
-     strassen = 1
-     block_wiedemann = 2
+    strassen = 1
+    block_wiedemann = 2
+
 
 def _strassen_complexity_(rank, ncols):
     """Returns the complexity of Gaussian elimination using Strassen algorithm
@@ -31,7 +33,8 @@ def _strassen_complexity_(rank, ncols):
 
     """
     w = 2.81
-    return log2(7 * rank)  + (w - 1) * log2(ncols)
+    return log2(7 * rank) + (w - 1) * log2(ncols)
+
 
 def _bw_complexity_(row_density, ncols):
     """Returns the complexity of block Wiedemann to find elements in the kernel of a matrix
@@ -42,4 +45,3 @@ def _bw_complexity_(row_density, ncols):
 
     """
     return log2(3 * row_density) + 2 * log2(ncols)
-

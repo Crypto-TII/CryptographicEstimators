@@ -40,7 +40,6 @@ class KernelSearch(MRAlgorithm):
         sage: E = KernelSearch(MRProblem(q=7, m=9, n=10, k=15, r=4))
         sage: E
         KernelSearch estimator for the MinRank problem with (q, m, n, k, r) = (7, 9, 10, 15, 4)
-
     """
 
     def __init__(self, problem: MRProblem, **kwargs):
@@ -51,7 +50,6 @@ class KernelSearch(MRAlgorithm):
         self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)))
         self.set_parameter_ranges('lv', 0, r)
         self._name = "KernelSearch"
-
 
     @optimal_parameter
     def a(self):
@@ -65,6 +63,14 @@ class KernelSearch(MRAlgorithm):
             sage: KS = KernelSearch(MRProblem(q=7, m=9, n=10, k=15, r=4))
             sage: KS.a()
             1
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.kernel_search import KernelSearch
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: KS = KernelSearch(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            sage: KS.a()
+            4
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS)
 
@@ -80,6 +86,14 @@ class KernelSearch(MRAlgorithm):
             sage: KS = KernelSearch(MRProblem(q=7, m=9, n=10, k=15, r=4))
             sage: KS.lv()
             0
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.kernel_search import KernelSearch
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: KS = KernelSearch(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            sage: KS.lv()
+            3
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
@@ -87,15 +101,15 @@ class KernelSearch(MRAlgorithm):
         time = 0
         w = self._w
         if k > 0:
-           a = ceil(k / m)
-           time = (a * r) * log2(q) + w * log2(k)
+            a = ceil(k / m)
+            time = (a * r) * log2(q) + w * log2(k)
         return time
 
     def _ks_memory_complexity_helper_(self, m, n, k):
-        memory=0
-        if k>0:
-           memory = max(1, 2 * k * m * n)
-           memory = log2(memory)
+        memory = 0
+        if k > 0:
+            memory = max(1, 2 * k * m * n)
+            memory = log2(memory)
 
         return memory
 
@@ -112,12 +126,8 @@ class KernelSearch(MRAlgorithm):
             sage: from cryptographic_estimators.MREstimator.MRAlgorithms.kernel_search import KernelSearch
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: KS = KernelSearch(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            sage: KS.lv()
-            3
-            sage: KS.a()
-            4
-            sage: KS.time_complexity(a=4, lv=4)
-            151.4220647661728
+            sage: KS.time_complexity()
+            147.72067178682556
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
@@ -144,9 +154,8 @@ class KernelSearch(MRAlgorithm):
             sage: from cryptographic_estimators.MREstimator.MRAlgorithms.kernel_search import KernelSearch
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: KS = KernelSearch(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            sage: KS.memory_complexity(a=4, lv=4)
+            sage: KS.memory_complexity()
             14.17367713630342
-
         """
 
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]

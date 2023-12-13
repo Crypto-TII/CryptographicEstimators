@@ -24,10 +24,7 @@ from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, \
     MR_NUMBER_OF_COEFFICIENTS_TO_GUESS, \
     MR_REDUCED_NUMBER_OF_COLUMNS, \
     MR_LINEAR_VARIABLES_DEGREE, MR_VARIANT
-from ...MREstimator.mr_helper import Variant,_strassen_complexity_,_bw_complexity_
-
-
-
+from ...MREstimator.mr_helper import Variant, _strassen_complexity_, _bw_complexity_
 
 
 class SupportMinors(MRAlgorithm):
@@ -48,7 +45,6 @@ class SupportMinors(MRAlgorithm):
         sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
         sage: SM
         SupportMinors estimator for the MinRank problem with (q, m, n, k, r) = (7, 9, 10, 15, 4)
-
     """
 
     def __init__(self, problem: MRProblem, **kwargs):
@@ -58,12 +54,10 @@ class SupportMinors(MRAlgorithm):
         q, m, n, k, r = self.problem.get_parameters()
         self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m) - 1))
         self.set_parameter_ranges('lv', 0, r - 1)
-        self.set_parameter_ranges('b', 1, r+1)
+        self.set_parameter_ranges('b', 1, r + 1)
         self.set_parameter_ranges('nprime', r + 1, n)
         self.set_parameter_ranges('variant', 1, 2)
         self._name = "SupportMinors"
-
-
 
     @optimal_parameter
     def a(self):
@@ -77,6 +71,14 @@ class SupportMinors(MRAlgorithm):
             sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
             sage: SM.a()
             1
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: SM = SupportMinors(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            sage: SM.a()
+            5
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS)
 
@@ -92,6 +94,15 @@ class SupportMinors(MRAlgorithm):
             sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
             sage: SM.lv()
             0
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: SM = SupportMinors(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            sage: SM.lv()
+            0
+
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
@@ -105,6 +116,14 @@ class SupportMinors(MRAlgorithm):
             sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
+            sage: SM.b()
+            1
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: SM = SupportMinors(MRProblem(q=16, m=15, n=15, k=78, r=6))
             sage: SM.b()
             1
         """
@@ -122,6 +141,14 @@ class SupportMinors(MRAlgorithm):
             sage: SM = SupportMinors(MRProblem(q=7, m=9, n=10, k=15, r=4))
             sage: SM.nprime()
             8
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: SM = SupportMinors(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            sage: SM.nprime()
+            8
         """
         return self._get_optimal_parameter(MR_REDUCED_NUMBER_OF_COLUMNS)
 
@@ -137,12 +164,20 @@ class SupportMinors(MRAlgorithm):
             sage: SM = SupportMinors(MRProblem(q=7, m=9, n=9, k=20, r=4))
             sage: SM.variant()
             'block_wiedemann'
+
+        Tests::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: SM = SupportMinors(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            sage: SM.variant()
+            'block_wiedemann'
+
         """
 
-        return  Variant(self._get_optimal_parameter(MR_VARIANT)).name
+        return Variant(self._get_optimal_parameter(MR_VARIANT)).name
 
-
-    def _expected_dimension_of_support_minors_equations(self,q, m, n, K, r, b):
+    def _expected_dimension_of_support_minors_equations(self, q, m, n, K, r, b):
         """
         Return the expected number of linearly independent support minors equations
 
@@ -158,8 +193,7 @@ class SupportMinors(MRAlgorithm):
                  range(1, b + 1)])
         return temp
 
-
-    def _dimension(self,q, n, K, r, b):
+    def _dimension(self, q, n, K, r, b):
         """
         Dimension of the smallest vector space spanned by monomials containing the support minors equations
         """
@@ -169,7 +203,6 @@ class SupportMinors(MRAlgorithm):
             temp = binomial(n, r) * binomial(K + b - 1, b)
         return temp
 
-
     def _are_parameters_invalid(self, parameters: dict):
         """
         Specifies constraints on the parameters
@@ -178,10 +211,10 @@ class SupportMinors(MRAlgorithm):
         lv = parameters["lv"]
         b = parameters["b"]
         nprime = parameters["nprime"]
-        q, m, n_reduced, k_reduced, r =  self.get_problem_parameters_reduced(a, lv)
+        q, m, n_reduced, k_reduced, r = self.get_problem_parameters_reduced(a, lv)
         if nprime < r + b or nprime > n_reduced:
             return True
-        dim = self._dimension(q, nprime, k_reduced +  1, r, b) - 1
+        dim = self._dimension(q, nprime, k_reduced + 1, r, b) - 1
         exp = self._expected_dimension_of_support_minors_equations(q, m, nprime, k_reduced + 1, r, b)
         return dim >= exp
 
@@ -191,7 +224,7 @@ class SupportMinors(MRAlgorithm):
 
         else:
             time = _strassen_complexity_(rank=self._dimension(q, nprime, K, r, b) - 1,
-                                                            ncols=self._dimension(q, nprime, K, r, b))
+                                         ncols=self._dimension(q, nprime, K, r, b))
         return time
 
     def _sm_memory_complexity_helper_(self, q, K, r, nprime, b, variant):
@@ -217,19 +250,8 @@ class SupportMinors(MRAlgorithm):
             sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: SM = SupportMinors(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            sage: SM.a()
-            5
-            sage: SM.lv()
-            0
-            sage: SM.b()
-            1
-            sage: SM.nprime()
-            8
-            sage: SM.variant()
-            2
-            sage: SM.time_complexity(a=5,lv=0,b=1,nprime=8,variant=2)
+            sage: SM.time_complexity()
             144.00706423416636
-
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
@@ -260,10 +282,8 @@ class SupportMinors(MRAlgorithm):
             sage: from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: SM = SupportMinors(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            sage: SM.memory_complexity(a=5,lv=0,b=1,nprime=8,variant=2)
+            sage: SM.memory_complexity()
             11.807354922057604
-
-
         """
 
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
@@ -274,18 +294,16 @@ class SupportMinors(MRAlgorithm):
 
         q, m, n, k, r = self.problem.get_parameters()
 
-        memory = log2(log2(q)) +  log2(m * n) +  log2(k)
+        memory = log2(log2(q)) + log2(m * n) + log2(k)
         k_hybrid = k - a * m - lv
         if k_hybrid > 0:
             memory = self._sm_memory_complexity_helper_(q=q, K=k_hybrid + 1, r=r, nprime=nprime, b=b, variant=variant)
         return memory
-
 
     def get_optimal_parameters_dict(self):
         """
         Returns the optimal parameters dictionary
 
         """
-        self._optimal_parameters['variant']= Variant(self._optimal_parameters['variant']).name
+        self._optimal_parameters['variant'] = Variant(self._optimal_parameters['variant']).name
         return self._optimal_parameters
-    

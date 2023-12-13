@@ -41,7 +41,6 @@ class BigK(MRAlgorithm):
         sage: E = BigK(MRProblem(q=7, m=9, n=10, k=15, r=4))
         sage: E
         BigK estimator for the MinRank problem with (q, m, n, k, r) = (7, 9, 10, 15, 4)
-
     """
 
     def __init__(self, problem: MRProblem, **kwargs):
@@ -63,6 +62,14 @@ class BigK(MRAlgorithm):
             sage: BK = BigK(MRProblem(q=7, m=9, n=10, k=15, r=4))
             sage: BK.a()
             0
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.big_k import BigK
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: BK = BigK(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            sage: BK.a()
+            5
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS)
 
@@ -78,6 +85,14 @@ class BigK(MRAlgorithm):
             sage: BK = BigK(MRProblem(q=7, m=9, n=10, k=15, r=4))
             sage: BK.lv()
             0
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.big_k import BigK
+            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            sage: BK = BigK(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            sage: BK.lv()
+            3
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
@@ -101,25 +116,21 @@ class BigK(MRAlgorithm):
 
         - ``parameters`` -- dictionary including the parameters
 
+
         TESTS::
 
             sage: from cryptographic_estimators.MREstimator.MRAlgorithms.big_k import BigK
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: BK = BigK(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            sage: BK.lv()
-            3
-            sage: BK.a()
-            5
-            sage: BK.time_complexity(a=4, lv=4)
-            382.68645607148767
-
+            sage: BK.time_complexity()
+            154.68645949120517
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, n, k, r = self.problem.get_parameters()
         _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
-        time_complexity = self._bk_time_complexity_helper_(q, m,n_reduced, k_reduced, r)
+        time_complexity = self._bk_time_complexity_helper_(q, m, n_reduced, k_reduced, r)
         time += log2(2 ** time_complexity + min(k, (a * m)) ** self._w)
         return time
 
@@ -136,9 +147,8 @@ class BigK(MRAlgorithm):
             sage: from cryptographic_estimators.MREstimator.MRAlgorithms.big_k import BigK
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: BK = BigK(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            sage: BK.memory_complexity(a=4, lv=4)
-            14.45763738099176
-
+            sage: BK.memory_complexity()
+            13.813781191217037
 
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
