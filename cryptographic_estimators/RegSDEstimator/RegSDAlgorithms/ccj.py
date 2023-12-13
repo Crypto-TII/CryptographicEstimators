@@ -19,12 +19,12 @@ from ...base_algorithm import optimal_parameter
 from ..regsd_algorithm import RegSDAlgorithm
 from ..regsd_problem import RegSDProblem
 from ..regsd_helper import r_int
-from math import log2, comb as binomial, ceil, floor
-from types import SimpleNamespace
+from math import log2, ceil, inf
 
-class RegularISDEnum(RegSDAlgorithm):
+
+class CCJ(RegSDAlgorithm):
     """
-    Construct an instance of RegularISD-Enum estimator from [ES23]_
+    Construct an instance of CCJ estimator from [CCJ23]_
 
     INPUT:
 
@@ -33,25 +33,10 @@ class RegularISDEnum(RegSDAlgorithm):
 
     def __init__(self, problem: RegSDProblem, **kwargs):
         self._name = "RegularISD-Perm"
-        super(RegularISDEnum, self).__init__(problem, **kwargs)
+        super(CCJ, self).__init__(problem, **kwargs)
         n, k, w = self.problem.get_parameters()
 
-        self.set_parameter_ranges("p", 0, 30)
-        self.set_parameter_ranges("ell", 0, n-k)
-    @optimal_parameter
-    def p(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization
-        TODO update examples
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDEnum
-            sage: from cryptographic_estimators.SDEstimator import SDProblem
-            sage: A = Dumer(SDProblem(n=100,k=50,w=10))
-            sage: A.p()
-            2
-        """
-        return self._get_optimal_parameter("p")
+        self.set_parameter_ranges("ell", 0, min(k + w, n))
 
     @optimal_parameter
     def ell(self):
@@ -68,19 +53,6 @@ class RegularISDEnum(RegSDAlgorithm):
         """
         return self._get_optimal_parameter("ell")
 
-    def _are_parameters_invalid(self, parameters: dict):
-        """
-        return if the parameter set `parameters` is invalid
-
-        """
-        n, k, w = self.problem.get_parameters()
-        par = SimpleNamespace(**parameters)
-        k_prime = k - w
-        v = (k_prime + par.ell) / w
-        b = n/w
-        if w / 2 < par.p / 2 or v / b >= 1:
-            return True
-        return False
     def _valid_choices(self):
         """
         Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
@@ -89,17 +61,18 @@ class RegularISDEnum(RegSDAlgorithm):
         new_ranges = self._fix_ranges_for_already_set_parameters()
 
         n, k, w = self.problem.get_parameters()
-        k_prime = k - w
-        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]+1), 2):
-            ell_approx = max(1, log2(binomial(r_int(w / 2), p // 2)) +log2(k_prime / w) * (p / 2))
-            ell_min = r_int(ell_approx * 0.5)
-            ell_max = min(r_int(ell_approx * 1.5), n - k_prime)
 
-            for ell in range(max(new_ranges["ell"]["min"],ell_min), min(ell_max, new_ranges["ell"]["max"]+1)):
-                indices = {"p": p, "ell": ell}
-                if self._are_parameters_invalid(indices):
-                    continue
-                yield indices
+        # we first find a suitable range for the optimal value of ell
+        k_tilde_approx = k - (1 - k / n) / (1 - w / n) * w
+        L1_approx = log2(n / w) * (w * k_tilde_approx / (2 * n))
+        ell_approx = L1_approx
+        ell_min = ceil(ell_approx * 0.75)
+        ell_max = min(r_int(ell_approx * 1.5), n - k)
+        for ell in range(max(new_ranges["ell"]["min"], ell_min), min(ell_max, new_ranges["ell"]["max"] + 1)):
+            indices = {"ell": ell}
+            if self._are_parameters_invalid(indices):
+                continue
+            yield indices
 
     def _compute_time_and_memory_complexity(self, parameters: dict):
         """
@@ -112,22 +85,15 @@ class RegularISDEnum(RegSDAlgorithm):
         """
         n, k, w = self.problem.get_parameters()
         ell = parameters["ell"]
-        p = parameters["p"]
-        b = n//w
-
-        # add parity-checks
-        k_prime = k - w
-
-        v = (k_prime + ell) / w  # number of coordinates per block
-
-        # success probability
-        p_iter = log2(binomial(floor(w / 2), r_int(p / 2))) + log2(binomial(ceil(w / 2), r_int(p / 2))) + log2(
-            v / b) * p + log2(1 - v / b) * (w - p)
+        k_tilde = k - (1 - (ell + k) / n) / (1 - w / n) * w
+        if ell > (n - k_tilde):
+            return inf, inf
 
         # cost of one iteration
-        L = log2(binomial(r_int(w / 2), p // 2)) + log2(v) * (p / 2)
-        T_iter = max(log2(n - k_prime) * 2, 1 + L, L * 2 - ell)
+        L = (n / w) ** (w * (k_tilde + ell) / (2 * n))
+        num_coll = L ** 2 * 2 ** -ell
 
         # overall cost
-        time = T_iter - p_iter
-        return time, L
+        time = log2((n - k_tilde) ** 2 + (2 * L + num_coll))
+
+        return time, log2(L)

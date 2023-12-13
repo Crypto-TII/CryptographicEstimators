@@ -32,3 +32,36 @@ class RegSDAlgorithm(BaseAlgorithm):
         """
         super(RegSDAlgorithm, self).__init__(problem, **kwargs)
         self._name = "sample_name"
+
+    def _compute_time_and_memory_complexity(self, parameters: dict):
+        """
+        Returns the time and memory complexity of the algorithm for a given set of parameters
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+        """
+        raise NotImplementedError
+
+    def _compute_time_complexity(self, parameters: dict):
+        """
+        Return the time complexity of the algorithm for a given set of parameters
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+        """
+        return self._compute_time_and_memory_complexity(parameters)[0]
+
+    def _compute_memory_complexity(self, parameters: dict):
+        """
+        Return the memory complexity of the algorithm for a given set of parameters
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+        """
+        return self._compute_time_and_memory_complexity(parameters)[1]

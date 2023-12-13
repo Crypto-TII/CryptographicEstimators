@@ -18,7 +18,7 @@
 
 from ..base_problem import BaseProblem
 from math import log2
-from regsd_constants import *
+from .regsd_constants import *
 
 
 class RegSDProblem(BaseProblem):
@@ -46,8 +46,11 @@ class RegSDProblem(BaseProblem):
             raise ValueError("w must be smaller or equal to n/2")
         if n % w != 0:
             raise ValueError("w must divide n")
+
         if w <= 0 or k <= 0:
             raise ValueError("w and k must be at least 1")
+        if w>=k:
+            raise ValueError("w mst be smaller than k to ensure problem hardness")
         self.parameters[RegSD_CODE_LENGTH] = n
         self.parameters[RegSD_CODE_DIMENSION] = k
         self.parameters[RegSD_ERROR_WEIGHT] = w
