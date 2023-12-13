@@ -79,7 +79,7 @@ def test_all():
                 if q == 2 and A1 in [Bjorklund, DinurFirst, DinurSecond]:
                     Alg2 = A2(n=n, m=m)
                 else:
-                    Alg2 = A2(n=n, m=m, q=q)
+                    Alg2 = A2(n=n, m=m, q=q, w=2.81)
 
             except:
                 continue

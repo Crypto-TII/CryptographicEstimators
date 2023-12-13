@@ -102,9 +102,9 @@ class Lokshtanov(BaseAlgorithm):
             sage: from mpkc.algorithms import Lokshtanov
             sage: E = Lokshtanov(n=10, m=12, q=9)
             sage: float(log(E.time_complexity(), 2))
-            212.576588724275
+            209.40671314361995
             sage: float(log(E.time_complexity(δ=2/10), 2))
-            214.16804105519708
+            210.99814716112732
 
         TESTS::
 
@@ -200,7 +200,7 @@ class Lokshtanov(BaseAlgorithm):
         np = floor(delta * n)
         resulting_degree = 2 * (q - 1) * (np + 2)
         M = NMonomialSeries(n=n - np, q=q, max_prec=resulting_degree + 1).nmonomials_up_to_degree(resulting_degree)
-        return n * (q ** (n - np) + M * q ** np * n ** (6 * q))
+        return q ** (n - np) + M * q ** np * n ** (6 * q)
 
     def __repr__(self):
         return f"Lokshtanov et al.'s estimator for the MQ problem"

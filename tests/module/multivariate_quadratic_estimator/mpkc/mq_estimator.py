@@ -183,13 +183,13 @@ class MQEstimator(object):
             +------------------+--------+--------+---------------------------+
             |    algorithm     |  time  | memory |         parameters        |
             +------------------+--------+--------+---------------------------+
-            |        F5        | 27.747 | 23.158 |                           |
-            |     HybridF5     | 21.076 | 3.906  |           k: 14           |
-            |    DinurFirst    | 32.111 | 21.493 |      λ: 1/14, κ: 1/7      |
+            |        F5        | 27.065 | 23.158 |                           |
+            |     HybridF5     | 17.906 | 3.906  |           k: 14           |
+            |    DinurFirst    | 32.111 | 19.493 |      λ: 3/14, κ: 2/7      |
             |   DinurSecond    | 20.349 | 15.801 |           n1: 2           |
             | ExhaustiveSearch | 17.966 | 11.72  |                           |
             |    Bjorklund     | 42.451 | 15.316 |           λ: 1/5          |
-            |    Lokshtanov    | 67.123 | 16.105 |          δ: 1/15          |
+            |    Lokshtanov    | 63.357 | 16.105 |          δ: 1/15          |
             | BooleanSolveFXL  | 20.339 | 5.825  | k: 14, variant: las_vegas |
             |    Crossbred     | 17.672 | 16.785 |      D: 4, k: 9, d: 1     |
             +------------------+--------+--------+---------------------------+
@@ -202,10 +202,10 @@ class MQEstimator(object):
             +------------------+--------+--------+---------------------------+
             |    algorithm     |  time  | memory |         parameters        |
             +------------------+--------+--------+---------------------------+
-            |        F5        | 35.362 | 30.484 |                           |
-            |     HybridF5     | 28.541 |  8.55  |           k: 10           |
+            |        F5        | 34.391 | 30.484 |                           |
+            |     HybridF5     | 26.096 | 3.906  |           k: 14           |
             | ExhaustiveSearch | 24.076 | 11.72  |                           |
-            |    Lokshtanov    | 98.227 | 24.266 |          δ: 1/15          |
+            |    Lokshtanov    | 94.438 | 24.266 |          δ: 1/15          |
             | BooleanSolveFXL  | 28.529 | 5.711  | k: 14, variant: las_vegas |
             |    Crossbred     | 23.36  | 22.091 |      D: 5, k: 7, d: 1     |
             +------------------+--------+--------+---------------------------+
@@ -218,7 +218,7 @@ class MQEstimator(object):
             |    algorithm     |  time  | memory |         parameters        |
             +------------------+--------+--------+---------------------------+
             | ExhaustiveSearch | 24.076 | 11.72  |                           |
-            |    Lokshtanov    | 98.227 | 24.266 |          δ: 1/15          |
+            |    Lokshtanov    | 94.438 | 24.266 |          δ: 1/15          |
             | BooleanSolveFXL  | 28.529 | 5.711  | k: 14, variant: las_vegas |
             |    Crossbred     | 23.36  | 22.091 |      D: 5, k: 7, d: 1     |
             +------------------+--------+--------+---------------------------+
@@ -284,16 +284,16 @@ def min_npolynomials(security_level, q, w=2):
 
         sage: from mpkc.mq_estimator import min_npolynomials
         sage: min_npolynomials(security_level=80, q=16)
-        31
+        32
 
     TESTS::
 
         sage: min_npolynomials(security_level=80, q=31)
         30
         sage: min_npolynomials(security_level=80, q=256)
-        26
+        27
         sage: min_npolynomials(security_level=100, q=16)
-        40
+        41
         sage: min_npolynomials(security_level=100, q=31)
         38
         sage: min_npolynomials(security_level=100, q=256)
@@ -323,6 +323,6 @@ def min_nvariables(security_level, q, w=2):
 
         sage: from mpkc.mq_estimator import min_nvariables
         sage: min_nvariables(security_level=80, q=16)
-        31
+        32
     """
     return min_npolynomials(security_level, q, w)

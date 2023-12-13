@@ -147,17 +147,17 @@ class HybridF5(BaseAlgorithm):
             sage: from mpkc.algorithms import HybridF5
             sage: H = HybridF5(q=256, n=10, m=10)
             sage: H.time_complexity()
-            64128064000
+            23086103040
             sage: H.time_complexity(k=2)
-            1085517987840
+            411083735040
 
         TESTS::
 
             sage: H = HybridF5(q=256, n=10, m=15)
             sage: H.time_complexity()
-            15030015
+            7668375
             sage: H.time_complexity(k=2)
-            26763264000
+            14155776000
         """
         k = kwargs.get('k', self.k())
 
@@ -236,7 +236,7 @@ class HybridF5(BaseAlgorithm):
             sage: from mpkc.algorithms import HybridF5
             sage: E = HybridF5(n=10, m=12, q=7)
             sage: E.tilde_o_time()
-            59270400
+            29042496
         """
         return self.time_complexity()
 

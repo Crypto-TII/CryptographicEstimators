@@ -19,7 +19,7 @@
 from math import isinf
 from typing import Union, Callable
 from .helper import ComplexityType
-from .base_constants import BASE_TILDEO_ESTIMATE, BASE_ADDITIONALO, BASE_BIT_COMPLEXITIES, BASE_ESTIMATEO, BASE_EXCLUDED_ALGORITHMS, BASE_MEMORY, BASE_PARAMETERS, BASE_QUANTUMO, BASE_TIME
+from .base_constants import BASE_TILDEO_ESTIMATE, BASE_ADDITIONALO, BASE_BIT_COMPLEXITIES, BASE_ESTIMATEO, BASE_EXCLUDED_ALGORITHMS, BASE_MEMORY, BASE_PARAMETERS, BASE_QUANTUMO, BASE_TIME, BASE_ESTIMATOR_TYPE
 from .base_algorithm import BaseAlgorithm
 from .estimation_renderer import EstimationRenderer
 
@@ -59,6 +59,7 @@ class BaseEstimator(object):
         self.bit_complexities = self._bit_complexities
         self.include_tildeo = kwargs.get("include_tildeo", False)
         self.include_quantum = kwargs.get("include_quantum", False)
+        self._estimator_type = BASE_ESTIMATOR_TYPE
 
         included_algorithms = (Algorithm for Algorithm in alg.__subclasses__(
         ) if Algorithm not in excluded_algorithms)
@@ -138,6 +139,14 @@ class BaseEstimator(object):
             self.reset()
             for i in self._algorithms:
                 i.bit_complexities = new_bit_complexities
+
+    @property
+    def estimator_type(self):
+        """
+        Returns the type of the estimator. Either problem or scheme
+
+        """
+        return self._estimator_type
 
     def algorithms(self):
         """
@@ -260,6 +269,21 @@ class BaseEstimator(object):
 
         return self.estimates
 
+    def _table_problem(self, renderer, estimate):
+        """
+        Print table describing the complexity of each algorithm and its optimal parameters for problems
+
+        """
+        return renderer.as_table(estimate)
+    
+    def _table_scheme(self, renderer, estimate):
+        """
+        Print table describing the complexity of each algorithm and its optimal parameters for schemes
+
+        """
+        attack_type_list = [algorithm.attack_type for algorithm in self._algorithms]
+        return renderer.as_table(estimate, attack_type_list)
+
     def table(self, show_quantum_complexity=False, show_tilde_o_time=False, show_all_parameters=False, precision=1, truncate=False):
         """
         Print table describing the complexity of each algorithm and its optimal parameters
@@ -275,6 +299,9 @@ class BaseEstimator(object):
         """
         self.include_tildeo = show_tilde_o_time
         self.include_quantum = show_quantum_complexity
+        if all(self.complexity_type):
+            self.include_tildeo = show_tilde_o_time = True
+
         estimate = self.estimate()
 
         if estimate == {}:
@@ -285,7 +312,10 @@ class BaseEstimator(object):
             renderer = EstimationRenderer(
                 show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate
             )
-            renderer.as_table(estimate)
+            if self.estimator_type == BASE_ESTIMATOR_TYPE:
+                return self._table_problem(renderer, estimate)
+            else:
+                return self._table_scheme(renderer, estimate)
 
     def fastest_algorithm(self, use_tilde_o_time=False):
         """
