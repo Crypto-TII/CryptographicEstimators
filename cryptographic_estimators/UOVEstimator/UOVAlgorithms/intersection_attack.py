@@ -19,25 +19,22 @@
 from ..uov_algorithm import UOVAlgorithm
 from ..uov_problem import UOVProblem
 from math import log2, comb as binomial
-from ...MQEstimator.mq_problem import MQProblem
-from ...UOVEstimator.UOVAlgorithms import DirectAttack
+from ...MQEstimator.mq_estimator import MQEstimator
 
 
 class IntersectionAttack(UOVAlgorithm):
     """
     Construct an instance of Kipnis-Shamir estimator
 
-    Add reference to correponding paper here.
+    The intersection attack [Beu20]_ generalizes the ideas behind the Kipnis-Shamir attack, in
+    combination with a system-solving approach such as in the reconciliation attack.
 
     INPUT:
 
     - ``problem`` -- an instance of the UOVProblem class
-    - ``k`` -- (default: 3)
+    - ``k`` -- Number of vectors in the oil space (default: 2)
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
-
-    EXAMPLES::
-
 
     """
 
@@ -48,7 +45,7 @@ class IntersectionAttack(UOVAlgorithm):
 
         self._name = "IntersectionAttack"
         self._attack_type = "forgery"
-        self._k = kwargs.get("k", 3)
+        self._k = kwargs.get("k", 2)
 
         if n >= ((2 *self._k - 1)/(self._k - 1)) * m:
             raise ValueError('n should be less than (2*k-1)/(k-1)*m')
@@ -63,14 +60,18 @@ class IntersectionAttack(UOVAlgorithm):
 
         TESTS::
 
-            
+            sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.intersection_attack import IntersectionAttack
+            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
+            sage: E = IntersectionAttack(UOVProblem(n=24, m=10, q=2))
+            sage: E.time_complexity()
+            21.060021436183064
 
         """
         n, m, q = self.problem.get_parameters()
         k = self._k
         N = k * n - (2 * k - 1) * m
         M = binomial(k + 1, 2) * m - 2 * binomial(k, 2)
-        E = DirectAttack(MQProblem(n=N, m=M, q=q))
+        E = MQEstimator(n=N, m=M, q=q).fastest_algorithm()
         return E.time_complexity()
 
     def _compute_memory_complexity(self, parameters: dict):
@@ -83,14 +84,18 @@ class IntersectionAttack(UOVAlgorithm):
 
         TESTS::
 
-            
+            sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.intersection_attack import IntersectionAttack
+            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
+            sage: E = IntersectionAttack(UOVProblem(n=24, m=10, q=2))
+            sage: E.memory_complexity()     
+            13.147204924942228       
 
         """
         n, m, q = self.problem.get_parameters()
         k = self._k
         N = k * n - (2 * k - 1) * m
         M = binomial(k + 1, 2) * m - 2 * binomial(k, 2)
-        E = DirectAttack(MQProblem(n=N, m=M, q=q))
+        E = MQEstimator(n=N, m=M, q=q).fastest_algorithm()
         return max(E.memory_complexity(), log2(m * n ** 2))
     
     def _compute_tilde_o_time_complexity(self, parameters: dict):
