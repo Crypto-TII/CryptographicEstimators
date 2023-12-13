@@ -18,40 +18,38 @@
 
 from ..uov_algorithm import UOVAlgorithm
 from ..uov_problem import UOVProblem
-from math import log2
-from sage.arith.misc import is_power_of_two
+from ...MQEstimator.mq_estimator import MQEstimator
+from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
+from ...base_constants import BASE_MEMORY_BOUND, BASE_NSOLUTIONS, BASE_BIT_COMPLEXITIES, BASE_EXCLUDED_ALGORITHMS
+from math import log2, e
 
-
-class KipnisShamir(UOVAlgorithm):
+class CollisionAttack(UOVAlgorithm):
     """
-    Construct an instance of Kipnis-Shamir estimator
+    Construct an instance of CollisionAttack estimator
 
     Add reference to correponding paper here.
 
     INPUT:
 
     - ``problem`` -- an instance of the UOVProblem class
-    - ``gray_code_eval_cost`` -- logarithm of the cost to evaluate one polynomial using Gray-code enumeration (default: log(n))
+    - ``gray_code_eval_cost`` -- logarithm of the cost to evaluate one polynomial in one vector using Gray-code enumeration (default: log(n))
+    - ``X`` -- Number of inputs
+    - ``Y`` -- Number of salts
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
-
-    EXAMPLES::
-
 
     """
 
     def __init__(self, problem: UOVProblem, **kwargs):
         super().__init__(problem, **kwargs)
 
-        n, m, _ = self.problem.get_parameters()
-        
-        if n <= 2 * m:
-            raise ValueError('n should be greater than 2 * m')
-
-
-        self._name = "Kipnis-Shamir"
-        self._gray_code_eval_cost = kwargs.get("gray_code_eval_cost", log2(n))
+        self._name = "CollisionAttack"
         self._attack_type = "forgery"
+        self._alpha = 1.25
+        n = problem.npolynomials()
+        self._gray_code_eval_cost = kwargs.get("gray_code_eval_cost", log2(n))
+        self._X = kwargs.get("X")
+        self._Y = kwargs.get("Y")
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -63,19 +61,14 @@ class KipnisShamir(UOVAlgorithm):
 
         TESTS::
 
-            sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.kipnis_shamir import KipnisShamir
-            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
-            sage: E = KipnisShamir(UOVProblem(n=24, m=10, q=2))
-            sage: E.time_complexity()
-            13.251283982314517
+           
 
         """
-        n, m, q = self.problem.get_parameters()
-        gray_code_eval_cost = self._gray_code_eval_cost
-        time = (n - 2*m) * log2(q) 
-        time += log2(2 * (gray_code_eval_cost ** 2) + )
+        n, m, _ = self.problem.get_parameters()
 
-        return time + log2(n)
+        time = log2(3 * m * self._gray_code_eval_cost * self._X + (2 ** 18.5) *  self._Y)
+        time -= log2(1 - (e ** - self._alpha))
+        return time
 
     def _compute_memory_complexity(self, parameters: dict):
         """
@@ -87,15 +80,10 @@ class KipnisShamir(UOVAlgorithm):
 
         TESTS::
 
-            sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.kipnis_shamir import KipnisShamir
-            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
-            sage: E = KipnisShamir(UOVProblem(n=24, m=10, q=2))
-            sage: E.memory_complexity()
-            12.491853096329674
+            
 
         """
-        n, m, _ = self.problem.get_parameters()
-        return log2(m * (n ** 2))
+        
     
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
