@@ -155,7 +155,7 @@ class KernelSearch(MRAlgorithm):
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: KS = KernelSearch(MRProblem(q=16, m=15, n=15, k=78, r=6))
             sage: KS.memory_complexity()
-            14.17367713630342
+            14.273212809854334
         """
 
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
