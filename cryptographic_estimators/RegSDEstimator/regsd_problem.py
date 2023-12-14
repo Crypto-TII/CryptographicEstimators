@@ -49,7 +49,7 @@ class RegSDProblem(BaseProblem):
 
         if w <= 0 or k <= 0:
             raise ValueError("w and k must be at least 1")
-        if w>=k:
+        if w >= k:
             raise ValueError("w mst be smaller than k to ensure problem hardness")
         self.parameters[RegSD_CODE_LENGTH] = n
         self.parameters[RegSD_CODE_DIMENSION] = k
@@ -98,4 +98,5 @@ class RegSDProblem(BaseProblem):
         return list(self.parameters.values())
 
     def __repr__(self):
-        return "RegSDProblem"
+        n, k, w = self.get_parameters()
+        return "RegSDProblem with parameters (n, k, w) = ("+ str(n) + ", " + str(k) + ", " + str(w)+")"

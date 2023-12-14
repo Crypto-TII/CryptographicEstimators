@@ -30,11 +30,20 @@ class RegularISDRep(RegSDAlgorithm):
     INPUT:
 
     - ``problem`` -- an instance of the RegSDProblem class
+
+    EXAMPLES::
+
+    sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
+    sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
+    sage: A = RegularISDRep(RegSDProblem(n=100,k=50,w=10))
+    sage: A
+    RegularISD-Rep estimator for the RegSDProblem with parameters (n, k, w) = (100, 50, 10)
     """
 
     def __init__(self, problem: RegSDProblem, **kwargs):
-        self._name = "RegularISD-Perm"
+
         super(RegularISDRep, self).__init__(problem, **kwargs)
+        self._name = "RegularISD-Rep"
         n, k, w = self.problem.get_parameters()
 
         self.set_parameter_ranges("p", 0, 40)
@@ -46,14 +55,14 @@ class RegularISDRep(RegSDAlgorithm):
     def p(self):
         """
         Return the optimal parameter $p$ used in the algorithm optimization
-        TODO update examples
+
         EXAMPLES::
 
-            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDEnum
-            sage: from cryptographic_estimators.SDEstimator import SDProblem
-            sage: A = Dumer(SDProblem(n=100,k=50,w=10))
+            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
+            sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            sage: A = RegularISDRep(RegSDProblem(n=300,k=150,w=30))
             sage: A.p()
-            2
+            8
         """
         return self._get_optimal_parameter("p")
 
@@ -61,14 +70,14 @@ class RegularISDRep(RegSDAlgorithm):
     def ell(self):
         """
         Return the optimal parameter $p$ used in the algorithm optimization
-        TODO update examples
+
         EXAMPLES::
 
-            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDEnum
-            sage: from cryptographic_estimators.SDEstimator import SDProblem
-            sage: A = Dumer(SDProblem(n=100,k=50,w=10))
-            sage: A.p()
-            2
+            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
+            sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            sage: A = RegularISDRep(RegSDProblem(n=300,k=150,w=30))
+            sage: A.ell()
+            22
         """
         return self._get_optimal_parameter("ell")
 
@@ -76,14 +85,14 @@ class RegularISDRep(RegSDAlgorithm):
     def eps_x(self):
         """
         Return the optimal parameter $p$ used in the algorithm optimization
-        TODO update examples
+
         EXAMPLES::
 
-            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDEnum
-            sage: from cryptographic_estimators.SDEstimator import SDProblem
-            sage: A = Dumer(SDProblem(n=100,k=50,w=10))
-            sage: A.p()
-            2
+            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
+            sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            sage: A = RegularISDRep(RegSDProblem(n=300,k=150,w=30))
+            sage: A.eps_x()
+            0
         """
         return self._get_optimal_parameter("eps_x")
 
@@ -91,14 +100,14 @@ class RegularISDRep(RegSDAlgorithm):
     def eps_y(self):
         """
         Return the optimal parameter $p$ used in the algorithm optimization
-        TODO update examples
+
         EXAMPLES::
 
-            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDEnum
-            sage: from cryptographic_estimators.SDEstimator import SDProblem
-            sage: A = Dumer(SDProblem(n=100,k=50,w=10))
-            sage: A.p()
-            2
+            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
+            sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            sage: A = RegularISDRep(RegSDProblem(n=300,k=150,w=30))
+            sage: A.eps_y()
+            0
         """
         return self._get_optimal_parameter("eps_y")
 
@@ -190,3 +199,4 @@ class RegularISDRep(RegSDAlgorithm):
         time = T_iter - p_iter
         memory = max(L1, L_y1,L_x1)
         return time, memory
+

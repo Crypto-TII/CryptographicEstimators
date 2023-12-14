@@ -29,13 +29,21 @@ class RegularISDEnum(RegSDAlgorithm):
     INPUT:
 
     - ``problem`` -- an instance of the RegSDProblem class
+
+    EXAMPLES::
+
+    sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDEnum
+    sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
+    sage: A = RegularISDEnum(RegSDProblem(n=100,k=50,w=10))
+    sage: A
+    RegularISD-Enum estimator for the RegSDProblem with parameters (n, k, w) = (100, 50, 10)
     """
 
     def __init__(self, problem: RegSDProblem, **kwargs):
-        self._name = "RegularISD-Perm"
+
         super(RegularISDEnum, self).__init__(problem, **kwargs)
         n, k, w = self.problem.get_parameters()
-
+        self._name = "RegularISD-Enum"
         self.set_parameter_ranges("p", 0, 30)
         self.set_parameter_ranges("ell", 0, n-k)
     @optimal_parameter
@@ -46,10 +54,10 @@ class RegularISDEnum(RegSDAlgorithm):
         EXAMPLES::
 
             sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDEnum
-            sage: from cryptographic_estimators.SDEstimator import SDProblem
-            sage: A = Dumer(SDProblem(n=100,k=50,w=10))
+            sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            sage: A = RegularISDEnum(RegSDProblem(n=100,k=50,w=10))
             sage: A.p()
-            2
+            4
         """
         return self._get_optimal_parameter("p")
 
@@ -61,10 +69,10 @@ class RegularISDEnum(RegSDAlgorithm):
         EXAMPLES::
 
             sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDEnum
-            sage: from cryptographic_estimators.SDEstimator import SDProblem
-            sage: A = Dumer(SDProblem(n=100,k=50,w=10))
-            sage: A.p()
-            2
+            sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            sage: A = RegularISDEnum(RegSDProblem(n=100,k=50,w=10))
+            sage: A.ell()
+            4
         """
         return self._get_optimal_parameter("ell")
 

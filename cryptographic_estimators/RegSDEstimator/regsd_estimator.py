@@ -56,6 +56,40 @@ class RegSDEstimator(BaseEstimator):
         - ``show_all_parameters`` -- show all optimization parameters (default: False)
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: False)
+
+        EXAMPLES:
+
+        sage: from cryptographic_estimators.RegSDEstimator import RegSDEstimator
+        sage: A=RegSDEstimator(n=954, k=582, w=106)
+        sage: A.table(show_all_parameters=1)
+        +----------------+---------------------------------------------------------------------------------------+
+        |                |                                        estimate                                       |
+        +----------------+-------+--------+----------------------------------------------------------------------+
+        | algorithm      |  time | memory |                              parameters                              |
+        +----------------+-------+--------+----------------------------------------------------------------------+
+        | RegularISDPerm | 133.4 |   18.8 |                                  {}                                  |
+        | RegularISDEnum | 114.8 |   31.1 |                         {'p': 6, 'ell': 20}                          |
+        | RegularISDRep  | 112.7 |   60.3 |             {'p': 24, 'ell': 96, 'eps_x': 4, 'eps_y': 0}             |
+        | CCJ            | 129.1 |  127.6 |                             {'ell': 118}                             |
+        | SDAttack       | 155.1 |  118.9 | {'r': 6, 'depth': 2, 'p': 32, 'p1': 19, 'l': 212, 'variant': 'BJMM'} |
+        +----------------+-------+--------+----------------------------------------------------------------------+
+
+        TESTS:
+
+        sage: from cryptographic_estimators.RegSDEstimator import RegSDEstimator
+        sage: A=RegSDEstimator(n=2320, k=1210, w=40)
+        sage: A.table(show_all_parameters=1)
+        +----------------+-----------------------------------------------------------------------------------+
+        |                |                                      estimate                                     |
+        +----------------+------+--------+-------------------------------------------------------------------+
+        | algorithm      | time | memory |                             parameters                            |
+        +----------------+------+--------+-------------------------------------------------------------------+
+        | RegularISDPerm | 72.0 |   21.3 |                                 {}                                |
+        | RegularISDEnum | 57.4 |   28.5 |                        {'p': 4, 'ell': 15}                        |
+        | RegularISDRep  | 59.0 |   41.0 |            {'p': 8, 'ell': 34, 'eps_x': 0, 'eps_y': 0}            |
+        | CCJ            | 75.8 |   74.7 |                            {'ell': 67}                            |
+        | SDAttack       | 59.0 |   27.7 | {'r': 8, 'depth': 2, 'p': 2, 'p1': 1, 'l': 20, 'variant': 'BJMM'} |
+        +----------------+------+--------+-------------------------------------------------------------------+
         """
         super(RegSDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                           show_tilde_o_time=show_tilde_o_time,
