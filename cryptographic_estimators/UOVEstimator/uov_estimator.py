@@ -68,48 +68,74 @@ class UOVEstimator(BaseEstimator):
         EXAMPLES::
 
             sage: from cryptographic_estimators.UOVEstimator import UOVEstimator
-            sage: A = UOVEstimator(n=14, m=12, q=8)
-            sage: A.table()
-            +--------------+--------------+---------------+
-            |              |              |    estimate   |
-            +--------------+--------------+------+--------+
-            | algorithm    | attack_type  | time | memory |
-            +--------------+--------------+------+--------+
-            | DirectAttack | key-recovery | 33.2 |   21.8 |
-            +--------------+--------------+------+--------+
+            sage: A = UOVEstimator(n=24, m=10, q=2)
+            sage: A.table() # long time
+            +--------------------+--------------+---------------+------------------+
+            |                    |              |    estimate   | tilde_o_estimate |
+            +--------------------+--------------+------+--------+-------+----------+
+            | algorithm          | attack_type  | time | memory |  time |   memory |
+            +--------------------+--------------+------+--------+-------+----------+
+            | DirectAttack       | key-recovery | 11.2 |    9.5 |   8.0 |      9.5 |
+            | KipnisShamir       |   forgery    | 14.1 |   12.5 |    -- |       -- |
+            | CollisionAttack    |   forgery    |  7.8 |   12.5 |    -- |       -- |
+            | IntersectionAttack | key-recovery | 35.3 |   13.2 |    -- |       -- |
+            +--------------------+--------------+------+--------+-------+----------+
 
         TESTS::
 
-            sage: from cryptographic_estimators.UOVEstimator import UOVEstimator
+            from cryptographic_estimators.UOVEstimator import UOVEstimator
             sage: A = UOVEstimator(n=112, m=44, q=256)
             sage: A.table() # long time
-            +--------------+--------------+----------------+
-            |              |              |    estimate    |
-            +--------------+--------------+-------+--------+
-            | algorithm    | attack_type  |  time | memory |
-            +--------------+--------------+-------+--------+
-            | DirectAttack | key-recovery | 144.5 |   59.5 |
-            +--------------+--------------+-------+--------+
+            +--------------------+--------------+----------------+
+            |                    |              |    estimate    |
+            +--------------------+--------------+-------+--------+
+            | algorithm          | attack_type  |  time | memory |
+            +--------------------+--------------+-------+--------+
+            | DirectAttack       | key-recovery | 144.5 |   59.5 |
+            | KipnisShamir       |   forgery    | 211.4 |   22.1 |
+            | CollisionAttack    |   forgery    | 186.1 |   22.1 |
+            | IntersectionAttack | key-recovery | 180.5 |   76.4 |
+            +--------------------+--------------+-------+--------+
 
-            sage: A = UOVEstimator(n=66, m=64, q=16)
-            sage: A.table(show_tilde_o_time=1) # long time
-            +--------------+--------------+----------------+------------------+
-            |              |              |    estimate    | tilde_o_estimate |
-            +--------------+--------------+-------+--------+-------+----------+
-            | algorithm    | attack_type  |  time | memory |  time |   memory |
-            +--------------+--------------+-------+--------+-------+----------+
-            | DirectAttack | key-recovery | 166.1 |   48.1 | 150.2 |     45.1 |
-            +--------------+--------------+-------+--------+-------+----------+
+            sage: A = UOVEstimator(n=160, m=64, q=16)
+            sage: A.table() # long time
+            +--------------------+--------------+----------------+
+            |                    |              |    estimate    |
+            +--------------------+--------------+-------+--------+
+            | algorithm          | attack_type  |  time | memory |
+            +--------------------+--------------+-------+--------+
+            | DirectAttack       | key-recovery | 164.0 |   53.0 |
+            | KipnisShamir       |   forgery    | 146.2 |   22.6 |
+            | CollisionAttack    |   forgery    | 136.4 |   22.6 |
+            | IntersectionAttack | key-recovery | 208.6 |   94.0 |
+            +--------------------+--------------+-------+--------+
 
-            sage: A = UOVEstimator(n=78, m=64, q=16)
-            sage: A.table(show_tilde_o_time=1) # long time
-            +--------------+--------------+----------------+------------------+
-            |              |              |    estimate    | tilde_o_estimate |
-            +--------------+--------------+-------+--------+-------+----------+
-            | algorithm    | attack_type  |  time | memory |  time |   memory |
-            +--------------+--------------+-------+--------+-------+----------+
-            | DirectAttack | key-recovery | 166.1 |   48.1 | 150.2 |     45.1 |
-            +--------------+--------------+-------+--------+-------+----------+
+            sage: A = UOVEstimator(n=184, m=72, q=256)
+            sage: A.table() # long time
+            +--------------------+--------------+----------------+
+            |                    |              |    estimate    |
+            +--------------------+--------------+-------+--------+
+            | algorithm          | attack_type  |  time | memory |
+            +--------------------+--------------+-------+--------+
+            | DirectAttack       | key-recovery | 216.9 |   87.0 |
+            | KipnisShamir       |   forgery    | 340.4 |   24.2 |
+            | CollisionAttack    |   forgery    | 298.5 |   24.2 |
+            | IntersectionAttack | key-recovery | 264.6 |  117.8 |
+            +--------------------+--------------+-------+--------+
+
+            sage: A = UOVEstimator(n=244, m=96, q=256)
+            sage: A.table() # long time
+            +--------------------+--------------+----------------+
+            |                    |              |    estimate    |
+            +--------------------+--------------+-------+--------+
+            | algorithm          | attack_type  |  time | memory |
+            +--------------------+--------------+-------+--------+
+            | DirectAttack       | key-recovery | 276.8 |  108.6 |
+            | KipnisShamir       |   forgery    | 437.0 |   25.4 |
+            | CollisionAttack    |   forgery    | 394.8 |   25.4 |
+            | IntersectionAttack | key-recovery | 326.1 |  148.1 |
+            +--------------------+--------------+-------+--------+
+
         """
         super(UOVEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                           show_tilde_o_time=show_tilde_o_time,

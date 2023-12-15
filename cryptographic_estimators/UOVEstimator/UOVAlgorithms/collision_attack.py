@@ -15,26 +15,27 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-
 from ..uov_algorithm import UOVAlgorithm
 from ..uov_problem import UOVProblem
 from ...MQEstimator.mq_estimator import MQEstimator
-from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
+from ...base_algorithm import optimal_parameter
 from ...base_constants import BASE_MEMORY_BOUND, BASE_NSOLUTIONS, BASE_BIT_COMPLEXITIES, BASE_EXCLUDED_ALGORITHMS
 from math import log2, e
+
 
 class CollisionAttack(UOVAlgorithm):
     """
     Construct an instance of CollisionAttack estimator
 
-    Add reference to correponding paper here.
+    Collision attack is a general attack which works against any signature which 
+    follows the hash-and-sign paradigm. 
 
     INPUT:
 
     - ``problem`` -- an instance of the UOVProblem class
     - ``gray_code_eval_cost`` -- logarithm of the cost to evaluate one polynomial in one vector using Gray-code enumeration (default: log(n))
-    - ``X`` -- Number of inputs
-    - ``Y`` -- Number of salts
+    - ``X`` -- Number of preimages
+    - ``Y`` -- Number of variables in the salt space
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
 
@@ -46,10 +47,42 @@ class CollisionAttack(UOVAlgorithm):
         self._name = "CollisionAttack"
         self._attack_type = "forgery"
         self._alpha = 1.25
-        n = problem.npolynomials()
+        n = problem.nvariables()
         self._gray_code_eval_cost = kwargs.get("gray_code_eval_cost", log2(n))
-        self._X = kwargs.get("X")
-        self._Y = kwargs.get("Y")
+        self.set_parameter_ranges('X', 1, n)
+        self.set_parameter_ranges('Y', 1, n)
+
+    @optimal_parameter
+    def X(self):
+        """
+        Return the optimal `X`, i.e. no. of inputs (preimages)
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.collision_attack import CollisionAttack
+            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
+            sage: E = CollisionAttack(UOVProblem(n=24, m=10, q=2))
+            sage: E.X()
+            1
+
+        """
+        return self._get_optimal_parameter('X')
+    
+    @optimal_parameter
+    def Y(self):
+        """
+        Return the optimal `Y`, i.e. no. of variables in the salt space
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.collision_attack import CollisionAttack
+            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
+            sage: E = CollisionAttack(UOVProblem(n=24, m=10, q=2))
+            sage: E.Y()
+            1
+
+        """
+        return self._get_optimal_parameter('Y')
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -61,13 +94,18 @@ class CollisionAttack(UOVAlgorithm):
 
         TESTS::
 
-           
+            sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.collision_attack import CollisionAttack
+            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
+            sage: E = CollisionAttack(UOVProblem(n=24, m=10, q=2))
+            sage: E.time_complexity())
+            7.759419014654298
 
         """
-        n, m, _ = self.problem.get_parameters()
-
-        time = log2(3 * m * self._gray_code_eval_cost * self._X + (2 ** 18.5) *  self._Y)
-        time -= log2(1 - (e ** - self._alpha))
+        _, m, q = self.problem.get_parameters()
+        X = parameters['X']
+        Y = parameters['Y']
+        r = self._gray_code_eval_cost
+        time = log2(((q ** m) * m * r) ** (1/2))
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
@@ -80,10 +118,15 @@ class CollisionAttack(UOVAlgorithm):
 
         TESTS::
 
-            
+            sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.collision_attack import CollisionAttack
+            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
+            sage: E = CollisionAttack(UOVProblem(n=24, m=10, q=2))
+            sage: E.memory_complexity())
+            12.491853096329674
 
         """
-        
+        n, m, _ = self.problem.get_parameters()
+        return log2(m * (n ** 2))
     
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """

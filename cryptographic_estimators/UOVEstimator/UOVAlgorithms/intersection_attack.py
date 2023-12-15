@@ -20,6 +20,9 @@ from ..uov_algorithm import UOVAlgorithm
 from ..uov_problem import UOVProblem
 from math import log2, comb as binomial
 from ...MQEstimator.mq_estimator import MQEstimator
+from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+from ...MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
+from ...base_constants import BASE_EXCLUDED_ALGORITHMS
 
 
 class IntersectionAttack(UOVAlgorithm):
@@ -44,12 +47,12 @@ class IntersectionAttack(UOVAlgorithm):
         n, m, _ = self.problem.get_parameters()
 
         self._name = "IntersectionAttack"
-        self._attack_type = "forgery"
+        self._attack_type = "key-recovery"
         self._k = kwargs.get("k", 2)
 
-        if n >= ((2 *self._k - 1)/(self._k - 1)) * m:
-            raise ValueError('n should be less than (2*k-1)/(k-1)*m')
-
+        if n >= 3 * m:
+            raise ValueError('n should be less than 3 * m')
+        
     def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
@@ -64,15 +67,15 @@ class IntersectionAttack(UOVAlgorithm):
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
             sage: E = IntersectionAttack(UOVProblem(n=24, m=10, q=2))
             sage: E.time_complexity()
-            21.060021436183064
+            35.32691224401869
 
         """
         n, m, q = self.problem.get_parameters()
         k = self._k
-        N = k * n - (2 * k - 1) * m
-        M = binomial(k + 1, 2) * m - 2 * binomial(k, 2)
-        E = MQEstimator(n=N, m=M, q=q).fastest_algorithm()
-        return E.time_complexity()
+        M = 3 * m
+        N = 2 * n - 3 * m
+        E = BooleanSolveFXL(MQProblem(n=N, m=M, q=q))
+        return E.time_complexity(k=k, variant='las_vegas')
 
     def _compute_memory_complexity(self, parameters: dict):
         """
@@ -88,15 +91,15 @@ class IntersectionAttack(UOVAlgorithm):
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
             sage: E = IntersectionAttack(UOVProblem(n=24, m=10, q=2))
             sage: E.memory_complexity()     
-            13.147204924942228       
+            13.246740598493144  
 
         """
         n, m, q = self.problem.get_parameters()
         k = self._k
-        N = k * n - (2 * k - 1) * m
-        M = binomial(k + 1, 2) * m - 2 * binomial(k, 2)
-        E = MQEstimator(n=N, m=M, q=q).fastest_algorithm()
-        return max(E.memory_complexity(), log2(m * n ** 2))
+        M = 3 * m
+        N = 2 * n - 3 * m
+        E = BooleanSolveFXL(MQProblem(n=N, m=M, q=q))
+        return E.memory_complexity(k=k, variant='las_vegas')
     
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """

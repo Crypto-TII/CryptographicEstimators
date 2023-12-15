@@ -26,7 +26,10 @@ class KipnisShamir(UOVAlgorithm):
     """
     Construct an instance of Kipnis-Shamir estimator
 
-    Add reference to correponding paper here.
+    in []_, Kipnis and Shamir proposed a powerful attack against the balanced Oil
+    and Vinegar signature scheme (n = 2v), which finds an equivalent private key in
+    polynomial time. This key can then be used to generate signatures for arbitrary
+    messages.
 
     INPUT:
 
@@ -70,10 +73,9 @@ class KipnisShamir(UOVAlgorithm):
 
         """
         n, m, q = self.problem.get_parameters()
-        gray_code_eval_cost = self._gray_code_eval_cost
+        r = self._gray_code_eval_cost
         time = (n - 2*m) * log2(q) 
-        time += log2(2 * (self._gray_code_eval_cost ** 2) + self._gray_code_eval_cost)
-
+        time += log2(2 * (r ** 2) + r)
         return time + log2(n)
 
     def _compute_memory_complexity(self, parameters: dict):
