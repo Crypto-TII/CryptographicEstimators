@@ -83,7 +83,7 @@ class UOVEstimator(BaseEstimator):
 
         TESTS::
 
-            from cryptographic_estimators.UOVEstimator import UOVEstimator
+            sage: from cryptographic_estimators.UOVEstimator import UOVEstimator
             sage: A = UOVEstimator(n=112, m=44, q=256)
             sage: A.table() # long time
             +--------------------+--------------+----------------+
