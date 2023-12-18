@@ -45,7 +45,7 @@ jobs:
         mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
     - name: Generate documentation
-      run: docker run --rm -v $PWD:/home/cryptographic_estimators/ cryptographic-estimators make doc
+      run: docker run --rm -v $PWD:/home/cryptographic_estimators/ estimators-lib make doc
 
     - name: Commit & Push changes
       uses: actions-js/push@master

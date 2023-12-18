@@ -15,26 +15,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
+MR_VARIANT = "variant"
+MR_STRASSEN = "strassen"
+MR_BLOCK_WIEDEMANN = "block-wiedemann"
 
-BASE_BIT_COMPLEXITIES = "bit_complexities"
-BASE_COMPLEXITY_TYPE = "complexity_type"
-BASE_MEMORY_ACCESS = "memory_access"
-BASE_MEMORY_BOUND = "memory_bound"
-BASE_ESTIMATE = "ESTIMATE"
-BASE_TILDEO = "TILDEO"
-
-BASE_EXCLUDED_ALGORITHMS = "excluded_algorithms"
-
-BASE_ESTIMATEO = "estimate"
-BASE_TILDEO_ESTIMATE = "tilde_o_estimate"
-BASE_QUANTUMO = "quantum_estimate"
-BASE_ADDITIONALO = "additional_information"
-
-BASE_TIME = "time"
-BASE_MEMORY = "memory"
-BASE_PARAMETERS = "parameters"
-BASE_ALGORITHM = "algorithm"
-BASE_NSOLUTIONS = "nsolutions"
-
-BASE_ATTACK_TYPE = "algorithm"
-BASE_ESTIMATOR_TYPE = "problem"
+MR_FIELD_SIZE = "field size"
+MR_NUMBER_OF_ROWS = "number of rows"
+MR_NUMBER_OF_COLUMNS = "number of columns"
+MR_LENGTH_SOLUTION_VECTOR = "size of the solution vector"
+MR_TARGET_RANK = "target rank"
+MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS = "a"
+MR_NUMBER_OF_COEFFICIENTS_TO_GUESS = "lv"
+MR_REDUCED_NUMBER_OF_COLUMNS = "nprime"
+MR_LINEAR_VARIABLES_DEGREE = "b"

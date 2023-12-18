@@ -15,26 +15,33 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
+from math import log2
+from enum import Enum
 
-BASE_BIT_COMPLEXITIES = "bit_complexities"
-BASE_COMPLEXITY_TYPE = "complexity_type"
-BASE_MEMORY_ACCESS = "memory_access"
-BASE_MEMORY_BOUND = "memory_bound"
-BASE_ESTIMATE = "ESTIMATE"
-BASE_TILDEO = "TILDEO"
 
-BASE_EXCLUDED_ALGORITHMS = "excluded_algorithms"
+class Variant(Enum):
+    strassen = 1
+    block_wiedemann = 2
 
-BASE_ESTIMATEO = "estimate"
-BASE_TILDEO_ESTIMATE = "tilde_o_estimate"
-BASE_QUANTUMO = "quantum_estimate"
-BASE_ADDITIONALO = "additional_information"
 
-BASE_TIME = "time"
-BASE_MEMORY = "memory"
-BASE_PARAMETERS = "parameters"
-BASE_ALGORITHM = "algorithm"
-BASE_NSOLUTIONS = "nsolutions"
+def _strassen_complexity_(rank, ncols):
+    """Returns the complexity of Gaussian elimination using Strassen algorithm
 
-BASE_ATTACK_TYPE = "algorithm"
-BASE_ESTIMATOR_TYPE = "problem"
+     INPUT:
+     - ``rank`` -- target rank
+     - ``ncols`` -- no. of columns
+
+    """
+    w = 2.81
+    return log2(7 * rank) + (w - 1) * log2(ncols)
+
+
+def _bw_complexity_(row_density, ncols):
+    """Returns the complexity of block Wiedemann to find elements in the kernel of a matrix
+
+     INPUT:
+    - ``row_density`` -- row density
+    - ``ncols`` -- no. of columns
+
+    """
+    return log2(3 * row_density) + 2 * log2(ncols)
