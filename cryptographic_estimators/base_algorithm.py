@@ -350,7 +350,7 @@ class BaseAlgorithm:
         """
         parameters = self._optimal_parameters
         ranges = self._parameter_ranges
-        new_ranges = {i: ranges[i].copy() if i not in parameters else {"min": parameters[i], "max": parameters[i] + 1}
+        new_ranges = {i: ranges[i].copy() if i not in parameters else {"min": parameters[i], "max": parameters[i]}
                       for i in ranges}
         return new_ranges
 
