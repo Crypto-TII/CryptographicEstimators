@@ -37,7 +37,6 @@ class IntersectionAttack(UOVAlgorithm):
         INPUT:
 
         - ``problem`` -- an instance of the UOVProblem class
-        - ``k`` -- Number of vectors in the oil space (default: 2)
         - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
         - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
 
@@ -84,10 +83,6 @@ class IntersectionAttack(UOVAlgorithm):
             sage: E = IntersectionAttack(UOVProblem(n=24, m=10, q=2))
             sage: E.time_complexity()
             23.339850002884624
-
-            sage: E = IntersectionAttack(UOVProblem(n=160, m=64, q=16, theta=None), k=3)
-            sage: E.time_complexity() # long time
-            176.21340007682272
 
         """
         n, m, q = self.problem.get_parameters()

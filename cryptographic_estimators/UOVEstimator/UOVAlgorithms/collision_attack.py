@@ -19,6 +19,7 @@ from ..uov_algorithm import UOVAlgorithm
 from ..uov_problem import UOVProblem
 from ...MQEstimator.mq_estimator import MQEstimator
 from ...base_algorithm import optimal_parameter
+from ...helper import round_or_truncate
 from ...base_constants import BASE_MEMORY_BOUND, BASE_NSOLUTIONS, BASE_BIT_COMPLEXITIES, BASE_EXCLUDED_ALGORITHMS
 from math import log2, e
 
@@ -47,10 +48,9 @@ class CollisionAttack(UOVAlgorithm):
         self._name = "CollisionAttack"
         self._attack_type = "forgery"
         self._alpha = 1.25
-        n = problem.nvariables()
-        self._gray_code_eval_cost = kwargs.get("gray_code_eval_cost", log2(n))
-        self.set_parameter_ranges('X', 1, n)
-        self.set_parameter_ranges('Y', 1, n)
+        q = problem.order_of_the_field()
+        self._gray_code_eval_cost = kwargs.get("gray_code_eval_cost", log2(q))
+
 
     @optimal_parameter
     def X(self):
@@ -63,15 +63,21 @@ class CollisionAttack(UOVAlgorithm):
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
             sage: E = CollisionAttack(UOVProblem(n=24, m=10, q=2))
             sage: E.X()
-            1
+            11.95
 
         """
-        return self._get_optimal_parameter('X')
+        _, m, q = self.problem.get_parameters()
+        alpha = self._alpha
+        r = self._gray_code_eval_cost
+        X = 9.25  +  (1 / 2) * (-log2(3 * m * r)  + log2(alpha) + m * log2(q))
+        precision = 2
+        X_truncated = float(int(X * 10 ** precision) / 10 ** precision)
+        return X_truncated
     
     @optimal_parameter
     def Y(self):
         """
-        Return the optimal `Y`, i.e. no. of variables in the salt space
+        Return logarithm of the optimal `Y`, i.e. logarithm of no. of hashes to compute
 
         EXAMPLES::
 
@@ -79,10 +85,16 @@ class CollisionAttack(UOVAlgorithm):
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
             sage: E = CollisionAttack(UOVProblem(n=24, m=10, q=2))
             sage: E.Y()
-            1
+            0.0
 
         """
-        return self._get_optimal_parameter('Y')
+        X =  self.X()
+        alpha = self._alpha
+        _, m, q = self.problem.get_parameters()
+        Y = max(log2(alpha) + m * log2(q) - X, 0)
+        precision = 2
+        Y_truncated = float(int(Y * 10 ** precision) / 10 ** precision)
+        return Y_truncated
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -97,15 +109,20 @@ class CollisionAttack(UOVAlgorithm):
             sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.collision_attack import CollisionAttack
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
             sage: E = CollisionAttack(UOVProblem(n=24, m=10, q=2))
-            sage: E.time_complexity())
-            7.759419014654298
+            sage: E.time_complexity()
+            17.387737896811494
 
         """
         _, m, q = self.problem.get_parameters()
-        X = parameters['X']
-        Y = parameters['Y']
+        X = self.X()
+        Y = self.Y()
+        alpha = self._alpha
         r = self._gray_code_eval_cost
-        time = log2(((q ** m) * m * r) ** (1/2))
+        time_temp = int((3 / 2) * m * r * 2 ** X) + int(2 ** 17.5 * 2 ** Y)
+        time_in_bits = log2(time_temp)
+        time_in_bits += log2(1/(1 - e ** (-alpha)))
+        cost_one_field_mult = self.problem.to_bitcomplexity_time(1)
+        time = time_in_bits - cost_one_field_mult
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
@@ -121,12 +138,16 @@ class CollisionAttack(UOVAlgorithm):
             sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.collision_attack import CollisionAttack
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
             sage: E = CollisionAttack(UOVProblem(n=24, m=10, q=2))
-            sage: E.memory_complexity())
+            sage: E.memory_complexity()
             12.491853096329674
 
         """
-        n, m, _ = self.problem.get_parameters()
-        return log2(m * (n ** 2))
+        X = self.X()
+        Y = self.Y()
+        _, m, q = self.problem.get_parameters()
+        mem_evals = log2(log2(q)) + log2(m) + X
+        mem_hashes = log2(256) + Y
+        return min(mem_evals, mem_hashes)
     
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
