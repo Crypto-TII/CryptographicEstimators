@@ -81,6 +81,7 @@ class UOVEstimator(BaseEstimator):
             | IntersectionAttack | key-recovery | 35.3 |   13.2 |    -- |       -- |
             +--------------------+--------------+------+--------+-------+----------+
 
+
         TESTS::
 
             sage: from cryptographic_estimators.UOVEstimator import UOVEstimator

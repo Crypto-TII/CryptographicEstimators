@@ -1,4 +1,4 @@
-name: run-pytest-ans-sonarcloud
+name: run-pytest-and-sonarcloud
 on:
   push:
     branches:
