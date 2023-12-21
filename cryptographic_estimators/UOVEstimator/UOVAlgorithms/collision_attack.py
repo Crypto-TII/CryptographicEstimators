@@ -139,7 +139,7 @@ class CollisionAttack(UOVAlgorithm):
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
             sage: E = CollisionAttack(UOVProblem(n=24, m=10, q=2))
             sage: E.memory_complexity()
-            12.491853096329674
+            8.0
 
         """
         X = self.X()
