@@ -139,7 +139,7 @@
           "type": "selector",
           "direction": "column",
           "display_label": "Memory access cost",
-          "default_value": "Constant",
+          "default_value": 0,
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
           "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
         },
@@ -295,7 +295,7 @@
         "type": "selector",
         "direction": "column",
         "display_label": "Memory access cost",
-        "default_value": "Constant",
+        "default_value": 0,
         "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
         "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
       },
@@ -409,7 +409,7 @@
           "type": "selector",
           "direction": "column",
           "display_label": "Memory access cost",
-          "default_value": "Constant",
+          "default_value": 0,
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
           "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
         },
@@ -429,114 +429,6 @@
                 "action": "show"
               }
             ]
-        },
-        {
-          "id": "precision",
-          "type": "number",
-          "direction": "column",
-          "display_label": "Decimal precision",
-          "default_value": 0,
-          "placeholder": "Insert value",
-          "tooltip": "Number of decimal digits to display"
-        }
-      ]
-    },
-    {
-      "estimator_id": "RegSDEstimator",
-      "algorithm_id": "RegSDAlgorithm",
-      "display_label": "Regular Syndrome Decoding",
-      "landing_page_content": "# Regular Syndrome Decoding Estimator\n\n\nThis project provides an estimator for the hardness of the regular syndrome decoding problem. This problem is defined as follows:\n\nLet $\\mathbf H\\in\\mathbb{F}_2^{(n-k)\\times n}$ be the parity-check matrix of a code of length $n$ and dimension $k$. Given $\\mathbf H$, a syndrome $\\mathbf{s}\\in\\mathbb{F}_2^{n-k}$ and an integer $\\omega \\mid n$ the regular syndrome decoding problem asks to find a vector $\\mathbf e=(\\mathbf e_1, \\mathbf e_2, \\ldots, \\mathbf e_\\omega)$ with $\\mathbf e_i \\in \\mathbb{F}_2^{\\frac n \\omega}$, satisfying $\\mathbf H \\mathbf e=\\mathbf s$ where each $\\mathbf e_i$ has Hamming weight exactly one.\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers:\n\n*[[CCJ23]](https://link.springer.com/chapter/10.1007/978-3-031-30589-4_19) \nEliana Carozza, Geoffroy Couteau and Antoine Joux . Short Signatures from Regular Syndrome Decoding in the Head. [[eprint]](https://eprint.iacr.org/2023/1035.pdf)*\n\n*[[ES23]](https://eprint.iacr.org/2023/1568.pdf) Andre Esser and Paolo Santini. Not Just Regular Decoding: Asymptotics and Improvements of Regular Syndrome Decoding Attacks. [[eprint]](https://eprint.iacr.org/2023/1568.pdf)*",
-      "problem_parameters": [
-        {
-          "id": "n",
-          "type": "number",
-          "display_label": "Code length",
-          "placeholder": "Insert parameter",
-          "tooltip": "Code length of the specified code",
-          "validate_fields_ids": ["k", "w"]
-        },
-        {
-          "id": "k",
-          "type": "number",
-          "display_label": "Code dimension",
-          "placeholder": "Insert parameter",
-          "tooltip": "Code dimension of specified code",
-          "validate_fields_ids": ["w"],
-          "dependencies": [
-            {
-              "id": "n",
-              "action": "validateLessThan"
-            }
-          ]
-        },
-        {
-          "id": "w",
-          "type": "number",
-          "display_label": "Error weight",
-          "placeholder": "Insert parameter",
-          "tooltip": "Hamming weight of the target solution (must divide the code length)",
-          "dependencies": [
-            {
-              "id": "n",
-              "action": "validateLessThan"
-            },
-            {
-              "action": "validateLessThanOperation",
-              "operation": "n - k"
-            }
-          ]
-        }
-      ],
-      "optional_parameters": [
-        {
-          "id": "memory_bound",
-          "required": false,
-          "type": "number",
-          "direction": "column",
-          "display_label": "Memory limit",
-          "default_value": null,
-          "placeholder": "Insert value",
-          "caption": "Leave empty if no limit is desired",
-          "tooltip": "Log2 of the maximum number of bits of memory available"
-        },
-        {
-          "id": "nsolutions",
-          "required": false,
-          "type": "number",
-          "direction": "column",
-          "display_label": "Number of solutions",
-          "placeholder": "Insert value",
-          "caption": "Leave empty to take expected amount of solutions",
-          "tooltip": "Log2 of number of existing solutions of which one has to be found"
-        }
-      ],
-      "estimator_parameters": [
-        {
-          "id": "bit_complexities",
-          "type": "switch",
-          "display_label": "Bit complexities",
-          "default_value": true,
-          "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
-        },
-       {
-          "id": "included_algorithms",
-          "type": "multiple_selector",
-          "direction": "column",
-          "display_label": "Included algorithms",
-          "tooltip": "Algorithms to include for optimization",
-          "default_value": [],
-          "excluded_algorithms": [],
-          "options": [],
-          "dependencies": []
-        },
-        {
-          "id": "memory_access",
-          "type": "selector",
-          "direction": "column",
-          "display_label": "Memory access cost",
-          "default_value": "Constant",
-          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
         },
         {
           "id": "precision",
@@ -656,7 +548,7 @@
           "type": "selector",
           "direction": "column",
           "display_label": "Memory access cost",
-          "default_value": "Constant",
+          "default_value": 0,
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
           "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
         },
@@ -760,7 +652,7 @@
           "type": "selector",
           "direction": "column",
           "display_label": "Memory access cost",
-          "default_value": "Constant",
+          "default_value": 0,
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
           "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
         },
@@ -856,7 +748,7 @@
           "type": "selector",
           "direction": "column",
           "display_label": "Memory access cost",
-          "default_value": "Constant",
+          "default_value": 0,
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
           "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
         },
