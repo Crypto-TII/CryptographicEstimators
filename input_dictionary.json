@@ -12,7 +12,10 @@
           "display_label": "Code length",
           "placeholder": "Insert parameter",
           "tooltip": "Code length of the specified code",
-          "validate_fields_ids": ["k", "w"]
+          "validate_fields_ids": [
+            "k",
+            "w"
+          ]
         },
         {
           "id": "k",
@@ -20,7 +23,9 @@
           "display_label": "Code dimension",
           "placeholder": "Insert parameter",
           "tooltip": "Code dimension of specified code",
-          "validate_fields_ids": ["w"],
+          "validate_fields_ids": [
+            "w"
+          ],
           "dependencies": [
             {
               "id": "n",
@@ -117,19 +122,25 @@
           "default_value": true,
           "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
         },
-       {
+        {
           "id": "included_algorithms",
           "type": "multiple_selector",
           "direction": "column",
           "display_label": "Included algorithms",
           "tooltip": "Algorithms to include for optimization",
           "default_value": [],
-          "excluded_algorithms": ["BJMMdw", "BJMMpdw"],
+          "excluded_algorithms": [
+            "BJMMdw",
+            "BJMMpdw"
+          ],
           "options": [],
           "dependencies": [
             {
               "id": "limit_depth",
-              "parent_contains": ["MayOzerov", "BJMM"],
+              "parent_contains": [
+                "MayOzerov",
+                "BJMM"
+              ],
               "action": "show"
             }
           ]
@@ -141,7 +152,12 @@
           "display_label": "Memory access cost",
           "default_value": 0,
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
+          "options": [
+            "Constant",
+            "Logaritmic",
+            "Square root",
+            "Cube root"
+          ]
         },
         {
           "id": "precision",
@@ -153,12 +169,12 @@
           "tooltip": "Number of decimal digits to display"
         }
       ]
-     },
+    },
     {
       "estimator_id": "MQEstimator",
       "algorithm_id": "MQAlgorithm",
       "display_label": "Multivariate Quadratic",
-      "landing_page_content": "# Multivariate Quadratic Estimator\n\n\nThis project provides an estimator for the hardness of the multivariate quadratic problem. This problem is defined as follows: \nLet $\\mathbb{F}_{q}$ be a field with $q$ elements, and let $\\mathbb{F}_{q}[x_1, x_2, \\ldots, x_n]$ be the ring of polynomials in the variables $x_1, x_2, \\ldots, x_n$ and coefficients in $\\mathbb{F}_{q}$. Given $p_1, p_2, \\ldots, p_m \\in \\; \\mathbb{F}_{q}[x_1, x_2, \\ldots, x_n]$ the  multivariate quadratic problem asks to find a vector $\\mathbf a \\in \\; \\mathbb{F}_q^n$ satisfying $p_{i}(\\mathbf a ) = 0$ for all $i=1,2,\\ldots,m$. \n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers:\n\n[[BFP09]](https://www.degruyter.com/document/doi/10.1515/JMC.2009.009/html) Luk Bettale, Jean-Charles Faugère and Ludovic Perret. Hybrid Approach for Solving Multivariate Systems over Finite Fields. [[eprint]](https://www-polsys.lip6.fr/~jcf/Papers/JMC2.pdf)\n\n\n[[BFP12]](https://dl.acm.org/doi/10.1145/2442829.2442843) Luk Bettale, Jean-Charles Faugère and Ludovic Perret. Solving Polynomial Systems over Finite Fields: Improved Analysis of the Hybrid Approach.[[eprint]](https://inria.hal.science/hal-00776070/document)\n\n[[BFSS11]](https://pdf.sciencedirectassets.com/272569/1-s2.0-S0885064X12X00062/1-s2.0-S0885064X12000611/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEBoaCXVzLWVhc3QtMSJGMEQCIBHnYYyQivq5VWZYvmhCqtMpTXyb0CrGtt7E1qyC0ZJ%2BAiBfUBVOKdbnJZzeZ%2FbgFOpYWU9l%2BQoFzOIcLVgpZZnm0yq6BQjS%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAUaDDA1OTAwMzU0Njg2NSIMwnWkvDQITUOcgAwNKo4FmSWjG8P8MVTGNxKlUW8YYmkHDWQVQB%2BVQW%2BG4jlq83XjGRCCjk0%2FDb6CjUKjBK%2FK8698eCXVZ4LJ9CVH9aRbSI8LNxJlzVah0DftlOeogKx6ARAJsmEAeKhsW55eDh3HVIaYKrgR0Ewfz3W1Vg0a19FUQUor17iqEW1RwWWKvA93ja%2FCDn26haeHuEl4Rjb%2BsQbavDeJZN%2FOAsIO60Boqe0PcmhJ8upEJRYz2Gom3W7ZoKIjKpQ7eyE90rBMoIKp94oM3yNkb5wKoYKIo6VKRR1wJ94AlyfeprmOSpFwX%2F6CMcBG43S0qyG7%2F2WRZHpTBwOM1RBKVzdR7jwj8j7LiQkaPIV1aFbpIn5Fp57TR3Iwq6YQfSmZeUtc7pJ8DRqihynCz8wR6U%2BEsg%2FUpHkZuesB5jtmLQE%2FrPsH5m4XmOiC%2BJzw3BAWpI4lqaDjW9b8eyg%2F4e2mOzZEOz0cj3Ew8ta0PhDureat9twodedu6227smjrLUySdJwOyDqqdje4WxKsBnUJ4fEteP0aSoT41x1E2BOGZw9uhVz9rxaNK23VySJ%2Bcu6n5g9JPJ2hNXB272PfephanXGRwsA2IldE9NokT22Eawg9%2B3c2E2wwcj5WJSFjTrnCaxK88y%2FBXbsYqIkztlrbFVhDs48QfzndR4wkqBX8kW6plvxLQV4RsSomuw1wUbbsBsMMBRDN0EpS6KdL4Jvt7hBuOb%2FiyboGQVDKl6c3s3kWxx%2FIkDY0SRSEKfyMX%2BumI%2FL%2FQ%2B5ob7hxxOXmUgtjfKj8tQ1Kl1VNEub2eT%2BAN4cgU9V74fbIKWKQXEGp%2Bc4zsCYk62vT8ftnhi2Pt88cl8CikAa5fZAqw8uKpdFcxi%2B%2BJ6WfyE2iMKHRjKcGOrIBLNhClwMzLz7TV7LRxsX6kFR%2BzwbMHqXWv8PpCUIYdEKP1RGHvCAT4q50xHGzfJqb5CxSkGoL56Fove9gzFqKWSRllpuUV1RZ7GZWsYtkWNpOWQuIRz8JHPK7yHCgVs94kWjD8yIS%2BrK93eYxkoDK%2BTWzSl2aMTlaCavMnNNf7frjwXiuOZbMwo1dl46JJA%2BvkK%2Fq4Ax8Q7X79JtiYjpvJ7mr82RL2oMPqsy0MpECstoIKQ%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20230821T101656Z&X-Amz-SignedHeaders=host&X-Amz-Expires=299&X-Amz-Credential=ASIAQ3PHCVTYTP2IJIPD%2F20230821%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=e090ae1ce0cc71e9c821a3b37d14928c394ef10c0a5d6bbbcc23e6c2a051ad58&hash=b13dc44acd73359364fc817eb08d10ea6b5bc3661d7a71b501eb0ec26b56ec32&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S0885064X12000611&tid=spdf-60dd10bd-1c4f-413d-90ee-b5f00b079ede&sid=bf3cf8d028ef4649897883c939f8845d9e60gxrqb&type=client&tsoh=d3d3LnNjaWVuY2VkaXJlY3QuY29t&ua=070652070f5d54015a5b&rr=7fa21f953c3917d7&cc=ae) Magali Bardet, Jean-Charles Faugère, Bruno Salvy, and Pierre-Jean Spaenlehauer. On the Complexity of Solving Quadratic Boolean Systems.\n\n[[BKW19]](https://drops.dagstuhl.de/opus/volltexte/2019/10602/pdf/LIPIcs-ICALP-2019-26.pdf) Andreas Björklund, Petteri Kaski, and Ryan Williams. Solving Systems of Polynomial Equations over GF(2) by a Parity-Counting Self-Reduction. [[eprint]](https://drops.dagstuhl.de/opus/volltexte/2019/10602/pdf/LIPIcs-ICALP-2019-26.pdf)\n\n[[BMSV22]](https://eprint.iacr.org/2022/708.pdf) Emanuele Bellini, Rusydi H. Makarim, Carlo Sanna, and Javier Verbel. An Estimator for the Hardness of the MQ Problem. [[eprint]](https://eprint.iacr.org/2022/708.pdf)\n\n[[BCCCNSY10]](https://www.iacr.org/archive/ches2010/62250195/62250195.pdf) Charles Bouillaguet, Hsieh-Chung Chen, Chen-Mou Cheng, Tung Chou, Ruben Niederhagen, Adi Shamir, and Bo-Yin Yang. Fast Exhaustive Search for Polynomial Systems in $\\mathbb{F}_2$.\n\n[[CKPS00]](https://link.springer.com/chapter/10.1007/3-540-45539-6_27) Nicolas Courtois, Alexander Klimov, Jacques Patarin, and Adi Shamir. Efficient Algorithms for Solving Overdefined Systems of Multivariate Polynomial Equations. [[eprint]](https://www.iacr.org/archive/eurocrypt2000/1807/18070398-new.pdf)\n\n[[CGMT02]](https://link.springer.com/chapter/10.1007/3-540-45664-3_15) Nicolas Courtois, Louis Goubin, Willi Meier, and Jean-Daniel Tacier. Solving Underdefined Systems of Multivariate Quadratic Equations.\n\n[[Din21a]](https://dl.acm.org/doi/abs/10.5555/3458064.3458215) Itai Dinur. Improved Algorithms for Solving Polynomial Systems over GF(2) by Multiple Parity-Counting. [[preprint]](https://arxiv.org/pdf/2005.04800.pdf)\n\n[[Din21b]](https://link.springer.com/chapter/10.1007/978-3-030-77870-5_14) Itai Dinur. Cryptanalytic Applications of the Polynomial Method for Solving Multivariate Equation Systems over GF(2). [[eprint]](https://eprint.iacr.org/2021/578.pdf)\n\n[[JV18]](https://link.springer.com/chapter/10.1007/978-3-319-76620-1_1) Antoine Joux and Vanessa Vitse. A Crossbred Algorithm for Solving Boolean Polynomial Systems. [[eprint]](https://eprint.iacr.org/2017/372.pdf)\n\n[[KPG99]](https://link.springer.com/chapter/10.1007/3-540-48910-X_15) Aviad Kipnis, Jacques Patarin, and Louis Goubin. Unbalanced Oil and Vinegar Signature Schemes. [[extended]](http://www.goubin.fr/papers/OILLONG.PDF)\n\n[[LPTWY17]](https://epubs.siam.org/doi/epdf/10.1137/1.9781611974782.143) Daniel Lokshtanov, Ramamohan Paturi, Suguru Tamaki, Ryan Williams, and Huacheng Yu. Beating Brute Force for Systems of Polynomial Equation over Finite Fields.\n\n[[MHT13]](https://link.springer.com/chapter/10.1007/978-3-642-38616-9_8) Hiroyuki Miura, Yasufumi Hashimoto, and Tsuyoshi Takagi. Extended Algorithm for Solving Underdefined Multivariate Quadratic Equations.\n\n[[TW12]](https://link.springer.com/chapter/10.1007/978-3-642-30057-8_10) Enrico Thomae and Christopher Wolf. Solving Underdetermined Systems of Multivariate Quadratic Equations Revisited.[[eprint]](https://www.iacr.org/archive/pkc2012/72930159/72930159.pdf)\n",
+      "landing_page_content": "# Multivariate Quadratic Estimator\n\n\nThis project provides an estimator for the hardness of the multivariate quadratic problem. This problem is defined as follows: \nLet $\\mathbb{F}_{q}$ be a field with $q$ elements, and let $\\mathbb{F}_{q}[x_1, x_2, \\ldots, x_n]$ be the ring of polynomials in the variables $x_1, x_2, \\ldots, x_n$ and coefficients in $\\mathbb{F}_{q}$. Given $p_1, p_2, \\ldots, p_m \\in \\; \\mathbb{F}_{q}[x_1, x_2, \\ldots, x_n]$ the  multivariate quadratic problem asks to find a vector $\\mathbf a \\in \\; \\mathbb{F}_q^n$ satisfying $p_{i}(\\mathbf a ) = 0$ for all $i=1,2,\\ldots,m$. \n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers:\n\n[[BFP09]](https://www.degruyter.com/document/doi/10.1515/JMC.2009.009/html) Luk Bettale, Jean-Charles Faug\u00e8re and Ludovic Perret. Hybrid Approach for Solving Multivariate Systems over Finite Fields. [[eprint]](https://www-polsys.lip6.fr/~jcf/Papers/JMC2.pdf)\n\n\n[[BFP12]](https://dl.acm.org/doi/10.1145/2442829.2442843) Luk Bettale, Jean-Charles Faug\u00e8re and Ludovic Perret. Solving Polynomial Systems over Finite Fields: Improved Analysis of the Hybrid Approach.[[eprint]](https://inria.hal.science/hal-00776070/document)\n\n[[BFSS11]](https://pdf.sciencedirectassets.com/272569/1-s2.0-S0885064X12X00062/1-s2.0-S0885064X12000611/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEBoaCXVzLWVhc3QtMSJGMEQCIBHnYYyQivq5VWZYvmhCqtMpTXyb0CrGtt7E1qyC0ZJ%2BAiBfUBVOKdbnJZzeZ%2FbgFOpYWU9l%2BQoFzOIcLVgpZZnm0yq6BQjS%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAUaDDA1OTAwMzU0Njg2NSIMwnWkvDQITUOcgAwNKo4FmSWjG8P8MVTGNxKlUW8YYmkHDWQVQB%2BVQW%2BG4jlq83XjGRCCjk0%2FDb6CjUKjBK%2FK8698eCXVZ4LJ9CVH9aRbSI8LNxJlzVah0DftlOeogKx6ARAJsmEAeKhsW55eDh3HVIaYKrgR0Ewfz3W1Vg0a19FUQUor17iqEW1RwWWKvA93ja%2FCDn26haeHuEl4Rjb%2BsQbavDeJZN%2FOAsIO60Boqe0PcmhJ8upEJRYz2Gom3W7ZoKIjKpQ7eyE90rBMoIKp94oM3yNkb5wKoYKIo6VKRR1wJ94AlyfeprmOSpFwX%2F6CMcBG43S0qyG7%2F2WRZHpTBwOM1RBKVzdR7jwj8j7LiQkaPIV1aFbpIn5Fp57TR3Iwq6YQfSmZeUtc7pJ8DRqihynCz8wR6U%2BEsg%2FUpHkZuesB5jtmLQE%2FrPsH5m4XmOiC%2BJzw3BAWpI4lqaDjW9b8eyg%2F4e2mOzZEOz0cj3Ew8ta0PhDureat9twodedu6227smjrLUySdJwOyDqqdje4WxKsBnUJ4fEteP0aSoT41x1E2BOGZw9uhVz9rxaNK23VySJ%2Bcu6n5g9JPJ2hNXB272PfephanXGRwsA2IldE9NokT22Eawg9%2B3c2E2wwcj5WJSFjTrnCaxK88y%2FBXbsYqIkztlrbFVhDs48QfzndR4wkqBX8kW6plvxLQV4RsSomuw1wUbbsBsMMBRDN0EpS6KdL4Jvt7hBuOb%2FiyboGQVDKl6c3s3kWxx%2FIkDY0SRSEKfyMX%2BumI%2FL%2FQ%2B5ob7hxxOXmUgtjfKj8tQ1Kl1VNEub2eT%2BAN4cgU9V74fbIKWKQXEGp%2Bc4zsCYk62vT8ftnhi2Pt88cl8CikAa5fZAqw8uKpdFcxi%2B%2BJ6WfyE2iMKHRjKcGOrIBLNhClwMzLz7TV7LRxsX6kFR%2BzwbMHqXWv8PpCUIYdEKP1RGHvCAT4q50xHGzfJqb5CxSkGoL56Fove9gzFqKWSRllpuUV1RZ7GZWsYtkWNpOWQuIRz8JHPK7yHCgVs94kWjD8yIS%2BrK93eYxkoDK%2BTWzSl2aMTlaCavMnNNf7frjwXiuOZbMwo1dl46JJA%2BvkK%2Fq4Ax8Q7X79JtiYjpvJ7mr82RL2oMPqsy0MpECstoIKQ%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20230821T101656Z&X-Amz-SignedHeaders=host&X-Amz-Expires=299&X-Amz-Credential=ASIAQ3PHCVTYTP2IJIPD%2F20230821%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=e090ae1ce0cc71e9c821a3b37d14928c394ef10c0a5d6bbbcc23e6c2a051ad58&hash=b13dc44acd73359364fc817eb08d10ea6b5bc3661d7a71b501eb0ec26b56ec32&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S0885064X12000611&tid=spdf-60dd10bd-1c4f-413d-90ee-b5f00b079ede&sid=bf3cf8d028ef4649897883c939f8845d9e60gxrqb&type=client&tsoh=d3d3LnNjaWVuY2VkaXJlY3QuY29t&ua=070652070f5d54015a5b&rr=7fa21f953c3917d7&cc=ae) Magali Bardet, Jean-Charles Faug\u00e8re, Bruno Salvy, and Pierre-Jean Spaenlehauer. On the Complexity of Solving Quadratic Boolean Systems.\n\n[[BKW19]](https://drops.dagstuhl.de/opus/volltexte/2019/10602/pdf/LIPIcs-ICALP-2019-26.pdf) Andreas Bj\u00f6rklund, Petteri Kaski, and Ryan Williams. Solving Systems of Polynomial Equations over GF(2) by a Parity-Counting Self-Reduction. [[eprint]](https://drops.dagstuhl.de/opus/volltexte/2019/10602/pdf/LIPIcs-ICALP-2019-26.pdf)\n\n[[BMSV22]](https://eprint.iacr.org/2022/708.pdf) Emanuele Bellini, Rusydi H. Makarim, Carlo Sanna, and Javier Verbel. An Estimator for the Hardness of the MQ Problem. [[eprint]](https://eprint.iacr.org/2022/708.pdf)\n\n[[BCCCNSY10]](https://www.iacr.org/archive/ches2010/62250195/62250195.pdf) Charles Bouillaguet, Hsieh-Chung Chen, Chen-Mou Cheng, Tung Chou, Ruben Niederhagen, Adi Shamir, and Bo-Yin Yang. Fast Exhaustive Search for Polynomial Systems in $\\mathbb{F}_2$.\n\n[[CKPS00]](https://link.springer.com/chapter/10.1007/3-540-45539-6_27) Nicolas Courtois, Alexander Klimov, Jacques Patarin, and Adi Shamir. Efficient Algorithms for Solving Overdefined Systems of Multivariate Polynomial Equations. [[eprint]](https://www.iacr.org/archive/eurocrypt2000/1807/18070398-new.pdf)\n\n[[CGMT02]](https://link.springer.com/chapter/10.1007/3-540-45664-3_15) Nicolas Courtois, Louis Goubin, Willi Meier, and Jean-Daniel Tacier. Solving Underdefined Systems of Multivariate Quadratic Equations.\n\n[[Din21a]](https://dl.acm.org/doi/abs/10.5555/3458064.3458215) Itai Dinur. Improved Algorithms for Solving Polynomial Systems over GF(2) by Multiple Parity-Counting. [[preprint]](https://arxiv.org/pdf/2005.04800.pdf)\n\n[[Din21b]](https://link.springer.com/chapter/10.1007/978-3-030-77870-5_14) Itai Dinur. Cryptanalytic Applications of the Polynomial Method for Solving Multivariate Equation Systems over GF(2). [[eprint]](https://eprint.iacr.org/2021/578.pdf)\n\n[[JV18]](https://link.springer.com/chapter/10.1007/978-3-319-76620-1_1) Antoine Joux and Vanessa Vitse. A Crossbred Algorithm for Solving Boolean Polynomial Systems. [[eprint]](https://eprint.iacr.org/2017/372.pdf)\n\n[[KPG99]](https://link.springer.com/chapter/10.1007/3-540-48910-X_15) Aviad Kipnis, Jacques Patarin, and Louis Goubin. Unbalanced Oil and Vinegar Signature Schemes. [[extended]](http://www.goubin.fr/papers/OILLONG.PDF)\n\n[[LPTWY17]](https://epubs.siam.org/doi/epdf/10.1137/1.9781611974782.143) Daniel Lokshtanov, Ramamohan Paturi, Suguru Tamaki, Ryan Williams, and Huacheng Yu. Beating Brute Force for Systems of Polynomial Equation over Finite Fields.\n\n[[MHT13]](https://link.springer.com/chapter/10.1007/978-3-642-38616-9_8) Hiroyuki Miura, Yasufumi Hashimoto, and Tsuyoshi Takagi. Extended Algorithm for Solving Underdefined Multivariate Quadratic Equations.\n\n[[TW12]](https://link.springer.com/chapter/10.1007/978-3-642-30057-8_10) Enrico Thomae and Christopher Wolf. Solving Underdetermined Systems of Multivariate Quadratic Equations Revisited.[[eprint]](https://www.iacr.org/archive/pkc2012/72930159/72930159.pdf)\n",
       "problem_parameters": [
         {
           "id": "n",
@@ -166,7 +182,9 @@
           "display_label": "Number of variables",
           "placeholder": "Insert parameter",
           "tooltip": "The number of variables of the system to solve",
-          "validate_fields_ids": ["h"]
+          "validate_fields_ids": [
+            "h"
+          ]
         },
         {
           "id": "m",
@@ -285,21 +303,28 @@
           "dependencies": [
             {
               "id": "max_D",
-              "parent_contains": ["Crossbred"],
+              "parent_contains": [
+                "Crossbred"
+              ],
               "action": "show"
             }
           ]
         },
         {
-        "id": "memory_access",
-        "type": "selector",
-        "direction": "column",
-        "display_label": "Memory access cost",
-        "default_value": 0,
-        "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-        "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
-      },
-      {
+          "id": "memory_access",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Memory access cost",
+          "default_value": 0,
+          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+          "options": [
+            "Constant",
+            "Logaritmic",
+            "Square root",
+            "Cube root"
+          ]
+        },
+        {
           "id": "precision",
           "type": "number",
           "direction": "column",
@@ -307,14 +332,14 @@
           "default_value": 0,
           "placeholder": "Insert value",
           "tooltip": "Number of decimal digits to display"
-      }
+        }
       ]
     },
     {
       "estimator_id": "SDFqEstimator",
       "algorithm_id": "SDFqAlgorithm",
       "display_label": "Syndrome Decoding over Fq",
-      "landing_page_content": "# Syndrome Decoding Estimator over $\\mathbf F_q$\n\n\nThis project provides an estimator for the hardness of the syndrome decoding problem over $\\mathbf F_q$. This problem is defined as follows:\n\nLet $\\mathbf H\\in\\mathbb{F}_q^{(n-k)\\times n}$ be the parity-check matrix of a code of length $n$ and dimension $k$. Given $\\mathbf H$, a syndrome $\\mathbf{s}\\in\\mathbb{F}_q^{n-k}$ and an integer $\\omega < n$ the syndrome decoding problem asks to find a vector $\\mathbf e \\in \\mathbb{F}_q^n$ satisfying $\\mathbf H \\mathbf e=\\mathbf s$ while $\\mathbf e$ has a Hamming weight smaller or equal to $\\omega$.\n\nThe estimator covers Information Set Decoding (ISD) algorithms to estimate the hardness of given instances.\n\nMore details on the theoretical foundations of the complexity of included algorithms can be found in\n\n*[[Pet11]](https://link.springer.com/chapter/10.1007/978-3-642-12929-2_7) Christiane Peters. Information-set decoding for linear codes over Fq. [[eprint]](https://eprint.iacr.org/2009/589.pdf)*\n\n*[[Ste89]](https://doi.org/10.1007/BFb0019850) Jacques Stern. A method for finding codewords of small weight.*\n\n*[[LB88]](https://doi.org/10.1007/3-540-45961-8\\_25) Pil Joong Lee and Ernest Brickell. An observation on the security of McEliece’s public-key cryptosystem.*\n\n*[[Pra62]](https://doi.org/10.1109/TIT.1962.1057777) Eugene Prange. The use of information sets in decoding cyclic codes.*",
+      "landing_page_content": "# Syndrome Decoding Estimator over $\\mathbf F_q$\n\n\nThis project provides an estimator for the hardness of the syndrome decoding problem over $\\mathbf F_q$. This problem is defined as follows:\n\nLet $\\mathbf H\\in\\mathbb{F}_q^{(n-k)\\times n}$ be the parity-check matrix of a code of length $n$ and dimension $k$. Given $\\mathbf H$, a syndrome $\\mathbf{s}\\in\\mathbb{F}_q^{n-k}$ and an integer $\\omega < n$ the syndrome decoding problem asks to find a vector $\\mathbf e \\in \\mathbb{F}_q^n$ satisfying $\\mathbf H \\mathbf e=\\mathbf s$ while $\\mathbf e$ has a Hamming weight smaller or equal to $\\omega$.\n\nThe estimator covers Information Set Decoding (ISD) algorithms to estimate the hardness of given instances.\n\nMore details on the theoretical foundations of the complexity of included algorithms can be found in\n\n*[[Pet11]](https://link.springer.com/chapter/10.1007/978-3-642-12929-2_7) Christiane Peters. Information-set decoding for linear codes over Fq. [[eprint]](https://eprint.iacr.org/2009/589.pdf)*\n\n*[[Ste89]](https://doi.org/10.1007/BFb0019850) Jacques Stern. A method for finding codewords of small weight.*\n\n*[[LB88]](https://doi.org/10.1007/3-540-45961-8\\_25) Pil Joong Lee and Ernest Brickell. An observation on the security of McEliece\u2019s public-key cryptosystem.*\n\n*[[Pra62]](https://doi.org/10.1109/TIT.1962.1057777) Eugene Prange. The use of information sets in decoding cyclic codes.*",
       "problem_parameters": [
         {
           "id": "n",
@@ -322,7 +347,10 @@
           "display_label": "Code length",
           "placeholder": "Insert parameter",
           "tooltip": "Code length of the specified code",
-          "validate_fields_ids": ["k", "w"]
+          "validate_fields_ids": [
+            "k",
+            "w"
+          ]
         },
         {
           "id": "k",
@@ -330,7 +358,9 @@
           "display_label": "Code dimension",
           "placeholder": "Insert parameter",
           "tooltip": "Code dimension of specified code",
-          "validate_fields_ids": ["w"],
+          "validate_fields_ids": [
+            "w"
+          ],
           "dependencies": [
             {
               "id": "n",
@@ -393,7 +423,10 @@
           "display_label": "Code word search",
           "default_value": 1,
           "tooltip": "Indicates if a small code word is searched, i.e., if the syndrome is equal to the zero.",
-          "options": ["Syndrome decoding", "Code word search"]
+          "options": [
+            "Syndrome decoding",
+            "Code word search"
+          ]
         }
       ],
       "estimator_parameters": [
@@ -411,24 +444,31 @@
           "display_label": "Memory access cost",
           "default_value": 0,
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
+          "options": [
+            "Constant",
+            "Logaritmic",
+            "Square root",
+            "Cube root"
+          ]
         },
         {
-            "id": "included_algorithms",
-            "type": "multiple_selector",
-            "direction": "column",
-            "display_label": "Included algorithms",
-            "tooltip": "Algorithms to include for optimization",
-            "default_value": [],
-            "excluded_algorithms": [],
-            "options": [],
-            "dependencies": [
-              {
-                "id": "max_D",
-                "parent_contains": ["Crossbred"],
-                "action": "show"
-              }
-            ]
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": [],
+          "options": [],
+          "dependencies": [
+            {
+              "id": "max_D",
+              "parent_contains": [
+                "Crossbred"
+              ],
+              "action": "show"
+            }
+          ]
         },
         {
           "id": "precision",
@@ -486,7 +526,7 @@
         }
       ],
       "optional_parameters": [
-                {
+        {
           "id": "memory_bound",
           "required": false,
           "type": "number",
@@ -550,7 +590,12 @@
           "display_label": "Memory access cost",
           "default_value": 0,
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
+          "options": [
+            "Constant",
+            "Logaritmic",
+            "Square root",
+            "Cube root"
+          ]
         },
         {
           "id": "precision",
@@ -562,13 +607,12 @@
           "tooltip": "Number of decimal digits to display"
         }
       ]
-
     },
     {
       "estimator_id": "PEEstimator",
       "algorithm_id": "PEAlgorithm",
       "display_label": "Permutation Equivalence",
-      "landing_page_content": "# Permutation Equivalence Estimator\n\nThis project provides an estimator for the hardness of the permutation equivalence problem. \n\nThis problem is defined as follows: Given two matrices $\\mathbf{G}, \\mathbf{G}' \\in \\; \\mathbb{F}_{q}^{k\\times n}$, the permuted equivalence problem asks to find an invertible matrix $\\mathbf{S} \\in \\; \\mathbb{F}_{q}^{k\\times n}$ and permutation matrix $\\mathbf{P} \\in \\; \\mathbb{F}_{q}^{n\\times n}$ such that $\\mathbf{G}' = \\mathbf{S}\\mathbf{G}\\mathbf{P}$.\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers: \n\n*[[Beu20]](https://link.springer.com/chapter/10.1007/978-3-030-81652-0_15) Ward Beullens. Not enough LESS: An improved algorithm for solving code equivalence problems over Fq. [[eprint]](https://eprint.iacr.org/2020/801.pdf)*\n\n*[[Sen99]](https://inria.hal.science/inria-00073037/document) Nicolas Sendrier.  On the dimension of the hull. SIAM Journal on Discrete Mathematics 10(2), 282–293 (1997). [[preprint]](https://inria.hal.science/inria-00073037/document)*\n\n*[[Leo82]](https://ieeexplore.ieee.org/document/1056498) Jeffrey Leon. Computing automorphism groups of error-correcting codes. IEEE Transactions on Information Theory 28(3), 496–511 (1982).*",
+      "landing_page_content": "# Permutation Equivalence Estimator\n\nThis project provides an estimator for the hardness of the permutation equivalence problem. \n\nThis problem is defined as follows: Given two matrices $\\mathbf{G}, \\mathbf{G}' \\in \\; \\mathbb{F}_{q}^{k\\times n}$, the permuted equivalence problem asks to find an invertible matrix $\\mathbf{S} \\in \\; \\mathbb{F}_{q}^{k\\times n}$ and permutation matrix $\\mathbf{P} \\in \\; \\mathbb{F}_{q}^{n\\times n}$ such that $\\mathbf{G}' = \\mathbf{S}\\mathbf{G}\\mathbf{P}$.\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers: \n\n*[[Beu20]](https://link.springer.com/chapter/10.1007/978-3-030-81652-0_15) Ward Beullens. Not enough LESS: An improved algorithm for solving code equivalence problems over Fq. [[eprint]](https://eprint.iacr.org/2020/801.pdf)*\n\n*[[Sen99]](https://inria.hal.science/inria-00073037/document) Nicolas Sendrier.  On the dimension of the hull. SIAM Journal on Discrete Mathematics 10(2), 282\u2013293 (1997). [[preprint]](https://inria.hal.science/inria-00073037/document)*\n\n*[[Leo82]](https://ieeexplore.ieee.org/document/1056498) Jeffrey Leon. Computing automorphism groups of error-correcting codes. IEEE Transactions on Information Theory 28(3), 496\u2013511 (1982).*",
       "problem_parameters": [
         {
           "id": "n",
@@ -576,7 +620,9 @@
           "display_label": "Code length",
           "placeholder": "Insert parameter",
           "tooltip": "Code length of the specified code",
-          "validate_fields_ids": ["k"]
+          "validate_fields_ids": [
+            "k"
+          ]
         },
         {
           "id": "k",
@@ -654,7 +700,12 @@
           "display_label": "Memory access cost",
           "default_value": 0,
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
+          "options": [
+            "Constant",
+            "Logaritmic",
+            "Square root",
+            "Cube root"
+          ]
         },
         {
           "id": "precision",
@@ -671,7 +722,7 @@
       "estimator_id": "LEEstimator",
       "algorithm_id": "LEAlgorithm",
       "display_label": "Linear Equivalence",
-      "landing_page_content": "# Linear Equivalence Estimator\n\nThis project provides an estimator for the hardness of the linear equivalence problem. \n\nThis problem is defined as follows: Given two matrices $\\mathbf{G}, \\mathbf{G}' \\in \\; \\mathbb{F}_{q}^{k\\times n}$, the linear equivalence problem asks to find an invertible matrix $\\mathbf{S} \\in \\; \\mathbb{F}_{q}^{k\\times n}$ and monomial matrix $\\mathbf{Q} \\in \\; \\mathbb{F}_{q}^{n\\times n}$ such that $\\mathbf{G}' = \\mathbf{S}\\mathbf{G}\\mathbf{P}$.\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers: \n\n*[[BBPS22]](https://eprint.iacr.org/2022/967.pdf) Alessandro Barenghi, Jean-Francois Biasse, Edoardo Persichetti and Paolo Santini,. On the Computational Hardness of the Code Equivalence Problem in Cryptography. [[eprint]](https://eprint.iacr.org/2022/967.pdf)*\n\n*[[Beu20]](https://link.springer.com/chapter/10.1007/978-3-030-81652-0_15) Ward Beullens. Not enough LESS: An improved algorithm for solving code equivalence problems over Fq. [[eprint]](https://eprint.iacr.org/2020/801.pdf)*\n\n*[[Leo82]](https://ieeexplore.ieee.org/document/1056498) Jeffrey Leon. Computing automorphism groups of error-correcting codes. IEEE Transactions on Information Theory 28(3), 496–511 (1982).*",
+      "landing_page_content": "# Linear Equivalence Estimator\n\nThis project provides an estimator for the hardness of the linear equivalence problem. \n\nThis problem is defined as follows: Given two matrices $\\mathbf{G}, \\mathbf{G}' \\in \\; \\mathbb{F}_{q}^{k\\times n}$, the linear equivalence problem asks to find an invertible matrix $\\mathbf{S} \\in \\; \\mathbb{F}_{q}^{k\\times n}$ and monomial matrix $\\mathbf{Q} \\in \\; \\mathbb{F}_{q}^{n\\times n}$ such that $\\mathbf{G}' = \\mathbf{S}\\mathbf{G}\\mathbf{P}$.\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers: \n\n*[[BBPS22]](https://eprint.iacr.org/2022/967.pdf) Alessandro Barenghi, Jean-Francois Biasse, Edoardo Persichetti and Paolo Santini,. On the Computational Hardness of the Code Equivalence Problem in Cryptography. [[eprint]](https://eprint.iacr.org/2022/967.pdf)*\n\n*[[Beu20]](https://link.springer.com/chapter/10.1007/978-3-030-81652-0_15) Ward Beullens. Not enough LESS: An improved algorithm for solving code equivalence problems over Fq. [[eprint]](https://eprint.iacr.org/2020/801.pdf)*\n\n*[[Leo82]](https://ieeexplore.ieee.org/document/1056498) Jeffrey Leon. Computing automorphism groups of error-correcting codes. IEEE Transactions on Information Theory 28(3), 496\u2013511 (1982).*",
       "problem_parameters": [
         {
           "id": "n",
@@ -679,7 +730,9 @@
           "display_label": "Code length",
           "placeholder": "Insert parameter",
           "tooltip": "Code length of the specified code",
-          "validate_fields_ids": ["k"]
+          "validate_fields_ids": [
+            "k"
+          ]
         },
         {
           "id": "k",
@@ -750,7 +803,130 @@
           "display_label": "Memory access cost",
           "default_value": 0,
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
+          "options": [
+            "Constant",
+            "Logaritmic",
+            "Square root",
+            "Cube root"
+          ]
+        },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
+        }
+      ]
+    },
+    {
+      "estimator_id": "MREstimator",
+      "algorithm_id": "MRAlgorithm",
+      "display_label": "MinRank",
+      "landing_page_content": "# MinRank Estimator\n\n\nThis project provides an estimator for the hardness of the MinRank problem. This problem is defined as follows: \nLet $\\mathbb{F}_{q}$ be a field with $q$ elements, and let $\\mathbb{F}_{q} ^{m \\times n}$ be the set of matrices of size $m\\times n$ and entries in $\\mathbb{F}_{q}$. Given an integer $r$ and $\\mathbf{M}_{0},\\ \\mathbf{M}_{1},\\ldots,\\ \\mathbf{M}_{k}\\ \\in \\ \\mathbb{F}_{q} ^{m \\times n}$, the  MinRank problem asks to find a vector $(\\alpha_1,\\ldots, \\ \\alpha_k) \\in \\; \\mathbb{F}_q^k$ satisfying $\\mathsf{Rank}( \\mathbf{M}_{0} + \\alpha_1\\cdot \\ \\mathbf{M}_{1}  + \\cdots + \\alpha_k \\cdot \\ \\mathbf{M}_{k} ) \\leq r$. \n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers:\n\n[[FLP08]](https://link.springer.com/chapter/10.1007/978-3-540-85174-5_16) Luk Bettale, Jean-Charles Faugère, and Ludovic Perret. Cryptanalysis of MinRank. [[preprint]](https://www-polsys.lip6.fr/~jcf/Papers/crypto08.pdf)\n\n\n[[BBC+20]](https://link.springer.com/chapter/10.1007/978-3-030-64837-4_17) Magali Bardet, Maxime Bros, Daniel Cabarcas, Philippe Gaborit, Ray Perlner, Daniel Smith-Tone, Jean-Pierre Tillich, and Javier Verbel . Improvements of Algebraic Attacks for Solving the Rank Decoding and MinRank Problems. [[eprint]](https://arxiv.org/pdf/2002.08322.pdf)\n\n[[VBC+19]](https://link.springer.com/chapter/10.1007/978-3-030-25510-7_10) Javier Verbel, John Baena, Daniel Cabarcas, Ray Perlner and Daniel Smith-Tone. On the Complexity of “Superdetermined” Minrank Instances. [[eprint]](https://eprint.iacr.org/2019/731.pdf)\n\n[[Cou01]](https://link.springer.com/chapter/10.1007/3-540-45682-1_24) Nicolas Courtois . Efficient Zero-Knowledge Authentication Based on a Linear Algebra Problem MinRank. [[eprint]](https://www.iacr.org/archive/asiacrypt2001/22480404.pdf)\n\n[[GC00]](https://link.springer.com/content/pdf/10.1007/3-540-44448-3_4.pdf) Louis Goubin and Nicolas Courtois. Cryptanalysis of the TTM cryptosystem. \n\n[[BBB+23]](https://link.springer.com/article/10.1007/s10623-023-01265-x) Magali Bardet, Pierre Briaud, Maxime Bros, Philippe Gaborit, and Jean-Pierre Tillich. Revisiting algebraic attacks on MinRank and on the rank decoding problem. [[eprint]](https://eprint.iacr.org/2022/1031.pdf)\n\n[[GD22]](https://link.springer.com/chapter/10.1007/978-3-031-22944-2_15) Hao Guo and Jintai Ding. Algebraic Relation of Three MinRank Algebraic Modelings. [[eprint]](https://eprint.iacr.org/2022/1226.pdf)\n\n[[KS99]](https://link.springer.com/chapter/10.1007/3-540-48405-1_2) Aviad Kipnis and Adi Shamir. Cryptanalysis of the HFE Public Key Cryptosystem by Relinearization.\n\n[[BB22]](https://link.springer.com/chapter/10.1007/978-3-031-17234-2_6) Author name. Improvement of Algebraic Attacks for Solving Superdetermined MinRank Instances. [[eprint]](https://arxiv.org/abs/2208.01442)\n\n[[FSS10]](https://members.loria.fr/PJSpaenlehauer/data/papers/FauSafSpa10a.pdf) Jean-Charles Faugère , Mohab Safey El Din, and Pierre-Jean Spaenlehauer. Computing Loci of Rank Defects of Linear Matrices using Gröbner Bases and Applications to Cryptology.\n\n[[FSS13]](https://www.sciencedirect.com/science/article/pii/S0747717113000485) Author name. On the Complexity of the Generalized MinRank Problem. [[eprint]](https://arxiv.org/abs/1112.4411)\n\n[[GNS23]](https://dl.acm.org/doi/fullHtml/10.1145/3597066.3597077) Sriram Gopalakrishnan, Vincent Neiger, and Mohab Safey El Din. Refined F5 Algorithms for Ideals of Minors of Square Matrices. [[eprint]](https://arxiv.org/abs/2302.05375#:~:text=We%20consider%20the%20problem%20of,characteristic%20zero%20or%20large%20enough.)",
+      "problem_parameters": [
+        {
+          "id": "q",
+          "type": "number",
+          "display_label": "Field size",
+          "placeholder": "Insert parameter",
+          "tooltip": "An integer of the form p^x for some integer x, where p is prime number.  This value indicates the number of elements in the underlying field"
+        },
+        {
+          "id": "m",
+          "type": "number",
+          "display_label": "Number of rows",
+          "placeholder": "Insert parameter",
+          "tooltip": "Number of rows of the input matrices"
+        },
+        {
+          "id": "n",
+          "type": "number",
+          "display_label": "Number of columns",
+          "placeholder": "Insert parameter",
+          "tooltip": "Number of columns of the input matrices"
+        },
+        {
+          "id": "k",
+          "type": "number",
+          "display_label": "Length of the solution",
+          "placeholder": "Insert parameter",
+          "tooltip": "Number of coordinates of the solution vector. It implies that the number of matrices is k + 1."
+        },
+        {
+          "id": "r",
+          "type": "number",
+          "display_label": "Target rank",
+          "placeholder": "Insert parameter",
+          "tooltip": "Upper bound for the rank of the linear combination of the matrices."
+        }
+      ],
+      "optional_parameters": [
+        {
+          "id": "memory_bound",
+          "required": false,
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "default_value": null,
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+          "id": "nsolutions",
+          "required": false,
+          "type": "number",
+          "direction": "column",
+          "display_label": "Number of solutions",
+          "placeholder": "Insert value",
+          "caption": "Leave empty to take expected amount of solutions",
+          "tooltip": "Log2 of number of existing solutions of which one has to be found"
+        },
+        {
+          "id": "include_tildeo",
+          "type": "switch",
+          "display_label": "Tilde-O complexity",
+          "default_value": false,
+          "tooltip": "Include complexity estimates that disregard polynomial factors",
+          "dependencies": []
+        }
+      ],
+      "estimator_parameters": [
+        {
+          "id": "bit_complexities",
+          "type": "switch",
+          "display_label": "Bit complexities",
+          "default_value": true,
+          "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations",
+          "dependencies": []
+        },
+        {
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": [],
+          "options": [],
+          "dependencies": []
+        },
+        {
+          "id": "memory_access",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Memory access cost",
+          "default_value": 0,
+          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+          "options": [
+            "Constant",
+            "Logarithmic",
+            "Square root",
+            "Cube root"
+          ]
         },
         {
           "id": "precision",
@@ -765,3 +941,4 @@
     }
   ]
 }
+
