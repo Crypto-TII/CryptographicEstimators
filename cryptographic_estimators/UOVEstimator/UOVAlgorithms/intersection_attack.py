@@ -29,7 +29,7 @@ from ...MQEstimator.mq_constants import MQ_VARIANT, MQ_LAS_VEGAS
 class IntersectionAttack(UOVAlgorithm):
     def __init__(self, problem: UOVProblem, **kwargs):
         """
-        Construct an instance of Kipnis-Shamir estimator
+        Construct an instance of IntersectionAttack estimator
 
         The intersection attack [Beu20]_ generalizes the ideas behind the Kipnis-Shamir attack, in
         combination with a system-solving approach such as in the reconciliation attack.

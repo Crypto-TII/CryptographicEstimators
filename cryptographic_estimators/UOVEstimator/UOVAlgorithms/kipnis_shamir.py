@@ -51,7 +51,6 @@ class KipnisShamir(UOVAlgorithm):
             raise ValueError('n should be greater than 2 * m')
 
         self._name = "Kipnis-Shamir"
-        self._gray_code_eval_cost = kwargs.get("gray_code_eval_cost", log2(n))
         self._attack_type = "forgery"
 
     def _compute_time_complexity(self, parameters: dict):
