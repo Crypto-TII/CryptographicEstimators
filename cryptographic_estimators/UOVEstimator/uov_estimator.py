@@ -116,6 +116,8 @@ class UOVEstimator(BaseEstimator):
 
             sage: A = UOVEstimator(n=184, m=72, q=256, theta=None)
             sage: A.table(show_all_parameters=1) # long time
+            +--------------------+--------------+-----------------------------------------------+
+            |                    |              |                    estimate                   |
             +--------------------+--------------+-------+--------+------------------------------+
             | algorithm          | attack_type  |  time | memory |          parameters          |
             +--------------------+--------------+-------+--------+------------------------------+
