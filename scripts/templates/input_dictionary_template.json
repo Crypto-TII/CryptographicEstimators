@@ -12,18 +12,74 @@
       "tooltip": "This is the first problem parameter"
     }
   ],
-  "estimator_parameters": [
-    {
-      "id": "included_algorithms",
-      "type": "multiple_selector",
-      "direction": "column",
-      "display_label": "Included algorithms",
-      "tooltip": "Algorithms to include for optimization",
-      "default_value": [],
-      "excluded_algorithms": [],
-      "options": [],
-      "dependencies": []
-    }
+  "optional_parameters": [
+  {
+    "id": "memory_bound",
+    "required": false,
+    "type": "number",
+    "direction": "column",
+    "display_label": "Memory limit",
+    "default_value": null,
+    "placeholder": "Insert value",
+    "caption": "Leave empty if no limit is desired",
+    "tooltip": "Log2 of the maximum number of bits of memory available"
+  },
+  {
+    "id": "nsolutions",
+    "required": false,
+    "type": "number",
+    "direction": "column",
+    "display_label": "Number of solutions",
+    "placeholder": "Insert value",
+    "caption": "Leave empty to take expected amount of solutions",
+    "tooltip": "Log2 of number of existing solutions of which one has to be found"
+  },
+  {
+    "id": "include_tildeo",
+    "type": "switch",
+    "display_label": "Tilde-O complexity",
+    "default_value": false,
+    "tooltip": "Include complexity estimates that disregard polynomial factors",
+    "dependencies": []
+  }
   ],
-  "optional_parameters": []
+  "estimator_parameters": [
+  {
+    "id": "bit_complexities",
+    "type": "switch",
+    "display_label": "Bit complexities",
+    "default_value": true,
+    "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations",
+    "dependencies": []
+  },
+  {
+    "id": "included_algorithms",
+    "type": "multiple_selector",
+    "direction": "column",
+    "display_label": "Included algorithms",
+    "tooltip": "Algorithms to include for optimization",
+    "default_value": [],
+    "excluded_algorithms": [],
+    "options": [],
+    "dependencies": []
+  },
+  {
+    "id": "memory_access",
+    "type": "selector",
+    "direction": "column",
+    "display_label": "Memory access cost",
+    "default_value": 0,
+    "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+    "options": ["Constant", "Logarithmic", "Square root", "Cube root"]
+  },
+  {
+    "id": "precision",
+    "type": "number",
+    "direction": "column",
+    "display_label": "Decimal precision",
+    "default_value": 0,
+    "placeholder": "Insert value",
+    "tooltip": "Number of decimal digits to display"
+  }
+  ]
 }
