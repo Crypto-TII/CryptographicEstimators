@@ -943,7 +943,7 @@
       "estimator_id": "UOVEstimator",
       "algorithm_id": "UOVAlgorithm",
       "display_label": "UOV Signature Scheme",
-      "landing_page_content": "# UOV Estimator\n\n\nThis project provides an estimator for the security of the Unblance Oil and Vinegar (UOV) signature scheme. This scheme is mainly based on the hardness of the MQ problem and it was submmited as a candidate to the NIST call for post-quantum signatures. \n\nMore details on the theoretical foundations of the signature scheme and the estimator can be found in the submmited specifications:\n\n[[UOV23]](https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/UOV-spec-web.pdf) Ward Beullens, Ming-Shing Chen, Jintai Ding, Boru Gong, Matthias J. Kannwischer, Jacques Patarin, Bo-Yuan Peng, Dieter Schmidt, Cheng-Jhih Shih, Chengdong Tao and Bo-Yin Yang. UOV: Unbalanced Oil and Vinegar\nAlgorithm Specifications and Supporting Documentation. ",
+      "landing_page_content": "# UOV Estimator\n\n\nThis project provides an estimator for the security of the Unblanced Oil and Vinegar (UOV) signature scheme. This scheme is mainly based on the hardness of the MQ problem and it was submitted as a candidate to the NIST call for post-quantum signatures. \n\nMore details on the theoretical foundations of the signature scheme and the estimator can be found in the submitted specifications:\n\n[[UOV23]](https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/UOV-spec-web.pdf) Ward Beullens, Ming-Shing Chen, Jintai Ding, Boru Gong, Matthias J. Kannwischer, Jacques Patarin, Bo-Yuan Peng, Dieter Schmidt, Cheng-Jhih Shih, Chengdong Tao and Bo-Yin Yang. UOV: Unbalanced Oil and Vinegar\nAlgorithm Specifications and Supporting Documentation. ",
       "problem_parameters": [
         {
           "id": "n",
@@ -978,24 +978,6 @@
           "placeholder": "Insert value",
           "caption": "Leave empty if no limit is desired",
           "tooltip": "Log2 of the maximum number of bits of memory available"
-        },
-        {
-          "id": "nsolutions",
-          "required": false,
-          "type": "number",
-          "direction": "column",
-          "display_label": "Number of solutions",
-          "placeholder": "Insert value",
-          "caption": "Leave empty to take expected amount of solutions",
-          "tooltip": "Log2 of number of existing solutions of which one has to be found"
-        },
-        {
-          "id": "include_tildeo",
-          "type": "switch",
-          "display_label": "Tilde-O complexity",
-          "default_value": false,
-          "tooltip": "Include complexity estimates that disregard polynomial factors",
-          "dependencies": []
         }
       ],
       "estimator_parameters": [
