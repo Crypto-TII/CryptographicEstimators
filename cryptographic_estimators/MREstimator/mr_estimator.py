@@ -76,6 +76,7 @@ class MREstimator(BaseEstimator):
             | SupportMinors |  38.8 |   13.0 | {'a': 1, 'lv': 0, 'b': 1, 'nprime': 8, 'variant': 'block_wiedemann'} |
             | KernelSearch  |  33.2 |   11.5 |                          {'a': 1, 'lv': 0}                           |
             | BigK          | 132.5 |   13.1 |                          {'a': 0, 'lv': 0}                           |
+            | Minors        |  37.2 |    1.6 |                          {'a': 2, 'lv': 0}                           |
             +---------------+-------+--------+----------------------------------------------------------------------+
 
         TESTS:
@@ -91,7 +92,9 @@ class MREstimator(BaseEstimator):
             | SupportMinors | 144.0 |   11.8 | {'a': 5, 'lv': 0, 'b': 1, 'nprime': 8, 'variant': 'block_wiedemann'} |
             | KernelSearch  | 147.7 |   14.3 |                          {'a': 4, 'lv': 3}                           |
             | BigK          | 154.7 |   13.8 |                          {'a': 5, 'lv': 3}                           |
+            | Minors        | 143.2 |   14.8 |                          {'a': 5, 'lv': 0}                           |
             +---------------+-------+--------+----------------------------------------------------------------------+
+
 
             sage: MRE = MREstimator(q=16, m=16, n=16, k=142, r=4)
             sage: MRE.table(show_all_parameters=1)
@@ -103,7 +106,9 @@ class MREstimator(BaseEstimator):
             | SupportMinors | 165.9 |   18.0 | {'a': 8, 'lv': 0, 'b': 2, 'nprime': 8, 'variant': 'block_wiedemann'} |
             | KernelSearch  | 159.4 |   13.8 |                          {'a': 8, 'lv': 0}                           |
             | BigK          | 230.8 |   17.2 |                          {'a': 0, 'lv': 0}                           |
+            | Minors        | 162.5 |   33.0 |                          {'a': 7, 'lv': 0}                           |
             +---------------+-------+--------+----------------------------------------------------------------------+
+
 
             sage: MRE = MREstimator(q=16, m=19, n=19, k=109, r=8)
             sage: MRE.table(show_all_parameters=1)
@@ -115,7 +120,9 @@ class MREstimator(BaseEstimator):
             | SupportMinors | 209.6 |   23.5 | {'a': 5, 'lv': 0, 'b': 2, 'nprime': 14, 'variant': 'block_wiedemann'} |
             | KernelSearch  | 207.4 |   14.9 |                           {'a': 5, 'lv': 0}                           |
             | BigK          | 431.1 |   17.4 |                           {'a': 0, 'lv': 0}                           |
+            | Minors        | 211.5 |   55.0 |                           {'a': 4, 'lv': 0}                           |
             +---------------+-------+--------+-----------------------------------------------------------------------+
+
 
             sage: MRE = MREstimator(q=16, m=19, n=19, k=167, r=6)
             sage: MRE.table(show_all_parameters=1)
@@ -127,7 +134,9 @@ class MREstimator(BaseEstimator):
             | SupportMinors | 236.3 |   20.9 | {'a': 8, 'lv': 0, 'b': 2, 'nprime': 11, 'variant': 'block_wiedemann'} |
             | KernelSearch  | 231.7 |   14.6 |                           {'a': 8, 'lv': 0}                           |
             | BigK          | 351.8 |   17.9 |                           {'a': 0, 'lv': 0}                           |
+            | Minors        | 237.6 |   45.7 |                           {'a': 7, 'lv': 0}                           |
             +---------------+-------+--------+-----------------------------------------------------------------------+
+
 
             sage: MRE = MREstimator(q=16, m=21, n=21, k=189, r=7)
             sage: MRE.table(show_all_parameters=1)
@@ -139,7 +148,9 @@ class MREstimator(BaseEstimator):
             | SupportMinors | 274.5 |   51.0 | {'a': 6, 'lv': 0, 'b': 8, 'nprime': 15, 'variant': 'block_wiedemann'} |
             | KernelSearch  | 269.2 |   15.5 |                           {'a': 8, 'lv': 0}                           |
             | BigK          | 452.6 |   18.4 |                           {'a': 0, 'lv': 0}                           |
+            | Minors        | 278.7 |    2.0 |                           {'a': 9, 'lv': 0}                           |
             +---------------+-------+--------+-----------------------------------------------------------------------+
+
 
             sage: MRE = MREstimator(q=16, m=22, n=22, k=254, r=6)
             sage: MRE.table(show_all_parameters=1)
@@ -151,7 +162,9 @@ class MREstimator(BaseEstimator):
             | SupportMinors | 301.2 |   17.6 | {'a': 11, 'lv': 0, 'b': 1, 'nprime': 11, 'variant': 'block_wiedemann'} |
             | KernelSearch  | 302.8 |   14.5 |                           {'a': 11, 'lv': 0}                           |
             | BigK          | 425.4 |   18.9 |                           {'a': 0, 'lv': 0}                            |
+            | Minors        | 307.1 |   60.1 |                           {'a': 9, 'lv': 0}                            |
             +---------------+-------+--------+------------------------------------------------------------------------+
+
 
             """
         super(MREstimator, self).table(show_quantum_complexity=show_quantum_complexity,
