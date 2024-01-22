@@ -158,9 +158,7 @@ class Stern(SDAlgorithm):
         # remaining_sol denotes the number of expected solutions per permutation
         # l_part_iterations is the expected number of projections need by IM to find one of those solutions
 
-        remaining_sol = (binom(n - k, w - 2 * par.p) * binom(k1, par.p) ** 2 * binom(n, w) // 2 ** (
-            n - k)) // binom(n,
-                             w)
+        remaining_sol = (binom(n - k, w - 2 * par.p) * binom(k1, par.p) ** 2 * 2**solutions) // binom(n,w)
         l_part_iterations = binom(
             n - k, w - 2 * par.p) // binom(n - k - par.l, w - 2 * par.p)
 
