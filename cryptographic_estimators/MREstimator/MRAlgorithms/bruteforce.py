@@ -102,7 +102,7 @@ class BruteForce(MRAlgorithm):
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
-    def _BFE_time_complexity_helper_(self, q: int, k_reduced: iny, r: int):
+    def _BFE_time_complexity_helper_(self, q: int, k_reduced: int, r: int):
         time = 0
         w = self._w
         if k_reduced > 0:
