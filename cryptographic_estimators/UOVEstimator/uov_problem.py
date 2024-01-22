@@ -44,7 +44,7 @@ class UOVProblem(BaseProblem):
         super().__init__(**kwargs)
 
         theta = kwargs.get("theta", 2)
-        cost_one_hash = kwargs.get("cost_one_hash", 17)
+        cost_one_hash = kwargs.get("cost_one_hash", 17.5)
         
         if n < 1:
             raise ValueError("n must be >= 1")

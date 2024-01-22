@@ -808,7 +808,7 @@ After editing it to your needs it can look like this for the `DummyEstimator`:
           "type": "selector",
           "direction": "column",
           "display_label": "Memory access cost",
-          "default_value": "Constant",
+          "default_value": 0,
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
           "options": [
             "Constant",
