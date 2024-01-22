@@ -116,11 +116,13 @@ class Stern(SDAlgorithm):
 
         _, k, _ = self.problem.get_parameters()
         k1 = k//2
-        for p in range(new_ranges["p"]["min"], min(k1, new_ranges["p"]["max"])+1, 2):
+        for p in range(new_ranges["p"]["min"], min(k1, new_ranges["p"]["max"])+1, 1):
             L1 = binom(k1, p)
             l_val = int(log2(L1))
             l_search_radius = self._adjust_radius
-            for l in range(max(new_ranges["l"]["min"], l_val-l_search_radius), min(new_ranges["l"]["max"], l_val+l_search_radius)+1):
+            lower = max(new_ranges["l"]["min"], l_val-l_search_radius) if new_ranges["l"]["min"] != new_ranges["l"]["max"] else new_ranges["l"]["min"] 
+            upper = max(new_ranges["l"]["max"], l_val+l_search_radius)+1 if new_ranges["l"]["min"] != new_ranges["l"]["max"] else new_ranges["l"]["max"]+1 
+            for l in range(lower, upper):
                 indices = {"p": p, "l": l, "r": self._optimal_parameters["r"]}
                 if self._are_parameters_invalid(indices):
                     continue
