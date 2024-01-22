@@ -25,7 +25,7 @@ from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, MR_NUMBER_OF_CO
 
 
 class BruteForce(MRAlgorithm):
-    r"""
+    """
     Construct an instance of BruteForce estimator
 
 
@@ -42,6 +42,7 @@ class BruteForce(MRAlgorithm):
         sage: E = BruteForce(MRProblem(q=7, m=9, n=10, k=15, r=4))
         sage: E
         BruteForce estimator for the MinRank problem with (q, m, n, k, r) = (7, 9, 10, 15, 4)
+
     """
 
     def __init__(self, problem: MRProblem, **kwargs):
@@ -73,6 +74,7 @@ class BruteForce(MRAlgorithm):
             sage: BFE = BruteForce(MRProblem(q=16, m=15, n=15, k=78, r=6))
             sage: BFE.a()
             5
+
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS)
 
@@ -96,10 +98,11 @@ class BruteForce(MRAlgorithm):
             sage: BFE = BruteForce(MRProblem(q=16, m=15, n=15, k=78, r=6))
             sage: BFE.lv()
             0
+
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
-    def _BFE_time_complexity_helper_(self, q, k_reduced, r):
+    def _BFE_time_complexity_helper_(self, q: int, k_reduced: iny, r: int):
         time = 0
         w = self._w
         if k_reduced > 0:
@@ -121,6 +124,7 @@ class BruteForce(MRAlgorithm):
             sage: BFE = BruteForce(MRProblem(q=16, m=15, n=15, k=78, r=6))
             sage: BFE.time_complexity()
             143.75488750216346
+
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
@@ -149,6 +153,7 @@ class BruteForce(MRAlgorithm):
             sage: BFE = BruteForce(MRProblem(q=16, m=15, n=15, k=78, r=6))
             sage: BFE.memory_complexity()
             16.11756193939414
+
         """
 
         q, m, n, k, r = self.problem.get_parameters()
