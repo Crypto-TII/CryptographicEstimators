@@ -25,7 +25,7 @@ from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, MR_NUMBER_OF_CO
 
 
 class Minors(MRAlgorithm):
-    r"""
+    """
     Construct an instance of Minors estimator
 
 
@@ -99,22 +99,18 @@ class Minors(MRAlgorithm):
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
-    def _ME_time_complexity_helper_(self, m, n_reduced, k_reduced, r):
-        time = 0
+    def _ME_time_memory_complexity_helper_(self, m: int, n_reduced: int, k_reduced: int, r: int, time_mem: str):
+        out = 0
         poly = minors_polynomial(m, n_reduced, k_reduced, r)
         D = poly.degree()
-        w = self._w
         if k_reduced > 0:
-            time = w * log2(binomial(k_reduced + D, D))
-        return time
+            if time_mem == "time":
+                w = self._w
+                out = w * log2(binomial(k_reduced + D, D))
+            elif time_mem == "memory":
+                out = 2 * log2(binomial(k_reduced + D, D))
+        return out
 
-    def _ME_memory_complexity_helper_(self, m, n_reduced, k_reduced, r):
-        memory = 0
-        poly = minors_polynomial(m, n_reduced, k_reduced, r)
-        D = poly.degree()
-        if k_reduced > 0:
-            memory = 2 * log2(binomial(k_reduced + D, D))
-        return memory
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -137,7 +133,7 @@ class Minors(MRAlgorithm):
         q, m, _, k, r = self.problem.get_parameters()
         _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
-        time_complexity = self._ME_time_complexity_helper_(m, n_reduced, k_reduced, r)
+        time_complexity = self._ME_time_memory_complexity_helper_(m, n_reduced, k_reduced, r, "time")
         reduction_cost = self.cost_reduction(a)
         time += max(time_complexity, reduction_cost)
         if abs(time_complexity - reduction_cost) < 0:
@@ -165,5 +161,5 @@ class Minors(MRAlgorithm):
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, n, k, r = self.problem.get_parameters()
         _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
-        memory = self._ME_memory_complexity_helper_(m, n_reduced, k_reduced, r)
+        memory = self._ME_time_memory_complexity_helper_(m, n_reduced, k_reduced, r, "memory")
         return memory
