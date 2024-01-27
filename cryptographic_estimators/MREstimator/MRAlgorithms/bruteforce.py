@@ -24,9 +24,9 @@ from ..mr_helper import minors_polynomial
 from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, MR_NUMBER_OF_COEFFICIENTS_TO_GUESS
 
 
-class Minors(MRAlgorithm):
+class BruteForce(MRAlgorithm):
     """
-    Construct an instance of Minors estimator
+    Construct an instance of BruteForce estimator
 
 
     INPUT:
@@ -37,21 +37,22 @@ class Minors(MRAlgorithm):
 
     EXAMPLES::
 
-        sage: from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
+        sage: from cryptographic_estimators.MREstimator.MRAlgorithms.bruteforce import BruteForce
         sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-        sage: E = Minors(MRProblem(q=7, m=9, n=10, k=15, r=4))
+        sage: E = BruteForce(MRProblem(q=7, m=9, n=10, k=15, r=4))
         sage: E
-        Minors estimator for the MinRank problem with (q, m, n, k, r) = (7, 9, 10, 15, 4)
+        BruteForce estimator for the MinRank problem with (q, m, n, k, r) = (7, 9, 10, 15, 4)
+
     """
 
     def __init__(self, problem: MRProblem, **kwargs):
 
-        super(Minors, self).__init__(problem, **kwargs)
+        super(BruteForce, self).__init__(problem, **kwargs)
 
         q, m, n, k, r = self.problem.get_parameters()
         self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)))
         self.set_parameter_ranges('lv', 0, r)
-        self._name = "Minors"
+        self._name = "BruteForce"
 
     @optimal_parameter
     def a(self):
@@ -60,19 +61,20 @@ class Minors(MRAlgorithm):
 
         EXAMPLES::
 
-            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.bruteforce import BruteForce
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: ME = Minors(MRProblem(q=7, m=9, n=10, k=15, r=4))
-            sage: ME.a()
-            2
+            sage: BFE = BruteForce(MRProblem(q=7, m=9, n=10, k=15, r=4))
+            sage: BFE.a()
+            1
 
         TESTS::
 
-            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.bruteforce import BruteForce
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            sage: ME.a()
+            sage: BFE = BruteForce(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            sage: BFE.a()
             5
+
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS)
 
@@ -83,33 +85,29 @@ class Minors(MRAlgorithm):
 
         EXAMPLES::
 
-            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.bruteforce import BruteForce
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: ME = Minors(MRProblem(q=7, m=9, n=10, k=15, r=4))
-            sage: ME.lv()
+            sage: BFE = BruteForce(MRProblem(q=7, m=9, n=10, k=15, r=4))
+            sage: BFE.lv()
             0
 
         TESTS::
 
-            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.bruteforce import BruteForce
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            sage: ME.lv()
+            sage: BFE = BruteForce(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            sage: BFE.lv()
             0
+
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
-    def _ME_time_memory_complexity_helper_(self, m: int, n_reduced: int, k_reduced: int, r: int, time_mem: str):
-        out = 0
-        poly = minors_polynomial(m, n_reduced, k_reduced, r)
-        D = poly.degree()
+    def _BFE_time_complexity_helper_(self, q: int, k_reduced: int, r: int):
+        time = 0
+        w = self._w
         if k_reduced > 0:
-            if time_mem == "time":
-                w = self._w
-                out = w * log2(binomial(k_reduced + D, D))
-            elif time_mem == "memory":
-                out = 2 * log2(binomial(k_reduced + D, D))
-        return out
+            time = k_reduced * log2(q)  +  w * log2(r)
+        return time
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -121,18 +119,19 @@ class Minors(MRAlgorithm):
 
         TESTS::
 
-            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.bruteforce import BruteForce
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            sage: ME.time_complexity()
-            143.1769522683363
+            sage: BFE = BruteForce(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            sage: BFE.time_complexity()
+            143.75488750216346
+
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, _, k, r = self.problem.get_parameters()
         _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
-        time_complexity = self._ME_time_memory_complexity_helper_(m, n_reduced, k_reduced, r, "time")
+        time_complexity = self._BFE_time_complexity_helper_(q, k_reduced, r)
         reduction_cost = self.cost_reduction(a)
         time += max(time_complexity, reduction_cost)
         if abs(time_complexity - reduction_cost) < 0:
@@ -149,16 +148,14 @@ class Minors(MRAlgorithm):
 
         TESTS::
 
-            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
+            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.bruteforce import BruteForce
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            sage: ME.memory_complexity()
-            14.784634845557521
+            sage: BFE = BruteForce(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            sage: BFE.memory_complexity()
+            16.11756193939414
+
         """
 
-        a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
-        lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, n, k, r = self.problem.get_parameters()
-        _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
-        memory = self._ME_time_memory_complexity_helper_(m, n_reduced, k_reduced, r, "memory")
+        memory = log2(k + 1) +  log2(m * n)
         return memory

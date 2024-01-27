@@ -31,7 +31,7 @@ class KernelSearch(MRAlgorithm):
 
     - ``problem`` -- an instance of the MRProblem class
     - ``w`` -- linear algebra constant (default: 3)
-    - ``theta`` -- exponent of the conversion factor (default: 2.81)
+    - ``theta`` -- exponent of the conversion factor (default: 2)
 
     EXAMPLES::
 
