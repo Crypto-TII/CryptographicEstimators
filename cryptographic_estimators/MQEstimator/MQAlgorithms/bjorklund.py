@@ -61,6 +61,34 @@ class Bjorklund(MQAlgorithm):
         else: # case if n<=15
             self.set_parameter_ranges('lambda_', 3 / n, min(m,n-1)/n)
 
+
+    def _find_optimal_parameters(self):
+        """
+        Enumerates all valid parameter configurations within the _parameter_ranges and saves the best
+        result (according to time complexity) in `_optimal_parameters`
+
+        """
+
+        time = inf
+        for params in self._valid_choices():
+            tmp_time = self._compute_time_complexity(params)
+            tmp_memory = self._compute_memory_complexity(params)
+            if self.bit_complexities:
+                tmp_memory = self.problem.to_bitcomplexity_memory(tmp_memory)
+
+            tmp_time += self.memory_access_cost(tmp_memory)
+
+            if tmp_time < time and tmp_memory <= self.problem.memory_bound:
+                time, _ = tmp_time, tmp_memory
+                self._current_minimum_for_early_abort = tmp_time
+                for i in params:
+                    self._optimal_parameters[i] = params[i]
+            
+            if tmp_time > time:
+                break
+            
+        self._current_minimum_for_early_abort = inf
+
     @optimal_parameter
     def lambda_(self):
         """
@@ -74,26 +102,6 @@ class Bjorklund(MQAlgorithm):
             sage: E.lambda_()
             3/10
         """
-        
-        time = inf
-        for params in self._valid_choices():
-            tmp_time = self._compute_time_complexity(params)
-            tmp_memory = self._compute_memory_complexity(params)
-            if self.bit_complexities:
-                tmp_memory = self.problem.to_bitcomplexity_memory(tmp_memory)
-
-            tmp_time += self.memory_access_cost(tmp_memory)
-
-            if tmp_time < time and tmp_memory <= self.problem.memory_bound:
-                time, _ = tmp_time, tmp_memory
-                self._current_minimum_for_early_abort = tmp_time #ver si este se puede usar para el early abort en _are_par
-                for i in params:
-                    self._optimal_parameters[i] = params[i]
-            
-            if tmp_time > time:
-                break
-            
-        self._current_minimum_for_early_abort = inf
 
         return self._get_optimal_parameter('lambda_')
 
@@ -214,6 +222,11 @@ class Bjorklund(MQAlgorithm):
     def _internal_time_complexity_(n: int, m: int, lambda_: float):
         """
         Helper function. Computes the runtime of the algorithm for given n, m and lambda
+
+        ALgorithm taken from: Stefano Barbero et al. Practical complexities of probabilistic algorithms for solving
+        Boolean polynomial systems. Cryptology ePrint Archive, Paper 2021/913. https://
+        eprint . iacr . org / 2021 / 913. 2021. doi: 10 . 1016 / j . dam . 2021 . 11 . 014. url:
+        https://eprint.iacr.org/2021/913
         """
         # uses brute force
         if n <= 1:            
