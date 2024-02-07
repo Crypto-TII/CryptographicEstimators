@@ -82,8 +82,13 @@ Additionally we provide a User Guide [here](https://github.com/Crypto-TII/Crypto
 
 ---
 ## Contributing 🖊️
-The aim of this project is to be maintained by the community. We want you to help us grow this library, so please feel free to submit your pull request following the [CONTRIBUTING.md](./docs/CONTRIBUTING.md) document. Also if you need any help about how to edit the `input_dictionary.json` visit [this playground](https://github.com/Crypto-TII/cryptographic_estimators_ui).
+The aim of this project is to be maintained by the community. We want you to help us grow this library, so please feel free to submit your pull request following the [CONTRIBUTING.md](./docs/CONTRIBUTING.md) document. 
  
+---
+## Contact 🖊️
+If you need any help about contributing to this project feel free to contact us 
+at `cryptographic_estimators at tii.ae`
+
 ---
 
 <!--### Usage -->
