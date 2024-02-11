@@ -16,6 +16,8 @@ This library provides bit security estimators and asymptotic complexity estimato
  - Permuted Kernel
  - Permutation Equivalence
  - Linear Equivalence
+ - MinRank
+ - UOV Signature Scheme
 
 You can also access the estimators through [this](https://estimators.crypto.tii.ae/) user friendly and installation-free web application.
 
