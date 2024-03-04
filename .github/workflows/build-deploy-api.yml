@@ -1,69 +1,147 @@
 name: build-deploy-api
 on:
-  workflow_run:
-    workflows: [build-deploy-library]
-    types: [completed]
+  push:
+    branches:
+      - main
 
 jobs:
-  api-build-deploy:
+  build-deploy-to-staging:
     runs-on: ubuntu-22.04
     concurrency: ci-${{github.ref}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-
-      - name: Build library
-        uses: docker/build-push-action@v4
-        id: built-image
-        with:
-          context: .
-          push: false
-          load: true
-          tags: estimators-lib:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-
-      - name: Move cache
+      - name: Checkout API repository
         run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+          mkdir ../${{ secrets.BITBUCKET_REPOSITORY }}
+          git clone                                                                                                                                    \
+            https://x-token-auth:${{ secrets.BITBUCKET_API_TOKEN }}@bitbucket.org/${{ secrets.BITBUCKET_ORG }}/${{ secrets.BITBUCKET_REPOSITORY }}.git \
+            ../${{ secrets.BITBUCKET_REPOSITORY }}
 
-      - name: Pull API from BitBucket
+      - name: Configure AWS Credential for public AWS ECR
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to public AWS ECR
+        id: login-ecr-public
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registry-type: public
+
+      - name: Build and push staging library Docker image
         run: |
-          cd ..
-          git clone https://x-token-auth:${{ secrets.BITBUCKET_API_TOKEN }}@bitbucket.org/${{ secrets.BITBUCKET_ORG }}/${{ secrets.BITBUCKET_REPOSITORY }}.git 
-          cd ${{ secrets.BITBUCKET_REPOSITORY }} 
-          docker build -t estimators-api --file Dockerfile.integration --build-arg API_KEY_ARG=${{ secrets.API_KEY_ARG }} .
+          docker build --tag public.ecr.aws/h0m6q0n8/staging/estimators/lib:latest .
+          docker push public.ecr.aws/h0m6q0n8/staging/estimators/lib:latest
 
-      - name: Configure AWS Credential
+      - name: Configure AWS Credential for private AWS ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: me-central-1
 
-      - name: Login to Amazon ECR
+      - name: Login to private AWS ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Push API to AWS
+      - name: Build and push staging API Docker image
         run: |
-          docker tag estimators-api:latest ${{ steps.login-ecr.outputs.registry }}/estimators-api:latest
+          docker build --tag ${{ steps.login-ecr.outputs.registry }}/staging/estimators/api:latest    \
+            --file ../${{ secrets.BITBUCKET_REPOSITORY }}/Dockerfile.integration                      \
+            --build-arg API_KEY_ARG=${{ secrets.API_KEY_ARG }} ../${{ secrets.BITBUCKET_REPOSITORY }}
+          docker push ${{ steps.login-ecr.outputs.registry }}/staging/estimators/api:latest
+
+      - name: Reset staging AWS ECS task
+        run: |
+          aws ecs update-service                         \
+            --cluster estimators-cluster                 \
+            --service estimators-staging-service-tii-crc \
+            --force-new-deployment
+
+      - name: Save staging Docker images
+        run: |
+          docker save public.ecr.aws/h0m6q0n8/staging/estimators/lib:latest --output /tmp/staging-estimators-lib.tar
+          docker save ${{ steps.login-ecr.outputs.registry }}/staging/estimators/api:latest --output /tmp/staging-estimators-api.tar
+
+      - name: Stash staging library Docker image
+        uses: actions/upload-artifact@v3
+        with:
+          name: staging-estimators-images
+          path: |
+            /tmp/staging-estimators-lib.tar
+            /tmp/staging-estimators-api.tar
+
+  build-deploy-to-production:
+    runs-on: ubuntu-22.04
+    environment: production
+    needs: build-deploy-to-staging
+    concurrency: ci-${{github.ref}}
+    steps:
+      - name: Unstash staging Docker images
+        uses: actions/download-artifact@v3
+        with:
+          name: staging-estimators-images
+          path: /tmp
+
+      - name: Load staging Docker images
+        run: |
+          docker load --input /tmp/staging-estimators-lib.tar
+          docker load --input /tmp/staging-estimators-api.tar
+
+      - name: Configure AWS Credential for public AWS ECR
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to public AWS ECR
+        id: login-ecr-public
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registry-type: public
+
+      - name: Tag and push production library Docker image
+        run: |
+          docker tag public.ecr.aws/h0m6q0n8/staging/estimators/lib:latest public.ecr.aws/h0m6q0n8/estimators-lib:latest
+          docker push public.ecr.aws/h0m6q0n8/estimators-lib:latest
+
+      - name: Configure AWS Credential for private AWS ECR
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: me-central-1
+
+      - name: Login to private AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Tag and push production API Docker image
+        run: |
+          docker tag ${{ steps.login-ecr.outputs.registry }}/staging/estimators/api:latest ${{ steps.login-ecr.outputs.registry }}/estimators-api:latest
           docker push ${{ steps.login-ecr.outputs.registry }}/estimators-api:latest
 
-      - name: Reset API task
+      - name: Reset production AWS ECS task
         run: |
-          aws ecs list-tasks --region me-central-1 --cluster estimators-cluster |
-          python -c "import sys, json; print(json.load(sys.stdin)['taskArns'][0])" |
-          xargs -I{} aws ecs stop-task --task {} --region me-central-1 --cluster estimators-cluster
+          aws ecs update-service         \
+            --cluster estimators-cluster \
+            --service estimator-api      \
+            --force-new-deployment
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Update documentation
+        run: sudo make docker-doc
+
+      - name: Deploy to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs/build/html
+          branch: gh-pages
+
