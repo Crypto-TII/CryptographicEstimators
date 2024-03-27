@@ -64,9 +64,21 @@ sage:
 
 ---
 ## Documentation 📝
-To generate the documentation locally you can run `make doc` and then open to `/docs/build/html/index.html` to view it. Or you can also generated the documentation through docker via running `make docker-doc`
+To generate the documentation locally you can run `make doc` and then open to
+`/docs/build/html/index.html` to view it. Note that you need the two 
+packages `sphinx` and `furo`, which can be installed with either:
+```bash
+pip3 install sphinx furo
+```
+or
+```bash
+pip3 install -r requirements.txt
+```
 
-You can read the User Guide [here](https://github.com/Crypto-TII/CryptographicEstimators/blob/main/docs/User_Guide.ipynb).
+If you use docker you can also generated the documentation through docker via 
+running `make docker-doc`
+
+Additionally we provide a User Guide [here](https://github.com/Crypto-TII/CryptographicEstimators/blob/main/docs/User_Guide.ipynb).
 
 ---
 ## Contributing 🖊️
