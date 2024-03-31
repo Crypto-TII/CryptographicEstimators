@@ -1,0 +1,1 @@
+from .direct_attack import DummyAlgorithm1
