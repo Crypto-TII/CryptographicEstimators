@@ -17,34 +17,84 @@
 
 
 from ..base_problem import BaseProblem
+from ..MQEstimator.mq_helper import ngates
+from .mayo_constants import *
+from sage.arith.misc import is_prime_power
+from sage.functions.other import ceil
 from math import log2
 
 
 class MAYOProblem(BaseProblem):
     """
-    Construct an instance of DummyProblem. Contains the parameters to optimize
-    over.
+    Construct an instance of MAYOProblem.
 
     INPUT:
 
-    - ``problem_parameter1`` -- First parameter of the problem
-    - ``problem_parameter2`` -- Second parameter of the problem
-    - ``nsolutions`` -- number of solutions of the problem in logarithmic scale
+    - ``n`` -- number of variables
+    - ``m`` -- number of polynomials
+    - ``o`` -- dimension of the oil space
+    - ``k`` -- whipping parameter
+    - ``q`` -- order of the finite field
+    - ``theta`` -- exponent of the conversion factor (default: 2)
+        - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
+        - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
+    - ``cost_one_hash`` -- bit complexity of computing one hash value (default: 17)
+    - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
+
     """
 
-    def __init__(self, problem_parameter1: float, problem_parameter2: float, **kwargs):
+    def __init__(self, n: int, m: int, o: int, k: int, q: int, **kwargs):
         super().__init__(**kwargs)
 
-        # implement restrictions if apply e.g.
-        if problem_parameter1 < problem_parameter2:
-            raise ValueError(
-                "Parameter1 needs to be larger or equal than Parameter2")
+        theta = kwargs.get("theta", 2)
+        cost_one_hash = kwargs.get("cost_one_hash", 17)
 
-        self.parameters["Parameter1"] = problem_parameter1
-        self.parameters["Parameter2"] = problem_parameter2
+        if n < 1:
+            raise ValueError("n must be >= 1")
 
-        self.nsolutions = kwargs.get("nsolutions", max(
-            self.expected_number_solutions(), 0))
+        if m < 1:
+            raise ValueError("m must be >= 1")
+
+        if n <= m:
+            raise ValueError("n must be > m")
+        
+        if o < 1:
+            raise ValueError("o must be >= 1")
+        
+        if k >= n - o:
+            raise ValueError("k must be < n - o")
+
+        if not is_prime_power(q):
+            raise ValueError("q must be a prime power")
+        
+        if theta is not None and not (0 <= theta <= 2):
+            raise ValueError("theta must be either None or 0 <= theta <= 2")
+
+        if cost_one_hash < 0:
+            raise ValueError("The cost of computing one hash must be >= 0")
+        
+        self.parameters[MAYO_NUMBER_VARIABLES] = n
+        self.parameters[MAYO_NUMBER_POLYNOMIALS] = m
+        self.parameters[MAYO_OIL_SPACE] = o
+        self.parameters[MAYO_WHIPPING_PARAMETER] = k
+        self.parameters[MAYO_FIELD_SIZE] = q
+        self._theta = theta
+        self._cost_one_hash = cost_one_hash
+
+    def hashes_to_basic_operations(self, number_of_hashes: float):
+        """
+        Return the number basic operations corresponding to a certain amount of hashes
+
+        INPUT:
+
+        - ``number_of_hashes`` -- Number of hashes  (logarithmic) (default: None)
+
+        """
+        bit_complexity_one_hash = self._cost_one_hash
+        bit_complexity_all_hashes = number_of_hashes + bit_complexity_one_hash
+        bit_complexity_one_basic_operation = self.to_bitcomplexity_time(1)
+        number_of_basic_operations =  bit_complexity_all_hashes - bit_complexity_one_basic_operation
+        return number_of_basic_operations
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """
@@ -55,9 +105,9 @@ class MAYOProblem(BaseProblem):
         - ``basic_operations`` -- Number of basic operations (logarithmic)
 
         """
-        p1 = self.parameters["Parameter1"]
-        bit_complexity_of_one_basic_operation = log2(p1) + 4
-        return basic_operations + bit_complexity_of_one_basic_operation
+        q = self.parameters[MAYO_FIELD_SIZE]
+        theta = self._theta
+        return ngates(q, basic_operations, theta=theta)
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
@@ -68,29 +118,88 @@ class MAYOProblem(BaseProblem):
         - ``elements_to_store`` -- number of memory operations (logarithmic)
 
         """
-        logarithm_of_bits_required_to_store_one_basic_element = 4
-        return elements_to_store + logarithm_of_bits_required_to_store_one_basic_element
-
-    def expected_number_solutions(self):
-        """
-        Returns the logarithm of the expected number of existing solutions to the problem
-
-        """
-        return self.parameters["Parameter1"] - self.parameters["Parameter2"]
+        q = self.parameters[MAYO_FIELD_SIZE]
+        return log2(ceil(log2(q))) + elements_to_store
 
     def get_parameters(self):
         """
         Returns the optimizations parameters
+
+        TEST::
+
+
+
         """
-        par1 = self.parameters["Parameter1"]
-        par2 = self.parameters["Parameter2"]
-        return par1, par2
+        return list(self.parameters.values())
+    
+    def npolynomials(self):
+        """"
+        Return the number of polynomials
+  
+        """
+        return self.parameters[MAYO_NUMBER_POLYNOMIALS]
+    
+    def nvariables(self):
+        """
+        Return the number of variables
+
+        """
+        return self.parameters[MAYO_NUMBER_VARIABLES]
+    
+
+    def order_oil_space(self):
+        """
+        Return the dimension of the oil space
+
+        """
+        return self.parameters[MAYO_OIL_SPACE]
+    
+    def whipping_parameter(self):
+        """
+        Return the whipping parameter
+        
+        """
+        return self.parameters[MAYO_WHIPPING_PARAMETER]
+
+    def order_of_the_field(self):
+        """
+        Return the order of the field
+
+        """
+        return self.parameters[MAYO_FIELD_SIZE]
+
+    @property
+    def theta(self):
+        """
+        Returns the runtime of the algorithm
+
+        """
+        return self._theta
+
+    @theta.setter
+    def theta(self, value: float):
+        """
+        Sets the runtime
+
+        """
+        self._theta = value
+
+    @property
+    def cost_one_hash(self):
+        """
+        Returns the bit-complexity of computing one hash
+
+        """
+        return self._cost_one_hash
+
+    @cost_one_hash.setter
+    def cost_one_hash(self, value: float):
+        """
+        Sets the bit-complexity of computing one hash
+
+        """
+        self._cost_one_hash = value
 
     def __repr__(self):
-        """
-        """
-        par1, par2 = self.get_parameters()
-        rep = "Dummy problem with (problem_parameter1, problem_parameter2) = " \
-              + "(" + str(par1) + "," + str(par2) + ")"
-
-        return rep
+        n, m, o, k, q = self.get_problem_parameters()
+        return f"MAYO instance with (n, m, o, k, q) = ({n}, {m}, {o}, {k}, {q})"
