@@ -10,3 +10,4 @@ from . import LEEstimator
 from . import PEEstimator
 from . import DummyEstimator
 from . import UOVEstimator
+from . import MAYOEstimator
