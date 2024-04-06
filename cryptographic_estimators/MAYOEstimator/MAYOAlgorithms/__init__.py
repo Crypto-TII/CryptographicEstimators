@@ -1,1 +1,1 @@
-from .direct_attack import DummyAlgorithm1
+from .direct_attack import DirectAttack

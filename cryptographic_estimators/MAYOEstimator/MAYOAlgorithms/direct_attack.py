@@ -16,10 +16,10 @@
 # ****************************************************************************
 
 
-from ..mayo_algorithm import DummyAlgorithm
-from ..mayo_problem import DummyProblem
+from ..mayo_algorithm import MAYOAlgorithm
+from ..mayo_problem import MAYOProblem
 
-class DirectAttack(DummyAlgorithm):
+class DirectAttack(MAYOAlgorithm):
     """
     Construct an instance of DirectAttack estimator
 
@@ -35,7 +35,7 @@ class DirectAttack(DummyAlgorithm):
 
     """
 
-    def __init__(self, problem: DummyProblem, **kwargs):
+    def __init__(self, problem: MAYOProblem, **kwargs):
         super().__init__(problem, **kwargs)
 
     def _compute_time_complexity(self, parameters: dict):
@@ -47,6 +47,7 @@ class DirectAttack(DummyAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
+        return 2
         
     def _compute_memory_complexity(self, parameters: dict):
         """
@@ -57,5 +58,6 @@ class DirectAttack(DummyAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
+        return 0
 
         

@@ -28,17 +28,30 @@ class MAYOEstimator(BaseEstimator):
 
     INPUT:
 
-    - ``problem_parameter1`` -- First parameter of the problem
-    - ``problem_parameter2`` -- Second parameter of the problem
-    - ``memory_bound`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)  
-    - ``nsolutions`` -- number of solutions of the problem in logarithmic scale
+    - ``n`` -- number of variables
+    - ``m`` -- number of polynomials
+    - ``o`` -- dimension of the oil space
+    - ``k`` -- whipping parameter
+    - ``q`` -- order of the finite field
+    - ``theta`` -- exponent of the conversion factor (default: 2)
+        - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
+        - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
+    - ``w`` -- linear algebra constant (default: 2)
+    - ``h`` -- external hybridization parameter (default: 0)
+     - ``excluded_algorithms`` -- a list/tuple of algorithms to be excluded (default: [])
+    - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
+    - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
+    - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
 
     """
 
-    def __init__(self, problem_parameter1: float, problem_parameter2, memory_bound=inf, **kwargs):
-        super(MAYOEstimator, self).__init__(MAYOAlgorithm, MAYOProblem(problem_parameter1=problem_parameter1,
-                                                                          problem_parameter2=problem_parameter2,
-                                                                          memory_bound=memory_bound, **kwargs), **kwargs)
+    def __init__(self, n: int, m: int, o: int, k: int, q: int, memory_bound=inf, **kwargs):
+        super(MAYOEstimator, self).__init__(
+            MAYOAlgorithm, 
+            MAYOProblem(n=n, m=m, o=o, k=k, q=q, memory_bound=memory_bound, **kwargs), 
+            **kwargs
+        )
+        self._estimator_type = "scheme"
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
               show_all_parameters=0, precision=1, truncate=0):
