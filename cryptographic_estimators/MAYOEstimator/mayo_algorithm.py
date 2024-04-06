@@ -34,8 +34,30 @@ class MAYOAlgorithm(BaseAlgorithm):
         """
         super(MAYOAlgorithm, self).__init__(problem, **kwargs)
 
+        self._h = kwargs.get("h", 0)
+        self._w = kwargs.get("w", 2.81)
+        self._name = "BaseMAYOAlgorithm"
+
+        if self._w is not None and not 2 <= self._w <= 3:
+            raise ValueError("w must be in the range 2 <= w <= 3")
+
+        if self._h < 0:
+            raise ValueError("h must be >= 0")
+        
+    def linear_algebra_constant(self):
+        """
+        Return the linear algebra constant
+
+        TESTS::
+
+
+        
+        """
+        return self._w
+
     def __repr__(self):
         """
         NOTE: self._name must be instanciated via the child class
         """
-        
+        n, m, o, k, q = self.get_parameters()
+        return f"{self.name} estimator for the MAYO signature scheme with parameters (n, m, o, k, q) = ({n}, {m}, {o}, {k}, {q})"

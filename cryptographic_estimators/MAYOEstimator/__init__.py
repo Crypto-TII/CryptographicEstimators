@@ -1,4 +1,4 @@
-from .mayo_algorithm import DummyAlgorithm
-from .mayo_estimator import DummyEstimator
-from .mayo_problem import DummyProblem
+from .mayo_algorithm import MAYOAlgorithm
+from .mayo_estimator import MAYOEstimator
+from .mayo_problem import MAYOProblem
 from .MAYOAlgorithms import *

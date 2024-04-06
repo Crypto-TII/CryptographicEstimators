@@ -201,5 +201,5 @@ class MAYOProblem(BaseProblem):
         self._cost_one_hash = value
 
     def __repr__(self):
-        n, m, o, k, q = self.get_problem_parameters()
+        n, m, o, k, q = self.get_parameters()
         return f"MAYO instance with (n, m, o, k, q) = ({n}, {m}, {o}, {k}, {q})"
