@@ -18,8 +18,11 @@
 
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
-from math import log2, sqrt, floor
-from math import comb as binomial
+from ...helper import ComplexityType
+from math import log2
+from sage.all import Integer
+from sage.functions.other import sqrt, floor
+from sage.functions.other import binomial
 
 
 class CGMTA(MQAlgorithm):
@@ -59,7 +62,7 @@ class CGMTA(MQAlgorithm):
 
     def __init__(self, problem: MQProblem, **kwargs):
         n, m, q = problem.get_problem_parameters()
-        if not isinstance(q, int):
+        if not isinstance(q, (int, Integer)):
             raise TypeError("q must be an integer")
 
         if m > n:
@@ -68,8 +71,8 @@ class CGMTA(MQAlgorithm):
         super().__init__(problem, **kwargs)
         self._k = min(m / 2, floor(sqrt(n / 2 - sqrt(n / 2))))
 
-        if 2 * self._k**2 > n - 2 * self._k or m - 2 * self._k >= 2 * self._k**2:
-            raise ValueError("The condition m - 2k < 2k^2 <= n - 2k must be satisfied")
+        if 2 * self._k ** 2 > n - 2 * self._k or m - 2 * self._k >= 2 * self._k ** 2:
+            raise ValueError('The condition m - 2k < 2k^2 <= n - 2k must be satisfied')
 
         self._name = "CGMT-A"
         self._n_reduced = n
@@ -143,4 +146,6 @@ class CGMTA(MQAlgorithm):
         """
         q = self.problem.order_of_the_field()
         k = self._k
-        return k * log2(q)
+        return  k * log2(q)
+
+
