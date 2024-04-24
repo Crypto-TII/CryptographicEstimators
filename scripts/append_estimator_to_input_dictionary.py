@@ -7,9 +7,9 @@ import json
 class AppendEstimator():
     def __init__(self):
         estimator_prefix = input(
-            "Enter a prefix for your Estimator (For example for SyndromeDecoding we use SD): ")
+            "Enter a prefix for your Estimator (For example for Syndrome Decoding we use SD): ")
         self.estimator_prefix = estimator_prefix
-        self.estimator_label = input("Enter the estimator full name: ")
+        self.estimator_label = input("Enter the estimator full name  (For example Syndrome Decoding): ")
         self.upper_estimator_prefix = self.estimator_prefix.upper()
 
     def write(self):
