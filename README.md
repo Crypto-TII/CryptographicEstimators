@@ -65,8 +65,8 @@ sage:
 ---
 ## Documentation 📝
 
-You can generated the documentation through docker via running `make docker-doc`
-Open `docs/build/html/index.html` to view it.
+You can either generate the documentation through docker via running `make docker-doc`
+open `docs/build/html/index.html` to view it, or you can find it online [here](https://crypto-tii.github.io/CryptographicEstimators/)
 
 Additionally, we provide a User Guide [here](https://github.com/Crypto-TII/CryptographicEstimators/blob/main/docs/User_Guide.ipynb).
 
