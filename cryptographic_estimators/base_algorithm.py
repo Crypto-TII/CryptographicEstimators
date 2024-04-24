@@ -331,6 +331,8 @@ class BaseAlgorithm:
                 self._find_optimal_parameters()
             elif self.complexity_type == ComplexityType.TILDEO.value:
                 self._find_optimal_tilde_o_parameters()
+            else:
+                assert False
 
         return self._optimal_parameters.get(key)
 
