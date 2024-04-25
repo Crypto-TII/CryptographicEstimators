@@ -235,7 +235,7 @@
           "type": "slider",
           "direction": "column",
           "display_label": "Matrix multiplication constant",
-          "default_value": 2.0,
+          "default_value": 2.81,
           "tooltip": "Indicates that two square matrices of size n can be multiplied by performing O(n^w) field multiplications",
           "min": 2,
           "max": 3,
