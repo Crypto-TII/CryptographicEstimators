@@ -10,12 +10,19 @@
 ## Introduction 🎉
 
 This library provides bit security estimators and asymptotic complexity estimators for cryptographic problems. Some of the implemented estimators are:
- - Multivariate Quadratic
- - Binary Syndrome Decoding
- - Syndrome Decoding over Fq
- - Permuted Kernel
- - Permutation Equivalence
- - Linear Equivalence
+
+- ### Problem Estimators  
+  - Multivariate Quadratic
+  - Binary Syndrome Decoding
+  - Syndrome Decoding over Fq
+  - Permuted Kernel
+  - Permutation Equivalence
+  - Linear Equivalence
+  - MinRank 
+  - Regular Syndrome Decoding
+
+- ### Schemes Estimators
+  - UOV
 
 You can also access the estimators through [this](https://estimators.crypto.tii.ae/) user friendly and installation-free web application.
 
