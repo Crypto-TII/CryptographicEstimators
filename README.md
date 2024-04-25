@@ -21,7 +21,7 @@ This library provides bit security estimators and asymptotic complexity estimato
   - MinRank 
   - Regular Syndrome Decoding
 
-- ### Schemes Estimators
+- ### Scheme Estimators
   - UOV
 
 You can also access the estimators through [this](https://estimators.crypto.tii.ae/) user friendly and installation-free web application.
