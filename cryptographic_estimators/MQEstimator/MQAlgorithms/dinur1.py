@@ -21,8 +21,7 @@ from ...MQEstimator.mq_helper import sum_of_binomial_coefficients
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...helper import ComplexityType
-from math import log2
-from sage.functions.other import floor
+from math import log2, floor
 
 
 class DinurFirst(MQAlgorithm):
@@ -54,10 +53,10 @@ class DinurFirst(MQAlgorithm):
             raise TypeError("q must be equal to 2")
         super().__init__(problem, **kwargs)
         self._name = "Dinur1"
-        self._k = floor(log2(2 ** self.problem.nsolutions + 1))
+        self._k = floor(log2(2**self.problem.nsolutions + 1))
         n, m, _ = self.get_reduced_parameters()
-        self.set_parameter_ranges('kappa', 1 / n, 1/3)
-        self.set_parameter_ranges('lambda_', 1 / (n - 1), 0.999)
+        self.set_parameter_ranges("kappa", 1 / n, 1 / 3)
+        self.set_parameter_ranges("lambda_", 1 / (n - 1), 0.999)
 
     @optimal_parameter
     def lambda_(self):
@@ -72,7 +71,7 @@ class DinurFirst(MQAlgorithm):
             sage: E.lambda_()
             2/9
         """
-        return self._get_optimal_parameter('lambda_')
+        return self._get_optimal_parameter("lambda_")
 
     @optimal_parameter
     def kappa(self):
@@ -87,7 +86,7 @@ class DinurFirst(MQAlgorithm):
             sage: E.kappa()
             1/3
         """
-        return self._get_optimal_parameter('kappa')
+        return self._get_optimal_parameter("kappa")
 
     def _valid_choices(self):
         """
@@ -97,16 +96,15 @@ class DinurFirst(MQAlgorithm):
         new_ranges = self._fix_ranges_for_already_set_parameters()
 
         n, m, _ = self.get_reduced_parameters()
-        n1_min = max(2, floor(new_ranges['kappa']['min'] * (n - 1)))
-        n1_max = min(floor(new_ranges['kappa']
-                     ['max'] * (n - 1)), (n - 1) // 3 + 1)
+        n1_min = max(2, floor(new_ranges["kappa"]["min"] * (n - 1)))
+        n1_max = min(floor(new_ranges["kappa"]["max"] * (n - 1)), (n - 1) // 3 + 1)
         n1 = n1_min
         n2 = 1
         kappa = n1 / (n - 1)
         lambda_ = (n1 - n2) / (n - 1)
         stop = False
         while not stop:
-            yield {'kappa': kappa, 'lambda_': lambda_}
+            yield {"kappa": kappa, "lambda_": lambda_}
             n2 += 1
             if n2 >= n1:
                 n2 = 1
@@ -125,11 +123,10 @@ class DinurFirst(MQAlgorithm):
         m = self.npolynomials_reduced()
 
         if n2 <= 0:
-            return n * sum_of_binomial_coefficients(n - n1, w) * 2 ** n1
+            return n * sum_of_binomial_coefficients(n - n1, w) * 2**n1
         else:
             temp1 = self._T(n, n2, n2 + 4, lambda_)
-            temp2 = n * \
-                sum_of_binomial_coefficients(n - n1, w) * 2 ** (n1 - n2)
+            temp2 = n * sum_of_binomial_coefficients(n - n1, w) * 2 ** (n1 - n2)
             temp3 = n * sum_of_binomial_coefficients(n - n2, n2 + 4)
             temp4 = l * (m + k + 2) * sum_of_binomial_coefficients(n, 2)
             return t * (temp1 + temp2 + temp3 + temp4)
@@ -155,8 +152,8 @@ class DinurFirst(MQAlgorithm):
             26.81991353901186
 
         """
-        lambda_ = parameters['lambda_']
-        kappa = parameters['kappa']
+        lambda_ = parameters["lambda_"]
+        kappa = parameters["kappa"]
         k = self._k
         n = self.nvariables_reduced()
 
@@ -166,9 +163,17 @@ class DinurFirst(MQAlgorithm):
         def n1(i, kappa):
             return floor((n - i) * kappa)
 
-        time = 8 * k * \
-            log2(n) * sum([self._T(n - i, n1(i, kappa),
-                                   w(i, kappa), lambda_) for i in range(1, n)])
+        time = (
+            8
+            * k
+            * log2(n)
+            * sum(
+                [
+                    self._T(n - i, n1(i, kappa), w(i, kappa), lambda_)
+                    for i in range(1, n)
+                ]
+            )
+        )
         h = self._h
         return h + log2(time)
 
@@ -193,7 +198,7 @@ class DinurFirst(MQAlgorithm):
             14.909893083770042
 
         """
-        kappa = parameters['kappa']
+        kappa = parameters["kappa"]
         n = self.nvariables_reduced()
         memory = log2(48 * n + 1) + floor((1 - kappa) * n)
         return memory
@@ -230,7 +235,7 @@ class DinurFirst(MQAlgorithm):
 
         - ``parameters`` -- dictionary including the parameters
         """
-        kappa = parameters['kappa']
+        kappa = parameters["kappa"]
         n = self.nvariables_reduced()
         memory = (1 - kappa) * n
         return memory
@@ -250,5 +255,5 @@ class DinurFirst(MQAlgorithm):
         n = self.nvariables_reduced()
         lambda_ = 1 / log2(n)
         kappa = 0.3057
-        self._optimal_parameters['kappa'] = kappa
-        self._optimal_parameters['lambda_'] = lambda_
+        self._optimal_parameters["kappa"] = kappa
+        self._optimal_parameters["lambda_"] = lambda_
