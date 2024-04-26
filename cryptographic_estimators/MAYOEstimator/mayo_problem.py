@@ -107,7 +107,7 @@ class MAYOProblem(BaseProblem):
         """
         q = self.parameters[MAYO_FIELD_SIZE]
         theta = None
-        return ngates(q, basic_operations, tehta=theta)
+        return ngates(q, basic_operations, theta=theta)
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
