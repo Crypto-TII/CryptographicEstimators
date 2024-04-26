@@ -22,6 +22,11 @@ from ...MQEstimator.mq_estimator import MQEstimator
 from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
 from ...base_constants import BASE_EXCLUDED_ALGORITHMS
 from math import log2
+from sage.functions.other import floor, sqrt
+#from sage.misc.functional import round
+from ...base_algorithm import optimal_parameter
+from cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
+from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
 
 class DirectAttack(MAYOAlgorithm):
     """
@@ -49,33 +54,18 @@ class DirectAttack(MAYOAlgorithm):
         self._attack_type = "key-recovery"
         n, m, _, k, q = self.problem.get_parameters()
 
-        w = self.linear_algebra_constant()
-        h = self._h
-        nsolutions = self.expected_number_solutions()
-        excluded_algorithms = kwargs.get(BASE_EXCLUDED_ALGORITHMS, [Lokshtanov])
-        complexity_type = self.complexity_type
-        self._MQEstimator = MQEstimator(n=n*k, m=m, q=q,
-                                        w=w,
-                                        h=h,
-                                        nsolutions=nsolutions,
-                                        excluded_algorithms=excluded_algorithms,
-                                        memory_access=0,
-                                        complexity_type=complexity_type,
-                                        bit_complexities=0)
-        self._fastest_algorithm = None
+        K_upper_bound = floor(1 / 2 * (2 * m - 1 - sqrt(-4 * m + 4 * n * k + 1)))
+        self.set_parameter_ranges('K', 0, K_upper_bound)
 
-    def get_fastest_mq_algorithm(self):
-        if self._fastest_algorithm is None:
-            self._fastest_algorithm = self._MQEstimator.fastest_algorithm()
-        return self._fastest_algorithm
+    @optimal_parameter
+    def K(self):
+        """
+        ----
 
-    def expected_number_solutions(self):
+        EXAMPLES::
+
         """
-        Returns the logarithm of the expected number of existing solutions to the problem
-        """
-        #TODO: VERIFICAR ESTA FORMULA
-        n, m, _, k, q = self.problem.get_parameters()
-        return log2(q) * ((n * k) - m)
+        return self._get_optimal_parameter('K')
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -86,10 +76,15 @@ class DirectAttack(MAYOAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
-        fastest_algorithm = self.get_fastest_mq_algorithm()
-        fastest_algorithm.complexity_type = self.complexity_type
-        return self._fastest_algorithm.time_complexity()
-        
+        n, m, _, k, q = self.problem.get_parameters()
+        K = parameters['K']
+
+        m_tilde = m - floor(((k*n)-K)/(m-K)) + 1
+        n_tilde = m_tilde - K
+
+        E = BooleanSolveFXL(MQProblem(n=n_tilde, m=m_tilde, q=q), bit_complexities=False)
+        return K*log2(q) + E.time_complexity()
+
     def _compute_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity of the algorithm for a given set of parameters
@@ -99,9 +94,7 @@ class DirectAttack(MAYOAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
-        fastest_algorithm = self.get_fastest_mq_algorithm()
-        fastest_algorithm.complexity_type = self.complexity_type
-        return self._fastest_algorithm.memory_complexity()
+        return 0
     
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
