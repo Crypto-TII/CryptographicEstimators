@@ -4,6 +4,7 @@ documentation_path=$(shell pwd)
 container_name="container-for-docs"
 SAGE=sage
 PACKAGE=cryptographic_estimators
+UNAME:=$(shell uname -m)
 
 tools:
 	@sage -python -m pip install setuptools==63.0 wheel==0.38.4 sphinx==5.3.0 furo prettytable scipy pytest
@@ -14,11 +15,18 @@ lib:
 install:
 	@make tools && make lib
 
-docker-build:
+docker-build-x86:
 	@docker build -t ${image_name} .
 
 docker-build-m1:
 	@docker buildx build -t ${image_name} --platform linux/x86_64 .
+
+docker-build:
+ifeq ($(UNAME), arm64)
+	@make docker-build-m1
+else
+	@make docker-build-x86
+endif 
 
 docker-run:
 	@docker run -it --rm ${image_name}
@@ -59,20 +67,20 @@ generate-documentation:
 mount-volume-and-run: 
 	@docker run --name container-for-docs --mount type=bind,source=${documentation_path}/docs,target=/home/cryptographic_estimators/docs -d -it ${image_name} sh
 
-docker-doc docker-build:
+docker-doc: docker-build
 	@make mount-volume-and-run && make generate-documentation && make stop-container-and-remove container_name="container-for-docs"
 
-docker-test:
+docker-test: docker-build
 	@docker run --name container-for-test -d -it ${image_name} sh && docker exec container-for-test sage -t --long -T 3600 --force-lib cryptographic_estimators && docker stop container-for-test && docker rm container-for-test
 
-docker-testfast:
+docker-testfast: docker-build
 	@docker run --name container-for-test -d -it ${image_name} sh && docker exec container-for-test sage -t cryptographic_estimators && make stop-container-and-remove container_name="container-for-test"
 
 add-copyright:
 	@python3 scripts/create_copyright.py
 
-docker-pytest:
+docker-pytest: docker-build
 	@docker run --name pytest-estimators -d -it ${image_name} sh && docker exec pytest-estimators sh -c "sage --python3 -m pytest -vv --cov-report xml:coverage.xml --cov=${PACKAGE} && ${SAGE} tests/test_sdfq.sage && ${SAGE} tests/test_le_beullens.sage && ${SAGE} tests/test_le_bbps.sage && ${SAGE} tests/test_pe.sage && ${SAGE} tests/test_pk.sage"  && make stop-container-and-remove container_name="pytest-estimators"
 
-docker-pytest-cov:
+docker-pytest-cov: docker-build
 	pytest -v --cov-report xml:coverage.xml --cov=${PACKAGE} tests/
