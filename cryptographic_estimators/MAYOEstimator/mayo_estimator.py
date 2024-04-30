@@ -24,7 +24,7 @@ from math import inf
 
 class MAYOEstimator(BaseEstimator):
     """
-    Construct an instance of DummyEstimator
+    Construct an instance of MAYOEstimator
 
     INPUT:
 
@@ -65,6 +65,31 @@ class MAYOEstimator(BaseEstimator):
         - ``show_all_parameters`` -- show all optimization parameters (default: false)
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
+
+        TESTS::
+
+            sage: from cryptographic_estimators.MAYOEstimator import MAYOEstimator
+            sage: E = MAYOEstimator(n=66, m=64, o=8, k=9, q=16)
+            sage: E.table() # long time
+            +--------------+-------------+----------------+
+            |              |             |    estimate    |
+            +--------------+-------------+-------+--------+
+            | algorithm    | attack_type |  time | memory |
+            +--------------+-------------+-------+--------+
+            | DirectAttack |   forgery   | 144.8 |   99.3 |
+            +--------------+-------------+-------+--------+
+
+            sage: from cryptographic_estimators.MAYOEstimator import MAYOEstimator
+            sage: E = MAYOEstimator(n=78, m=64, o=18, k=4, q=16)
+            sage: E.table(show_all_parameters=1) # long time
+            +--------------+-------------+-----------------------------+
+            |              |             |           estimate          |
+            +--------------+-------------+-------+--------+------------+
+            | algorithm    | attack_type |  time | memory | parameters |
+            +--------------+-------------+-------+--------+------------+
+            | DirectAttack |   forgery   | 156.9 |  135.6 | {'K': 15}  |
+            +--------------+-------------+-------+--------+------------+
+        
         """
         super(MAYOEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                           show_tilde_o_time=show_tilde_o_time,
