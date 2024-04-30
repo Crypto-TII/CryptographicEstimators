@@ -10,12 +10,19 @@
 ## Introduction 🎉
 
 This library provides bit security estimators and asymptotic complexity estimators for cryptographic problems. Some of the implemented estimators are:
- - Multivariate Quadratic
- - Binary Syndrome Decoding
- - Syndrome Decoding over Fq
- - Permuted Kernel
- - Permutation Equivalence
- - Linear Equivalence
+
+- ### Problem Estimators  
+  - Multivariate Quadratic
+  - Binary Syndrome Decoding
+  - Syndrome Decoding over Fq
+  - Permuted Kernel
+  - Permutation Equivalence
+  - Linear Equivalence
+  - MinRank 
+  - Regular Syndrome Decoding
+
+- ### Scheme Estimators
+  - UOV
 
 You can also access the estimators through [this](https://estimators.crypto.tii.ae/) user friendly and installation-free web application.
 
@@ -64,9 +71,11 @@ sage:
 
 ---
 ## Documentation 📝
-To generate the documentation locally you can run `make doc` and then open to `/docs/build/html/index.html` to view it. Or you can also generated the documentation through docker via running `make docker-doc`
 
-You can read the User Guide [here](https://github.com/Crypto-TII/CryptographicEstimators/blob/main/docs/User_Guide.ipynb).
+You can either generate the documentation through docker via running `make docker-doc`
+open `docs/build/html/index.html` to view it, or you can find it online [here](https://crypto-tii.github.io/CryptographicEstimators/)
+
+Additionally, we provide a User Guide [here](https://github.com/Crypto-TII/CryptographicEstimators/blob/main/docs/User_Guide.ipynb).
 
 ---
 ## Contributing 🖊️
