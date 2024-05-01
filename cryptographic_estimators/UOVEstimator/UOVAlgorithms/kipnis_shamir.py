@@ -51,7 +51,7 @@ class KipnisShamir(UOVAlgorithm):
             raise ValueError('n should be greater than 2 * m')
 
         self._name = "Kipnis-Shamir"
-        self._attack_type = "forgery"
+        self._attack_type = "key-recovery"
 
     def _compute_time_complexity(self, parameters: dict):
         """
