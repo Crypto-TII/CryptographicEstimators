@@ -75,8 +75,8 @@ class UOVEstimator(BaseEstimator):
             +--------------------+--------------+------+--------+-------+----------+
             | algorithm          | attack_type  | time | memory |  time |   memory |
             +--------------------+--------------+------+--------+-------+----------+
-            | DirectAttack       | key-recovery | 11.2 |    9.5 |   8.0 |      9.5 |
-            | KipnisShamir       |   forgery    | 16.8 |   12.5 |    -- |       -- |
+            | DirectAttack       |   forgery    | 11.2 |    9.5 |   8.0 |      9.5 |
+            | KipnisShamir       | key-recovery | 16.8 |   12.5 |    -- |       -- |
             | CollisionAttack    |   forgery    | 17.4 |    8.0 |    -- |       -- |
             | IntersectionAttack | key-recovery | 23.3 |   13.1 |    -- |       -- |
             +--------------------+--------------+------+--------+-------+----------+
@@ -90,7 +90,7 @@ class UOVEstimator(BaseEstimator):
             +--------------------+--------------+------+--------+----------------------------+
             | algorithm          | attack_type  | time | memory |         parameters         |
             +--------------------+--------------+------+--------+----------------------------+
-            | DirectAttack       | key-recovery | 66.2 |   47.4 |             {}             |
+            | DirectAttack       |   forgery    | 66.2 |   47.4 |             {}             |
             | CollisionAttack    |   forgery    | 54.8 |   45.5 | {'X': 47.968, 'Y': 35.507} |
             | IntersectionAttack | key-recovery |   -- |     -- |             {}             |
             +--------------------+--------------+------+--------+----------------------------+
@@ -105,8 +105,8 @@ class UOVEstimator(BaseEstimator):
             +--------------------+--------------+-------+--------+------------------------------+
             | algorithm          | attack_type  |  time | memory |          parameters          |
             +--------------------+--------------+-------+--------+------------------------------+
-            | DirectAttack       | key-recovery | 145.6 |   59.5 |              {}              |
-            | KipnisShamir       |   forgery    | 218.1 |   22.1 |              {}              |
+            | DirectAttack       |   forgery    | 145.6 |   59.5 |              {}              |
+            | KipnisShamir       | key-recovery | 218.1 |   22.1 |              {}              |
             | CollisionAttack    |   forgery    | 189.3 |  181.0 | {'X': 180.389, 'Y': 169.976} |
             | IntersectionAttack | key-recovery | 165.7 |   76.5 |           {'k': 2}           |
             +--------------------+--------------+-------+--------+------------------------------+
@@ -120,8 +120,8 @@ class UOVEstimator(BaseEstimator):
             +--------------------+--------------+-------+--------+------------------------------+
             | algorithm          | attack_type  |  time | memory |          parameters          |
             +--------------------+--------------+-------+--------+------------------------------+
-            | DirectAttack       | key-recovery | 165.2 |   53.0 |              {}              |
-            | KipnisShamir       |   forgery    | 153.7 |   22.6 |              {}              |
+            | DirectAttack       |   forgery    | 165.2 |   53.0 |              {}              |
+            | KipnisShamir       | key-recovery | 153.7 |   22.6 |              {}              |
             | CollisionAttack    |   forgery    | 141.0 |  131.7 | {'X': 132.618, 'Y': 121.747} |
             | IntersectionAttack | key-recovery | 176.2 |   76.9 |           {'k': 3}           |
             +--------------------+--------------+-------+--------+------------------------------+
@@ -134,8 +134,8 @@ class UOVEstimator(BaseEstimator):
             +--------------------+--------------+-------+--------+------------------------------+
             | algorithm          | attack_type  |  time | memory |          parameters          |
             +--------------------+--------------+-------+--------+------------------------------+
-            | DirectAttack       | key-recovery | 217.9 |   87.0 |              {}              |
-            | KipnisShamir       |   forgery    | 348.2 |   24.2 |              {}              |
+            | DirectAttack       |   forgery    | 217.9 |   87.0 |              {}              |
+            | KipnisShamir       | key-recovery | 348.2 |   24.2 |              {}              |
             | CollisionAttack    |   forgery    | 301.6 |  293.3 | {'X': 292.034, 'Y': 282.331} |
             | IntersectionAttack | key-recovery | 249.9 |  117.9 |           {'k': 2}           |
             +--------------------+--------------+-------+--------+------------------------------+
@@ -148,8 +148,8 @@ class UOVEstimator(BaseEstimator):
             +--------------------+--------------+-------+--------+------------------------------+
             | algorithm          | attack_type  |  time | memory |          parameters          |
             +--------------------+--------------+-------+--------+------------------------------+
-            | DirectAttack       | key-recovery | 277.9 |  108.6 |              {}              |
-            | KipnisShamir       |   forgery    | 445.3 |   25.4 |              {}              |
+            | DirectAttack       |   forgery    | 277.9 |  108.6 |              {}              |
+            | KipnisShamir       | key-recovery | 445.3 |   25.4 |              {}              |
             | CollisionAttack    |   forgery    | 397.8 |  389.5 | {'X': 387.826, 'Y': 378.539} |
             | IntersectionAttack | key-recovery | 311.6 |  148.3 |           {'k': 2}           |
             +--------------------+--------------+-------+--------+------------------------------+
