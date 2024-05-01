@@ -82,6 +82,19 @@ class UOVEstimator(BaseEstimator):
             +--------------------+--------------+------+--------+-------+----------+
 
 
+            sage: from cryptographic_estimators.UOVEstimator import UOVEstimator
+            sage: E = UOVEstimator(q=13, n=25, m=23)
+            sage: E.table(show_all_parameters=True)
+            +--------------------+--------------+--------------------------------------------+
+            |                    |              |                  estimate                  |
+            +--------------------+--------------+------+--------+----------------------------+
+            | algorithm          | attack_type  | time | memory |         parameters         |
+            +--------------------+--------------+------+--------+----------------------------+
+            | DirectAttack       | key-recovery | 66.2 |   47.4 |             {}             |
+            | CollisionAttack    |   forgery    | 54.8 |   45.5 | {'X': 47.968, 'Y': 35.507} |
+            | IntersectionAttack | key-recovery |   -- |     -- |             {}             |
+            +--------------------+--------------+------+--------+----------------------------+
+
         TESTS::
 
             sage: from cryptographic_estimators.UOVEstimator import UOVEstimator
