@@ -125,10 +125,6 @@ class MAYOProblem(BaseProblem):
         """
         Returns the optimizations parameters
 
-        TEST::
-
-
-
         """
         return list(self.parameters.values())
     
