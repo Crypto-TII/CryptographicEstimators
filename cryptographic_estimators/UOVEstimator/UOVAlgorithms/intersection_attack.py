@@ -87,10 +87,10 @@ class IntersectionAttack(UOVAlgorithm):
         """
         n, m, q = self.problem.get_parameters()
         k = parameters["k"]
-        if n * (k - 1) > (2 * k - 1) * m:
+        N = k * n - (2 * k - 1) * m
+        if N < 0:
             return inf
         M = binomial(k + 1, 2) * m - 2 * binomial(k, 2)
-        N = k * n - (2 * k - 1) * m
         E = BooleanSolveFXL(MQProblem(n=N, m=M, q=q), bit_complexities=0)
         time = E.time_complexity()
         if n * (k  - 1) == (2 * k  - 1) * m:
@@ -116,10 +116,10 @@ class IntersectionAttack(UOVAlgorithm):
         """
         n, m, q = self.problem.get_parameters()
         k = parameters["k"]
-        if n * (k - 1) > (2 * k - 1) * m:
+        N = k * n - (2 * k - 1) * m
+        if N < 0:
             return inf
         M = binomial(k + 1, 2) * m - 2 * binomial(k, 2)
-        N = k * n - (2 * k - 1) * m
         E = BooleanSolveFXL(MQProblem(n=N, m=M, q=q), bit_complexities=0)
         return E.memory_complexity()
     
