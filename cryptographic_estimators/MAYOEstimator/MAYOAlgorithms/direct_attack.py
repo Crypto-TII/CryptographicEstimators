@@ -23,16 +23,14 @@ from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
 from ...base_constants import BASE_EXCLUDED_ALGORITHMS
 from math import log2
 from sage.functions.other import floor
-from cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
-from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
 
 
 class DirectAttack(MAYOAlgorithm):
     """
     Construct an instance of DirectAttack estimator
 
-    -------
-    -------
+    The most straightforward attack against MAYO is the direct attack, in which the attacker 
+    aims to solve an instance of the MQ problem associated with the public map P^* [FNT21]_.
 
     INPUT:
 
@@ -52,7 +50,7 @@ class DirectAttack(MAYOAlgorithm):
 
         self._name = "DirectAttack"
         self._attack_type = "forgery"
-
+        
         self._K = self.K()
         K = self._K
         n, m, _, k, q = self.problem.get_parameters()
@@ -75,6 +73,9 @@ class DirectAttack(MAYOAlgorithm):
         self._fastest_algorithm = None
 
     def get_fastest_mq_algorithm(self):
+        """
+        Return the fastest algorithm for solving the MQ instance associated with the attack
+        """
         if self._fastest_algorithm is None:
             self._fastest_algorithm = self._MQEstimator.fastest_algorithm()
         return self._fastest_algorithm
