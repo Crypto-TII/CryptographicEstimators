@@ -1,0 +1,10 @@
+----------------
+collision_attack
+----------------
+
+.. automodule:: cryptographic_estimators.UOVEstimator.UOVAlgorithms.collision_attack
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+
