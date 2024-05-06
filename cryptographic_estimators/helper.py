@@ -21,7 +21,7 @@ from bisect import bisect_left
 
 class ComplexityType(Enum):
     """
-    distinguish between normal optimisation and tilde O optimisation
+    Distinguish between normal optimisation and tilde O optimisation
     """
 
     ESTIMATE = 0
@@ -30,10 +30,12 @@ class ComplexityType(Enum):
 
 def concat_all_tables(tables):
     """
+    Concatenates all tables in a list into a single PrettyTable object.
 
     INPUT:
 
     - ``tables`` -- list of `PrettyTable`
+
     """
     tbl_join = concat_pretty_tables(str(tables[0]), str(tables[1]))
     for i in range(2, len(tables)):
@@ -44,6 +46,7 @@ def concat_all_tables(tables):
 def concat_pretty_tables(t1: str, t2: str):
     """
     Merge two columns into one
+
     INPUT:
 
     - ``t1`` -- first column
@@ -60,7 +63,7 @@ def concat_pretty_tables(t1: str, t2: str):
 
 def _truncate(x: float, precision: int):
     """
-    truncate a value
+    Truncate a value
 
     INPUT:
 
@@ -73,7 +76,7 @@ def _truncate(x: float, precision: int):
 
 def round_or_truncate(x: float, truncate: bool, precision: int):
     """
-    eiter rounds or truncates `x` if `truncate` is `true`
+    Eiter rounds or truncates `x` if `truncate` is `true`
 
     INPUT:
 
@@ -86,6 +89,7 @@ def round_or_truncate(x: float, truncate: bool, precision: int):
     return "{:.{p}f}".format(val, p=precision)
 
 
+# Don't remove this lead and trail comments, they are used for Black.
 # fmt: off
 PRIMES = [
     2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
@@ -110,6 +114,27 @@ def is_prime_power(n):
     INPUT:
 
     - ``n`` -- The number to be checked.
+
+    EXAMPLES::
+
+        sage: from cryptographic_estimators.helper import is_prime_power
+        sage: is_prime_power(11)
+        True
+
+    TESTS::
+
+        sage: is_prime_power(557)
+        True
+
+        sage: is_prime_power(7^3+1)
+        False
+
+        sage: is_prime_power(11^4)
+        True
+
+        sage: is_prime_power(1121)
+        False
+
     """
     global PRIMES
 
@@ -149,12 +174,30 @@ def is_prime_power(n):
     return True
 
 
-def is_power_of_two_python(n):
+def is_power_of_two(n):
     """
     Determines if a given number is a power of two.
 
     INPUT:
 
     - ``n`` -- The number to be checked.
+
+    EXAMPLES::
+
+        sage: from cryptographic_estimators.helper import is_power_of_two
+        sage: is_power_of_two(16)
+        True
+
+    TESTS::
+
+        sage: is_power_of_two(2^15)
+        True
+
+        sage: is_power_of_two(21)
+        False
+
+        sage: is_power_of_two(33554432)
+        True
+
     """
     return (n & (n - 1) == 0) and n != 0
