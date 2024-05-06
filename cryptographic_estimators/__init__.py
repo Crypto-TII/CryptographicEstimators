@@ -9,5 +9,6 @@ from . import PKEstimator
 from . import LEEstimator
 from . import PEEstimator
 from . import DummyEstimator
+from . import MREstimator
 from . import UOVEstimator
 from . import MAYOEstimator

@@ -43,7 +43,7 @@ class SDAlgorithm(BaseAlgorithm):
         self.scipy_model = None
         self.full_domain = kwargs.get("full_domain", False)
         self._current_minimum_for_early_abort = inf
-        n, k, _  = self.problem.get_parameters()
+        n, k, _ = self.problem.get_parameters()
         self.set_parameter_ranges("r", 0, n - k)
 
     @optimal_parameter
@@ -198,12 +198,24 @@ class SDAlgorithm(BaseAlgorithm):
             raise NotImplementedError(
                 "For " + self._name + " TildeO complexity is not yet implemented")
         model = self.scipy_model(self.parameter_names(
-        ), self.problem, iterations=self.workfactor_accuracy*10, accuracy=1e-7)
+        ), self.problem, iterations=self.workfactor_accuracy * 10, accuracy=1e-7)
         wf_time, wf_memory, par = model.get_time_memory_and_parameters(
             parameters=parameters)
         self._optimal_parameters.update(par)
         n, _, _ = self.problem.get_parameters()
-        return wf_time*n, wf_memory*n
+        return wf_time * n, wf_memory * n
+
+    def set_parameters(self, parameters: dict):
+        """
+        Set optimal parameters to predefined values, then do not allow optimization to modify the ranges again
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including parameters to set (for a subset of optimal_parameters functions)
+
+        """
+        BaseAlgorithm.set_parameters(self, parameters)
+        self._variable_parameter_ranges = 0
 
     def _get_verbose_information(self):
         """

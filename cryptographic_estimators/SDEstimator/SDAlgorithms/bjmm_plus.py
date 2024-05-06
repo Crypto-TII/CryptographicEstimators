@@ -162,12 +162,15 @@ class BJMMplus(SDAlgorithm):
 
         n, k, w = self.problem.get_parameters()
 
-        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
-            for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
-                for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
+        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]) + 1, 2):
+            for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"]) + 1):
+                for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"] + 1):
                     L1 = log2(binom((k+l)//2, p1))
                     d1 = self._adjust_radius
-                    for l1 in range(max(int(L1)-d1, 0), int(L1)+d1):
+                    lower = new_ranges["l1"]["min"] if new_ranges["l1"]["min"] == new_ranges["l1"]["max"] else max(int(L1)-d1, 0)
+                    upper = new_ranges["l1"]["max"] if new_ranges["l1"]["min"] == new_ranges["l1"]["max"] else max(int(L1)+d1, 0)
+                    
+                    for l1 in range(lower, upper):
                         indices = {"p": p, "p1": p1, "l": l, "l1": l1,
                                    "r": self._optimal_parameters["r"]}
                         if self._are_parameters_invalid(indices):

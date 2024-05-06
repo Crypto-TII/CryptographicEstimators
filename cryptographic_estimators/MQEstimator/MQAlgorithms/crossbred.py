@@ -171,7 +171,10 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
             sage: E._ncols_in_preprocessing_step(4, 6, 3)
-            297
+            1412
+            sage: E = Crossbred(MQProblem(n=5, m=5, q=13))
+            sage: E._ncols_in_preprocessing_step(3, 4, 2)
+            45
         """
         if d >= D:
             raise ValueError("d must be smaller than D")
@@ -181,9 +184,9 @@ class Crossbred(MQAlgorithm):
         nms1 = NMonomialSeries(n=n - k, q=q, max_prec=D + 1)
 
         ncols = 0
-        for dk in range(d + 1, D):
+        for dk in range(d + 1, D + 1):
             ncols += sum([nms0.nmonomials_of_degree(dk) *
-                         nms1.nmonomials_of_degree(dp) for dp in range(D - dk)])
+                         nms1.nmonomials_of_degree(dp) for dp in range(D - dk + 1)])
 
         return ncols
 
@@ -206,62 +209,60 @@ class Crossbred(MQAlgorithm):
         """
         return nmonomials_up_to_degree(d, k, q=self.problem.order_of_the_field())
 
-    def _admissible_parameter_series(self, k: int):
+    def _C(self, parameters: dict):
         """
-        Return the series $S_k$ of admissible parameters
-
-        INPUT:
-
-        - ``k`` -- no. variables in the resulting system
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Crossbred(MQProblem(n=10, m=12, q=5), max_D = 2)
-            sage: E._admissible_parameter_series(2)
-            -1 - 3*x - 3*y - 10*x^2 - 3*x*y + 6*y^2 + O(x, y)^3
         """
-        n, m, q = self.get_reduced_parameters()
-        max_D = self.max_D
-
-        R = PowerSeriesRing(QQ, names=['x', 'y'], default_prec=max_D + 1)
-        x, y = R.gens()
-
+        k = parameters['k']
+        D = parameters['D']
+        d = parameters['d']
         Hk = HilbertSeries(n=k, degrees=[2] * m, q=q)
-        k_y, k_xy = Hk.series(y), Hk.series(x * y)
-
-        Hn = HilbertSeries(n=n, degrees=[2] * m, q=q)
-        n_x = Hn.series(x)
-
+        k_y = Hk.series(y)
         N = NMonomialSeries(n=n - k, q=q, max_prec=max_D + 1)
         nk_x = N.series_monomials_of_degree()(x)
+        out = sum([k_y[i] * nk_x[D - i] for i in range(d + 1)])
+        return out
 
-        return (k_xy * nk_x - n_x - k_y) / ((1 - x) * (1 - y))
 
     def _valid_choices(self):
         """
         Return a list of admissible parameters `(k, D, d)`
+
+        TODO: Add reference to the crossbred paper (Remark 1)
 
         TESTS::
 
             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
-            sage: [list(x.values()) for x in E._valid_choices()][:5] == [[2, 1, 1], [3, 1, 1], [4, 1, 1], [3, 2, 1], [5, 1, 1]]
-            True
+            sage: len([x for x in E._valid_choices()])
+            135
+
         """
 
         new_ranges = self._fix_ranges_for_already_set_parameters()
 
+        n, m, q = self.get_reduced_parameters()
+        max_D = self.max_D
+
+        Hn = HilbertSeries(n=n, degrees=[2] * m, q=q)
+        h_n = Hn.series_up_to_degree
         k = 1
         stop = False
         while not stop:
-            Sk = self._admissible_parameter_series(k)
-            for (monomial, coefficient) in Sk.coefficients().items():
-                D, d = monomial.exponents()[0]
-                if 0 <= coefficient and d < D and new_ranges['D']["min"] <= D <= new_ranges['D']["max"] and new_ranges['d']["min"] <= d <= new_ranges['d']["max"]:
-                    yield {'D': D, 'd': d, 'k': k}
+
+            Hk = HilbertSeries(n=k, degrees=[2] * m, q=q)
+            h_k =  Hk.series
+            h_k_d_reg = Hk.first_nonpositive_integer()
+            h_k_up_to_degree = Hk.series_up_to_degree
+            N = NMonomialSeries(n=n - k, q=q, max_prec=max_D + 1)
+            nm_nk = N.series_monomials_up_to_degree()
+            for D in range(2, self._max_D + 1):
+                for d in range(1,  min(h_k_d_reg, D)):
+                    C_D_d = sum([h_k[i] * nm_nk[D - i] for i in range(d + 1)])
+                    coefficient_D_d = C_D_d - h_n[D] - h_k_up_to_degree[d]
+                    if 0 <= coefficient_D_d and new_ranges['D']["min"] <= D <= new_ranges['D']["max"] and \
+                        new_ranges['d']["min"] <= d <= new_ranges['d']["max"]:
+                        yield {'D': D, 'd': d, 'k': k}
 
             k += 1
             if k > new_ranges['k']["max"]:
@@ -281,11 +282,11 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), bit_complexities=False)
             sage: E.time_complexity(k=4, D=6, d=4)
-            34.73981968512528
+            34.7410956245034
 
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), bit_complexities=False)
             sage: E.time_complexity()
-            22.458852587425618
+            22.64157288740708
         """
         k = parameters['k']
         D = parameters['D']
@@ -317,11 +318,11 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5),bit_complexities=False)
             sage: E.memory_complexity(k=4, D=6, d=4)
-            12.892542816648552
+            17.547165662991585
 
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), bit_complexities=False)
             sage: E.memory_complexity()
-            8.027905996569885
+            13.93488871535719
         """
         k = parameters['k']
         D = parameters['D']
@@ -344,11 +345,11 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), complexity_type=1)
             sage: E.time_complexity(k=4, D=6, d=4)
-            31.154855478621304
+            31.154966457615238
 
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), complexity_type=1)
             sage: E.time_complexity()
-            18.87406087363563
+            18.919577271455122
         """
         k = parameters['k']
         D = parameters['D']
@@ -374,7 +375,7 @@ class Crossbred(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Crossbred(MQProblem(n=10, m=12, q=5), complexity_type=1)
             sage: E.memory_complexity(k=4, D=6, d=4)
-            12.892542816648552
+            17.547165662991585
         """
         return self._compute_memory_complexity(parameters)
 

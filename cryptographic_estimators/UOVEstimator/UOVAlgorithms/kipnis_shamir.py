@@ -34,7 +34,6 @@ class KipnisShamir(UOVAlgorithm):
     INPUT:
 
     - ``problem`` -- an instance of the UOVProblem class
-    - ``gray_code_eval_cost`` -- logarithm of the cost to evaluate one polynomial using Gray-code enumeration (default: log(n))
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
 
@@ -52,8 +51,7 @@ class KipnisShamir(UOVAlgorithm):
             raise ValueError('n should be greater than 2 * m')
 
         self._name = "Kipnis-Shamir"
-        self._gray_code_eval_cost = kwargs.get("gray_code_eval_cost", log2(n))
-        self._attack_type = "forgery"
+        self._attack_type = "key-recovery"
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -69,14 +67,12 @@ class KipnisShamir(UOVAlgorithm):
             sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
             sage: E = KipnisShamir(UOVProblem(n=24, m=10, q=2))
             sage: E.time_complexity()
-            13.251283982314517
+            16.837895002019238
 
         """
         n, m, q = self.problem.get_parameters()
-        r = self._gray_code_eval_cost
-        time = (n - 2*m) * log2(q) 
-        time += log2(2 * (r ** 2) + r)
-        return time + log2(n)
+        time = (n - 2 * m) * log2(q)
+        return time + log2(n) * 2.8
 
     def _compute_memory_complexity(self, parameters: dict):
         """

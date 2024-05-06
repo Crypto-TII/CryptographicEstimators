@@ -59,7 +59,7 @@ generate-documentation:
 mount-volume-and-run: 
 	@docker run --name container-for-docs --mount type=bind,source=${documentation_path}/docs,target=/home/cryptographic_estimators/docs -d -it ${image_name} sh
 
-docker-doc:
+docker-doc docker-build:
 	@make mount-volume-and-run && make generate-documentation && make stop-container-and-remove container_name="container-for-docs"
 
 docker-test:
