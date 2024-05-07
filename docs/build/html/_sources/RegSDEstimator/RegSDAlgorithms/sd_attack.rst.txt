@@ -1,0 +1,10 @@
+---------
+sd_attack
+---------
+
+.. automodule:: cryptographic_estimators.RegSDEstimator.RegSDAlgorithms.sd_attack
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

@@ -18,10 +18,8 @@
 
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
-from ...helper import ComplexityType
-from math import log2
+from math import log2, log
 from sage.all import Integer
-from sage.functions.log import log
 
 
 class ExhaustiveSearch(MQAlgorithm):
@@ -72,7 +70,7 @@ class ExhaustiveSearch(MQAlgorithm):
             True
         """
         n, _, q = self.get_reduced_parameters()
-        nsolutions = 2 ** self.problem.nsolutions
+        nsolutions = 2**self.problem.nsolutions
         time = n * log2(q)
         if q == 2:
             time += log2(4 * log2(n))
@@ -102,8 +100,7 @@ class ExhaustiveSearch(MQAlgorithm):
             True
         """
         n, m, _ = self.get_reduced_parameters()
-        return log2(m * n ** 2)
-
+        return log2(m * n**2)
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
@@ -111,7 +108,7 @@ class ExhaustiveSearch(MQAlgorithm):
 
         """
         n, _, q = self.get_reduced_parameters()
-        return  n * log2(q)
+        return n * log2(q)
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
@@ -123,4 +120,3 @@ class ExhaustiveSearch(MQAlgorithm):
 
         """
         return 0
-
