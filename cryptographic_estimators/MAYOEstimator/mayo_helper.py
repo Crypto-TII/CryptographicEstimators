@@ -41,7 +41,7 @@ def _optimize_k(n: int, m: int, k: int, q: int):
 
         if n_tilde < 1: break
 
-        E = BooleanSolveFXL(MQProblem(n=n_tilde, m=m_tilde, q=q), bit_complexities=False)
+        E = BooleanSolveFXL(MQProblem(n=n_tilde, m=m_tilde, q=q), bit_complexities=False, w=2.81)
         t = i * log2(q) + E.time_complexity()
 
         if t < time:
