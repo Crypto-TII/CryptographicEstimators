@@ -35,7 +35,7 @@ class MAYOProblem(BaseProblem):
     - ``o`` -- dimension of the oil space
     - ``k`` -- whipping parameter
     - ``q`` -- order of the finite field
-    - ``theta`` -- exponent of the conversion factor (default: 2)
+    - ``theta`` -- exponent of the conversion factor (default: None)
         - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
         - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
     - ``cost_one_hash`` -- bit complexity of computing one hash value (default: 17)
@@ -46,7 +46,7 @@ class MAYOProblem(BaseProblem):
     def __init__(self, n: int, m: int, o: int, k: int, q: int, **kwargs):
         super().__init__(**kwargs)
 
-        theta = kwargs.get("theta", 2)
+        theta = kwargs.get("theta", None)
         cost_one_hash = kwargs.get("cost_one_hash", 17)
 
         if n < 1:
@@ -106,7 +106,7 @@ class MAYOProblem(BaseProblem):
 
         """
         q = self.parameters[MAYO_FIELD_SIZE]
-        theta = None
+        theta = self._theta
         return ngates(q, basic_operations, theta=theta)
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
