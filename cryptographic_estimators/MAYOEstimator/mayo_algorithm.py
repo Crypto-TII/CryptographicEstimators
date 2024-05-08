@@ -61,8 +61,8 @@ class MAYOAlgorithm(BaseAlgorithm):
 
         EXAMPLES::
 
-            sage: cryptographic_estimators.MAYOEstimator.mayo_algorithm import MAYOAlgorithm
-            sage: cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            sage: from cryptographic_estimators.MAYOEstimator.mayo_algorithm import MAYOAlgorithm
+            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
             sage: E = MAYOAlgorithm(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
             sage: E.K()
             16
@@ -83,8 +83,8 @@ class MAYOAlgorithm(BaseAlgorithm):
 
         TESTS::
 
-            sage: cryptographic_estimators.MAYOEstimator.mayo_algorithm import MAYOAlgorithm
-            sage: cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            sage: from cryptographic_estimators.MAYOEstimator.mayo_algorithm import MAYOAlgorithm
+            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
             sage: E = MAYOAlgorithm(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
             sage: E.linear_algebra_constant()
             2.81
