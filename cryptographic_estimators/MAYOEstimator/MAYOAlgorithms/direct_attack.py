@@ -40,7 +40,7 @@ class DirectAttack(MAYOAlgorithm):
     - ``nsolutions`` -- number of solutions in logarithmic scale (default: expected_number_solutions))
     - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-    - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
+    - ``complexity_type`` -- complexity type to consider (0: estimate, default: 0)
     - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
 
     """
