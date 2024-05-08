@@ -96,7 +96,7 @@ class MAYOEstimator(BaseEstimator):
             +--------------+-------------+-------+--------+------------+
             | algorithm    | attack_type |  time | memory | parameters |
             +--------------+-------------+-------+--------+------------+
-            | DirectAttack |   forgery   | 100.9 |   85.1 | {'K': 13}  |
+            | DirectAttack |   forgery   | 102.2 |   72.8 | {'K': 13}  |
             +--------------+-------------+-------+--------+------------+
 
             sage: E = MAYOEstimator(n=130, m=100, o=15, k=45, q=16)
