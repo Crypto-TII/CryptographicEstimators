@@ -137,6 +137,21 @@ class HilbertSeries(object):
         return self._series
 
     @property
+    def series_up_to_degree(self):
+        """
+        Return the series `self.series(z)/(1-z)`
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            sage: H = HilbertSeries(4, [2]*5)
+            sage: H.series_up_to_degree
+            1 + 5*z + 10*z^2 + 10*z^3 + 5*z^4 + z^5 + O(z^10)
+        """
+        z = self._ring.gen()
+        return self._series/(1-z)
+
+    @property
     def npolynomials(self):
         """
         Return the no. of polynomials

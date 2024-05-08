@@ -42,6 +42,10 @@ References
           *A Crossbred Algorithm for Solving Boolean Polynomial Systems*
           https://link.springer.com/chapter/10.1007/978-3-319-76620-1_1
 
+.. [ES23] \Andre Esser and Paolo Santini.
+            *Not Just Regular Decoding: Asymptotics and Improvements of Regular Syndrome Decoding Attacks*
+            https://eprint.iacr.org/2023/1568
+
 .. [KPG99] \Aviad Kipnis, Jacques Patarin, and Louis Goubin.
             *Unbalanced  Oil  and Vinegar Signature Schemes*
             https://link.springer.com/chapter/10.1007/3-540-48910-X_15
@@ -102,6 +106,10 @@ References
 .. _ref-E:
 
 **E**
+
+.. [CCJ23] \Eliana Carozza, Geoffroy Couteau, and Antoine Joux
+            *Short Signatures from Regular Syndrome Decoding in the Head*, EUROCRYPT 2023
+            https://eprint.iacr.org/2023/1035
 
 .. [KMP19] \Eliane Koussa, Gilles Macario{-}Rat and Jacques Patarin.
             *On the complexity of the Permuted Kernel Problem*

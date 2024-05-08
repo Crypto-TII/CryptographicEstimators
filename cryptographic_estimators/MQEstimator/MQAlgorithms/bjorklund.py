@@ -20,8 +20,7 @@ from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator.mq_helper import sum_of_binomial_coefficients
 from ...base_algorithm import optimal_parameter
-from math import log2
-from sage.functions.other import floor, ceil
+from math import log2, floor, ceil
 
 
 class Bjorklund(MQAlgorithm):
@@ -53,10 +52,10 @@ class Bjorklund(MQAlgorithm):
             raise TypeError("q must be equal to 2")
         super().__init__(problem, **kwargs)
         self._name = "Björklund et al."
-        self._k = floor(log2(2 ** self.problem.nsolutions + 1))
+        self._k = floor(log2(2**self.problem.nsolutions + 1))
         n, m, _ = self.get_reduced_parameters()
 
-        self.set_parameter_ranges('lambda_', 3 / n, min(m, n - 1)/n)
+        self.set_parameter_ranges("lambda_", 3 / n, min(m, n - 1) / n)
 
     @optimal_parameter
     def lambda_(self):
@@ -71,18 +70,18 @@ class Bjorklund(MQAlgorithm):
             sage: E.lambda_()
             3/10
         """
-        return self._get_optimal_parameter('lambda_')
+        return self._get_optimal_parameter("lambda_")
 
     def _valid_choices(self):
         n, _, _ = self.get_reduced_parameters()
         ranges = self._parameter_ranges
-        l_min = max(3, ceil(ranges['lambda_']['min'] * n))
-        l_max = min(ceil(ranges['lambda_']['max'] * n), n)
+        l_min = max(3, ceil(ranges["lambda_"]["min"] * n))
+        l_max = min(ceil(ranges["lambda_"]["max"] * n), n)
         l = l_min
         stop = False
         while not stop:
             temp_lambda = l / n
-            yield {'lambda_': temp_lambda}
+            yield {"lambda_": temp_lambda}
             l += 1
             if l > l_max:
                 stop = True
@@ -103,12 +102,21 @@ class Bjorklund(MQAlgorithm):
             sage: E.time_complexity(lambda_=7/10)
             49.97565549640329
         """
-        lambda_ = parameters['lambda_']
+        lambda_ = parameters["lambda_"]
         n, m, _ = self.get_reduced_parameters()
         k = self._k
         h = self._h
-        time = 8 * k * log2(n) * sum([Bjorklund._internal_time_complexity_(
-            n - i, m + k + 2, lambda_) for i in range(1, n)])
+        time = (
+            8
+            * k
+            * log2(n)
+            * sum(
+                [
+                    Bjorklund._internal_time_complexity_(n - i, m + k + 2, lambda_)
+                    for i in range(1, n)
+                ]
+            )
+        )
         return h + log2(time)
 
     def _compute_memory_complexity(self, parameters: dict):
@@ -127,7 +135,7 @@ class Bjorklund(MQAlgorithm):
             sage: E.memory_complexity(lambda_=7/10)
             10.225233514599497
         """
-        lambda_ = parameters['lambda_']
+        lambda_ = parameters["lambda_"]
 
         def _internal_memory_complexity_(_n, _m, _lambda):
             if _n <= 1:
@@ -135,7 +143,11 @@ class Bjorklund(MQAlgorithm):
             else:
                 s = 48 * _n + 1
                 l = floor(_lambda * _n)
-                return _internal_memory_complexity_(l, l + 2, _lambda) + 2 ** (_n - l) * log2(s) + _m * sum_of_binomial_coefficients(_n, 2)
+                return (
+                    _internal_memory_complexity_(l, l + 2, _lambda)
+                    + 2 ** (_n - l) * log2(s)
+                    + _m * sum_of_binomial_coefficients(_n, 2)
+                )
 
         n, m, _ = self.get_reduced_parameters()
         return log2(_internal_memory_complexity_(n, m, lambda_))
@@ -169,7 +181,7 @@ class Bjorklund(MQAlgorithm):
             3
         """
         n = self.nvariables_reduced()
-        lambda_ = parameters['lambda_']
+        lambda_ = parameters["lambda_"]
         return (1 - lambda_) * n
 
     def _find_optimal_tilde_o_parameters(self):
@@ -184,7 +196,7 @@ class Bjorklund(MQAlgorithm):
             sage: E.optimal_parameters()
             {'lambda_': 0.19677}
         """
-        self._optimal_parameters['lambda_'] = 0.19677
+        self._optimal_parameters["lambda_"] = 0.19677
 
     @staticmethod
     def _internal_time_complexity_(n: int, m: int, lambda_: float):
@@ -195,7 +207,14 @@ class Bjorklund(MQAlgorithm):
             return 1
         else:
             l = floor(lambda_ * n)
-            T1 = (n + (l + 2) * m * sum_of_binomial_coefficients(n, 2) +
-                  (n - l) * 2 ** (n - l))
+            T1 = (
+                n
+                + (l + 2) * m * sum_of_binomial_coefficients(n, 2)
+                + (n - l) * 2 ** (n - l)
+            )
             s = 48 * n + 1
-            return s * sum_of_binomial_coefficients(n - l, l + 4) * (Bjorklund._internal_time_complexity_(l, l + 2, lambda_) + T1)
+            return (
+                s
+                * sum_of_binomial_coefficients(n - l, l + 4)
+                * (Bjorklund._internal_time_complexity_(l, l + 2, lambda_) + T1)
+            )

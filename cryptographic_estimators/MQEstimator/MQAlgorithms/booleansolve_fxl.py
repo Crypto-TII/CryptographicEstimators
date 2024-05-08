@@ -144,14 +144,14 @@ class BooleanSolveFXL(MQAlgorithm):
             sage: E.time_complexity(k=2, variant = 'las_vegas')
             33.35111811760744
 
-            sage: E = BooleanSolveFXL(MQProblem(n=594, m=64, q=16), complexity_type=0, theta=None)
+            sage: E = BooleanSolveFXL(MQProblem(n=594, m=64, q=16, theta=None), complexity_type=0)
             sage: E.optimal_parameters()
             {'k': 13, 'variant': 'las_vegas'}
 
             sage: E.time_complexity()
             150.2690857321659
 
-            sage: E = BooleanSolveFXL(MQProblem(n=312, m=64, q=16), complexity_type=0, theta=None)
+            sage: E = BooleanSolveFXL(MQProblem(n=312, m=64, q=16, theta=None), complexity_type=0)
             sage: E.optimal_parameters()
             {'k': 11, 'variant': 'las_vegas'}
 

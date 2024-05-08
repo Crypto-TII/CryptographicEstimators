@@ -287,8 +287,10 @@ class BJMMd2(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
 
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
-            for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
-                for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
+            for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
+                ell_approx = 2*log2(binom(k // 2, p1))
+                for l in range(max(new_ranges["l"]["min"],int(ell_approx*0.75)), min(int(1.25*ell_approx),n - k - (w - 2 * p), new_ranges["l"]["max"])):
+
                     indices = {"p": p, "p1": p1, "l": l,
                                "r": self._optimal_parameters["r"]}
                     if self._are_parameters_invalid(indices):
