@@ -79,16 +79,35 @@ class MAYOEstimator(BaseEstimator):
             | DirectAttack |   forgery   | 144.8 |   99.3 |
             +--------------+-------------+-------+--------+
 
-            sage: from cryptographic_estimators.MAYOEstimator import MAYOEstimator
-            sage: E = MAYOEstimator(n=78, m=64, o=18, k=4, q=16)
-            sage: E.table(show_all_parameters=1) # long time
+            sage: E = MAYOEstimator(n=90, m=56, o=8, k=10, q=16)
+            sage: E.table(show_all_parameters=1)
+            +--------------+-------------+----------------------------+
+            |              |             |          estimate          |
+            +--------------+-------------+------+--------+------------+
+            | algorithm    | attack_type | time | memory | parameters |
+            +--------------+-------------+------+--------+------------+
+            | DirectAttack |   forgery   | 21.4 |   56.9 | {'K': 10}  |
+            +--------------+-------------+------+--------+------------+
+
+            sage: E = MAYOEstimator(n=64, m=60, o=10, k=21, q=16)
+            sage: E.table(show_all_parameters=1)
             +--------------+-------------+-----------------------------+
             |              |             |           estimate          |
             +--------------+-------------+-------+--------+------------+
             | algorithm    | attack_type |  time | memory | parameters |
             +--------------+-------------+-------+--------+------------+
-            | DirectAttack |   forgery   | 156.9 |  135.6 | {'K': 15}  |
+            | DirectAttack |   forgery   | 100.9 |   85.1 | {'K': 13}  |
             +--------------+-------------+-------+--------+------------+
+
+            sage: E = MAYOEstimator(n=130, m=100, o=15, k=45, q=16)
+            sage: E.table(show_all_parameters=1)
+            +--------------+-------------+----------------------------+
+            |              |             |          estimate          |
+            +--------------+-------------+------+--------+------------+
+            | algorithm    | attack_type | time | memory | parameters |
+            +--------------+-------------+------+--------+------------+
+            | DirectAttack |   forgery   | 17.2 |   75.4 | {'K': 15}  |
+            +--------------+-------------+------+--------+------------+
         
         """
         super(MAYOEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
