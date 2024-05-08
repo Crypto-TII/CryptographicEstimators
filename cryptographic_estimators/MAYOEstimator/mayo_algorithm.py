@@ -42,6 +42,7 @@ class MAYOAlgorithm(BaseAlgorithm):
 
         self._h = kwargs.get("h", 0)
         self._w = kwargs.get("w", 2.81)
+        self.complexity_type = 0
         self._name = "BaseMAYOAlgorithm"
 
         if self._w is not None and not 2 <= self._w <= 3:
