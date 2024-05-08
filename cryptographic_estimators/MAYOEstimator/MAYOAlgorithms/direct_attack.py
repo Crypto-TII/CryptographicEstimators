@@ -30,12 +30,12 @@ class DirectAttack(MAYOAlgorithm):
     Construct an instance of DirectAttack estimator
 
     The most straightforward attack against MAYO is the direct attack, in which the attacker 
-    aims to solve an instance of the MQ problem associated with the public map P^* [FNT21]_.
+    aims to solve an instance of the MQ problem associated with the public map P^* [BCCHK23]_.
 
     INPUT:
 
     - ``problem`` -- DummyProblem object including all necessary parameters
-    - ``w`` -- linear algebra constant (default: 2)
+    - ``w`` -- linear algebra constant (default: Obtained from MAYOAlgorithm)
     - ``h`` -- external hybridization parameter (default: 0)
     - ``nsolutions`` -- number of solutions in logarithmic scale (default: expected_number_solutions))
     - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
@@ -61,6 +61,12 @@ class DirectAttack(MAYOAlgorithm):
         nsolutions = self.expected_number_solutions()
         excluded_algorithms = kwargs.get(BASE_EXCLUDED_ALGORITHMS, [Lokshtanov])
         complexity_type = self.complexity_type
+
+        if n_tilde <= 0:
+            raise ValueError("n_tilde must be > 0")
+        if m_tilde <= 0:
+            raise ValueError("m_tilde must be > 0")
+
         self._MQEstimator = MQEstimator(n=n_tilde, m=m_tilde, q=q,
                                         w=w,
                                         h=h,
