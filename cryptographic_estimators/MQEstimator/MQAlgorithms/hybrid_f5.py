@@ -16,12 +16,13 @@
 # ****************************************************************************
 
 
-from ...MQEstimator.mq_algorithm import MQAlgorithm
-from ...MQEstimator.mq_problem import MQProblem
-from ...MQEstimator.MQAlgorithms.f5 import F5
-from ...base_algorithm import optimal_parameter
-from ...helper import ComplexityType
+from cryptographic_estimators.base_algorithm import optimal_parameter
+from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
+from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
 from math import log2
+
+# TODO: Remove at final step
 from sage.all import Integer
 
 
@@ -59,7 +60,7 @@ class HybridF5(MQAlgorithm):
         if not isinstance(q, (int, Integer)):
             raise TypeError("q must be an integer")
 
-        degrees = kwargs.get('degrees', [2] * m)
+        degrees = kwargs.get("degrees", [2] * m)
 
         if len(degrees) != m:
             raise ValueError(f"len(degrees) must be equal to {m}")
@@ -72,7 +73,7 @@ class HybridF5(MQAlgorithm):
         self._name = "HybridF5"
 
         n = self.nvariables_reduced()
-        self.set_parameter_ranges('k', 0, n - 1)
+        self.set_parameter_ranges("k", 0, n - 1)
 
     def degree_of_polynomials(self):
         """
@@ -110,7 +111,7 @@ class HybridF5(MQAlgorithm):
             sage: H.k()
             1
         """
-        return self._get_optimal_parameter('k')
+        return self._get_optimal_parameter("k")
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -129,11 +130,13 @@ class HybridF5(MQAlgorithm):
             46.38042019731107
 
         """
-        k = parameters['k']
+        k = parameters["k"]
         n, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
         degrees = self.degree_of_polynomials()
-        E = F5(MQProblem(n=n-k, m=m, q=q), w=w, degrees=degrees, bit_complexities=False)
+        E = F5(
+            MQProblem(n=n - k, m=m, q=q), w=w, degrees=degrees, bit_complexities=False
+        )
         h = self._h
         return log2(q) * k + E.time_complexity() + h * log2(q)
 
@@ -154,12 +157,14 @@ class HybridF5(MQAlgorithm):
             20.659592676441402
 
         """
-        k = parameters['k']
+        k = parameters["k"]
         n, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
         degrees = self.degree_of_polynomials()
-        E = F5(MQProblem(n=n - k, m=m, q=q), w=w, degrees=degrees, bit_complexities=False)
-        return max(E.memory_complexity(), log2(m * n ** 2))
+        E = F5(
+            MQProblem(n=n - k, m=m, q=q), w=w, degrees=degrees, bit_complexities=False
+        )
+        return max(E.memory_complexity(), log2(m * n**2))
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
@@ -178,7 +183,7 @@ class HybridF5(MQAlgorithm):
             26.38447672418113
 
         """
-        k = parameters['k']
+        k = parameters["k"]
         n, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
         degrees = self.degree_of_polynomials()
@@ -203,12 +208,12 @@ class HybridF5(MQAlgorithm):
             12.784634845557521
 
         """
-        k = parameters['k']
+        k = parameters["k"]
         n, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
         degrees = self.degree_of_polynomials()
         E = F5(MQProblem(n=n - k, m=m, q=q), w=w, degrees=degrees, complexity_type=1)
-        return max(E.memory_complexity(), log2(m * n ** 2))
+        return max(E.memory_complexity(), log2(m * n**2))
 
     def _find_optimal_tilde_o_parameters(self):
         """

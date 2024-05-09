@@ -16,12 +16,13 @@
 # ****************************************************************************
 
 
-from ...MQEstimator.mq_algorithm import MQAlgorithm
-from ...MQEstimator.mq_problem import MQProblem
-from ...helper import ComplexityType
+from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
+from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+from cryptographic_estimators.helper import is_power_of_two
 from math import log2
+
+# TODO: Remove at final step
 from sage.all import Integer
-from sage.arith.misc import is_power_of_two
 
 
 class KPG(MQAlgorithm):
@@ -49,6 +50,7 @@ class KPG(MQAlgorithm):
 
         sage: E.problem.nvariables() == E.nvariables_reduced()
         True
+
     """
 
     def __init__(self, problem: MQProblem, **kwargs):
@@ -57,11 +59,10 @@ class KPG(MQAlgorithm):
             raise TypeError("q must be an integer")
 
         if not is_power_of_two(q):
-            raise ValueError(
-                "the order of finite field q must be a power of 2")
+            raise ValueError("the order of finite field q must be a power of 2")
 
         if m * (m + 1) >= n:
-            raise ValueError('The condition m(m + 1) < n must be satisfied')
+            raise ValueError("The condition m(m + 1) < n must be satisfied")
 
         super().__init__(problem, **kwargs)
         self._name = "KPG"
@@ -79,10 +80,11 @@ class KPG(MQAlgorithm):
             sage: E = KPG(MQProblem(n=183, m=12, q=4), w=2.8)
             sage: E.time_complexity()
             26.628922047916475
+
         """
         n, m, _ = self.problem.get_problem_parameters()
         w = self.linear_algebra_constant()
-        return log2(m * n ** w)
+        return log2(m * n**w)
 
     def _compute_memory_complexity(self, parameters: dict):
         """
@@ -95,9 +97,10 @@ class KPG(MQAlgorithm):
             sage: E = KPG(MQProblem(n=183, m=12, q=4), w=2.8)
             sage: E.memory_complexity()
             19.61636217728924
+
         """
         n, m, _ = self.problem.get_problem_parameters()
-        return log2(m * n ** 2)
+        return log2(m * n**2)
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """

@@ -16,10 +16,9 @@
 # ****************************************************************************
 
 
-from ..MQEstimator.series.nmonomial import NMonomialSeries
-from math import log2
-from sage.arith.misc import is_prime_power
-from sage.functions.other import binomial
+from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
+from math import log2, comb as binomial
+from cryptographic_estimators.helper import is_prime_power
 
 
 def ngates(q, n, theta=2):
@@ -73,7 +72,7 @@ def nmonomials_of_degree(d, n, q):
         sage: nmonomials_of_degree(d=2, n=10, q=2)
         45
     """
-    series = NMonomialSeries(n, q, max_prec=d+1)
+    series = NMonomialSeries(n, q, max_prec=d + 1)
     return series.nmonomials_of_degree(d)
 
 
@@ -97,7 +96,7 @@ def nmonomials_up_to_degree(d, n, q):
         sage: nmonomials_up_to_degree(d=2, n=10, q=2)
         56
     """
-    series = NMonomialSeries(n, q, max_prec=d+1)
+    series = NMonomialSeries(n, q, max_prec=d + 1)
     return series.nmonomials_up_to_degree(d)
 
 
@@ -117,5 +116,5 @@ def sum_of_binomial_coefficients(n, l):
         16
     """
     if l < 0:
-        raise ValueError('l must be a non-negative integer')
+        raise ValueError("l must be a non-negative integer")
     return sum(binomial(n, j) for j in range(l + 1))
