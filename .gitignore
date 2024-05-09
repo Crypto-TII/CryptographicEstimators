@@ -15,6 +15,7 @@ docs/_build
 docs/build/.doctrees/
 docs/source
 venv
+.venv
 .vscode
 
 # Compiled Java class files

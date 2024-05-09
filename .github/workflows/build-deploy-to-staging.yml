@@ -1,0 +1,64 @@
+name: build-deploy-to-staging
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-deploy-to-staging:
+    runs-on: ubuntu-22.04
+    concurrency: ci-${{github.ref}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Checkout API repository
+        run: |
+          mkdir ../${{ secrets.BITBUCKET_REPOSITORY }}
+          git clone                                                                                                                                    \
+            https://x-token-auth:${{ secrets.BITBUCKET_API_TOKEN }}@bitbucket.org/${{ secrets.BITBUCKET_ORG }}/${{ secrets.BITBUCKET_REPOSITORY }}.git \
+            ../${{ secrets.BITBUCKET_REPOSITORY }}
+
+      - name: Configure AWS Credential for public AWS ECR
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to public AWS ECR
+        id: login-ecr-public
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registry-type: public
+
+      - name: Build and push staging library Docker image
+        run: |
+          docker build --tag public.ecr.aws/h0m6q0n8/staging/estimators/lib:latest .
+          docker push public.ecr.aws/h0m6q0n8/staging/estimators/lib:latest
+
+      - name: Configure AWS Credential for private AWS ECR
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: me-central-1
+
+      - name: Login to private AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build and push staging API Docker image
+        run: |
+          docker build --tag ${{ steps.login-ecr.outputs.registry }}/staging/estimators/api:latest    \
+            --file ../${{ secrets.BITBUCKET_REPOSITORY }}/Dockerfile.integration                      \
+            --build-arg API_KEY_ARG=${{ secrets.API_KEY_ARG }} ../${{ secrets.BITBUCKET_REPOSITORY }}
+          docker push ${{ steps.login-ecr.outputs.registry }}/staging/estimators/api:latest
+
+      - name: Reset staging AWS ECS task
+        run: |
+          aws ecs update-service                         \
+            --cluster estimators-cluster                 \
+            --service estimators-staging-service-tii-crc \
+            --force-new-deployment
+

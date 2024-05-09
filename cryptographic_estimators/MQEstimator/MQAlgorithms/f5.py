@@ -21,8 +21,7 @@ from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator import degree_of_regularity
 from ...MQEstimator.series.nmonomial import NMonomialSeries
 from ...helper import ComplexityType
-from math import log2, inf
-from sage.functions.other import binomial
+from math import log2, inf, comb as binomial
 
 
 class F5(MQAlgorithm):
@@ -35,8 +34,8 @@ class F5(MQAlgorithm):
     - ``h`` -- external hybridization parameter (default: 0)
     - ``w`` -- linear algebra constant (default: 2.81)
     - ``degrees`` -- a list/tuple of degree of the polynomials (default: [2]*m)
-    
-    
+
+
     .. NOTE:: Complexity formula taken from Proposition 1 [BFP09]_ .
 
     EXAMPLES::
@@ -50,13 +49,13 @@ class F5(MQAlgorithm):
 
     def __init__(self, problem: MQProblem, **kwargs):
         m = problem.npolynomials()
-        degrees = kwargs.get('degrees', [2]*m)
+        degrees = kwargs.get("degrees", [2] * m)
         if len(degrees) != m:
             raise ValueError(f"len(degrees) must be equal to {m}")
 
         super().__init__(problem, **kwargs)
-        if degrees == [2]*m:
-            self._degrees = [2]*self.npolynomials_reduced()
+        if degrees == [2] * m:
+            self._degrees = [2] * self.npolynomials_reduced()
         else:
             self._degrees = degrees
 
@@ -123,7 +122,6 @@ class F5(MQAlgorithm):
         h = self._h
         return h * log2(q) + max(time, self._time_complexity_fglm())
 
-
     def _time_complexity_fglm(self):
         """
         Return the time complexity of the FGLM algorithm for this system
@@ -137,10 +135,9 @@ class F5(MQAlgorithm):
             6.321928094887363
         """
         n, _, q = self.get_reduced_parameters()
-        D = 2 ** self.problem.nsolutions
+        D = 2**self.problem.nsolutions
         h = self._h
-        return h * log2(q) + log2(n * D ** 3)
-
+        return h * log2(q) + log2(n * D**3)
 
     def _compute_memory_complexity(self, parameters: dict):
         """
@@ -157,9 +154,8 @@ class F5(MQAlgorithm):
         """
         n, m, _ = self.get_reduced_parameters()
         ncols = self._get_number_of_columns_at_degree_of_regularity()
-        memory = max(log2(ncols) * 2, log2(m * n ** 2))
+        memory = max(log2(ncols) * 2, log2(m * n**2))
         return memory
-
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
@@ -173,16 +169,15 @@ class F5(MQAlgorithm):
         h = self._h
         return h * log2(q) + max(time, self._tilde_o_time_complexity_fglm(parameters))
 
-
     def _tilde_o_time_complexity_fglm(self, parameters: dict):
         """
         Return the Ō time complexity of the FGLM algorithm for this system
 
         """
         q = self.problem.order_of_the_field()
-        D = 2 ** self.problem.nsolutions
+        D = 2**self.problem.nsolutions
         h = self._h
-        return h * log2(q) + log2(D ** 3)
+        return h * log2(q) + log2(D**3)
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """

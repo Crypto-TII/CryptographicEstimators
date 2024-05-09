@@ -20,9 +20,7 @@ from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator.mq_helper import sum_of_binomial_coefficients
 from ...base_algorithm import optimal_parameter
-from math import log2
-from sage.rings.infinity import Infinity
-from sage.functions.other import floor
+from math import log2, floor
 
 
 class DinurSecond(MQAlgorithm):
@@ -55,9 +53,9 @@ class DinurSecond(MQAlgorithm):
         super().__init__(problem, **kwargs)
 
         self._name = "Dinur2"
-        self._k = floor(log2(2 ** self.problem.nsolutions + 1))
+        self._k = floor(log2(2**self.problem.nsolutions + 1))
         n, m, _ = self.get_reduced_parameters()
-        self.set_parameter_ranges('n1', 1, n// 2 - 1)
+        self.set_parameter_ranges("n1", 1, n // 2 - 1)
 
     @optimal_parameter
     def n1(self):
@@ -72,7 +70,7 @@ class DinurSecond(MQAlgorithm):
             sage: E.n1()
             4
         """
-        return self._get_optimal_parameter('n1')
+        return self._get_optimal_parameter("n1")
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -98,11 +96,13 @@ class DinurSecond(MQAlgorithm):
             15.809629225117881
 
         """
-        n1 = parameters['n1']
+        n1 = parameters["n1"]
         n = self.nvariables_reduced()
-        time = 16 * log2(n) * 2 ** n1 * sum_of_binomial_coefficients(n - n1, n1 + 3) + \
-            n1 * n * 2 ** (n - n1) + 2 ** (n - 2 * n1 + 1) * \
-            sum_of_binomial_coefficients(n, 2)
+        time = (
+            16 * log2(n) * 2**n1 * sum_of_binomial_coefficients(n - n1, n1 + 3)
+            + n1 * n * 2 ** (n - n1)
+            + 2 ** (n - 2 * n1 + 1) * sum_of_binomial_coefficients(n, 2)
+        )
         h = self._h
         return h + log2(time)
 
@@ -131,7 +131,7 @@ class DinurSecond(MQAlgorithm):
 
         """
         n = self.nvariables_reduced()
-        n1 = parameters['n1']
+        n1 = parameters["n1"]
         return log2(8 * (n1 + 1) * sum_of_binomial_coefficients(n - n1, n1 + 3))
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
@@ -152,7 +152,7 @@ class DinurSecond(MQAlgorithm):
         """
         n = self.nvariables_reduced()
         h = self._h
-        return h + ((1 - 1./(2.7*2)) * n)
+        return h + ((1 - 1.0 / (2.7 * 2)) * n)
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
@@ -186,4 +186,4 @@ class DinurSecond(MQAlgorithm):
             {'n1': 1.8518518518518516}
         """
         n = self.nvariables_reduced()
-        self._optimal_parameters['n1'] = n/(2.7 * 2)
+        self._optimal_parameters["n1"] = n / (2.7 * 2)
