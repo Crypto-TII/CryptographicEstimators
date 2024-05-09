@@ -25,6 +25,7 @@ from math import log2, ceil, inf
 class CCJLin(RegSDAlgorithm):
     """
     Construct an instance of CCJ-Linearization estimator from [CCJ23]_
+    (concrete formulas taken from [ES23]_)
 
     INPUT:
 
