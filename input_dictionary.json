@@ -9,7 +9,7 @@
         {
           "id": "n",
           "type": "number",
-          "display_label": "Code length",
+          "display_label": "Code length (n)",
           "placeholder": "Insert parameter",
           "tooltip": "Code length of the specified code",
           "validate_fields_ids": [
@@ -20,7 +20,7 @@
         {
           "id": "k",
           "type": "number",
-          "display_label": "Code dimension",
+          "display_label": "Code dimension (k)",
           "placeholder": "Insert parameter",
           "tooltip": "Code dimension of specified code",
           "validate_fields_ids": [
@@ -36,7 +36,7 @@
         {
           "id": "w",
           "type": "number",
-          "display_label": "Error weight",
+          "display_label": "Error weight (w)",
           "placeholder": "Insert parameter",
           "tooltip": "Hamming weight of the target solution",
           "dependencies": [
@@ -179,7 +179,7 @@
         {
           "id": "n",
           "type": "number",
-          "display_label": "Number of variables",
+          "display_label": "Number of variables (n)",
           "placeholder": "Insert parameter",
           "tooltip": "The number of variables of the system to solve",
           "validate_fields_ids": [
@@ -189,14 +189,14 @@
         {
           "id": "m",
           "type": "number",
-          "display_label": "Number of equations",
+          "display_label": "Number of equations (m)",
           "placeholder": "Insert parameter",
           "tooltip": "The number of equations of the system to solve"
         },
         {
           "id": "q",
           "type": "number",
-          "display_label": "Field size",
+          "display_label": "Field size (q)",
           "placeholder": "Insert parameter",
           "tooltip": "An integer of the form p^x for some integer x, where p is prime number.  This value indicates the number of elements in the underlying field"
         }
@@ -344,7 +344,7 @@
         {
           "id": "n",
           "type": "number",
-          "display_label": "Code length",
+          "display_label": "Code length (n)",
           "placeholder": "Insert parameter",
           "tooltip": "Code length of the specified code",
           "validate_fields_ids": ["k", "w"]
@@ -352,7 +352,7 @@
         {
           "id": "k",
           "type": "number",
-          "display_label": "Code dimension",
+          "display_label": "Code dimension (k)",
           "placeholder": "Insert parameter",
           "tooltip": "Code dimension of specified code",
           "validate_fields_ids": ["w"],
@@ -366,7 +366,7 @@
         {
           "id": "w",
           "type": "number",
-          "display_label": "Error weight",
+          "display_label": "Error weight (w)",
           "placeholder": "Insert parameter",
           "tooltip": "Hamming weight of the target solution (must divide the code length)",
           "dependencies": [
@@ -452,7 +452,7 @@
         {
           "id": "n",
           "type": "number",
-          "display_label": "Code length",
+          "display_label": "Code length (n)",
           "placeholder": "Insert parameter",
           "tooltip": "Code length of the specified code",
           "validate_fields_ids": [
@@ -463,7 +463,7 @@
         {
           "id": "k",
           "type": "number",
-          "display_label": "Code dimension",
+          "display_label": "Code dimension (k)",
           "placeholder": "Insert parameter",
           "tooltip": "Code dimension of specified code",
           "validate_fields_ids": [
@@ -479,7 +479,7 @@
         {
           "id": "w",
           "type": "number",
-          "display_label": "Error weight",
+          "display_label": "Error weight (w)",
           "placeholder": "Insert parameter",
           "tooltip": "Hamming weight of the target solution",
           "dependencies": [
@@ -496,7 +496,7 @@
         {
           "id": "q",
           "type": "number",
-          "display_label": "Base Field Size",
+          "display_label": "Base Field Size (q)",
           "placeholder": "Insert parameter",
           "tooltip": "Size of the underlying base field",
           "dependencies": []
@@ -598,28 +598,28 @@
         {
           "id": "n",
           "type": "number",
-          "display_label": "Number of columns",
+          "display_label": "Number of columns (n)",
           "placeholder": "Insert parameter",
           "tooltip": "Number of columns of the input matrix"
         },
         {
           "id": "m",
           "type": "number",
-          "display_label": "Number of rows",
+          "display_label": "Number of rows (m)",
           "placeholder": "Insert parameter",
           "tooltip": "Number of rows of the input matrix"
         },
         {
           "id": "q",
           "type": "number",
-          "display_label": "Field size",
+          "display_label": "Field size (q)",
           "placeholder": "Insert parameter",
           "tooltip": "A prime number"
         },
         {
           "id": "ell",
           "type": "number",
-          "display_label": "No. of rows in the kernel",
+          "display_label": "No. of rows in the kernel (ell)",
           "placeholder": "Insert value",
           "default_value": 1,
           "tooltip": "Number of rows of the matrix whose permutation should lie in the kernel"
@@ -629,8 +629,8 @@
           "required": false,
           "type": "switch",
           "display_label": "Use parity row",
-          "default_value": false,
-          "tooltip": "Enables trick of appending extra (all one) row to the matrix, i.e., m -> m+1"
+          "default_value": true,
+          "tooltip": "Enables trick of appending extra (all one) row to the matrix, i.e., m -> m+1. Enable if you did not already increase m manually."
         }
       ],
       "optional_parameters": [
@@ -725,7 +725,7 @@
         {
           "id": "n",
           "type": "number",
-          "display_label": "Code length",
+          "display_label": "Code length (n)",
           "placeholder": "Insert parameter",
           "tooltip": "Code length of the specified code",
           "validate_fields_ids": [
@@ -735,7 +735,7 @@
         {
           "id": "k",
           "type": "number",
-          "display_label": "Code dimension",
+          "display_label": "Code dimension (k)",
           "placeholder": "Insert parameter",
           "tooltip": "Code dimension of specified code",
           "dependencies": [
@@ -748,7 +748,7 @@
         {
           "id": "q",
           "type": "number",
-          "display_label": "Field size",
+          "display_label": "Field size (q)",
           "placeholder": "Insert parameter",
           "tooltip": "A prime number"
         },
@@ -835,7 +835,7 @@
         {
           "id": "n",
           "type": "number",
-          "display_label": "Code length",
+          "display_label": "Code length (n)",
           "placeholder": "Insert parameter",
           "tooltip": "Code length of the specified code",
           "validate_fields_ids": [
@@ -845,7 +845,7 @@
         {
           "id": "k",
           "type": "number",
-          "display_label": "Code dimension",
+          "display_label": "Code dimension (k)",
           "placeholder": "Insert parameter",
           "tooltip": "Code dimension of specified code",
           "dependencies": [
@@ -858,7 +858,7 @@
         {
           "id": "q",
           "type": "number",
-          "display_label": "Field size",
+          "display_label": "Field size (q)",
           "placeholder": "Insert parameter",
           "tooltip": "A prime number"
         },
@@ -938,21 +938,21 @@
         {
           "id": "n",
           "type": "number",
-          "display_label": "Number of variables",
+          "display_label": "Number of variables (n)",
           "placeholder": "Insert parameter",
           "tooltip": "The number of variables in the public key polynomials"
         },
         {
           "id": "m",
           "type": "number",
-          "display_label": "Number of equations",
+          "display_label": "Number of equations (m)",
           "placeholder": "Insert parameter",
           "tooltip": "The number of polynomials in the public key"
         },
         {
           "id": "q",
           "type": "number",
-          "display_label": "Field size",
+          "display_label": "Field size (q)",
           "placeholder": "Insert parameter",
           "tooltip": "An integer of the form p^x for some integer x, where p is prime number.  This value indicates the number of elements in the underlying field"
         }
@@ -1053,35 +1053,35 @@
         {
           "id": "m",
           "type": "number",
-          "display_label": "Number of rows",
+          "display_label": "Number of rows (m)",
           "placeholder": "Insert parameter",
           "tooltip": "Number of rows of the input matrices"
         },
         {
           "id": "n",
           "type": "number",
-          "display_label": "Number of columns",
+          "display_label": "Number of columns (n)",
           "placeholder": "Insert parameter",
           "tooltip": "Number of columns of the input matrices"
         },
         {
           "id": "k",
           "type": "number",
-          "display_label": "Length of solution",
+          "display_label": "Length of solution (k)",
           "placeholder": "Insert parameter",
           "tooltip": "Length of the solution vector, i.e., the number of matrices is k + 1"
         },
         {
           "id": "r",
           "type": "number",
-          "display_label": "Target rank",
+          "display_label": "Target rank (r)",
           "placeholder": "Insert parameter",
           "tooltip": "Upper bound of the rank of the matrix given by the linear combination of a solution"
         },
         {
           "id": "q",
           "type": "number",
-          "display_label": "Field size",
+          "display_label": "Field size (q)",
           "placeholder": "Insert parameter",
           "tooltip": "An integer of the form p^x for some integer x, where p is prime number.  This value indicates the number of elements in the underlying field"
         }
