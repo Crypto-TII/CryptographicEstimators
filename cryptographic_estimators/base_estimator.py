@@ -267,22 +267,13 @@ class BaseEstimator(object):
             if BASE_ESTIMATEO not in self.estimates[name]:
                 self._add_estimate(algorithm)
 
+            if self.estimator_type != BASE_ESTIMATOR_TYPE:
+                if "attack_type" not in self.estimates[name]:
+                    self.estimates[name][" "] ={}
+                    self.estimates[name][" "]["attack_type"] = algorithm.attack_type
+
+
         return self.estimates
-
-    def _table_problem(self, renderer, estimate):
-        """
-        Print table describing the complexity of each algorithm and its optimal parameters for problems
-
-        """
-        return renderer.as_table(estimate)
-    
-    def _table_scheme(self, renderer, estimate):
-        """
-        Print table describing the complexity of each algorithm and its optimal parameters for schemes
-
-        """
-        attack_type_list = [algorithm.attack_type for algorithm in self._algorithms]
-        return renderer.as_table(estimate, attack_type_list)
 
     def table(self, show_quantum_complexity=False, show_tilde_o_time=False, show_all_parameters=False, precision=1, truncate=False):
         """
@@ -312,10 +303,8 @@ class BaseEstimator(object):
             renderer = EstimationRenderer(
                 show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate
             )
-            if self.estimator_type == BASE_ESTIMATOR_TYPE:
-                return self._table_problem(renderer, estimate)
-            else:
-                return self._table_scheme(renderer, estimate)
+
+            return renderer.as_table(estimate)
 
     def fastest_algorithm(self, use_tilde_o_time=False):
         """
