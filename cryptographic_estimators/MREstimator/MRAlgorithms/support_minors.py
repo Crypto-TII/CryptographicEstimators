@@ -174,8 +174,10 @@ class SupportMinors(MRAlgorithm):
             'block_wiedemann'
 
         """
-
-        return Variant(self._get_optimal_parameter(MR_VARIANT)).name
+        optimal_variant = self._get_optimal_parameter(MR_VARIANT)
+        if optimal_variant != None:
+            return Variant(self._get_optimal_parameter(MR_VARIANT)).name
+        return None
 
     def _expected_dimension_of_support_minors_equations(self, q, m, n, K, r, b):
         """
@@ -252,6 +254,10 @@ class SupportMinors(MRAlgorithm):
             sage: SM = SupportMinors(MRProblem(q=16, m=15, n=15, k=78, r=6))
             sage: SM.time_complexity()
             144.00706423416636
+
+            sage: SM = SupportMinors(MRProblem(q=2, m=10, n=10, k=70, r=4))
+            sage: SM.time_complexity()
+            inf
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
@@ -305,5 +311,7 @@ class SupportMinors(MRAlgorithm):
         Returns the optimal parameters dictionary
 
         """
-        self._optimal_parameters['variant'] = Variant(self._optimal_parameters['variant']).name
+
+        if self._optimal_parameters != {}:
+            self._optimal_parameters['variant'] = Variant(self._optimal_parameters['variant']).name
         return self._optimal_parameters
