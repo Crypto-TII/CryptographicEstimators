@@ -68,7 +68,7 @@ class MQEstimator(BaseEstimator):
             +------------------+--------+--------+
             | algorithm        |   time | memory |
             +------------------+--------+--------+
-            | Bjorklund        | 42.451 | 15.316 |
+            | Bjorklund        | 39.823 | 15.316 |
             | BooleanSolveFXL  | 20.339 | 11.720 |
             | Crossbred        | 18.174 | 15.616 |
             | DinurFirst       | 32.111 | 19.493 |

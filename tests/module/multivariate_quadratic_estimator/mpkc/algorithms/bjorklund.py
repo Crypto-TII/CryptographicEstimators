@@ -112,9 +112,9 @@ class Bjorklund(BaseAlgorithm):
             sage: from mpkc.algorithms import Bjorklund
             sage: E = Bjorklund(n=10, m=12)
             sage: float(log(E.time_complexity(), 2))
-            35.48523010807851
+            34.294880575515094
             sage: float(log(E.time_complexity(λ=7/10), 2))
-            49.97565549640329
+            49.55664699444167
 
         TESTS::
 
@@ -188,13 +188,34 @@ class Bjorklund(BaseAlgorithm):
 
     @staticmethod
     def _T(n, m, λ):
+        """
+        Helper function. Computes the runtime of the parity_count subroutine for given n, m and lambda.
+        See Algorithm 5 in [BBSV21]_
+
+        """
+        # uses brute force
         if n <= 1:
             return 1
-        else:
-            l = floor(λ * n)
-            T1 = (n + (l + 2) * m * sum_of_binomial_coefficients(n, 2) + (n - l) * 2 ** (n - l))
-            s = 48 * n + 1
-            return s * sum_of_binomial_coefficients(n - l, l + 4) * (Bjorklund._T(l, l + 2, λ) + T1)
+        T = 0  # Time complexity
+        l = floor(λ * n)  # n1, l.
+        s = 48 * n + 1  # number of iterations
+        sumbin_n_2 = sum_of_binomial_coefficients(n, 2)
+        sumbin_B = sum_of_binomial_coefficients(n - l, l + 4)
+        T += 2 ** (n-l)  # Line 5, initialize array of size 2^{n-l}
+        # Lines 6-12: Enters for loop, so each summand is multiplied by s
+        T += s * (l+2) * m * sumbin_n_2 # Line 7, generate alphas, multiply and add coefficients
+        # Line 8: No need to fill with zeros V at this point
+        # Line 9-10: enters a for loop, so each term inside is multiplied by sumbin_B
+        # Line 10:
+        T += s * sumbin_B * sumbin_n_2 * (l+2) # Partially evaluate R_i's
+        T += s * sumbin_B * Bjorklund._T(l, l+2, λ) # Recursive call
+        # Line 11: Interpolation: this function makes two calls to the Z-transform
+        T += s * (n-l) * sumbin_B # The first Z-transform takes (n-l) * sumbin_B * O(1)
+        T += s * (2 ** (n-l) - sumbin_B)  # Fill with zeros the rest of the table
+        T += s * (n-l) * 2 ** (n-l) # The second Z-transform takes over all space
+        T += s * 2 ** (n-l) # Line 12: update the score table of size 2 ** (n-l)
+        T += 2 ** (n-l) # line 14-17 does a for of size 2 ** (n-l), inside the for takes O(1)
+        return T
 
     def _time_complexity_(self, λ):
         """
