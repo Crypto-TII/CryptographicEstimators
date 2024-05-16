@@ -20,8 +20,7 @@ from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator.mq_helper import sum_of_binomial_coefficients
 from ...base_algorithm import optimal_parameter
-from math import log2, inf
-from sage.functions.other import floor, ceil
+from math import log2, inf, floor, ceil
 
 
 class Bjorklund(MQAlgorithm):
