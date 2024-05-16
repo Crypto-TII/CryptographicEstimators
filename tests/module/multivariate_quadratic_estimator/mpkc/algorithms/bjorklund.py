@@ -112,9 +112,9 @@ class Bjorklund(BaseAlgorithm):
             sage: from mpkc.algorithms import Bjorklund
             sage: E = Bjorklund(n=10, m=12)
             sage: float(log(E.time_complexity(), 2))
-            35.48523010807851
+            34.294880575515094
             sage: float(log(E.time_complexity(λ=7/10), 2))
-            49.97565549640329
+            49.55664699444167
 
         TESTS::
 
@@ -188,13 +188,28 @@ class Bjorklund(BaseAlgorithm):
 
     @staticmethod
     def _T(n, m, λ):
+        """
+        Helper function. Computes the runtime of the parity_count subroutine for given n, m and lambda.
+        See Algorithm 5 in [BBSV21]_
+
+        """
         if n <= 1:
             return 1
-        else:
-            l = floor(λ * n)
-            T1 = (n + (l + 2) * m * sum_of_binomial_coefficients(n, 2) + (n - l) * 2 ** (n - l))
-            s = 48 * n + 1
-            return s * sum_of_binomial_coefficients(n - l, l + 4) * (Bjorklund._T(l, l + 2, λ) + T1)
+        T = 0
+        l = floor(λ * n)
+        s = 48 * n + 1
+        sumbin_n_2 = sum_of_binomial_coefficients(n, 2)
+        sumbin_B = sum_of_binomial_coefficients(n - l, l + 4)
+        T += 2 ** (n-l)
+        T += s * (l+2) * m * sumbin_n_2
+        T += s * sumbin_B * sumbin_n_2 * (l+2)
+        T += s * sumbin_B * Bjorklund._T(l, l+2, λ)
+        T += s * (n-l) * sumbin_B
+        T += s * (2 ** (n-l) - sumbin_B)
+        T += s * (n-l) * 2 ** (n-l)
+        T += s * 2 ** (n-l)
+        T += 2 ** (n-l)
+        return T
 
     def _time_complexity_(self, λ):
         """
