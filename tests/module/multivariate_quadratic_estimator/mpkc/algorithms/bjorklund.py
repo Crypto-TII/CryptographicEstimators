@@ -193,28 +193,22 @@ class Bjorklund(BaseAlgorithm):
         See Algorithm 5 in [BBSV21]_
 
         """
-        # uses brute force
         if n <= 1:
             return 1
-        T = 0  # Time complexity
-        l = floor(λ * n)  # n1, l.
-        s = 48 * n + 1  # number of iterations
+        T = 0
+        l = floor(λ * n)
+        s = 48 * n + 1
         sumbin_n_2 = sum_of_binomial_coefficients(n, 2)
         sumbin_B = sum_of_binomial_coefficients(n - l, l + 4)
-        T += 2 ** (n-l)  # Line 5, initialize array of size 2^{n-l}
-        # Lines 6-12: Enters for loop, so each summand is multiplied by s
-        T += s * (l+2) * m * sumbin_n_2 # Line 7, generate alphas, multiply and add coefficients
-        # Line 8: No need to fill with zeros V at this point
-        # Line 9-10: enters a for loop, so each term inside is multiplied by sumbin_B
-        # Line 10:
-        T += s * sumbin_B * sumbin_n_2 * (l+2) # Partially evaluate R_i's
-        T += s * sumbin_B * Bjorklund._T(l, l+2, λ) # Recursive call
-        # Line 11: Interpolation: this function makes two calls to the Z-transform
-        T += s * (n-l) * sumbin_B # The first Z-transform takes (n-l) * sumbin_B * O(1)
-        T += s * (2 ** (n-l) - sumbin_B)  # Fill with zeros the rest of the table
-        T += s * (n-l) * 2 ** (n-l) # The second Z-transform takes over all space
-        T += s * 2 ** (n-l) # Line 12: update the score table of size 2 ** (n-l)
-        T += 2 ** (n-l) # line 14-17 does a for of size 2 ** (n-l), inside the for takes O(1)
+        T += 2 ** (n-l)
+        T += s * (l+2) * m * sumbin_n_2
+        T += s * sumbin_B * sumbin_n_2 * (l+2)
+        T += s * sumbin_B * Bjorklund._T(l, l+2, λ)
+        T += s * (n-l) * sumbin_B
+        T += s * (2 ** (n-l) - sumbin_B)
+        T += s * (n-l) * 2 ** (n-l)
+        T += s * 2 ** (n-l)
+        T += 2 ** (n-l)
         return T
 
     def _time_complexity_(self, λ):
