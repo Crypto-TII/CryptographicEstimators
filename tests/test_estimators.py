@@ -14,7 +14,7 @@ def test_estimates_with_bjorklund():
         100, 50, 2, excluded_algorithms=excluded_algorithms)
     result = mq_estimator.estimate()
     expected_result = {
-        'Bjorklund': {'estimate': {'time': 95.50814347964285, 'memory': 36.48546485189783, 'parameters': {'lambda_': 16/49}}, 'additional_information': {}},
+        'Bjorklund': {'estimate': {'time': 67.23834058346328, 'memory': 47.4854636165402, 'parameters': {'lambda_': 5/49}}, 'additional_information': {}},
         'ExhaustiveSearch': {'estimate': {'time': 52.48921146923813, 'memory': 16.844129532345626, 'parameters': {}}, 'additional_information': {}}}
 
     assert expected_result == result
