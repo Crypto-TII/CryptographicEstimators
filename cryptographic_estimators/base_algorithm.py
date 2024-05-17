@@ -65,6 +65,7 @@ class BaseAlgorithm:
             self._parameter_ranges[i.__name__] = {}
 
         self._attack_type = BASE_ATTACK_TYPE
+        self._time_complexity_is_convex = False
 
     @property
     def parameter_ranges(self):
@@ -317,6 +318,9 @@ class BaseAlgorithm:
                 self._current_minimum_for_early_abort = tmp_time
                 for i in params:
                     self._optimal_parameters[i] = params[i]
+
+            if self._time_complexity_is_convex and tmp_time > time:
+                break
         self._current_minimum_for_early_abort = inf
 
     def _get_optimal_parameter(self, key: str):
