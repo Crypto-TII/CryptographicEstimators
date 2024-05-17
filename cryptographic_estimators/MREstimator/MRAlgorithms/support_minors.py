@@ -175,7 +175,7 @@ class SupportMinors(MRAlgorithm):
 
         """
         optimal_variant = self._get_optimal_parameter(MR_VARIANT)
-        if optimal_variant != None:
+        if optimal_variant is not None:
             return Variant(self._get_optimal_parameter(MR_VARIANT)).name
         return None
 
