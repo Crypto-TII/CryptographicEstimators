@@ -59,33 +59,7 @@ class Bjorklund(MQAlgorithm):
         else:  # case if n<=15
             self.set_parameter_ranges('lambda_', 3 / n, min(m, n - 1) / n)
 
-    def _find_optimal_parameters(self):
-        """
-        Enumerates all valid parameter configurations within the _parameter_ranges and saves the best
-        result (according to time complexity) in `_optimal_parameters`
-
-        """
-
-        time = inf
-        for params in self._valid_choices():
-            tmp_time = self._compute_time_complexity(params)
-            tmp_memory = self._compute_memory_complexity(params)
-            if self.bit_complexities:
-                tmp_memory = self.problem.to_bitcomplexity_memory(tmp_memory)
-
-            tmp_time += self.memory_access_cost(tmp_memory)
-
-            if tmp_time < time and tmp_memory <= self.problem.memory_bound:
-                time, _ = tmp_time, tmp_memory
-                self._current_minimum_for_early_abort = tmp_time
-                for i in params:
-                    self._optimal_parameters[i] = params[i]
-
-            if tmp_time > time:
-                break
-
-        self._current_minimum_for_early_abort = inf
-
+        self._time_complexity_is_convex = True
     @optimal_parameter
     def lambda_(self):
         """
