@@ -20,14 +20,15 @@ from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSerie
 from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
 from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
 from cryptographic_estimators.base_algorithm import optimal_parameter
-from cryptographic_estimators.helper import is_power_of_two
+from cryptographic_estimators.helper import (
+    is_power_of_two,
+    gf_order_to_characteristic,
+    gf_order_to_degree,
+)
 from math import log2, inf, ceil, floor
 
 # TODO: Remove at final step
 from sage.all import Integer
-
-from sage.rings.infinity import Infinity
-from sage.rings.finite_rings.finite_field_constructor import GF
 
 
 class Lokshtanov(MQAlgorithm):
@@ -121,7 +122,7 @@ class Lokshtanov(MQAlgorithm):
         delta = parameters["delta"]
         n, _, q = self.get_reduced_parameters()
         if delta is None:
-            return Infinity
+            return inf
         else:
             if not 0 < delta < 1:
                 raise ValueError("delta must be in the range 0 < delta < 1")
@@ -166,7 +167,7 @@ class Lokshtanov(MQAlgorithm):
         n, _, q = self.get_reduced_parameters()
 
         if delta is None:
-            return Infinity
+            return inf
 
         else:
             np = floor(n * delta)
@@ -198,10 +199,10 @@ class Lokshtanov(MQAlgorithm):
         delta = parameters["delta"]
         e = 2.718
         n, _, q = self.get_reduced_parameters()
-        if log2(GF(q).characteristic()) < 8 * e:
+        if log2(gf_order_to_characteristic(q)) < 8 * e:
             time = delta * n * log2(q)
         else:
-            d = GF(q).degree()
+            d = gf_order_to_degree(q)
             time = n * log2(q) + (-d * n) * log2((log2(q) / (2 * e * d)))
 
         h = self._h
@@ -247,7 +248,7 @@ class Lokshtanov(MQAlgorithm):
             delta = 0.8765
         elif is_power_of_two(q):
             delta = 0.9
-        elif log2(GF(q).characteristic()) < 8 * e:
+        elif log2(gf_order_to_characteristic(q)) < 8 * e:
             delta = 0.9975
         else:
             delta = None
