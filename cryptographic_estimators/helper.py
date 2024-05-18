@@ -107,7 +107,7 @@ PRIMES = [
 # fmt: on
 
 
-def is_prime_power(n):
+def is_prime_power(n, return_pair=False):
     """
     Determines if a given number is a power of a prime number.
 
@@ -121,57 +121,80 @@ def is_prime_power(n):
         sage: is_prime_power(11)
         True
 
+        sage: is_prime_power(7^3, return_pair = True)
+        (True, (7, 3))
+
     TESTS::
 
-        sage: is_prime_power(557)
+        sage: is_prime_power(101^2)
         True
 
         sage: is_prime_power(7^3+1)
         False
 
-        sage: is_prime_power(11^4)
-        True
-
         sage: is_prime_power(1121)
+        False
+
+        sage: is_prime_power(1087*1091)
         False
 
     """
     global PRIMES
 
+    if n <= 1:
+        return (False, (None, None)) if return_pair else False
+
     def is_power(n, p):
+        m = 0
         while n % p == 0:
             n //= p
-        return n == 1
+            m += 1
+        return (n == 1, m)
 
-    if n <= 1:
-        return False
+    def check_small_primes(n, max_prime):
+        if n < max_prime:
+            index = bisect_left(PRIMES, n)
+            if index < len(PRIMES) and PRIMES[index] == n:
+                return (True, (n, 1)) if return_pair else True
+        for prime in PRIMES:
+            if prime * prime > n:
+                return (True, (n, 1)) if return_pair else True
+            if n % prime == 0:
+                is_pwr, m = is_power(n, prime)
+                if is_pwr:
+                    return (True, (prime, m)) if return_pair else True
+                return (False, (None, None)) if return_pair else False
+        return None
+
+    def check_large_candidates(n, max_prime):
+        """
+        Determines wich form have max_prime, either 6k-1 or 6k+1, to start searching divisibility of n by subsequent prime candidates with the same form.
+
+        See: https://crypto.stackexchange.com/questions/72351/why-can-every-prime-number-be-written-as-6k±1
+        """
+        if max_prime % 6 == 5:
+            prime_candidate = 6 * ((max_prime // 6) + 1) - 1
+            increment = 2
+        else:
+            prime_candidate = 6 * (max_prime // 6) + 1
+            increment = 4
+
+        while prime_candidate * prime_candidate <= n:
+            if n % prime_candidate == 0:
+                is_pwr, m = is_power(n, prime_candidate)
+                if is_pwr:
+                    return (True, (prime_candidate, m)) if return_pair else True
+                return (False, (None, None)) if return_pair else False
+            prime_candidate += increment
+            increment = 6 - increment
+        return (True, (n, 1)) if return_pair else True
 
     max_prime = PRIMES[-1]
+    result = check_small_primes(n, max_prime)
+    if result is not None:
+        return result
 
-    if n < max_prime:
-        index = bisect_left(PRIMES, n)
-        if index < len(PRIMES) and PRIMES[index] == n:
-            return True
-
-    for prime in PRIMES:
-        if prime * prime > n:
-            return True
-        if n % prime == 0:
-            return is_power(n // prime, prime)
-
-    if max_prime % 6 == 5:
-        prime_candidate = 6 * ((max_prime // 6) + 1) - 1
-        increment = 2
-    else:
-        prime_candidate = 6 * (max_prime // 6) + 1
-        increment = 4
-
-    while prime_candidate * prime_candidate <= n:
-        if n % prime_candidate == 0:
-            return is_power(n // prime_candidate, prime_candidate)
-        prime_candidate += increment
-        increment = 6 - increment
-    return True
+    return check_large_candidates(n, max_prime)
 
 
 def is_power_of_two(n):
@@ -196,8 +219,71 @@ def is_power_of_two(n):
         sage: is_power_of_two(21)
         False
 
-        sage: is_power_of_two(33554432)
-        True
-
     """
     return (n & (n - 1) == 0) and n != 0
+
+
+def gf_order_to_characteristic(q):
+    """
+    Returns the characteristic of the Galois field GF(q) where q is the number of elements.
+
+    INPUT:
+
+    - ``p`` -- A prime power representing the number of elements in the Galois field.
+
+    EXAMPLES::
+
+        sage: from cryptographic_estimators.helper import gf_order_to_characteristic
+        sage: gf_order_to_characteristic(7)
+        7
+
+    TESTS::
+
+        sage: gf_order_to_characteristic(11^3)
+        11
+
+        sage: gf_order_to_characteristic(10^3)
+        Traceback (most recent call last):
+        ...
+        ValueError: q must be a prime power.
+
+    """
+    is_prime_pwr, characteristic_degree_pair = is_prime_power(q, return_pair=True)
+    characteristic = characteristic_degree_pair[0]
+    if is_prime_pwr:
+        return characteristic
+    else:
+        raise ValueError("q must be a prime power.")
+
+
+def gf_order_to_degree(q):
+    """
+    Returns the degree of the Galois field GF(q) where q is the number of elements.
+
+    INPUT:
+
+    - ``q`` -- A prime power representing the number of elements in the Galois field.
+
+    EXAMPLES::
+
+        sage: from cryptographic_estimators.helper import gf_order_to_degree
+        sage: gf_order_to_degree(3^2)
+        2
+
+    TESTS::
+
+        sage: gf_order_to_degree(127^4)
+        4
+
+        sage: gf_order_to_degree(10^3)
+        Traceback (most recent call last):
+        ...
+        ValueError: q must be a prime power.
+
+    """
+    is_prime_pwr, characteristic_degree_pair = is_prime_power(q, return_pair=True)
+    degree = characteristic_degree_pair[1]
+    if is_prime_pwr:
+        return degree
+    else:
+        raise ValueError("q must be a prime power.")
