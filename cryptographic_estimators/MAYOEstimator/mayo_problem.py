@@ -49,7 +49,6 @@ class MAYOProblem(BaseProblem):
 
         theta = kwargs.get("theta", None)
         cost_one_hash = kwargs.get("cost_one_hash", 17)
-        self.nsolutions = kwargs.get("nsolutions", self.expected_number_solutions())
 
         if n < 1:
             raise ValueError("n must be >= 1")
@@ -82,12 +81,13 @@ class MAYOProblem(BaseProblem):
         self.parameters[MAYO_FIELD_SIZE] = q
         self._theta = theta
         self._cost_one_hash = cost_one_hash
+        self.nsolutions = kwargs.get("nsolutions", self.expected_number_solutions())
 
     def expected_number_solutions(self):
         """
         Returns the logarithm of the expected number of existing solutions to the problem
         """
-        n, m, _, _, q = self.problem.get_parameters()
+        n, m, _, _, q = self.get_parameters()
         return log2(q) * (n - m)
 
     def hashes_to_basic_operations(self, number_of_hashes: float):
