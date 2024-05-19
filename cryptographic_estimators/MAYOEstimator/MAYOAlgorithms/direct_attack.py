@@ -58,7 +58,7 @@ class DirectAttack(MAYOAlgorithm):
         n_tilde = m_tilde - K
         w = self.linear_algebra_constant()
         h = self._h
-        nsolutions = self.expected_number_solutions()
+        nsolutions = self.problem.expected_number_solutions()
         excluded_algorithms = kwargs.get(BASE_EXCLUDED_ALGORITHMS, [Lokshtanov])
         complexity_type = self.complexity_type
 
@@ -130,33 +130,5 @@ class DirectAttack(MAYOAlgorithm):
         fastest_algorithm.complexity_type = self.complexity_type
         return self._fastest_algorithm.memory_complexity() + self._K * log2(q)
     
-    def expected_number_solutions(self):
-        """
-        Returns the logarithm of the expected number of existing solutions to the problem
-        """
-        n, m, _, _, q = self.problem.get_parameters()
-        return log2(q) * (n - m)
+
     
-    def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        """
-        raise NotImplementedError
-    
-    def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Return the Ō memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        """
-        raise NotImplementedError
-
-        
