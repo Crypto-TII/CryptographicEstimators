@@ -59,7 +59,7 @@ class MHT(MQAlgorithm):
 
         if m * (m + 3) / 2 > n:
             raise ValueError(
-                f"The parameter n should be grater than or equal to m * (m + 3) / 2"
+                "The parameter n should be grater than or equal to m * (m + 3) / 2"
             )
 
         super().__init__(problem, **kwargs)
