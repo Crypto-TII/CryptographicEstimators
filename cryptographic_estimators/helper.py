@@ -141,9 +141,6 @@ def is_prime_power(n, return_pair=False):
     """
     global PRIMES
 
-    if n <= 1:
-        return (False, (None, None)) if return_pair else False
-
     def is_power(n, p):
         m = 0
         while n % p == 0:
@@ -152,25 +149,30 @@ def is_prime_power(n, return_pair=False):
         return (n == 1, m)
 
     def check_small_primes(n, max_prime):
+        """
+        If `n` is within the range of the precomputed list, performs a binary search. Otherwise, checks divisibility by the precomputed primes up to the square root of `n`.
+        """
         if n < max_prime:
             index = bisect_left(PRIMES, n)
             if index < len(PRIMES) and PRIMES[index] == n:
-                return (True, (n, 1)) if return_pair else True
+                return (True, (n, 1))
         for prime in PRIMES:
             if prime * prime > n:
-                return (True, (n, 1)) if return_pair else True
+                return (True, (n, 1))
             if n % prime == 0:
                 is_pwr, m = is_power(n, prime)
                 if is_pwr:
-                    return (True, (prime, m)) if return_pair else True
-                return (False, (None, None)) if return_pair else False
+                    return (True, (prime, m))
+                return (False, (None, None))
         return None
 
     def check_large_candidates(n, max_prime):
         """
-        Determines wich form have max_prime, either 6k-1 or 6k+1, to start searching divisibility of n by subsequent prime candidates with the same form.
+        Determines wich form have max_prime, either 6k-1 or 6k+1, to start searching divisibility of n by subsequent prime candidates with the same form up to the sqrt(n).
 
-        See: https://crypto.stackexchange.com/questions/72351/why-can-every-prime-number-be-written-as-6k±1
+        See:
+        - https://crypto.stackexchange.com/questions/72351/why-can-every-prime-number-be-written-as-6k±1
+        - https://stackoverflow.com/questions/5811151/why-do-we-check-up-to-the-square-root-of-a-number-to-determine-if-the-number-is
         """
         if max_prime % 6 == 5:
             prime_candidate = 6 * ((max_prime // 6) + 1) - 1
@@ -183,18 +185,23 @@ def is_prime_power(n, return_pair=False):
             if n % prime_candidate == 0:
                 is_pwr, m = is_power(n, prime_candidate)
                 if is_pwr:
-                    return (True, (prime_candidate, m)) if return_pair else True
-                return (False, (None, None)) if return_pair else False
+                    return (True, (prime_candidate, m))
+                return (False, (None, None))
             prime_candidate += increment
             increment = 6 - increment
-        return (True, (n, 1)) if return_pair else True
+        return (True, (n, 1))
+
+    if n <= 1:
+        return (False, (None, None)) if return_pair else False
 
     max_prime = PRIMES[-1]
     result = check_small_primes(n, max_prime)
-    if result is not None:
+    if result is None:
+        result = check_large_candidates(n, max_prime)
+    if return_pair:
         return result
-
-    return check_large_candidates(n, max_prime)
+    else:
+        return result[0]
 
 
 def is_power_of_two(n):
