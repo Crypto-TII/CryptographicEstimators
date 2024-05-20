@@ -5,6 +5,7 @@ from .helper import ComplexityType, concat_pretty_tables, _truncate, round_or_tr
 from . import SDEstimator
 from . import MQEstimator
 from . import SDFqEstimator
+from . import RegSDEstimator
 from . import PKEstimator
 from . import LEEstimator
 from . import PEEstimator
