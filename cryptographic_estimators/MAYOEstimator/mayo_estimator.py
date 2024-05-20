@@ -79,8 +79,38 @@ class MAYOEstimator(BaseEstimator):
             | DirectAttack |   forgery   | 144.8 |   99.3 |
             +--------------+-------------+-------+--------+
 
+            sage: E = MAYOEstimator(n=78, m=64, o=18, k=4, q=16)
+            sage: E.table(show_all_parameters=1) # long time
+            +--------------+-------------+-----------------------------+
+            |              |             |           estimate          |
+            +--------------+-------------+-------+--------+------------+
+            | algorithm    | attack_type |  time | memory | parameters |
+            +--------------+-------------+-------+--------+------------+
+            | DirectAttack |   forgery   | 158.1 |  101.7 | {'K': 15}  |
+            +--------------+-------------+-------+--------+------------+
+
+            sage: E = MAYOEstimator(n=99, m=96, o=10, k=11, q=16)
+            sage: E.table(show_all_parameters=1) # long time 
+            +--------------+-------------+-----------------------------+
+            |              |             |           estimate          |
+            +--------------+-------------+-------+--------+------------+
+            | algorithm    | attack_type |  time | memory | parameters |
+            +--------------+-------------+-------+--------+------------+
+            | DirectAttack |   forgery   | 209.6 |  136.9 | {'K': 20}  |
+            +--------------+-------------+-------+--------+------------+
+
+            sage: E = MAYOEstimator(n=133, m=128, o=12, k=12, q=16)
+            sage: E.table(show_all_parameters=1) # long time
+            +--------------+-------------+-----------------------------+
+            |              |             |           estimate          |
+            +--------------+-------------+-------+--------+------------+
+            | algorithm    | attack_type |  time | memory | parameters |
+            +--------------+-------------+-------+--------+------------+
+            | DirectAttack |   forgery   | 274.7 |  175.0 | {'K': 24}  |
+            +--------------+-------------+-------+--------+------------+
+
             sage: E = MAYOEstimator(n=90, m=56, o=8, k=10, q=16)
-            sage: E.table(show_all_parameters=1)
+            sage: E.table(show_all_parameters=1) # long time
             +--------------+-------------+----------------------------+
             |              |             |          estimate          |
             +--------------+-------------+------+--------+------------+
@@ -90,7 +120,7 @@ class MAYOEstimator(BaseEstimator):
             +--------------+-------------+------+--------+------------+
 
             sage: E = MAYOEstimator(n=64, m=60, o=10, k=21, q=16)
-            sage: E.table(show_all_parameters=1)
+            sage: E.table(show_all_parameters=1) # long time
             +--------------+-------------+-----------------------------+
             |              |             |           estimate          |
             +--------------+-------------+-------+--------+------------+
@@ -98,16 +128,6 @@ class MAYOEstimator(BaseEstimator):
             +--------------+-------------+-------+--------+------------+
             | DirectAttack |   forgery   | 102.2 |   72.8 | {'K': 13}  |
             +--------------+-------------+-------+--------+------------+
-
-            sage: E = MAYOEstimator(n=130, m=100, o=15, k=45, q=16)
-            sage: E.table(show_all_parameters=1)
-            +--------------+-------------+----------------------------+
-            |              |             |          estimate          |
-            +--------------+-------------+------+--------+------------+
-            | algorithm    | attack_type | time | memory | parameters |
-            +--------------+-------------+------+--------+------------+
-            | DirectAttack |   forgery   | 17.2 |   75.4 | {'K': 15}  |
-            +--------------+-------------+------+--------+------------+
         
         """
         super(MAYOEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
