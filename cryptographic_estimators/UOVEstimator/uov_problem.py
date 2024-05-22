@@ -16,19 +16,19 @@
 # ****************************************************************************
 
 
-from ..base_problem import BaseProblem
-from sage.arith.misc import is_prime_power
-from ..MQEstimator.mq_helper import ngates
-from .uov_constants import *
-from math import log2
-from sage.functions.other import ceil
+from cryptographic_estimators.base_problem import BaseProblem
+from cryptographic_estimators.helper import is_prime_power
+from cryptographic_estimators.MQEstimator.mq_helper import ngates
+from cryptographic_estimators.UOVEstimator.uov_constants import *
+from math import log2, ceil
+
 
 class UOVProblem(BaseProblem):
     """
     Construct an instance of UOVProblem.
 
-    INPUT: 
-        
+    INPUT:
+
     - ``n`` -- number of variables
     - ``m`` -- number of polynomials
     - ``q`` -- order of the finite field
@@ -40,12 +40,12 @@ class UOVProblem(BaseProblem):
 
     """
 
-    def __init__(self, n: int, m: int, q:int, **kwargs):
+    def __init__(self, n: int, m: int, q: int, **kwargs):
         super().__init__(**kwargs)
 
         theta = kwargs.get("theta", 2)
         cost_one_hash = kwargs.get("cost_one_hash", 17.5)
-        
+
         if n < 1:
             raise ValueError("n must be >= 1")
 
@@ -57,13 +57,13 @@ class UOVProblem(BaseProblem):
 
         if not is_prime_power(q):
             raise ValueError("q must be a prime power")
-        
+
         if theta is not None and not (0 <= theta <= 2):
             raise ValueError("theta must be either None or 0 <= theta <= 2")
 
         if cost_one_hash < 0:
             raise ValueError("The cost of computing one hash must be >= 0")
-  
+
         self.parameters[UOV_NUMBER_VARIABLES] = n
         self.parameters[UOV_NUMBER_POLYNOMIALS] = m
         self.parameters[UOV_FIELD_SIZE] = q
@@ -82,7 +82,9 @@ class UOVProblem(BaseProblem):
         bit_complexity_one_hash = self._cost_one_hash
         bit_complexity_all_hashes = number_of_hashes + bit_complexity_one_hash
         bit_complexity_one_basic_operation = self.to_bitcomplexity_time(1)
-        number_of_basic_operations =  bit_complexity_all_hashes - bit_complexity_one_basic_operation
+        number_of_basic_operations = (
+            bit_complexity_all_hashes - bit_complexity_one_basic_operation
+        )
         return number_of_basic_operations
 
     def to_bitcomplexity_time(self, basic_operations: float):
@@ -124,12 +126,12 @@ class UOVProblem(BaseProblem):
         return list(self.parameters.values())
 
     def npolynomials(self):
-        """"
+        """ "
         Return the number of polynomials
 
         TESTS::
 
-            
+
         """
         return self.parameters[UOV_NUMBER_POLYNOMIALS]
 
@@ -139,7 +141,7 @@ class UOVProblem(BaseProblem):
 
         TESTS::
 
-            
+
         """
         return self.parameters[UOV_NUMBER_VARIABLES]
 

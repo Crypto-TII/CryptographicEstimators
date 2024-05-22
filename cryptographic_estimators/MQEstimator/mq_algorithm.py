@@ -16,10 +16,10 @@
 # ****************************************************************************
 
 
-from ..base_algorithm import BaseAlgorithm
-from .mq_problem import MQProblem
-from sage.arith.misc import is_prime_power
-from sage.functions.other import floor
+from cryptographic_estimators.base_algorithm import BaseAlgorithm
+from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+from cryptographic_estimators.helper import is_prime_power
+from math import floor
 
 
 class MQAlgorithm(BaseAlgorithm):
@@ -54,7 +54,7 @@ class MQAlgorithm(BaseAlgorithm):
         if q is not None and not is_prime_power(q):
             raise ValueError("q must be a prime power")
 
-        if  w < 2 or 3 < w:
+        if w < 2 or 3 < w:
             raise ValueError("w must be in the range 2 <= w <= 3")
 
         if h < 0:
@@ -124,7 +124,11 @@ class MQAlgorithm(BaseAlgorithm):
         return self._m_reduced
 
     def get_reduced_parameters(self):
-        return self.nvariables_reduced(), self.npolynomials_reduced(), self.problem.order_of_the_field()
+        return (
+            self.nvariables_reduced(),
+            self.npolynomials_reduced(),
+            self.problem.order_of_the_field(),
+        )
 
     def linear_algebra_constant(self):
         """
@@ -140,7 +144,6 @@ class MQAlgorithm(BaseAlgorithm):
         return self._w
 
     def __repr__(self):
-        """
-        """
+        """ """
         n, m = self.problem.nvariables(), self.problem.npolynomials()
         return f"{self._name} estimator for the MQ problem with {n} variables and {m} polynomials"

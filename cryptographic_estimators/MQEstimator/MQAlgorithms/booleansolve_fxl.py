@@ -16,15 +16,19 @@
 # ****************************************************************************
 
 
-from ...MQEstimator.mq_algorithm import MQAlgorithm
-from ...MQEstimator.mq_problem import MQProblem
-from ...MQEstimator import witness_degree
-from ...base_algorithm import optimal_parameter
-from math import log2
+from cryptographic_estimators.base_algorithm import optimal_parameter
+from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
+from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+from cryptographic_estimators.MQEstimator import witness_degree
+from cryptographic_estimators.MQEstimator.mq_constants import (
+    MQ_VARIANT,
+    MQ_LAS_VEGAS,
+    MQ_DETERMINISTIC,
+)
+from math import log2, comb as binomial
+
+# TODO: Remove at final step
 from sage.all import Integer
-from sage.rings.infinity import Infinity
-from sage.arith.misc import binomial
-from ..mq_constants import MQ_VARIANT, MQ_LAS_VEGAS, MQ_DETERMINISTIC
 
 
 class BooleanSolveFXL(MQAlgorithm):
@@ -56,6 +60,7 @@ class BooleanSolveFXL(MQAlgorithm):
         sage: E
         BooleanSolveFXL estimator for the MQ problem with 10 variables and 12 polynomials
     """
+
     _variants = (MQ_LAS_VEGAS, MQ_DETERMINISTIC)
 
     def __init__(self, problem: MQProblem, **kwargs):
@@ -68,14 +73,16 @@ class BooleanSolveFXL(MQAlgorithm):
         if self.problem.is_defined_over_finite_field():
             if m < n and m != n:
                 raise ValueError(
-                    "the no. of polynomials must be >= than the no. of variables")
+                    "the no. of polynomials must be >= than the no. of variables"
+                )
         else:
             if m < n:
                 raise ValueError(
-                    "the no. of polynomials must be > than the no. of variables")
+                    "the no. of polynomials must be > than the no. of variables"
+                )
 
         a = 0 if self.problem.is_overdefined_system() else 1
-        self.set_parameter_ranges('k', a, max(n - 1, 1))
+        self.set_parameter_ranges("k", a, max(n - 1, 1))
 
     @optimal_parameter
     def k(self):
@@ -90,7 +97,7 @@ class BooleanSolveFXL(MQAlgorithm):
             sage: E.k()
             4
         """
-        return self._get_optimal_parameter('k')
+        return self._get_optimal_parameter("k")
 
     @optimal_parameter
     def variant(self):
@@ -111,7 +118,7 @@ class BooleanSolveFXL(MQAlgorithm):
         """
         Generator which yields on each call a new set of valid parameters for the optimization routine based.
         """
-        new_ranges = self. _fix_ranges_for_already_set_parameters()
+        new_ranges = self._fix_ranges_for_already_set_parameters()
         _ = new_ranges.pop(MQ_VARIANT)
 
         variant = MQ_LAS_VEGAS
@@ -121,11 +128,11 @@ class BooleanSolveFXL(MQAlgorithm):
             aux = indices.copy()
             aux.update({MQ_VARIANT: variant})
             yield aux
-            indices['k'] += 1
-            if indices['k'] > new_ranges['k']["max"] and variant != MQ_DETERMINISTIC:
-                indices['k'] = new_ranges['k']["min"]
+            indices["k"] += 1
+            if indices["k"] > new_ranges["k"]["max"] and variant != MQ_DETERMINISTIC:
+                indices["k"] = new_ranges["k"]["min"]
                 variant = MQ_DETERMINISTIC
-            elif indices['k'] > new_ranges['k']["max"] and variant == MQ_DETERMINISTIC:
+            elif indices["k"] > new_ranges["k"]["max"] and variant == MQ_DETERMINISTIC:
                 stop = True
 
     def _compute_time_complexity(self, parameters: dict):
@@ -159,7 +166,7 @@ class BooleanSolveFXL(MQAlgorithm):
             160.33500724355238
 
         """
-        k = parameters['k']
+        k = parameters["k"]
         variant = parameters[MQ_VARIANT]
         n, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
@@ -167,15 +174,16 @@ class BooleanSolveFXL(MQAlgorithm):
         wit_deg = witness_degree.quadratic_system(n=n - k, m=m, q=q)
 
         if variant == MQ_LAS_VEGAS:
-            time_complexity = 3 * \
-                binomial(n - k + 2, 2) * q ** k * \
-                binomial(n - k + wit_deg, wit_deg) ** 2
+            time_complexity = (
+                3
+                * binomial(n - k + 2, 2)
+                * q**k
+                * binomial(n - k + wit_deg, wit_deg) ** 2
+            )
         elif variant == MQ_DETERMINISTIC:
-            time_complexity = q ** k * m * \
-                binomial(n - k + wit_deg, wit_deg) ** w
+            time_complexity = q**k * m * binomial(n - k + wit_deg, wit_deg) ** w
         else:
-            raise ValueError(
-                "variant must either be las_vegas or deterministic")
+            raise ValueError("variant must either be las_vegas or deterministic")
 
         h = self._h
         return log2(time_complexity) + h * log2(q)
@@ -208,20 +216,20 @@ class BooleanSolveFXL(MQAlgorithm):
             52.603627340638155
 
         """
-        k = parameters['k']
+        k = parameters["k"]
         variant = parameters[MQ_VARIANT]
         n, m, q = self.get_reduced_parameters()
 
         wit_deg = witness_degree.quadratic_system(n=n - k, m=m, q=q)
         if variant == MQ_LAS_VEGAS:
             N = binomial(n - k + wit_deg, wit_deg)
-            memory_complexity = max(2 * N, m * n ** 2)
+            memory_complexity = max(2 * N, m * n**2)
         elif variant == MQ_DETERMINISTIC:
             memory_complexity = max(
-                binomial(n - k + wit_deg - 1, wit_deg) ** 2, m * n ** 2)
+                binomial(n - k + wit_deg - 1, wit_deg) ** 2, m * n**2
+            )
         else:
-            raise ValueError(
-                "variant must either be las_vegas or deterministic")
+            raise ValueError("variant must either be las_vegas or deterministic")
 
         return log2(memory_complexity)
 
@@ -247,16 +255,16 @@ class BooleanSolveFXL(MQAlgorithm):
         """
         n, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
-        k = parameters['k']
+        k = parameters["k"]
         variant = parameters[MQ_VARIANT]
         wit_deg = witness_degree.quadratic_system(n=n - k, m=m, q=q)
 
         if n == m and q == 2:
             return 0.792 * m
         elif variant == MQ_LAS_VEGAS:
-            complexity = log2(q ** k * binomial(n - k + wit_deg, wit_deg) ** 2)
+            complexity = log2(q**k * binomial(n - k + wit_deg, wit_deg) ** 2)
         else:
-            complexity = log2(q ** k * binomial(n - k + wit_deg, wit_deg) ** w)
+            complexity = log2(q**k * binomial(n - k + wit_deg, wit_deg) ** w)
 
         complexity += self._h * log2(q)
         return complexity
@@ -279,7 +287,7 @@ class BooleanSolveFXL(MQAlgorithm):
 
         """
         n, m, q = self.get_reduced_parameters()
-        k = parameters['k']
+        k = parameters["k"]
         variant = parameters[MQ_VARIANT]
         wit_deg = witness_degree.quadratic_system(n=n - k, m=m, q=q)
         memory = log2(binomial(n - k + wit_deg, wit_deg))

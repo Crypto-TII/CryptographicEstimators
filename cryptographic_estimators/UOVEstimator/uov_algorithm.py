@@ -16,9 +16,8 @@
 # ****************************************************************************
 
 
-from ..base_algorithm import BaseAlgorithm
-from .uov_problem import UOVProblem
-from sage.arith.misc import is_prime_power
+from cryptographic_estimators.base_algorithm import BaseAlgorithm
+from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
 
 
 class UOVAlgorithm(BaseAlgorithm):
@@ -48,7 +47,6 @@ class UOVAlgorithm(BaseAlgorithm):
         if self._h < 0:
             raise ValueError("h must be >= 0")
 
-
     def linear_algebra_constant(self):
         """
         Return the linear algebra constant
@@ -62,9 +60,7 @@ class UOVAlgorithm(BaseAlgorithm):
         """
         return self._w
 
-
     def __repr__(self):
-        """
-        """
+        """ """
         n, m, q = self.problem.get_parameters()
         return f"{self._name} estimator for the UOV signature scheme with parameters (q, n, m) = ({q}, {n}, {m})"
