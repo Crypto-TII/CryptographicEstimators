@@ -16,19 +16,19 @@
 # ****************************************************************************
 
 
-from ...MQEstimator.series.nmonomial import NMonomialSeries
-from ...MQEstimator.mq_problem import MQProblem
-from ...MQEstimator.mq_algorithm import MQAlgorithm
-from ...base_algorithm import optimal_parameter
-from math import log2, inf
-from sage.functions.other import ceil, floor
-from sage.all import Integer
-from sage.arith.misc import is_power_of_two
-from sage.functions.other import floor
+from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
+from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
+from cryptographic_estimators.base_algorithm import optimal_parameter
 from cryptographic_estimators.helper import (
+    is_power_of_two,
     gf_order_to_characteristic,
     gf_order_to_degree,
 )
+from math import log2, inf, ceil, floor
+
+# TODO: Remove at final step
+from sage.all import Integer
 
 
 class Lokshtanov(MQAlgorithm):
@@ -52,6 +52,7 @@ class Lokshtanov(MQAlgorithm):
          sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9))
          sage: E
          Lokshtanov et al. estimator for the MQ problem with 10 variables and 12 polynomials
+
     """
 
     def __init__(self, problem: MQProblem, **kwargs):
@@ -79,6 +80,7 @@ class Lokshtanov(MQAlgorithm):
             sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9))
             sage: E.delta()
             1/10
+
         """
         return self._get_optimal_parameter("delta")
 
@@ -115,6 +117,7 @@ class Lokshtanov(MQAlgorithm):
             sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), bit_complexities=False)
             sage: E.time_complexity(delta=2/10)
             210.99786719362038
+
         """
         delta = parameters["delta"]
         n, _, q = self.get_reduced_parameters()
@@ -158,6 +161,7 @@ class Lokshtanov(MQAlgorithm):
             sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), bit_complexities=False)
             sage: E.memory_complexity(delta=2/10)
             27.471075081419315
+
         """
         delta = parameters["delta"]
         n, _, q = self.get_reduced_parameters()
@@ -190,6 +194,7 @@ class Lokshtanov(MQAlgorithm):
             sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
             sage: E.time_complexity(delta=2/10)
             6.339850002884624
+
         """
         delta = parameters["delta"]
         e = 2.718
@@ -218,6 +223,7 @@ class Lokshtanov(MQAlgorithm):
             sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
             sage: E.memory_complexity(delta=2/10)
             25.359400011538497
+
         """
         delta = parameters["delta"]
         n, _, q = self.get_reduced_parameters()
@@ -234,6 +240,7 @@ class Lokshtanov(MQAlgorithm):
             sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
             sage: E.optimal_parameters()
             {'delta': 0.9975}
+
         """
         n, _, q = self.get_reduced_parameters()
         e = 2.718

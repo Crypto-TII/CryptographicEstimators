@@ -14,18 +14,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
 
 
- 
+from cryptographic_estimators.base_problem import BaseProblem
+from cryptographic_estimators.MQEstimator.mq_helper import ngates
+from cryptographic_estimators.MQEstimator.mq_constants import (
+    MQ_NUMBER_VARIABLES,
+    MQ_NUMBER_POLYNOMIALS,
+    MQ_FIELD_SIZE,
+)
+from cryptographic_estimators.helper import is_prime_power
+from math import log2, ceil
 
-
-from ..base_problem import BaseProblem
-from ..MQEstimator.mq_helper import ngates
-from math import log2
-from sage.functions.other import ceil
-from .mq_constants import *
-from sage.arith.misc import is_prime_power
 
 class MQProblem(BaseProblem):
     """
@@ -44,7 +44,7 @@ class MQProblem(BaseProblem):
 
     """
 
-    def __init__(self, n: int, m: int, q:int, **kwargs):
+    def __init__(self, n: int, m: int, q: int, **kwargs):
         super().__init__(**kwargs)
         self.parameters[MQ_NUMBER_VARIABLES] = n
         self.parameters[MQ_NUMBER_POLYNOMIALS] = m
@@ -64,9 +64,8 @@ class MQProblem(BaseProblem):
         if self._theta is not None and not (0 <= self._theta <= 2):
             raise ValueError("theta must be either None or 0<=theta <= 2")
 
-        if self.nsolutions  < 0:
+        if self.nsolutions < 0:
             raise ValueError("nsolutions must be >= 0")
-
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """
@@ -84,7 +83,7 @@ class MQProblem(BaseProblem):
     @property
     def theta(self):
         """
-        returns the runtime of the algorithm
+        Returns the runtime of the algorithm
 
         """
         return self._theta
@@ -92,7 +91,7 @@ class MQProblem(BaseProblem):
     @theta.setter
     def theta(self, value: float):
         """
-        sets the runtime
+        Sets the runtime
 
         """
         self._theta = value
@@ -114,6 +113,7 @@ class MQProblem(BaseProblem):
     def expected_number_solutions(self):
         """
         Returns the logarithm of the expected number of existing solutions to the problem
+
         """
         n, m, q = self.get_problem_parameters()
         return max(0, log2(q) * (n - m))
@@ -134,7 +134,7 @@ class MQProblem(BaseProblem):
         return self.order_of_the_field()
 
     def npolynomials(self):
-        """"
+        """ "
         Return the number of polynomials
 
         TESTS::
@@ -160,8 +160,13 @@ class MQProblem(BaseProblem):
     def get_problem_parameters(self):
         """
         Returns n, m, q
+
         """
-        return self.parameters[MQ_NUMBER_VARIABLES], self.parameters[MQ_NUMBER_POLYNOMIALS], self.parameters[MQ_FIELD_SIZE]
+        return (
+            self.parameters[MQ_NUMBER_VARIABLES],
+            self.parameters[MQ_NUMBER_POLYNOMIALS],
+            self.parameters[MQ_FIELD_SIZE],
+        )
 
     def is_overdefined_system(self):
         """
@@ -210,11 +215,18 @@ class MQProblem(BaseProblem):
         return self.nvariables() == self.npolynomials()
 
     def __repr__(self):
-        """
-        """
+        """ """
         n, m, q = self.get_problem_parameters()
-        rep = "MQ problem with (n,m,q) = " \
-              + "(" + str(n) + "," + str(m) + "," + \
-            str(q) + ") over " + str(self.baseField)
+        rep = (
+            "MQ problem with (n,m,q) = "
+            + "("
+            + str(n)
+            + ","
+            + str(m)
+            + ","
+            + str(q)
+            + ") over "
+            + str(self.baseField)
+        )
 
         return rep
