@@ -261,6 +261,11 @@ References
 .. [Beu20] \Ward Beullens.
             *Not enough LESS: An improved algorithm for solving Code Equivalence Problems over Fq*
             https://doi.org/10.1007/978-3-030-81652-0\_15
+
+.. [BCCHK23] \Ward Beullens, Fabio Campos, Sofı́a Celi, Basil Hess and Matthias J. Kannwischer.
+              *MAYO: Specifications*
+              https://pqmayo.org/assets/specs/mayo.pdf
+
 .. _ref-X:
 
 **X**
