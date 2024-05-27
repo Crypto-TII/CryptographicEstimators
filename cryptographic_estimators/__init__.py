@@ -14,11 +14,12 @@ from . import MREstimator
 from . import UOVEstimator
 
 
-# WARNING: These lines are mandatory to config the upper bound value of any
-# power serie produced by Flint. It may produce test errors if you set it
-# below 400. Also, do not remove the fmpq_series import; it is needed
-# by ctx to be able to set the cap.
+# WARNING:
+# This sets the MAXIMUM number of coefficients that can be calculated for any
+# power series created with python-flint.
+# Do not remove the power_series import; it's needed to enforce this cap.
+# The chosen limit (MAX_COEFFS) should be sufficient for most use cases, and values
+# below 4000 will raise testing errors.
+MAX_COEFFS = 20000
 from flint import fmpq_series as power_series, ctx
-
-ctx.cap = 20000
-
+ctx.cap = MAX_COEFFS
