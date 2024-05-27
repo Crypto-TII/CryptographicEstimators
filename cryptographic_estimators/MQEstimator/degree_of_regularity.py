@@ -131,7 +131,7 @@ def semi_regular_system(n: int, degrees: list[int], q=None):
             "the number of polynomials must be >= than the number of variables")
 
     s = HilbertSeries(n, degrees, q=q)
-    return s.first_nonpositive_integer()
+    return s.first_nonpositive_coefficient()
 
 
 def quadratic_system(n: int, m: int, q=None):

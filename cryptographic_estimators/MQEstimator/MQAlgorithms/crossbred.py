@@ -59,6 +59,7 @@ class Crossbred(MQAlgorithm):
         sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
         sage: E
         Crossbred estimator for the MQ problem with 10 variables and 12 polynomials
+
     """
 
     def __init__(self, problem: MQProblem, **kwargs):
@@ -214,13 +215,11 @@ class Crossbred(MQAlgorithm):
 
     def _C(self, parameters: dict):
         """ """
-        k = parameters["k"]
-        D = parameters["D"]
-        d = parameters["d"]
+        k, D, d = parameters["k"], parameters["D"], parameters["d"]
+        n, m, q, max_D = parameters["n"], parameters["m"], parameters["q"], parameters["max_D"]
         Hk = HilbertSeries(n=k, degrees=[2] * m, q=q)
-        k_y = Hk.series(y)
         N = NMonomialSeries(n=n - k, q=q, max_prec=max_D + 1)
-        out = sum([k_y[i] * N.nmonomials_of_degree(D - i) for i in range(d + 1)])
+        out = sum([Hk.coefficient_of_degree(i) * N.nmonomials_of_degree(D - i) for i in range(d + 1)])
         return out
 
     def _valid_choices(self):
@@ -245,25 +244,22 @@ class Crossbred(MQAlgorithm):
         max_D = self.max_D
 
         Hn = HilbertSeries(n=n, degrees=[2] * m, q=q)
-        h_n = Hn.series_up_to_degree
         k = 1
         stop = False
         while not stop:
 
             Hk = HilbertSeries(n=k, degrees=[2] * m, q=q)
-            h_k = Hk.series
-            h_k_d_reg = Hk.first_nonpositive_integer()
-            h_k_up_to_degree = Hk.series_up_to_degree
+            h_k_d_reg = Hk.first_nonpositive_coefficient()
             N = NMonomialSeries(n=n - k, q=q, max_prec=max_D + 1)
             for D in range(2, self._max_D + 1):
                 for d in range(1, min(h_k_d_reg, D)):
                     C_D_d = sum(
                         [
-                            h_k[i] * N.nmonomials_up_to_degree(D - i)
+                            Hk.coefficient_of_degree(i) * N.nmonomials_up_to_degree(D - i)
                             for i in range(d + 1)
                         ]
                     )
-                    coefficient_D_d = C_D_d - h_n[D] - h_k_up_to_degree[d]
+                    coefficient_D_d = C_D_d - Hn.coefficient_up_to_degree(D) - Hk.coefficient_up_to_degree(d)
                     if (
                         0 <= coefficient_D_d
                         and new_ranges["D"]["min"] <= D <= new_ranges["D"]["max"]
