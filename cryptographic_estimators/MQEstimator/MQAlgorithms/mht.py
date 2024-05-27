@@ -16,12 +16,13 @@
 # ****************************************************************************
 
 
-from ...MQEstimator.mq_algorithm import MQAlgorithm
-from ...MQEstimator.mq_problem import MQProblem
-from ...helper import ComplexityType
-from sage.all import Integer
-from sage.arith.misc import is_power_of_two
+from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
+from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+from cryptographic_estimators.helper import is_power_of_two
 from math import log2
+
+# TODO: Remove at final step
+from sage.all import Integer
 
 
 class MHT(MQAlgorithm):
@@ -58,7 +59,8 @@ class MHT(MQAlgorithm):
 
         if m * (m + 3) / 2 > n:
             raise ValueError(
-                f'The parameter n should be grater than or equal to m * (m + 3) / 2')
+                "The parameter n should be grater than or equal to m * (m + 3) / 2"
+            )
 
         super().__init__(problem, **kwargs)
         self._name = "MHT"
@@ -83,7 +85,7 @@ class MHT(MQAlgorithm):
             time = 0
         else:
             time = m
-        time += log2(m * n ** w)
+        time += log2(m * n**w)
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
@@ -99,7 +101,7 @@ class MHT(MQAlgorithm):
             19.61636217728924
         """
         n, m, q = self.problem.get_problem_parameters()
-        return log2(m * n ** 2)
+        return log2(m * n**2)
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
