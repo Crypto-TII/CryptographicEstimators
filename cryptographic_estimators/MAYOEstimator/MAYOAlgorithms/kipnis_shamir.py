@@ -52,6 +52,10 @@ class KipnisShamir(MAYOAlgorithm):
         self._name = "KipnisShamir"
         self._attack_type = "key-recovery"
 
+        n, _, o, _, _ = self.problem.get_parameters()
+        if n <= 2 * o:
+            raise ValueError('n should be greater than 2 * o')
+
     def _compute_time_complexity(self, parameters: dict):
         """
         Return the time complexity of the algorithm for a given set of parameters
