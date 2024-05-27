@@ -12,3 +12,13 @@ from . import PEEstimator
 from . import DummyEstimator
 from . import MREstimator
 from . import UOVEstimator
+
+
+# WARNING: These lines are mandatory to config the upper bound value of any
+# power serie produced by Flint. It may produce test errors if you set it
+# below 400. Also, do not remove the fmpq_series import; it is needed
+# by ctx to be able to set the cap.
+from flint import fmpq_series as power_series, ctx
+
+ctx.cap = 20000
+
