@@ -25,13 +25,19 @@ from math import log2
 from sage.functions.other import floor
 
 
-class KipnisShamir(MAYOAlgorithm):
-    """
-    Construct an instance of KipnisShamir estimator
+from ...base_algorithm import optimal_parameter
+from cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
+from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
 
-    First attack on the Oil and Vinegar problem, proposed by Kipnis and Shamir.
-    The attack attempts to find vectors in the oil space O, by exploiting the fact
-    that these vectors are more likely to be eigenvectors of some publicy-known matrices.
+
+
+
+class ReconciliationAttack(MAYOAlgorithm):
+    """
+    Construct an instance of ReconciliationAttack estimator
+
+    Reconciliation attack attempts to find vectors in the oils space O by using the fact
+    that P(o) = 0 for all o in O. 
 
     INPUT:
 
@@ -49,12 +55,10 @@ class KipnisShamir(MAYOAlgorithm):
     def __init__(self, problem: MAYOProblem, **kwargs):
         super().__init__(problem, **kwargs)
 
-        self._name = "KipnisShamir"
+        self._name = "ReconciliationAttack"
         self._attack_type = "key-recovery"
-
-        n, _, o, _, _ = self.problem.get_parameters()
-        if n <= 2 * o:
-            raise ValueError('n should be greater than 2 * o')
+        n, m, o, _, q = self.problem.get_parameters()
+        self._boolean_solve = BooleanSolveFXL(MQProblem(n=n-o, m=m, q=q), bit_complexities=False)
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -67,15 +71,14 @@ class KipnisShamir(MAYOAlgorithm):
         TESTS::
 
             sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.kipnis_shamir import KipnisShamir
-            sage: E = KipnisShamir(MAYOProblem(n=24, m=20, o=8, k=9, q=16))
+            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.reconciliation_attack import ReconciliationAttack
+            sage: E = ReconciliationAttack(MAYOProblem(n=32, m=30, o=12, k=9, q=16))
             sage: E.time_complexity()
-            50.007820003461546
+            53.33754239288287
 
         """
-        n, _, o, _, q = self.problem.get_parameters()
-        time = (n - 2 * o) * log2(q)
-        return time + log2(n) * 2.8
+        E = self._boolean_solve
+        return E.time_complexity()
 
     def _compute_memory_complexity(self, parameters: dict):
         """
@@ -88,12 +91,20 @@ class KipnisShamir(MAYOAlgorithm):
         TESTS::
 
             sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.kipnis_shamir import KipnisShamir
-            sage: E = KipnisShamir(MAYOProblem(n=24, m=20, o=8, k=9, q=16))
+            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.reconciliation_attack import ReconciliationAttack
+            sage: E = ReconciliationAttack(MAYOProblem(n=32, m=30, o=12, k=9, q=16))
             sage: E.memory_complexity()
-            14.169925001442312
+            20.434204686526638
 
         """
-        n, _, o, _, _ = self.problem.get_parameters()
-        return log2(o * (n ** 2))
+        E = self._boolean_solve
+        return E.memory_complexity()
     
+
+    def get_optimal_parameters_dict(self):
+        """
+        Returns the optimal parameters dictionary
+
+        """
+        E = self._boolean_solve
+        return E.get_optimal_parameters_dict()      
