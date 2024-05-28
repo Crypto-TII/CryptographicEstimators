@@ -20,14 +20,14 @@ from ..mayo_algorithm import MAYOAlgorithm
 from ..mayo_problem import MAYOProblem
 from cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
 from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+from math import log2
 
 
-class ReconciliationAttack(MAYOAlgorithm):
+class IntersectionAttack(MAYOAlgorithm):
     """
-    Construct an instance of ReconciliationAttack estimator
+    Construct an instance of IntersectionAttack estimator
 
-    Reconciliation attack attempts to find vectors in the oils space O by using the fact
-    that P(o) = 0 for all o in O. 
+    -----
 
     INPUT:
 
@@ -45,10 +45,10 @@ class ReconciliationAttack(MAYOAlgorithm):
     def __init__(self, problem: MAYOProblem, **kwargs):
         super().__init__(problem, **kwargs)
 
-        self._name = "ReconciliationAttack"
+        self._name = "IntersectionAttack"
         self._attack_type = "key-recovery"
         n, m, o, _, q = self.problem.get_parameters()
-        self._boolean_solve = BooleanSolveFXL(MQProblem(n=n-o, m=m, q=q), bit_complexities=False)
+        self._boolean_solve = BooleanSolveFXL(MQProblem(n=n, m=3*m-2, q=q), bit_complexities=False)
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -61,14 +61,17 @@ class ReconciliationAttack(MAYOAlgorithm):
         TESTS::
 
             sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.reconciliation_attack import ReconciliationAttack
-            sage: E = ReconciliationAttack(MAYOProblem(n=32, m=30, o=12, k=9, q=16))
+            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.intersection_attack import IntersectionAttack
+            sage: E = IntersectionAttack(MAYOProblem(n=80, m=60, o=18, k=9, q=16))
             sage: E.time_complexity()
-            53.33754239288287
+            217.30764571185566
 
         """
+        n, m, o, _, q = self.problem.get_parameters()
         E = self._boolean_solve
-        return E.time_complexity()
+        time = E.time_complexity()
+        time += (n - (3 * o) + 1) * log2(q)
+        return time
 
     def _compute_memory_complexity(self, parameters: dict):
         """
@@ -81,10 +84,10 @@ class ReconciliationAttack(MAYOAlgorithm):
         TESTS::
 
             sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.reconciliation_attack import ReconciliationAttack
-            sage: E = ReconciliationAttack(MAYOProblem(n=32, m=30, o=12, k=9, q=16))
+            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.intersection_attack import IntersectionAttack
+            sage: E = IntersectionAttack(MAYOProblem(n=80, m=60, o=18, k=9, q=16))
             sage: E.memory_complexity()
-            20.434204686526638
+            48.427678101094735
 
         """
         E = self._boolean_solve

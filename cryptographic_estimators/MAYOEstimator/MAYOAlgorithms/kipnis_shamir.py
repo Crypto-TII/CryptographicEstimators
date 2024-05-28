@@ -22,7 +22,6 @@ from ...MQEstimator.mq_estimator import MQEstimator
 from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
 from ...base_constants import BASE_EXCLUDED_ALGORITHMS
 from math import log2
-from sage.functions.other import floor
 
 
 class KipnisShamir(MAYOAlgorithm):
