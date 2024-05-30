@@ -36,7 +36,7 @@ def _optimize_k(n: int, m: int, k: int, q: int):
     (K, time) = (0, inf)
 
     for i in range(0, n-1):
-        m_tilde = m - floor(((k*n)-i)/(m-i)) + 1
+        m_tilde = m - floor((n-i)/(m-i)) + 1
         n_tilde = m_tilde - i
 
         if n_tilde < 1: break

@@ -15,11 +15,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-
 from ..mayo_algorithm import MAYOAlgorithm
 from ..mayo_problem import MAYOProblem
 from ...MQEstimator.mq_estimator import MQEstimator
 from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
+from ...base_algorithm import optimal_parameter
+from ...helper import ComplexityType
+from ..mayo_helper import _optimize_k
 from ...base_constants import BASE_EXCLUDED_ALGORITHMS
 from math import log2
 from sage.functions.other import floor
@@ -50,10 +52,10 @@ class DirectAttack(MAYOAlgorithm):
 
         self._name = "DirectAttack"
         self._attack_type = "forgery"
-        
+
+        n, m, _, k, q = self.problem.get_parameters()
         self._K = self.K()
         K = self._K
-        n, m, _, k, q = self.problem.get_parameters()
         m_tilde = m - floor(((k*n)-K)/(m-K)) + 1
         n_tilde = m_tilde - K
         w = self.linear_algebra_constant()
@@ -77,6 +79,29 @@ class DirectAttack(MAYOAlgorithm):
                                         bit_complexities=0)
         
         self._fastest_algorithm = None
+
+    @optimal_parameter
+    def K(self):
+        """
+        Return the optimal parameter `K` from Furue, Nakamura, and Takagi strategy
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MAYOEstimator.mayo_algorithm import MAYOAlgorithm
+            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            sage: E = DirectAttack(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
+            sage: E.K()
+            15
+                
+        """
+        if self._optimal_parameters.get("K") is None:
+            n, m, _, k, q = self.problem.get_parameters()
+            if self.complexity_type == ComplexityType.ESTIMATE.value:
+                return _optimize_k(n=k*n, m=m, k=k, q=q)
+            elif self.complexity_type == ComplexityType.TILDEO.value:
+                return 0
+
+        return self._optimal_parameters.get("K")
 
     def get_fastest_mq_algorithm(self):
         """

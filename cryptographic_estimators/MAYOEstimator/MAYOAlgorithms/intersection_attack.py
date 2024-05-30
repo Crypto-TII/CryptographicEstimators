@@ -27,7 +27,8 @@ class IntersectionAttack(MAYOAlgorithm):
     """
     Construct an instance of IntersectionAttack estimator
 
-    -----
+    The intersection attack [Beu20]_ generalizes the ideas behind the Kipnis-Shamir attack, in
+    combination with a system-solving approach such as in the reconciliation attack.
 
     INPUT:
 

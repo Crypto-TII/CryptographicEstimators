@@ -29,7 +29,8 @@ class ClawFinding(MAYOAlgorithm):
     """
     Construct an instance of ClawFinding estimator
 
-    -----
+    Claw finding attack is a general attack which works against any signature which 
+    follows the hash-and-sign paradigm. 
 
     INPUT:
 
