@@ -48,11 +48,7 @@ class ClawFinding(MAYOAlgorithm):
         super().__init__(problem, **kwargs)
 
         self._name = "ClawFinding"
-        self._attack_type = "----"
-        self._alpha = 1.25
-        self._log2_of_alpha = log2(self._alpha)
-        q = problem.order_of_the_field()
-        self._gray_code_eval_cost = kwargs.get("gray_code_eval_cost", log2(q))
+        self._attack_type = "forgery"
 
     @optimal_parameter
     def X(self):
@@ -61,16 +57,18 @@ class ClawFinding(MAYOAlgorithm):
 
         EXAMPLES::
 
-            
+            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.claw_finding import ClawFinding
+            sage: E = ClawFinding(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
+            sage: E.X()
+            122.962
 
         """
-        n, m, _, k, q = self.problem.get_parameters()
-        log2_of_alpha = self._log2_of_alpha
-        r = self._gray_code_eval_cost
-        X = 9.25  +  (1 / 2) * (-log2(3 * m * r)  + log2_of_alpha + m * log2(q))
+        _, m, _, _, q = self.problem.get_parameters()
+        X = (1 / 2) * (17 - log2(36 * m) + m * log2(q))
         X_rounded = round(X, 3)
         return X_rounded
-    
+
     @optimal_parameter
     def Y(self):
         """
@@ -78,13 +76,16 @@ class ClawFinding(MAYOAlgorithm):
 
         EXAMPLES::
 
-            
+            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.claw_finding import ClawFinding
+            sage: E = ClawFinding(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
+            sage: E.Y()
+            117.038
 
         """
         X =  self.X()
-        log2_of_alpha = self._log2_of_alpha
-        n, m, _, k, q = self.problem.get_parameters()
-        Y = max(log2(log2_of_alpha) + m * log2(q) - X, 0)
+        _, m, _, _, q = self.problem.get_parameters()
+        Y = max(m * log2(q) - X, 0)
         Y_rounded = round(Y, 3)
         return Y_rounded
 
@@ -98,18 +99,18 @@ class ClawFinding(MAYOAlgorithm):
 
         TESTS::
 
-            
+            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.claw_finding import ClawFinding
+            sage: E = ClawFinding(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
+            sage: E.time_complexity()
+            134.0384078561605
 
         """
-        n, m, _, k, q = self.problem.get_parameters()
+        m = self.problem.npolynomials()
         X = self.X()
         Y = self.Y()
-        alpha = self._alpha
-        r = self._gray_code_eval_cost
         cost_one_hash = self.problem.cost_one_hash
-        time_temp = int(6 * (3 / 2) * m * r * 2 ** X) + int(2 ** cost_one_hash * 2 ** Y)
-        time_in_bits = log2(time_temp)
-        time_in_bits += log2(1/(1 - e ** (-alpha)))
+        time_in_bits = log2(36 * m * 2 ** X + 2 ** Y * 2 ** cost_one_hash)
         cost_one_field_mult = self.problem.to_bitcomplexity_time(1)
         time = time_in_bits - cost_one_field_mult
         return time
@@ -124,7 +125,11 @@ class ClawFinding(MAYOAlgorithm):
 
         TESTS::
 
-            
+            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.claw_finding import ClawFinding
+            sage: E = ClawFinding(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
+            sage: E.memory_complexity()
+            127.038
 
         """
         X = self.X()
