@@ -87,7 +87,7 @@ class DirectAttack(MAYOAlgorithm):
 
         EXAMPLES::
 
-            sage: from cryptographic_estimators.MAYOEstimator.mayo_algorithm import MAYOAlgorithm
+            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
             sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
             sage: E = DirectAttack(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
             sage: E.K()
