@@ -173,7 +173,7 @@ class HilbertSeries(object):
 
             sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
             sage: H = HilbertSeries(10, [2]*15)
-            sage: H.first_nonpositive_integer()
+            sage: H.first_nonpositive_coefficient()
             4
 
         """
@@ -183,10 +183,29 @@ class HilbertSeries(object):
                 return int(d)
         raise ValueError("Unable to find a nonpositive coefficient in the serie.")
 
+    def first_nonpositive_coefficient_up_to_degree(self):
+        """
+        Return the first non-positive integer of the serie `self._series/(1-x)`
+
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            sage: H = HilbertSeries(10, [2]*15)
+            sage: H.first_nonpositive_coefficient_up_to_degree()
+            5
+
+        """
+        for d in range(self.precision):
+            if self._series_up_to_degree[d] <= 0:
+                return int(d)
+        raise ValueError(
+            "Unable to find a nonpositive coefficient in the up_to_degree serie."
+        )
+
     def __repr__(self):
         """ """
         text = f"Hilbert series for system with {self.nvariables} variables and {self.npolynomials} polynomials"
         if self._q is not None:
             text += f" over F_{self._q}"
         return text
-
