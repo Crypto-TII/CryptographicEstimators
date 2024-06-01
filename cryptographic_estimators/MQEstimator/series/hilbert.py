@@ -65,6 +65,36 @@ class HilbertSeries(object):
         self._series_up_to_degree = self._series / (1 - x)
 
     @property
+    def _hilbert_serie(self):
+        """
+        Return the representation of the _series attribute.
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            sage: H = HilbertSeries(5, [2]*7)
+            sage: H._hilbert_serie
+            1 + 5*x + 8*x^2 + (-14)*x^4 + (-14)*x^5 + 8*x^7 + 5*x^8 + x^9 + O(x^14)
+
+        """
+        return self._series
+
+    @property
+    def _hilbert_serie_up_to_degree(self):
+        """
+        Return the representation of the _series_up_to_degree attribute.
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            sage: H = HilbertSeries(5, [2]*7)
+            sage: H._hilbert_serie_up_to_degree
+            1 + 6*x + 14*x^2 + 14*x^3 + (-14)*x^5 + (-14)*x^6 + (-6)*x^7 + (-1)*x^8 + O(x^14)
+
+        """
+        return self._series_up_to_degree
+
+    @property
     def nvariables(self):
         """
         Return the no. of variables
