@@ -63,6 +63,36 @@ class NMonomialSeries(object):
 
         self._series_up_to_degree = self._series_of_degree / (1 - x)
 
+    @property
+    def _nmonomial_serie_of_degree(self):
+        """
+        Return the representation of the _series_of_degree attribute.
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
+            sage: NM = NMonomialSeries(n=6, q=5)
+            sage: NM._nmonomial_serie_of_degree
+            1 + 6*x + 21*x^2 + 56*x^3 + 126*x^4 + 246*x^5 + 426*x^6 + O(x^7)
+
+        """
+        return self._series_of_degree
+
+    @property
+    def _nmonomial_serie_up_to_degree(self):
+        """
+        Return the representation of the _series_up_to_degree attribute.
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
+            sage: NM = NMonomialSeries(n=6, q=5)
+            sage: NM._nmonomial_serie_up_to_degree
+            1 + 7*x + 28*x^2 + 84*x^3 + 210*x^4 + 456*x^5 + 882*x^6 + O(x^7)
+
+        """
+        return self._series_up_to_degree
+
     def nmonomials_of_degree(self, d: int):
         """
         Return the number of monomials of degree `d`
