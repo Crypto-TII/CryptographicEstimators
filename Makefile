@@ -7,7 +7,7 @@ PACKAGE=cryptographic_estimators
 UNAME:=$(shell uname -m)
 
 tools:
-	@sage -python -m pip install setuptools==63.0 wheel==0.38.4 sphinx==5.3.0 furo prettytable scipy pytest
+	@sage -python -m pip install setuptools==63.0 wheel==0.38.4 sphinx==5.3.0 furo prettytable scipy pytest python-flint
 
 lib:
 	@python3 setup.py install && sage -python -m pip install .

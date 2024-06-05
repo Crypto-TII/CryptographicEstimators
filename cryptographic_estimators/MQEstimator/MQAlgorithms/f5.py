@@ -16,12 +16,10 @@
 # ****************************************************************************
 
 
-from ...MQEstimator.mq_algorithm import MQAlgorithm
-from ...MQEstimator.mq_problem import MQProblem
-from ...MQEstimator import degree_of_regularity
-from ...MQEstimator.series.nmonomial import NMonomialSeries
-from ...helper import ComplexityType
-from math import log2, inf, comb as binomial
+from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
+from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+from cryptographic_estimators.MQEstimator import degree_of_regularity
+from math import log2, comb as binomial
 
 
 class F5(MQAlgorithm):

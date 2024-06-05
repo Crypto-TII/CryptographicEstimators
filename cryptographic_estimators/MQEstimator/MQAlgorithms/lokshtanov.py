@@ -135,9 +135,10 @@ class Lokshtanov(MQAlgorithm):
                 resulting_degree = k * (q - 1) * (np + 2)
                 if self._is_early_abort_possible(time1):
                     return inf
-                M = NMonomialSeries(
+                serie = NMonomialSeries(
                     n=n_temp - np, q=q, max_prec=resulting_degree + 1
-                ).nmonomials_up_to_degree(resulting_degree)
+                )
+                M = serie.nmonomials_up_to_degree(resulting_degree)
                 time2 = log2(M) + np * log2(q) + 6 * q * log2(n_temp)
                 a = 0
                 if abs(time1 - time2) < 1:
@@ -172,9 +173,8 @@ class Lokshtanov(MQAlgorithm):
         else:
             np = floor(n * delta)
             resulting_degree = 2 * (q - 1) * (np + 2)
-            M = NMonomialSeries(
-                n=n - np, q=q, max_prec=resulting_degree + 1
-            ).nmonomials_up_to_degree(resulting_degree)
+            serie = NMonomialSeries(n=n - np, q=q, max_prec=resulting_degree + 1)
+            M = serie.nmonomials_up_to_degree(resulting_degree)
             memory = M + log2(n) * q ** (n - np)
 
         return log2(memory)
@@ -242,7 +242,7 @@ class Lokshtanov(MQAlgorithm):
             {'delta': 0.9975}
 
         """
-        n, _, q = self.get_reduced_parameters()
+        _, _, q = self.get_reduced_parameters()
         e = 2.718
         if q == 2:
             delta = 0.8765

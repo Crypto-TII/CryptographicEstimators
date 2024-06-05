@@ -16,18 +16,16 @@
 # ****************************************************************************
 
 
-from ...MQEstimator.mq_algorithm import MQAlgorithm
-from ...MQEstimator.mq_problem import MQProblem
-from ...MQEstimator.series.hilbert import HilbertSeries
-from ...MQEstimator.series.nmonomial import NMonomialSeries
-from ...MQEstimator.mq_helper import nmonomials_up_to_degree
-from ...base_algorithm import optimal_parameter
-from math import log2
+from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
+from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
+from cryptographic_estimators.MQEstimator.mq_helper import nmonomials_up_to_degree
+from cryptographic_estimators.base_algorithm import optimal_parameter
+from math import log2, inf, comb as binomial
+
+# TODO:Remove at final step
 from sage.all import Integer
-from sage.rings.all import QQ
-from sage.rings.infinity import Infinity
-from sage.rings.power_series_ring import PowerSeriesRing
-from sage.functions.other import binomial
 
 
 class Crossbred(MQAlgorithm):
@@ -70,15 +68,16 @@ class Crossbred(MQAlgorithm):
 
         super(Crossbred, self).__init__(problem, **kwargs)
         self._name = "Crossbred"
-        self._max_D = kwargs.get('max_D', min(
-            30, min(problem.nvariables(), problem.npolynomials())))
+        self._max_D = kwargs.get(
+            "max_D", min(30, min(problem.nvariables(), problem.npolynomials()))
+        )
         if not isinstance(self._max_D, (int, Integer)):
             raise TypeError("max_D must be an integer")
 
         n = self.nvariables_reduced()
-        self.set_parameter_ranges('k', 1, n)
-        self.set_parameter_ranges('D', 2, self._max_D)
-        self.set_parameter_ranges('d', 1, n)
+        self.set_parameter_ranges("k", 1, n)
+        self.set_parameter_ranges("D", 2, self._max_D)
+        self.set_parameter_ranges("d", 1, n)
 
     @optimal_parameter
     def k(self):
@@ -94,7 +93,7 @@ class Crossbred(MQAlgorithm):
             5
 
         """
-        return self._get_optimal_parameter('k')
+        return self._get_optimal_parameter("k")
 
     @optimal_parameter
     def D(self):
@@ -109,7 +108,7 @@ class Crossbred(MQAlgorithm):
             sage: E.D()
             3
         """
-        return self._get_optimal_parameter('D')
+        return self._get_optimal_parameter("D")
 
     @optimal_parameter
     def d(self):
@@ -124,7 +123,7 @@ class Crossbred(MQAlgorithm):
             sage: E.d()
             1
         """
-        return self._get_optimal_parameter('d')
+        return self._get_optimal_parameter("d")
 
     @property
     def max_D(self):
@@ -151,9 +150,9 @@ class Crossbred(MQAlgorithm):
         - ``value`` -- integer to be set as the upper bound of the parameter `D`
         """
         self.reset()
-        min_D = self._parameter_ranges['D']['min']
+        min_D = self._parameter_ranges["D"]["min"]
         self._max_D = value
-        self.set_parameter_ranges('D', min_D, value)
+        self.set_parameter_ranges("D", min_D, value)
 
     def _ncols_in_preprocessing_step(self, k: int, D: int, d: int):
         """
@@ -165,16 +164,16 @@ class Crossbred(MQAlgorithm):
         - ``D`` -- degree of the initial Macaulay matrix
         - ``d`` -- degree resulting Macaulay matrix
 
-       TESTS::
+        TESTS::
 
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
-            sage: E._ncols_in_preprocessing_step(4, 6, 3)
-            1412
-            sage: E = Crossbred(MQProblem(n=5, m=5, q=13))
-            sage: E._ncols_in_preprocessing_step(3, 4, 2)
-            45
+             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
+             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+             sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
+             sage: E._ncols_in_preprocessing_step(4, 6, 3)
+             1412
+             sage: E = Crossbred(MQProblem(n=5, m=5, q=13))
+             sage: E._ncols_in_preprocessing_step(3, 4, 2)
+             45
         """
         if d >= D:
             raise ValueError("d must be smaller than D")
@@ -185,8 +184,12 @@ class Crossbred(MQAlgorithm):
 
         ncols = 0
         for dk in range(d + 1, D + 1):
-            ncols += sum([nms0.nmonomials_of_degree(dk) *
-                         nms1.nmonomials_of_degree(dp) for dp in range(D - dk + 1)])
+            ncols += sum(
+                [
+                    nms0.nmonomials_of_degree(dk) * nms1.nmonomials_of_degree(dp)
+                    for dp in range(D - dk + 1)
+                ]
+            )
 
         return ncols
 
@@ -199,29 +202,26 @@ class Crossbred(MQAlgorithm):
         - ``k`` -- no. variables in the resulting system
         - ``d`` -- degree resulting Macaulay matrix
 
-       TESTS::
+        TESTS::
 
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
-            sage: E._ncols_in_linearization_step(4, 3)
-            35
+             sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
+             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+             sage: E = Crossbred(MQProblem(n=10, m=12, q=5))
+             sage: E._ncols_in_linearization_step(4, 3)
+             35
         """
         return nmonomials_up_to_degree(d, k, q=self.problem.order_of_the_field())
 
     def _C(self, parameters: dict):
-        """
-        """
-        k = parameters['k']
-        D = parameters['D']
-        d = parameters['d']
+        """ """
+        k = parameters["k"]
+        D = parameters["D"]
+        d = parameters["d"]
         Hk = HilbertSeries(n=k, degrees=[2] * m, q=q)
         k_y = Hk.series(y)
         N = NMonomialSeries(n=n - k, q=q, max_prec=max_D + 1)
-        nk_x = N.series_monomials_of_degree()(x)
-        out = sum([k_y[i] * nk_x[D - i] for i in range(d + 1)])
+        out = sum([k_y[i] * N.nmonomials_of_degree(D - i) for i in range(d + 1)])
         return out
-
 
     def _valid_choices(self):
         """
@@ -251,21 +251,28 @@ class Crossbred(MQAlgorithm):
         while not stop:
 
             Hk = HilbertSeries(n=k, degrees=[2] * m, q=q)
-            h_k =  Hk.series
+            h_k = Hk.series
             h_k_d_reg = Hk.first_nonpositive_integer()
             h_k_up_to_degree = Hk.series_up_to_degree
             N = NMonomialSeries(n=n - k, q=q, max_prec=max_D + 1)
-            nm_nk = N.series_monomials_up_to_degree()
             for D in range(2, self._max_D + 1):
-                for d in range(1,  min(h_k_d_reg, D)):
-                    C_D_d = sum([h_k[i] * nm_nk[D - i] for i in range(d + 1)])
+                for d in range(1, min(h_k_d_reg, D)):
+                    C_D_d = sum(
+                        [
+                            h_k[i] * N.nmonomials_up_to_degree(D - i)
+                            for i in range(d + 1)
+                        ]
+                    )
                     coefficient_D_d = C_D_d - h_n[D] - h_k_up_to_degree[d]
-                    if 0 <= coefficient_D_d and new_ranges['D']["min"] <= D <= new_ranges['D']["max"] and \
-                        new_ranges['d']["min"] <= d <= new_ranges['d']["max"]:
-                        yield {'D': D, 'd': d, 'k': k}
+                    if (
+                        0 <= coefficient_D_d
+                        and new_ranges["D"]["min"] <= D <= new_ranges["D"]["max"]
+                        and new_ranges["d"]["min"] <= d <= new_ranges["d"]["max"]
+                    ):
+                        yield {"D": D, "d": d, "k": k}
 
             k += 1
-            if k > new_ranges['k']["max"]:
+            if k > new_ranges["k"]["max"]:
                 stop = True
 
     def _compute_time_complexity(self, parameters: dict):
@@ -288,19 +295,19 @@ class Crossbred(MQAlgorithm):
             sage: E.time_complexity()
             22.64157288740708
         """
-        k = parameters['k']
-        D = parameters['D']
-        d = parameters['d']
+        k = parameters["k"]
+        D = parameters["D"]
+        d = parameters["d"]
         n, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
         np = self._ncols_in_preprocessing_step(k=k, D=D, d=d)
         nl = self._ncols_in_linearization_step(k=k, d=d)
-        complexity = Infinity
+        complexity = inf
         if np > 1 and log2(np) > 1:
-            complexity_wiedemann = 3 * binomial(k + d, d) * binomial(n + 2, 2) * np ** 2
-            complexity_gaussian =  np ** w
+            complexity_wiedemann = 3 * binomial(k + d, d) * binomial(n + 2, 2) * np**2
+            complexity_gaussian = np**w
             complexity_prep = min(complexity_gaussian, complexity_wiedemann)
-            complexity = log2(complexity_prep + m * q ** (n - k) * nl ** w)
+            complexity = log2(complexity_prep + m * q ** (n - k) * nl**w)
         h = self._h
         return h * log2(q) + complexity
 
@@ -324,12 +331,12 @@ class Crossbred(MQAlgorithm):
             sage: E.memory_complexity()
             13.93488871535719
         """
-        k = parameters['k']
-        D = parameters['D']
-        d = parameters['d']
+        k = parameters["k"]
+        D = parameters["D"]
+        d = parameters["d"]
         ncols_pre_step = self._ncols_in_preprocessing_step(k, D, d)
         ncols_lin_step = self._ncols_in_linearization_step(k, d)
-        return log2(ncols_pre_step ** 2 + ncols_lin_step ** 2)
+        return log2(ncols_pre_step**2 + ncols_lin_step**2)
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
@@ -351,15 +358,15 @@ class Crossbred(MQAlgorithm):
             sage: E.time_complexity()
             18.919577271455122
         """
-        k = parameters['k']
-        D = parameters['D']
-        d = parameters['d']
+        k = parameters["k"]
+        D = parameters["D"]
+        d = parameters["d"]
         np = self._ncols_in_preprocessing_step(k=k, D=D, d=d)
         nl = self._ncols_in_linearization_step(k=k, d=d)
         n, _, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
         h = self._h
-        return h * log2(q) + log2(np ** 2 + q ** (n - k) * nl ** w)
+        return h * log2(q) + log2(np**2 + q ** (n - k) * nl**w)
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """

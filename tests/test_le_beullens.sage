@@ -1,13 +1,11 @@
-import random
 from cryptographic_estimators.LEEstimator.LEAlgorithms import *
 from cryptographic_estimators.LEEstimator import LEProblem
-from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell, Prange, Stern
-from math import inf
+from math import log, inf
 
-load('tests/module/attack_cost.sage')
+load("tests/module/attack_cost.sage")
 beullens_params = {"bit_complexities": 0}
 
-ranges = 0.12
+RANGES = 0.12
 
 
 def test_beullens1():
@@ -18,10 +16,9 @@ def test_beullens1():
     k = 125
     for q in [11, 17, 31, 53]:
         A = Beullens(LEProblem(n, k, q), **beullens_params)
-        t1=A.time_complexity()
-        t2 = attack_cost(n, k, q) + log(n,2)
-        assert t2 - ranges < t1 < t2 + ranges
-
+        t1 = A.time_complexity()
+        t2 = attack_cost(n, k, q) + log(n, 2)
+        assert t2 - RANGES < t1 < t2 + RANGES
 
 
 def test_beullens2():
@@ -33,7 +30,7 @@ def test_beullens2():
             for q in [7, 11]:
                 A = Beullens(LEProblem(n, k, q), **beullens_params)
                 B = Beullens(LEProblem(n, k, q), **beullens_params)
-                t1 = min(A.time_complexity(),B.time_complexity())
+                t1 = min(A.time_complexity(), B.time_complexity())
                 t21 = attack_cost(n, k, q)
                 t22 = attack_cost(n, k, q)
 
@@ -43,8 +40,8 @@ def test_beullens2():
                 if t1 == inf or t2 == inf:
                     continue
 
-                t2 += log(n,2)
-                assert t2 - ranges < t1 < t2 + ranges
+                t2 += log(n, 2)
+                assert t2 - RANGES < t1 < t2 + RANGES
 
 
 if __name__ == "__main__":
