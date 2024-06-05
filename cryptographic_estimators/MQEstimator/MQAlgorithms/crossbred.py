@@ -156,13 +156,13 @@ class Crossbred(MQAlgorithm):
 
     def _ncols_in_preprocessing_step(self, k: int, D: int, d: int):
         """
-        Return the number of columns involve in the preprocessing step
+         Return the number of columns involve in the preprocessing step
 
-        INPUT:
+         INPUT:
 
-        - ``k`` -- no. variables in the resulting system
-        - ``D`` -- degree of the initial Macaulay matrix
-        - ``d`` -- degree resulting Macaulay matrix
+         - ``k`` -- no. variables in the resulting system
+         - ``D`` -- degree of the initial Macaulay matrix
+         - ``d`` -- degree resulting Macaulay matrix
 
         TESTS::
 
@@ -195,12 +195,12 @@ class Crossbred(MQAlgorithm):
 
     def _ncols_in_linearization_step(self, k: int, d: int):
         """
-        Return the number of columns involve in the linearization step
+         Return the number of columns involve in the linearization step
 
-        INPUT:
+         INPUT:
 
-        - ``k`` -- no. variables in the resulting system
-        - ``d`` -- degree resulting Macaulay matrix
+         - ``k`` -- no. variables in the resulting system
+         - ``d`` -- degree resulting Macaulay matrix
 
         TESTS::
 
