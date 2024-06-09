@@ -23,7 +23,7 @@ from math import prod
 
 class HilbertSeries(object):
     """
-    Construct an instance of Hilbert series
+    Construct an instance of Hilbert series.
 
     INPUT:
 
@@ -97,7 +97,7 @@ class HilbertSeries(object):
     @property
     def nvariables(self):
         """
-        Return the no. of variables
+        Return the no. of variables.
 
         EXAMPLES::
 
@@ -112,7 +112,7 @@ class HilbertSeries(object):
     @property
     def degrees(self):
         """
-        Return a list of degrees of the polynomials
+        Return a list of degrees of the polynomials.
 
         EXAMPLES::
 
@@ -127,19 +127,17 @@ class HilbertSeries(object):
     @property
     def precision(self):
         """
-        Return the default precision of the series
+        Return the precision of the series.
 
         EXAMPLES::
 
             sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(5, [2]*7)
+            sage: H = HilbertSeries(5, [3]*7)
             sage: H.precision
             14
 
         """
-        x = self._gen
-        serie_repr = x.repr()
-        return int(serie_repr[serie_repr.rfind("=") + 1 : serie_repr.rfind(")")])
+        return self._prec
 
     @property
     def npolynomials(self):
@@ -197,7 +195,7 @@ class HilbertSeries(object):
 
     def first_nonpositive_coefficient(self):
         """
-        Return the first non-positive integer of the series
+        Return the first non-positive integer of the series.
 
         EXAMPLES::
 
@@ -215,7 +213,7 @@ class HilbertSeries(object):
 
     def first_nonpositive_coefficient_up_to_degree(self):
         """
-        Return the first non-positive integer of the serie `self._series/(1-x)`
+        Return the first non-positive integer of the serie `self._series/(1-x)`.
 
 
         EXAMPLES::

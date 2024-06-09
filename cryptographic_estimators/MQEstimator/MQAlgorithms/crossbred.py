@@ -157,13 +157,13 @@ class Crossbred(MQAlgorithm):
 
     def _ncols_in_preprocessing_step(self, k: int, D: int, d: int):
         """
-         Return the number of columns involve in the preprocessing step
+        Return the number of columns involve in the preprocessing step
 
-         INPUT:
+        INPUT:
 
-         - ``k`` -- no. variables in the resulting system
-         - ``D`` -- degree of the initial Macaulay matrix
-         - ``d`` -- degree resulting Macaulay matrix
+        - ``k`` -- no. variables in the resulting system
+        - ``D`` -- degree of the initial Macaulay matrix
+        - ``d`` -- degree resulting Macaulay matrix
 
         TESTS::
 
@@ -196,12 +196,12 @@ class Crossbred(MQAlgorithm):
 
     def _ncols_in_linearization_step(self, k: int, d: int):
         """
-         Return the number of columns involve in the linearization step
+        Return the number of columns involve in the linearization step
 
-         INPUT:
+        INPUT:
 
-         - ``k`` -- no. variables in the resulting system
-         - ``d`` -- degree resulting Macaulay matrix
+        - ``k`` -- no. variables in the resulting system
+        - ``d`` -- degree resulting Macaulay matrix
 
         TESTS::
 
@@ -216,10 +216,20 @@ class Crossbred(MQAlgorithm):
     def _C(self, parameters: dict):
         """ """
         k, D, d = parameters["k"], parameters["D"], parameters["d"]
-        n, m, q, max_D = parameters["n"], parameters["m"], parameters["q"], parameters["max_D"]
+        n, m, q, max_D = (
+            parameters["n"],
+            parameters["m"],
+            parameters["q"],
+            parameters["max_D"],
+        )
         Hk = HilbertSeries(n=k, degrees=[2] * m, q=q)
         N = NMonomialSeries(n=n - k, q=q, max_prec=max_D + 1)
-        out = sum([Hk.coefficient_of_degree(i) * N.nmonomials_of_degree(D - i) for i in range(d + 1)])
+        out = sum(
+            [
+                Hk.coefficient_of_degree(i) * N.nmonomials_of_degree(D - i)
+                for i in range(d + 1)
+            ]
+        )
         return out
 
     def _valid_choices(self):
@@ -255,11 +265,16 @@ class Crossbred(MQAlgorithm):
                 for d in range(1, min(h_k_d_reg, D)):
                     C_D_d = sum(
                         [
-                            Hk.coefficient_of_degree(i) * N.nmonomials_up_to_degree(D - i)
+                            Hk.coefficient_of_degree(i)
+                            * N.nmonomials_up_to_degree(D - i)
                             for i in range(d + 1)
                         ]
                     )
-                    coefficient_D_d = C_D_d - Hn.coefficient_up_to_degree(D) - Hk.coefficient_up_to_degree(d)
+                    coefficient_D_d = (
+                        C_D_d
+                        - Hn.coefficient_up_to_degree(D)
+                        - Hk.coefficient_up_to_degree(d)
+                    )
                     if (
                         0 <= coefficient_D_d
                         and new_ranges["D"]["min"] <= D <= new_ranges["D"]["max"]
