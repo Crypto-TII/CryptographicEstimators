@@ -3,8 +3,8 @@ from cryptographic_estimators.SDFqEstimator import SDFqProblem
 from math import comb as binomial, log2 as log
 
 
-load("tests/module/attack_cost.sage")
-load("tests/module/cost.sage")
+load("tests/helpers/attack_cost.sage")
+load("tests/helpers/cost.sage")
 
 
 # global parameters
@@ -83,4 +83,3 @@ if __name__ == "__main__":
     test_sdfq_LeeBrickell()
     test_sdfq_stern()
     test_sdfq_stern_range()
-
