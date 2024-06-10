@@ -7,7 +7,7 @@ PACKAGE=cryptographic_estimators
 UNAME:=$(shell uname -m)
 
 tools:
-	@sage -python -m pip install setuptools==63.0 wheel==0.38.4 sphinx==5.3.0 furo prettytable scipy pytest python-flint
+	@sage -python -m pip install setuptools==63.0 wheel==0.38.4 sphinx==5.3.0 furo prettytable scipy pytest pytest-xdist python-flint 
 
 lib:
 	@python3 setup.py install && sage -python -m pip install .
@@ -80,7 +80,15 @@ add-copyright:
 	@python3 scripts/create_copyright.py
 
 docker-pytest:
-	@docker run --name pytest-estimators -d -it ${image_name} sh && docker exec pytest-estimators sh -c "sage --python3 -m pytest -vv --cov-report xml:coverage.xml --cov=${PACKAGE} && ${SAGE} tests/test_sdfq.sage && ${SAGE} tests/test_le_beullens.sage && ${SAGE} tests/test_le_bbps.sage && ${SAGE} tests/test_pe.sage && ${SAGE} tests/test_pk.sage"  && make stop-container-and-remove container_name="pytest-estimators"
+	@docker run --name pytest-estimators -d -it ${image_name} sh \
+		&& docker exec pytest-estimators sh -c "sage --python3 -m pytest -n auto -vv \
+		--cov-report xml:coverage.xml --cov=${PACKAGE} \
+		&& ${SAGE} tests/SDFqEstimator/test_sdfq.sage \
+		&& ${SAGE} tests/LEEstimator/test_le_beullens.sage \
+		&& ${SAGE} tests/LEEstimator/test_le_bbps.sage \
+		&& ${SAGE} tests/PEEstimator/test_pe.sage \
+		&& ${SAGE} tests/PKEstimator/test_pk.sage" \
+		&& make stop-container-and-remove container_name="pytest-estimators"
 
 docker-pytest-cov:
 	pytest -v --cov-report xml:coverage.xml --cov=${PACKAGE} tests/
