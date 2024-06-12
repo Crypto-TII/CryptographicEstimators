@@ -16,15 +16,14 @@
 # ****************************************************************************
 
 
-from sage.all import ZZ, QQ
-from sage.misc.misc_c import prod
-from sage.rings.power_series_ring import PowerSeriesRing
-from sage.arith.misc import is_prime_power
+from cryptographic_estimators.helper import is_prime_power
+from flint import fmpq_series as power_series
+from math import prod
 
 
 class HilbertSeries(object):
     """
-    Construct an instance of Hilbert series
+    Construct an instance of Hilbert series.
 
     INPUT:
 
@@ -41,32 +40,65 @@ class HilbertSeries(object):
         sage: H = HilbertSeries(10, [2]*15, q=2)
         sage: H
         Hilbert series for system with 10 variables and 15 polynomials over F_2
+
     """
 
     def __init__(self, n: int, degrees: list[int], q=None):
         self._q = q
         self._nvariables = n
         self._degrees = degrees
-        self._ring = PowerSeriesRing(
-            QQ, 'z', default_prec=2*len(self._degrees))
-        z = self._ring.gen()
+        # Precision sufficient for systems with variables not exceeding equations.
+        self._prec = 2 * len(self._degrees)
+        self._gen = power_series([0, 1], prec=self._prec)
+        x = self._gen
         if q is not None:
             if not is_prime_power(q):
-                raise ValueError(
-                    "the order of finite field q must be a prime power")
-
+                raise ValueError("The order of finite field q must be a prime power.")
             if q < 2 * len(self._degrees):
-                self._series = prod([(1 - z ** d) / (1 - z ** (d * q))
-                                    for d in degrees]) * ((1 - z ** q) / (1 - z)) ** n
+                self._series = (
+                    prod([(1 - x**d) / (1 - x ** (d * q)) for d in degrees])
+                    * ((1 - x**q) / (1 - x)) ** n
+                )
             else:
-                self._series = prod([1 - z ** d for d in degrees]) / (1 - z) ** n
+                self._series = prod([1 - x**d for d in degrees]) / (1 - x) ** n
         else:
-            self._series = prod([1 - z ** d for d in degrees]) / (1 - z) ** n
+            self._series = prod([1 - x**d for d in degrees]) / (1 - x) ** n
+        self._series_up_to_degree = self._series / (1 - x)
+
+    @property
+    def _hilbert_serie(self):
+        """
+        Return the representation of the _series attribute.
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            sage: H = HilbertSeries(5, [2]*7)
+            sage: H._hilbert_serie
+            1 + 5*x + 8*x^2 + (-14)*x^4 + (-14)*x^5 + 8*x^7 + 5*x^8 + x^9 + O(x^14)
+
+        """
+        return self._series
+
+    @property
+    def _hilbert_serie_up_to_degree(self):
+        """
+        Return the representation of the _series_up_to_degree attribute.
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            sage: H = HilbertSeries(5, [2]*7)
+            sage: H._hilbert_serie_up_to_degree
+            1 + 6*x + 14*x^2 + 14*x^3 + (-14)*x^5 + (-14)*x^6 + (-6)*x^7 + (-1)*x^8 + O(x^14)
+
+        """
+        return self._series_up_to_degree
 
     @property
     def nvariables(self):
         """
-        Return the no. of variables
+        Return the no. of variables.
 
         EXAMPLES::
 
@@ -74,13 +106,14 @@ class HilbertSeries(object):
             sage: H = HilbertSeries(5, [2]*7)
             sage: H.nvariables
             5
+
         """
         return self._nvariables
 
     @property
     def degrees(self):
         """
-        Return a list of degrees of the polynomials
+        Return a list of degrees of the polynomials.
 
         EXAMPLES::
 
@@ -88,68 +121,24 @@ class HilbertSeries(object):
             sage: H = HilbertSeries(5, [2]*7)
             sage: H.degrees
             [2, 2, 2, 2, 2, 2, 2]
+
         """
         return self._degrees
 
     @property
     def precision(self):
         """
-        Return the default precision of the series
+        Return the precision of the series.
 
         EXAMPLES::
 
             sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(5, [2]*7)
+            sage: H = HilbertSeries(5, [3]*7)
             sage: H.precision
             14
+
         """
-        return self.ring.default_prec()
-
-    @property
-    def ring(self):
-        """
-        Return the power series ring
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(5, [2]*7)
-            sage: H.ring
-            Power Series Ring in z over Rational Field
-        """
-        return self._ring
-
-    @property
-    def series(self):
-        """
-        Return the series
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(4, [2]*5)
-            sage: H.series
-            1 + 4*z + 5*z^2 - 5*z^4 - 4*z^5 - z^6 + O(z^10)
-            sage: H = HilbertSeries(4, [2]*5, q=2)
-            sage: H.series
-            1 + 4*z + z^2 - 16*z^3 - 14*z^4 + 40*z^5 + 50*z^6 - 80*z^7 - 125*z^8 + 140*z^9 + O(z^10)
-        """
-        return self._series
-
-    @property
-    def series_up_to_degree(self):
-        """
-        Return the series `self.series(z)/(1-z)`
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(4, [2]*5)
-            sage: H.series_up_to_degree
-            1 + 5*z + 10*z^2 + 10*z^3 + 5*z^4 + z^5 + O(z^10)
-        """
-        z = self._ring.gen()
-        return self._series/(1-z)
+        return self._prec
 
     @property
     def npolynomials(self):
@@ -162,30 +151,89 @@ class HilbertSeries(object):
             sage: H = HilbertSeries(10, [2]*15)
             sage: H.npolynomials
             15
+
         """
         return len(self._degrees)
 
-    def first_nonpositive_integer(self):
+    def coefficient_of_degree(self, d: int):
         """
-        Return the first non-positive integer of the series
+        Return the d-th coefficient in the Hilbert serie `self._serie`.
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            sage: H = HilbertSeries(4, [2]*5)
+            sage: H.coefficient_of_degree(5)
+            -4
+
+        """
+
+        if d < self._prec:
+            return int(self._series[d])
+
+        raise ValueError(
+            f"The degree d should be smaller than the precision of the series which is {self._prec}"
+        )
+
+    def coefficient_up_to_degree(self, d: int):
+        """
+        Return the d-th coefficient in the Hilbert serie `self._series/(1-x)`
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            sage: H = HilbertSeries(4, [2]*5)
+            sage: H.coefficient_up_to_degree(4)
+            5
+
+        """
+
+        if d < self._prec:
+            return int(self._series_up_to_degree[d])
+        raise ValueError(
+            f"The degree d should be smaller than the precision of the series which is {self._prec}"
+        )
+
+    def first_nonpositive_coefficient(self):
+        """
+        Return the first non-positive integer of the series.
 
         EXAMPLES::
 
             sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
             sage: H = HilbertSeries(10, [2]*15)
-            sage: H.first_nonpositive_integer()
+            sage: H.first_nonpositive_coefficient()
             4
+
         """
-        s = self.series()
+        serie = self._series
         for d in range(self.precision):
-            if s[d] <= 0:
-                return ZZ(d)
+            if serie[d] <= 0:
+                return int(d)
+        raise ValueError("Unable to find a nonpositive coefficient in the serie.")
+
+    def first_nonpositive_coefficient_up_to_degree(self):
+        """
+        Return the first non-positive integer of the serie `self._series/(1-x)`.
+
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            sage: H = HilbertSeries(10, [2]*15)
+            sage: H.first_nonpositive_coefficient_up_to_degree()
+            5
+
+        """
+        for d in range(self.precision):
+            if self._series_up_to_degree[d] <= 0:
+                return int(d)
         raise ValueError(
-            "unable to find a nonpositive coefficient in the series")
+            "Unable to find a nonpositive coefficient in the up_to_degree serie."
+        )
 
     def __repr__(self):
-        """
-        """
+        """ """
         text = f"Hilbert series for system with {self.nvariables} variables and {self.npolynomials} polynomials"
         if self._q is not None:
             text += f" over F_{self._q}"
