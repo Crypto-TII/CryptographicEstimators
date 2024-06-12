@@ -40,15 +40,15 @@ def semi_regular_system(n: int, degrees: list[int], q=None):
     m = len(degrees)
     if m <= n and q is None:
         raise ValueError(
-            "The number of polynomials must be greater than the number of variables")
+            "The number of polynomials must be greater than the number of variables"
+        )
     elif m < n and q is not None:
         raise ValueError(
-            "The number of polynomials must be greater than or equal to the number of variables")
+            "The number of polynomials must be greater than or equal to the number of variables"
+        )
 
-    s = HilbertSeries(n, degrees, q=q)
-    z = s.ring.gen()
-    s._series /= (1 - z)
-    return s.first_nonpositive_integer()
+    serie = HilbertSeries(n, degrees, q=q)
+    return serie.first_nonpositive_coefficient_up_to_degree()
 
 
 def quadratic_system(n: int, m: int, q=None):
