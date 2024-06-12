@@ -47,6 +47,7 @@ class HilbertSeries(object):
         self._q = q
         self._nvariables = n
         self._degrees = degrees
+        # Precision sufficient for systems with variables not exceeding equations.
         self._prec = 2 * len(self._degrees)
         self._gen = power_series([0, 1], prec=self._prec)
         x = self._gen
