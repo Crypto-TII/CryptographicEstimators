@@ -80,6 +80,7 @@ add-copyright:
 	@python3 scripts/create_copyright.py
 
 docker-pytest:
+	@make stop-container-and-remove container_name="pytest-estimators"
 	@docker run --name pytest-estimators -d -it ${image_name} sh \
 		&& docker exec pytest-estimators sh -c "sage --python3 -m pytest -n auto -vv \
 		--cov-report xml:coverage.xml --cov=${PACKAGE} \
@@ -87,8 +88,8 @@ docker-pytest:
 		&& ${SAGE} tests/LEEstimator/test_le_beullens.sage \
 		&& ${SAGE} tests/LEEstimator/test_le_bbps.sage \
 		&& ${SAGE} tests/PEEstimator/test_pe.sage \
-		&& ${SAGE} tests/PKEstimator/test_pk.sage" \
-		&& make stop-container-and-remove container_name="pytest-estimators"
+		&& ${SAGE} tests/PKEstimator/test_pk.sage"
+	@make stop-container-and-remove container_name="pytest-estimators"
 
 docker-pytest-cov:
 	pytest -v --cov-report xml:coverage.xml --cov=${PACKAGE} tests/
