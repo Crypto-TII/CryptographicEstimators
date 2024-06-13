@@ -16,40 +16,43 @@
 # ****************************************************************************
 
 
-from ...MQEstimator.series.nmonomial import NMonomialSeries
-from ...MQEstimator.mq_problem import MQProblem
-from ...MQEstimator.mq_algorithm import MQAlgorithm
-from ...base_algorithm import optimal_parameter
-from math import log2, inf
-from sage.functions.other import ceil, floor
+from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
+from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
+from cryptographic_estimators.base_algorithm import optimal_parameter
+from cryptographic_estimators.helper import (
+    is_power_of_two,
+    gf_order_to_characteristic,
+    gf_order_to_degree,
+)
+from math import log2, inf, ceil, floor
+
+# TODO: Remove at final step
 from sage.all import Integer
-from sage.arith.misc import is_power_of_two
-from sage.functions.other import floor
-from sage.rings.infinity import Infinity
-from sage.rings.finite_rings.finite_field_constructor import GF
 
 
 class Lokshtanov(MQAlgorithm):
     r"""
-    Construct an instance of Lokshtanov et al.'s estimator
-    Lokshtanov et al.'s is a probabilistic algorithm to solve the MQ problem over GF(q) [LPTWY17]_. It describes an
-    algorithm to determine the consistency of a given system of polynomial equations.
+     Construct an instance of Lokshtanov et al.'s estimator
+     Lokshtanov et al.'s is a probabilistic algorithm to solve the MQ problem over GF(q) [LPTWY17]_. It describes an
+     algorithm to determine the consistency of a given system of polynomial equations.
 
-    INPUT:
+     INPUT:
 
-   - ``problem`` --MQProblem object including all necessary parameters
-    - ``h`` -- external hybridization parameter (default: 0)
-    - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-    - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
+    - ``problem`` --MQProblem object including all necessary parameters
+     - ``h`` -- external hybridization parameter (default: 0)
+     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
+     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
 
 
-    EXAMPLES::
+     EXAMPLES::
 
-        sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
-        sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-        sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9))
-        sage: E
-        Lokshtanov et al. estimator for the MQ problem with 10 variables and 12 polynomials
+         sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
+         sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+         sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9))
+         sage: E
+         Lokshtanov et al. estimator for the MQ problem with 10 variables and 12 polynomials
+
     """
 
     def __init__(self, problem: MQProblem, **kwargs):
@@ -63,7 +66,7 @@ class Lokshtanov(MQAlgorithm):
         super().__init__(problem, **kwargs)
         self._name = "Lokshtanov et al."
 
-        self.set_parameter_ranges('delta', 0, 1)
+        self.set_parameter_ranges("delta", 0, 1)
 
     @optimal_parameter
     def delta(self):
@@ -77,8 +80,9 @@ class Lokshtanov(MQAlgorithm):
             sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9))
             sage: E.delta()
             1/10
+
         """
-        return self._get_optimal_parameter('delta')
+        return self._get_optimal_parameter("delta")
 
     def _valid_choices(self):
         """
@@ -87,13 +91,13 @@ class Lokshtanov(MQAlgorithm):
         """
         n, _, _ = self.get_reduced_parameters()
         ranges = self._parameter_ranges
-        l_min = max(1, floor(ranges['delta']['min'] * n))
-        l_max = min(ceil(ranges['delta']['max'] * n), n - 1)
+        l_min = max(1, floor(ranges["delta"]["min"] * n))
+        l_max = min(ceil(ranges["delta"]["max"] * n), n - 1)
         l = l_min
         stop = False
         while not stop:
             delta_ = l / n
-            yield {'delta': delta_}
+            yield {"delta": delta_}
             l += 1
             if l > l_max:
                 stop = True
@@ -113,11 +117,12 @@ class Lokshtanov(MQAlgorithm):
             sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), bit_complexities=False)
             sage: E.time_complexity(delta=2/10)
             210.99786719362038
+
         """
-        delta = parameters['delta']
+        delta = parameters["delta"]
         n, _, q = self.get_reduced_parameters()
         if delta is None:
-            return Infinity
+            return inf
         else:
             if not 0 < delta < 1:
                 raise ValueError("delta must be in the range 0 < delta < 1")
@@ -126,12 +131,14 @@ class Lokshtanov(MQAlgorithm):
                 np = floor(delta * n_temp)
                 k = 2  # Degree of the polynomials
                 time = log2(100 * log2(q) * (q - 1))
-                time1 =  (n_temp - np) * log2(q)
+                time1 = (n_temp - np) * log2(q)
                 resulting_degree = k * (q - 1) * (np + 2)
-                if  self._is_early_abort_possible(time1):
+                if self._is_early_abort_possible(time1):
                     return inf
-                M = NMonomialSeries(n=n_temp - np, q=q, max_prec=resulting_degree +
-                                                            1).nmonomials_up_to_degree(resulting_degree)
+                serie = NMonomialSeries(
+                    n=n_temp - np, q=q, max_prec=resulting_degree + 1
+                )
+                M = serie.nmonomials_up_to_degree(resulting_degree)
                 time2 = log2(M) + np * log2(q) + 6 * q * log2(n_temp)
                 a = 0
                 if abs(time1 - time2) < 1:
@@ -155,18 +162,19 @@ class Lokshtanov(MQAlgorithm):
             sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), bit_complexities=False)
             sage: E.memory_complexity(delta=2/10)
             27.471075081419315
+
         """
-        delta = parameters['delta']
+        delta = parameters["delta"]
         n, _, q = self.get_reduced_parameters()
 
         if delta is None:
-            return Infinity
+            return inf
 
         else:
             np = floor(n * delta)
             resulting_degree = 2 * (q - 1) * (np + 2)
-            M = NMonomialSeries(n=n - np, q=q, max_prec=resulting_degree +
-                                1).nmonomials_up_to_degree(resulting_degree)
+            serie = NMonomialSeries(n=n - np, q=q, max_prec=resulting_degree + 1)
+            M = serie.nmonomials_up_to_degree(resulting_degree)
             memory = M + log2(n) * q ** (n - np)
 
         return log2(memory)
@@ -186,14 +194,15 @@ class Lokshtanov(MQAlgorithm):
             sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
             sage: E.time_complexity(delta=2/10)
             6.339850002884624
+
         """
-        delta = parameters['delta']
+        delta = parameters["delta"]
         e = 2.718
         n, _, q = self.get_reduced_parameters()
-        if log2(GF(q).characteristic()) < 8 * e:
+        if log2(gf_order_to_characteristic(q)) < 8 * e:
             time = delta * n * log2(q)
         else:
-            d = GF(q).degree()
+            d = gf_order_to_degree(q)
             time = n * log2(q) + (-d * n) * log2((log2(q) / (2 * e * d)))
 
         h = self._h
@@ -214,8 +223,9 @@ class Lokshtanov(MQAlgorithm):
             sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
             sage: E.memory_complexity(delta=2/10)
             25.359400011538497
+
         """
-        delta = parameters['delta']
+        delta = parameters["delta"]
         n, _, q = self.get_reduced_parameters()
         return (1 - delta) * n * log2(q)
 
@@ -230,15 +240,16 @@ class Lokshtanov(MQAlgorithm):
             sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
             sage: E.optimal_parameters()
             {'delta': 0.9975}
+
         """
-        n, _, q = self.get_reduced_parameters()
+        _, _, q = self.get_reduced_parameters()
         e = 2.718
         if q == 2:
             delta = 0.8765
         elif is_power_of_two(q):
             delta = 0.9
-        elif log2(GF(q).characteristic()) < 8 * e:
+        elif log2(gf_order_to_characteristic(q)) < 8 * e:
             delta = 0.9975
         else:
             delta = None
-        self._optimal_parameters['delta'] = delta
+        self._optimal_parameters["delta"] = delta

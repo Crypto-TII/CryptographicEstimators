@@ -64,7 +64,7 @@ class DirectAttack(UOVAlgorithm):
                                         complexity_type=complexity_type,
                                         bit_complexities=0)
         self._fastest_algorithm = None
-        self._attack_type = "key-recovery"
+        self._attack_type = "forgery"
 
     def get_fastest_mq_algorithm(self):
         if self._fastest_algorithm is None:

@@ -20,8 +20,7 @@ from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator.mq_helper import sum_of_binomial_coefficients
 from ...base_algorithm import optimal_parameter
-from math import log2
-from sage.functions.other import floor, ceil
+from math import log2, inf, floor, ceil
 
 
 class Bjorklund(MQAlgorithm):
@@ -53,10 +52,15 @@ class Bjorklund(MQAlgorithm):
             raise TypeError("q must be equal to 2")
         super().__init__(problem, **kwargs)
         self._name = "Björklund et al."
-        self._k = floor(log2(2 ** self.problem.nsolutions + 1))
         n, m, _ = self.get_reduced_parameters()
+        self._k = floor(log2(2**self.problem.nsolutions + 1))
 
-        self.set_parameter_ranges('lambda_', 3 / n, min(m, n - 1)/n)
+        if 3 / n <= 0.196774680497:
+            self.set_parameter_ranges("lambda_", 3 / n, 0.196774680497)
+        else:  # case if n<=15
+            self.set_parameter_ranges("lambda_", 3 / n, min(m, n - 1) / n)
+
+        self._time_complexity_is_convex = True
 
     @optimal_parameter
     def lambda_(self):
@@ -71,20 +75,21 @@ class Bjorklund(MQAlgorithm):
             sage: E.lambda_()
             3/10
         """
-        return self._get_optimal_parameter('lambda_')
+
+        return self._get_optimal_parameter("lambda_")
 
     def _valid_choices(self):
         n, _, _ = self.get_reduced_parameters()
         ranges = self._parameter_ranges
-        l_min = max(3, ceil(ranges['lambda_']['min'] * n))
-        l_max = min(ceil(ranges['lambda_']['max'] * n), n)
-        l = l_min
+        l_min = max(3, ceil(ranges["lambda_"]["min"] * n))
+        l_max = min(ceil(ranges["lambda_"]["max"] * n), n)
+        l = l_max
         stop = False
         while not stop:
             temp_lambda = l / n
-            yield {'lambda_': temp_lambda}
-            l += 1
-            if l > l_max:
+            yield {"lambda_": temp_lambda}
+            l -= 1
+            if l < l_min:
                 stop = True
 
     def _compute_time_complexity(self, parameters: dict):
@@ -101,14 +106,23 @@ class Bjorklund(MQAlgorithm):
             sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = Bjorklund(MQProblem(n=10, m=12, q=2), bit_complexities=False)
             sage: E.time_complexity(lambda_=7/10)
-            49.97565549640329
+            49.55664699444167
         """
-        lambda_ = parameters['lambda_']
+        lambda_ = parameters["lambda_"]
         n, m, _ = self.get_reduced_parameters()
         k = self._k
         h = self._h
-        time = 8 * k * log2(n) * sum([Bjorklund._internal_time_complexity_(
-            n - i, m + k + 2, lambda_) for i in range(1, n)])
+        time = (
+            8
+            * k
+            * log2(n)
+            * sum(
+                [
+                    Bjorklund._internal_time_complexity_(n - i, m + k + 2, lambda_)
+                    for i in range(1, n)
+                ]
+            )
+        )
         return h + log2(time)
 
     def _compute_memory_complexity(self, parameters: dict):
@@ -127,15 +141,24 @@ class Bjorklund(MQAlgorithm):
             sage: E.memory_complexity(lambda_=7/10)
             10.225233514599497
         """
-        lambda_ = parameters['lambda_']
+
+        # TODO:Find a better way to handle high precision calculations. See https://github.com/Crypto-TII/CryptographicEstimators/pull/143
+        def _custom_floor(number, epsilon):
+            return floor(number + epsilon)
+
+        lambda_ = parameters["lambda_"]
 
         def _internal_memory_complexity_(_n, _m, _lambda):
             if _n <= 1:
                 return 0
             else:
                 s = 48 * _n + 1
-                l = floor(_lambda * _n)
-                return _internal_memory_complexity_(l, l + 2, _lambda) + 2 ** (_n - l) * log2(s) + _m * sum_of_binomial_coefficients(_n, 2)
+                l = _custom_floor(_lambda * _n, 1e-10)
+                return (
+                    _internal_memory_complexity_(l, l + 2, _lambda)
+                    + 2 ** (_n - l) * log2(s)
+                    + _m * sum_of_binomial_coefficients(_n, 2)
+                )
 
         n, m, _ = self.get_reduced_parameters()
         return log2(_internal_memory_complexity_(n, m, lambda_))
@@ -169,7 +192,7 @@ class Bjorklund(MQAlgorithm):
             3
         """
         n = self.nvariables_reduced()
-        lambda_ = parameters['lambda_']
+        lambda_ = parameters["lambda_"]
         return (1 - lambda_) * n
 
     def _find_optimal_tilde_o_parameters(self):
@@ -184,18 +207,47 @@ class Bjorklund(MQAlgorithm):
             sage: E.optimal_parameters()
             {'lambda_': 0.19677}
         """
-        self._optimal_parameters['lambda_'] = 0.19677
+        self._optimal_parameters["lambda_"] = 0.19677
 
     @staticmethod
     def _internal_time_complexity_(n: int, m: int, lambda_: float):
         """
         Helper function. Computes the runtime of the algorithm for given n, m and lambda
+
+        ALgorithm taken from: Stefano Barbero et al. Practical complexities of probabilistic algorithms for solving
+        Boolean polynomial systems. Cryptology ePrint Archive, Paper 2021/913. https://
+        eprint . iacr . org / 2021 / 913. 2021. doi: 10 . 1016 / j . dam . 2021 . 11 . 014. url:
+        https://eprint.iacr.org/2021/913
         """
+        # uses brute force
         if n <= 1:
             return 1
-        else:
-            l = floor(lambda_ * n)
-            T1 = (n + (l + 2) * m * sum_of_binomial_coefficients(n, 2) +
-                  (n - l) * 2 ** (n - l))
-            s = 48 * n + 1
-            return s * sum_of_binomial_coefficients(n - l, l + 4) * (Bjorklund._internal_time_complexity_(l, l + 2, lambda_) + T1)
+        T = 0  # Time complexity
+        l = floor(lambda_ * n)  # n1, l from Björklund.
+        s = 48 * n + 1  # number of iterations
+        sumbin_n_2 = sum_of_binomial_coefficients(n, 2)
+        sumbin_B = sum_of_binomial_coefficients(n - l, l + 4)
+        T += 2 ** (n - l)  # Line 5, initialize array of size 2^{n-l}
+        # Lines 6-12: Enters for loop, so each summand is multiplied by s
+        T += (
+            s * (l + 2) * m * sumbin_n_2
+        )  # Line 7, generate alphas, multiply and add coefficients
+        # Line 8: No need to fill with zeros V at this point
+        # Line 9-10: enters a for loop, so each term inside is multiplied by sumbin_B
+        # Line 10:
+        T += s * sumbin_B * sumbin_n_2 * (l + 2)  # Partially evaluate R_i's
+        T += (
+            s * sumbin_B * Bjorklund._internal_time_complexity_(l, l + 2, lambda_)
+        )  # Recursive call
+        # Line 11: Interpolation: this function makes two calls to the Z-transform
+        T += (
+            s * (n - l) * sumbin_B
+        )  # The first Z-transform takes (n-l) * sumbin_B * O(1)
+        T += s * (2 ** (n - l) - sumbin_B)  # Fill with zeros the rest of the table
+        T += s * (n - l) * 2 ** (n - l)  # The second Z-transform takes over all space
+        T += s * 2 ** (n - l)  # Line 12: update the score table of size 2 ** (n-l)
+        T += 2 ** (
+            n - l
+        )  # line 14-17 does a for of size 2 ** (n-l), inside the for takes O(1)
+        return T
+

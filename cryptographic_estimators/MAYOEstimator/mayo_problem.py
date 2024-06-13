@@ -16,35 +16,39 @@
 # ****************************************************************************
 
 
-from cryptographic_estimators.base_problem import BaseProblem
-from cryptographic_estimators.helper import is_prime_power
-from cryptographic_estimators.MQEstimator.mq_helper import ngates
-from cryptographic_estimators.UOVEstimator.uov_constants import *
-from math import log2, ceil
+from ..base_problem import BaseProblem
+from ..MQEstimator.mq_helper import ngates
+from .mayo_constants import *
+from sage.arith.misc import is_prime_power
+from sage.functions.other import ceil
+from math import log2
 
 
-class UOVProblem(BaseProblem):
+class MAYOProblem(BaseProblem):
     """
-    Construct an instance of UOVProblem.
+    Construct an instance of MAYOProblem.
 
     INPUT:
 
     - ``n`` -- number of variables
     - ``m`` -- number of polynomials
+    - ``o`` -- dimension of the oil space
+    - ``k`` -- whipping parameter
     - ``q`` -- order of the finite field
-    - ``theta`` -- exponent of the conversion factor (default: 2)
+    - ``theta`` -- exponent of the conversion factor (default: None)
         - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
         - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
+    - ``nsolutions`` --  number of solutions in logarithmic scale (default: log2(q) * (n - m))
     - ``cost_one_hash`` -- bit complexity of computing one hash value (default: 17)
     - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
 
     """
 
-    def __init__(self, n: int, m: int, q: int, **kwargs):
+    def __init__(self, n: int, m: int, o: int, k: int, q: int, **kwargs):
         super().__init__(**kwargs)
 
-        theta = kwargs.get("theta", 2)
-        cost_one_hash = kwargs.get("cost_one_hash", 17.5)
+        theta = kwargs.get("theta", None)
+        cost_one_hash = kwargs.get("cost_one_hash", 17)
 
         if n < 1:
             raise ValueError("n must be >= 1")
@@ -54,21 +58,37 @@ class UOVProblem(BaseProblem):
 
         if n <= m:
             raise ValueError("n must be > m")
+        
+        if o < 1:
+            raise ValueError("o must be >= 1")
+        
+        if k >= n - o:
+            raise ValueError("k must be < n - o")
 
         if not is_prime_power(q):
             raise ValueError("q must be a prime power")
-
+        
         if theta is not None and not (0 <= theta <= 2):
             raise ValueError("theta must be either None or 0 <= theta <= 2")
 
         if cost_one_hash < 0:
             raise ValueError("The cost of computing one hash must be >= 0")
-
-        self.parameters[UOV_NUMBER_VARIABLES] = n
-        self.parameters[UOV_NUMBER_POLYNOMIALS] = m
-        self.parameters[UOV_FIELD_SIZE] = q
+        
+        self.parameters[MAYO_NUMBER_VARIABLES] = n
+        self.parameters[MAYO_NUMBER_POLYNOMIALS] = m
+        self.parameters[MAYO_OIL_SPACE] = o
+        self.parameters[MAYO_WHIPPING_PARAMETER] = k
+        self.parameters[MAYO_FIELD_SIZE] = q
         self._theta = theta
         self._cost_one_hash = cost_one_hash
+        self.nsolutions = kwargs.get("nsolutions", self.expected_number_solutions())
+
+    def expected_number_solutions(self):
+        """
+        Returns the logarithm of the expected number of existing solutions to the problem
+        """
+        n, m, _, _, q = self.get_parameters()
+        return log2(q) * (n - m)
 
     def hashes_to_basic_operations(self, number_of_hashes: float):
         """
@@ -82,80 +102,81 @@ class UOVProblem(BaseProblem):
         bit_complexity_one_hash = self._cost_one_hash
         bit_complexity_all_hashes = number_of_hashes + bit_complexity_one_hash
         bit_complexity_one_basic_operation = self.to_bitcomplexity_time(1)
-        number_of_basic_operations = (
-            bit_complexity_all_hashes - bit_complexity_one_basic_operation
-        )
+        number_of_basic_operations =  bit_complexity_all_hashes - bit_complexity_one_basic_operation
         return number_of_basic_operations
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """
-        Return the bit-complexity corresponding to a certain amount of basic operations
+        Returns the bit-complexity corresponding to a certain amount of basic_operations
 
         INPUT:
 
         - ``basic_operations`` -- Number of basic operations (logarithmic)
 
         """
-        q = self.parameters[UOV_FIELD_SIZE]
+        q = self.parameters[MAYO_FIELD_SIZE]
         theta = self._theta
         return ngates(q, basic_operations, theta=theta)
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
-        Return the memory bit-complexity associated to a given number of elements to store
+        Returns the memory bit-complexity associated to a given number of elements to store
 
         INPUT:
 
         - ``elements_to_store`` -- number of memory operations (logarithmic)
 
         """
-        q = self.parameters[UOV_FIELD_SIZE]
+        q = self.parameters[MAYO_FIELD_SIZE]
         return log2(ceil(log2(q))) + elements_to_store
 
     def get_parameters(self):
         """
-        Return the optimizations parameters
+        Returns the optimizations parameters
 
-        TESTS::
-
-            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
-            sage: E = UOVProblem(n=14, m=8, q=4)
-            sage: E.get_parameters()
-            [14, 8, 4]
         """
         return list(self.parameters.values())
-
+    
     def npolynomials(self):
-        """ "
+        """"
         Return the number of polynomials
-
-        TESTS::
-
-
+  
         """
-        return self.parameters[UOV_NUMBER_POLYNOMIALS]
-
+        return self.parameters[MAYO_NUMBER_POLYNOMIALS]
+    
     def nvariables(self):
         """
         Return the number of variables
 
-        TESTS::
+        """
+        return self.parameters[MAYO_NUMBER_VARIABLES]
+    
 
+    def order_oil_space(self):
+        """
+        Return the dimension of the oil space
 
         """
-        return self.parameters[UOV_NUMBER_VARIABLES]
+        return self.parameters[MAYO_OIL_SPACE]
+    
+    def whipping_parameter(self):
+        """
+        Return the whipping parameter
+        
+        """
+        return self.parameters[MAYO_WHIPPING_PARAMETER]
 
     def order_of_the_field(self):
         """
         Return the order of the field
 
         """
-        return self.parameters[UOV_FIELD_SIZE]
+        return self.parameters[MAYO_FIELD_SIZE]
 
     @property
     def theta(self):
         """
-        returns the runtime of the algorithm
+        Returns the runtime of the algorithm
 
         """
         return self._theta
@@ -163,7 +184,7 @@ class UOVProblem(BaseProblem):
     @theta.setter
     def theta(self, value: float):
         """
-        sets the runtime
+        Sets the runtime
 
         """
         self._theta = value
@@ -171,7 +192,7 @@ class UOVProblem(BaseProblem):
     @property
     def cost_one_hash(self):
         """
-        returns the bit-complexity of computing one hash
+        Returns the bit-complexity of computing one hash
 
         """
         return self._cost_one_hash
@@ -179,11 +200,11 @@ class UOVProblem(BaseProblem):
     @cost_one_hash.setter
     def cost_one_hash(self, value: float):
         """
-        sets the bit-complexity of computing one hash
+        Sets the bit-complexity of computing one hash
 
         """
         self._cost_one_hash = value
 
     def __repr__(self):
-        n, m, q = self.get_problem_parameters()
-        return f"UOV instance with (n, m, q) = ({n}, {m}, {q})"
+        n, m, o, k, q = self.get_parameters()
+        return f"MAYO instance with (n, m, o, k, q) = ({n}, {m}, {o}, {k}, {q})"
