@@ -3,8 +3,8 @@ from cryptographic_estimators.SDFqEstimator import SDFqProblem
 from math import comb as binomial, log2 as log
 
 
-load("tests/helpers/attack_cost.sage")
-load("tests/helpers/cost.sage")
+load("tests/references/helpers/attack_cost.sage")
+load("tests/references/helpers/cost.sage")
 
 
 # global parameters

@@ -86,11 +86,11 @@ docker-pytest:
 	@docker run --name pytest-estimators -d -it ${image_name} sh \
 		&& docker exec pytest-estimators sh -c "sage --python3 -m pytest -n auto -vv \
 		--cov-report xml:coverage.xml --cov=${PACKAGE} \
-		&& ${SAGE} tests/SDFqEstimator/test_sdfq.sage \
-		&& ${SAGE} tests/LEEstimator/test_le_beullens.sage \
-		&& ${SAGE} tests/LEEstimator/test_le_bbps.sage \
-		&& ${SAGE} tests/PEEstimator/test_pe.sage \
-		&& ${SAGE} tests/PKEstimator/test_pk.sage" \
+		&& ${SAGE} tests/references/SDFqEstimator/test_sdfq.sage \
+		&& ${SAGE} tests/references/LEEstimator/test_le_beullens.sage \
+		&& ${SAGE} tests/references/LEEstimator/test_le_bbps.sage \
+		&& ${SAGE} tests/references/PEEstimator/test_pe.sage \
+		&& ${SAGE} tests/references/PKEstimator/test_pk.sage" \
 		&& echo "All tests passed. Cleaning container..." \
 		|| echo "Some test have failed. Please see previous lines. Cleaning container..."
 	@make stop-container-and-remove container_name="pytest-estimators"
