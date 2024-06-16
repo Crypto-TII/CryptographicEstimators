@@ -1,10 +1,10 @@
-from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import *
-from cryptographic_estimators.SDFqEstimator import SDFqProblem
-from math import comb as binomial, log2 as log
-
-
 load("tests/references/helpers/attack_cost.sage")
 load("tests/references/helpers/cost.sage")
+
+
+from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import *
+from cryptographic_estimators.SDFqEstimator import SDFqProblem
+from math import comb as binomial, log2
 
 
 # global parameters
@@ -14,7 +14,7 @@ STERN_PARAMS = {"bit_complexities": 1, "is_syndrome_zero": True, "nsolutions": 0
 
 # correction term due to correction of the LeeBrickell procedure, see SDFqAlgorithms/leebrickell.py line 98/99
 def lee_brickell_correction(k):
-    return log(k, 2) * 2 - log(binomial(k, 2), 2)
+    return log2(k) * 2 - log2(binomial(k, 2))
 
 
 def gen_sdfq_lee_brickell(argument_tuples, epsilon):
@@ -31,7 +31,7 @@ def gen_sdfq_lee_brickell(argument_tuples, epsilon):
         p = 2
 
         expected_complexity = (
-            log(ISD_COST(n, k, w, q), 2) + log(n, 2) - lee_brickell_correction(k)
+            log2(ISD_COST(n, k, w, q)) + log2(n) - lee_brickell_correction(k)
         )
         actual_complexity = LeeBrickell(
             SDFqProblem(n, k, w, q, **PARAMS), **PARAMS
@@ -44,7 +44,7 @@ def gen_sdfq_lee_brickell(argument_tuples, epsilon):
         )
 
     results = list(map(test_single_case, argument_tuples))
-    print(results)
+    return results
 
 
 def gen_sdfq_stern(argument_tuples, epsilon):
@@ -69,7 +69,7 @@ def gen_sdfq_stern(argument_tuples, epsilon):
         )
 
     results = list(map(test_single_case, argument_tuples))
-    print(results)
+    return results
 
 
 def gen_sdfq_stern_range(argument_tuples, epsilon=0.05):
@@ -100,8 +100,6 @@ def gen_sdfq_stern_range(argument_tuples, epsilon=0.05):
 
 
 if __name__ == "__main__":
-    print(lee_brickell_correction(9))
-    input()
     gen_sdfq_lee_brickell([(256, 128, 64, 251), (961, 771, 48, 31)], 0.01)
     gen_sdfq_stern([(256, 128, 64, 251), (961, 771, 48, 31)], 0.01)
     n_range, k_range, q_values = (
