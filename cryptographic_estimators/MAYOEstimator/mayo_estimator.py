@@ -71,17 +71,17 @@ class MAYOEstimator(BaseEstimator):
             sage: from cryptographic_estimators.MAYOEstimator import MAYOEstimator
             sage: E = MAYOEstimator(n=66, m=64, o=8, k=9, q=16)
             sage: E.table() # long time
-            +----------------------+--------------+----------------+
-            |                      |              |    estimate    |
-            +----------------------+--------------+-------+--------+
-            | algorithm            | attack_type  |  time | memory |
-            +----------------------+--------------+-------+--------+
-            | DirectAttack         |   forgery    | 144.8 |   99.3 |
-            | KipnisShamir         | key-recovery | 222.1 |   17.1 |
-            | ReconciliationAttack | key-recovery | 143.2 |   48.1 |
-            | IntersectionAttack   | key-recovery | 254.8 |   33.5 |
-            | ClawFinding          |   forgery    | 142.1 |  135.1 |
-            +----------------------+--------------+-------+--------+
+            +----------------------+--------------+---------------------------------------------------+
+            |                      |              |                      estimate                     |
+            +----------------------+--------------+-------+--------+----------------------------------+
+            | algorithm            | attack_type  |  time | memory |            parameters            |
+            +----------------------+--------------+-------+--------+----------------------------------+
+            | DirectAttack         |   forgery    | 144.8 |   99.3 |            {'K': 16}             |
+            | KipnisShamir         | key-recovery | 222.1 |   17.1 |                {}                |
+            | ReconciliationAttack | key-recovery | 143.2 |   48.1 | {'k': 9, 'variant': 'las_vegas'} |
+            | IntersectionAttack   | key-recovery | 254.8 |   33.5 | {'k': 1, 'variant': 'las_vegas'} |
+            | ClawFinding          |   forgery    | 142.1 |  135.1 |   {'X': 130.915, 'Y': 125.085}   |
+            +----------------------+--------------+-------+--------+----------------------------------+
 
             sage: E = MAYOEstimator(n=78, m=64, o=18, k=4, q=16)
             sage: E.table(show_all_parameters=1) # long time
