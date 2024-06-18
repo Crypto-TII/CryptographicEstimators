@@ -35,7 +35,7 @@ class KipnisShamir(MAYOAlgorithm):
     INPUT:
 
     - ``problem`` -- DummyProblem object including all necessary parameters
-    - ``w`` -- linear algebra constant (default: Obtained from MAYOAlgorithm)
+    - ``w_kipnis_shamir`` -- linear algebra constant (default: 2.8)
     - ``h`` -- external hybridization parameter (default: 0)
     - ``nsolutions`` -- number of solutions in logarithmic scale (default: expected_number_solutions))
     - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
@@ -51,6 +51,7 @@ class KipnisShamir(MAYOAlgorithm):
         self._name = "KipnisShamir"
         self._attack_type = "key-recovery"
 
+        self._w_kipnis_shamir = kwargs.get("w_kipnis_shamir", 2.8)
         n, _, o, _, _ = self.problem.get_parameters()
         if n <= 2 * o:
             raise ValueError('n should be greater than 2 * o')
@@ -73,8 +74,9 @@ class KipnisShamir(MAYOAlgorithm):
 
         """
         n, _, o, _, q = self.problem.get_parameters()
+        w_kipnis_shamir = self._w_kipnis_shamir
         time = (n - 2 * o) * log2(q)
-        return time + log2(n) * 2.8
+        return time + log2(n) * w_kipnis_shamir
 
     def _compute_memory_complexity(self, parameters: dict):
         """

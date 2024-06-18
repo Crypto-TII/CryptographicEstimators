@@ -57,7 +57,7 @@ class DirectAttack(MAYOAlgorithm):
         K = self._K
         m_tilde = m - floor(((k*n)-K)/(m-K)) + 1
         n_tilde = m_tilde - K
-        w = self.linear_algebra_constant()
+        w_mq = self.linear_algebra_constant()
         h = self._h
         nsolutions = self.problem.expected_number_solutions()
         excluded_algorithms = kwargs.get(BASE_EXCLUDED_ALGORITHMS, [Lokshtanov])
@@ -69,7 +69,7 @@ class DirectAttack(MAYOAlgorithm):
             raise ValueError("m_tilde must be > 0")
 
         self._MQEstimator = MQEstimator(n=n_tilde, m=m_tilde, q=q,
-                                        w=w,
+                                        w=w_mq,
                                         h=h,
                                         nsolutions=nsolutions,
                                         excluded_algorithms=excluded_algorithms,
