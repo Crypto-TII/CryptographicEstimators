@@ -54,7 +54,9 @@ class ClawFinding(MAYOAlgorithm):
     @optimal_parameter
     def X(self):
         """
-        Return the optimal `X`, i.e. no. of inputs (preimages)
+        Return logarithm of the optimal `X`, i.e. no. of inputs (preimages)
+        Optimal value for `X` is obtained from optimizing the bit-cost expression of the attack 
+        reported in MAYO specification 36 * m * X + Y * 2 ** 17 using X * Y = q ** m 
 
         EXAMPLES::
 
@@ -74,6 +76,7 @@ class ClawFinding(MAYOAlgorithm):
     def Y(self):
         """
         Return logarithm of the optimal `Y`, i.e. logarithm of no. of hashes to compute
+        Optimal value for `Y` is obtained from X * Y = q ** m using the optimal value of `X`
 
         EXAMPLES::
 
@@ -136,7 +139,7 @@ class ClawFinding(MAYOAlgorithm):
         X = self.X()
         Y = self.Y()
         n, m, _, k, q = self.problem.get_parameters()
-        mem_evals = log2(log2(q)) + log2(m) + X
-        mem_hashes = log2(256) + Y
+        mem_evals = log2(m) + X
+        mem_hashes = log2(256) + Y - log2(q)
         return min(mem_evals, mem_hashes)
     
