@@ -70,7 +70,7 @@ class MAYOEstimator(BaseEstimator):
 
             sage: from cryptographic_estimators.MAYOEstimator import MAYOEstimator
             sage: E = MAYOEstimator(n=66, m=64, o=8, k=9, q=16)
-            sage: E.table() # long time
+            sage: E.table(show_all_parameters=1) # long time
             +----------------------+--------------+---------------------------------------------------+
             |                      |              |                      estimate                     |
             +----------------------+--------------+-------+--------+----------------------------------+
