@@ -24,6 +24,7 @@ from ...helper import ComplexityType
 from ..mayo_helper import _optimize_k
 from ...base_constants import BASE_EXCLUDED_ALGORITHMS
 from math import log2, floor
+from cryptographic_estimators.base_constants import BASE_FORGERY_ATTACK
 
 
 class DirectAttack(MAYOAlgorithm):
@@ -50,7 +51,7 @@ class DirectAttack(MAYOAlgorithm):
         super().__init__(problem, **kwargs)
 
         self._name = "DirectAttack"
-        self._attack_type = "forgery"
+        self._attack_type = BASE_FORGERY_ATTACK
 
         n, m, _, k, q = self.problem.get_parameters()
         self._K = self.K()

@@ -38,3 +38,5 @@ BASE_NSOLUTIONS = "nsolutions"
 
 BASE_ATTACK_TYPE = "algorithm"
 BASE_ESTIMATOR_TYPE = "problem"
+BASE_FORGERY_ATTACK = "forgery"
+BASE_KEY_RECOVERY_ATTACK = "key-recovery"

@@ -23,6 +23,7 @@ from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
 from ...base_constants import BASE_EXCLUDED_ALGORITHMS
 from ...base_algorithm import optimal_parameter
 from math import log2, e
+from cryptographic_estimators.base_constants import BASE_FORGERY_ATTACK
 
 
 class ClawFinding(MAYOAlgorithm):
@@ -49,7 +50,7 @@ class ClawFinding(MAYOAlgorithm):
         super().__init__(problem, **kwargs)
 
         self._name = "ClawFinding"
-        self._attack_type = "forgery"
+        self._attack_type = BASE_FORGERY_ATTACK
 
     @optimal_parameter
     def X(self):

@@ -22,6 +22,7 @@ from ...MQEstimator.mq_estimator import MQEstimator
 from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
 from ...base_constants import BASE_EXCLUDED_ALGORITHMS
 from math import log2
+from cryptographic_estimators.base_constants import BASE_KEY_RECOVERY_ATTACK
 
 
 class KipnisShamir(MAYOAlgorithm):
@@ -49,7 +50,7 @@ class KipnisShamir(MAYOAlgorithm):
         super().__init__(problem, **kwargs)
 
         self._name = "KipnisShamir"
-        self._attack_type = "key-recovery"
+        self._attack_type = BASE_KEY_RECOVERY_ATTACK
 
         self._w_kipnis_shamir = kwargs.get("w_kipnis_shamir", 2.8)
         n, _, o, _, _ = self.problem.get_parameters()
