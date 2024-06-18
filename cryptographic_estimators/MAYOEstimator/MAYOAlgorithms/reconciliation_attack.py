@@ -32,7 +32,7 @@ class ReconciliationAttack(MAYOAlgorithm):
 
     INPUT:
 
-    - ``problem`` -- DummyProblem object including all necessary parameters
+    - ``problem`` -- MAYOProblem object including all necessary parameters
     - ``w`` -- linear algebra constant (default: Obtained from MAYOAlgorithm)
     - ``h`` -- external hybridization parameter (default: 0)
     - ``nsolutions`` -- number of solutions in logarithmic scale (default: expected_number_solutions))

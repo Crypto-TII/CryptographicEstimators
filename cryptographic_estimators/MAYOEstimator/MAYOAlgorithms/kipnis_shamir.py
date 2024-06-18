@@ -35,7 +35,7 @@ class KipnisShamir(MAYOAlgorithm):
 
     INPUT:
 
-    - ``problem`` -- DummyProblem object including all necessary parameters
+    - ``problem`` -- MAYOProblem object including all necessary parameters
     - ``w_kipnis_shamir`` -- linear algebra constant (default: 2.8)
     - ``h`` -- external hybridization parameter (default: 0)
     - ``nsolutions`` -- number of solutions in logarithmic scale (default: expected_number_solutions))
