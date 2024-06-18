@@ -82,7 +82,7 @@ class DirectAttack(MAYOAlgorithm):
     @optimal_parameter
     def K(self):
         """
-        Return the optimal parameter `K` from Furue, Nakamura, and Takagi strategy
+        Return the optimal parameter `K` from Furue, Nakamura, and Takagi strategy [FNT21]_.
 
         EXAMPLES::
 
