@@ -23,8 +23,7 @@ from ...base_algorithm import optimal_parameter
 from ...helper import ComplexityType
 from ..mayo_helper import _optimize_k
 from ...base_constants import BASE_EXCLUDED_ALGORITHMS
-from math import log2
-from sage.functions.other import floor
+from math import log2, floor
 
 
 class DirectAttack(MAYOAlgorithm):

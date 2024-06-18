@@ -17,8 +17,7 @@
 
 from ..MQEstimator.MQAlgorithms import BooleanSolveFXL
 from ..MQEstimator import MQProblem
-from math import log2, inf
-from sage.functions.other import floor
+from math import log2, inf, floor
 
 
 def _optimize_k(n: int, m: int, k: int, q: int):
