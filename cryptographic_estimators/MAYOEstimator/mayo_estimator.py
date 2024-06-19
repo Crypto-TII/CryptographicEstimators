@@ -71,7 +71,7 @@ class MAYOEstimator(BaseEstimator):
         TESTS::
 
             sage: from cryptographic_estimators.MAYOEstimator import MAYOEstimator
-            sage: E = MAYOEstimator(n=66, m=64, o=8, k=9, q=16) 
+            sage: E = MAYOEstimator(n=66, m=64, o=8, k=9, q=16) # long test
             sage: E.table(show_all_parameters=1) # long time
             +----------------------+--------------+---------------------------------------------------+
             |                      |              |                      estimate                     |
@@ -82,10 +82,10 @@ class MAYOEstimator(BaseEstimator):
             | KipnisShamir         | key-recovery | 222.1 |   17.1 |                {}                |
             | ReconciliationAttack | key-recovery | 143.2 |   48.1 | {'k': 9, 'variant': 'las_vegas'} |
             | IntersectionAttack   | key-recovery | 254.8 |   33.5 | {'k': 1, 'variant': 'las_vegas'} |
-            | ClawFinding          |   forgery    | 142.1 |  135.1 |   {'X': 130.915, 'Y': 125.085}   |
+            | ClawFinding          |   forgery    | 142.1 |  131.1 |   {'X': 130.915, 'Y': 125.085}   |
             +----------------------+--------------+-------+--------+----------------------------------+
 
-            sage: E = MAYOEstimator(n=78, m=64, o=18, k=4, q=16) 
+            sage: E = MAYOEstimator(n=78, m=64, o=18, k=4, q=16) # long test
             sage: E.table(show_all_parameters=1) # long time
             +----------------------+--------------+----------------------------------------------------+
             |                      |              |                      estimate                      |
@@ -96,10 +96,10 @@ class MAYOEstimator(BaseEstimator):
             | KipnisShamir         | key-recovery | 190.8 |   18.7 |                 {}                |
             | ReconciliationAttack | key-recovery | 151.2 |   48.1 | {'k': 11, 'variant': 'las_vegas'} |
             | IntersectionAttack   | key-recovery | 202.5 |   45.0 |  {'k': 0, 'variant': 'las_vegas'} |
-            | ClawFinding          |   forgery    | 142.1 |  135.1 |    {'X': 130.915, 'Y': 125.085}   |
+            | ClawFinding          |   forgery    | 142.1 |  131.1 |    {'X': 130.915, 'Y': 125.085}   |
             +----------------------+--------------+-------+--------+-----------------------------------+
 
-            sage: E = MAYOEstimator(n=99, m=96, o=10, k=11, q=16) # long time
+            sage: E = MAYOEstimator(n=99, m=96, o=10, k=11, q=16) # long test
             sage: E.table(show_all_parameters=1) # long time 
             +----------------------+--------------+----------------------------------------------------+
             |                      |              |                      estimate                      |
@@ -110,10 +110,10 @@ class MAYOEstimator(BaseEstimator):
             | KipnisShamir         | key-recovery | 339.7 |   18.6 |                 {}                |
             | ReconciliationAttack | key-recovery | 208.7 |   78.1 | {'k': 10, 'variant': 'las_vegas'} |
             | IntersectionAttack   | key-recovery | 389.6 |   48.3 |  {'k': 0, 'variant': 'las_vegas'} |
-            | ClawFinding          |   forgery    | 206.4 |  199.4 |    {'X': 194.623, 'Y': 189.377}   |
+            | ClawFinding          |   forgery    | 206.4 |  195.4 |    {'X': 194.623, 'Y': 189.377}   |
             +----------------------+--------------+-------+--------+-----------------------------------+
 
-            sage: E = MAYOEstimator(n=133, m=128, o=12, k=12, q=16) # long time
+            sage: E = MAYOEstimator(n=133, m=128, o=12, k=12, q=16) # long test
             sage: E.table(show_all_parameters=1) # long time
             +----------------------+--------------+----------------------------------------------------+
             |                      |              |                      estimate                      |
@@ -124,10 +124,10 @@ class MAYOEstimator(BaseEstimator):
             | KipnisShamir         | key-recovery | 460.9 |   19.7 |                 {}                |
             | ReconciliationAttack | key-recovery | 275.7 |   95.3 | {'k': 18, 'variant': 'las_vegas'} |
             | IntersectionAttack   | key-recovery | 525.2 |   59.6 |  {'k': 0, 'variant': 'las_vegas'} |
-            | ClawFinding          |   forgery    | 270.6 |  263.6 |    {'X': 258.415, 'Y': 253.585}   |
+            | ClawFinding          |   forgery    | 270.6 |  259.6 |    {'X': 258.415, 'Y': 253.585}   |
             +----------------------+--------------+-------+--------+-----------------------------------+
 
-            sage: E = MAYOEstimator(n=90, m=56, o=8, k=10, q=16) # long time
+            sage: E = MAYOEstimator(n=90, m=56, o=8, k=10, q=16) # long test
             sage: E.table(show_all_parameters=1) # long time
             +----------------------+--------------+----------------------------------------------------+
             |                      |              |                      estimate                      |
@@ -138,7 +138,7 @@ class MAYOEstimator(BaseEstimator):
             | KipnisShamir         | key-recovery | 319.3 |   18.0 |                 {}                |
             | ReconciliationAttack | key-recovery | 150.3 |   43.8 | {'k': 13, 'variant': 'las_vegas'} |
             | IntersectionAttack   | key-recovery | 399.1 |   59.1 |  {'k': 0, 'variant': 'las_vegas'} |
-            | ClawFinding          |   forgery    | 126.0 |  119.0 |    {'X': 115.011, 'Y': 108.989}   |
+            | ClawFinding          |   forgery    | 126.0 |  115.0 |    {'X': 115.011, 'Y': 108.989}   |
             +----------------------+--------------+-------+--------+-----------------------------------+
 
             sage: E = MAYOEstimator(n=64, m=60, o=10, k=21, q=16) # long time
@@ -152,7 +152,7 @@ class MAYOEstimator(BaseEstimator):
             | KipnisShamir         | key-recovery | 198.0 |   17.3 |                {}                |
             | ReconciliationAttack | key-recovery | 134.6 |   49.8 | {'k': 6, 'variant': 'las_vegas'} |
             | IntersectionAttack   | key-recovery | 224.8 |   36.5 | {'k': 0, 'variant': 'las_vegas'} |
-            | ClawFinding          |   forgery    | 134.0 |  127.0 |   {'X': 122.962, 'Y': 117.038}   |
+            | ClawFinding          |   forgery    | 134.0 |  123.0 |   {'X': 122.962, 'Y': 117.038}   |
             +----------------------+--------------+-------+--------+----------------------------------+
         
         """
