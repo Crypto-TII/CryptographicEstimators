@@ -36,7 +36,7 @@ class DirectAttack(MAYOAlgorithm):
     INPUT:
 
     - ``problem`` -- MAYOProblem object including all necessary parameters
-    - ``w`` -- linear algebra constant (default: Obtained from MAYOAlgorithm)
+    - ``w_mq`` -- linear algebra constant (default: Obtained from MAYOAlgorithm)
     - ``h`` -- external hybridization parameter (default: 0)
     - ``nsolutions`` -- number of solutions in logarithmic scale (default: expected_number_solutions))
     - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
@@ -95,8 +95,9 @@ class DirectAttack(MAYOAlgorithm):
         """
         if self._optimal_parameters.get("K") is None:
             n, m, _, k, q = self.problem.get_parameters()
+            w_mq = self.linear_algebra_constant()
             if self.complexity_type == ComplexityType.ESTIMATE.value:
-                return _optimize_k(n=k*n, m=m, k=k, q=q)
+                return _optimize_k(n=k*n, m=m, k=k, q=q, w=w_mq)
             elif self.complexity_type == ComplexityType.TILDEO.value:
                 return 0
 
