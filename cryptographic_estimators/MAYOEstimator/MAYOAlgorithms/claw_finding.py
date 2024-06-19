@@ -42,7 +42,8 @@ class ClawFinding(MAYOAlgorithm):
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, default: 0)
     - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
-
+    - ``hash_bit_size` -- hash function output size given in bits (default: 512)
+    
     """
 
     def __init__(self, problem: MAYOProblem, **kwargs):
@@ -50,6 +51,10 @@ class ClawFinding(MAYOAlgorithm):
 
         self._name = "ClawFinding"
         self._attack_type = BASE_FORGERY_ATTACK
+
+        # hash_bit_size can be adjusted to target a specific security level, as stated in MAYO specificactions
+        # (security level 1: 256, security level 3: 384, security level 5: 512)
+        self._hash_bit_size = kwargs.get("hash_bit_size", 512)
 
     @optimal_parameter
     def X(self):
@@ -139,7 +144,8 @@ class ClawFinding(MAYOAlgorithm):
         X = self.X()
         Y = self.Y()
         n, m, _, k, q = self.problem.get_parameters()
+        hash_bit_size = self._hash_bit_size
         mem_evals = log2(m) + X
-        mem_hashes = log2(256) + Y - log2(q)
+        mem_hashes = log2(2 * hash_bit_size) + Y - log2(q)
         return min(mem_evals, mem_hashes)
     
