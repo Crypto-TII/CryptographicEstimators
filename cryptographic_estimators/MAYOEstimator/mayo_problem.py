@@ -19,7 +19,7 @@
 from ..base_problem import BaseProblem
 from ..MQEstimator.mq_helper import ngates
 from .mayo_constants import *
-from cryptographic_estimators.helper import is_prime_power
+from ..helper import is_prime_power
 from math import log2, ceil
 
 

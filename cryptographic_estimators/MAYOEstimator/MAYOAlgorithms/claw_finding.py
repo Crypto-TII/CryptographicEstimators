@@ -20,10 +20,9 @@ from ..mayo_algorithm import MAYOAlgorithm
 from ..mayo_problem import MAYOProblem
 from ...MQEstimator.mq_estimator import MQEstimator
 from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
-from ...base_constants import BASE_EXCLUDED_ALGORITHMS
+from ...base_constants import BASE_FORGERY_ATTACK
 from ...base_algorithm import optimal_parameter
 from math import log2, e
-from cryptographic_estimators.base_constants import BASE_FORGERY_ATTACK
 
 
 class ClawFinding(MAYOAlgorithm):

@@ -18,11 +18,8 @@
 
 from ..mayo_algorithm import MAYOAlgorithm
 from ..mayo_problem import MAYOProblem
-from ...MQEstimator.mq_estimator import MQEstimator
-from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
-from ...base_constants import BASE_EXCLUDED_ALGORITHMS
+from ...base_constants import BASE_KEY_RECOVERY_ATTACK
 from math import log2
-from cryptographic_estimators.base_constants import BASE_KEY_RECOVERY_ATTACK
 
 
 class KipnisShamir(MAYOAlgorithm):

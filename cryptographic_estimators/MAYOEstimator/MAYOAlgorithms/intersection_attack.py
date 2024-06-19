@@ -18,10 +18,10 @@
 
 from ..mayo_algorithm import MAYOAlgorithm
 from ..mayo_problem import MAYOProblem
-from cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
-from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+from ...MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
+from ...MQEstimator.mq_problem import MQProblem
+from ...base_constants import BASE_KEY_RECOVERY_ATTACK
 from math import log2
-from cryptographic_estimators.base_constants import BASE_KEY_RECOVERY_ATTACK
 
 
 class IntersectionAttack(MAYOAlgorithm):

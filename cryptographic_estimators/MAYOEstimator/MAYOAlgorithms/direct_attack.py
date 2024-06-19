@@ -22,9 +22,8 @@ from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
 from ...base_algorithm import optimal_parameter
 from ...helper import ComplexityType
 from ..mayo_helper import _optimize_k
-from ...base_constants import BASE_EXCLUDED_ALGORITHMS
+from ...base_constants import BASE_EXCLUDED_ALGORITHMS, BASE_FORGERY_ATTACK
 from math import log2, floor
-from cryptographic_estimators.base_constants import BASE_FORGERY_ATTACK
 
 
 class DirectAttack(MAYOAlgorithm):
