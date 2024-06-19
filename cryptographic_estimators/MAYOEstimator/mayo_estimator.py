@@ -66,10 +66,12 @@ class MAYOEstimator(BaseEstimator):
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
 
+        # TODO: Optimize MAYOEstimator class constructor (it is taking too long to create an instance)
+
         TESTS::
 
             sage: from cryptographic_estimators.MAYOEstimator import MAYOEstimator
-            sage: E = MAYOEstimator(n=66, m=64, o=8, k=9, q=16)
+            sage: E = MAYOEstimator(n=66, m=64, o=8, k=9, q=16) 
             sage: E.table(show_all_parameters=1) # long time
             +----------------------+--------------+---------------------------------------------------+
             |                      |              |                      estimate                     |
@@ -83,7 +85,7 @@ class MAYOEstimator(BaseEstimator):
             | ClawFinding          |   forgery    | 142.1 |  135.1 |   {'X': 130.915, 'Y': 125.085}   |
             +----------------------+--------------+-------+--------+----------------------------------+
 
-            sage: E = MAYOEstimator(n=78, m=64, o=18, k=4, q=16)
+            sage: E = MAYOEstimator(n=78, m=64, o=18, k=4, q=16) 
             sage: E.table(show_all_parameters=1) # long time
             +----------------------+--------------+----------------------------------------------------+
             |                      |              |                      estimate                      |
@@ -97,7 +99,7 @@ class MAYOEstimator(BaseEstimator):
             | ClawFinding          |   forgery    | 142.1 |  135.1 |    {'X': 130.915, 'Y': 125.085}   |
             +----------------------+--------------+-------+--------+-----------------------------------+
 
-            sage: E = MAYOEstimator(n=99, m=96, o=10, k=11, q=16)
+            sage: E = MAYOEstimator(n=99, m=96, o=10, k=11, q=16) # long time
             sage: E.table(show_all_parameters=1) # long time 
             +----------------------+--------------+----------------------------------------------------+
             |                      |              |                      estimate                      |
@@ -111,7 +113,7 @@ class MAYOEstimator(BaseEstimator):
             | ClawFinding          |   forgery    | 206.4 |  199.4 |    {'X': 194.623, 'Y': 189.377}   |
             +----------------------+--------------+-------+--------+-----------------------------------+
 
-            sage: E = MAYOEstimator(n=133, m=128, o=12, k=12, q=16)
+            sage: E = MAYOEstimator(n=133, m=128, o=12, k=12, q=16) # long time
             sage: E.table(show_all_parameters=1) # long time
             +----------------------+--------------+----------------------------------------------------+
             |                      |              |                      estimate                      |
@@ -125,7 +127,7 @@ class MAYOEstimator(BaseEstimator):
             | ClawFinding          |   forgery    | 270.6 |  263.6 |    {'X': 258.415, 'Y': 253.585}   |
             +----------------------+--------------+-------+--------+-----------------------------------+
 
-            sage: E = MAYOEstimator(n=90, m=56, o=8, k=10, q=16)
+            sage: E = MAYOEstimator(n=90, m=56, o=8, k=10, q=16) # long time
             sage: E.table(show_all_parameters=1) # long time
             +----------------------+--------------+----------------------------------------------------+
             |                      |              |                      estimate                      |
@@ -139,7 +141,7 @@ class MAYOEstimator(BaseEstimator):
             | ClawFinding          |   forgery    | 126.0 |  119.0 |    {'X': 115.011, 'Y': 108.989}   |
             +----------------------+--------------+-------+--------+-----------------------------------+
 
-            sage: E = MAYOEstimator(n=64, m=60, o=10, k=21, q=16)
+            sage: E = MAYOEstimator(n=64, m=60, o=10, k=21, q=16) # long time
             sage: E.table(show_all_parameters=1) # long time
             +----------------------+--------------+---------------------------------------------------+
             |                      |              |                      estimate                     |
