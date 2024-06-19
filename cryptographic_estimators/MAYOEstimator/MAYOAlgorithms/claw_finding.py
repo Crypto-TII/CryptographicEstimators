@@ -138,7 +138,7 @@ class ClawFinding(MAYOAlgorithm):
             sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.claw_finding import ClawFinding
             sage: E = ClawFinding(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
             sage: E.memory_complexity()
-            123.038
+            124.038
 
         """
         X = self.X()
@@ -146,6 +146,6 @@ class ClawFinding(MAYOAlgorithm):
         n, m, _, k, q = self.problem.get_parameters()
         hash_bit_size = self._hash_bit_size
         mem_evals = log2(m) + X
-        mem_hashes = log2(2 * hash_bit_size) + Y - log2(q)
+        mem_hashes = log2(hash_bit_size) + Y - log2(q)
         return min(mem_evals, mem_hashes)
     
