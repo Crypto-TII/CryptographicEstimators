@@ -19,7 +19,6 @@
 from ..uov_algorithm import UOVAlgorithm
 from ..uov_problem import UOVProblem
 from math import log2
-from ...helper import is_power_of_two
 from cryptographic_estimators.base_constants import BASE_KEY_RECOVERY_ATTACK
 
 
