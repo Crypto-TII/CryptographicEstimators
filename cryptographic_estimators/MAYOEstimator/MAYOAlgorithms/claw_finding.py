@@ -35,7 +35,7 @@ class ClawFinding(MAYOAlgorithm):
     INPUT:
 
     - ``problem`` -- MAYOProblem object including all necessary parameters
-    - ``w`` -- linear algebra constant (default: Obtained from MAYOAlgorithm)
+    - ``w`` -- linear algebra constant (default: obtained from MAYOAlgorithm)
     - ``h`` -- external hybridization parameter (default: 0)
     - ``nsolutions`` -- number of solutions in logarithmic scale (default: expected_number_solutions))
     - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
@@ -61,7 +61,7 @@ class ClawFinding(MAYOAlgorithm):
         """
         Return logarithm of the optimal `X`, i.e. no. of inputs (preimages)
         Optimal value for `X` is obtained from optimizing the bit-cost expression of the attack 
-        reported in MAYO specification 36 * m * X + Y * 2 ** 17 using X * Y = q ** m 
+        reported in MAYO specification (see Section 5.4 in _[BCCHK23]) 36 * m * X + Y * 2 ** 17 using X * Y = q ** m 
 
         EXAMPLES::
 
