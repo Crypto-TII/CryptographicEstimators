@@ -30,10 +30,14 @@ class KipnisShamir(MAYOAlgorithm):
     The attack attempts to find vectors in the oil space O, by exploiting the fact
     that these vectors are more likely to be eigenvectors of some publicy-known matrices.
 
+    .. NOTE::
+
+        The linear algebra constant `w_ks` is set by default to 2.8 since this is the suggested choice in Section 5.4 of [BCCHK23]_ 
+
     INPUT:
 
     - ``problem`` -- MAYOProblem object including all necessary parameters
-    - ``w_ks`` -- linear algebra constant (default: 2.8)
+    - ``w_ks`` -- linear algebra constant (only for kipnis-shamir algorithm) (default: 2.8)
     - ``h`` -- external hybridization parameter (default: 0)
     - ``nsolutions`` -- number of solutions in logarithmic scale (default: expected_number_solutions))
     - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])

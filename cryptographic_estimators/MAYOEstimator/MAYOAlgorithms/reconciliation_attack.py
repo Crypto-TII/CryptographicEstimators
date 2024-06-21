@@ -33,7 +33,7 @@ class ReconciliationAttack(MAYOAlgorithm):
     INPUT:
 
     - ``problem`` -- MAYOProblem object including all necessary parameters
-    - ``w`` -- linear algebra constant (default: Obtained from MAYOAlgorithm)
+    - ``w`` -- linear algebra constant (default: obtained from MAYOAlgorithm)
     - ``h`` -- external hybridization parameter (default: 0)
     - ``nsolutions`` -- number of solutions in logarithmic scale (default: expected_number_solutions))
     - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])

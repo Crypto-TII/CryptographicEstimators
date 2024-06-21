@@ -61,7 +61,7 @@ class ClawFinding(MAYOAlgorithm):
         """
         Return logarithm of the optimal `X`, i.e. no. of inputs (preimages)
         Optimal value for `X` is obtained from optimizing the bit-cost expression of the attack 
-        reported in MAYO specification (see Section 5.4 in _[BCCHK23]) 36 * m * X + Y * 2 ** 17 using X * Y = q ** m 
+        reported in MAYO specification (see Section 5.4 in [BCCHK23]_) 36 * m * X + Y * 2 ** 17 using X * Y = q ** m 
 
         EXAMPLES::
 

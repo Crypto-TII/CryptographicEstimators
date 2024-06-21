@@ -36,7 +36,8 @@ class MAYOEstimator(BaseEstimator):
     - ``theta`` -- exponent of the conversion factor (default: 2)
         - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
         - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
-    - ``w`` -- linear algebra constant (default: 2)
+    - ``w`` -- linear algebra constant (default: 2.81)
+    - ``w_ks`` -- linear algebra constant (only for kipnis-shamir algorithm) (default: 2.8)
     - ``h`` -- external hybridization parameter (default: 0)
      - ``excluded_algorithms`` -- a list/tuple of algorithms to be excluded (default: [])
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
