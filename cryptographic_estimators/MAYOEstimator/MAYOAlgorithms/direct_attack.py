@@ -147,13 +147,13 @@ class DirectAttack(MAYOAlgorithm):
             sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
             sage: E = DirectAttack(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
             sage: E.memory_complexity()
-            99.2697664172768
+            35.269766417276806
 
         """
-        q = self.problem.order_of_the_field()
+        n, m, _, _, _ = self.problem.get_parameters()
         fastest_algorithm = self.get_fastest_mq_algorithm()
         fastest_algorithm.complexity_type = self.complexity_type
-        return self._fastest_algorithm.memory_complexity() + self._K * log2(q)
+        return max(fastest_algorithm.memory_complexity(), log2(m * n ** 2))
     
 
     
