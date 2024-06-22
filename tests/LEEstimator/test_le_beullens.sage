@@ -2,7 +2,7 @@ from cryptographic_estimators.LEEstimator.LEAlgorithms import *
 from cryptographic_estimators.LEEstimator import LEProblem
 from math import log, inf
 
-load("tests/module/attack_cost.sage")
+load("tests/helpers/attack_cost.sage")
 beullens_params = {"bit_complexities": 0}
 
 RANGES = 0.12
