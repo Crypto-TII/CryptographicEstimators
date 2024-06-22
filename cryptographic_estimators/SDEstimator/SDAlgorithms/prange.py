@@ -21,7 +21,7 @@ from ...SDEstimator.sd_problem import SDProblem
 from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matrix, binom, log2
 from ...helper import ComplexityType
 from ..sd_constants import *
-from ..SDWorkfactorModels.prange import PrangeScipyModel
+#from ..SDWorkfactorModels.prange import PrangeScipyModel
 
 
 class Prange(SDAlgorithm):
@@ -49,7 +49,7 @@ class Prange(SDAlgorithm):
         """
         self._name = "Prange"
         super(Prange, self).__init__(problem, **kwargs)
-        self.scipy_model = PrangeScipyModel
+        #self.scipy_model = PrangeScipyModel
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """

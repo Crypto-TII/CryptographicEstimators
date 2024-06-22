@@ -24,7 +24,7 @@ from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matr
     _indyk_motwani_complexity, min_max, binom, log2, ceil, inf
 from types import SimpleNamespace
 from ..sd_constants import *
-from ..SDWorkfactorModels.may_ozerov import MayOzerovScipyModel
+#from ..SDWorkfactorModels.may_ozerov import MayOzerovScipyModel
 from typing import Union
 
 
@@ -365,7 +365,7 @@ class MayOzerovD3(SDAlgorithm):
         super(MayOzerovD3, self).__init__(problem, **kwargs)
         self._name = "May-OzerovD3"
         self.initialize_parameter_ranges()
-        self.scipy_model = MayOzerovScipyModel
+        #self.scipy_model = MayOzerovScipyModel
 
     def initialize_parameter_ranges(self):
         """

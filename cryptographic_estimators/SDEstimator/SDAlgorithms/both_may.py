@@ -23,7 +23,7 @@ from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matr
     log2, inf, ceil
 from types import SimpleNamespace
 from ..sd_constants import *
-from ..SDWorkfactorModels import BothMayScipyModel
+#from ..SDWorkfactorModels import BothMayScipyModel
 
 
 class BothMay(SDAlgorithm):
@@ -54,7 +54,7 @@ class BothMay(SDAlgorithm):
         super(BothMay, self).__init__(problem, **kwargs)
         self._name = "Both-May"
         self.initialize_parameter_ranges()
-        self.scipy_model = BothMayScipyModel
+        #self.scipy_model = BothMayScipyModel
 
     def initialize_parameter_ranges(self):
         """
