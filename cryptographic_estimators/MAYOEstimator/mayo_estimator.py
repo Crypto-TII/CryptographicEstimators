@@ -79,7 +79,7 @@ class MAYOEstimator(BaseEstimator):
             +----------------------+--------------+-------+--------+----------------------------------+
             | algorithm            | attack_type  |  time | memory |            parameters            |
             +----------------------+--------------+-------+--------+----------------------------------+
-            | DirectAttack         |   forgery    | 144.8 |   99.3 |            {'K': 16}             |
+            | DirectAttack         |   forgery    | 144.8 |   35.3 |            {'K': 16}             |
             | KipnisShamir         | key-recovery | 222.1 |   17.1 |                {}                |
             | ReconciliationAttack | key-recovery | 143.2 |   48.1 | {'k': 9, 'variant': 'las_vegas'} |
             | IntersectionAttack   | key-recovery | 254.8 |   33.5 | {'k': 1, 'variant': 'las_vegas'} |
@@ -93,7 +93,7 @@ class MAYOEstimator(BaseEstimator):
             +----------------------+--------------+-------+--------+-----------------------------------+
             | algorithm            | attack_type  |  time | memory |             parameters            |
             +----------------------+--------------+-------+--------+-----------------------------------+
-            | DirectAttack         |   forgery    | 158.1 |  101.7 |             {'K': 15}             |
+            | DirectAttack         |   forgery    | 158.1 |   41.7 |             {'K': 15}             |
             | KipnisShamir         | key-recovery | 190.8 |   18.7 |                 {}                |
             | ReconciliationAttack | key-recovery | 151.2 |   48.1 | {'k': 11, 'variant': 'las_vegas'} |
             | IntersectionAttack   | key-recovery | 202.5 |   45.0 |  {'k': 0, 'variant': 'las_vegas'} |
@@ -107,7 +107,7 @@ class MAYOEstimator(BaseEstimator):
             +----------------------+--------------+-------+--------+-----------------------------------+
             | algorithm            | attack_type  |  time | memory |             parameters            |
             +----------------------+--------------+-------+--------+-----------------------------------+
-            | DirectAttack         |   forgery    | 209.6 |  136.9 |             {'K': 20}             |
+            | DirectAttack         |   forgery    | 209.6 |   56.9 |             {'K': 20}             |
             | KipnisShamir         | key-recovery | 339.7 |   18.6 |                 {}                |
             | ReconciliationAttack | key-recovery | 208.7 |   78.1 | {'k': 10, 'variant': 'las_vegas'} |
             | IntersectionAttack   | key-recovery | 389.6 |   48.3 |  {'k': 0, 'variant': 'las_vegas'} |
@@ -121,7 +121,7 @@ class MAYOEstimator(BaseEstimator):
             +----------------------+--------------+-------+--------+-----------------------------------+
             | algorithm            | attack_type  |  time | memory |             parameters            |
             +----------------------+--------------+-------+--------+-----------------------------------+
-            | DirectAttack         |   forgery    | 274.7 |  175.0 |             {'K': 24}             |
+            | DirectAttack         |   forgery    | 274.7 |   79.0 |             {'K': 24}             |
             | KipnisShamir         | key-recovery | 460.9 |   19.7 |                 {}                |
             | ReconciliationAttack | key-recovery | 275.7 |   95.3 | {'k': 18, 'variant': 'las_vegas'} |
             | IntersectionAttack   | key-recovery | 525.2 |   59.6 |  {'k': 0, 'variant': 'las_vegas'} |
@@ -135,7 +135,7 @@ class MAYOEstimator(BaseEstimator):
             +----------------------+--------------+-------+--------+-----------------------------------+
             | algorithm            | attack_type  |  time | memory |             parameters            |
             +----------------------+--------------+-------+--------+-----------------------------------+
-            | DirectAttack         |   forgery    |  21.4 |   56.9 |             {'K': 10}             |
+            | DirectAttack         |   forgery    |  21.4 |   20.8 |             {'K': 10}             |
             | KipnisShamir         | key-recovery | 319.3 |   18.0 |                 {}                |
             | ReconciliationAttack | key-recovery | 150.3 |   43.8 | {'k': 13, 'variant': 'las_vegas'} |
             | IntersectionAttack   | key-recovery | 399.1 |   59.1 |  {'k': 0, 'variant': 'las_vegas'} |
@@ -149,7 +149,7 @@ class MAYOEstimator(BaseEstimator):
             +----------------------+--------------+-------+--------+----------------------------------+
             | algorithm            | attack_type  |  time | memory |            parameters            |
             +----------------------+--------------+-------+--------+----------------------------------+
-            | DirectAttack         |   forgery    | 102.2 |   72.8 |            {'K': 13}             |
+            | DirectAttack         |   forgery    | 102.2 |   20.8 |            {'K': 13}             |
             | KipnisShamir         | key-recovery | 198.0 |   17.3 |                {}                |
             | ReconciliationAttack | key-recovery | 134.6 |   49.8 | {'k': 6, 'variant': 'las_vegas'} |
             | IntersectionAttack   | key-recovery | 224.8 |   36.5 | {'k': 0, 'variant': 'las_vegas'} |
