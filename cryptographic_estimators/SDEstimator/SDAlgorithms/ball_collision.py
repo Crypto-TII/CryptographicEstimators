@@ -22,7 +22,7 @@ from ...SDEstimator.sd_problem import SDProblem
 from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matrix, _list_merge_complexity, binom, log2, inf, min_max
 from types import SimpleNamespace
 from ..sd_constants import *
-#from ..SDWorkfactorModels.ball_collision import BallCollisionScipyModel
+from ..SDWorkfactorModels.ball_collision import BallCollisionScipyModel
 
 
 class BallCollision(SDAlgorithm):
@@ -61,7 +61,7 @@ class BallCollision(SDAlgorithm):
         self.set_parameter_ranges("pl", 0, min_max(10, w, s))
         self.set_parameter_ranges("r", 0, n - k)
 
-        # self.scipy_model = BallCollisionScipyModel
+        self.scipy_model = BallCollisionScipyModel
 
     @optimal_parameter
     def l(self):

@@ -23,7 +23,7 @@ from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matr
     binom, log2, inf
 from types import SimpleNamespace
 from ..sd_constants import *
-#from ..SDWorkfactorModels.dumer import DumerScipyModel
+from ..SDWorkfactorModels.dumer import DumerScipyModel
 
 
 class Dumer(SDAlgorithm):
@@ -55,7 +55,7 @@ class Dumer(SDAlgorithm):
         super(Dumer, self).__init__(problem, **kwargs)
         self._name = "Dumer"
         self.initialize_parameter_ranges()
-        #self.scipy_model = DumerScipyModel
+        self.scipy_model = DumerScipyModel
 
     def initialize_parameter_ranges(self):
         """

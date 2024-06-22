@@ -24,7 +24,7 @@ from ...SDEstimator.sd_helper import _gaussian_elimination_complexity, _mem_matr
     binom, log2, ceil, inf
 from types import SimpleNamespace
 from ..sd_constants import *
-#from ..SDWorkfactorModels.bjmm import BJMMScipyModel
+from ..SDWorkfactorModels.bjmm import BJMMScipyModel
 from typing import Union
 
 
@@ -388,7 +388,7 @@ class BJMMd3(SDAlgorithm):
         super(BJMMd3, self).__init__(problem, **kwargs)
         self._name = "BJMMd3"
         self.initialize_parameter_ranges()
-        #self.scipy_model = BJMMScipyModel
+        self.scipy_model = BJMMScipyModel
 
     def initialize_parameter_ranges(self):
         """
