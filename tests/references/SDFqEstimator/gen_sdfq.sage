@@ -72,12 +72,14 @@ def gen_sdfq_stern(argument_tuples, epsilon):
     return results
 
 
-def gen_sdfq_stern_range(argument_tuples, epsilon=0.05):
+def gen_sdfq_stern_range(n_range, k_range, q_values, epsilon):
     """
     Range test for Stern, comparing against peters_isd results.
 
     Args:
-        argument_tuples: A list of tuples where each tuple contains (n, k, w, q) for the Stern-SDFq problem with parameter ranges ("l", 1, n - k).
+        n_range: Range for 'n' values (e.g., range(50, 70, 5)).
+        k_range: Range for 'k' values (e.g., range(20, 40, 2)).
+        q_values: A list of 'q' values.
         epsilon: The error tolerance for comparison.
     """
 
@@ -95,26 +97,26 @@ def gen_sdfq_stern_range(argument_tuples, epsilon=0.05):
             < expected_complexity + epsilon
         )
 
-    results = list(map(test_single_case, argument_tuples))
-    return results
-
-
-if __name__ == "__main__":
-    gen_sdfq_lee_brickell([(256, 128, 64, 251), (961, 771, 48, 31)], 0.01)
-    gen_sdfq_stern([(256, 128, 64, 251), (961, 771, 48, 31)], 0.01)
-    n_range, k_range, q_values = (
-        range(50, 70, 5),
-        range(20, 40, 2),
-        [7, 11, 17, 53, 103, 151, 199, 251],
-    )
-    argument_tuples_stern_range = [
+    argument_tuples = [
         (n, k, w, q)
         for n in n_range
         for k in k_range
         for w in range(4, min(n - k - 1, int(0.5 * n)))
         for q in q_values
     ]
-    gen_sdfq_stern_range(
-        argument_tuples_stern_range,
-        0.05,
+
+    results = list(map(test_single_case, argument_tuples))
+    return results
+
+
+if __name__ == "__main__":
+    print(gen_sdfq_lee_brickell([(256, 128, 64, 251), (961, 771, 48, 31)], 0.01))
+    print(gen_sdfq_stern([(256, 128, 64, 251), (961, 771, 48, 31)], 0.01))
+    print(
+        gen_sdfq_stern_range(
+            range(50, 70, 5),
+            range(20, 40, 2),
+            [7, 11, 17, 53, 103, 151, 199, 251],
+            0.05,
+        )
     )
