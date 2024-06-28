@@ -19,7 +19,7 @@
 from ..uov_algorithm import UOVAlgorithm
 from ..uov_problem import UOVProblem
 from math import log2
-from sage.arith.misc import is_power_of_two
+from cryptographic_estimators.base_constants import BASE_KEY_RECOVERY_ATTACK
 
 
 class KipnisShamir(UOVAlgorithm):
@@ -51,7 +51,7 @@ class KipnisShamir(UOVAlgorithm):
             raise ValueError('n should be greater than 2 * m')
 
         self._name = "Kipnis-Shamir"
-        self._attack_type = "key-recovery"
+        self._attack_type = BASE_KEY_RECOVERY_ATTACK
 
     def _compute_time_complexity(self, parameters: dict):
         """

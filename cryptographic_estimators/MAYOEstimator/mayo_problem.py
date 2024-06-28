@@ -19,9 +19,8 @@
 from ..base_problem import BaseProblem
 from ..MQEstimator.mq_helper import ngates
 from .mayo_constants import *
-from sage.arith.misc import is_prime_power
-from sage.functions.other import ceil
-from math import log2
+from ..helper import is_prime_power
+from math import log2, ceil
 
 
 class MAYOProblem(BaseProblem):

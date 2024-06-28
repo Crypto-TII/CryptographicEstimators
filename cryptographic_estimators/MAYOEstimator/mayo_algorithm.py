@@ -16,11 +16,11 @@
 # ****************************************************************************
 
 
-from ..helper import ComplexityType
+
 from ..base_algorithm import BaseAlgorithm, optimal_parameter
 from ..base_algorithm import BaseAlgorithm
 from .mayo_problem import MAYOProblem
-from .mayo_helper import _optimize_k
+
 
 
 class MAYOAlgorithm(BaseAlgorithm):
@@ -51,32 +51,6 @@ class MAYOAlgorithm(BaseAlgorithm):
         if self._h < 0:
             raise ValueError("h must be >= 0")
         
-        n = self.problem.nvariables()
-        self.set_parameter_ranges('K', 0, n-1)
-        
-    @optimal_parameter
-    def K(self):
-        """
-        Return the optimal parameter `K` from Furue, Nakamura, and Takagi strategy
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MAYOEstimator.mayo_algorithm import MAYOAlgorithm
-            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            sage: E = MAYOAlgorithm(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
-            sage: E.K()
-            16
-                
-        """
-        if self._optimal_parameters.get("K") is None:
-            n, m, _, k, q = self.problem.get_parameters()
-            if self.complexity_type == ComplexityType.ESTIMATE.value:
-                return _optimize_k(n, m, k, q)
-            elif self.complexity_type == ComplexityType.TILDEO.value:
-                return 0
-
-        return self._optimal_parameters.get("K")
-        
     def linear_algebra_constant(self):
         """
         Return the linear algebra constant
@@ -96,5 +70,5 @@ class MAYOAlgorithm(BaseAlgorithm):
         """
         NOTE: self._name must be instanciated via the child class
         """
-        n, m, o, k, q = self.get_parameters()
-        return f"{self.name} estimator for the MAYO signature scheme with parameters (n, m, o, k, q) = ({n}, {m}, {o}, {k}, {q})"
+        n, m, o, k, q = self.problem.get_parameters()
+        return f"{self._name} estimator for the MAYO signature scheme with parameters (n, m, o, k, q) = ({n}, {m}, {o}, {k}, {q})"
