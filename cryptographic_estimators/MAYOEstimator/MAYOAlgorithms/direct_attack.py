@@ -162,6 +162,7 @@ class DirectAttack(MAYOAlgorithm):
         """
         fastest_algorithm = self.get_fastest_mq_algorithm()
         d = fastest_algorithm.get_optimal_parameters_dict()
+        d["K"] = self._K
         d["variant"] = fastest_algorithm._name
         return d
     
