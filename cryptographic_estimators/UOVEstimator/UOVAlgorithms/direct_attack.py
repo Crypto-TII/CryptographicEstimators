@@ -160,3 +160,13 @@ class DirectAttack(UOVAlgorithm):
         fastest_algorithm = self.get_fastest_mq_algorithm()
         fastest_algorithm.complexity_type = self.complexity_type
         return self._fastest_algorithm.memory_complexity()
+    
+    def get_optimal_parameters_dict(self):
+        """
+        Returns the optimal parameters dictionary
+
+        """
+        fastest_algorithm = self.get_fastest_mq_algorithm()
+        d = fastest_algorithm.get_optimal_parameters_dict()
+        d["variant"] = fastest_algorithm._name
+        return d
