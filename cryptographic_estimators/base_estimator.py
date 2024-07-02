@@ -16,7 +16,7 @@
 # ****************************************************************************
 
 
-from math import isinf
+from math import isinf, inf
 from typing import Union, Callable
 from .helper import ComplexityType
 from .base_constants import BASE_TILDEO_ESTIMATE, BASE_ADDITIONALO, BASE_BIT_COMPLEXITIES, BASE_ESTIMATEO, BASE_EXCLUDED_ALGORITHMS, BASE_MEMORY, BASE_PARAMETERS, BASE_QUANTUMO, BASE_TIME, BASE_ESTIMATOR_TYPE
@@ -318,7 +318,10 @@ class BaseEstimator(object):
             self.complexity_type = ComplexityType.TILDEO.value
 
         def key(algorithm):
-            return algorithm.time_complexity()
+            try:
+                return algorithm.time_complexity()
+            except NotImplementedError:
+                return inf
 
         return min(self.algorithms(), key=key)
 
