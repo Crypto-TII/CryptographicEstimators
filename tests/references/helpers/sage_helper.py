@@ -5,7 +5,7 @@ import types
 import sage.all
 
 from tests.references.helpers.constants import (
-    ABSOLUTE_DOCKER_SYSTEM_PREFIX,
+    DOCKER_LIBRARY_PATH,
 )
 
 
@@ -33,7 +33,7 @@ def sage_import(modpath, fromlist=None):
     modname = path_list[-1]
     path_list[-1] += ".sage"
 
-    absolute_filepath = os.path.join(*ABSOLUTE_DOCKER_SYSTEM_PREFIX, *path_list)
+    absolute_filepath = os.path.join(*DOCKER_LIBRARY_PATH, *path_list)
 
     with open(absolute_filepath) as sage_file:
         code = sage.all.preparse(sage_file.read())
