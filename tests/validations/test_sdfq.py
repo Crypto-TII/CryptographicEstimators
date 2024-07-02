@@ -24,7 +24,7 @@ def test_sdfq_lee_brickell(test_data):
 
         assert abs(actual_complexity - expected_complexity) < epsilon
 
-    list(map(test_single_case, inputs_with_exp_outputs))
+    map(test_single_case, inputs_with_exp_outputs)
 
 
 def test_sdfq_stern(test_data):
@@ -45,21 +45,18 @@ def test_sdfq_stern(test_data):
 
         assert abs(actual_complexity - expected_complexity) < epsilon
 
-    list(map(test_single_case, inputs_with_exp_outputs))
+    map(test_single_case, inputs_with_exp_outputs)
 
 
-def test_sdfq_stern_range(test_data):
+def test_sdfq_stern_range(test_data: callable):
     """
-    Test for the Stern-SDFq problem with range inputs, with an error tolerance of epsilon.
+    Test Stern-SDFq problem with range inputs and an error tolerance of epsilon.
     """
     range_inputs, expected_outputs = test_data("test_sdfq", "test_sdfq_stern_range")
-    range_inputs_with_exp_outputs = zip(range_inputs, expected_outputs)
     epsilon = 0.05
 
-    def test_single_range(ranges_input_with_exp_outputs):
-        ranges_input, expected_complexities = ranges_input_with_exp_outputs
+    for ranges_input, expected_complexities in zip(range_inputs, expected_outputs):
         n_range, k_range, q_values = ranges_input
-
         inputs = [
             (n, k, w, q)
             for n in n_range
@@ -68,16 +65,9 @@ def test_sdfq_stern_range(test_data):
             for q in q_values
         ]
 
-        inputs_with_exp_outputs = zip(inputs, expected_complexities)
-
-        def test_single_case(input_with_exp_output):
-            input, expected_complexity = input_with_exp_output
-            n, k, w, q = input
-            A = Stern(SDFqProblem(n, k, w, q, **STERN_PARAMS), **STERN_PARAMS)
-            A.set_parameter_ranges("l", 1, n - k)
-            actual_complexity = A.time_complexity()
+        for input_data, expected_complexity in zip(inputs, expected_complexities):
+            n, k, w, q = input_data
+            algorithm = Stern(SDFqProblem(n, k, w, q, **STERN_PARAMS), **STERN_PARAMS)
+            algorithm.set_parameter_ranges("l", 1, n - k)
+            actual_complexity = algorithm.time_complexity()
             assert abs(actual_complexity - expected_complexity) < epsilon
-
-        list(map(test_single_case, inputs_with_exp_outputs))
-
-    list(map(test_single_range, range_inputs_with_exp_outputs))

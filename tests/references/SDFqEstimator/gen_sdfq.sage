@@ -4,18 +4,31 @@ load("tests/references/helpers/cost.sage")
 from math import comb as binomial, log2
 
 
-# correction term due to correction of the LeeBrickell procedure, see SDFqAlgorithms/leebrickell.py line 98/99
-def lee_brickell_correction(k):
+def lee_brickell_correction(k: int) -> float:
+    """
+    Calculate the correction term for the Lee-Brickell procedure.
+
+    Args:
+        k: The dimension of the code.
+
+    Returns:
+        The calculated correction term.
+
+    Notes:
+        See SDFqAlgorithms/leebrickell.py line 98/99
+    """
     return log2(k) * 2 - log2(binomial(k, 2))
 
 
-def gen_sdfq_lee_brickell(inputs: tuple[tuple]):
+def gen_sdfq_lee_brickell(inputs: list[tuple]):
     """
-    Special value test for Lee-Brickell, with an error tolerance of epsilon.
+    Generate expected complexities for Lee-Brickell SDFq problems.
 
     Args:
-        argument_tuples: A list of tuples where each tuple contains (n, k, w, q) for the LeeBrickell-SDFq problem.
-        epsilon: The error tolerance for comparison.
+        inputs: A list of tuples, each containing (n, k, w, q) for a Lee-Brickell SDFq problem.
+
+    Returns:
+        A list of expected complexities corresponding to the inputs.
     """
 
     def gen_single_case(input: tuple):
@@ -29,12 +42,15 @@ def gen_sdfq_lee_brickell(inputs: tuple[tuple]):
     return expected_outputs
 
 
-def gen_sdfq_stern(inputs):
+def gen_sdfq_stern(inputs: list[tuple]):
     """
-    Special value test for Stern, with an error tolerance of epsilon.
+    Generate expected complexities for Stern SDFq problems.
 
     Args:
-        argument_tuples: A list of tuples where each tuple contains (n, k, w, q) for the Stern-SDFq problem.
+        inputs: A list of tuples, each containing (n, k, w, q) for a Stern SDFq problem.
+
+    Returns:
+        A list of expected complexities corresponding to the inputs.
     """
 
     def gen_single_case(input):
@@ -46,15 +62,18 @@ def gen_sdfq_stern(inputs):
     return expected_outputs
 
 
-def gen_sdfq_stern_range(inputs):
+def gen_sdfq_stern_range(inputs: list[tuple]):
     """
-    Range test for Stern, comparing against peters_isd results.
+    Generate ranges of expected complexities for Stern SDFq problems.
 
     Args:
-        inputs: List of tuples where each tuple have (n_range, k_range, q_values)
-            n_range: Range for 'n' values (e.g., range(50, 70, 5)).
-            k_range: Range for 'k' values (e.g., range(20, 40, 2)).
-            q_values: A list of 'q' values.
+        inputs: A list of tuples, each containing (n_range, k_range, q_values) where:
+            n_range is a range of 'n' values,
+            k_range is a range of 'k' values,
+            q_values is a list of 'q' values.
+
+    Returns:
+        A list of lists, each inner list containing expected complexities for a range of inputs.
     """
 
     def gen_single_range(ranges_input):
@@ -78,16 +97,3 @@ def gen_sdfq_stern_range(inputs):
 
     expected_outputs_by_inputs = list(map(gen_single_range, inputs))
     return expected_outputs_by_inputs
-
-
-if __name__ == "__main__":
-    # print(gen_sdfq_lee_brickell([(256, 128, 64, 251), (961, 771, 48, 31)], 0.01))
-    # print(gen_sdfq_stern([(256, 128, 64, 251), (961, 771, 48, 31)], 0.01))
-    print(
-        gen_sdfq_stern_range(
-            range(50, 70, 5),
-            range(20, 40, 2),
-            [7, 11, 17, 53, 103, 151, 199, 251],
-            0.05,
-        )
-    )

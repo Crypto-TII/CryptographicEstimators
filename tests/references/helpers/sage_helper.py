@@ -1,63 +1,101 @@
 import inspect
 import os
 import types
+from typing import List, Optional
 
 import sage.all
 
-from tests.references.helpers.constants import (
-    DOCKER_LIBRARY_PATH,
-)
+from tests.references.helpers.constants import DOCKER_LIBRARY_PATH
 
 
-def sage_import(modpath, fromlist=None):
+def import_sage_module(
+    module_path: str, import_list: Optional[List[str]] = None
+) -> None:
     """
-    Import a .sage module from the filename <modname>.sage
+    Import specified functions or variables from a .sage module.
 
-    Returns the resulting Python module.  If ``fromlist`` is given, returns
-    just those members of the module into the global namespace where the
-    function was called, or the given namespace.
+    This function imports the specified functions or variables from a .sage module
+    into the global namespace of the caller.
 
-    Based on: https://ask.sagemath.org/question/7867/importing-sage-files/?answer=48947#post-id-48947
+    Args:
+        module_path: The path to the .sage module, using dot notation.
+        import_list: A list of function or variable names to import from the module.
+
+    Raises:
+        ValueError: If import_list is None or empty.
+        ImportError: If any name in import_list is not found in the module.
+
+    Note:
+        This function modifies the global namespace of the caller.
     """
-
-    if fromlist is None:
+    if not import_list:
         raise ValueError(
-            "You must declare what sage functions/variables you want to import with the 'fromList' parameter."
+            "You must specify functions/variables to import in the 'import_list' parameter."
         )
 
-    if "." in modpath:
-        path_list = modpath.split(".")
-    else:
-        path_list = modpath
+    module_name, absolute_filepath = _get_module_info(module_path)
+    module = _create_sage_module(module_name, absolute_filepath)
+    _import_to_namespace(module, import_list)
 
-    modname = path_list[-1]
-    path_list[-1] += ".sage"
 
-    absolute_filepath = os.path.join(*DOCKER_LIBRARY_PATH, *path_list)
+def _get_module_info(module_path: str) -> tuple[str, str]:
+    """
+    Extract module name and absolute file path from the given module path.
 
-    with open(absolute_filepath) as sage_file:
+    Args:
+        module_path: The path to the .sage module, using dot notation.
+
+    Returns:
+        A tuple containing the module name and its absolute file path.
+    """
+    path_parts = module_path.split(".")
+    module_name = path_parts[-1]
+    path_parts[-1] += ".sage"
+    absolute_filepath = os.path.join(*DOCKER_LIBRARY_PATH, *path_parts)
+    return module_name, absolute_filepath
+
+
+def _create_sage_module(module_name: str, filepath: str) -> types.ModuleType:
+    """
+    Create a new module with Sage globals and execute the .sage file contents.
+
+    Args:
+        module_name: The name of the module to create.
+        filepath: The absolute path to the .sage file.
+
+    Returns:
+        A new module containing the executed .sage file contents.
+    """
+    with open(filepath) as sage_file:
         code = sage.all.preparse(sage_file.read())
-        # This creates a new, dynamic module
-        mod = types.ModuleType(modname)
-        mod.__file__ = absolute_filepath
-        # Fill with all the default Sage globals
-        # We could just do a dict.update but we want to exclude dunder
-        # and private attributes I guess
-        for k, v in sage.all.__dict__.items():
-            if not k.startswith("_"):
-                mod.__dict__[k] = v
 
-        # We run all the preparsed code into the new module
-        exec(code, mod.__dict__)
+    module = types.ModuleType(module_name)
+    module.__file__ = filepath
 
-    # We get the globals defined in the file that imports this function
-    namespace = inspect.currentframe().f_back.f_globals
+    for key, value in sage.all.__dict__.items():
+        if not key.startswith("_"):
+            setattr(module, key, value)
 
-    # First check that each name in fromlist exists before adding
-    # any of them to the given namespace.
-    for name in fromlist:
-        if name not in mod.__dict__:
-            raise ImportError(f"Can not import {name} from {modname}.")
+    exec(code, module.__dict__)
+    return module
 
-    for name in fromlist:
-        namespace[name] = mod.__dict__[name]
+
+def _import_to_namespace(module: types.ModuleType, import_list: List[str]) -> None:
+    """
+    Import specified names from the module to the caller's global namespace.
+
+    Args:
+        module: The module from which to import.
+        import_list: A list of names to import from the module.
+
+    Raises:
+        ImportError: If any name in import_list is not found in the module.
+    """
+    caller_globals = inspect.currentframe().f_back.f_back.f_globals
+
+    for name in import_list:
+        if not hasattr(module, name):
+            raise ImportError(f"Cannot import {name} from {module.__name__}.")
+
+    for name in import_list:
+        caller_globals[name] = getattr(module, name)
