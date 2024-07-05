@@ -25,6 +25,7 @@ from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
 from ...MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
 from ...base_constants import BASE_EXCLUDED_ALGORITHMS
 from ...MQEstimator.mq_constants import MQ_VARIANT, MQ_LAS_VEGAS
+from cryptographic_estimators.base_constants import BASE_KEY_RECOVERY_ATTACK
 
 class IntersectionAttack(UOVAlgorithm):
     def __init__(self, problem: UOVProblem, **kwargs):
@@ -47,7 +48,7 @@ class IntersectionAttack(UOVAlgorithm):
         n, m, _ = self.problem.get_parameters()
         self.set_parameter_ranges('k', 2, 3)
         self._name = "IntersectionAttack"
-        self._attack_type = "key-recovery"
+        self._attack_type = BASE_KEY_RECOVERY_ATTACK
 
         if n >= 3 * m:
             raise ValueError('n should be less than 3 * m')

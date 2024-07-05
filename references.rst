@@ -135,6 +135,10 @@ References
             *Extended Algorithm for Solving Underdefined Multivariate Quadratic Equations*
             https://link.springer.com/chapter/10.1007/978-3-642-38616-9_8
 
+.. [FNT21] \Hiroki Furue, Shuhei Nakamura, Tsuyoshi Takagi.
+           *Improving Thomae-Wolf Algorithm for Solving Underdetermined Multivariate Quadratic Polynomial Problem*
+           https://dl.acm.org/doi/10.1007/978-3-030-81293-5_4
+
 .. _ref-I:
 
 **I**
