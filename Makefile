@@ -99,6 +99,7 @@ docker-pytest:
 docker-generate-tests-references:
 	@docker run --name gen-tests-references -v ./tests/validations:/home/cryptographic_estimators/tests/validations --rm ${image_name} sh -c \
 		"sage tests/references/generate_references.py"
+	@make docker-build
 
 # Another option
 # docker-generate-tests-references:
