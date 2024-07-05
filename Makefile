@@ -103,11 +103,5 @@ docker-generate-tests-references:
 		"sage tests/references/generate_references.py"
 	@make docker-build
 
-# Another option
-# docker-generate-tests-references:
-# 	@docker run -t --name gen-tests-references ${image_name} sh -c "sage tests/references/generate_references.py" \
-# 	&& docker cp gen-tests-references:/home/cryptographic_estimators/tests/validations/reference_values.yaml ./tests/validations/ \
-# 	&& make stop-container-and-remove container_name=gen-tests-references
-
 docker-pytest-cov:
 	pytest -v --cov-report xml:coverage.xml --cov=${PACKAGE} tests/
