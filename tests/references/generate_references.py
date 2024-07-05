@@ -168,11 +168,14 @@ def main():
     reference_data = REFERENCES_INPUTS.copy()
 
     gen_paths_and_inputs = extract_generator_paths_and_inputs(REFERENCES_INPUTS)
-    gen_paths_and_outputs = starmap(import_and_execute_generator, gen_paths_and_inputs)
+    gen_paths_and_inputs_with_outputs = starmap(
+        import_and_execute_generator, gen_paths_and_inputs
+    )
 
-    for gen_path, outputs in gen_paths_and_outputs:
+    for gen_path, outputs in gen_paths_and_inputs_with_outputs:
         gen_info = cast(dict, get_generator_info(reference_data, gen_path))
-        gen_info["expected_outputs"] = outputs
+        del gen_info["inputs"]
+        gen_info["inputs_with_expected_outputs"] = outputs
 
     reference_data = flatten_nested_dict(reference_data)
     reference_data = rename_gen_to_test(reference_data)

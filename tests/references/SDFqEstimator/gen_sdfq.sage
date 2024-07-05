@@ -2,6 +2,7 @@ load("tests/references/helpers/attack_cost.sage")
 load("tests/references/helpers/cost.sage")
 
 from math import comb as binomial, log2
+from itertools import chain
 
 
 def lee_brickell_correction(k: int) -> float:
@@ -28,7 +29,7 @@ def gen_sdfq_lee_brickell(inputs: list[tuple]):
         inputs: A list of tuples, each containing (n, k, w, q) for a Lee-Brickell SDFq problem.
 
     Returns:
-        A list of expected complexities corresponding to the inputs.
+        A list of tuples, each containing the input parameters and the corresponding expected complexity.
     """
 
     def gen_single_case(input: tuple):
@@ -36,10 +37,10 @@ def gen_sdfq_lee_brickell(inputs: list[tuple]):
         expected_complexity = (
             log2(ISD_COST(n, k, w, q)) + log2(n) - lee_brickell_correction(k)
         )
-        return expected_complexity
+        return input, expected_complexity
 
-    expected_outputs = list(map(gen_single_case, inputs))
-    return expected_outputs
+    inputs_with_expected_outputs = list(map(gen_single_case, inputs))
+    return inputs_with_expected_outputs
 
 
 def gen_sdfq_stern(inputs: list[tuple]):
@@ -50,16 +51,16 @@ def gen_sdfq_stern(inputs: list[tuple]):
         inputs: A list of tuples, each containing (n, k, w, q) for a Stern SDFq problem.
 
     Returns:
-        A list of expected complexities corresponding to the inputs.
+        A list of tuples, each containing the input parameters and the corresponding expected complexity.
     """
 
     def gen_single_case(input):
         n, k, w, q = input
         expected_complexity, _, _ = peters_isd(n, k, q, w)
-        return expected_complexity
+        return input, expected_complexity
 
-    expected_outputs = list(map(gen_single_case, inputs))
-    return expected_outputs
+    inputs_with_expected_outputs = list(map(gen_single_case, inputs))
+    return inputs_with_expected_outputs
 
 
 def gen_sdfq_stern_range(inputs: list[tuple]):
@@ -73,7 +74,8 @@ def gen_sdfq_stern_range(inputs: list[tuple]):
             q_values is a list of 'q' values.
 
     Returns:
-        A list of lists, each inner list containing expected complexities for a range of inputs.
+        A flattened list of tuples, each containing the input parameters (n, k, w, q) and
+        the corresponding expected complexity for all combinations within the given ranges.
     """
 
     def gen_single_range(ranges_input):
@@ -90,10 +92,10 @@ def gen_sdfq_stern_range(inputs: list[tuple]):
         def gen_single_case(input):
             n, k, w, q = input
             expected_complexity, _, _ = peters_isd(n, k, q, w)
-            return expected_complexity
+            return input, expected_complexity
 
-        expected_outputs_by_range = list(map(gen_single_case, inputs))
-        return expected_outputs_by_range
+        inputs_with_expected_outputs_on_range = list(map(gen_single_case, inputs))
+        return inputs_with_expected_outputs_on_range
 
-    expected_outputs_by_inputs = list(map(gen_single_range, inputs))
-    return expected_outputs_by_inputs
+    inputs_with_expected_outputs = list(chain(*map(gen_single_range, inputs)))
+    return inputs_with_expected_outputs
