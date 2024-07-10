@@ -155,5 +155,14 @@ class DirectAttack(MAYOAlgorithm):
         fastest_algorithm.complexity_type = self.complexity_type
         return max(fastest_algorithm.memory_complexity(), log2(m * n ** 2))
     
+    def get_optimal_parameters_dict(self):
+        """
+        Returns the optimal parameters dictionary
 
+        """
+        fastest_algorithm = self.get_fastest_mq_algorithm()
+        d = fastest_algorithm.get_optimal_parameters_dict()
+        d["K"] = self._K
+        d["variant"] = fastest_algorithm._name
+        return d
     
