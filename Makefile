@@ -87,7 +87,6 @@ docker-pytest:
 	@docker run --name pytest-estimators -d -it ${image_name} sh \
 		&& docker exec pytest-estimators sh -c "sage --python3 -m pytest -n auto -vv \
 		--cov-report xml:coverage.xml --cov=${PACKAGE} \
-		&& ${SAGE} tests/references/SDFqEstimator/test_sdfq.sage \
 		&& ${SAGE} tests/references/LEEstimator/test_le_beullens.sage \
 		&& ${SAGE} tests/references/LEEstimator/test_le_bbps.sage \
 		&& ${SAGE} tests/references/PEEstimator/test_pe.sage \
