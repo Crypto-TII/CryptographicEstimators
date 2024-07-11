@@ -37,7 +37,7 @@ to a specific directory within the `tests/` directory:
 
 2. **Defining Test Inputs:**
 
-   - The `tests/references/generate_references.py` file holds the
+   - The `tests/references/references_inputs.py` file holds the
      `REFERENCES_INPUTS` dictionary.
    - This dictionary mirrors the file structure of the `references/` directory
      and specifies the inputs for the generator functions.
