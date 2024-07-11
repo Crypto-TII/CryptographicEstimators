@@ -180,8 +180,8 @@ def main():
     reference_data = flatten_nested_dict(reference_data)
     reference_data = rename_gen_to_test(reference_data)
 
-    # We only write the reference data into a file if its serialization
-    # is idempotent, i.e., f^-1(f(x))=x
+    # We only save the serialized reference data if deserialization
+    # perfectly reconstructs the original data.
     serialized_data = yaml.dump(reference_data, default_flow_style=None)
     loaded_data = yaml.unsafe_load(serialized_data)
     assert reference_data == loaded_data, "YAML dump and load did not preserve data"

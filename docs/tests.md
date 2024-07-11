@@ -35,7 +35,7 @@ to a specific directory within the `tests/` directory:
    generate multiple test cases. - They return a list of tuples, where each
    tuple is of the form `(input, expected_output)`.
 
-1. **Defining Test Inputs:**
+2. **Defining Test Inputs:**
 
    - The `tests/references/generate_references.py` file holds the
      `REFERENCES_INPUTS` dictionary.
@@ -71,7 +71,7 @@ to a specific directory within the `tests/` directory:
    The generated inputs and their corresponding outputs will be serialized in
    `tests/references/reference_values.yaml`.
 
-1. **Implementing Tests:**
+3. **Implementing Tests:**
 
    - The `tests/validations/` directory contains the test implementation files.
 
