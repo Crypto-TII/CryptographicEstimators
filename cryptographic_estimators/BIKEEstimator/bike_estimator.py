@@ -58,6 +58,7 @@ class BIKEEstimator(BaseEstimator):
 
         EXAMPLES::
 
+        sage: from cryptographic_estimators.BIKEEstimator import BIKEEstimator
         sage: A = BIKEEstimator(100, 10, 10)
         sage: A.table()
         +-------------+------------------+---------------+
@@ -69,6 +70,7 @@ class BIKEEstimator(BaseEstimator):
         | SDMsgAttack | message-recovery | 21.2 |   17.4 |
         +-------------+------------------+------+--------+
 
+        sage: from cryptographic_estimators.BIKEEstimator import BIKEEstimator
         sage: A = BIKEEstimator(150, 12, 11)
         sage: A.table(show_all_parameters=1)
         +-------------+------------------+--------------------------------------------------------------------+
@@ -83,6 +85,7 @@ class BIKEEstimator(BaseEstimator):
 
         TESTS::
 
+        sage: from cryptographic_estimators.BIKEEstimator import BIKEEstimator
         sage: A = BIKEEstimator(3000, 50, 45)
         sage: A.table(show_all_parameters=1) # long time
         +-------------+------------------+--------------------------------------------------------------------+
