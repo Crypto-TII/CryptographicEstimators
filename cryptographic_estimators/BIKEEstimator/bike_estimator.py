@@ -20,7 +20,8 @@ from .bike_algorithm import BIKEAlgorithm
 from .bike_problem import BIKEProblem
 from ..base_estimator import BaseEstimator
 from math import inf
-
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 class BIKEEstimator(BaseEstimator):
     """
@@ -53,6 +54,46 @@ class BIKEEstimator(BaseEstimator):
         - ``show_all_parameters`` -- show all optimization parameters (default: False)
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: False)
+
+
+        EXAMPLES::
+
+        sage: A = BIKEEstimator(100, 10, 10)
+        sage: A.table()
+        +-------------+------------------+---------------+
+        |             |                  |    estimate   |
+        +-------------+------------------+------+--------+
+        | algorithm   |   attack_type    | time | memory |
+        +-------------+------------------+------+--------+
+        | SDKeyAttack |   key-recovery   | 20.2 |   15.5 |
+        | SDMsgAttack | message-recovery | 21.2 |   17.4 |
+        +-------------+------------------+------+--------+
+
+        sage: A = BIKEEstimator(150, 12, 11)
+        sage: A.table(show_all_parameters=1)
+        +-------------+------------------+--------------------------------------------------------------------+
+        |             |                  |                              estimate                              |
+        +-------------+------------------+------+--------+----------------------------------------------------+
+        | algorithm   |   attack_type    | time | memory |                     parameters                     |
+        +-------------+------------------+------+--------+----------------------------------------------------+
+        | SDKeyAttack |   key-recovery   | 21.8 |   16.6 | {'r': 5, 'p': 1, 'l': 9, 'SD-algorithm': 'Stern'}  |
+        | SDMsgAttack | message-recovery | 22.8 |   20.7 | {'r': 5, 'p': 2, 'l': 13, 'SD-algorithm': 'Stern'} |
+        +-------------+------------------+------+--------+----------------------------------------------------+
+
+
+        TESTS::
+
+        sage: A = BIKEEstimator(3000, 50, 45)
+        sage: A.table(show_all_parameters=1) # long time
+        +-------------+------------------+--------------------------------------------------------------------+
+        |             |                  |                              estimate                              |
+        +-------------+------------------+------+--------+----------------------------------------------------+
+        | algorithm   |   attack_type    | time | memory |                     parameters                     |
+        +-------------+------------------+------+--------+----------------------------------------------------+
+        | SDKeyAttack |   key-recovery   | 57.0 |   33.7 | {'r': 9, 'p': 2, 'l': 41, 'SD-algorithm': 'Stern'} |
+        | SDMsgAttack | message-recovery | 58.3 |   33.7 | {'r': 9, 'p': 2, 'l': 41, 'SD-algorithm': 'Stern'} |
+        +-------------+------------------+------+--------+----------------------------------------------------+
+
         """
         super(BIKEEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                          show_tilde_o_time=show_tilde_o_time,

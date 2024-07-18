@@ -60,7 +60,7 @@ class SDMsgAttack(BIKEAlgorithm):
 
         """
         r, _, _ = self.problem.get_parameters()
-        return max(self.get_fastest_sd_algorithm().time_complexity() - log2(r), self._compute_memory_complexity(parameters))
+        return max(self.get_fastest_sd_algorithm().time_complexity() - log2(r)/2, self._compute_memory_complexity(parameters))
 
     def _compute_memory_complexity(self, parameters: dict):
         """
