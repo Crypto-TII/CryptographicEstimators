@@ -36,7 +36,8 @@ class MAYOEstimator(BaseEstimator):
     - ``theta`` -- exponent of the conversion factor (default: 2)
         - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
         - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
-    - ``w`` -- linear algebra constant (default: 2)
+    - ``w`` -- linear algebra constant (default: 2.81)
+    - ``w_ks`` -- linear algebra constant (only for kipnis-shamir algorithm) (default: 2.8)
     - ``h`` -- external hybridization parameter (default: 0)
      - ``excluded_algorithms`` -- a list/tuple of algorithms to be excluded (default: [])
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
@@ -66,68 +67,94 @@ class MAYOEstimator(BaseEstimator):
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: false)
 
+        # TODO: Optimize MAYOEstimator class constructor (it is taking too long to create an instance)
+
         TESTS::
 
             sage: from cryptographic_estimators.MAYOEstimator import MAYOEstimator
-            sage: E = MAYOEstimator(n=66, m=64, o=8, k=9, q=16)
-            sage: E.table() # long time
-            +--------------+-------------+----------------+
-            |              |             |    estimate    |
-            +--------------+-------------+-------+--------+
-            | algorithm    | attack_type |  time | memory |
-            +--------------+-------------+-------+--------+
-            | DirectAttack |   forgery   | 144.8 |   99.3 |
-            +--------------+-------------+-------+--------+
-
-            sage: E = MAYOEstimator(n=78, m=64, o=18, k=4, q=16)
+            sage: E = MAYOEstimator(n=66, m=64, o=8, k=9, q=16) # long test
             sage: E.table(show_all_parameters=1) # long time
-            +--------------+-------------+-----------------------------+
-            |              |             |           estimate          |
-            +--------------+-------------+-------+--------+------------+
-            | algorithm    | attack_type |  time | memory | parameters |
-            +--------------+-------------+-------+--------+------------+
-            | DirectAttack |   forgery   | 158.1 |  101.7 | {'K': 15}  |
-            +--------------+-------------+-------+--------+------------+
+            +----------------------+--------------+------------------------------------------------------------------+
+            |                      |              |                             estimate                             |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
+            | algorithm            | attack_type  |  time | memory |                    parameters                   |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
+            | DirectAttack         |   forgery    | 144.8 |   35.3 | {'k': 0, 'variant': 'BooleanSolveFXL', 'K': 16} |
+            | KipnisShamir         | key-recovery | 222.1 |   17.1 |                        {}                       |
+            | ReconciliationAttack | key-recovery | 143.2 |   48.1 |         {'k': 9, 'variant': 'las_vegas'}        |
+            | IntersectionAttack   | key-recovery | 254.8 |   33.5 |         {'k': 1, 'variant': 'las_vegas'}        |
+            | ClawFinding          |   forgery    | 142.1 |  132.1 |           {'X': 130.915, 'Y': 125.085}          |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
 
-            sage: E = MAYOEstimator(n=99, m=96, o=10, k=11, q=16)
+            sage: E = MAYOEstimator(n=78, m=64, o=18, k=4, q=16) # long test
+            sage: E.table(show_all_parameters=1) # long time
+            +----------------------+--------------+------------------------------------------------------------------+
+            |                      |              |                             estimate                             |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
+            | algorithm            | attack_type  |  time | memory |                    parameters                   |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
+            | DirectAttack         |   forgery    | 158.1 |   41.7 | {'k': 1, 'variant': 'BooleanSolveFXL', 'K': 15} |
+            | KipnisShamir         | key-recovery | 190.8 |   18.7 |                        {}                       |
+            | ReconciliationAttack | key-recovery | 151.2 |   48.1 |        {'k': 11, 'variant': 'las_vegas'}        |
+            | IntersectionAttack   | key-recovery | 202.5 |   45.0 |         {'k': 0, 'variant': 'las_vegas'}        |
+            | ClawFinding          |   forgery    | 142.1 |  132.1 |           {'X': 130.915, 'Y': 125.085}          |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
+
+            sage: E = MAYOEstimator(n=99, m=96, o=10, k=11, q=16) # long test
             sage: E.table(show_all_parameters=1) # long time 
-            +--------------+-------------+-----------------------------+
-            |              |             |           estimate          |
-            +--------------+-------------+-------+--------+------------+
-            | algorithm    | attack_type |  time | memory | parameters |
-            +--------------+-------------+-------+--------+------------+
-            | DirectAttack |   forgery   | 209.6 |  136.9 | {'K': 20}  |
-            +--------------+-------------+-------+--------+------------+
+            +----------------------+--------------+------------------------------------------------------------------+
+            |                      |              |                             estimate                             |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
+            | algorithm            | attack_type  |  time | memory |                    parameters                   |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
+            | DirectAttack         |   forgery    | 209.6 |   56.9 | {'k': 1, 'variant': 'BooleanSolveFXL', 'K': 20} |
+            | KipnisShamir         | key-recovery | 339.7 |   18.6 |                        {}                       |
+            | ReconciliationAttack | key-recovery | 208.7 |   78.1 |        {'k': 10, 'variant': 'las_vegas'}        |
+            | IntersectionAttack   | key-recovery | 389.6 |   48.3 |         {'k': 0, 'variant': 'las_vegas'}        |
+            | ClawFinding          |   forgery    | 206.4 |  196.4 |           {'X': 194.623, 'Y': 189.377}          |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
 
-            sage: E = MAYOEstimator(n=133, m=128, o=12, k=12, q=16)
+            sage: E = MAYOEstimator(n=133, m=128, o=12, k=12, q=16) # long test
             sage: E.table(show_all_parameters=1) # long time
-            +--------------+-------------+-----------------------------+
-            |              |             |           estimate          |
-            +--------------+-------------+-------+--------+------------+
-            | algorithm    | attack_type |  time | memory | parameters |
-            +--------------+-------------+-------+--------+------------+
-            | DirectAttack |   forgery   | 274.7 |  175.0 | {'K': 24}  |
-            +--------------+-------------+-------+--------+------------+
+            +----------------------+--------------+------------------------------------------------------------------+
+            |                      |              |                             estimate                             |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
+            | algorithm            | attack_type  |  time | memory |                    parameters                   |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
+            | DirectAttack         |   forgery    | 274.7 |   79.0 | {'k': 2, 'variant': 'BooleanSolveFXL', 'K': 24} |
+            | KipnisShamir         | key-recovery | 460.9 |   19.7 |                        {}                       |
+            | ReconciliationAttack | key-recovery | 275.7 |   95.3 |        {'k': 18, 'variant': 'las_vegas'}        |
+            | IntersectionAttack   | key-recovery | 525.2 |   59.6 |         {'k': 0, 'variant': 'las_vegas'}        |
+            | ClawFinding          |   forgery    | 270.6 |  260.6 |           {'X': 258.415, 'Y': 253.585}          |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
 
-            sage: E = MAYOEstimator(n=90, m=56, o=8, k=10, q=16)
+            sage: E = MAYOEstimator(n=90, m=56, o=8, k=10, q=16) # long test
             sage: E.table(show_all_parameters=1) # long time
-            +--------------+-------------+----------------------------+
-            |              |             |          estimate          |
-            +--------------+-------------+------+--------+------------+
-            | algorithm    | attack_type | time | memory | parameters |
-            +--------------+-------------+------+--------+------------+
-            | DirectAttack |   forgery   | 21.4 |   56.9 | {'K': 10}  |
-            +--------------+-------------+------+--------+------------+
+            +----------------------+--------------+-----------------------------------------------------------+
+            |                      |              |                          estimate                         |
+            +----------------------+--------------+-------+--------+------------------------------------------+
+            | algorithm            | attack_type  |  time | memory |                parameters                |
+            +----------------------+--------------+-------+--------+------------------------------------------+
+            | DirectAttack         |   forgery    |  21.4 |   20.8 | {'K': 10, 'variant': 'ExhaustiveSearch'} |
+            | KipnisShamir         | key-recovery | 319.3 |   18.0 |                    {}                    |
+            | ReconciliationAttack | key-recovery | 150.3 |   43.8 |    {'k': 13, 'variant': 'las_vegas'}     |
+            | IntersectionAttack   | key-recovery | 399.1 |   59.1 |     {'k': 0, 'variant': 'las_vegas'}     |
+            | ClawFinding          |   forgery    | 126.0 |  116.0 |       {'X': 115.011, 'Y': 108.989}       |
+            +----------------------+--------------+-------+--------+------------------------------------------+
 
-            sage: E = MAYOEstimator(n=64, m=60, o=10, k=21, q=16)
+            sage: E = MAYOEstimator(n=64, m=60, o=10, k=21, q=16) # long time
             sage: E.table(show_all_parameters=1) # long time
-            +--------------+-------------+-----------------------------+
-            |              |             |           estimate          |
-            +--------------+-------------+-------+--------+------------+
-            | algorithm    | attack_type |  time | memory | parameters |
-            +--------------+-------------+-------+--------+------------+
-            | DirectAttack |   forgery   | 102.2 |   72.8 | {'K': 13}  |
-            +--------------+-------------+-------+--------+------------+
+            +----------------------+--------------+------------------------------------------------------------------+
+            |                      |              |                             estimate                             |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
+            | algorithm            | attack_type  |  time | memory |                    parameters                   |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
+            | DirectAttack         |   forgery    | 102.2 |   20.8 | {'k': 0, 'variant': 'BooleanSolveFXL', 'K': 13} |
+            | KipnisShamir         | key-recovery | 198.0 |   17.3 |                        {}                       |
+            | ReconciliationAttack | key-recovery | 134.6 |   49.8 |         {'k': 6, 'variant': 'las_vegas'}        |
+            | IntersectionAttack   | key-recovery | 224.8 |   36.5 |         {'k': 0, 'variant': 'las_vegas'}        |
+            | ClawFinding          |   forgery    | 134.0 |  124.0 |           {'X': 122.962, 'Y': 117.038}          |
+            +----------------------+--------------+-------+--------+-------------------------------------------------+
         
         """
         super(MAYOEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
