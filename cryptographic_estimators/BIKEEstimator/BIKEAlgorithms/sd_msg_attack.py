@@ -73,6 +73,28 @@ class SDMsgAttack(BIKEAlgorithm):
         """
         return self.get_fastest_sd_algorithm().memory_complexity()
 
+    def _compute_tilde_o_time_complexity(self, parameters: dict):
+        """
+        Return the tilde-O time complexity of the algorithm
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+        """
+        return self.get_fastest_sd_algorithm().time_complexity()
+
+    def _compute_tilde_o_memory_complexity(self, parameters: dict):
+        """
+        Return the tilde-O memory complexity of the algorithm
+
+        INPUT:
+
+        - ``parameters`` -- dictionary including the parameters
+
+        """
+        return self.get_fastest_sd_algorithm().memory_complexity()
+
     def get_optimal_parameters_dict(self):
         """
         return the optimal parameters of the internally used sd algorithm

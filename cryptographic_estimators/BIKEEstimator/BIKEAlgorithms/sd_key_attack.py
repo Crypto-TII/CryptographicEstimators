@@ -79,7 +79,7 @@ class SDKeyAttack(BIKEAlgorithm):
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
-        Return the time complexity of the algorithm for a given set of parameters
+        Return the tilde-O time complexity of the algorithm
 
         INPUT:
 
@@ -90,7 +90,7 @@ class SDKeyAttack(BIKEAlgorithm):
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
-        Return the time complexity of the algorithm for a given set of parameters
+        Return the tilde-O memory complexity of the algorithm
 
         INPUT:
 
