@@ -31,7 +31,7 @@ fix/algorithm_parameter
 ### Pull request
 
 1. Only create pull requests to the `develop` branch.
-1. Fulfill the template
+2. Fulfill the template
 
 ---
 

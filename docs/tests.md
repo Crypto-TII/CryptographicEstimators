@@ -218,12 +218,6 @@ or all tests execute
 make testall
 ```
 
-or if you have Apple Silicon M1 Chip
-
-```sh
-make test-m1
-```
-
 #### Pytest
 
 ```sh
