@@ -14,10 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
-
-
+from .bike_constants import BIKE_DIMENSION, BIKE_SK_WEIGHT, BIKE_MSG_WEIGHT
 from ..base_problem import BaseProblem
-from .bike_constants import *
 from math import log2
 
 
