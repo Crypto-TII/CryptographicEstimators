@@ -1,3 +1,7 @@
+<div align="center">
+    <img src="https://github.com/user-attachments/assets/bbe49f32-5e62-49a7-bb41-b28f1864833d" alt="estimators-logo" width=100 height=100></img>
+</div>
+
 # CryptographicEstimators
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Crypto-TII_CryptographicEstimators&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Crypto-TII_CryptographicEstimators)
