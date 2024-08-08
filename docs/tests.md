@@ -1,115 +1,170 @@
 # Tests
 
-## Testing Suite Architecture and Guide
+## Testing Suite Architecture Overview
 
-This documentation provides an overview of the testing architecture for our
-Python library, which employs two types of tests: **regression tests** and
+This section provides an overview of the testing architecture for our Python
+library, which employs two types of tests: **regression tests** and
 **doctests**. Both types are powered by pytest, with doctests **(WIP)** being
-specifically based on Python's doctest module.
+specifically based on the Python's doctest module.
 
-### Regression Tests
+## Regression Tests: Understanding the Process
 
-This guide will focus on the architecture and implementation of **regression
-tests**, which are designed to streamline the testing process through
-precomputations and eliminate the dependency on Sagemath for the end user.
+At its core, our regression testing framework is designed to ensure that any
+changes made to the library don't inadvertently break existing functionality.
+Unlike doctests, which focus on individual components in isolation, regression
+tests take a broader approach by comparing the output of entire estimators
+against pre-computed expected results.
 
-#### Testing Phases and Directory Structure
+This approach brings a significant advantage: **improved testing times.**
+Running each regression test, which often involves complex computations, can be
+very time-consuming. To optimize this process, we serialize expected outputs on
+predefined inputs. These serialized results are then used in subsequent test
+runs for efficient comparisons, saving valuable time during development.
 
-The regression testing architecture consists of three phases, each corresponding
-to a specific directory within the `tests/` directory:
+Here's a breakdown of how it works:
 
-1. **Generating Expected Outputs:**
+1. **Generating Expected Outputs:** For each estimator, we have specialized
+   generator functions that take defined input values and produce the expected
+   outputs. These generator functions are grouped by estimator and found in the
+   `tests/references/` directory. The generated outputs are then serialized to
+   be later used in the testing process.
 
-   - The `references/` directory stores **generator** functions for producing
-     the expected outputs of the estimators.
-   - Each estimator has a dedicated subdirectory under `references/`, e.g.,
-     `<estimator_name>Estimator/`.
-   - Inside the estimator's subdirectory:
-     - `legacy_implementations/` (optional): Contains previous implementations
-       of the estimator.
-     - `gen_<estimator_name>.py`: Houses the generator functions.
+2. **Storing Test Inputs:** To maintain consistency, all input values used by
+   the generator functions are centrally defined in the `REFERENCES_INPUTS`
+   dictionary within `tests/references/references_inputs.py`. This ensures that
+   every test execution utilizes the same, controlled input data.
 
-   Generator functions must adhere to the following conventions: - They start
-   with the prefix `gen_`. - They have a single parameter named `inputs`, which
-   can be either a single test case (tuple) or a tuple containing information to
-   generate multiple test cases. - They return a list of tuples, where each
-   tuple is of the form `(input, expected_output)`.
+3. **Executing Tests:** The actual test cases reside in the `tests/validations/`
+   directory, with each estimator having a dedicated file
+   (`test_<estimator_name>.py`). These test functions fetch input/output pairs
+   from a YAML file (which was pre-populated using the generator functions and
+   input data), execute the estimator's code, and compare the actual results
+   against the expected values.
 
-2. **Defining Test Inputs:**
+This separation of concerns makes it easier to maintain and extend the test
+suite as we introduce new estimators or modify existing ones.
 
-   - The `tests/references/references_inputs.py` file holds the
-     `REFERENCES_INPUTS` dictionary.
-   - This dictionary mirrors the file structure of the `references/` directory
-     and specifies the inputs for the generator functions.
-   - To add a new estimator and its inputs, follow this structure within the
-     dictionary:
+### Writing Tests: A Step-by-Step Guide
 
-   ```python
-   REFERENCES_INPUTS = {
-       "<estimator_name>Estimator": {
-           "gen_<estimator_name>": {
-               "gen_<estimator_name>_<function_name_1>": {
-                   "inputs": [(256, 128, 64, 251), (961, 771, 48, 31)]
-               },
-               # Add more functions as needed...
-           },
-       },
-       # Add more estimators as needed...
-   }
-   ```
+This guide will walk you through the process of adding a new regression test to
+our Python library. We'll assume you're already familiar with Python, pytest,
+and the basic structure of our estimators.
 
-   After defining the inputs, run the following command from the library root to
-   generate the reference values:
+#### 1. Create Your Generator Function
 
-   ```bash
-   make docker-generate-tests-references
-   ```
+- Create a new Python file (`gen_<your_new_estimator>.py`) within the
+  `tests/references/<YourNewEstimator>Estimator/` directory.
+- Define your generator function that will produce expected outputs based on the
+  provided inputs. Adhere to the naming convention
+  (`gen_<your_new_estimator>_<test_function_name>`)
 
-   **Warning:** This command creates a Docker container with SageMath installed,
-   which may take some time to run.
+```python
+def gen_<your_new_estimator>_<your_test_function_name>(inputs):
+    # ... logic to generate expected outputs based on inputs
+    return [(input_1, expected_output_1), (input_2, expected_output_2), ...]
+```
 
-   The generated inputs and their corresponding outputs will be serialized in
-   `tests/references/reference_values.yaml`.
+**Notes:**
 
-3. **Implementing Tests:**
+- While not mandatory, most generator functions are expected to receive a list
+  of tuples as input, with each tuple representing the inputs for one test case.
+- It **is mandatory** that each generator function returns a list of tuples.
+  Each tuple should correspond to the input and expected output for a single
+  test case.
 
-   - The `tests/validations/` directory contains the test implementation files.
+#### 2. Define Your Input Data
 
-   - Each estimator has a corresponding file named `test_<estimator_name>.py`.
+- Navigate to the `tests/references/references_inputs.py` file.
+- Locate the `REFERENCES_INPUTS` dictionary.
+- Add an entry for your new estimator (or locate the existing one) and define
+  the specific inputs you'll be testing.
 
-   - For each generator function (`gen_<estimator_name>_<function_name>`) in
-     `references/`, there must be a corresponding test function named
-     `test_<estimator_name>_<function_name>` in the validation file.
+```python
+REFERENCES_INPUTS = {
+    # ... other estimators ...
+    "<YourNewEstimator>Estimator": {
+        "gen_<your_new_estimator>": {
+            "gen_<your_new_estimator>_<your_test_function_name>": {
+                "inputs": [(input_value_1, input_value_2, ...),  (...), ...] # Your input tuples here
+            },
+            # Add more functions as needed...
+          },
+    },
+    # ... more estimators...
+}
+```
 
-   - Each test function:
+**Note:**
 
-     - Takes a single parameter, `test_data`, automatically provided by _pytest_
-       and containing the input/output pairs from the `reference_values.yaml`
-       file.
-     - The boilerplate code is expected to have the following structure:
+The structure of this nested dictionary directly maps to the file path of the
+generator function, starting from the
+`CryptographicEstimators/tests/references/` directory.
 
-     ```python
-     def test_<my_estimator>_<my_function>(test_data):
-         """
-         Test for the ... problem with an error tolerance of epsilon.
-         """
-         inputs_with_expected_outputs = test_data()
-         epsilon = 0.01
+For example, the entry above indicates that in the file located at:
+`CryptographicEstimators/tests/references/<YourNewEstimator>Estimator/gen_<your_new_estimator>.py`,
+there's a function named `gen_<your_new_estimator>_<your_test_function_name>`.
+This function will be executed using the provided list of input tuples.
 
-         def test_single_case(input_with_exp_output):
-             input, expected_complexity = input_with_exp_output
-             # ... Calculate actual_complexity
-             actual_complexity = ...
-             assert abs(actual_complexity - expected_complexity) < epsilon
+#### 3. Generate Reference Output Values
 
-         map(test_single_case, inputs_with_expected_outputs)
-     ```
+> :warning: **Warning:** This step might take a while as it builds and runs a
+> Docker container with SageMath.
 
-### Doctests (with pytests)
+- From the library root, run the Docker command to generate the reference values
+  based on your provided inputs and the new generator function:
+
+  ```bash
+  make docker-generate-tests-references
+  ```
+
+- This updates `tests/references/reference_values.yaml`, which now includes your
+  new estimator's expected outputs.
+
+#### 4. Implement the Test Function
+
+- In the `tests/validations/` directory, locate the file for your estimator
+  (`test_<your_new_estimator>.py`) or create it if it doesn't exist.
+
+- Add a test function that directly corresponds to your generator function,
+  adhering to the naming convention
+  (`test_<your_new_estimator>_<test_function_name>`).
+
+- The test function will:
+
+  - Receive test data (input/output pairs) from the `reference_values.yaml`
+    file.
+  - Execute your estimator's logic using the input values.
+  - Compare the actual results against the expected outputs from the reference
+    data.
+
+```python
+def test_<your_new_estimator>_<your_test_function_name>(test_data):
+    """
+    (Optional) Docstring to describe the test case
+    """
+    inputs_with_expected_outputs = test_data()
+    epsilon = 0.01 # Or an appropriate tolerance for your estimator
+
+    def test_single_case(input_with_exp_output):
+        input, expected_output = input_with_exp_output
+        # ... Use the 'input' to calculate your estimator's  actual_output
+        actual_output  = ...
+        assert abs(actual_output - expected_output) < epsilon
+
+    map(test_single_case, inputs_with_expected_outputs)
+```
+
+#### 5. That's all
+
+After following these steps, your new test case will be integrated into our
+testing framework. You can run the tests using our test-related `make` commands,
+or manually execute `test_<your_new_estimator>.py` using pytest.
+
+## Doctests (with pytests)
 
 TODO
 
-## Writing Doctests
+## Writing Doctests (with sage doctests)
 
 Throughout the CryptographicEstimators library we are using
 [sage doctests](https://doc.sagemath.org/html/en/developer/doctesting.html).
