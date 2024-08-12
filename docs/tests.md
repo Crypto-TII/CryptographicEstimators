@@ -23,6 +23,26 @@ runs for efficient comparisons, saving valuable time during development.
 
 Here's a breakdown of how it works:
 
+```mermaid
+
+  flowchart LR;
+    gf("`Generators`")
+    inputs("`Inputs`");
+    preeo("`Precompute expected outputs`");
+    ser("`Serialize and store inputs/expected outputs`")
+    estimator("`Estimator`")
+    oc("`Test: Outputs comparison`")
+
+
+    gf --> preeo;
+    inputs --> preeo;
+    preeo --> ser;
+    ser -- input --> estimator;
+    estimator -- output --> oc;
+    ser -- expected output --> oc;
+
+```
+
 1. **Generating Expected Outputs:** For each estimator, we have specialized
    generator functions that take defined input values and produce the expected
    outputs. These generator functions are grouped by estimator and found in the
@@ -158,7 +178,8 @@ def test_<your_new_estimator>_<your_test_function_name>(test_data):
 
 After following these steps, your new test case will be integrated into our
 testing framework. You can run the tests using our test-related `make` commands,
-or manually execute `test_<your_new_estimator>.py` using pytest.
+or by manually executing
+`pytest tests/validations/test_<your_new_estimator>.py`.
 
 ## Doctests (with pytests)
 
