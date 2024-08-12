@@ -15,12 +15,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-
+import pytest
+from math import inf
 from ..SDEstimator.sd_algorithm import SDAlgorithm
 from ..SDEstimator.sd_problem import SDProblem
 from ..SDEstimator.SDAlgorithms import BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3
 from ..base_estimator import BaseEstimator
-from math import inf
 
 
 class SDEstimator(BaseEstimator):
@@ -91,10 +91,12 @@ class SDEstimator(BaseEstimator):
 
 
         Tests:
+            >>> if not long_doctests:
+            ...     pytest.skip()
             >>> from cryptographic_estimators.SDEstimator import SDEstimator
             >>> from cryptographic_estimators.SDEstimator import BothMay
             >>> A = SDEstimator(n=100, k=42, w=13, bit_complexities=1,excluded_algorithms=[BothMay], workfactor_accuracy=25)
-            >>> A.table(show_tilde_o_time=1, precision=0) # pytest.skip
+            >>> A.table(show_tilde_o_time=1, precision=0)
             +---------------+---------------+------------------+
             |               |    estimate   | tilde_o_estimate |
             +---------------+------+--------+-------+----------+
@@ -114,7 +116,7 @@ class SDEstimator(BaseEstimator):
             >>> from cryptographic_estimators.SDEstimator import SDEstimator
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
             >>> A = SDEstimator(3488, 2720, 64, excluded_algorithms=[BJMMdw])
-            >>> A.table(precision=3, show_all_parameters=1) # pytest.skip
+            >>> A.table(precision=3, show_all_parameters=1)
             +---------------+--------------------------------------------------------------------------------+
             |               |                                    estimate                                    |
             +---------------+---------+---------+------------------------------------------------------------+
@@ -134,7 +136,7 @@ class SDEstimator(BaseEstimator):
             >>> from cryptographic_estimators.SDEstimator import SDEstimator
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
             >>> A = SDEstimator(3488,2720,64,excluded_algorithms=[BJMMdw],memory_access=3)
-            >>> A.table(precision=3, show_all_parameters=1) # pytest.skip
+            >>> A.table(precision=3, show_all_parameters=1)
             +---------------+----------------------------------------------------------------------------+
             |               |                                  estimate                                  |
             +---------------+---------+--------+---------------------------------------------------------+
@@ -150,7 +152,6 @@ class SDEstimator(BaseEstimator):
             | Prange        | 173.447 | 21.576 |                         {'r': 7}                        |
             | Stern         | 153.015 | 32.587 |                {'r': 7, 'p': 2, 'l': 21}                |
             +---------------+---------+--------+---------------------------------------------------------+
-
         """
         super(SDEstimator, self).table(
             show_quantum_complexity=show_quantum_complexity,
