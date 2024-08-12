@@ -175,18 +175,18 @@ class BooleanSolveFXL(MQAlgorithm):
 
         if variant == MQ_LAS_VEGAS:
             time_complexity = (
-                3
-                * binomial(n - k + 2, 2)
-                * q**k
-                * binomial(n - k + wit_deg, wit_deg) ** 2
+                log2(3)
+                + log2(binomial(n - k + 2, 2))
+                + k * log2(q)
+                + 2 * log2(binomial(n - k + wit_deg, wit_deg))
             )
         elif variant == MQ_DETERMINISTIC:
-            time_complexity = q**k * m * binomial(n - k + wit_deg, wit_deg) ** w
+            time_complexity = k * log2(q) + log2(m)  + w * log2(binomial(n - k + wit_deg, wit_deg))
         else:
             raise ValueError("variant must either be las_vegas or deterministic")
 
         h = self._h
-        return log2(time_complexity) + h * log2(q)
+        return time_complexity + h * log2(q)
 
     def _compute_memory_complexity(self, parameters: dict):
         """
@@ -221,17 +221,20 @@ class BooleanSolveFXL(MQAlgorithm):
         n, m, q = self.get_reduced_parameters()
 
         wit_deg = witness_degree.quadratic_system(n=n - k, m=m, q=q)
+        memory_complexity = log2(m * n**2)
         if variant == MQ_LAS_VEGAS:
             N = binomial(n - k + wit_deg, wit_deg)
-            memory_complexity = max(2 * N, m * n**2)
+            memory_complexity = max(log2(2 * N), memory_complexity)
         elif variant == MQ_DETERMINISTIC:
-            memory_complexity = max(
-                binomial(n - k + wit_deg - 1, wit_deg) ** 2, m * n**2
-            )
+            temp  = binomial(n - k + wit_deg - 1, wit_deg)
+            if temp > 0:
+                memory_complexity = max(
+                    2 * log2(temp), memory_complexity
+                )
         else:
             raise ValueError("variant must either be las_vegas or deterministic")
 
-        return log2(memory_complexity)
+        return memory_complexity
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
@@ -247,7 +250,7 @@ class BooleanSolveFXL(MQAlgorithm):
             sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), complexity_type=1)
             sage: E.time_complexity(k=2, variant='las_vegas')
-            26.274302520556613
+            26.27430252055661
 
             sage: E.time_complexity()
             24.014054533787938
@@ -262,9 +265,9 @@ class BooleanSolveFXL(MQAlgorithm):
         if n == m and q == 2:
             return 0.792 * m
         elif variant == MQ_LAS_VEGAS:
-            complexity = log2(q**k * binomial(n - k + wit_deg, wit_deg) ** 2)
+            complexity = k * log2(q) + 2 * log2(binomial(n - k + wit_deg, wit_deg))
         else:
-            complexity = log2(q**k * binomial(n - k + wit_deg, wit_deg) ** w)
+            complexity = k * log2(q) + w * log2(binomial(n - k + wit_deg, wit_deg))
 
         complexity += self._h * log2(q)
         return complexity
