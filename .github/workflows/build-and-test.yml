@@ -41,4 +41,4 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Run tests
-        run: make docker-test
+        run: make pipeline-test
