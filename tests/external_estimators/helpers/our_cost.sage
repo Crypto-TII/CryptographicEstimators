@@ -1,4 +1,4 @@
-load("tests/references/helpers/cost.sage")
+load("tests/external_estimators/helpers/cost.sage")
 
 ###################################################
 

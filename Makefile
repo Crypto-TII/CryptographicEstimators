@@ -98,8 +98,8 @@ docker-pytest:
 
 
 docker-generate-tests-references:
-	@docker run --name gen-tests-references -v ./tests/validations:/home/cryptographic_estimators/tests/validations --rm ${image_name} sh -c \
-		"sage tests/references/generate_references.py"
+	@docker run --name gen-tests-references -v ./tests:/home/cryptographic_estimators/tests --rm ${image_name} sh -c \
+		"sage tests/external_estimators/generate_references.py"
 	@make docker-build
 
 docker-pytest-cov:

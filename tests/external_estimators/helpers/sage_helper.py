@@ -5,7 +5,7 @@ from typing import List, Optional
 
 import sage.all
 
-from tests.references.helpers.constants import DOCKER_LIBRARY_PATH
+from tests.external_estimators.helpers.constants import DOCKER_LIBRARY_PATH
 
 
 def import_sage_module(

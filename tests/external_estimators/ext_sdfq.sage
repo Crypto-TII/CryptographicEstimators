@@ -1,5 +1,5 @@
-load("tests/references/helpers/attack_cost.sage")
-load("tests/references/helpers/cost.sage")
+load("tests/external_estimators/helpers/attack_cost.sage")
+load("tests/external_estimators/helpers/cost.sage")
 
 from math import comb as binomial, log2
 from itertools import chain
@@ -21,7 +21,7 @@ def lee_brickell_correction(k: int) -> float:
     return log2(k) * 2 - log2(binomial(k, 2))
 
 
-def gen_sdfq_lee_brickell(inputs: list[tuple]):
+def ext_lee_brickell(inputs: list[tuple]):
     """
     Generate expected complexities for Lee-Brickell SDFq problems.
 
@@ -43,7 +43,7 @@ def gen_sdfq_lee_brickell(inputs: list[tuple]):
     return inputs_with_expected_outputs
 
 
-def gen_sdfq_stern(inputs: list[tuple]):
+def ext_stern(inputs: list[tuple]):
     """
     Generate expected complexities for Stern SDFq problems.
 
@@ -63,7 +63,7 @@ def gen_sdfq_stern(inputs: list[tuple]):
     return inputs_with_expected_outputs
 
 
-def gen_sdfq_stern_range(inputs: list[tuple]):
+def ext_stern_range(inputs: list[tuple]):
     """
     Generate ranges of expected complexities for Stern SDFq problems.
 

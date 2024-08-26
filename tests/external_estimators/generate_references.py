@@ -5,13 +5,13 @@ from importlib import import_module
 from functools import reduce
 from itertools import starmap, chain
 from typing import cast
-from tests.references.helpers.sage_helper import import_sage_module
-from tests.references.helpers.constants import (
+from tests.external_estimators.helpers.sage_helper import import_sage_module
+from tests.external_estimators.helpers.constants import (
     DOCKER_LIBRARY_PATH,
-    LIBRARY_REFERENCES_PATH,
+    LIBRARY_EXTERNAL_ESTIMATORS_PATH,
 )
 from tests.helper import DOCKER_YAML_REFERENCE_PATH
-from tests.references.references_inputs import REFERENCES_INPUTS
+from tests.external_estimators.ext_inputs import EXT_INPUTS
 
 
 def extract_generator_paths_and_inputs(input_dict: dict, path: tuple = ()) -> iter:
@@ -58,14 +58,14 @@ def import_and_execute_generator(gen_path: tuple, inputs: list) -> tuple:
 
     def find_generator_file_extension(gen_path: tuple) -> str:
         file_path = os.path.join(
-            *DOCKER_LIBRARY_PATH, *LIBRARY_REFERENCES_PATH, *gen_path[:-1]
+            *DOCKER_LIBRARY_PATH, *LIBRARY_EXTERNAL_ESTIMATORS_PATH, *gen_path[:-1]
         )
         for ext in (".sage", ".py"):
             if os.path.isfile(file_path + ext):
                 return ext
         raise ValueError(f"No supported file extension found for {file_path}")
 
-    import_modpath = ".".join(LIBRARY_REFERENCES_PATH + gen_path[:-1])
+    import_modpath = ".".join(LIBRARY_EXTERNAL_ESTIMATORS_PATH + gen_path[:-1])
     gen_function_name = gen_path[-1]
     gen_file_ext = find_generator_file_extension(gen_path)
 
@@ -94,41 +94,26 @@ def get_generator_info(dictionary: dict, gen_path: tuple) -> dict:
     return reduce(operator.getitem, gen_path, dictionary)
 
 
-def flatten_nested_dict(nested_dict: dict) -> dict:
+def rename_ext_to_int(data: dict) -> dict:
     """
-    Flattens a nested dictionary by removing the first level of nesting.
-
-    Args:
-        nested_dict: A dictionary where the values are also dictionaries.
-
-    Returns:
-        A flattened dictionary containing all key-value pairs from the input dictionary.
-    """
-    return dict(
-        chain.from_iterable(outer_val.items() for outer_val in nested_dict.values())
-    )
-
-
-def rename_gen_to_test(data: dict) -> dict:
-    """
-    Recursively traverses a dictionary and replaces "gen_" with "test_" in string keys and values.
+    Recursively traverses a dictionary and replaces "ext_" with "int_" in string keys and values.
 
     Args:
         data: The dictionary to be traversed and modified.
 
     Returns:
-        The modified dictionary with "gen_" replaced by "test_".
+        The modified dictionary with "ext_" replaced by "int_".
     """
 
-    def replace_gen_with_test(element: str) -> str:
-        return "test_" + element[4:] if element.startswith("gen_") else element
+    def replace_ext_with_int(element: str) -> str:
+        return "int_" + element[4:] if element.startswith("ext_") else element
 
     if isinstance(data, dict):
         return {
-            replace_gen_with_test(key): (
-                rename_gen_to_test(value)
+            replace_ext_with_int(key): (
+                rename_ext_to_int(value)
                 if isinstance(value, dict)
-                else replace_gen_with_test(value) if isinstance(value, str) else value
+                else replace_ext_with_int(value) if isinstance(value, str) else value
             )
             for key, value in data.items()
         }
@@ -139,16 +124,16 @@ def main():
     Main function to process reference inputs, execute generators, and save results.
 
     This function performs the following steps:
-    1. Extracts generator paths and inputs from REFERENCES_INPUTS.
-    2. Executes generators with their respective inputs.
-    3. Updates the reference data with the generator outputs.
-    4. Processes the reference data (flattening and renaming).
+    1. Extracts external estimators paths and inputs from EXT_INPUTS.
+    2. Executes external functions with their respective inputs.
+    3. Updates the reference data with the external functions outputs.
+    4. Processes the reference data (renaming).
     5. Serializes and validates the processed data.
     6. Saves the processed data to a YAML file.
     """
-    reference_data = REFERENCES_INPUTS.copy()
+    reference_data = EXT_INPUTS.copy()
 
-    gen_paths_and_inputs = extract_generator_paths_and_inputs(REFERENCES_INPUTS)
+    gen_paths_and_inputs = extract_generator_paths_and_inputs(EXT_INPUTS)
     gen_paths_and_inputs_with_outputs = starmap(
         import_and_execute_generator, gen_paths_and_inputs
     )
@@ -158,8 +143,7 @@ def main():
         del gen_info["inputs"]
         gen_info["inputs_with_expected_outputs"] = outputs
 
-    reference_data = flatten_nested_dict(reference_data)
-    reference_data = rename_gen_to_test(reference_data)
+    reference_data = rename_ext_to_int(reference_data)
 
     # We only save the serialized reference data if deserialization
     # perfectly reconstructs the original data.

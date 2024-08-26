@@ -1,0 +1,9 @@
+int_sdfq:
+  int_lee_brickell:
+    inputs_with_expected_outputs:
+    - !!python/tuple
+      - !!python/tuple [256, 128, 64, 251]
+      - 95.46226324266954
+    - !!python/tuple
+      - !!python/tuple [961, 771, 48, 31]
+      - 138.01051677537373
