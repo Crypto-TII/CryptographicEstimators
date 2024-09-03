@@ -1,5 +1,6 @@
 import inspect
 import os
+import sys
 import types
 import importlib
 from typing import List, Optional, Union, Dict, Any
@@ -96,23 +97,35 @@ def _get_module_info(module_path: str) -> tuple[str, str]:
     Extract module name and absolute file path from the given module path.
 
     Args:
-        module_path: The path to the .sage module, using dot notation relative to the root package
-                     containing the import_sage_module function.
+        module_path: The full path to the .sage module, using dot notation including the root package.
 
     Returns:
         A tuple containing the module name and its absolute file path.
     """
-    current_module = inspect.getmodule(sage_import)
-    root_package_name = current_module.__name__.split(".")[0]
-    root_package = importlib.import_module(root_package_name)
-    root_package_dir = os.path.dirname(inspect.getfile(root_package))
-
     path_parts = module_path.split(".")
+    root_package_name = path_parts[0]
+
+    try:
+        root_package = importlib.import_module(root_package_name)
+    except ImportError:
+        raise ImportError(f"Could not import root package {root_package_name}")
+
+    if hasattr(root_package, "__file__"):
+        root_package_file = root_package.__file__
+    elif root_package_name in sys.modules:
+        root_package_file = sys.modules[root_package_name].__file__
+    else:
+        raise ValueError(
+            f"Could not determine file location for package {root_package_name}"
+        )
+
+    root_package_dir = os.path.dirname(root_package_file)
+
     module_name = path_parts[-1]
     path_parts[-1] += ".sage"
+    absolute_filepath = os.path.join(root_package_dir, *path_parts[1:])
 
-    absolute_filepath = os.path.join(root_package_dir, *path_parts)
-
+    print(f"module_name: {module_name} and absolute_filepath: {absolute_filepath}")
     return module_name, absolute_filepath
 
 

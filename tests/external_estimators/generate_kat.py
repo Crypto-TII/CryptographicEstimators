@@ -1,6 +1,7 @@
 import yaml
 import operator
 import os
+import inspect
 from importlib import import_module
 from functools import reduce
 from itertools import starmap
@@ -11,112 +12,76 @@ from tests.external_estimators.helpers.constants import (
     LIBRARY_EXTERNAL_ESTIMATORS_PATH,
 )
 from tests.helper import DOCKER_YAML_REFERENCE_PATH
-from tests.external_estimators.ext_inputs import EXT_INPUTS
 
 
-def extract_generator_paths_and_inputs(input_dict: dict, path: tuple = ()) -> iter:
-    """
-    Recursively extracts generator paths and their corresponding inputs from the input dictionary.
+def collect_ext_modules():
 
-    This function traverses the input dictionary and yields tuples containing the generator path
-    and its inputs for each leaf node containing an "inputs" key.
+    current_module = inspect.getmodule(collect_ext_modules)
+    root_package_name = current_module.__name__.split(".")[0]
+    root_package = import_module(root_package_name)
+    root_package_dir = os.path.dirname(inspect.getfile(root_package))
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    files = os.listdir(current_dir)
 
-    Args:
-        input_dict: The input dictionary to traverse.
-        path: The current path in the dictionary (used for recursion).
+    ext_files = [f for f in files if f.startswith("ext_")]
 
-    Yields:
-        Tuples containing the generator path and its inputs.
-    """
-    for key, value in input_dict.items():
-        current_path = path + (key,)
+    modules = []
 
-        if isinstance(value, dict):
-            if "inputs" in value:
-                yield current_path, value["inputs"]
-            else:
-                yield from extract_generator_paths_and_inputs(value, current_path)
+    for file in ext_files:
+        _, ext = os.path.splitext(file)
 
+        rel_path = os.path.relpath(os.path.join(current_dir, file), root_package_dir)
+        module_path = ".".join(rel_path.split(os.sep)).rsplit(".", 1)[0]
 
-def import_and_execute_generator(gen_path: tuple, inputs: list) -> tuple:
-    """
-    Imports a generator function and executes it with the given inputs.
+        if ext == ".py":
+            try:
+                module = import_module(f"{root_package_name}.{module_path}")
+                modules.append(module)
+            except ImportError as e:
+                print(f"Error importing {module_path}: {e}")
 
-    This function determines the file extension of the generator, imports it accordingly,
-    and then executes the generator function with the provided inputs.
+        elif ext == ".sage":
+            try:
+                module = sage_import(f"{root_package_name}.{module_path}")
+                modules.append(module)
+            except Exception as e:
+                print(f"Error importing {module_path} with sage_import: {e}")
 
-    Args:
-        gen_path: A tuple representing the path to the generator function.
-        inputs: A list of inputs to be passed to the generator function.
-
-    Returns:
-        A tuple containing the generator path and the output of the generator function.
-
-    Raises:
-        ValueError: If the file extension is not supported.
-    """
-
-    def find_generator_file_extension(gen_path: tuple) -> str:
-        file_path = os.path.join(
-            *DOCKER_LIBRARY_PATH, *LIBRARY_EXTERNAL_ESTIMATORS_PATH, *gen_path[:-1]
-        )
-        for ext in (".sage", ".py"):
-            if os.path.isfile(file_path + ext):
-                return ext
-        raise ValueError(f"No supported file extension found for {file_path}")
-
-    import_modpath = ".".join(LIBRARY_EXTERNAL_ESTIMATORS_PATH + gen_path[:-1])
-    gen_function_name = gen_path[-1]
-    gen_file_ext = find_generator_file_extension(gen_path)
-
-    if gen_file_ext == ".py":
-        estimator_module = import_module(import_modpath)
-        gen_function = getattr(estimator_module, gen_function_name)
-    else:
-        sage_import(import_modpath, import_list=[gen_function_name])
-        gen_function = globals()[gen_function_name]
-
-    output = gen_function(inputs)
-    return gen_path, output
+    return modules
 
 
-def get_generator_info(dictionary: dict, gen_path: tuple) -> dict:
-    """
-    Retrieves the generator information from the dictionary using the given path.
-
-    Args:
-        dictionary: The dictionary containing generator information.
-        gen_path: A tuple representing the path to the generator in the dictionary.
-
-    Returns:
-        A dictionary containing the generator information.
-    """
-    return reduce(operator.getitem, gen_path, dictionary)
+def collect_ext_functions(module):
+    module_name = module.__name__
+    return [
+        (module_name, name, obj)
+        for name, obj in inspect.getmembers(module)
+        if inspect.isfunction(obj) and name.startswith("ext_")
+    ]
 
 
-def ext_prefix_to_int_prefix(data: dict) -> dict:
-    """
-    Recursively traverses a dictionary and replaces "ext_" with "int_" in string keys and values.
-
-    Args:
-        data: The dictionary to be traversed and modified.
-
-    Returns:
-        The modified dictionary with "ext_" replaced by "int_".
-    """
-
-    def replace_ext_with_int(element: str) -> str:
-        return "int_" + element[4:] if element.startswith("ext_") else element
-
-    if isinstance(data, dict):
-        return {
-            replace_ext_with_int(key): (
-                ext_prefix_to_int_prefix(value)
-                if isinstance(value, dict)
-                else replace_ext_with_int(value) if isinstance(value, str) else value
-            )
-            for key, value in data.items()
+def dictionary_from_tuple(function_path):
+    module_name, function_name, function = function_path
+    unprefixed_module_name = module_name[4:]
+    unprefixed_function_name = function_name[4:]
+    inputs_with_expected_outputs = function()
+    return {
+        unprefixed_module_name: {
+            unprefixed_function_name: {
+                "inputs_with_expected_outputs": inputs_with_expected_outputs
+            }
         }
+    }
+
+
+def deep_merge(dict1, dict2):
+    return {
+        key: (
+            deep_merge(dict1[key], dict2[key])
+            if isinstance(dict1.get(key), dict) and isinstance(dict2.get(key), dict)
+            else dict2[key] if key in dict2 else dict1[key]
+        )
+        for key in set(dict1) | set(dict2)
+    }
 
 
 def main():
@@ -132,28 +97,19 @@ def main():
     6. Saves the processed data to a YAML file.
     """
 
-    ext_kat_gen_modules = collect_ext_modules()
-
-    ext_kat_gen_path_with_kat = map(collect_and_run_kat_generators, ext_kat_gen_modules)
-
-    # Map to convert from kat_gen_path with kat, to nested dict.
-    #
-    # Reduce function using the | dict merge operator to create the new dictionary.
-    for kat_gen_path, kat in kat_gen_path_with_kat:
-        gen_info = cast(dict, get_generator_info(reference_data, gen_path))
-        del gen_info["inputs"]
-        gen_info["inputs_with_expected_outputs"] = outputs
-
-    reference_data = ext_prefix_to_int_prefix(reference_data)
+    external_kat_generators = list(*map(collect_ext_functions, collect_ext_modules()))
+    kat_dictionary = reduce(
+        deep_merge, list(map(dictionary_from_tuple, external_kat_generators))
+    )
 
     # We only save the serialized reference data if deserialization
     # perfectly reconstructs the original data.
-    serialized_data = yaml.dump(reference_data, default_flow_style=None)
-    loaded_data = yaml.unsafe_load(serialized_data)
-    assert reference_data == loaded_data, "YAML dump and load did not preserve data"
+    serialized_kat = yaml.dump(kat_dictionary, default_flow_style=None)
+    loaded_data = yaml.unsafe_load(serialized_kat)
+    assert kat_dictionary == loaded_data, "YAML dump and load did not preserve data"
 
     with open(DOCKER_YAML_REFERENCE_PATH, "w") as yaml_file:
-        yaml.dump(reference_data, yaml_file, default_flow_style=None)
+        yaml.dump(kat_dictionary, yaml_file, default_flow_style=None)
 
 
 if __name__ == "__main__":

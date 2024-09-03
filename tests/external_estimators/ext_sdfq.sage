@@ -4,6 +4,8 @@ load("tests/external_estimators/helpers/cost.sage")
 from math import comb as binomial, log2
 from itertools import chain
 
+import sage.all
+
 
 def lee_brickell_correction(k: int) -> float:
     """
@@ -32,7 +34,7 @@ def ext_lee_brickell():
         A list of tuples, each containing the input parameters and the corresponding expected complexity.
     """
 
-    inputs = [(256, 128, 64, 251), (961, 771, 48, 31)]
+    inputs = [(256r, 128r, 64r, 251r), (961r, 771r, 48r, 31r)]
 
     def gen_single_case(input: tuple):
         n, k, w, q = input
@@ -56,7 +58,9 @@ def ext_stern():
         A list of tuples, each containing the input parameters and the corresponding expected complexity.
     """
 
+    sage.all.preparser(False)
     inputs = [(256, 128, 64, 251), (961, 771, 48, 31)]
+    sage.all.preparser(True)
 
     def gen_single_case(input):
         n, k, w, q = input
