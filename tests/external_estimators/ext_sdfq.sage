@@ -21,7 +21,7 @@ def lee_brickell_correction(k: int) -> float:
     return log2(k) * 2 - log2(binomial(k, 2))
 
 
-def ext_lee_brickell(inputs: list[tuple]):
+def ext_lee_brickell():
     """
     Generate expected complexities for Lee-Brickell SDFq problems.
 
@@ -31,6 +31,8 @@ def ext_lee_brickell(inputs: list[tuple]):
     Returns:
         A list of tuples, each containing the input parameters and the corresponding expected complexity.
     """
+
+    inputs = [(256, 128, 64, 251), (961, 771, 48, 31)]
 
     def gen_single_case(input: tuple):
         n, k, w, q = input
@@ -43,7 +45,7 @@ def ext_lee_brickell(inputs: list[tuple]):
     return inputs_with_expected_outputs
 
 
-def ext_stern(inputs: list[tuple]):
+def ext_stern():
     """
     Generate expected complexities for Stern SDFq problems.
 
@@ -54,6 +56,8 @@ def ext_stern(inputs: list[tuple]):
         A list of tuples, each containing the input parameters and the corresponding expected complexity.
     """
 
+    inputs = [(256, 128, 64, 251), (961, 771, 48, 31)]
+
     def gen_single_case(input):
         n, k, w, q = input
         expected_complexity, _, _ = peters_isd(n, k, q, w)
@@ -63,7 +67,7 @@ def ext_stern(inputs: list[tuple]):
     return inputs_with_expected_outputs
 
 
-def ext_stern_range(inputs: list[tuple]):
+def ext_stern_range():
     """
     Generate ranges of expected complexities for Stern SDFq problems.
 
@@ -77,6 +81,14 @@ def ext_stern_range(inputs: list[tuple]):
         A flattened list of tuples, each containing the input parameters (n, k, w, q) and
         the corresponding expected complexity for all combinations within the given ranges.
     """
+
+    inputs = [
+        (
+            range(50, 70, 5),
+            range(20, 40, 2),
+            [7, 11, 17, 53, 103, 151, 199, 251],
+        ),
+    ]
 
     def gen_single_range(ranges_input):
         n_range, k_range, q_values = ranges_input

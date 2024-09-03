@@ -3,7 +3,7 @@ import operator
 import os
 from importlib import import_module
 from functools import reduce
-from itertools import starmap, chain
+from itertools import starmap
 from typing import cast
 from tests.external_estimators.helpers.sage_helper import import_sage_module
 from tests.external_estimators.helpers.constants import (
@@ -94,7 +94,7 @@ def get_generator_info(dictionary: dict, gen_path: tuple) -> dict:
     return reduce(operator.getitem, gen_path, dictionary)
 
 
-def rename_ext_to_int(data: dict) -> dict:
+def ext_prefix_to_int_prefix(data: dict) -> dict:
     """
     Recursively traverses a dictionary and replaces "ext_" with "int_" in string keys and values.
 
@@ -111,7 +111,7 @@ def rename_ext_to_int(data: dict) -> dict:
     if isinstance(data, dict):
         return {
             replace_ext_with_int(key): (
-                rename_ext_to_int(value)
+                ext_prefix_to_int_prefix(value)
                 if isinstance(value, dict)
                 else replace_ext_with_int(value) if isinstance(value, str) else value
             )
@@ -131,19 +131,20 @@ def main():
     5. Serializes and validates the processed data.
     6. Saves the processed data to a YAML file.
     """
-    reference_data = EXT_INPUTS.copy()
 
-    gen_paths_and_inputs = extract_generator_paths_and_inputs(EXT_INPUTS)
-    gen_paths_and_inputs_with_outputs = starmap(
-        import_and_execute_generator, gen_paths_and_inputs
-    )
+    ext_kat_gen_modules = collect_ext_modules()
 
-    for gen_path, outputs in gen_paths_and_inputs_with_outputs:
+    ext_kat_gen_path_with_kat = map(collect_and_run_kat_generators, ext_kat_gen_modules)
+
+    # Map to convert from kat_gen_path with kat, to nested dict.
+    #
+    # Reduce function using the | dict merge operator to create the new dictionary.
+    for kat_gen_path, kat in kat_gen_path_with_kat:
         gen_info = cast(dict, get_generator_info(reference_data, gen_path))
         del gen_info["inputs"]
         gen_info["inputs_with_expected_outputs"] = outputs
 
-    reference_data = rename_ext_to_int(reference_data)
+    reference_data = ext_prefix_to_int_prefix(reference_data)
 
     # We only save the serialized reference data if deserialization
     # perfectly reconstructs the original data.
