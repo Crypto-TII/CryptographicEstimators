@@ -5,7 +5,7 @@ from importlib import import_module
 from functools import reduce
 from itertools import starmap
 from typing import cast
-from tests.external_estimators.helpers.sage_helper import import_sage_module
+from tests.external_estimators.helpers.sage_helper import sage_import
 from tests.external_estimators.helpers.constants import (
     DOCKER_LIBRARY_PATH,
     LIBRARY_EXTERNAL_ESTIMATORS_PATH,
@@ -73,7 +73,7 @@ def import_and_execute_generator(gen_path: tuple, inputs: list) -> tuple:
         estimator_module = import_module(import_modpath)
         gen_function = getattr(estimator_module, gen_function_name)
     else:
-        import_sage_module(import_modpath, import_list=[gen_function_name])
+        sage_import(import_modpath, import_list=[gen_function_name])
         gen_function = globals()[gen_function_name]
 
     output = gen_function(inputs)
