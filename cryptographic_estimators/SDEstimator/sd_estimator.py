@@ -91,7 +91,7 @@ class SDEstimator(BaseEstimator):
 
 
         Tests:
-            >>> if not long_doctests:
+            >>> if skip_long_doctests:
             ...     pytest.skip()
             >>> from cryptographic_estimators.SDEstimator import SDEstimator
             >>> from cryptographic_estimators.SDEstimator import BothMay
