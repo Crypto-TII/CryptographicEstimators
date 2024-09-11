@@ -29,8 +29,8 @@ from cryptographic_estimators.SDEstimator.SDAlgorithms import (
     Stern,
     BJMMplus,
 )
-from tests.helpers.optimize import bjmm_depth_2_qc_complexity
-from tests.helpers.estimator import (
+from tests.references.helpers.optimize import bjmm_depth_2_qc_complexity
+from tests.references.helpers.estimator import (
     prange_complexity,
     dumer_complexity,
     stern_complexity,

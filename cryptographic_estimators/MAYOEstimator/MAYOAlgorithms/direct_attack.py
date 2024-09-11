@@ -15,14 +15,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-
 from ..mayo_algorithm import MAYOAlgorithm
 from ..mayo_problem import MAYOProblem
 from ...MQEstimator.mq_estimator import MQEstimator
 from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
-from ...base_constants import BASE_EXCLUDED_ALGORITHMS
-from math import log2
-from sage.functions.other import floor
+from ...base_algorithm import optimal_parameter
+from ...helper import ComplexityType
+from ..mayo_helper import _optimize_k
+from ...base_constants import BASE_EXCLUDED_ALGORITHMS, BASE_FORGERY_ATTACK
+from math import log2, floor
 
 
 class DirectAttack(MAYOAlgorithm):
@@ -34,8 +35,8 @@ class DirectAttack(MAYOAlgorithm):
 
     INPUT:
 
-    - ``problem`` -- DummyProblem object including all necessary parameters
-    - ``w`` -- linear algebra constant (default: Obtained from MAYOAlgorithm)
+    - ``problem`` -- MAYOProblem object including all necessary parameters
+    - ``w`` -- linear algebra constant (default: obtained from MAYOAlgorithm)
     - ``h`` -- external hybridization parameter (default: 0)
     - ``nsolutions`` -- number of solutions in logarithmic scale (default: expected_number_solutions))
     - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
@@ -49,11 +50,11 @@ class DirectAttack(MAYOAlgorithm):
         super().__init__(problem, **kwargs)
 
         self._name = "DirectAttack"
-        self._attack_type = "forgery"
-        
+        self._attack_type = BASE_FORGERY_ATTACK
+
+        n, m, _, k, q = self.problem.get_parameters()
         self._K = self.K()
         K = self._K
-        n, m, _, k, q = self.problem.get_parameters()
         m_tilde = m - floor(((k*n)-K)/(m-K)) + 1
         n_tilde = m_tilde - K
         w = self.linear_algebra_constant()
@@ -77,6 +78,30 @@ class DirectAttack(MAYOAlgorithm):
                                         bit_complexities=0)
         
         self._fastest_algorithm = None
+
+    @optimal_parameter
+    def K(self):
+        """
+        Return the optimal parameter `K` from Furue, Nakamura, and Takagi strategy [FNT21]_.
+
+        EXAMPLES::
+
+            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
+            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            sage: E = DirectAttack(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
+            sage: E.K()
+            15
+                
+        """
+        if self._optimal_parameters.get("K") is None:
+            n, m, _, k, q = self.problem.get_parameters()
+            w = self.linear_algebra_constant()
+            if self.complexity_type == ComplexityType.ESTIMATE.value:
+                return _optimize_k(n=k*n, m=m, k=k, q=q, w=w)
+            elif self.complexity_type == ComplexityType.TILDEO.value:
+                return 0
+
+        return self._optimal_parameters.get("K")
 
     def get_fastest_mq_algorithm(self):
         """
@@ -122,13 +147,22 @@ class DirectAttack(MAYOAlgorithm):
             sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
             sage: E = DirectAttack(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
             sage: E.memory_complexity()
-            99.2697664172768
+            35.269766417276806
 
         """
-        q = self.problem.order_of_the_field()
+        n, m, _, _, _ = self.problem.get_parameters()
         fastest_algorithm = self.get_fastest_mq_algorithm()
         fastest_algorithm.complexity_type = self.complexity_type
-        return self._fastest_algorithm.memory_complexity() + self._K * log2(q)
+        return max(fastest_algorithm.memory_complexity(), log2(m * n ** 2))
     
+    def get_optimal_parameters_dict(self):
+        """
+        Returns the optimal parameters dictionary
 
+        """
+        fastest_algorithm = self.get_fastest_mq_algorithm()
+        d = fastest_algorithm.get_optimal_parameters_dict()
+        d["K"] = self._K
+        d["variant"] = fastest_algorithm._name
+        return d
     

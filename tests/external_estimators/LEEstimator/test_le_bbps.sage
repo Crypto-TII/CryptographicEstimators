@@ -2,7 +2,7 @@ from cryptographic_estimators.LEEstimator.LEAlgorithms import *
 from cryptographic_estimators.LEEstimator import LEProblem
 from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell, Prange
 
-load("tests/helpers/cost.sage")
+load("tests/references/helpers/cost.sage")
 bbps_params = {
     "bit_complexities": 1,
     "sd_parameters": {"excluded_algorithms": [Prange, LeeBrickell]},

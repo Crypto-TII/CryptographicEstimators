@@ -22,6 +22,7 @@ from ...MQEstimator.mq_estimator import MQEstimator
 from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
 from ...base_constants import BASE_MEMORY_BOUND, BASE_NSOLUTIONS, BASE_BIT_COMPLEXITIES, BASE_EXCLUDED_ALGORITHMS
 from math import log2
+from cryptographic_estimators.base_constants import BASE_FORGERY_ATTACK
 
 class DirectAttack(UOVAlgorithm):
     """
@@ -64,7 +65,7 @@ class DirectAttack(UOVAlgorithm):
                                         complexity_type=complexity_type,
                                         bit_complexities=0)
         self._fastest_algorithm = None
-        self._attack_type = "forgery"
+        self._attack_type = BASE_FORGERY_ATTACK
 
     def get_fastest_mq_algorithm(self):
         if self._fastest_algorithm is None:
@@ -159,3 +160,13 @@ class DirectAttack(UOVAlgorithm):
         fastest_algorithm = self.get_fastest_mq_algorithm()
         fastest_algorithm.complexity_type = self.complexity_type
         return self._fastest_algorithm.memory_complexity()
+    
+    def get_optimal_parameters_dict(self):
+        """
+        Returns the optimal parameters dictionary
+
+        """
+        fastest_algorithm = self.get_fastest_mq_algorithm()
+        d = fastest_algorithm.get_optimal_parameters_dict()
+        d["variant"] = fastest_algorithm._name
+        return d

@@ -22,6 +22,8 @@ from ...base_algorithm import optimal_parameter
 from ...helper import round_or_truncate
 from ...base_constants import BASE_MEMORY_BOUND, BASE_NSOLUTIONS, BASE_BIT_COMPLEXITIES, BASE_EXCLUDED_ALGORITHMS
 from math import log2, e
+from cryptographic_estimators.base_constants import BASE_FORGERY_ATTACK
+
 
 
 class CollisionAttack(UOVAlgorithm):
@@ -46,7 +48,7 @@ class CollisionAttack(UOVAlgorithm):
         super().__init__(problem, **kwargs)
 
         self._name = "CollisionAttack"
-        self._attack_type = "forgery"
+        self._attack_type = BASE_FORGERY_ATTACK
         self._alpha = 1.25
         self._log2_of_alpha = log2(self._alpha)
         q = problem.order_of_the_field()

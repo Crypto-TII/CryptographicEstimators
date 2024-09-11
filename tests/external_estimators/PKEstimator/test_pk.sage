@@ -2,9 +2,9 @@ from cryptographic_estimators.PKEstimator import PKProblem
 from cryptographic_estimators.PKEstimator.PKAlgorithms import KMP, SBC
 from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Prange, LeeBrickell
 
-load("tests/helpers/cost.sage")
-load("tests/helpers/kmp_cost.sage")
-load("tests/helpers/our_cost.sage")
+load("tests/references/helpers/cost.sage")
+load("tests/references/helpers/kmp_cost.sage")
+load("tests/references/helpers/our_cost.sage")
 
 
 # global parameters

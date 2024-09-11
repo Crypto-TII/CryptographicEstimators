@@ -67,6 +67,9 @@ generate-documentation:
 mount-volume-and-run: 
 	@docker run --name container-for-docs --mount type=bind,source=${documentation_path}/docs,target=/home/cryptographic_estimators/docs -d -it ${image_name} sh
 
+pipeline-test:
+	@docker run --name container-for-test -d -it ${image_name} sh && docker exec container-for-test sage -t --long -T 3600 --force-lib cryptographic_estimators && docker stop container-for-test && docker rm container-for-test
+
 docker-doc: docker-build
 	@make mount-volume-and-run && make generate-documentation && make stop-container-and-remove container_name="container-for-docs"
 
@@ -80,20 +83,27 @@ add-copyright:
 	@python3 scripts/create_copyright.py
 
 docker-pytest:
+	@echo "Removing previous container...."
 	@make stop-container-and-remove container_name="pytest-estimators" \
-		&& echo "Container removed. Continuing..." \
-		|| echo "No container had to be removed. Continuing..."
+		|| true
+	@echo "Creating container..."
 	@docker run --name pytest-estimators -d -it ${image_name} sh \
 		&& docker exec pytest-estimators sh -c "sage --python3 -m pytest -n auto -vv \
 		--cov-report xml:coverage.xml --cov=${PACKAGE} \
-		&& ${SAGE} tests/SDFqEstimator/test_sdfq.sage \
-		&& ${SAGE} tests/LEEstimator/test_le_beullens.sage \
-		&& ${SAGE} tests/LEEstimator/test_le_bbps.sage \
-		&& ${SAGE} tests/PEEstimator/test_pe.sage \
-		&& ${SAGE} tests/PKEstimator/test_pk.sage" \
-		&& echo "All tests passed. Cleaning container..." \
-		|| echo "Some test have failed. Please see previous lines. Cleaning container..."
+		&& ${SAGE} tests/references/LEEstimator/test_le_beullens.sage \
+		&& ${SAGE} tests/references/LEEstimator/test_le_bbps.sage \
+		&& ${SAGE} tests/references/PEEstimator/test_pe.sage \
+		&& ${SAGE} tests/references/PKEstimator/test_pk.sage" \
+		&& echo "All tests passed." \
+		|| echo "Some test have failed, please see previous lines."
+	@echo "Cleaning container..."
 	@make stop-container-and-remove container_name="pytest-estimators"
+
+
+docker-generate-tests-references:
+	@docker run --name gen-tests-references -v ./tests:/home/cryptographic_estimators/tests --rm ${image_name} sh -c \
+		"sage tests/external_estimators/generate_references.py"
+	@make docker-build
 
 docker-pytest-cov:
 	pytest -v --cov-report xml:coverage.xml --cov=${PACKAGE} tests/

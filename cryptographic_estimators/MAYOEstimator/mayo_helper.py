@@ -17,11 +17,10 @@
 
 from ..MQEstimator.MQAlgorithms import BooleanSolveFXL
 from ..MQEstimator import MQProblem
-from math import log2, inf
-from sage.functions.other import floor
+from math import log2, inf, floor
 
 
-def _optimize_k(n: int, m: int, k: int, q: int):
+def _optimize_k(n: int, m: int, k: int, q: int, w: float):
     """
     Find the optimal parameter `K` from Furue, Nakamura, and Takagi strategy
 
@@ -36,12 +35,12 @@ def _optimize_k(n: int, m: int, k: int, q: int):
     (K, time) = (0, inf)
 
     for i in range(0, n-1):
-        m_tilde = m - floor(((k*n)-i)/(m-i)) + 1
+        m_tilde = m - floor((n-i)/(m-i)) + 1
         n_tilde = m_tilde - i
 
         if n_tilde < 1: break
 
-        E = BooleanSolveFXL(MQProblem(n=n_tilde, m=m_tilde, q=q), bit_complexities=False, w=2.81)
+        E = BooleanSolveFXL(MQProblem(n=n_tilde, m=m_tilde, q=q), bit_complexities=False, w=w)
         t = i * log2(q) + E.time_complexity()
 
         if t < time:
