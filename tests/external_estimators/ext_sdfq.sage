@@ -12,10 +12,10 @@ def lee_brickell_correction(k: int) -> float:
     Calculate the correction term for the Lee-Brickell procedure.
 
     Args:
-        k: The dimension of the code.
+        k (int): The dimension of the code.
 
     Returns:
-        The calculated correction term.
+        float: The calculated correction term.
 
     Notes:
         See SDFqAlgorithms/leebrickell.py line 98/99
@@ -24,14 +24,15 @@ def lee_brickell_correction(k: int) -> float:
 
 
 def ext_lee_brickell():
-    """
-    Generate expected complexities for Lee-Brickell SDFq problems.
+    """Generate expected complexities for Lee-Brickell SDFq problems.
 
-    Args:
-        inputs: A list of tuples, each containing (n, k, w, q) for a Lee-Brickell SDFq problem.
+    This function calculates the expected complexities for a predefined set of
+    Lee-Brickell SDFq problem parameters.
 
     Returns:
-        A list of tuples, each containing the input parameters and the corresponding expected complexity.
+        list of tuple: Each tuple contains:
+            - tuple: Input parameters (n, k, w, q)
+            - float: Corresponding expected complexity
     """
 
     inputs = [(256r, 128r, 64r, 251r), (961r, 771r, 48r, 31r)]
@@ -48,18 +49,19 @@ def ext_lee_brickell():
 
 
 def ext_stern():
-    """
-    Generate expected complexities for Stern SDFq problems.
+    """Generate expected complexities for Stern SDFq problems.
 
-    Args:
-        inputs: A list of tuples, each containing (n, k, w, q) for a Stern SDFq problem.
+    This function calculates the expected complexities for a predefined set of
+    Stern SDFq problem parameters using the Peters ISD algorithm.
 
     Returns:
-        A list of tuples, each containing the input parameters and the corresponding expected complexity.
+        list of tuple: Each tuple contains:
+            - tuple: Input parameters (n, k, w, q)
+            - float: Corresponding expected complexity
     """
 
     sage.all.preparser(False)
-    inputs = [(256, 128, 64, 251), (961, 771, 48, 31)]
+    inputs = [(256r, 128r, 64r, 251r), (961r, 771r, 48r, 31r)]
     sage.all.preparser(True)
 
     def gen_single_case(input):
@@ -72,25 +74,26 @@ def ext_stern():
 
 
 def ext_stern_range():
-    """
-    Generate ranges of expected complexities for Stern SDFq problems.
+    """Generate ranges of expected complexities for Stern SDFq problems.
 
-    Args:
-        inputs: A list of tuples, each containing (n_range, k_range, q_values) where:
-            n_range is a range of 'n' values,
-            k_range is a range of 'k' values,
-            q_values is a list of 'q' values.
+    This function calculates the expected complexities for a range of Stern SDFq
+    problem parameters using the Peters ISD algorithm.
 
     Returns:
-        A flattened list of tuples, each containing the input parameters (n, k, w, q) and
-        the corresponding expected complexity for all combinations within the given ranges.
+        list of tuple: A flattened list where each tuple contains:
+            - tuple: Input parameters (n, k, w, q)
+            - float: Corresponding expected complexity
+
+    Note:
+        The function generates combinations of parameters within predefined ranges
+        and q values.
     """
 
     inputs = [
         (
-            range(50, 70, 5),
-            range(20, 40, 2),
-            [7, 11, 17, 53, 103, 151, 199, 251],
+            range(50r, 70r, 5r),
+            range(20r, 40r, 2r),
+            [7r, 11r, 17r, 53r, 103r, 151r, 199r, 251r],
         ),
     ]
 

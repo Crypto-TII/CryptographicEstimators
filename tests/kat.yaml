@@ -1,5 +1,5 @@
-int_sdfq:
-  int_lee_brickell:
+sdfq:
+  lee_brickell:
     inputs_with_expected_outputs:
     - !!python/tuple
       - &id001 !!python/tuple [256, 128, 64, 251]
@@ -7,7 +7,7 @@ int_sdfq:
     - !!python/tuple
       - &id002 !!python/tuple [961, 771, 48, 31]
       - 138.01051677537373
-  int_stern:
+  stern:
     inputs_with_expected_outputs:
     - !!python/tuple
       - *id001
@@ -15,7 +15,7 @@ int_sdfq:
     - !!python/tuple
       - *id002
       - 129.05171782411085
-  int_stern_range:
+  stern_range:
     inputs_with_expected_outputs:
     - !!python/tuple
       - !!python/tuple [50, 20, 4, 7]

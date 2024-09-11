@@ -125,7 +125,6 @@ def _get_module_info(module_path: str) -> tuple[str, str]:
     path_parts[-1] += ".sage"
     absolute_filepath = os.path.join(root_package_dir, *path_parts[1:])
 
-    print(f"module_name: {module_name} and absolute_filepath: {absolute_filepath}")
     return module_name, absolute_filepath
 
 

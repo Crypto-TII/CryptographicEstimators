@@ -1,20 +1,28 @@
 import yaml
-import operator
 import os
 import inspect
 from importlib import import_module
 from functools import reduce
-from itertools import starmap
-from typing import cast
+from typing import List, Tuple, Dict, Any, Callable
+from types import ModuleType
 from tests.external_estimators.helpers.sage_helper import sage_import
-from tests.external_estimators.helpers.constants import (
-    DOCKER_LIBRARY_PATH,
-    LIBRARY_EXTERNAL_ESTIMATORS_PATH,
-)
 from tests.helper import DOCKER_YAML_REFERENCE_PATH
 
 
-def collect_ext_modules():
+def collect_ext_modules() -> List[ModuleType]:
+    """
+    Collects external modules from the current directory.
+
+    Returns:
+        List[ModuleType]: A list of imported modules.
+
+    This function performs the following steps:
+    1. Determines the root package and directory.
+    2. Lists files in the current directory.
+    3. Filters for files starting with "ext_".
+    4. Attempts to import .py files and sage_import .sage files.
+    5. Returns a list of successfully imported modules.
+    """
 
     current_module = inspect.getmodule(collect_ext_modules)
     root_package_name = current_module.__name__.split(".")[0]
@@ -50,7 +58,17 @@ def collect_ext_modules():
     return modules
 
 
-def collect_ext_functions(module):
+def collect_ext_functions(module: ModuleType) -> List[Tuple[str, str, Callable]]:
+    """
+    Collects external functions from a given module.
+
+    Args:
+        module (ModuleType): The module to collect functions from.
+
+    Returns:
+        List[Tuple[str, str, Callable]]: A list of tuples containing
+        (module_name, function_name, function_object) for each external function in the module.
+    """
     module_name = module.__name__
     return [
         (module_name, name, obj)
@@ -59,7 +77,17 @@ def collect_ext_functions(module):
     ]
 
 
-def dictionary_from_tuple(function_path):
+def dictionary_from_tuple(function_path: Tuple[str, str, Callable]) -> Dict[str, Any]:
+    """
+    Creates a dictionary representation of a function and its inputs/outputs.
+
+    Args:
+        function_path (Tuple[str, str, Callable]): A tuple containing
+        (module_name, function_name, function_object).
+
+    Returns:
+        Dict[str, Any]: A nested dictionary representing the function's module, name, and inputs/outputs.
+    """
     module_name, function_name, function = function_path
     unprefixed_module_name = module_name[4:]
     unprefixed_function_name = function_name[4:]
@@ -73,7 +101,17 @@ def dictionary_from_tuple(function_path):
     }
 
 
-def deep_merge(dict1, dict2):
+def deep_merge(dict1: Dict[str, Any], dict2: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Recursively merges two dictionaries.
+
+    Args:
+        dict1 (Dict[str, Any]): The first dictionary.
+        dict2 (Dict[str, Any]): The second dictionary.
+
+    Returns:
+        Dict[str, Any]: A new dictionary containing the merged contents of dict1 and dict2.
+    """
     return {
         key: (
             deep_merge(dict1[key], dict2[key])
@@ -89,12 +127,11 @@ def main():
     Main function to process reference inputs, execute generators, and save results.
 
     This function performs the following steps:
-    1. Extracts external estimators paths and inputs from EXT_INPUTS.
-    2. Executes external functions with their respective inputs.
-    3. Updates the reference data with the external functions outputs.
-    4. Processes the reference data (renaming).
-    5. Serializes and validates the processed data.
-    6. Saves the processed data to a YAML file.
+    1. Collects external modules and their functions.
+    2. Creates a dictionary of external functions and their inputs/outputs.
+    3. Serializes the dictionary to YAML format.
+    4. Validates the serialization by deserializing and comparing.
+    5. Saves the serialized data to a YAML file.
     """
 
     external_kat_generators = list(*map(collect_ext_functions, collect_ext_modules()))
