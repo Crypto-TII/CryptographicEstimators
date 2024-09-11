@@ -99,9 +99,7 @@ class BigK(MRAlgorithm):
     def _bk_time_complexity_helper_(self, q, m, n, k, r):
         time = 0
         if k > 0:
-            #time = max(q ** (max(0, m * (n - r) - k + 1)) * (m * (n - r)) ** self._w, 1)
             time = max(log2(q) * (max(0, m * (n - r) - k + 1))  +   self._w * log2((m * (n - r))), 0)
-            #time = log2(time)
         return time
 
     def _bk_memory_complexity_helper_(self, m, n, r):
