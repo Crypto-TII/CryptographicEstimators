@@ -18,7 +18,7 @@
 
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
-from math import log2, log
+from math import log2, log, inf
 from sage.all import Integer
 
 
@@ -79,6 +79,7 @@ class ExhaustiveSearch(MQAlgorithm):
         time -= log2(nsolutions + 1)
         h = self._h
         time += h * log2(q)
+        if time < 0: return inf
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
