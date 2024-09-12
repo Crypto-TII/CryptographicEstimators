@@ -18,7 +18,7 @@
 
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
-from math import log2, log, inf
+from math import log2, log
 from sage.all import Integer
 
 
