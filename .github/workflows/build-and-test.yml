@@ -40,5 +40,9 @@ jobs:
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
-      - name: Run tests
+      - name: Run Sage doctests
         run: make docker-test
+
+      - name: Run pytest
+        run: make docker-pytest
+
