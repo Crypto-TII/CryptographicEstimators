@@ -45,4 +45,3 @@ jobs:
 
       - name: Run pytest
         run: make docker-pytest
-
