@@ -1,15 +1,15 @@
 import pytest
 import yaml
-import inspect
-import os
-
-from tests.helper import DOCKER_YAML_REFERENCE_PATH
+from pathlib import Path
 
 
 @pytest.fixture(scope="session")
-def yaml_references() -> dict:
+def kat() -> dict:
     """
-    Load YAML references from the specified file.
+    Load KAT values serialized in YAML from the kat.yaml file in the same directory as conftest.py.
     """
-    with open(DOCKER_YAML_REFERENCE_PATH, "r") as file:
+    conftest_dir = Path(__file__).parent
+    kat_yaml_path = conftest_dir / "kat.yaml"
+
+    with kat_yaml_path.open("r") as file:
         return yaml.unsafe_load(file)

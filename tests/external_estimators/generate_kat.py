@@ -1,12 +1,12 @@
 import yaml
 import os
 import inspect
+from pathlib import Path
 from importlib import import_module
 from functools import reduce
 from typing import List, Tuple, Dict, Any, Callable
 from types import ModuleType
 from tests.external_estimators.helpers.sage_helper import sage_import
-from tests.helper import DOCKER_YAML_REFERENCE_PATH
 
 
 def collect_ext_modules() -> List[ModuleType]:
@@ -145,7 +145,9 @@ def main():
     loaded_data = yaml.unsafe_load(serialized_kat)
     assert kat_dictionary == loaded_data, "YAML dump and load did not preserve data"
 
-    with open(DOCKER_YAML_REFERENCE_PATH, "w") as yaml_file:
+    # We save the serialization in the parent directory
+    output_file = Path(__file__).parent.parent / "kat.yaml"
+    with output_file.open("w") as yaml_file:
         yaml.dump(kat_dictionary, yaml_file, default_flow_style=None)
 
 
