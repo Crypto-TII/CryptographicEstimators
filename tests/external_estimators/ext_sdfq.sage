@@ -37,14 +37,14 @@ def ext_lee_brickell():
 
     inputs = [(256r, 128r, 64r, 251r), (961r, 771r, 48r, 31r)]
 
-    def gen_single_case(input: tuple):
+    def gen_single_kat(input: tuple):
         n, k, w, q = input
         expected_complexity = (
             log2(ISD_COST(n, k, w, q)) + log2(n) - lee_brickell_correction(k)
         )
         return input, expected_complexity
 
-    inputs_with_expected_outputs = list(map(gen_single_case, inputs))
+    inputs_with_expected_outputs = list(map(gen_single_kat, inputs))
     return inputs_with_expected_outputs
 
 
@@ -60,16 +60,14 @@ def ext_stern():
             - float: Corresponding expected complexity
     """
 
-    sage.all.preparser(False)
     inputs = [(256r, 128r, 64r, 251r), (961r, 771r, 48r, 31r)]
-    sage.all.preparser(True)
 
-    def gen_single_case(input):
+    def gen_single_kat(input):
         n, k, w, q = input
         expected_complexity, _, _ = peters_isd(n, k, q, w)
         return input, expected_complexity
 
-    inputs_with_expected_outputs = list(map(gen_single_case, inputs))
+    inputs_with_expected_outputs = list(map(gen_single_kat, inputs))
     return inputs_with_expected_outputs
 
 
@@ -108,12 +106,12 @@ def ext_stern_range():
             for q in q_values
         ]
 
-        def gen_single_case(input):
+        def gen_single_kat(input):
             n, k, w, q = input
             expected_complexity, _, _ = peters_isd(n, k, q, w)
             return input, expected_complexity
 
-        inputs_with_expected_outputs_on_range = list(map(gen_single_case, inputs))
+        inputs_with_expected_outputs_on_range = list(map(gen_single_kat, inputs))
         return inputs_with_expected_outputs_on_range
 
     inputs_with_expected_outputs = list(chain(*map(gen_single_range, inputs)))
