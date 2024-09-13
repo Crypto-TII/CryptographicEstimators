@@ -100,7 +100,7 @@ docker-pytest:
 	@make stop-container-and-remove container_name="pytest-estimators"
 
 
-docker-generate-tests-references:
+docker-generate-kat:
 	@docker run --name gen-tests-references -v ./tests:/home/cryptographic_estimators/tests --rm ${image_name} sh -c \
 		"sage tests/external_estimators/generate_kat.py"
 	@make docker-build
