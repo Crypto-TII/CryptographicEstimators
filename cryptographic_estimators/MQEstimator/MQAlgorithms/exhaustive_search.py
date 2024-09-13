@@ -79,7 +79,6 @@ class ExhaustiveSearch(MQAlgorithm):
         time -= log2(nsolutions + 1)
         h = self._h
         time += h * log2(q)
-        if time < 0: raise ValueError("time must be >= 0")
         return time
 
     def _compute_memory_complexity(self, parameters: dict):

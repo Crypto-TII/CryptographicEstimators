@@ -58,7 +58,6 @@ class DirectAttack(MAYOAlgorithm):
         n_tilde = m_tilde - K
         w = self.linear_algebra_constant()
         h = self._h
-        nsolutions = self.problem.expected_number_solutions()
         excluded_algorithms = kwargs.get(BASE_EXCLUDED_ALGORITHMS, [Lokshtanov])
         complexity_type = self.complexity_type
 
@@ -70,7 +69,6 @@ class DirectAttack(MAYOAlgorithm):
         self._MQEstimator = MQEstimator(n=n_tilde, m=m_tilde, q=q,
                                         w=w,
                                         h=h,
-                                        nsolutions=nsolutions,
                                         excluded_algorithms=excluded_algorithms,
                                         memory_access=0,
                                         complexity_type=complexity_type,
