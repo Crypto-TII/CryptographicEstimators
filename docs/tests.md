@@ -3,183 +3,222 @@
 ## Testing Suite Architecture Overview
 
 This section provides an overview of the testing architecture for our Python
-library, which employs two types of tests: **regression tests** and
-**doctests**. Both types are powered by pytest, with doctests **(WIP)** being
-specifically based on the Python's doctest module.
+library, which employs two main testing approaches:
 
-## Regression Tests: Understanding the Process
+- **Known Answer Tests (KATs):** These tests, standard in cryptography, verify
+  the correctness of our implementation by comparing outputs with known results
+  for specific inputs. This approach ensures that cryptographic primitives and
+  algorithms are implemented correctly.
+- **Doctests:** These tests live within the code's docstrings, serving a dual
+  purpose. They illustrate how to use functions and classes through practical
+  examples, while simultaneously ensuring the code behaves as documented.
 
-At its core, our regression testing framework is designed to ensure that any
-changes made to the library don't inadvertently break existing functionality.
-Unlike doctests, which focus on individual components in isolation, regression
-tests take a broader approach by comparing the output of entire estimators
-against pre-computed expected results.
+Both KATs and Doctests are powered by the `pytest` framework. Doctests,
+specifically, leverage Python's built-in `doctest` module.
 
-This approach brings a significant advantage: **improved testing times.**
-Running each regression test, which often involves complex computations, can be
-very time-consuming. To optimize this process, we serialize expected outputs on
-predefined inputs. These serialized results are then used in subsequent test
-runs for efficient comparisons, saving valuable time during development.
+## KAT Tests: Understanding the Process
 
-Here's a breakdown of how it works:
+A Known Answer Test (KAT) in cryptography involves comparing the output of an
+algorithm implementation against a set of publicly available parameters and
+expected values. These expected values serve as reference points for
+correctness. Our KAT testing framework uses this approach to ensure that any
+modifications to the library do not disrupt existing functionality.
+
+Importantly, while pre-calculated parameters and values are common, some
+researchers provide source code for their implementations, serving as **KAT
+generators**. These generators allow for dynamic KAT value generation.
+
+Unlike isolated doctests, KATs take a broader approach by comparing outputs
+across entire estimators, often involving complex and computationally intensive
+operations. To optimize this process, we serialize expected outputs for specific
+predefined inputs. These serialized results streamline subsequent test runs,
+enabling efficient comparisons and saving valuable development time.
+
+Here's a breakdown of how our KAT testing process works:
 
 ```mermaid
+flowchart LR;
+  katgen("`KAT Generators`")
+  inputs("`Inputs`")
+  preeo("`Precompute expected outputs`");
+  ser("`Serialize and store inputs/expected outputs`")
+  estimator("`Library estimation`")
+  oc("`TEST:
+    Outputs comparison`")
 
-  flowchart LR;
-    gf("`Generators`")
-    inputs("`Inputs`");
-    preeo("`Precompute expected outputs`");
-    ser("`Serialize and store inputs/expected outputs`")
-    estimator("`Estimator`")
-    oc("`Test: Outputs comparison`")
-
-
-    gf --> preeo;
-    inputs --> preeo;
-    preeo --> ser;
-    ser -- input --> estimator;
-    estimator -- output --> oc;
-    ser -- expected output --> oc;
-
+  katgen --> preeo;
+  inputs --> preeo;
+  preeo --> ser;
+  ser -- inputs --> estimator;
+  estimator -- actual output --> oc;
+  ser -- expected output --> oc;
 ```
 
-1. **Generating Expected Outputs:** For each estimator, we have specialized
-   generator functions that take defined input values and produce the expected
-   outputs. These generator functions are grouped by estimator and found in the
-   `tests/references/` directory. The generated outputs are then serialized to
-   be later used in the testing process.
+1. **KAT Generator Functions:** We utilize KAT generator functions located in
+   the `tests/external_estimators` directory. These functions have hardcoded
+   inputs as they are not intended for regular modification. Both input
+   parameters and their corresponding outputs (referred to as `expected_outputs`
+   as they act as reference values) are serialized into the `tests/kat.yaml`
+   file for later use during estimator testing.
 
-2. **Storing Test Inputs:** To maintain consistency, all input values used by
-   the generator functions are centrally defined in the `REFERENCES_INPUTS`
-   dictionary within `tests/references/references_inputs.py`. This ensures that
-   every test execution utilizes the same, controlled input data.
+2. **Internal Estimation Functions:** With a collection of inputs and their
+   expected outputs, we define how these inputs should be processed within our
+   library. This is achieved through internal estimation functions found in the
+   `tests/internal_estimators` directory. Each function corresponds to a KAT
+   generator in `tests/external_estimators`.
 
-3. **Executing Tests:** The actual test cases reside in the `tests/validations/`
-   directory, with each estimator having a dedicated file
-   (`test_<estimator_name>.py`). These test functions fetch input/output pairs
-   from a YAML file (which was pre-populated using the generator functions and
-   input data), execute the estimator's code, and compare the actual results
-   against the expected values.
+3. **Test Execution and Comparison:** In the final step, we execute all our
+   internal estimation functions using the serialized inputs from
+   `test/kat.yaml`. The calculated outputs are then compared against the
+   expected outputs from the KAT generators to verify the correctness and
+   accuracy of our library's implementations.
 
 This separation of concerns makes it easier to maintain and extend the test
 suite as we introduce new estimators or modify existing ones.
 
 ### Writing Tests: A Step-by-Step Guide
 
-This guide will walk you through the process of adding a new regression test to
-our Python library. We'll assume you're already familiar with Python, pytest,
-and the basic structure of our estimators.
+This guide walks you through incorporating a new KAT test for a library
+estimator, offering insights relevant for both understanding and updating
+existing tests.
 
-#### 1. Create Your Generator Function
+#### 1. Define Your KAT Generator Function
 
-- Create a new Python file (`gen_<your_new_estimator>.py`) within the
-  `tests/references/<YourNewEstimator>Estimator/` directory.
-- Define your generator function that will produce expected outputs based on the
-  provided inputs. Adhere to the naming convention
-  (`gen_<your_new_estimator>_<test_function_name>`)
+This step involves defining or declaring the KAT generator functions which
+produces the expected outputs from hardcoded inputs. These functions require
+careful crafting and may originate from external sources or researchers.
 
-```python
-def gen_<your_new_estimator>_<your_test_function_name>(inputs):
-    # ... logic to generate expected outputs based on inputs
-    return [(input_1, expected_output_1), (input_2, expected_output_2), ...]
-```
+- Begin by creating a new file named `ext_<your_new_estimator>` within the
+  `tests/external_estimators/` directory. This file can be written in either
+  Sage or Python, as our framework supports both formats.
 
-**Notes:**
+- Inside this file, define your KAT generator function using the naming
+  convention `ext_<kat_gen_function_name>`. These functions contain the logic to
+  calculate expected outputs for their predefined inputs.
 
-- While not mandatory, most generator functions are expected to receive a list
-  of tuples as input, with each tuple representing the inputs for one test case.
-- It **is mandatory** that each generator function returns a list of tuples.
-  Each tuple should correspond to the input and expected output for a single
-  test case.
-
-#### 2. Define Your Input Data
-
-- Navigate to the `tests/references/references_inputs.py` file.
-- Locate the `REFERENCES_INPUTS` dictionary.
-- Add an entry for your new estimator (or locate the existing one) and define
-  the specific inputs you'll be testing.
+For example, consider the `ext_lee_brickell` function:
 
 ```python
-REFERENCES_INPUTS = {
-    # ... other estimators ...
-    "<YourNewEstimator>Estimator": {
-        "gen_<your_new_estimator>": {
-            "gen_<your_new_estimator>_<your_test_function_name>": {
-                "inputs": [(input_value_1, input_value_2, ...),  (...), ...] # Your input tuples here
-            },
-            # Add more functions as needed...
-          },
-    },
-    # ... more estimators...
-}
+#Defined at ext_sdfq.py
+def ext_lee_brickell():
+    """Generate expected complexities for Lee-Brickell SDFq problems.
+
+    This function calculates the expected complexities for a predefined set of
+    Lee-Brickell SDFq problem parameters.
+
+    Returns:
+        list of tuple: Each tuple contains:
+            - tuple: Input parameters (n, k, w, q)
+            - float: Corresponding expected complexity
+    """
+
+    inputs = [(256r, 128r, 64r, 251r), (961r, 771r, 48r, 31r)]
+
+    def gen_single_kat(input: tuple):
+        n, k, w, q = input
+        expected_complexity = #necessary calculations to produce the expected complexity
+        return input, expected_complexity
+
+    inputs_with_expected_outputs = list(map(gen_single_kat, inputs))
+    return inputs_with_expected_outputs
 ```
 
-**Note:**
+- **Important:** Each KAT generator function **must** return a list of tuples,
+  with every tuple representing a single KAT (input parameters & expected
+  output).
 
-The structure of this nested dictionary directly maps to the file path of the
-generator function, starting from the
-`CryptographicEstimators/tests/references/` directory.
-
-For example, the entry above indicates that in the file located at:
-`CryptographicEstimators/tests/references/<YourNewEstimator>Estimator/gen_<your_new_estimator>.py`,
-there's a function named `gen_<your_new_estimator>_<your_test_function_name>`.
-This function will be executed using the provided list of input tuples.
-
-#### 3. Generate Reference Output Values
+#### 2. Generate reference KAT values
 
 > :warning: **Warning:** This step might take a while as it builds and runs a
 > Docker container with SageMath.
 
-- From the library root, run the Docker command to generate the reference values
-  based on your provided inputs and the new generator function:
+- From the library root, run the following Docker command to generate the
+  reference KAT values. These are generated based on your KAT generator
+  functions and their hardcoded inputs:
 
   ```bash
-  make docker-generate-tests-references
+  make docker-generate-kat
   ```
 
-- This updates `tests/references/reference_values.yaml`, which now includes your
-  new estimator's expected outputs.
+- This process creates or updates the `tests/kat.yaml` file, which will now
+  include your defined KAT generator functions with their outputs, organized
+  within a dictionary. Note that the `ext_` prefix used in the code is removed
+  for easier readability in the YAML file.
 
-#### 4. Implement the Test Function
+#### 3. Implement the Internal Estimation Function
 
-- In the `tests/validations/` directory, locate the file for your estimator
-  (`test_<your_new_estimator>.py`) or create it if it doesn't exist.
+In this step, instead of directly writing test functions, we'll define our
+library's internal estimators – functions that mirror the KAT generators but
+implement our algorithms. These internal estimators are what we rigorously test
+against the KAT values.
 
-- Add a test function that directly corresponds to your generator function,
-  adhering to the naming convention
-  (`test_<your_new_estimator>_<test_function_name>`).
+- Create a new file in the `tests/internal_estimators` directory with a name
+  that matches your KAT generator file from step 1, but without the `ext_`
+  prefix. For instance, if you created `tests/external_estimators/ext_sdfq.py`,
+  your new file would be `tests/internal_estimators/sdfq.py`.
 
-- The test function will:
+- Within this new file, define a corresponding internal estimation function for
+  each KAT generator function from step 1. Use the same function name but remove
+  the `ext_` prefix. For example, `ext_lee_brickell` would have a corresponding
+  `lee_brickell` function.
 
-  - Receive test data (input/output pairs) from the `reference_values.yaml`
-    file.
-  - Execute your estimator's logic using the input values.
-  - Compare the actual results against the expected outputs from the reference
-    data.
+- These internal estimation functions **must** adhere to the following
+  structure:
+
+  1. **Parameters:**
+
+     - `input`: A tuple containing the input parameters received from the
+       serialized KAT data.
+     - `epsilon`: A hardcoded value representing the acceptable error tolerance
+       during comparison. This helps account for potential small discrepancies
+       arising from different calculation methods or precision levels.
+
+  2. **Returns:**
+
+     - `actual_complexity`: The estimated complexity value as calculated by your
+       internal estimator or algorithm.
+     - `epsilon`: Returns the same `epsilon` value passed as input. This
+       practice maintains consistency and makes it clear that error tolerance is
+       being considered.
+
+For example, the `lee_brickell` function would look like this:
 
 ```python
-def test_<your_new_estimator>_<your_test_function_name>(test_data):
-    """
-    (Optional) Docstring to describe the test case
-    """
-    inputs_with_expected_outputs = test_data()
-    epsilon = 0.01 # Or an appropriate tolerance for your estimator
+def lee_brickell(input, epsilon = 0.01):
+    """Estimate produced by the CryptographicEstimators library for the Lee-Brickell SDFq problem.
 
-    def test_single_case(input_with_exp_output):
-        input, expected_output = input_with_exp_output
-        # ... Use the 'input' to calculate your estimator's  actual_output
-        actual_output  = ...
-        assert abs(actual_output - expected_output) < epsilon
+    This function calculates the complexity estimate for a single case of the Lee-Brickell SDFq problem.
 
-    map(test_single_case, inputs_with_expected_outputs)
+    Args:
+        input (Tuple[int, int, int, int]): A tuple containing (n, k, w, q) parameters for the SDFq problem.
+        epsilon (float): The maximum error tolerance for this estimation.
+
+    Returns:
+        Tuple[float, float]: A tuple containing:
+            - float: The actual complexity calculated by the LeeBrickell algorithm.
+            - float: The epsilon value used for error tolerance.
+    """
+    n, k, w, q = input  # Unpack input tuple
+
+    actual_complexity =  ...# Calculate the actual complexity using your library's implementation
+
+    return actual_complexity, epsilon  # Return the calculated complexity and the epsilon
 ```
 
-#### 5. That's all
+#### 4. Run Your Tests
 
-After following these steps, your new test case will be integrated into our
-testing framework. You can run the tests using our test-related `make` commands,
-or by manually executing
-`pytest tests/validations/test_<your_new_estimator>.py`.
+With your KAT generator functions, internal estimator implementations, and
+generated reference values in place, you're ready to run your tests! Use the
+following command from your library's root directory:
+
+```bash
+make docker-pytest
+```
+
+Or by manually executing
+`pytest tests/validations/test_<your_new_estimator>.py`. The output will
+indicate whether your internal estimators align with the expected KAT values
+within the defined error tolerance.
 
 ## Doctests (with pytests)
 
