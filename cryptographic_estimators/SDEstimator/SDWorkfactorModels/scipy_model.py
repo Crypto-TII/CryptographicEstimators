@@ -25,7 +25,7 @@ from math import log2, inf
 
 class ScipyModel:
     def __init__(self, var_names: list, problem: SDProblem, iterations, accuracy):
-        self.parameters_names = [i for i in var_names if i != 'r']
+        self.parameters_names = [i for i in var_names if i != "r"]
         self.number_of_variables = len(self.parameters_names)
         self.accuracy = accuracy
         self.iterations = iterations
@@ -35,11 +35,11 @@ class ScipyModel:
         self.w = lambda x: w / n
 
         self.set_vars = collections.namedtuple(
-            'SciOptModel', ' '.join(self.parameters_names))
+            "SciOptModel", " ".join(self.parameters_names)
+        )
 
         if problem.nsolutions == max(0, problem.expected_number_solutions()):
-            self.nsolutions = max(
-                0, binomial_approximation(1, w / n) - (1 - k / n))
+            self.nsolutions = max(0, binomial_approximation(1, w / n) - (1 - k / n))
         else:
             self.nsolutions = log2(problem.nsolutions) / n
 
@@ -53,8 +53,12 @@ class ScipyModel:
             bounds = []
             for i in self.parameters_names:
                 if i in parameters:
-                    bounds += [(max(parameters[i] - self.accuracy, 0),
-                                parameters[i] + self.accuracy)]
+                    bounds += [
+                        (
+                            max(parameters[i] - self.accuracy, 0),
+                            parameters[i] + self.accuracy,
+                        )
+                    ]
                 else:
                     bounds += [(0, 1)]
             return bounds

@@ -22,17 +22,14 @@ from .sd_constants import *
 
 
 class SDProblem(BaseProblem):
-    """
-    Construct an instance of the Syndrome Decoding Problem
+    """Construct an instance of the Syndrome Decoding Problem.
 
-    INPUT:
-
-    - ``n`` -- code length
-    - ``k`` -- code dimension
-    - ``w`` -- error weight
-    - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
-    - ``memory_bound`` -- maximum allowed memory to use for solving the problem
-
+    Args:
+        n (int): Code length.
+        k (int): Code dimension.
+        w (int): Error weight.
+        nsolutions (int): Number of (expected) solutions of the problem in logarithmic scale.
+        memory_bound (int): Maximum allowed memory to use for solving the problem.
     """
 
     def __init__(self, n: int, k: int, w: int, **kwargs):
@@ -47,53 +44,58 @@ class SDProblem(BaseProblem):
         self.parameters[SD_CODE_DIMENSION] = k
         self.parameters[SD_ERROR_WEIGHT] = w
 
-        self.nsolutions = kwargs.get("nsolutions", max(
-            self.expected_number_solutions(), 0))
+        self.nsolutions = kwargs.get(
+            "nsolutions", max(self.expected_number_solutions(), 0)
+        )
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """
-        Returns the bit-complexity corresponding to basic_operations field additions
+        Calculates the bit-complexity corresponding to the number of field additions.
 
-        INPUT:
+        Args:
+            basic_operations (float): The number of field additions (in logarithmic scale).
 
-        - ``basic_operations`` -- Number of field additions (logarithmic)
-
+        Returns:
+            The bit-complexity corresponding to the given number of field additions.
         """
+        pass
         n = self.parameters[SD_CODE_LENGTH]
         q = 2
         return log2(log2(q)) + log2(n) + basic_operations
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
         """
-        Returns the memory bit-complexity associated to a given number of elements to store
+        Returns the memory bit-complexity associated with a given number of elements to store.
 
-        INPUT:
+        Args:
+            elements_to_store (float): The number of memory operations (logarithmic).
 
-        - ``elements_to_store`` -- number of memory operations (logarithmic)
-
+        Returns:
+            The memory bit-complexity associated with the given number of elements to store.
         """
         return self.to_bitcomplexity_time(elements_to_store)
 
     def expected_number_solutions(self):
-        """
-        Returns the logarithm of the expected number of existing solutions to the problem
-
-        """
+        """Returns the logarithm of the expected number of existing solutions to the problem"""
         n, k, w = self.get_parameters()
         return log2(comb(n, w)) - (n - k)
 
     def __repr__(self):
-        """
-        """
-        n, k, w  = self.get_parameters()
-        rep = "syndrome decoding problem with (n,k,w) = " \
-              + "(" + str(n) + "," + str(k) + "," + str(w) + ") over Finite Field of size 2"
+        n, k, w = self.get_parameters()
+        rep = (
+            "syndrome decoding problem with (n,k,w) = "
+            + "("
+            + str(n)
+            + ","
+            + str(k)
+            + ","
+            + str(w)
+            + ") over Finite Field of size 2"
+        )
         return rep
 
     def get_parameters(self):
-        """
-        Returns the ISD paramters n, k, w
-        """
+        """Returns the ISD paramters n, k, w"""
         n = self.parameters[SD_CODE_LENGTH]
         k = self.parameters[SD_CODE_DIMENSION]
         w = self.parameters[SD_ERROR_WEIGHT]
