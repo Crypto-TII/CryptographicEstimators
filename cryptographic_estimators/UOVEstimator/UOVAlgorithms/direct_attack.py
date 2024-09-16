@@ -20,7 +20,7 @@ from ..uov_algorithm import UOVAlgorithm
 from ..uov_problem import UOVProblem
 from ...MQEstimator.mq_estimator import MQEstimator
 from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
-from ...base_constants import BASE_MEMORY_BOUND, BASE_NSOLUTIONS, BASE_BIT_COMPLEXITIES, BASE_EXCLUDED_ALGORITHMS
+from ...base_constants import BASE_MEMORY_BOUND, BASE_BIT_COMPLEXITIES, BASE_EXCLUDED_ALGORITHMS
 from math import log2
 from cryptographic_estimators.base_constants import BASE_FORGERY_ATTACK
 
@@ -37,7 +37,6 @@ class DirectAttack(UOVAlgorithm):
     - ``problem`` -- an instance of the UOVProblem class
     - ``w`` -- linear algebra constant (default: 2)
     - ``h`` -- external hybridization parameter (default: 0)
-    - ``nsolutions`` -- number of solutions in logarithmic scale (default: expected_number_solutions))
     - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
@@ -53,13 +52,11 @@ class DirectAttack(UOVAlgorithm):
 
         w = self.linear_algebra_constant()
         h = self._h
-        nsolutions = self.expected_number_solutions()
         excluded_algorithms = kwargs.get(BASE_EXCLUDED_ALGORITHMS, [Lokshtanov])
         complexity_type = self.complexity_type
         self._MQEstimator = MQEstimator(n=n, m=m, q=q,
                                         w=w,
                                         h=h,
-                                        nsolutions=nsolutions,
                                         excluded_algorithms=excluded_algorithms,
                                         memory_access=0,
                                         complexity_type=complexity_type,
@@ -71,13 +68,6 @@ class DirectAttack(UOVAlgorithm):
         if self._fastest_algorithm is None:
             self._fastest_algorithm = self._MQEstimator.fastest_algorithm()
         return self._fastest_algorithm
-
-    def expected_number_solutions(self):
-        """
-        Returns the logarithm of the expected number of existing solutions to the problem
-        """
-        n, m, q = self.problem.get_parameters()
-        return log2(q) * (n - m)
 
     def _compute_time_complexity(self, parameters: dict):
         """
