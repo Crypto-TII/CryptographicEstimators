@@ -137,8 +137,6 @@ class KernelSearch(MRAlgorithm):
         time_complexity = self._ks_time_complexity_helper_(q, m, k_reduced, r)
         reduction_cost = self.cost_reduction(a)
         time += max(time_complexity, reduction_cost)
-        if abs(time_complexity - reduction_cost) < 0:
-            time += 1
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
