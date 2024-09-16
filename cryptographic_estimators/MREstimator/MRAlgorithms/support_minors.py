@@ -253,7 +253,7 @@ class SupportMinors(MRAlgorithm):
             sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             sage: SM = SupportMinors(MRProblem(q=16, m=15, n=15, k=78, r=6))
             sage: SM.time_complexity()
-            144.00706423416636
+            144.00702726689397
 
             sage: SM = SupportMinors(MRProblem(q=2, m=10, n=10, k=70, r=4))
             sage: SM.time_complexity()
@@ -267,12 +267,13 @@ class SupportMinors(MRAlgorithm):
 
         q, m, n, k, r = self.problem.get_parameters()
         time = self.hybridization_factor(a, lv)
-        k_hybrid = k - a * m - lv
-        if k_hybrid > 0:
-            t = self._sm_time_complexity_helper_(q=q, K=k_hybrid + 1, r=r, nprime=nprime, b=b, variant=variant)
-            time = time + log2(2 ** t + min(k_hybrid, (a * m)) ** self._w)
+        _, _, _, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
+        reduction_cost = self.cost_reduction(a)
+        if k_reduced > 0:
+            time_complexity = self._sm_time_complexity_helper_(q=q, K=k_reduced + 1, r=r, nprime=nprime, b=b, variant=variant)
+            time += max(time_complexity, reduction_cost)
         else:
-            time = time + _strassen_complexity_(m, n)
+            time += _strassen_complexity_(m, n)
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
