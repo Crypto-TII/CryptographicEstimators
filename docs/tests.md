@@ -5,10 +5,12 @@
 This section provides an overview of the testing architecture for our Python
 library, which employs two main testing approaches:
 
-- **Known Answer Tests (KATs):** These tests, standard in cryptography, verify
-  the correctness of our implementation by comparing outputs with known results
-  for specific inputs. This approach ensures that cryptographic primitives and
-  algorithms are implemented correctly.
+- **Known Answer Tests (KATs):** These tests verify the accuracy of the
+  estimates made by the CryptographicEstimators library. Here one compares the
+  estimates by CryptographicEstimators with the one of existing external
+  estimators which are widely accepted as correct by the cryptographic
+  community.
+
 - **Doctests:** These tests live within the code's docstrings, serving a dual
   purpose. They illustrate how to use functions and classes through practical
   examples, while simultaneously ensuring the code behaves as documented.
@@ -21,12 +23,12 @@ specifically, leverage Python's built-in `doctest` module.
 A Known Answer Test (KAT) in cryptography involves comparing the output of an
 algorithm implementation against a set of publicly available parameters and
 expected values. These expected values serve as reference points for
-correctness. Our KAT testing framework uses this approach to ensure that any
+correctness. This KAT testing framework uses this approach to ensure that any
 modifications to the library do not disrupt existing functionality.
 
 Importantly, while pre-calculated parameters and values are common, some
-researchers provide source code for their implementations, serving as **KAT
-generators**. These generators allow for dynamic KAT value generation.
+researchers provide source code (estimators) for their estimates, serving as
+**KAT generators**. These generators allow for dynamic KAT value generation.
 
 Unlike isolated doctests, KATs take a broader approach by comparing outputs
 across entire estimators, often involving complex and computationally intensive
@@ -63,15 +65,16 @@ flowchart LR;
 
 2. **Internal Estimation Functions:** With a collection of inputs and their
    expected outputs, we define how these inputs should be processed within our
-   library. This is achieved through internal estimation functions found in the
+   library in order to match the configuration of the external estimator. This
+   is achieved through internal estimation functions found in the
    `tests/internal_estimators` directory. Each function corresponds to a KAT
    generator in `tests/external_estimators`.
 
 3. **Test Execution and Comparison:** In the final step, we execute all our
    internal estimation functions using the serialized inputs from
    `test/kat.yaml`. The calculated outputs are then compared against the
-   expected outputs from the KAT generators to verify the correctness and
-   accuracy of our library's implementations.
+   expected outputs from the KAT generators to verify the accuracy of the
+   CryptographicEstimators library.
 
 This separation of concerns makes it easier to maintain and extend the test
 suite as we introduce new estimators or modify existing ones.
@@ -85,15 +88,16 @@ existing tests.
 #### 1. Define Your KAT Generator Function
 
 This step involves defining or declaring the KAT generator functions which
-produces the expected outputs from hardcoded inputs. These functions require
-careful crafting and may originate from external sources or researchers.
+produces the expected outputs from hardcoded inputs. These functions are
+wrappers of external estimators of the complexity of particular algorithms.
+Hence, these functions require careful crafting.
 
-- Begin by creating a new file named `ext_<your_new_estimator>` within the
+- Begin by creating a new file named `ext_<estimator_name>` within the
   `tests/external_estimators/` directory. This file can be written in either
   Sage or Python, as our framework supports both formats.
 
 - Inside this file, define your KAT generator function using the naming
-  convention `ext_<kat_gen_function_name>`. These functions contain the logic to
+  convention `ext_<algorithm_name>`. These functions contain the logic to
   calculate expected outputs for their predefined inputs.
 
 For example, consider the `ext_lee_brickell` function:
@@ -112,11 +116,12 @@ def ext_lee_brickell():
             - float: Corresponding expected complexity
     """
 
-    inputs = [(256r, 128r, 64r, 251r), (961r, 771r, 48r, 31r)]
+    inputs = [(256, 128, 64, 251), (961, 771, 48, 31)]
 
     def gen_single_kat(input: tuple):
         n, k, w, q = input
-        expected_complexity = #necessary calculations to produce the expected complexity
+        expected_complexity = ... # output of the external estimating the complexity
+        # of the lee-brickell algorithm on inputs (n, k, w, q)
         return input, expected_complexity
 
     inputs_with_expected_outputs = list(map(gen_single_kat, inputs))
@@ -219,10 +224,6 @@ Or by manually executing
 `pytest tests/validations/test_<your_new_estimator>.py`. The output will
 indicate whether your internal estimators align with the expected KAT values
 within the defined error tolerance.
-
-## Doctests (with pytests)
-
-TODO
 
 ## Writing Doctests (with sage doctests)
 
