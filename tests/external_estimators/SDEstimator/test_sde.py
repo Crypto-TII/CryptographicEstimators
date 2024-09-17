@@ -131,31 +131,39 @@ def test_all():
     """
     assert len(algos) == len(test_algos)
     for i, _ in enumerate(test_algos):
-        A1 = algos[i]
-        A2 = test_algos[i]
+        internal_algorithm = algos[i]
+        external_algorithm = test_algos[i]
         for set in test_sets:
             n, k, w = set[0], set[1], set[2]
-            Alg = A1(SDProblem(n=n, k=k, w=w), bit_complexities=0)
-            Alg2 = A2(n=n, k=k, w=w)
+            internal_estimator = internal_algorithm(
+                SDProblem(n=n, k=k, w=w), bit_complexities=0
+            )
+            external_estimator = external_algorithm(n=n, k=k, w=w)
 
             # Slight correction of parameter ranges leads to (slightly) better parameters in case of the
             # CryptographicEstimators for Both-May and May-Ozerov. For test we fix parameters to the once from the
             # online code.
             if (
-                Alg._name == "Both-May"
-                or Alg._name == "May-OzerovD2"
-                or Alg._name == "May-OzerovD3"
+                internal_estimator._name == "Both-May"
+                or internal_estimator._name == "May-OzerovD2"
+                or internal_estimator._name == "May-OzerovD3"
             ):
                 too_much = [
-                    i for i in Alg2["parameters"] if i not in Alg.parameter_names()
+                    i
+                    for i in external_estimator["parameters"]
+                    if i not in internal_estimator.parameter_names()
                 ]
                 for i in too_much:
-                    Alg2["parameters"].pop(i)
-                Alg.set_parameters(Alg2["parameters"])
+                    external_estimator["parameters"].pop(i)
+                internal_estimator.set_parameters(external_estimator["parameters"])
 
-            T1 = Alg.time_complexity()
-            T2 = Alg2["time"]
-            assert T2 - ranges <= T1 <= T2 + ranges
+            actual_complexity = internal_estimator.time_complexity()
+            expected_complexity = external_estimator["time"]
+            assert (
+                expected_complexity - ranges
+                <= actual_complexity
+                <= expected_complexity + ranges
+            )
 
 
 def test_bjmm_plus():
