@@ -49,31 +49,22 @@ class BJMMScipyModel(ScipyModel):
         self.L3 = lambda x: 2 * self.L2(x) - (self.r2(x) - self.r1(x)) + self.q2(x)
 
         self.constraints = [
-            {
-                "type": "ineq",
-                "fun": self._inject_vars(lambda x: self.r2(x) - self.r1(x)),
-            },
-            {"type": "ineq", "fun": self._inject_vars(lambda x: x.l - self.r2(x))},
-            {
-                "type": "ineq",
-                "fun": self._inject_vars(
-                    lambda x: self.rate(x) - x.p - (x.p2 - x.p / 2)
-                ),
-            },
-            {
-                "type": "ineq",
-                "fun": self._inject_vars(
-                    lambda x: self.rate(x) - x.p2 - (x.p1 - x.p2 / 2)
-                ),
-            },
-            {"type": "ineq", "fun": self._inject_vars(lambda x: self.rate(x) - x.p1)},
-            {
-                "type": "ineq",
-                "fun": self._inject_vars(
-                    lambda x: (1.0 - self.rate(x) - x.l) - (self.w(x) - x.p)
-                ),
-            },
-            {"type": "ineq", "fun": self._inject_vars(lambda x: self.w(x) - x.p)},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: self.r2(x) - self.r1(x))},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: x.l - self.r2(x))},
+
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: self.rate(x) - x.p - (x.p2 - x.p / 2))},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: self.rate(x) - x.p2 - (x.p1 - x.p2 / 2))},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: self.rate(x) - x.p1)},
+
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: (1. - self.rate(x) - x.l) - (self.w(x) - x.p))},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: self.w(x) - x.p)},
         ]
 
     def _memory(self, x):
@@ -108,14 +99,13 @@ class BJMMScipyModel(ScipyModel):
 
     def _time_perms(self, x):
         """Compute the number of expected permutations needed."""
-        return max(
-            0,
-            binomial_approximation(1.0, self.w(x))
-            - binomial_approximation(self.rate(x) + x.l, x.p)
-            - binomial_approximation(1 - self.rate(x) - x.l, self.w(x) - x.p)
-            - self.nsolutions,
-        )
-
+        return max(0,
+                   binomial_approximation(1., self.w(x))
+                   - binomial_approximation(self.rate(x) + x.l, x.p)
+                   - binomial_approximation(1 -
+                                            self.rate(x) - x.l, self.w(x) - x.p)
+                   - self.nsolutions
+                   )
     def _time(self, x):
         """Returns the total runtime of the BJMM algorithm for the given configuration."""
         x = self.set_vars(*x)

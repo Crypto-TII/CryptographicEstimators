@@ -46,33 +46,22 @@ class BothMayScipyModel(ScipyModel):
         )
 
         self.constraints = [
-            {"type": "eq", "fun": self._inject_vars(lambda x: self.r1(x) - self.c1(x))},
-            {
-                "type": "ineq",
-                "fun": self._inject_vars(
-                    lambda x: (1 - self.rate(x) - x.l) - (self.w(x) - x.p - x.w2)
-                ),
-            },
-            {
-                "type": "ineq",
-                "fun": self._inject_vars(lambda x: 1 - self.rate(x) - x.l),
-            },
-            {
-                "type": "ineq",
-                "fun": self._inject_vars(lambda x: self.w(x) - x.p - x.w2),
-            },
-            {
-                "type": "ineq",
-                "fun": self._inject_vars(lambda x: x.l - x.w2 - (x.w1 - x.w2 / 2)),
-            },
-            {"type": "ineq", "fun": self._inject_vars(lambda x: x.l - x.w1)},
-            {
-                "type": "ineq",
-                "fun": self._inject_vars(
-                    lambda x: self.rate(x) - x.p - (x.p1 - x.p / 2)
-                ),
-            },
-            {"type": "ineq", "fun": self._inject_vars(lambda x: self.rate(x) - x.p1)},
+            {'type': 'eq', 'fun': self._inject_vars(
+                lambda x: self.r1(x) - self.c1(x))},
+            {'type': 'ineq', 'fun': self._inject_vars(lambda x: (
+                1 - self.rate(x) - x.l) - (self.w(x) - x.p - x.w2))},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: 1 - self.rate(x) - x.l)},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: self.w(x) - x.p - x.w2)},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: x.l - x.w2 - (x.w1 - x.w2 / 2))},
+            {'type': 'ineq', 'fun': self._inject_vars(lambda x: x.l - x.w1)},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: self.rate(x) - x.p - (x.p1 - x.p / 2))},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: self.rate(x) - x.p1)},
+
         ]
 
     def _memory(self, x):
@@ -87,14 +76,14 @@ class BothMayScipyModel(ScipyModel):
         return time_list1, time_list2
 
     def _time_perms(self, x):
-        return max(
-            0,
-            binomial_approximation(1, self.w(x))
-            - binomial_approximation(1 - self.rate(x) - x.l, self.w(x) - x.p - x.w2)
-            - binomial_approximation(self.rate(x), x.p)
-            - binomial_approximation(x.l, x.w2)
-            - self.nsolutions,
-        )
+        return max(0,
+                   binomial_approximation(1, self.w(x))
+                   - binomial_approximation(1 - self.rate(x) -
+                                            x.l, self.w(x) - x.p - x.w2)
+                   - binomial_approximation(self.rate(x), x.p)
+                   - binomial_approximation(x.l, x.w2)
+                   - self.nsolutions
+                   )
 
     def _time(self, x):
         x = self.set_vars(*x)

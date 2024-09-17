@@ -29,12 +29,12 @@ class PrangeScipyModel(ScipyModel):
 
     def _build_model_and_set_constraints(self):
         self.constraints = [
-            {
-                "type": "ineq",
-                "fun": self._inject_vars(lambda x: 1 - self.rate(x) - self.w(x) - x.p),
-            },
-            {"type": "ineq", "fun": self._inject_vars(lambda x: self.rate(x) - x.p)},
-            {"type": "ineq", "fun": self._inject_vars(lambda x: self.w(x) - x.p)},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: 1 - self.rate(x) - self.w(x) - x.p)},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: self.rate(x) - x.p)},
+            {'type': 'ineq', 'fun': self._inject_vars(
+                lambda x: self.w(x) - x.p)},
         ]
 
     def _memory(self, x):
@@ -44,13 +44,12 @@ class PrangeScipyModel(ScipyModel):
         return [binomial_approximation(self.rate(x), x.p)]
 
     def _time_perms(self, x):
-        return max(
-            0,
-            binomial_approximation(1.0, self.w(x))
-            - binomial_approximation(self.rate(x), x.p)
-            - binomial_approximation(1 - self.rate(x), self.w(x) - x.p)
-            - self.nsolutions,
-        )
+        return max(0,
+                   binomial_approximation(1., self.w(x))
+                   - binomial_approximation(self.rate(x), x.p)
+                   - binomial_approximation(1 - self.rate(x), self.w(x) - x.p)
+                   - self.nsolutions
+                   )
 
     def _time(self, x):
         x = self.set_vars(*x)
