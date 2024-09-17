@@ -69,50 +69,50 @@ def ext_stern():
 
     inputs_with_expected_outputs = list(map(gen_single_kat, inputs))
     return inputs_with_expected_outputs
-
-
-def ext_stern_range():
-    """Generate ranges of expected complexities for Stern SDFq problems.
-
-    This function calculates the expected complexities for a range of Stern SDFq
-    problem parameters using the Peters ISD algorithm.
-
-    Returns:
-        list of tuple: A flattened list where each tuple contains:
-            - tuple: Input parameters (n, k, w, q)
-            - float: Corresponding expected complexity
-
-    Note:
-        The function generates combinations of parameters within predefined ranges
-        and q values.
-    """
-
-    inputs = [
-        (
-            range(50r, 70r, 5r),
-            range(20r, 40r, 2r),
-            [7r, 11r, 17r, 53r, 103r, 151r, 199r, 251r],
-        ),
-    ]
-
-    def gen_single_range(ranges_input):
-        n_range, k_range, q_values = ranges_input
-
-        inputs = [
-            (n, k, w, q)
-            for n in n_range
-            for k in k_range
-            for w in range(4, min(n - k - 1, int(0.5 * n)))
-            for q in q_values
-        ]
-
-        def gen_single_kat(input):
-            n, k, w, q = input
-            expected_complexity, _, _ = peters_isd(n, k, q, w)
-            return input, expected_complexity
-
-        inputs_with_expected_outputs_on_range = list(map(gen_single_kat, inputs))
-        return inputs_with_expected_outputs_on_range
-
-    inputs_with_expected_outputs = list(chain(*map(gen_single_range, inputs)))
-    return inputs_with_expected_outputs
+#
+#
+# def ext_stern_range():
+#     """Generate ranges of expected complexities for Stern SDFq problems.
+#
+#     This function calculates the expected complexities for a range of Stern SDFq
+#     problem parameters using the Peters ISD algorithm.
+#
+#     Returns:
+#         list of tuple: A flattened list where each tuple contains:
+#             - tuple: Input parameters (n, k, w, q)
+#             - float: Corresponding expected complexity
+#
+#     Note:
+#         The function generates combinations of parameters within predefined ranges
+#         and q values.
+#     """
+#
+#     inputs = [
+#         (
+#             range(50r, 70r, 5r),
+#             range(20r, 40r, 2r),
+#             [7r, 11r, 17r, 53r, 103r, 151r, 199r, 251r],
+#         ),
+#     ]
+#
+#     def gen_single_range(ranges_input):
+#         n_range, k_range, q_values = ranges_input
+#
+#         inputs = [
+#             (n, k, w, q)
+#             for n in n_range
+#             for k in k_range
+#             for w in range(4, min(n - k - 1, int(0.5 * n)))
+#             for q in q_values
+#         ]
+#
+#         def gen_single_kat(input):
+#             n, k, w, q = input
+#             expected_complexity, _, _ = peters_isd(n, k, q, w)
+#             return input, expected_complexity
+#
+#         inputs_with_expected_outputs_on_range = list(map(gen_single_kat, inputs))
+#         return inputs_with_expected_outputs_on_range
+#
+#     inputs_with_expected_outputs = list(chain(*map(gen_single_range, inputs)))
+#     return inputs_with_expected_outputs
