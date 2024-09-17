@@ -1,4 +1,15 @@
 sd:
+  bjmm_plus:
+    inputs_with_expected_outputs:
+    - !!python/tuple
+      - !!python/tuple [100, 50, 10]
+      - 16.135073446600188
+    - !!python/tuple
+      - !!python/tuple [1284, 1028, 24]
+      - 56.01962754624196
+    - !!python/tuple
+      - !!python/tuple [3488, 2720, 64]
+      - 130.34282760155017
   estimates_with_prange:
     inputs_with_expected_outputs:
     - !!python/tuple

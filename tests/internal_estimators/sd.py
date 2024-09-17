@@ -41,3 +41,12 @@ def estimates_with_prange(input: tuple, epsilon: int = 0):
     ).estimate()
 
     return actual_complexity, epsilon
+
+
+def bjmm_plus(input: tuple, epsilon: float = 0.01):
+    n, k, w = input
+    actual_complexity = BJMMplus(
+        SDProblem(n, k, w), bit_complexities=0
+    ).time_complexity()
+
+    return actual_complexity, epsilon
