@@ -133,10 +133,7 @@ class Dumer(SDAlgorithm):
             return inf, memory_bound + 1
 
         Tp = max(
-            log2(binom(n, w))
-            - log2(binom(n - k - par.l, w - 2 * par.p))
-            - log2(binom(k1, par.p) ** 2)
-            - solutions,
+            log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p)) - log2(binom(k1, par.p) ** 2) - solutions,
             0,
         )
         Tg = _gaussian_elimination_complexity(n, k, par.r)

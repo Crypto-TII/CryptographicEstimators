@@ -41,9 +41,7 @@ class DumerScipyModel(ScipyModel):
             },
             {
                 "type": "ineq",
-                "fun": self._inject_vars(
-                    lambda x: (1.0 - self.rate(x) - x.l) - (self.w(x) - x.p)
-                ),
+                "fun": self._inject_vars(lambda x: (1.0 - self.rate(x) - x.l) - (self.w(x) - x.p)),
             },
             {"type": "ineq", "fun": self._inject_vars(lambda x: self.w(x) - x.p)},
         ]

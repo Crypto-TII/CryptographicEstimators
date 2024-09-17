@@ -34,9 +34,7 @@ class ScipyModel:
         self.rate = lambda x: k / n
         self.w = lambda x: w / n
 
-        self.set_vars = collections.namedtuple(
-            "SciOptModel", " ".join(self.parameters_names)
-        )
+        self.set_vars = collections.namedtuple("SciOptModel", " ".join(self.parameters_names))
 
         if problem.nsolutions == max(0, problem.expected_number_solutions()):
             self.nsolutions = max(0, binomial_approximation(1, w / n) - (1 - k / n))

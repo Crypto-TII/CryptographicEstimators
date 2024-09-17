@@ -172,17 +172,13 @@ class BothMay(SDAlgorithm):
         new_ranges = self._fix_ranges_for_already_set_parameters()
         n, k, w = self.problem.get_parameters()
 
-        for p in range(
-            new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]) + 1, 2
-        ):
+        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]) + 1, 2):
             for l in range(
                 new_ranges["l"]["min"],
                 min(n - k - (w - 2 * p), new_ranges["l"]["max"]) + 1,
             ):
                 for w1 in range(new_ranges["w1"]["min"], new_ranges["w1"]["max"] + 1):
-                    for w2 in range(
-                        new_ranges["w2"]["min"], new_ranges["w2"]["max"] + 1, 2
-                    ):
+                    for w2 in range(new_ranges["w2"]["min"], new_ranges["w2"]["max"] + 1, 2):
                         for p1 in range(
                             max(new_ranges["p1"]["min"], (p + 1) // 2),
                             new_ranges["p1"]["max"] + 1,
@@ -236,9 +232,7 @@ class BothMay(SDAlgorithm):
         Tg = _gaussian_elimination_complexity(n, k, par.r)
 
         first_level_nn = _indyk_motwani_complexity(L1, par.l, par.w1, self._hmap)
-        second_level_nn = _indyk_motwani_complexity(
-            L12, n - k - par.l, w - 2 * par.p - par.w2, self._hmap
-        )
+        second_level_nn = _indyk_motwani_complexity(L12, n - k - par.l, w - 2 * par.p - par.w2, self._hmap)
         T_tree = 2 * first_level_nn + second_level_nn
         T_rep = int(ceil(2 ** max(0, par.l - log2(reps))))
 

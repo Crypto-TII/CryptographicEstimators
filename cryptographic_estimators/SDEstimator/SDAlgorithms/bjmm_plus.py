@@ -166,9 +166,7 @@ class BJMMplus(SDAlgorithm):
 
         n, k, w = self.problem.get_parameters()
 
-        for p in range(
-            new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]) + 1, 2
-        ):
+        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]) + 1, 2):
             for l in range(
                 new_ranges["l"]["min"],
                 min(n - k - (w - 2 * p), new_ranges["l"]["max"]) + 1,
@@ -221,9 +219,7 @@ class BJMMplus(SDAlgorithm):
             L1b = binom(k1, par.p1 - 1) * k
 
         if not self.qc:
-            reps = (
-                binom(par.p, par.p // 2) * binom(k1 - par.p, par.p1 - par.p // 2)
-            ) ** 2
+            reps = (binom(par.p, par.p // 2) * binom(k1 - par.p, par.p1 - par.p // 2)) ** 2
         else:
             reps = (
                 binom(par.p, par.p // 2)
@@ -258,9 +254,9 @@ class BJMMplus(SDAlgorithm):
 
         Tg = _gaussian_elimination_complexity(n, k, par.r)
         if not self.qc:
-            T_tree = 2 * _list_merge_complexity(
-                L1, par.l1, self._hmap
-            ) + _list_merge_complexity(L12, par.l - par.l1, self._hmap)
+            T_tree = 2 * _list_merge_complexity(L1, par.l1, self._hmap) + _list_merge_complexity(
+                L12, par.l - par.l1, self._hmap
+            )
         else:
             T_tree = (
                 _list_merge_async_complexity(L1, L1b, par.l1, self._hmap)

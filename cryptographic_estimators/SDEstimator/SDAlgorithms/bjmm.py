@@ -131,17 +131,11 @@ class BJMM(SDAlgorithm):
         if "depth" not in parameters:
             raise ValueError("Depth must be specified for BJMM")
 
-        if (
-            parameters["depth"] == 2
-            and self.BJMM_depth_2._do_valid_parameters_in_current_ranges_exist()
-        ):
+        if parameters["depth"] == 2 and self.BJMM_depth_2._do_valid_parameters_in_current_ranges_exist():
             return self.BJMM_depth_2._time_and_memory_complexity(
                 self.BJMM_depth_2.optimal_parameters(), verbose_information
             )
-        elif (
-            parameters["depth"] == 3
-            and self.BJMM_depth_3._do_valid_parameters_in_current_ranges_exist()
-        ):
+        elif parameters["depth"] == 3 and self.BJMM_depth_3._do_valid_parameters_in_current_ranges_exist():
             return self.BJMM_depth_3._time_and_memory_complexity(
                 self.BJMM_depth_3.optimal_parameters(), verbose_information
             )
@@ -273,9 +267,7 @@ class BJMMd2(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
 
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
-            for p1 in range(
-                max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]
-            ):
+            for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
                 ell_approx = 2 * log2(binom(k // 2, p1))
                 for l in range(
                     max(new_ranges["l"]["min"], int(ell_approx * 0.75)),
@@ -330,9 +322,7 @@ class BJMMd2(SDAlgorithm):
             0,
         )
         Tg = _gaussian_elimination_complexity(n, k, par.r)
-        T_tree = 2 * _list_merge_complexity(
-            L1, l1, self._hmap
-        ) + _list_merge_complexity(L12, par.l - l1, self._hmap)
+        T_tree = 2 * _list_merge_complexity(L1, l1, self._hmap) + _list_merge_complexity(L12, par.l - l1, self._hmap)
         T_rep = int(ceil(2 ** (l1 - log2(reps))))
 
         time = Tp + log2(Tg + T_rep * T_tree)
@@ -489,9 +479,7 @@ class BJMMd3(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
 
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
-            for l in range(
-                new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])
-            ):
+            for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
                 for p2 in range(
                     max(new_ranges["p2"]["min"], p // 2 + ((p // 2) % 2)),
                     new_ranges["p2"]["max"],
@@ -525,9 +513,7 @@ class BJMMd3(SDAlgorithm):
         if self._is_early_abort_possible(log2(L1)):
             return inf, inf
 
-        reps1 = (
-            binom(par.p2, par.p2 / 2) * binom(k1 - par.p2, par.p1 - par.p2 / 2)
-        ) ** 2
+        reps1 = (binom(par.p2, par.p2 / 2) * binom(k1 - par.p2, par.p1 - par.p2 / 2)) ** 2
         l1 = int((log2(reps1))) if reps1 != 1 else 0
 
         L12 = max(1, L1**2 // 2**l1)
@@ -552,9 +538,7 @@ class BJMMd3(SDAlgorithm):
             + 2 * _list_merge_complexity(L12, l2 - l1, self._hmap)
             + _list_merge_complexity(L1234, par.l - l2, self._hmap)
         )
-        T_rep = int(
-            ceil(2 ** (3 * max(0, l1 - log2(reps1)) + max(0, l2 - log2(reps2))))
-        )
+        T_rep = int(ceil(2 ** (3 * max(0, l1 - log2(reps1)) + max(0, l2 - log2(reps2)))))
 
         time = Tp + log2(Tg + T_rep * T_tree)
 

@@ -23,20 +23,14 @@ from collections import namedtuple
 
 
 class BJMMScipyModel(ScipyModel):
-    def __init__(
-        self, par_names: list, problem: SDProblem, iterations: int, accuracy: int
-    ):
+    def __init__(self, par_names: list, problem: SDProblem, iterations: int, accuracy: int):
         """Optimization model for workfactor computation of BJMM algorithm in depth 3."""
         super().__init__(par_names, problem, iterations, accuracy)
 
     def _build_model_and_set_constraints(self):
         """Initializes the constraints for the scipy optimizer."""
-        self.r1 = lambda x: representations_asymptotic(
-            x.p2, x.p1 - x.p2 / 2, self.rate(x) + x.l
-        )
-        self.r2 = lambda x: representations_asymptotic(
-            x.p, x.p2 - x.p / 2, self.rate(x) + x.l
-        )
+        self.r1 = lambda x: representations_asymptotic(x.p2, x.p1 - x.p2 / 2, self.rate(x) + x.l)
+        self.r2 = lambda x: representations_asymptotic(x.p, x.p2 - x.p / 2, self.rate(x) + x.l)
 
         self.D1 = lambda x: binomial_approximation(self.rate(x) + x.l, x.p1)
         self.D2 = lambda x: binomial_approximation(self.rate(x) + x.l, x.p2)
@@ -56,22 +50,16 @@ class BJMMScipyModel(ScipyModel):
             {"type": "ineq", "fun": self._inject_vars(lambda x: x.l - self.r2(x))},
             {
                 "type": "ineq",
-                "fun": self._inject_vars(
-                    lambda x: self.rate(x) - x.p - (x.p2 - x.p / 2)
-                ),
+                "fun": self._inject_vars(lambda x: self.rate(x) - x.p - (x.p2 - x.p / 2)),
             },
             {
                 "type": "ineq",
-                "fun": self._inject_vars(
-                    lambda x: self.rate(x) - x.p2 - (x.p1 - x.p2 / 2)
-                ),
+                "fun": self._inject_vars(lambda x: self.rate(x) - x.p2 - (x.p1 - x.p2 / 2)),
             },
             {"type": "ineq", "fun": self._inject_vars(lambda x: self.rate(x) - x.p1)},
             {
                 "type": "ineq",
-                "fun": self._inject_vars(
-                    lambda x: (1.0 - self.rate(x) - x.l) - (self.w(x) - x.p)
-                ),
+                "fun": self._inject_vars(lambda x: (1.0 - self.rate(x) - x.l) - (self.w(x) - x.p)),
             },
             {"type": "ineq", "fun": self._inject_vars(lambda x: self.w(x) - x.p)},
         ]

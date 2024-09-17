@@ -165,10 +165,7 @@ class Stern(SDAlgorithm):
 
         Tp = max(
             0,
-            log2(binom(n, w))
-            - log2(binom(n - k, w - 2 * par.p))
-            - log2(binom(k1, par.p) ** 2)
-            - solutions,
+            log2(binom(n, w)) - log2(binom(n - k, w - 2 * par.p)) - log2(binom(k1, par.p) ** 2) - solutions,
         )
 
         # We use Indyk-Motwani (IM) taking into account the possibility of multiple existing solutions
@@ -176,21 +173,15 @@ class Stern(SDAlgorithm):
         # remaining_sol denotes the number of expected solutions per permutation
         # l_part_iterations is the expected number of projections need by IM to find one of those solutions
 
-        remaining_sol = (
-            binom(n - k, w - 2 * par.p) * binom(k1, par.p) ** 2 * int(2**solutions)
-        ) // binom(n, w)
-        l_part_iterations = binom(n - k, w - 2 * par.p) // binom(
-            n - k - par.l, w - 2 * par.p
-        )
+        remaining_sol = (binom(n - k, w - 2 * par.p) * binom(k1, par.p) ** 2 * int(2**solutions)) // binom(n, w)
+        l_part_iterations = binom(n - k, w - 2 * par.p) // binom(n - k - par.l, w - 2 * par.p)
 
         if remaining_sol > 0:
             l_part_iterations //= max(1, remaining_sol)
             l_part_iterations = max(1, l_part_iterations)
 
         Tg = _gaussian_elimination_complexity(n, k, par.r)
-        time = Tp + log2(
-            Tg + _list_merge_complexity(L1, par.l, self._hmap) * l_part_iterations
-        )
+        time = Tp + log2(Tg + _list_merge_complexity(L1, par.l, self._hmap) * l_part_iterations)
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp

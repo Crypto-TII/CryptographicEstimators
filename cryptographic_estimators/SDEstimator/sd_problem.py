@@ -44,9 +44,7 @@ class SDProblem(BaseProblem):
         self.parameters[SD_CODE_DIMENSION] = k
         self.parameters[SD_ERROR_WEIGHT] = w
 
-        self.nsolutions = kwargs.get(
-            "nsolutions", max(self.expected_number_solutions(), 0)
-        )
+        self.nsolutions = kwargs.get("nsolutions", max(self.expected_number_solutions(), 0))
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """

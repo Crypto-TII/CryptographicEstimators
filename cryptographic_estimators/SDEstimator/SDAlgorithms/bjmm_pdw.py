@@ -142,16 +142,12 @@ class BJMMpdw(SDAlgorithm):
         new_ranges = self._fix_ranges_for_already_set_parameters()
         _, _, w = self.problem.get_parameters()
 
-        for p in range(
-            new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]) + 1, 2
-        ):
+        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]) + 1, 2):
             for p1 in range(
                 max(new_ranges["p1"]["min"], (p + 1) // 2),
                 min(w, new_ranges["p1"]["max"]) + 1,
             ):
-                for w2 in range(
-                    new_ranges["w2"]["min"], min(w - p1, new_ranges["w2"]["max"]) + 1
-                ):
+                for w2 in range(new_ranges["w2"]["min"], min(w - p1, new_ranges["w2"]["max"]) + 1):
                     indices = {
                         "p": p,
                         "p1": p1,
@@ -162,9 +158,7 @@ class BJMMpdw(SDAlgorithm):
                         continue
                     yield indices
 
-    def _choose_first_constraint_such_that_representations_cancel_out_exactly(
-        self, parameters: dict
-    ):
+    def _choose_first_constraint_such_that_representations_cancel_out_exactly(self, parameters: dict):
         """
         Tries to find an optimal l1 value fulfilling its constraints.
         """
@@ -174,16 +168,7 @@ class BJMMpdw(SDAlgorithm):
         try:
 
             def f(x):
-                return (
-                    log2(
-                        (
-                            binom(par.p, par.p // 2)
-                            * binom_sp((k + x) / 2 - par.p, par.p1 - par.p // 2)
-                        )
-                    )
-                    * 2
-                    - x
-                )
+                return log2((binom(par.p, par.p // 2) * binom_sp((k + x) / 2 - par.p, par.p1 - par.p // 2))) * 2 - x
 
             l1_val = int(fsolve(f, 0)[0])
 
@@ -194,9 +179,7 @@ class BJMMpdw(SDAlgorithm):
 
         return l1_val
 
-    def _choose_second_constraint_such_that_list_size_remains_constant(
-        self, parameters: dict, list_size: float
-    ):
+    def _choose_second_constraint_such_that_list_size_remains_constant(self, parameters: dict, list_size: float):
         """Tries to find an optimal l2 value fulfilling its constraints."""
         par = SimpleNamespace(**parameters)
 
@@ -228,17 +211,11 @@ class BJMMpdw(SDAlgorithm):
         l1_search_radius = max(1, self._adjust_radius // 2)
         l2_search_radius = max(1, self._adjust_radius // 2)
 
-        l1_start_value = (
-            self._choose_first_constraint_such_that_representations_cancel_out_exactly(
-                parameters
-            )
-        )
+        l1_start_value = self._choose_first_constraint_such_that_representations_cancel_out_exactly(parameters)
         if l1_start_value == -1:
             return inf, inf
 
-        for l1 in range(
-            max(0, l1_start_value - l1_search_radius), l1_start_value + l1_search_radius
-        ):
+        for l1 in range(max(0, l1_start_value - l1_search_radius), l1_start_value + l1_search_radius):
             if 2 * l1 >= n - k or n - k - 2 * l1 < w:
                 continue
 
@@ -246,9 +223,7 @@ class BJMMpdw(SDAlgorithm):
 
             if k1 - par.p < 0 or k1 - par.p < par.p1 - par.p // 2:
                 continue
-            reps = (
-                binom(par.p, par.p // 2) * binom(k1 - par.p, par.p1 - par.p // 2)
-            ) ** 2
+            reps = (binom(par.p, par.p // 2) * binom(k1 - par.p, par.p1 - par.p // 2)) ** 2
 
             L1 = binom(k1, par.p1)
             if self._is_early_abort_possible(log2(L1)):
@@ -260,11 +235,7 @@ class BJMMpdw(SDAlgorithm):
             if memory > memory_bound:
                 continue
 
-            l2_start_value = (
-                self._choose_second_constraint_such_that_list_size_remains_constant(
-                    parameters, L12
-                )
-            )
+            l2_start_value = self._choose_second_constraint_such_that_list_size_remains_constant(parameters, L12)
             if l2_start_value == -1:
                 continue
 
@@ -284,9 +255,9 @@ class BJMMpdw(SDAlgorithm):
                 )
                 Tg = _gaussian_elimination_complexity(n, k, par.r)
 
-                T_tree = 2 * _list_merge_complexity(
-                    L1, l1, self._hmap
-                ) + _mitm_nn_complexity(L12, 2 * l2, 2 * par.w2, self._hmap)
+                T_tree = 2 * _list_merge_complexity(L1, l1, self._hmap) + _mitm_nn_complexity(
+                    L12, 2 * l2, 2 * par.w2, self._hmap
+                )
                 T_rep = int(ceil(2 ** max(l1 - log2(reps), 0)))
 
                 time = Tp + log2(Tg + T_rep * T_tree)
@@ -299,13 +270,9 @@ class BJMMpdw(SDAlgorithm):
                             2 * l2,
                         ]
                         verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
-                        verbose_information[VerboseInformation.TREE.value] = log2(
-                            T_rep * T_tree
-                        )
+                        verbose_information[VerboseInformation.TREE.value] = log2(T_rep * T_tree)
                         verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
-                        verbose_information[
-                            VerboseInformation.REPRESENTATIONS.value
-                        ] = reps
+                        verbose_information[VerboseInformation.REPRESENTATIONS.value] = reps
                         verbose_information[VerboseInformation.LISTS.value] = [
                             log2(L1),
                             log2(L12),
@@ -315,8 +282,5 @@ class BJMMpdw(SDAlgorithm):
         return local_time, local_mem
 
     def __repr__(self):
-        rep = (
-            "BJMM estimator with partially disjoint weight distributions in depth 2 for "
-            + str(self.problem)
-        )
+        rep = "BJMM estimator with partially disjoint weight distributions in depth 2 for " + str(self.problem)
         return rep

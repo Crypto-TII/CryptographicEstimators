@@ -27,18 +27,16 @@ class BallCollisionScipyModel(ScipyModel):
         super().__init__(par_names, problem, iterations, accuracy)
 
     def _build_model_and_set_constraints(self):
-        self.L1 = lambda x: binomial_approximation(
-            self.rate(x) / 2, x.p / 2
-        ) + binomial_approximation(x.l / 2, x.pl / 2)
+        self.L1 = lambda x: binomial_approximation(self.rate(x) / 2, x.p / 2) + binomial_approximation(
+            x.l / 2, x.pl / 2
+        )
 
         self.constraints = [
             {"type": "ineq", "fun": self._inject_vars(lambda x: self.rate(x) - x.p)},
             {"type": "ineq", "fun": self._inject_vars(lambda x: x.l - x.pl)},
             {
                 "type": "ineq",
-                "fun": self._inject_vars(
-                    lambda x: (1.0 - self.rate(x) - x.l) - (self.w(x) - x.p - x.pl)
-                ),
+                "fun": self._inject_vars(lambda x: (1.0 - self.rate(x) - x.l) - (self.w(x) - x.p - x.pl)),
             },
             {
                 "type": "ineq",
