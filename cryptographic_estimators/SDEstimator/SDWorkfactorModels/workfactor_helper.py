@@ -72,9 +72,7 @@ def list_of_random_tuples(x: float, y: float, z: int):
     return [(ru(x, y)) for _ in range(z)]
 
 
-def may_ozerov_near_neighbor_time(
-    list_size: float, vector_length: float, target_weight: float
-):
+def may_ozerov_near_neighbor_time(list_size: float, vector_length: float, target_weight: float):
     """Computes the asymptotic runtime of the Nearest Neighbour Algorithm by May-Ozerov [MO15]."""
     if vector_length <= 0 or list_size < 0:
         return 100
@@ -89,22 +87,16 @@ def may_ozerov_near_neighbor_time(
     d = inverse_binary_entropy(1 - normed_list_size)
 
     if normed_weight <= 2 * d * (1 - d):
-        mo_exp = (1 - normed_weight) * (
-            1 - binary_entropy((d - normed_weight / 2) / (1 - normed_weight))
-        )
+        mo_exp = (1 - normed_weight) * (1 - binary_entropy((d - normed_weight / 2) / (1 - normed_weight)))
     else:
         mo_exp = 2 * normed_list_size + binary_entropy(normed_weight) - 1
     return max(
         mo_exp * vector_length,
-        2 * list_size
-        - vector_length
-        + binomial_approximation(vector_length, target_weight),
+        2 * list_size - vector_length + binomial_approximation(vector_length, target_weight),
     )
 
 
-def representations_asymptotic(
-    target_weight: float, weight_to_cancel: float, vector_length: float
-):
+def representations_asymptotic(target_weight: float, weight_to_cancel: float, vector_length: float):
     """Computes the asymptotic number of representations of a length-`vector_length` weight-`target_weight` vector.
 
     This is done via the sum of two length-`vector_length` weight-(`target_weight`/2 + `weight_to_cancel`) vectors.
@@ -114,11 +106,8 @@ def representations_asymptotic(
     """
     if target_weight == 0.0 or vector_length == 0.0:
         return 0
-    if (
-        vector_length < target_weight
-        or vector_length - target_weight < weight_to_cancel
-    ):
+    if vector_length < target_weight or vector_length - target_weight < weight_to_cancel:
         return 0.0
-    return binomial_approximation(
-        target_weight, target_weight / 2.0
-    ) + binomial_approximation(vector_length - target_weight, weight_to_cancel)
+    return binomial_approximation(target_weight, target_weight / 2.0) + binomial_approximation(
+        vector_length - target_weight, weight_to_cancel
+    )

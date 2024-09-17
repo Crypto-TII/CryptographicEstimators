@@ -178,18 +178,14 @@ class SDAlgorithm(BaseAlgorithm):
         """
         pass
         if self.scipy_model is None:
-            raise NotImplementedError(
-                "For " + self._name + " TildeO complexity is not yet implemented"
-            )
+            raise NotImplementedError("For " + self._name + " TildeO complexity is not yet implemented")
         model = self.scipy_model(
             self.parameter_names(),
             self.problem,
             iterations=self.workfactor_accuracy * 10,
             accuracy=1e-7,
         )
-        wf_time, wf_memory, par = model.get_time_memory_and_parameters(
-            parameters=parameters
-        )
+        wf_time, wf_memory, par = model.get_time_memory_and_parameters(parameters=parameters)
         self._optimal_parameters.update(par)
         n, _, _ = self.problem.get_parameters()
         return wf_time * n, wf_memory * n
@@ -216,7 +212,5 @@ class SDAlgorithm(BaseAlgorithm):
             }
         """
         verb = dict()
-        _ = self._time_and_memory_complexity(
-            self.optimal_parameters(), verbose_information=verb
-        )
+        _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)
         return verb

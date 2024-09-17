@@ -112,10 +112,7 @@ class MayOzerov(SDAlgorithm):
             return
 
         self.MayOzerov_depth_3._find_optimal_parameters()
-        if (
-            self.MayOzerov_depth_2.time_complexity()
-            > self.MayOzerov_depth_3.time_complexity()
-        ):
+        if self.MayOzerov_depth_2.time_complexity() > self.MayOzerov_depth_3.time_complexity():
             self._optimal_parameters["depth"] = 3
         else:
             self._optimal_parameters["depth"] = 2
@@ -125,17 +122,11 @@ class MayOzerov(SDAlgorithm):
         if "depth" not in parameters:
             raise ValueError("Depth must be specified for BJMM")
 
-        if (
-            parameters["depth"] == 2
-            and self.MayOzerov_depth_2._do_valid_parameters_in_current_ranges_exist()
-        ):
+        if parameters["depth"] == 2 and self.MayOzerov_depth_2._do_valid_parameters_in_current_ranges_exist():
             return self.MayOzerov_depth_2._time_and_memory_complexity(
                 self.MayOzerov_depth_2.optimal_parameters(), verbose_information
             )
-        elif (
-            parameters["depth"] == 3
-            and self.MayOzerov_depth_3._do_valid_parameters_in_current_ranges_exist()
-        ):
+        elif parameters["depth"] == 3 and self.MayOzerov_depth_3._do_valid_parameters_in_current_ranges_exist():
             return self.MayOzerov_depth_3._time_and_memory_complexity(
                 self.MayOzerov_depth_3.optimal_parameters(), verbose_information
             )
@@ -275,9 +266,7 @@ class MayOzerovD2(SDAlgorithm):
         new_ranges = self._fix_ranges_for_already_set_parameters()
         n, k, w = self.problem.get_parameters()
 
-        for p in range(
-            new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]) + 1, 2
-        ):
+        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]) + 1, 2):
             for l in range(
                 new_ranges["l"]["min"],
                 min(n - k - (w - 2 * p), new_ranges["l"]["max"]) + 1,
@@ -321,16 +310,13 @@ class MayOzerovD2(SDAlgorithm):
             return inf, inf
 
         Tp = max(
-            log2(binom(n, w))
-            - log2(binom(n - k - par.l, w - 2 * par.p))
-            - 2 * log2(binom(k1, par.p))
-            - solutions,
+            log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p)) - 2 * log2(binom(k1, par.p)) - solutions,
             0,
         )
         Tg = _gaussian_elimination_complexity(n, k, par.r)
-        T_tree = 2 * _list_merge_complexity(
-            L1, par.l, self._hmap
-        ) + _indyk_motwani_complexity(L12, n - k - par.l, w - 2 * par.p, self._hmap)
+        T_tree = 2 * _list_merge_complexity(L1, par.l, self._hmap) + _indyk_motwani_complexity(
+            L12, n - k - par.l, w - 2 * par.p, self._hmap
+        )
 
         T_rep = int(ceil(2 ** max(par.l - log2(reps), 0)))
         time = Tp + log2(Tg + T_rep * T_tree)
@@ -484,9 +470,7 @@ class MayOzerovD3(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
 
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
-            for l in range(
-                new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])
-            ):
+            for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
                 k1 = (k + l) // 2
                 for p2 in range(
                     max(new_ranges["p2"]["min"], p // 2 + ((p // 2) % 2)),
@@ -523,9 +507,7 @@ class MayOzerovD3(SDAlgorithm):
         if self._is_early_abort_possible(log2(L1)):
             return inf, inf
 
-        reps1 = (
-            binom(par.p2, par.p2 // 2) * binom(k1 - par.p2, par.p1 - par.p2 // 2)
-        ) ** 2
+        reps1 = (binom(par.p2, par.p2 // 2) * binom(k1 - par.p2, par.p1 - par.p2 // 2)) ** 2
         l1 = int(ceil(log2(reps1)))
 
         if l1 > par.l:
@@ -541,10 +523,7 @@ class MayOzerovD3(SDAlgorithm):
             return inf, inf
 
         Tp = max(
-            log2(binom(n, w))
-            - log2(binom(n - k - par.l, w - 2 * par.p))
-            - 2 * log2(binom(k1, par.p))
-            - solutions,
+            log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p)) - 2 * log2(binom(k1, par.p)) - solutions,
             0,
         )
         Tg = _gaussian_elimination_complexity(n, k, par.r)
@@ -553,9 +532,7 @@ class MayOzerovD3(SDAlgorithm):
             + 2 * _list_merge_complexity(L12, par.l - l1, self._hmap)
             + _indyk_motwani_complexity(L1234, n - k - par.l, w - 2 * par.p, self._hmap)
         )
-        T_rep = int(
-            ceil(2 ** (max(par.l - log2(reps2), 0) + 3 * max(l1 - log2(reps1), 0)))
-        )
+        T_rep = int(ceil(2 ** (max(par.l - log2(reps2), 0) + 3 * max(l1 - log2(reps1), 0))))
         time = Tp + log2(Tg + T_rep * T_tree)
 
         if verbose_information is not None:
@@ -571,9 +548,7 @@ class MayOzerovD3(SDAlgorithm):
                 log2(L1),
                 log2(L12),
                 log2(L1234),
-                2 * log2(L1234)
-                + log2(binom(n - k - par.l, w - 2 * par.p))
-                - (n - par.l),
+                2 * log2(L1234) + log2(binom(n - k - par.l, w - 2 * par.p)) - (n - par.l),
             ]
             return verbose_information
 

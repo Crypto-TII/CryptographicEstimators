@@ -41,7 +41,6 @@ class BallCollisionScipyModel(ScipyModel):
                 lambda x: self.w(x) - x.p - x.pl)},
         ]
 
-
     def _memory(self, x):
         return self.L1(x)
 

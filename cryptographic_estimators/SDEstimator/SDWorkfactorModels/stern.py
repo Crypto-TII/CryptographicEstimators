@@ -39,6 +39,7 @@ class SternScipyModel(ScipyModel):
             {'type': 'ineq', 'fun': self._inject_vars(
                 lambda x: self.w(x) - x.p)},
         ]
+
     def _memory(self, x):
         return self.L1(x)
 

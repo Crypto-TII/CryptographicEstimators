@@ -66,9 +66,7 @@ def __truncate(x: float, precision: int) -> float:
     return float(int(x * 10**precision) / 10**precision)
 
 
-def __round_or_truncate_to_given_precision(
-    T: float, M: float, truncate: bool, precision: int
-) -> tuple:
+def __round_or_truncate_to_given_precision(T: float, M: float, truncate: bool, precision: int) -> tuple:
     """Rounds or truncates the input values `T` and `M`.
 
     Args:
