@@ -151,16 +151,9 @@ class BothMay(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2
-        if (
-            par.p > w // 2
-            or k1 < par.p
-            or par.w1 >= min(w, par.l + 1)
-            or par.w2 > min(w - 2 * par.p, par.l, 2 * par.w1)
-            or par.p1 < (par.p + 1) // 2
-            or par.p1 > w
-            or n - k - par.l < w - par.w2 - 2 * par.p
-            or par.p1 > k1
-        ):
+        if par.p > w // 2 or k1 < par.p or par.w1 >= min(w, par.l + 1) \
+                or par.w2 > min(w - 2 * par.p, par.l, 2 * par.w1) or par.p1 < (par.p + 1) // 2 or par.p1 > w \
+                or n - k - par.l < w - par.w2 - 2 * par.p or par.p1 > k1:
             return True
         return False
 

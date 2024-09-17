@@ -246,14 +246,8 @@ class BJMMd2(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
-        if (
-            par.p > w // 2
-            or k1 < par.p
-            or par.l >= n - k
-            or n - k - par.l < w - 2 * par.p
-            or k1 - par.p < par.p1 - par.p / 2
-            or par.p1 < par.p / 2
-        ):
+        if par.p > w // 2 or k1 < par.p or par.l >= n - k or n - k - par.l < w - 2 * par.p \
+                or k1 - par.p < par.p1 - par.p / 2 or par.p1 < par.p / 2:
             return True
         return False
 

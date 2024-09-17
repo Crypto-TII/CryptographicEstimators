@@ -177,14 +177,8 @@ class BallCollision(SDAlgorithm):
         if memory > memory_bound:
             return inf, inf
         solutions = self.problem.nsolutions
-        Tp = max(
-            log2(binom(n, w))
-            - log2(binom(n - k - par.l, w - 2 * par.p - 2 * par.pl))
-            - 2 * log2(binom(k1, par.p))
-            - 2 * log2(binom(par.l // 2, par.pl))
-            - solutions,
-            0,
-        )
+        Tp = max(log2(binom(n, w)) - log2(binom(n - k - par.l, w - 2 * par.p - 2 * par.pl))
+                 - 2 * log2(binom(k1, par.p)) - 2 * log2(binom(par.l // 2, par.pl)) - solutions, 0)
         Tg = _gaussian_elimination_complexity(n, k, par.r)
         time = Tp + log2(Tg + _list_merge_complexity(L1, par.l, self._hmap))
 
@@ -192,9 +186,7 @@ class BallCollision(SDAlgorithm):
             verbose_information[VerboseInformation.PERMUTATIONS.value] = Tp
             verbose_information[VerboseInformation.GAUSS.value] = log2(Tg)
             verbose_information[VerboseInformation.LISTS.value] = [
-                log2(L1),
-                2 * log2(L1) - par.l,
-            ]
+                log2(L1), 2 * log2(L1) - par.l]
 
         return time, memory
 

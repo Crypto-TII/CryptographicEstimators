@@ -32,11 +32,9 @@ class BJMMScipyModel(ScipyModel):
     def _build_model_and_set_constraints(self):
         """Initializes the constraints for the scipy optimizer."""
         self.r1 = lambda x: representations_asymptotic(
-            x.p2, x.p1 - x.p2 / 2, self.rate(x) + x.l
-        )
+            x.p2, x.p1 - x.p2 / 2, self.rate(x) + x.l)
         self.r2 = lambda x: representations_asymptotic(
-            x.p, x.p2 - x.p / 2, self.rate(x) + x.l
-        )
+            x.p, x.p2 - x.p / 2, self.rate(x) + x.l)
 
         self.D1 = lambda x: binomial_approximation(self.rate(x) + x.l, x.p1)
         self.D2 = lambda x: binomial_approximation(self.rate(x) + x.l, x.p2)

@@ -135,7 +135,8 @@ class BJMMplus(SDAlgorithm):
         return self._get_optimal_parameter("p1")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """Determines if the provided parameter set is invalid.
+        """
+        Determines if the provided parameter set is invalid.
 
         Args:
             parameters (dict): The parameter set to be evaluated.
@@ -146,14 +147,12 @@ class BJMMplus(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
-        if (
-            par.p > w // 2
-            or k1 < par.p
-            or par.l >= n - k
-            or n - k - par.l < w - 2 * par.p
-            or k1 - par.p < par.p1 - par.p / 2
-            or par.p1 < par.p / 2
-        ):
+        if par.p > w // 2 or \
+            k1 < par.p or \
+            par.l >= n - k or\
+            n - k - par.l < w - 2 * par.p or \
+            k1 - par.p < par.p1 - par.p / 2 or \
+            par.p1 < par.p / 2:
             return True
         return False
 
@@ -167,35 +166,18 @@ class BJMMplus(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
 
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]) + 1, 2):
-            for l in range(
-                new_ranges["l"]["min"],
-                min(n - k - (w - 2 * p), new_ranges["l"]["max"]) + 1,
-            ):
-                for p1 in range(
-                    max(new_ranges["p1"]["min"], (p + 1) // 2),
-                    new_ranges["p1"]["max"] + 1,
-                ):
+            for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"]) + 1):
+                for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"] + 1):
                     L1 = log2(binom((k + l) // 2, p1))
                     d1 = self._adjust_radius
-                    lower = (
-                        new_ranges["l1"]["min"]
-                        if new_ranges["l1"]["min"] == new_ranges["l1"]["max"]
-                        else max(int(L1) - d1, 0)
-                    )
-                    upper = (
-                        new_ranges["l1"]["max"]
-                        if new_ranges["l1"]["min"] == new_ranges["l1"]["max"]
-                        else max(int(L1) + d1, 0)
-                    )
+                    lower = new_ranges["l1"]["min"] if new_ranges["l1"]["min"] == new_ranges["l1"]["max"] else max(
+                        int(L1) - d1, 0)
+                    upper = new_ranges["l1"]["max"] if new_ranges["l1"]["min"] == new_ranges["l1"]["max"] else max(
+                        int(L1) + d1, 0)
 
                     for l1 in range(lower, upper):
-                        indices = {
-                            "p": p,
-                            "p1": p1,
-                            "l": l,
-                            "l1": l1,
-                            "r": self._optimal_parameters["r"],
-                        }
+                        indices = {"p": p, "p1": p1, "l": l, "l1": l1,
+                                   "r": self._optimal_parameters["r"]}
                         if self._are_parameters_invalid(indices):
                             continue
                         yield indices
