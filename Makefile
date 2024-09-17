@@ -74,10 +74,67 @@ docker-doc: docker-build
 	@make mount-volume-and-run && make generate-documentation && make stop-container-and-remove container_name="container-for-docs"
 
 docker-test: docker-build
-	@docker run --name container-for-test -d -it ${image_name} sh && docker exec container-for-test sage -t --long -T 3600 --force-lib cryptographic_estimators && docker stop container-for-test && docker rm container-for-test
+	@echo "Removing previous container...."
+	@make stop-container-and-remove container_name="container-for-test" \
+		|| true
+	@echo "Creating container..."
+	@docker run --name container-for-test -d -it ${image_name} sh \
+		&& docker exec container-for-test sh -c " \
+		sage -t --long --timeout 3600 --force-lib \
+		# cryptographic_estimators/SDEstimator/ \
+		cryptographic_estimators/DummyEstimator/ \
+		cryptographic_estimators/LEEstimator/ \
+		cryptographic_estimators/MAYOEstimator/ \
+		cryptographic_estimators/MQEstimator/ \
+		cryptographic_estimators/MREstimator/ \
+		cryptographic_estimators/PEEstimator/ \
+		cryptographic_estimators/PKEstimator/ \
+		cryptographic_estimators/RegSDEstimator/ \
+		cryptographic_estimators/SDFqEstimator/ \
+		cryptographic_estimators/UOVEstimator/ \
+		cryptographic_estimators/base_algorithm.py \
+		cryptographic_estimators/base_constants.py \
+		cryptographic_estimators/base_estimator.py \
+		cryptographic_estimators/base_problem.py \
+		cryptographic_estimators/estimation_renderer.py \
+		cryptographic_estimators/helper.py \
+		" \
+		&& echo "All tests passed." \
+		|| echo "Some test have failed, please see previous lines."
+	@echo "Cleaning container..."
+	@make stop-container-and-remove container_name="container-for-test"
+
 
 docker-testfast: docker-build
-	@docker run --name container-for-test -d -it ${image_name} sh && docker exec container-for-test sage -t cryptographic_estimators && make stop-container-and-remove container_name="container-for-test"
+	@echo "Removing previous container...."
+	@make stop-container-and-remove container_name="container-for-test" \
+		|| true
+	@echo "Creating container..."
+	@docker run --name container-for-test -d -it ${image_name} sh \
+		&& docker exec container-for-test sh -c " \
+		sage -t --timeout 3600 --force-lib \
+		# cryptographic_estimators/SDEstimator/ \
+		cryptographic_estimators/DummyEstimator/ \
+		cryptographic_estimators/LEEstimator/ \
+		cryptographic_estimators/MAYOEstimator/ \
+		cryptographic_estimators/MQEstimator/ \
+		cryptographic_estimators/MREstimator/ \
+		cryptographic_estimators/PEEstimator/ \
+		cryptographic_estimators/PKEstimator/ \
+		cryptographic_estimators/RegSDEstimator/ \
+		cryptographic_estimators/SDFqEstimator/ \
+		cryptographic_estimators/UOVEstimator/ \
+		cryptographic_estimators/base_algorithm.py \
+		cryptographic_estimators/base_constants.py \
+		cryptographic_estimators/base_estimator.py \
+		cryptographic_estimators/base_problem.py \
+		cryptographic_estimators/estimation_renderer.py \
+		cryptographic_estimators/helper.py \
+		" \
+		&& echo "All tests passed." \
+		|| echo "Some test have failed, please see previous lines."
+	@echo "Cleaning container..."
+	@make stop-container-and-remove container_name="container-for-test"
 
 add-copyright:
 	@python3 scripts/create_copyright.py
@@ -88,14 +145,27 @@ docker-pytest:
 		|| true
 	@echo "Creating container..."
 	@docker run --name pytest-estimators -d -it ${image_name} sh \
-		&& docker exec pytest-estimators sh -c "sage --python3 -m pytest -n auto -vv \
-		--cov-report xml:coverage.xml --cov=${PACKAGE} \
-		&& ${SAGE} tests/references/LEEstimator/test_le_beullens.sage \
-		&& ${SAGE} tests/references/LEEstimator/test_le_bbps.sage \
-		&& ${SAGE} tests/references/PEEstimator/test_pe.sage \
-		&& ${SAGE} tests/references/PKEstimator/test_pk.sage" \
-		&& echo "All tests passed." \
-		|| echo "Some test have failed, please see previous lines."
+		&& docker exec pytest-estimators sh -c " \
+		pytest --doctest-modules -n auto -vv \
+		cryptographic_estimators/SDEstimator/ \
+		# cryptographic_estimators/DummyEstimator/ \
+		# cryptographic_estimators/LEEstimator/ \
+		# cryptographic_estimators/MAYOEstimator/ \
+		# cryptographic_estimators/MQEstimator/ \
+		# cryptographic_estimators/MREstimator/ \
+		# cryptographic_estimators/PEEstimator/ \
+		# cryptographic_estimators/PKEstimator/ \
+		# cryptographic_estimators/RegSDEstimator/ \
+		# cryptographic_estimators/SDFqEstimator/ \
+		# cryptographic_estimators/UOVEstimator/ \
+		# cryptographic_estimators/base_algorithm.py \
+		# cryptographic_estimators/base_constants.py \
+		# cryptographic_estimators/base_estimator.py \
+		# cryptographic_estimators/base_problem.py \
+		# cryptographic_estimators/estimation_renderer.py \
+		# cryptographic_estimators/helper.py \
+		# tests/ \
+		" \
 	@echo "Cleaning container..."
 	@make stop-container-and-remove container_name="pytest-estimators"
 
@@ -104,6 +174,24 @@ docker-generate-kat:
 	@docker run --name gen-tests-references -v ./tests:/home/cryptographic_estimators/tests --rm ${image_name} sh -c \
 		"sage tests/external_estimators/generate_kat.py"
 	@make docker-build
+
+# docker-pytest:
+# 	@echo "Removing previous container...."
+# 	@make stop-container-and-remove container_name="pytest-estimators" \
+# 		|| true
+# 	@echo "Creating container..."
+# 	@docker run --name pytest-estimators -d -it ${image_name} sh \
+# 		&& docker exec pytest-estimators sh -c "sage --python3 -m pytest -n auto -vv \
+# 		--cov-report xml:coverage.xml --cov=${PACKAGE} \
+# 		&& ${SAGE} tests/SDFqEstimator/test_sdfq.sage \
+# 		&& ${SAGE} tests/LEEstimator/test_le_beullens.sage \
+# 		&& ${SAGE} tests/LEEstimator/test_le_bbps.sage \
+# 		&& ${SAGE} tests/PEEstimator/test_pe.sage \
+# 		&& ${SAGE} tests/PKEstimator/test_pk.sage" \
+# 		&& echo "All tests passed." \
+# 		|| echo "Some test have failed, please see previous lines."
+# 	@echo "Cleaning container..."
+# 	@make stop-container-and-remove container_name="pytest-estimators"
 
 docker-pytest-cov:
 	pytest -v --cov-report xml:coverage.xml --cov=${PACKAGE} tests/

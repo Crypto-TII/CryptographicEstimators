@@ -37,7 +37,6 @@ class MAYOProblem(BaseProblem):
     - ``theta`` -- exponent of the conversion factor (default: None)
         - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
         - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
-    - ``nsolutions`` --  number of solutions in logarithmic scale (default: log2(q) * (n - m))
     - ``cost_one_hash`` -- bit complexity of computing one hash value (default: 17)
     - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
 
@@ -80,14 +79,6 @@ class MAYOProblem(BaseProblem):
         self.parameters[MAYO_FIELD_SIZE] = q
         self._theta = theta
         self._cost_one_hash = cost_one_hash
-        self.nsolutions = kwargs.get("nsolutions", self.expected_number_solutions())
-
-    def expected_number_solutions(self):
-        """
-        Returns the logarithm of the expected number of existing solutions to the problem
-        """
-        n, m, _, _, q = self.get_parameters()
-        return log2(q) * (n - m)
 
     def hashes_to_basic_operations(self, number_of_hashes: float):
         """

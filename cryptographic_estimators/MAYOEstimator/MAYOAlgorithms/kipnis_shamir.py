@@ -39,7 +39,6 @@ class KipnisShamir(MAYOAlgorithm):
     - ``problem`` -- MAYOProblem object including all necessary parameters
     - ``w_ks`` -- linear algebra constant (only for kipnis-shamir algorithm) (default: 2.8)
     - ``h`` -- external hybridization parameter (default: 0)
-    - ``nsolutions`` -- number of solutions in logarithmic scale (default: expected_number_solutions))
     - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
     - ``complexity_type`` -- complexity type to consider (0: estimate, default: 0)
