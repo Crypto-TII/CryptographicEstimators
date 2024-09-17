@@ -41,10 +41,10 @@ def inverse_binary_entropy(v: float):
 
 def binary_entropy(c: float):
     """Computes the binary entropy function H."""
-    if c == 0.0 or c == 1.0:
-        return 0.0
+    if c == 0. or c == 1.:
+        return 0.
 
-    if c < 0.0 or c > 1.0:
+    if c < 0. or c > 1.:
         return -1000
 
     return -(c * log2(c) + (1 - c) * log2(1 - c))
@@ -104,7 +104,7 @@ def representations_asymptotic(target_weight: float, weight_to_cancel: float, ve
     Returns:
         The asymptotic number of representations.
     """
-    if target_weight == 0.0 or vector_length == 0.0:
+    if target_weight == 0. or vector_length == 0.:
         return 0
     if vector_length < target_weight or vector_length - target_weight < weight_to_cancel:
         return 0.0
