@@ -39,7 +39,7 @@ filterwarnings("ignore", category=RuntimeWarning)
 
 class BJMMdw(SDAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
-        """Construct an instance of BJMM's estimator using disjoint weight distributions combined with MitM-nearest neighbor search.
+        """Construct an instance of BJMM's estimator using disjoint weight distributions combined with MitM-nearest neighbor search. [EB22]_, [MMT11]_, [BJMM12]_.
 
         Expected weight distribution:
 
@@ -56,11 +56,6 @@ class BJMMdw(SDAlgorithm):
             hmap (bool, optional): Indicates if hashmap is being used (default: True).
             p_range (list, optional): Interval in which the parameter p is searched (default: [0, 25], helps speeding up computation).
             memory_access (int, optional): Specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage).
-
-        References:
-            .. [EB22] Enguehard, Élise, and Anja Becker. "Quantum attacks on McEliece and Niederreiter cryptosystems." Designs, Codes and Cryptography 90.1 (2022): 1-23.
-            .. [MMT11] May, Alexander, Alexander Meurer, and Enrico Thomae. "Decoding random linear codes in Õ(2^n/2)." International Conference on the Theory and Application of Cryptology and Information Security. Springer, Berlin, Heidelberg, 2011.
-            .. [BJMM12] Becker, Anja, Jean-Sébastien Coron, and Antoine Joux. "Improved generic algorithms for hard knapsacks." Advances in Cryptology–EUROCRYPT 2011. Springer, Berlin, Heidelberg, 2011. 16-29.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw

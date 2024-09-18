@@ -159,7 +159,6 @@ class BJMM(SDAlgorithm):
         return a
 
     def __repr__(self):
-        """ """
         rep = "BJMM estimator for " + str(self.problem)
         return rep
 

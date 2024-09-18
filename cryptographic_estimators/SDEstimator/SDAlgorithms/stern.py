@@ -36,7 +36,7 @@ from ..SDWorkfactorModels.stern import SternScipyModel
 class Stern(SDAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
         """
-        Construct an instance of Stern's estimator.
+        Construct an instance of Stern's estimator [Ste88]_, [BLP08]_.
 
         Expected weight distribution:
 

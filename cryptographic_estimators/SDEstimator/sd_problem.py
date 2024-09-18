@@ -48,7 +48,7 @@ class SDProblem(BaseProblem):
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """
-        Calculates the bit-complexity corresponding to the number of field additions.
+        Calculates the bit-complexity corresponding to the number of field additions, which are the `basic_operations` for SDAlgorithms.
 
         Args:
             basic_operations (float): The number of field additions (in logarithmic scale).
