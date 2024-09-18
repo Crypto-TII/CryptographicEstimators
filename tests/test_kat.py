@@ -30,7 +30,7 @@ def extract_paths(
 
 
 def import_internal_estimator(internal_estimator_path: Tuple[str, ...]) -> Callable:
-    """Imports a an internal estimator function from a specified path.
+    """Imports an internal estimator function from a specified path.
 
     Args:
         internal_estimator_path (Tuple[str, ...]): A tuple representing the path to the internal estimator function, relative
