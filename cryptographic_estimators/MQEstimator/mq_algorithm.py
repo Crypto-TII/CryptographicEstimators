@@ -24,17 +24,18 @@ from math import floor
 
 class MQAlgorithm(BaseAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
-        """
-        Base class for MQ algorithms complexity estimator
+        """Base class for MQ algorithms complexity estimator.
 
-        INPUT:
-
-        - ``problem`` -- BaseProblem object including all necessary parameters
-        - ``w`` -- linear algebra constant (default: 2.81)
-        - ``h`` -- external hybridization parameter (default: 0)
-        - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-        - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
-
+        Args:
+            problem (MQProblem): BaseProblem object including all necessary parameters.
+            w (float, optional): Linear algebra constant. Defaults to 2.81.
+            h (int, optional): External hybridization parameter. Defaults to 0.
+            memory_access (int, optional): Specifies the memory access cost model.
+                Defaults to 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root,
+                3 - cube-root or deploy custom function which takes as input the
+                logarithm of the total memory usage.
+            complexity_type (int, optional): Complexity type to consider.
+                Defaults to 0 (estimate), 1 (tilde O complexity).
         """
         super(MQAlgorithm, self).__init__(problem, **kwargs)
 
@@ -70,15 +71,14 @@ class MQAlgorithm(BaseAlgorithm):
 
     def nvariables_reduced(self):
         """
-        Return the no. of variables after fixing some values
+        Return the number of variables after fixing some values.
 
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQAlgorithm(MQProblem(n=5, m=10, q=2)).nvariables_reduced()
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> MQAlgorithm(MQProblem(n=5, m=10, q=2)).nvariables_reduced()
             5
-            sage: MQAlgorithm(MQProblem(n=25, m=20, q=2)).nvariables_reduced()
+            >>> MQAlgorithm(MQProblem(n=25, m=20, q=2)).nvariables_reduced()
             20
         """
         if self._n_reduced is not None:
@@ -102,15 +102,17 @@ class MQAlgorithm(BaseAlgorithm):
 
     def npolynomials_reduced(self):
         """
-        Return the no. of polynomials after applying the Thomae and Wolf strategy
+        Return the number of polynomials after applying the Thomae and Wolf strategy.
+    
+        Returns:
+            int: The number of polynomials after applying the Thomae and Wolf strategy.
 
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQAlgorithm(MQProblem(n=5, m=10, q=2)).npolynomials_reduced()
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> MQAlgorithm(MQProblem(n=5, m=10, q=2)).npolynomials_reduced()
             10
-            sage: MQAlgorithm(MQProblem(n=60, m=20, q=2)).npolynomials_reduced()
+            >>> MQAlgorithm(MQProblem(n=60, m=20, q=2)).npolynomials_reduced()
             18
         """
         if self._m_reduced is not None:
@@ -132,18 +134,16 @@ class MQAlgorithm(BaseAlgorithm):
 
     def linear_algebra_constant(self):
         """
-        Return the linear algebra constant
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: MQAlgorithm(MQProblem(n=10, m=5, q=4), w=2).linear_algebra_constant()
+        Returns the linear algebra constant.
+    
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> MQAlgorithm(MQProblem(n=10, m=5, q=4), w=2).linear_algebra_constant()
             2
         """
         return self._w
 
     def __repr__(self):
-        """ """
         n, m = self.problem.nvariables(), self.problem.npolynomials()
         return f"{self._name} estimator for the MQ problem with {n} variables and {m} polynomials"

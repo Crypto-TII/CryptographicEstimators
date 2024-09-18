@@ -24,30 +24,25 @@ from math import log2, floor
 
 
 class DinurSecond(MQAlgorithm):
-    """
-    Construct an instance of Dinur's second estimator
-
-    Dinur's second is a probabilistic algorithm to solve the MQ problem over GF(2) [Din21b]_. It is based on ideas from
-    [Din21a]_.
-
-    INPUT:
-
-    - ``problem`` -- MQProblem object including all necessary parameters
-    - ``h`` -- external hybridization parameter (default: 0)
-    - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-    - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
-        sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-        sage: E = DinurSecond(MQProblem(n=10, m=12, q=2))
-        sage: E
-        Dinur2 estimator for the MQ problem with 10 variables and 12 polynomials
-
-    """
-
     def __init__(self, problem: MQProblem, **kwargs):
+        """Construct an instance of Dinur's second estimator.
+
+        Dinur's second is a probabilistic algorithm to solve the MQ problem over GF(2) [Din21b]_. It is based on ideas from
+        [Din21a]_.
+
+        Args:
+            problem (MQProblem): MQProblem object including all necessary parameters.
+            h (int, optional): External hybridization parameter (default: 0).
+            memory_access (int, optional): Specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage).
+            complexity_type (int, optional): Complexity type to consider (0: estimate, 1: tilde O complexity, default: 0).
+
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = DinurSecond(MQProblem(n=10, m=12, q=2))
+            >>> E
+            Dinur2 estimator for the MQ problem with 10 variables and 12 polynomials
+        """
         if problem.order_of_the_field() != 2:
             raise TypeError("q must be equal to 2")
         super().__init__(problem, **kwargs)
@@ -60,41 +55,37 @@ class DinurSecond(MQAlgorithm):
     @optimal_parameter
     def n1(self):
         """
-        Return the optimal parameter $n_1$
+        Returns the optimal parameter `n_1`.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = DinurSecond(MQProblem(n=10, m=12, q=2))
-            sage: E.n1()
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = DinurSecond(MQProblem(n=10, m=12, q=2))
+            >>> E.n1()
             4
         """
         return self._get_optimal_parameter("n1")
 
     def _compute_time_complexity(self, parameters: dict):
         """
-        Return the time complexity of the algorithm for a given set of parameters
+        Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = DinurSecond(MQProblem(n=10, m=12, q=2), bit_complexities=False)
-            sage: E.time_complexity(n1=4)
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = DinurSecond(MQProblem(n=10, m=12, q=2), bit_complexities=False)
+            >>> E.time_complexity(n1=4)
             15.809629225117881
 
-            sage: E.time_complexity(n1=2, bit_complexities=False)
+            >>> E.time_complexity(n1=2, bit_complexities=False)
             15.844709299018824
 
-            sage: E = DinurSecond(MQProblem(n=10, m=12, q=2), bit_complexities=False)
-            sage: E.time_complexity()
+            >>> E = DinurSecond(MQProblem(n=10, m=12, q=2), bit_complexities=False)
+            >>> E.time_complexity()
             15.809629225117881
-
         """
         n1 = parameters["n1"]
         n = self.nvariables_reduced()
@@ -108,46 +99,40 @@ class DinurSecond(MQAlgorithm):
 
     def _compute_memory_complexity(self, parameters: dict):
         """
-        Return the memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = DinurSecond(MQProblem(n=10, m=12, q=2), bit_complexities=False)
-            sage: E.memory_complexity(n1=4)
+        Compute the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary containing the parameters.
+    
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = DinurSecond(MQProblem(n=10, m=12, q=2), bit_complexities=False)
+            >>> E.memory_complexity(n1=4)
             11.321928094887362
 
-            sage: E.memory_complexity(n1=2)
+            >>> E.memory_complexity(n1=2)
             12.35974956032233
 
-            sage: E = DinurSecond(MQProblem(n=10, m=12, q=2))
-            sage: E.memory_complexity()
+            >>> E = DinurSecond(MQProblem(n=10, m=12, q=2))
+            >>> E.memory_complexity()
             11.321928094887362
-
         """
         n = self.nvariables_reduced()
         n1 = parameters["n1"]
         return log2(8 * (n1 + 1) * sum_of_binomial_coefficients(n - n1, n1 + 3))
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Compute and return the time complexity of the algorithm for a given set of parameters
+        """Compute and return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = DinurSecond(MQProblem(n=10, m=12, q=2), complexity_type=1)
-            sage: E.time_complexity(n1=2)
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = DinurSecond(MQProblem(n=10, m=12, q=2), complexity_type=1)
+            >>> E.time_complexity(n1=2)
             8.148148148148149
         """
         n = self.nvariables_reduced()
@@ -156,18 +141,16 @@ class DinurSecond(MQAlgorithm):
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
-        Compute and return the memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = DinurSecond(MQProblem(n=10, m=12, q=2), complexity_type=1)
-            sage: E.memory_complexity(n1=2)
+        Compute and return the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
+    
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = DinurSecond(MQProblem(n=10, m=12, q=2), complexity_type=1)
+            >>> E.memory_complexity(n1=2)
             6.3
         """
         n = self.nvariables_reduced()
@@ -175,14 +158,13 @@ class DinurSecond(MQAlgorithm):
 
     def _find_optimal_tilde_o_parameters(self):
         """
-        Return the Ō time complexity of Bjorklund et al.'s algorithm
+        Return the Ō time complexity of Bjorklund et al.'s algorithm.
 
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = DinurSecond(MQProblem(n=10, m=12, q=2), complexity_type=1)
-            sage: E.optimal_parameters()
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = DinurSecond(MQProblem(n=10, m=12, q=2), complexity_type=1)
+            >>> E.optimal_parameters()
             {'n1': 1.8518518518518516}
         """
         n = self.nvariables_reduced()

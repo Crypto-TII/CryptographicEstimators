@@ -21,20 +21,18 @@ from ..MQEstimator.series.hilbert import HilbertSeries
 
 def semi_regular_system(n: int, degrees: list[int], q=None):
     """
-    Return the witness degree for semi-regular system
+    Returns the witness degree for a semi-regular system.
 
-    INPUT:
+    Args:
+        n (int): The number of variables.
+        degrees (list[int]): A list of integers representing the degree of the polynomials.
+        q (int, optional): The order of the finite field. Defaults to None.
 
-    - ``n`` -- no. of variables
-    - ``degrees`` -- a list of integers representing the degree of the polynomials
-    - ``q`` -- order of the finite field (default: None)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.MQEstimator import witness_degree
-        sage: witness_degree.semi_regular_system(10, [2]*15)
+    Examples:
+        >>> from cryptographic_estimators.MQEstimator import witness_degree
+        >>> witness_degree.semi_regular_system(10, [2]*15)
         5
-        sage: witness_degree.semi_regular_system(10, [2]*15, q=2)
+        >>> witness_degree.semi_regular_system(10, [2]*15, q=2)
         4
     """
     m = len(degrees)
@@ -53,22 +51,20 @@ def semi_regular_system(n: int, degrees: list[int], q=None):
 
 def quadratic_system(n: int, m: int, q=None):
     """
-    Return the witness degree for quadratic system
+    Returns the witness degree for a quadratic system.
 
-    INPUT:
+    Args:
+        n (int): The number of variables.
+        m (int): The number of polynomials.
+        q (Optional[int]): The order of the finite field (default is None).
 
-    - ``n`` -- no. of variables
-    - ``m`` -- no. of polynomials
-    - ``q`` -- order of the finite field (default: None)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.MQEstimator import witness_degree
-        sage: witness_degree.quadratic_system(10, 15)
+    Examples:
+        >>> from cryptographic_estimators.MQEstimator import witness_degree
+        >>> witness_degree.quadratic_system(10, 15)
         5
-        sage: witness_degree.quadratic_system(10, 15, q=2)
+        >>> witness_degree.quadratic_system(10, 15, q=2)
         4
-        sage: witness_degree.quadratic_system(15, 15, q=7)
+        >>> witness_degree.quadratic_system(15, 15, q=7)
         12
     """
     return semi_regular_system(n, [2] * m, q=q)

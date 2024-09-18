@@ -27,34 +27,30 @@ from sage.all import Integer
 
 
 class HybridF5(MQAlgorithm):
-    r"""
-    Construct an instance of HybridF5
-
-    HybridF5 is an algorithm to solve systems of polynomials over a finite field proposed in [BFP09]_, [BFP12]_. The
-    algorithm is a tradeoff between exhaustive search and Groebner bases computation. The idea is to fix the value of,
-    say, $k$ variables and compute the Groebner bases of $q^{k}$ subsystems, where $q$ is the order of the finite
-    field. The Grobner bases computation is done using F5 algorithm.
-
-    .. SEEALSO::
-        :class:`mpkc.algorithms.f5.F5` -- class to compute the complexity of F5 algorithm.
-
-    INPUT:
-
-    - ``problem`` -- MQProblem object including all necessary parameters
-    - ``h`` -- external hybridization parameter (default: 0)
-    - ``w`` -- linear algebra constant (2 <= w <= 3) (default: 2.81)
-    - ``degrees`` -- a list/tuple of degree of the polynomials (default: [2]*m, i.e. quadratic system)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
-        sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-        sage: H = HybridF5(MQProblem(q=256, n=5, m=10))
-        sage: H
-        HybridF5 estimator for the MQ problem with 5 variables and 10 polynomials
-    """
-
     def __init__(self, problem: MQProblem, **kwargs):
+        """Construct an instance of HybridF5.
+
+        HybridF5 is an algorithm to solve systems of polynomials over a finite field proposed in [BFP09]_, [BFP12]_. The
+        algorithm is a tradeoff between exhaustive search and Groebner bases computation. The idea is to fix the value of,
+        say, `k` variables and compute the Groebner bases of `q^{k}` subsystems, where `q` is the order of the finite
+        field. The Grobner bases computation is done using F5 algorithm.
+
+        Notes:
+            See also: `mpkc.algorithms.f5.F5`, class to compute the complexity of F5 algorithm.
+
+        Args:
+            problem (MQProblem): The MQProblem object including all necessary parameters.
+            h (int, optional): The external hybridization parameter (default: 0).
+            w (float, optional): The linear algebra constant (2 <= w <= 3) (default: 2.81).
+            degrees (list, optional): A list/tuple of degree of the polynomials (default: [2]*m, i.e. quadratic system).
+
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> H = HybridF5(MQProblem(q=256, n=5, m=10))
+            >>> H
+            HybridF5 estimator for the MQ problem with 5 variables and 10 polynomials
+        """
         q = problem.order_of_the_field()
         m = problem.npolynomials()
         if not isinstance(q, (int, Integer)):
@@ -77,14 +73,13 @@ class HybridF5(MQAlgorithm):
 
     def degree_of_polynomials(self):
         """
-        Return a list of degree of the polynomials
+        Return a list of degree of the polynomials.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: H = HybridF5(MQProblem(q=31, n=5, m=5), degrees=[3]*5)
-            sage: H.degree_of_polynomials()
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> H = HybridF5(MQProblem(q=31, n=5, m=5), degrees=[3]*5)
+            >>> H.degree_of_polynomials()
             [3, 3, 3, 3, 3]
         """
         return self._degrees
@@ -92,43 +87,37 @@ class HybridF5(MQAlgorithm):
     @optimal_parameter
     def k(self):
         """
-        Return the optimal k
+        Return the optimal k.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: H = HybridF5(MQProblem(q=31, n=23, m=23))
-            sage: H.k()
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> H = HybridF5(MQProblem(q=31, n=23, m=23))
+            >>> H.k()
             5
 
-        TESTS::
-
-            sage: H = HybridF5(MQProblem(q=256, n=10, m=10))
-            sage: H.k()
+        Tests:
+            >>> H = HybridF5(MQProblem(q=256, n=10, m=10))
+            >>> H.k()
             1
-            sage: H = HybridF5(MQProblem(q=256, n=20, m=10))
-            sage: H.k()
+            >>> H = HybridF5(MQProblem(q=256, n=20, m=10))
+            >>> H.k()
             1
         """
         return self._get_optimal_parameter("k")
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: H = HybridF5(MQProblem(q=256, n=10, m=10), bit_complexities=False)
-            sage: H.time_complexity(k=2)
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
+    
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> H = HybridF5(MQProblem(q=256, n=10, m=10), bit_complexities=False)
+            >>> H.time_complexity(k=2)
             46.38042019731107
-
         """
         k = parameters["k"]
         n, m, q = self.get_reduced_parameters()
@@ -141,21 +130,17 @@ class HybridF5(MQAlgorithm):
         return log2(q) * k + E.time_complexity() + h * log2(q)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity w.r.t. `k`.
+        """Compute the memory complexity with respect to `k`.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: H = HybridF5(MQProblem(q=7, n=10, m=12), bit_complexities=False)
-            sage: H.memory_complexity(k=1)
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> H = HybridF5(MQProblem(q=7, n=10, m=12), bit_complexities=False)
+            >>> H.memory_complexity(k=1)
             20.659592676441402
-
         """
         k = parameters["k"]
         n, m, q = self.get_reduced_parameters()
@@ -168,20 +153,17 @@ class HybridF5(MQAlgorithm):
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
-        Return the Ō time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: H = HybridF5(MQProblem(q=7, n=10, m=12), complexity_type=1)
-            sage: H.time_complexity(k=3)
+        Return the Ō time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
+    
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> H = HybridF5(MQProblem(q=7, n=10, m=12), complexity_type=1)
+            >>> H.time_complexity(k=3)
             26.38447672418113
-
         """
         k = parameters["k"]
         n, m, q = self.get_reduced_parameters()
@@ -193,20 +175,17 @@ class HybridF5(MQAlgorithm):
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
-        Return the Ō memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: H = HybridF5(MQProblem(q=7, n=10, m=12), complexity_type=1)
-            sage: H.memory_complexity(k = 3)
+        Compute the Ō memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary containing the required parameters.
+    
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> H = HybridF5(MQProblem(q=7, n=10, m=12), complexity_type=1)
+            >>> H.memory_complexity(k = 3)
             12.784634845557521
-
         """
         k = parameters["k"]
         n, m, q = self.get_reduced_parameters()
@@ -219,13 +198,11 @@ class HybridF5(MQAlgorithm):
         """
         Return the optimal parameters to achive the optimal Ō time complexity.
 
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = HybridF5(MQProblem(q=7, n=10, m=12), complexity_type=1)
-            sage: E.optimal_parameters()
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = HybridF5(MQProblem(q=7, n=10, m=12), complexity_type=1)
+            >>> E.optimal_parameters()
             {'k': 9}
-
         """
         self._find_optimal_parameters()

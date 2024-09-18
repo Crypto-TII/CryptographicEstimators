@@ -21,24 +21,20 @@ from flint import fmpq_series as power_series
 
 
 class NMonomialSeries(object):
-    """
-    Construct an instance of the series of a polynomial ring
-
-    INPUT:
-
-    - ``n`` -- the number of variables
-    - ``q`` -- the size of the field (default: None)
-    - ``max_prec`` -- degree of the series (default: None)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
-        sage: NM = NMonomialSeries(n=6, q=5)
-        sage: NM
-        Class for the number of monomials in the polynomial ring in 6 variables over F_5
-    """
-
     def __init__(self, n: int, q=None, max_prec=None):
+        """Construct an instance of the series of a polynomial ring.
+
+        Args:
+            n (int): The number of variables.
+            q (int, optional): The size of the field (default: None).
+            max_prec (int, optional): The degree of the series (default: None).
+
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
+            >>> NM = NMonomialSeries(n=6, q=5)
+            >>> NM
+            Class for the number of monomials in the polynomial ring in 6 variables over F_5
+        """
 
         self._n = n
         if max_prec is not None:
@@ -68,13 +64,11 @@ class NMonomialSeries(object):
         """
         Return the representation of the _series_of_degree attribute.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
-            sage: NM = NMonomialSeries(n=6, q=5)
-            sage: NM._nmonomial_serie_of_degree
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
+            >>> NM = NMonomialSeries(n=6, q=5)
+            >>> NM._nmonomial_serie_of_degree
             1 + 6*x + 21*x^2 + 56*x^3 + 126*x^4 + 246*x^5 + 426*x^6 + O(x^7)
-
         """
         return self._series_of_degree
 
@@ -83,29 +77,25 @@ class NMonomialSeries(object):
         """
         Return the representation of the _series_up_to_degree attribute.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
-            sage: NM = NMonomialSeries(n=6, q=5)
-            sage: NM._nmonomial_serie_up_to_degree
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
+            >>> NM = NMonomialSeries(n=6, q=5)
+            >>> NM._nmonomial_serie_up_to_degree
             1 + 7*x + 28*x^2 + 84*x^3 + 210*x^4 + 456*x^5 + 882*x^6 + O(x^7)
-
         """
         return self._series_up_to_degree
 
     def nmonomials_of_degree(self, d: int):
         """
-        Return the number of monomials of degree `d`
-
-        INPUT:
-
-        - ``d`` -- a non-negative integer
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
-            sage: NM = NMonomialSeries(n=6, q=5)
-            sage: NM.nmonomials_of_degree(4)
+        Returns the number of monomials of degree `d`.
+    
+        Args:
+            d (int): A non-negative integer.
+    
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
+            >>> NM = NMonomialSeries(n=6, q=5)
+            >>> NM.nmonomials_of_degree(4)
             126
         """
         max_prec = self._max_prec
@@ -119,16 +109,14 @@ class NMonomialSeries(object):
     def nmonomials_up_to_degree(self, d: int):
         """
         Return the number of monomials up to degree `d`.
-
-        INPUT:
-
-        - ``d`` -- a non-negative integer
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
-            sage: NM = NMonomialSeries(n=6, q=5)
-            sage: NM.nmonomials_up_to_degree(4)
+    
+        Args:
+            d (int): A non-negative integer.
+    
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
+            >>> NM = NMonomialSeries(n=6, q=5)
+            >>> NM.nmonomials_up_to_degree(4)
             210
         """
         max_prec = self._max_prec
@@ -140,7 +128,6 @@ class NMonomialSeries(object):
         )
 
     def __repr__(self):
-        """ """
         n = self._n
         q = self._q
         if q is None:

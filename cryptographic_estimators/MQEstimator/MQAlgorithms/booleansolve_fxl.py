@@ -32,38 +32,38 @@ from sage.all import Integer
 
 
 class BooleanSolveFXL(MQAlgorithm):
-    """
-    Construct an instance of BooleanSolve and FXL estimator
-
-    BooleanSolve and FXL are algorithms to solve the MQ problem over GF(2) and GF(q), respectively [BFSS11]_ [CKPS]_.
-    They work by guessing the value of $k$ variables and computing the consistency of the resulting subsystem.
-
-    INPUT:
-
-    - ``problem`` -- MQProblem object including all necessary parameters
-    - ``w`` -- linear algebra constant (2 <= w <= 3) (default: 2.81)
-    - ``h`` -- external hybridization parameter (default: 0)
-    - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-    - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
-
-    NOTE:
-        - For the memory complexity of `las_vegas` variant, which is XL with the block Wiedemann algorithm, this module
-        follows the analysis in [BBC+22]_ (Section 8). There it is stated that any row of the Macaulay matrix can be
-        build on the fly. Hence the memory demand of this algorithm is dominated by the memory needed to store two
-        vectors of length `N` over `GF(q)`, where N is the number of columns of the Macaulay Matrix.
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
-        sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-        sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7))
-        sage: E
-        BooleanSolveFXL estimator for the MQ problem with 10 variables and 12 polynomials
-    """
-
     _variants = (MQ_LAS_VEGAS, MQ_DETERMINISTIC)
-
     def __init__(self, problem: MQProblem, **kwargs):
+        """Construct an instance of BooleanSolve and FXL estimator.
+
+        BooleanSolve and FXL are algorithms to solve the MQ problem over GF(2) and GF(q), respectively [BFSS11]_ [CKPS]_.
+        They work by guessing the value of k variables and computing the consistency of the resulting subsystem.
+
+        Args:
+            problem (MQProblem): Object including all necessary parameters.
+            w (float): Linear algebra constant (2 <= w <= 3). Default is 2.81.
+            h (int): External hybridization parameter. Default is 0.
+            memory_access (int): Specifies the memory access cost model.
+                0 - constant (default)
+                1 - logarithmic
+                2 - square-root
+                3 - cube-root
+                Alternatively, deploy a custom function which takes as input the logarithm of the total memory usage.
+            complexity_type (int): Complexity type to consider.
+                0 - estimate (default)
+                1 - tilde O complexity
+
+        Note:
+            For the memory complexity of 'las_vegas' variant, which is XL with the block Wiedemann algorithm, this module follows the analysis in [BBC+22]_ (Section 8). There it is stated that any row of the Macaulay matrix can be built on the fly. Hence the memory demand of this algorithm is dominated by the memory needed to store two vectors of length N over GF(q), where N is the number of columns of the Macaulay Matrix.
+
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7))
+            >>> E
+            BooleanSolveFXL estimator for the MQ problem with 10 variables and 12 polynomials
+        """
+
         q = problem.order_of_the_field()
         if not isinstance(q, (int, Integer)):
             raise TypeError("q must be an integer")
@@ -87,14 +87,13 @@ class BooleanSolveFXL(MQAlgorithm):
     @optimal_parameter
     def k(self):
         """
-        Return the optimal `k`
+        Return the optimal `k`.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7))
-            sage: E.k()
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7))
+            >>> E.k()
             4
         """
         return self._get_optimal_parameter("k")
@@ -102,21 +101,22 @@ class BooleanSolveFXL(MQAlgorithm):
     @optimal_parameter
     def variant(self):
         """
-        Return the optimal variant
+        Return the optimal variant.
 
-        EXAMPLES::
-
-            sage: from  cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
-            sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7))
-            sage: E.variant()
+        Examples:
+            >>> from  cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
+            >>> from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7))
+            >>> E.variant()
             'las_vegas'
         """
         return self._get_optimal_parameter(MQ_VARIANT)
 
     def _valid_choices(self):
         """
-        Generator which yields on each call a new set of valid parameters for the optimization routine based.
+        Yields a new set of valid parameters for the optimization routine.
+    
+        This generator yields a new set of valid parameters on each call, based on the optimization routine's requirements.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
         _ = new_ranges.pop(MQ_VARIANT)
@@ -136,35 +136,31 @@ class BooleanSolveFXL(MQAlgorithm):
                 stop = True
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary containing the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), bit_complexities=False)
-            sage: E.time_complexity(k=2, variant = 'las_vegas')
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), bit_complexities=False)
+            >>> E.time_complexity(k=2, variant = 'las_vegas')
             33.35111811760744
 
-            sage: E = BooleanSolveFXL(MQProblem(n=594, m=64, q=16, theta=None), complexity_type=0)
-            sage: E.optimal_parameters()
+            >>> E = BooleanSolveFXL(MQProblem(n=594, m=64, q=16, theta=None), complexity_type=0)
+            >>> E.optimal_parameters()
             {'k': 13, 'variant': 'las_vegas'}
 
-            sage: E.time_complexity()
+            >>> E.time_complexity()
             150.2690857321659
 
-            sage: E = BooleanSolveFXL(MQProblem(n=312, m=64, q=16, theta=None), complexity_type=0)
-            sage: E.optimal_parameters()
+            >>> E = BooleanSolveFXL(MQProblem(n=312, m=64, q=16, theta=None), complexity_type=0)
+            >>> E.optimal_parameters()
             {'k': 11, 'variant': 'las_vegas'}
 
-            sage: E.time_complexity()
+            >>> E.time_complexity()
             160.33500724355238
-
         """
         k = parameters["k"]
         variant = parameters[MQ_VARIANT]
@@ -190,31 +186,28 @@ class BooleanSolveFXL(MQAlgorithm):
 
     def _compute_memory_complexity(self, parameters: dict):
         """
-        Return the memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from  cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
-            sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), bit_complexities=False)
-            sage: E.memory_complexity(k=2, variant='las_vegas')
+        Computes the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary containing the parameters.
+    
+        Tests:
+            >>> from  cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
+            >>> from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), bit_complexities=False)
+            >>> E.memory_complexity(k=2, variant='las_vegas')
             11.329796338220701
 
-            sage: E.memory_complexity()
+            >>> E.memory_complexity()
             10.228818690495881
 
-            sage: E = BooleanSolveFXL(MQProblem(n=594, m=64, q=16), complexity_type=0, theta=None)
-            sage: E.memory_complexity()
+            >>> E = BooleanSolveFXL(MQProblem(n=594, m=64, q=16), complexity_type=0, theta=None)
+            >>> E.memory_complexity()
             43.78145675751773
 
-            sage: E = BooleanSolveFXL(MQProblem(n=312, m=64, q=16), complexity_type=0, theta=None)
-            sage: E.memory_complexity()
+            >>> E = BooleanSolveFXL(MQProblem(n=312, m=64, q=16), complexity_type=0, theta=None)
+            >>> E.memory_complexity()
             52.603627340638155
-
         """
         k = parameters["k"]
         variant = parameters[MQ_VARIANT]
@@ -238,23 +231,20 @@ class BooleanSolveFXL(MQAlgorithm):
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """
-        Return the Ō time complexity of BooleanSolve and FXL algorithms
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from  cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
-            sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), complexity_type=1)
-            sage: E.time_complexity(k=2, variant='las_vegas')
+        Compute the Ō time complexity of BooleanSolve and FXL algorithms.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
+    
+        Tests:
+            >>> from  cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
+            >>> from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), complexity_type=1)
+            >>> E.time_complexity(k=2, variant='las_vegas')
             26.27430252055661
 
-            sage: E.time_complexity()
+            >>> E.time_complexity()
             24.014054533787938
-
         """
         n, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
@@ -274,20 +264,17 @@ class BooleanSolveFXL(MQAlgorithm):
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """
-        Return the Ō time complexity of BooleanSolve and FXL algorithms
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from  cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
-            sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), complexity_type=1)
-            sage: E.memory_complexity(k=2, variant='las_vegas')
+        Compute the Ō time complexity of BooleanSolve and FXL algorithms.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
+    
+        Tests:
+            >>> from  cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
+            >>> from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), complexity_type=1)
+            >>> E.memory_complexity(k=2, variant='las_vegas')
             10.329796338220701
-
         """
         n, m, q = self.get_reduced_parameters()
         k = parameters["k"]
@@ -302,12 +289,11 @@ class BooleanSolveFXL(MQAlgorithm):
         """
         Finds the optimal parameters.
 
-        TESTS::
-
-            sage: from  cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
-            sage: from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), complexity_type=1)
-            sage: E.optimal_parameters()
+        Tests:
+            >>> from  cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
+            >>> from  cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = BooleanSolveFXL(MQProblem(n=10, m=12, q=7), complexity_type=1)
+            >>> E.optimal_parameters()
             {'k': 4, 'variant': 'las_vegas'}
         """
         self._find_optimal_parameters()
