@@ -15,21 +15,17 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-from ..helper import ComplexityType
-from ..base_algorithm import BaseAlgorithm, optimal_parameter
+from ..base_algorithm import BaseAlgorithm
 from .sdfq_problem import SDFqProblem
-from .sdfq_helper import _optimize_m4ri
-from math import inf, log2
 
 
 class SDFqAlgorithm(BaseAlgorithm):
     """
-    Base class for Syndrome Decoding over FQ algorithms complexity estimator
+    Base class for Syndrome Decoding over FQ algorithms complexity estimator.
 
-    INPUT:
-
-    - ``problem`` -- SDFqProblem object including all necessary parameters
-    - ``hmp`` -- Indicates if Hashmap is used for list matching, if false sorting is used (default: true)
+    Args:
+        problem (SDFqProblem): An SDFqProblem object including all necessary parameters.
+        hmp (bool, optional): Indicates if a hashmap is used for list matching. If False, sorting is used instead. Defaults to True.
     """
 
     def __init__(self, problem: SDFqProblem, **kwargs):
@@ -38,8 +34,7 @@ class SDFqAlgorithm(BaseAlgorithm):
         self._adjust_radius = kwargs.get("adjust_radius", 10)
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """
-        Computes time and memory complexity for given parameters
+        """Computes time and memory complexity for given parameters.
         """
         raise NotImplementedError
 
@@ -50,16 +45,16 @@ class SDFqAlgorithm(BaseAlgorithm):
         return self._time_and_memory_complexity(parameters)[1]
 
     def _get_verbose_information(self):
-        """
-        returns a dictionary containing
-            {
-                CONSTRAINTS,
-                PERMUTATIONS,
-                TREE,
-                GAUSS,
-                REPRESENTATIONS,
-                LISTS
-            }
+        """Returns a dictionary containing information about the object.
+    
+        Returns:
+            dict: A dictionary with the following keys:
+                - CONSTRAINTS
+                - PERMUTATIONS
+                - TREE
+                - GAUSS
+                - REPRESENTATIONS
+                - LISTS
         """
         verb = dict()
         _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)

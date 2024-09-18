@@ -23,35 +23,34 @@ from ..sdfq_constants import *
 
 class Prange(SDFqAlgorithm):
     def __init__(self, problem: SDFqProblem, **kwargs):
-        """
-        Construct an instance of Prange's estimator [Pra62]_
-        expected weight distribution::
-            +--------------------------------+-------------------------------+
-            | <----------+ n - k +---------> | <----------+ k +------------> |
-            |                w               |              0                |
-            +--------------------------------+-------------------------------+
+        """Construct an instance of Prange's estimator [Pra62].
 
-        INPUT:
-        - ``problem`` -- SDProblem object including all necessary parameters
+        The expected weight distribution is as follows:
 
-        EXAMPLES::
-            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Prange
-            sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
-            sage: Prange(SDFqProblem(n=100,k=50,w=10,q=3))
+        +--------------------------------+-------------------------------+
+        | <----------+ n - k +---------> | <----------+ k +------------> |
+        |                w               |              0                |
+        +--------------------------------+-------------------------------+
+
+        Args:
+            problem (SDFqProblem): SDProblem object including all necessary parameters.
+
+        Examples:
+            >>> from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Prange
+            >>> from cryptographic_estimators.SDFqEstimator import SDFqProblem
+            >>> Prange(SDFqProblem(n=100,k=50,w=10,q=3))
             Prange estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 3
-
         """
         self._name = "Prange"
         super(Prange, self).__init__(problem, **kwargs)
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """
-        Return time complexity of Prange's algorithm for given set of parameters
-
-        INPUT:
-        -  ``parameters`` -- dictionary including parameters
-        -  ``verbose_information`` -- if set to a dictionary `permutations` and `gauß` will be returned.
-
+        Returns the time complexity of Prange's algorithm for the given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
+            verbose_information (dict, optional): If set, 'permutations' and 'gauß' will be returned.
         """
 
         n, k, w, _ = self.problem.get_parameters()

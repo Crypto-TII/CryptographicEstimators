@@ -1,22 +1,5 @@
 # ****************************************************************************
 # Copyright 2023 Technology Innovation Institute
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-# ****************************************************************************
-
-# ****************************************************************************
-# Copyright 2023 Technology Innovation Institute
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,26 +14,36 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
- 
 
 
- 
-
-
-from math import log2, comb, inf, ceil
+from math import log2, comb, inf
 
 
 def binom(n: int, k: int):
     """
-    binomial coefficient
+    Computes the binomial coefficient.
+
+    Args:
+        n (int): The total number of items.
+        k (int): The number of items to be selected.
+
+    Returns:
+        int: The binomial coefficient.
     """
     return comb(int(n), int(k))
 
 
 def min_max(a: int, b: int, s: bool):
     """
-    Returns min(a,b) or max(a,b) depending on the switch s
-        s =  false        true
+    Returns the minimum or maximum of two integers, depending on a boolean switch.
+
+    Args:
+        a (int): The first integer to compare.
+        b (int): The second integer to compare.
+        s (bool): The switch that determines whether the minimum or maximum value is returned.
+
+    Returns:
+        int: The minimum of `a` and `b` if `s` is `False`, otherwise the maximum of `a` and `b`.
     """
     if s:
         return max(a, b)
@@ -59,27 +52,25 @@ def min_max(a: int, b: int, s: bool):
 
 
 def __truncate(x: float, precision: int):
-    """
-    Truncates a float
+    """Truncates a float.
 
-    INPUT:
-
-    - ``x`` -- value to be truncated
-    - ``precision`` -- number of decimal places to after which the ``x`` is truncated
+    Args:
+        x (float): The value to be truncated.
+        precision (int): The number of decimal places to which the value `x` is truncated.
 
     """
-
     return float(int(x * 10 ** precision) / 10 ** precision)
 
 
 def __round_or_truncate_to_given_precision(T: float, M: float, truncate: bool, precision: int):
     """
-    rounds or truncates the inputs `T`, `M`
-    INPUT:
-        - ``T`` -- first value to truncate or round
-        - ``M`` -- second value to truncate or round
-        - ``truncate`` -- if set the `true` the inputs are truncated otherwise rounded
-        - ``precision`` -- precision of the truncation or rounding
+    Rounds or truncates the input values `T` and `M`.
+
+    Args:
+        T (float): The first value to truncate or round.
+        M (float): The second value to truncate or round.
+        truncate (bool): If True, the inputs are truncated; otherwise, they are rounded.
+        precision (int): The precision of the truncation or rounding.
     """
     if truncate:
         T, M = __truncate(T, precision), __truncate(M, precision)
@@ -89,26 +80,22 @@ def __round_or_truncate_to_given_precision(T: float, M: float, truncate: bool, p
 
 
 def _gaussian_elimination_complexity(n: int, k: int, r: int):
-    """
-    Complexity estimate of Gaussian elimination routine
+    """Complexity estimate of Gaussian elimination routine.
 
-    INPUT:
+    Args:
+        n (int): Row additions are performed on `n` coordinates.
+        k (int): Matrix consists of `n-k` rows.
+        r (int): Blocksize of method of the four Russian for inversion, default is zero.
 
-    - ``n`` -- Row additions are perfomed on ``n`` coordinates
-    - ``k`` -- Matrix consists of ``n-k`` rows
-    - ``r`` -- Blocksize of method of the four russian for inversion, default is zero
+    References:
+        .. [Bar07] Bard, G.V.: Algorithms for solving linear and polynomial systems of equations over finite fields
+           with applications to cryptanalysis. Ph.D. thesis (2007)
+        .. [BLP08] Bernstein, D.J., Lange, T., Peters, C.: Attacking and defending the mceliece cryptosystem.
+           In: International Workshop on Post-Quantum Cryptography. pp. 31–46. Springer (2008)
 
-    [Bar07]_ Bard, G.V.: Algorithms for solving linear and polynomial systems of equations over finite fields
-    with applications to cryptanalysis. Ph.D. thesis (2007)
-
-    [BLP08] Bernstein, D.J., Lange, T., Peters, C.: Attacking and defending the mceliece cryptosystem.
-    In: International Workshop on Post-Quantum Cryptography. pp. 31–46. Springer (2008)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.SDEstimator import _gaussian_elimination_complexity
-        sage: _gaussian_elimination_complexity(n=100,k=20,r=1) # random
-
+    Examples:
+        >>> from cryptographic_estimators.SDEstimator import _gaussian_elimination_complexity
+        >>> _gaussian_elimination_complexity(n=100,k=20,r=1) # random output # doctest: +SKIP
     """
 
     if r != 0:
@@ -119,13 +106,11 @@ def _gaussian_elimination_complexity(n: int, k: int, r: int):
 
 def _optimize_m4ri(n: int, k: int, mem=inf):
     """
-    Find optimal blocksize for Gaussian elimination via M4RI
+    Find optimal blocksize for Gaussian elimination via M4RI.
 
-    INPUT:
-
-    - ``n`` -- Row additons are perfomed on ``n`` coordinates
-    - ``k`` -- Matrix consists of ``n-k`` rows
-
+    Args:
+        n (int): Number of coordinates for row additions.
+        k (int): The matrix consists of n-k rows.
     """
 
     (r, v) = (0, inf)
@@ -138,40 +123,35 @@ def _optimize_m4ri(n: int, k: int, mem=inf):
 
 
 def _mem_matrix(n: int, k: int, r: int):
-    """
-    Memory usage of parity check matrix in vector space elements
+    """Calculates the memory usage of the parity check matrix in vector space elements.
 
-    INPUT:
+    Args:
+        n (int): The length of the code.
+        k (int): The dimension of the code.
+        r (int): The block size of the M4RI procedure.
 
-    - ``n`` -- length of the code
-    - ``k`` -- dimension of the code
-    - ``r`` -- block size of M4RI procedure
+    Returns:
+        The memory usage of the parity check matrix in vector space elements.
 
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.SDEstimator import _mem_matrix
-        sage: _mem_matrix(n=100,k=20,r=0) # random
-
+    Examples:
+        >>> from cryptographic_estimators.SDEstimator import _mem_matrix
+        >>> _mem_matrix(n=100,k=20,r=0) # random output # doctest: +SKIP
     """
     return n - k + 2 ** r
 
 
+# TODO: Remove?
 def _list_merge_complexity(L: float, l: int, hmap: bool):
-    """
-    TODO remove?
-    Complexity estimate of merging two lists exact
+    """Complexity estimate of merging two lists.
 
-    INPUT:
+    Args:
+        L (float): Size of lists to be merged.
+        l (int): Amount of bits used for matching.
+        hmap (bool): Indicates if a hashmap is being used (Default: False).
 
-    - ``L`` -- size of lists to be merged
-    - ``l`` -- amount of bits used for matching
-    - ``hmap`` -- indicates if hashmap is being used (Default 0: no hashmap)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.SDEstimator import _list_merge_complexity
-        sage: _list_merge_complexity(L=2**16,l=16,hmap=1) # random
-
+    Examples:
+        >>> from cryptographic_estimators.SDEstimator import _list_merge_complexity
+        >>> _list_merge_complexity(L=2**16,l=16,hmap=1) # random output # doctest: +SKIP
     """
 
     if L == 1:
