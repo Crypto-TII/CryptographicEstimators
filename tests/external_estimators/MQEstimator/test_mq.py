@@ -18,7 +18,7 @@ from cryptographic_estimators.MQEstimator import (
     Lokshtanov,
     MHT,
 )
-from tests.MQEstimator.legacy_implementations.mpkc.algorithms import (
+from tests.external_estimators.MQEstimator.legacy_implementations.mpkc.algorithms import (
     Bjorklund as TestBjorklund,
     BooleanSolveFXL as TestBooleanSolveFXL,
     CGMTA as TestCGMTA,

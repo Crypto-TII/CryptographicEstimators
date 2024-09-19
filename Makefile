@@ -147,6 +147,7 @@ docker-pytest:
 	@docker run --name pytest-estimators -d -it ${image_name} sh \
 		&& docker exec pytest-estimators sh -c " \
 		pytest --doctest-modules -n auto -vv \
+		tests/test_kat.py \
 		cryptographic_estimators/SDEstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
@@ -164,11 +165,15 @@ docker-pytest:
 		# cryptographic_estimators/base_problem.py \
 		# cryptographic_estimators/estimation_renderer.py \
 		# cryptographic_estimators/helper.py \
-		# tests/ \
 		" \
 	@echo "Cleaning container..."
 	@make stop-container-and-remove container_name="pytest-estimators"
 
+
+docker-generate-kat:
+	@docker run --name gen-tests-references -v ./tests:/home/cryptographic_estimators/tests --rm ${image_name} sh -c \
+		"sage tests/external_estimators/generate_kat.py"
+	@make docker-build
 
 # docker-pytest:
 # 	@echo "Removing previous container...."
