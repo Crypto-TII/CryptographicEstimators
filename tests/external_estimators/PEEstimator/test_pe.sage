@@ -3,8 +3,8 @@ from cryptographic_estimators.PEEstimator.PEAlgorithms import Leon, Beullens
 from cryptographic_estimators.PEEstimator import PEProblem
 
 
-load("tests/helpers/attack_cost.sage")
-load("tests/helpers/cost.sage")
+load("tests/references/helpers/attack_cost.sage")
+load("tests/references/helpers/cost.sage")
 
 # global parameters
 leon_params = {
