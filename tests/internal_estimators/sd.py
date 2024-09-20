@@ -50,3 +50,17 @@ def bjmm_plus(input: tuple, epsilon: float = 0.01):
     ).time_complexity()
 
     return actual_complexity, epsilon
+
+
+def all(input: tuple, epsilon: float = 0.01):
+    n, k, w, estimator_name = input
+    internal_estimator = globals()[estimator_name]
+    actual_complexity = internal_estimator(
+        SDProblem(n, k, w), bit_complexities=0
+    ).time_complexity()
+
+    return actual_complexity, epsilon
+
+
+def all2(input: tuple, epsilon: float = 0.015):
+    return all(input, epsilon)

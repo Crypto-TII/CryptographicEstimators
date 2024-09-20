@@ -96,28 +96,68 @@ def ext_bjmm_plus():
     return inputs_with_expected_outputs
 
 
-# def ext_all():
-#
-#     inputs = [
-#         (100, 50, 10),
-#         (1284, 1028, 24),
-#         (3488, 2720, 64),
-#     ]
-#
-#     external_algorithms = [
-#         prange_complexity,
-#         stern_complexity,
-#         dumer_complexity,
-#         ball_collision_decoding_complexity,
-#         bjmm_depth_2_complexity,
-#         bjmm_depth_3_complexity,
-#         bjmm_complexity,
-#         bjmm_depth_2_disjoint_weight_complexity,
-#         bjmm_depth_2_partially_disjoint_weight_complexity,
-#         both_may_depth_2_complexity,
-#         may_ozerov_complexity,
-#         may_ozerov_depth_2_complexity,
-#         may_ozerov_depth_3_complexity,
-#     ]
-#
-#
+def ext_all():
+
+    inputs = [
+        (100, 50, 10),
+        (1284, 1028, 24),
+        (3488, 2720, 64),
+    ]
+
+    external_estimators = [
+        prange_complexity,
+        stern_complexity,
+        dumer_complexity,
+        ball_collision_decoding_complexity,
+        bjmm_depth_2_complexity,
+        bjmm_depth_3_complexity,
+        bjmm_complexity,
+        bjmm_depth_2_disjoint_weight_complexity,
+        bjmm_depth_2_partially_disjoint_weight_complexity,
+        may_ozerov_complexity,
+    ]
+
+    def gen_single_kat(input, ext_estimator):
+        n, k, w = input
+        algorithm_name = ext_estimator.__name__
+        expected_complexity = ext_estimator(n, k, w)["time"]
+        input = n, k, w, external_to_internal_mappings[algorithm_name]
+        return input, expected_complexity
+
+    inputs_with_expected_outputs = [
+        gen_single_kat(input, estimator)
+        for input in inputs
+        for estimator in external_estimators
+    ]
+
+    return inputs_with_expected_outputs
+
+
+def ext_all2():
+
+    inputs = [
+        (100, 50, 10),
+        (1284, 1028, 24),
+        (3488, 2720, 64),
+    ]
+
+    external_estimators = [
+        both_may_depth_2_complexity,
+        may_ozerov_depth_2_complexity,
+        may_ozerov_depth_3_complexity,
+    ]
+
+    def gen_single_kat(input, ext_estimator):
+        n, k, w = input
+        algorithm_name = ext_estimator.__name__
+        expected_complexity = ext_estimator(n, k, w)["time"]
+        input = n, k, w, external_to_internal_mappings[algorithm_name]
+        return input, expected_complexity
+
+    inputs_with_expected_outputs = [
+        gen_single_kat(input, estimator)
+        for input in inputs
+        for estimator in external_estimators
+    ]
+
+    return inputs_with_expected_outputs
