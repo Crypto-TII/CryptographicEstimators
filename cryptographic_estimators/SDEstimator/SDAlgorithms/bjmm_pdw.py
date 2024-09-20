@@ -41,16 +41,15 @@ filterwarnings("ignore", category=RuntimeWarning)
 
 class BJMMpdw(SDAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
-        """
-        Construct an instance of BJMM's estimator in depth 2 using partially disjoint
+        """Construct an instance of BJMM's estimator in depth 2 using partially disjoint
         weight, applying explicit MitM-NN search on second level [MMT11]_, [BJMM12]_, [EB22]_.
 
         Expected weight distribution:
 
-        +--------------------------+--------------------+--------------------+--------+--------+
-        | <-+ n - k - l1 - 2 l2 +->|<-+ (k + l1) / 2 +->|<-+ (k + l1) / 2 +->|   l2   |   l2   |
-        |       w - 2 p - 2 w2     |         p          |         p          |   w2   |   w2   |
-        +--------------------------+--------------------+--------------------+--------+--------+
+             +--------------------------+--------------------+--------------------+--------+--------+
+             | <-+ n - k - l1 - 2 l2 +->|<-+ (k + l1) / 2 +->|<-+ (k + l1) / 2 +->|   l2   |   l2   |
+             |       w - 2 p - 2 w2     |         p          |         p          |   w2   |   w2   |
+             +--------------------------+--------------------+--------------------+--------+--------+
 
 
         Args:
@@ -67,7 +66,8 @@ class BJMMpdw(SDAlgorithm):
         self.initialize_parameter_ranges()
 
     def initialize_parameter_ranges(self):
-        """Initialize the parameter ranges for p, p1, and w2 to start the optimization process."""
+        """Initialize the parameter ranges for p, p1, and w2 to start the optimization process.
+        """
         _, _, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(30, w, s))
@@ -76,8 +76,7 @@ class BJMMpdw(SDAlgorithm):
 
     @optimal_parameter
     def p(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization.
+        """Return the optimal parameter $p$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMpdw
@@ -90,8 +89,7 @@ class BJMMpdw(SDAlgorithm):
 
     @optimal_parameter
     def p1(self):
-        """
-        Return the optimal parameter $p1$ used in the algorithm optimization.
+        """Return the optimal parameter $p1$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMpdw
@@ -104,8 +102,7 @@ class BJMMpdw(SDAlgorithm):
 
     @optimal_parameter
     def w2(self):
-        """
-        Return the optimal parameter $w2$ used in the algorithm optimization.
+        """Return the optimal parameter $w2$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
@@ -117,8 +114,7 @@ class BJMMpdw(SDAlgorithm):
         return self._get_optimal_parameter("w2")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """
-        Returns whether the provided parameter set `parameters` is invalid.
+        """Returns whether the provided parameter set `parameters` is invalid.
         """
         _, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
@@ -135,9 +131,7 @@ class BJMMpdw(SDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
-        set parameters in `_optimal_parameters`.
+        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
         _, _, w = self.problem.get_parameters()
@@ -159,8 +153,7 @@ class BJMMpdw(SDAlgorithm):
                     yield indices
 
     def _choose_first_constraint_such_that_representations_cancel_out_exactly(self, parameters: dict):
-        """
-        Tries to find an optimal l1 value fulfilling its constraints.
+        """Tries to find an optimal l1 value fulfilling its constraints.
         """
         _, k, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
@@ -180,7 +173,8 @@ class BJMMpdw(SDAlgorithm):
         return l1_val
 
     def _choose_second_constraint_such_that_list_size_remains_constant(self, parameters: dict, list_size: float):
-        """Tries to find an optimal l2 value fulfilling its constraints."""
+        """Tries to find an optimal l2 value fulfilling its constraints.
+        """
         par = SimpleNamespace(**parameters)
 
         try:
@@ -197,8 +191,7 @@ class BJMMpdw(SDAlgorithm):
         return l2_val
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """
-        Computes the expected runtime and memory consumption for a given parameter set.
+        """Computes the expected runtime and memory consumption for a given parameter set.
         """
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)

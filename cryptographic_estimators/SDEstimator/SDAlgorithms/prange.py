@@ -24,21 +24,20 @@ from ...SDEstimator.sd_helper import (
     binom,
     log2,
 )
-from ...helper import ComplexityType
 from ..sd_constants import *
 from ..SDWorkfactorModels.prange import PrangeScipyModel
 
 
 class Prange(SDAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
-        """Construct an instance of Prange's estimator [Pra62].
+        """Construct an instance of Prange's estimator [Pra62]_.
 
-        The expected weight distribution is as follows:
+        Expected weight distribution::
 
-        +--------------------------------+-------------------------------+
-        | <----------+ n - k +---------> | <----------+ k +------------> |
-        |                w               |              0                |
-        +--------------------------------+-------------------------------+
+            +--------------------------------+-------------------------------+
+            | <----------+ n - k +---------> | <----------+ k +------------> |
+            |                w               |              0                |
+            +--------------------------------+-------------------------------+
 
         Args:
             problem (SDProblem): An SDProblem object including all necessary parameters.

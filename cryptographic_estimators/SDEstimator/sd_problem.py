@@ -47,8 +47,7 @@ class SDProblem(BaseProblem):
         self.nsolutions = kwargs.get("nsolutions", max(self.expected_number_solutions(), 0))
 
     def to_bitcomplexity_time(self, basic_operations: float):
-        """
-        Calculates the bit-complexity corresponding to the number of field additions, which are the `basic_operations` for SDAlgorithms.
+        """Calculates the bit-complexity corresponding to the number of field additions, which are the `basic_operations` for SDAlgorithms.
 
         Args:
             basic_operations (float): The number of field additions (in logarithmic scale).
@@ -62,8 +61,7 @@ class SDProblem(BaseProblem):
         return log2(log2(q)) + log2(n) + basic_operations
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
-        """
-        Returns the memory bit-complexity associated with a given number of elements to store.
+        """Returns the memory bit-complexity associated with a given number of elements to store.
 
         Args:
             elements_to_store (float): The number of memory operations (logarithmic).
@@ -74,7 +72,8 @@ class SDProblem(BaseProblem):
         return self.to_bitcomplexity_time(elements_to_store)
 
     def expected_number_solutions(self):
-        """Returns the logarithm of the expected number of existing solutions to the problem"""
+        """Returns the logarithm of the expected number of existing solutions to the problem.
+        """
         n, k, w = self.get_parameters()
         return log2(comb(n, w)) - (n - k)
 
@@ -93,7 +92,8 @@ class SDProblem(BaseProblem):
         return rep
 
     def get_parameters(self):
-        """Returns the ISD paramters n, k, w"""
+        """Returns the ISD paramters n, k, w.
+        """
         n = self.parameters[SD_CODE_LENGTH]
         k = self.parameters[SD_CODE_DIMENSION]
         w = self.parameters[SD_ERROR_WEIGHT]

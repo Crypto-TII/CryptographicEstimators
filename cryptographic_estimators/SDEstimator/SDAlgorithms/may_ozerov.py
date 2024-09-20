@@ -43,12 +43,12 @@ class MayOzerov(SDAlgorithm):
 
         Introduced in [MO15]_.
 
-        The expected weight distribution is as follows:
+        Expected weight distribution:
 
-        +----------------------------+-------------------+-------------------+
-        | <-----+ n - k - l +------->|<--+ (k + l)/2 +-->|<--+ (k + l)/2 +-->|
-        |           w - 2p           |        p          |        p          |
-        +----------------------------+-------------------+-------------------+
+            +--------------------------+-------------------+-------------------+
+            | <-----+ n - k - l +----->|<--+ (k + l)/2 +-->|<--+ (k + l)/2 +-->|
+            |           w - 2p         |        p          |        p          |
+            +--------------------------+-------------------+-------------------+
 
         Args:
             problem (SDProblem): SDProblem object including all necessary parameters.
@@ -71,8 +71,7 @@ class MayOzerov(SDAlgorithm):
 
     @optimal_parameter
     def depth(self):
-        """
-        Return the optimal parameter $depth$ used in the algorithm optimization.
+        """Return the optimal parameter $depth$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM
@@ -87,25 +86,29 @@ class MayOzerov(SDAlgorithm):
 
     @property
     def complexity_type(self):
-        """Returns the optimization type, either 'bit security' or 'asymptotic'."""
+        """Returns the optimization type, either 'bit security' or 'asymptotic'.
+        """
         pass
         return super().complexity_type
 
     @complexity_type.setter
     def complexity_type(self, new_type: Union[str, int]):
-        """Sets the complexity type."""
+        """Sets the complexity type.
+        """
         super(MayOzerov, self.__class__).complexity_type.fset(self, new_type)
         self.MayOzerov_depth_2.complexity_type = new_type
         self.MayOzerov_depth_3.complexity_type = new_type
 
     def reset(self):
-        """Resets all internal variables to restart the optimization process."""
+        """Resets all internal variables to restart the optimization process.
+        """
         super().reset()
         self.MayOzerov_depth_2.reset()
         self.MayOzerov_depth_3.reset()
 
     def _find_optimal_parameters(self):
-        """Finds optimal parameters for depth 2 and 3."""
+        """Finds optimal parameters for depth 2 and 3.
+        """
         self.MayOzerov_depth_2._find_optimal_parameters()
         if self.limit_depth:
             self._optimal_parameters["depth"] = 2
@@ -118,7 +121,8 @@ class MayOzerov(SDAlgorithm):
             self._optimal_parameters["depth"] = 2
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """Computes and returns the time and memory complexity for either the depth 2 or 3 algorithm."""
+        """Computes and returns the time and memory complexity for either the depth 2 or 3 algorithm.
+        """
         if "depth" not in parameters:
             raise ValueError("Depth must be specified for BJMM")
 
@@ -136,8 +140,7 @@ class MayOzerov(SDAlgorithm):
             return inf, inf
 
     def get_optimal_parameters_dict(self):
-        """
-        Returns the optimal parameters dictionary.
+        """Returns the optimal parameters dictionary.
         """
         a = dict()
         a.update(self._optimal_parameters)
@@ -148,7 +151,8 @@ class MayOzerov(SDAlgorithm):
         return a
 
     def _tilde_o_time_and_memory_complexity(self, parameters: dict):
-        """Computes the time and memory complexity for the depth 3 algorithm."""
+        """Computes the time and memory complexity for the depth 3 algorithm.
+        """
         return self.MayOzerov_depth_3._tilde_o_time_and_memory_complexity(parameters)
 
     def __repr__(self):
@@ -163,12 +167,12 @@ class MayOzerovD2(SDAlgorithm):
         [MO15] May, A., Ozerov, I.: On computing nearest neighbors with applications to decoding of binary linear codes.
         In: Annual International Conference on the Theory and Applications of Cryptographic Techniques. pp. 203-228 . Springer (2015)
 
-        The expected weight distribution is as follows:
+        Expected weight distribution:
 
-        +--------------------------+-------------------+-------------------+
-        | <-----+ n - k - l +----->|<--+ (k + l)/2 +-->|<--+ (k + l)/2 +-->|
-        |           w - 2p         |        p          |        p          |
-        +--------------------------+-------------------+-------------------+
+            +--------------------------+-------------------+-------------------+
+            | <-----+ n - k - l +----->|<--+ (k + l)/2 +-->|<--+ (k + l)/2 +-->|
+            |           w - 2p         |        p          |        p          |
+            +--------------------------+-------------------+-------------------+
 
         Args:
             problem (SDProblem): SDProblem object including all necessary parameters.
@@ -185,8 +189,7 @@ class MayOzerovD2(SDAlgorithm):
         self.initialize_parameter_ranges()
 
     def initialize_parameter_ranges(self):
-        """
-        initialize the parameters p, l, p1
+        """Initialize the parameters p, l, p1.
         """
         n, k, w = self.problem.get_parameters()
         s = self.full_domain
@@ -196,8 +199,7 @@ class MayOzerovD2(SDAlgorithm):
 
     @optimal_parameter
     def l(self):
-        """
-        Return the optimal parameter $l$ used in the algorithm optimization.
+        """Return the optimal parameter $l$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import MayOzerov
@@ -210,8 +212,7 @@ class MayOzerovD2(SDAlgorithm):
 
     @optimal_parameter
     def p(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization.
+        """Return the optimal parameter $p$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import MayOzerov
@@ -224,8 +225,7 @@ class MayOzerovD2(SDAlgorithm):
 
     @optimal_parameter
     def p1(self):
-        """
-        Return the optimal parameter $p1$ used in the algorithm optimization.
+        """Return the optimal parameter $p1$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import MayOzerov
@@ -237,7 +237,8 @@ class MayOzerovD2(SDAlgorithm):
         return self._get_optimal_parameter("p1")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """
+        """Checks if the given parameter set is invalid.
+
         Args:
             parameters (dict): The parameter set to be checked for validity.
 
@@ -259,9 +260,7 @@ class MayOzerovD2(SDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
-        set parameters in `_optimal_parameters`.
+        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
         n, k, w = self.problem.get_parameters()
@@ -276,7 +275,8 @@ class MayOzerovD2(SDAlgorithm):
                     yield indices
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """Computes the expected runtime and memory consumption."""
+        """Computes the expected runtime and memory consumption.
+        """
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
@@ -337,12 +337,12 @@ class MayOzerovD3(SDAlgorithm):
         [MO15] May, A., Ozerov, I.: On computing nearest neighbors with applications to decoding of binary linear codes.
         In: Annual International Conference on the Theory and Applications of Cryptographic Techniques. pp. 203-228 . Springer (2015)
 
-        The expected weight distribution is as follows:
+        Expected weight distribution:
 
-        +--------------------------+-------------------+-------------------+
-        | <-----+ n - k - l +----->|<--+ (k + l)/2 +-->|<--+ (k + l)/2 +-->|
-        |           w - 2p         |        p          |        p          |
-        +--------------------------+-------------------+-------------------+
+            +--------------------------+-------------------+-------------------+
+            | <-----+ n - k - l +----->|<--+ (k + l)/2 +-->|<--+ (k + l)/2 +-->|
+            |           w - 2p         |        p          |        p          |
+            +--------------------------+-------------------+-------------------+
 
         Args:
             problem (SDProblem): SDProblem object including all necessary parameters.
@@ -360,7 +360,8 @@ class MayOzerovD3(SDAlgorithm):
         self.scipy_model = MayOzerovScipyModel
 
     def initialize_parameter_ranges(self):
-        """Initialize the parameter ranges for p, p1, p2, l to start the optimization process."""
+        """Initialize the parameter ranges for p, p1, p2, l to start the optimization process.
+        """
         n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(20, w // 2, s))
@@ -370,8 +371,7 @@ class MayOzerovD3(SDAlgorithm):
 
     @optimal_parameter
     def l(self):
-        """
-        Return the optimal parameter $l$ used in the algorithm optimization.
+        """Return the optimal parameter $l$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import MayOzerov
@@ -384,8 +384,7 @@ class MayOzerovD3(SDAlgorithm):
 
     @optimal_parameter
     def p(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization.
+        """Return the optimal parameter $p$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import MayOzerov
@@ -398,8 +397,7 @@ class MayOzerovD3(SDAlgorithm):
 
     @optimal_parameter
     def p1(self):
-        """
-        Return the optimal parameter $p1$ used in the algorithm optimization.
+        """Return the optimal parameter $p1$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import MayOzerov
@@ -412,8 +410,7 @@ class MayOzerovD3(SDAlgorithm):
 
     @optimal_parameter
     def p2(self):
-        """
-        Return the optimal parameter $p2$ used in the algorithm optimization.
+        """Return the optimal parameter $p2$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import MayOzerov
@@ -425,12 +422,13 @@ class MayOzerovD3(SDAlgorithm):
         return self._get_optimal_parameter("p2")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """
-        Returns:
-            bool: Whether the parameter set `parameters` is invalid.
+        """Checks if the given parameter set is invalid.
 
         Args:
             parameters (dict): The parameter set to be checked.
+
+        Returns:
+            bool: Whether the parameter set `parameters` is invalid.
         """
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
@@ -452,9 +450,7 @@ class MayOzerovD3(SDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
-        set parameters in `_optimal_parameters`.
+        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
         n, k, w = self.problem.get_parameters()
@@ -483,8 +479,7 @@ class MayOzerovD3(SDAlgorithm):
                         yield indices
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """
-        Computes the expected runtime and memory consumption.
+        """Computes the expected runtime and memory consumption.
         """
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)

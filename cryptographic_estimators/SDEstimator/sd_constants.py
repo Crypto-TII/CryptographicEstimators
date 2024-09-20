@@ -24,8 +24,6 @@ SD_ERROR_WEIGHT = "error weight"
 
 
 class VerboseInformation(Enum):
-    """ """
-
     CONSTRAINTS = "constraints"
     PERMUTATIONS = "permutations"
     TREE = "tree"

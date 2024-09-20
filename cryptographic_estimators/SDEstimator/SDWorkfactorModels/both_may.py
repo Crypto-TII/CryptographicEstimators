@@ -27,8 +27,7 @@ from .workfactor_helper import (
 
 class BothMayScipyModel(ScipyModel):
     def __init__(self, par_names: list, problem: SDProblem, iterations, accuracy):
-        """
-        Optimization model for workfactor computation of Both-May algorithm in depth 2 using May-Ozerov nearest neighbor search.
+        """Optimization model for workfactor computation of Both-May algorithm in depth 2 using May-Ozerov nearest neighbor search.
         """
         super().__init__(par_names, problem, iterations, accuracy)
 

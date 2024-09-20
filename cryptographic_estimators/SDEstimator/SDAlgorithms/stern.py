@@ -40,10 +40,10 @@ class Stern(SDAlgorithm):
 
         Expected weight distribution:
 
-        +-------------------------+---------+-------------+-------------+
-        | <----+ n - k - l +----> |<-- l -->|<--+ k/2 +-->|<--+ k/2 +-->|
-        |          w - 2p         |    0    |      p      |      p      |
-        +-------------------------+---------+-------------+-------------+
+            +-------------------------+---------+-------------+-------------+
+            | <----+ n - k - l +----> |<-- l -->|<--+ k/2 +-->|<--+ k/2 +-->|
+            |          w - 2p         |    0    |      p      |      p      |
+            +-------------------------+---------+-------------+-------------+
 
         Args:
             problem (SDProblem): Object including all necessary parameters.
@@ -60,7 +60,8 @@ class Stern(SDAlgorithm):
         self.scipy_model = SternScipyModel
 
     def initialize_parameter_ranges(self):
-        """Initialize the parameter ranges for p and l to start the optimization process."""
+        """Initialize the parameter ranges for p and l to start the optimization process.
+        """
         n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(w // 2, 20, s))
@@ -68,8 +69,7 @@ class Stern(SDAlgorithm):
 
     @optimal_parameter
     def l(self):
-        """
-        Return the optimal parameter $l$ used in the algorithm optimization
+        """Return the optimal parameter $l$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import Stern
@@ -95,8 +95,7 @@ class Stern(SDAlgorithm):
         return self._get_optimal_parameter("p")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """
-        Determines if the given parameters are invalid.
+        """Determines if the given parameters are invalid.
 
         Args:
             parameters (dict): The parameter set to check.
@@ -112,9 +111,7 @@ class Stern(SDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
-        set parameters in `_optimal_parameters`
+        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
 

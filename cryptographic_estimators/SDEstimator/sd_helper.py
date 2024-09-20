@@ -34,8 +34,7 @@ def binom(n: int, k: int):
 
 
 def min_max(a: int, b: int, s: bool) -> int:
-    """
-    Returns the minimum or maximum of two integers based on a boolean switch.
+    """Returns the minimum or maximum of two integers based on a boolean switch.
 
     Args:
         a (int): The first integer.
@@ -86,7 +85,7 @@ def __round_or_truncate_to_given_precision(T: float, M: float, truncate: bool, p
 
 
 def _gaussian_elimination_complexity(n: int, k: int, r: int):
-    """Compute the complexity estimate of the Gaussian elimination routine.
+    """Compute the complexity estimate of the Gaussian elimination routine. [Bar07]_ [BLP08]_
 
     Args:
         n (int): The number of rows on which row additions are performed.
@@ -95,12 +94,6 @@ def _gaussian_elimination_complexity(n: int, k: int, r: int):
 
     Returns:
         The complexity estimate of the Gaussian elimination routine.
-
-    References:
-        .. [Bar07] Bard, G.V. (2007). Algorithms for solving linear and polynomial systems of equations over finite
-           fields with applications to cryptanalysis. Ph.D. thesis.
-        .. [BLP08] Bernstein, D.J., Lange, T., and Peters, C. (2008). Attacking and defending the McEliece
-           cryptosystem. In International Workshop on Post-Quantum Cryptography, pages 31-46. Springer.
 
     Examples:
         >>> from cryptographic_estimators.SDEstimator import _gaussian_elimination_complexity
@@ -227,7 +220,7 @@ def _mitm_nn_complexity(L: float, l: int, w: int, hmap: bool):
 
 
 def _list_merge_async_complexity(L1: float, L2: float, l: int, hmap: bool = True):
-    """Compute the complexity of merging two lists exact.
+    """Compute the complexity of merging two different sized lists on l bits.
 
     Args:
         L1 (float): Size of the first list to be merged.

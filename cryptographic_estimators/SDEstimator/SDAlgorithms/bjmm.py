@@ -40,14 +40,14 @@ class BJMM(SDAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
         """Complexity estimate of BJMM algorithm in depth 2,3.
 
-        The algorithm was introduced in [BJMM12] as an extension of [MMT11].
+        The algorithm was introduced in [BJMM12]_ as an extension of [MMT11]_.
 
-        The expected weight distribution is:
+        Expected weight distribution:
 
-        +---------------------------+-------------------+-------------------+
-        | <-----+ n - k - l +------>|<--+ (k + l)/2 +-->|<--+ (k + l)/2 +-->|
-        |           w - 2p         |        p          |        p          |
-        +---------------------------+-------------------+-------------------+
+            +--------------------------+-------------------+-------------------+
+            | <-----+ n - k - l +----->|<--+ (k + l)/2 +-->|<--+ (k + l)/2 +-->|
+            |           w - 2p         |        p          |        p          |
+            +--------------------------+-------------------+-------------------+
 
         Args:
             problem (SDProblem): SDProblem object including all necessary parameters.
@@ -67,15 +67,13 @@ class BJMM(SDAlgorithm):
         self.BJMM_depth_3 = BJMMd3(problem, **kwargs)
 
     def initialize_parameter_ranges(self):
-        """
-        Initialize the parameters p, l, p1, and for d=3, p2.
+        """Initialize parameter range for d.
         """
         self.set_parameter_ranges("depth", 2, 3)
 
     @optimal_parameter
     def depth(self):
-        """
-        Return the optimal parameter $depth$ used in the algorithm optimization
+        """Return the optimal parameter $depth$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM
@@ -90,25 +88,27 @@ class BJMM(SDAlgorithm):
 
     @property
     def complexity_type(self):
-        """Returns the complexity type."""
+        """Returns the complexity type.
+        """
         return super().complexity_type
 
     @complexity_type.setter
     def complexity_type(self, new_type: Union[str, int]):
-        """Sets the complexity type."""
+        """Sets the complexity type.
+        """
         super(BJMM, self.__class__).complexity_type.fset(self, new_type)
         self.BJMM_depth_2.complexity_type = new_type
         self.BJMM_depth_3.complexity_type = new_type
 
     def reset(self):
-        """Resets all parameters to restart the optimization process."""
+        """Resets all parameters to restart the optimization process.
+        """
         super().reset()
         self.BJMM_depth_2.reset()
         self.BJMM_depth_3.reset()
 
     def _find_optimal_parameters(self):
-        """
-        Finds optimal parameters for depth 2 and 3
+        """Finds optimal parameters for depth 2 and 3.
         """
         self.BJMM_depth_2._find_optimal_parameters()
         if self.limit_depth:
@@ -145,11 +145,13 @@ class BJMM(SDAlgorithm):
             return inf, inf
 
     def _tilde_o_time_and_memory_complexity(self, parameters: dict):
-        """Returns the optimal time and memory complexity for BJMM d3."""
+        """Returns the optimal time and memory complexity for BJMM d3.
+        """
         return self.BJMM_depth_3._tilde_o_time_and_memory_complexity(parameters)
 
     def get_optimal_parameters_dict(self):
-        """Returns the optimal parameters dictionary."""
+        """Returns the optimal parameters dictionary.
+        """
         a = dict()
         a.update(self._optimal_parameters)
         if self.depth() == 2:
@@ -167,9 +169,9 @@ class BJMMd2(SDAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
         """Complexity estimate of BJMM algorithm in depth 2.
 
-        The algorithm was introduced in [BJMM12] as an extension of [MMT11].
+        The algorithm was introduced in [BJMM12]_ as an extension of [MMT11]_.
 
-        The expected weight distribution is as follows:
+        Expected weight distribution:
 
             +--------------------------+-------------------+-------------------+
             | <-----+ n - k - l +----->|<--+ (k + l)/2 +-->|<--+ (k + l)/2 +-->|
@@ -192,7 +194,8 @@ class BJMMd2(SDAlgorithm):
         self.initialize_parameter_ranges()
 
     def initialize_parameter_ranges(self):
-        """Initialize the parameter ranges for p, p1, and l to start the optimization process."""
+        """Initialize the parameter ranges for p, p1, and l to start the optimization process.
+        """
         n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(35, w, s))
@@ -214,8 +217,7 @@ class BJMMd2(SDAlgorithm):
 
     @optimal_parameter
     def p(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization
+        """Return the optimal parameter $p$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM
@@ -228,8 +230,7 @@ class BJMMd2(SDAlgorithm):
 
     @optimal_parameter
     def p1(self):
-        """
-        Return the optimal parameter $p1$ used in the algorithm optimization
+        """Return the optimal parameter $p1$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM
@@ -241,7 +242,8 @@ class BJMMd2(SDAlgorithm):
         return self._get_optimal_parameter("p1")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """Return if the parameter set `parameters` is invalid."""
+        """Return if the parameter set `parameters` is invalid.
+        """
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
@@ -251,9 +253,7 @@ class BJMMd2(SDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
-        set parameters in `_optimal_parameters`.
+        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
 
@@ -282,7 +282,8 @@ class BJMMd2(SDAlgorithm):
                     yield indices
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """Computes the expected runtime and memory consumption for the depth 2 version."""
+        """Computes the expected runtime and memory consumption for the depth 2 version.
+        """
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
@@ -343,13 +344,13 @@ class BJMMd3(SDAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
         """Complexity estimate of BJMM algorithm in depth 2.
 
-        The algorithm was introduced in [BJMM12] as an extension of [MMT11].
+        The algorithm was introduced in [BJMM12]_ as an extension of [MMT11]_.
 
         Expected weight distribution:
-        +---------------------------+-------------------+-------------------+
-        | <-----+ n - k - l +------>|<--+ (k + l)/2 +-->|<--+ (k + l)/2 +-->|
-        |           w - 2p          |        p          |        p          |
-        +---------------------------+-------------------+-------------------+
+            +--------------------------+-------------------+-------------------+
+            | <-----+ n - k - l +----->|<--+ (k + l)/2 +-->|<--+ (k + l)/2 +-->|
+            |           w - 2p         |        p          |        p          |
+            +--------------------------+-------------------+-------------------+
 
         Args:
             problem (SDProblem): SDProblem object including all necessary parameters.
@@ -368,8 +369,7 @@ class BJMMd3(SDAlgorithm):
         self.scipy_model = BJMMScipyModel
 
     def initialize_parameter_ranges(self):
-        """
-        Initialize the parameter ranges for p, p1, p2, and l to start the optimization
+        """Initialize the parameter ranges for p, p1, p2, and l to start the optimization
         process.
         """
         n, k, w = self.problem.get_parameters()
@@ -381,8 +381,7 @@ class BJMMd3(SDAlgorithm):
 
     @optimal_parameter
     def l(self):
-        """
-        Return the optimal parameter $l$ used in the algorithm optimization.
+        """Return the optimal parameter $l$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM
@@ -395,8 +394,7 @@ class BJMMd3(SDAlgorithm):
 
     @optimal_parameter
     def p(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization.
+        """Return the optimal parameter $p$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM
@@ -409,8 +407,7 @@ class BJMMd3(SDAlgorithm):
 
     @optimal_parameter
     def p1(self):
-        """
-        Return the optimal parameter $p1$ used in the algorithm optimization.
+        """Return the optimal parameter $p1$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM
@@ -423,8 +420,7 @@ class BJMMd3(SDAlgorithm):
 
     @optimal_parameter
     def p2(self):
-        """
-        Return the optimal parameter $p2$ used in the algorithm optimization.
+        """Return the optimal parameter $p2$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMM
@@ -436,8 +432,7 @@ class BJMMd3(SDAlgorithm):
         return self._get_optimal_parameter("p2")
 
     def _are_parameters_invalid(self, parameters):
-        """
-        Returns whether the provided parameter set is invalid.
+        """Returns whether the provided parameter set is invalid.
 
         Args:
             parameters: The parameter set to check.
@@ -464,9 +459,7 @@ class BJMMd3(SDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
-        set parameters in `_optimal_parameters`.
+        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
         n, k, w = self.problem.get_parameters()
@@ -494,7 +487,8 @@ class BJMMd3(SDAlgorithm):
                         yield indices
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """Computes the expected runtime and memory consumption for the depth 3 version."""
+        """Computes the expected runtime and memory consumption for the depth 3 version.
+        """
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
 

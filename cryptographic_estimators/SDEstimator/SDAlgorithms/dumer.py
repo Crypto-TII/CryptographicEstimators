@@ -40,12 +40,12 @@ class Dumer(SDAlgorithm):
 
         The algorithm was introduced in [Dum91]_.
 
-        The expected weight distribution is as follows:
+        Expected weight distribution:
 
-        +---------------------------+------------------+-------------------+
-        | <-----+ n - k - l +------>|<-- (k + l)/2 +-->|<--+ (k + l)/2 +-->|
-        |           w - 2p          |       p          |        p          |
-        +---------------------------+------------------+-------------------+
+            +--------------------------+------------------+-------------------+
+            | <-----+ n - k - l +----->|<-- (k + l)/2 +-->|<--+ (k + l)/2 +-->|
+            |           w - 2p         |       p          |        p          |
+            +--------------------------+------------------+-------------------+
 
         Args:
             problem (SDProblem): An SDProblem object including all necessary parameters.
@@ -62,7 +62,8 @@ class Dumer(SDAlgorithm):
         self.scipy_model = DumerScipyModel
 
     def initialize_parameter_ranges(self):
-        """Initialize the parameter ranges for p and l to start the optimization process."""
+        """Initialize the parameter ranges for p and l to start the optimization process.
+        """
         n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(w // 2, 20, s))
@@ -70,8 +71,7 @@ class Dumer(SDAlgorithm):
 
     @optimal_parameter
     def l(self):
-        """
-        Return the optimal parameter $l$ used in the algorithm optimization.
+        """Return the optimal parameter $l$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import Dumer
@@ -84,8 +84,7 @@ class Dumer(SDAlgorithm):
 
     @optimal_parameter
     def p(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization.
+        """Return the optimal parameter $p$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import Dumer
@@ -97,8 +96,7 @@ class Dumer(SDAlgorithm):
         return self._get_optimal_parameter("p")
 
     def _are_parameters_invalid(self, parameters: dict) -> bool:
-        """
-        Checks if the given parameter set is invalid.
+        """Checks if the given parameter set is invalid.
 
         Args:
             parameters (dict): The parameter set to be checked.
@@ -115,7 +113,8 @@ class Dumer(SDAlgorithm):
         return False
 
     def _time_and_memory_complexity(self, parameters, verbose_information=None):
-        """Computes the expected runtime and memory consumption for a given parameter set."""
+        """Computes the expected runtime and memory consumption for a given parameter set.
+        """
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2

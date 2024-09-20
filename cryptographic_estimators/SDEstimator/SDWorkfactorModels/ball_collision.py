@@ -23,7 +23,8 @@ from .workfactor_helper import binomial_approximation
 
 class BallCollisionScipyModel(ScipyModel):
     def __init__(self, par_names: list, problem: SDProblem, iterations, accuracy):
-        """Optimization model for workfactor computation of Ball-Collision algorithm."""
+        """Optimization model for workfactor computation of Ball-Collision algorithm.
+        """
         super().__init__(par_names, problem, iterations, accuracy)
 
     def _build_model_and_set_constraints(self):

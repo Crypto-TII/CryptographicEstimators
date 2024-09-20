@@ -39,12 +39,12 @@ class BothMay(SDAlgorithm):
 
         For further reference see [BM18]_.
 
-        The structure is as follows:
+        Expected weight distribution:
 
-        +-------------------+---------+-------------------+-------------------+
-        | <--+ n - k - l+-->|<-+ l +->|<----+ k / 2 +---->|<----+ k / 2 +---->|
-        |     w - w2 - 2p   |    w2   |         p         |         p         |
-        +-------------------+---------+-------------------+-------------------+
+            +-------------------+---------+-------------------+-------------------+
+            | <--+ n - k - l+-->|<-+ l +->|<----+ k / 2 +---->|<----+ k / 2 +---->|
+            |     w - w2 - 2p   |    w2   |         p         |         p         |
+            +-------------------+---------+-------------------+-------------------+
 
         Args:
             problem (SDProblem): SDProblem object including all necessary parameters.
@@ -61,7 +61,8 @@ class BothMay(SDAlgorithm):
         self.scipy_model = BothMayScipyModel
 
     def initialize_parameter_ranges(self):
-        """Initialize the parameter ranges for p, p1, p2, and l to start the optimization process."""
+        """Initialize the parameter ranges for p, p1, p2, and l to start the optimization process.
+        """
         self.set_parameter_ranges("p", 0, 20)
         self.set_parameter_ranges("p1", 0, 15)
         self.set_parameter_ranges("l", 0, 160)
@@ -70,8 +71,7 @@ class BothMay(SDAlgorithm):
 
     @optimal_parameter
     def l(self):
-        """
-        Return the optimal parameter $l$ used in the algorithm optimization.
+        """Return the optimal parameter $l$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BothMay
@@ -84,8 +84,7 @@ class BothMay(SDAlgorithm):
 
     @optimal_parameter
     def p(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization.
+        """Return the optimal parameter $p$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BothMay
@@ -98,8 +97,7 @@ class BothMay(SDAlgorithm):
 
     @optimal_parameter
     def p1(self):
-        """
-        Return the optimal parameter $p1$ used in the algorithm optimization.
+        """Return the optimal parameter $p1$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BothMay
@@ -112,8 +110,7 @@ class BothMay(SDAlgorithm):
 
     @optimal_parameter
     def w1(self):
-        """
-        Return the optimal parameter $w1$ used in the algorithm optimization.
+        """Return the optimal parameter $w1$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BothMay
@@ -126,8 +123,7 @@ class BothMay(SDAlgorithm):
 
     @optimal_parameter
     def w2(self):
-        """
-        Return the optimal parameter $w2$ used in the algorithm optimization.
+        """Return the optimal parameter $w2$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BothMay
@@ -139,8 +135,7 @@ class BothMay(SDAlgorithm):
         return self._get_optimal_parameter("w2")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """
-        Returns whether the given parameter set is invalid.
+        """Returns whether the given parameter set is invalid.
 
         Args:
             parameters (dict): The parameter set to be checked.
@@ -158,9 +153,7 @@ class BothMay(SDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
-        set parameters in `_optimal_parameters`
+        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
         n, k, w = self.problem.get_parameters()
@@ -189,7 +182,8 @@ class BothMay(SDAlgorithm):
                             yield indices
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """Computes the expected runtime and memory consumption for a given parameter set."""
+        """Computes the expected runtime and memory consumption for a given parameter set.
+        """
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2

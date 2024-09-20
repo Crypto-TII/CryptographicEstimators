@@ -68,7 +68,8 @@ class BJMMdw(SDAlgorithm):
         self.initialize_parameter_ranges()
 
     def initialize_parameter_ranges(self):
-        """Initialize the parameter ranges for p, p1, w1, w11, and w2 to start the optimization process."""
+        """Initialize the parameter ranges for p, p1, w1, w11, and w2 to start the optimization process.
+        """
         self.set_parameter_ranges("p", 0, 25)
         self.set_parameter_ranges("p1", 0, 20)
         self.set_parameter_ranges("w1", 0, 10)
@@ -77,8 +78,7 @@ class BJMMdw(SDAlgorithm):
 
     @optimal_parameter
     def p(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization.
+        """Return the optimal parameter $p$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
@@ -91,8 +91,7 @@ class BJMMdw(SDAlgorithm):
 
     @optimal_parameter
     def p1(self):
-        """
-        Return the optimal parameter $p1$ used in the algorithm optimization.
+        """Return the optimal parameter $p1$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
@@ -105,8 +104,7 @@ class BJMMdw(SDAlgorithm):
 
     @optimal_parameter
     def w1(self):
-        """
-        Return the optimal parameter $w1$ used in the algorithm optimization.
+        """Return the optimal parameter $w1$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
@@ -119,8 +117,7 @@ class BJMMdw(SDAlgorithm):
 
     @optimal_parameter
     def w11(self):
-        """
-        Return the optimal parameter $w11$ used in the algorithm optimization.
+        """Return the optimal parameter $w11$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
@@ -133,8 +130,7 @@ class BJMMdw(SDAlgorithm):
 
     @optimal_parameter
     def w2(self):
-        """
-        Return the optimal parameter $w2$ used in the algorithm optimization.
+        """Return the optimal parameter $w2$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
@@ -174,9 +170,7 @@ class BJMMdw(SDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
-        set parameters in `_optimal_parameters`
+        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
         n, k, w = self.problem.get_parameters()
@@ -206,7 +200,8 @@ class BJMMdw(SDAlgorithm):
                             yield indices
 
     def _choose_first_constraint_such_that_representations_cancel_out_exactly(self, parameters: dict):
-        """Tries to find an l1 value fulfilling the constraints."""
+        """Tries to find an l1 value fulfilling the constraints.
+        """
         _, k, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
 
@@ -237,7 +232,8 @@ class BJMMdw(SDAlgorithm):
         return l1_val
 
     def _choose_second_constraint_such_that_list_size_remains_constant(self, parameters: dict, list_size: float):
-        """Tries to find an L2 value which does not increase the list size."""
+        """Tries to find an L2 value which does not increase the list size.
+        """
         par = SimpleNamespace(**parameters)
 
         try:
@@ -255,7 +251,8 @@ class BJMMdw(SDAlgorithm):
         return l2_val
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """Computes the expected runtime and memory consumption for a given parameter set."""
+        """Computes the expected runtime and memory consumption for a given parameter set.
+        """
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
 

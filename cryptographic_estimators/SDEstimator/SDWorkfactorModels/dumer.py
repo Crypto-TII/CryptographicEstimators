@@ -16,19 +16,17 @@
 # ****************************************************************************
 
 
-import collections
 from .scipy_model import ScipyModel
 from ..sd_problem import SDProblem
 from .workfactor_helper import (
-    representations_asymptotic,
     binomial_approximation,
-    may_ozerov_near_neighbor_time,
 )
 
 
 class DumerScipyModel(ScipyModel):
     def __init__(self, par_names: list, problem: SDProblem, iterations, accuracy):
-        """Optimization model for workfactor computation of Dumer's algorithm."""
+        """Optimization model for workfactor computation of Dumer's algorithm.
+        """
         super().__init__(par_names, problem, iterations, accuracy)
 
     def _build_model_and_set_constraints(self):
