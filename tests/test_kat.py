@@ -90,4 +90,4 @@ def test_all_estimators(kat: dict):
         inputs, expected_outputs = zip(*inputs_with_outputs)
         internal_estimator_function = import_internal_estimator(internal_estimator_path)
         actual_outputs, epsilon = zip(*map(internal_estimator_function, inputs))
-        assert starmap(kat_test, list(zip(expected_outputs, actual_outputs, epsilon)))
+        list(starmap(kat_test, list(zip(expected_outputs, actual_outputs, epsilon))))
