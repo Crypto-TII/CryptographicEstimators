@@ -38,48 +38,46 @@ external_to_internal_mappings = {
 }
 
 
-def ext_estimates_with_prange():
-    inputs = [
-        (
-            100,
-            50,
-            2,
-            (
-                "Dumer",
-                "BallCollision",
-                "BJMM",
-                "BJMMplus",
-                "BJMMpdw",
-                "BJMMdw",
-                "BothMay",
-                "MayOzerov",
-                "Stern",
-            ),
-        )
-    ]
-    expected_outputs = [
-        {
-            "Prange": {
-                "additional_information": {
-                    "gauss": 10.929258408636972,
-                    "permutations": 2.014646775964401,
-                },
-                "estimate": {
-                    "memory": 12.688250309133178,
-                    "parameters": {"r": 4},
-                    "time": 19.587761374376097,
-                },
-            }
-        }
-    ]
-    inputs_with_expected_outputs = list(zip(inputs, expected_outputs))
-    return inputs_with_expected_outputs
+# def ext_estimates_with_prange():
+#     inputs = [
+#         (
+#             100,
+#             50,
+#             2,
+#             (
+#                 "Dumer",
+#                 "BallCollision",
+#                 "BJMM",
+#                 "BJMMplus",
+#                 "BJMMpdw",
+#                 "BJMMdw",
+#                 "BothMay",
+#                 "MayOzerov",
+#                 "Stern",
+#             ),
+#         )
+#     ]
+#     expected_outputs = [
+#         {
+#             "Prange": {
+#                 "additional_information": {
+#                     "gauss": 10.929258408636972,
+#                     "permutations": 2.014646775964401,
+#                 },
+#                 "estimate": {
+#                     "memory": 12.688250309133178,
+#                     "parameters": {"r": 4},
+#                     "time": 19.587761374376097,
+#                 },
+#             }
+#         }
+#     ]
+#     inputs_with_expected_outputs = list(zip(inputs, expected_outputs))
+#     return inputs_with_expected_outputs
 
 
 def ext_bjmm_plus():
-    """
-    Estimator taken from https://github.com/FloydZ/Improving-ISD-in-Theory-and-Practice for the BJMM+ estimation.
-    """
+    """Estimator taken from https://github.com/FloydZ/Improving-ISD-in-Theory-and-Practice for the BJMM+ estimation."""
 
     inputs = [
         (100, 50, 10),
@@ -96,8 +94,8 @@ def ext_bjmm_plus():
     return inputs_with_expected_outputs
 
 
-def ext_all():
-
+def ext_estimators_1():
+    """Estimators taken from from https://github.com/Crypto-TII/syndrome_decoding_estimator."""
     inputs = [
         (100, 50, 10),
         (1284, 1028, 24),
@@ -106,8 +104,6 @@ def ext_all():
 
     external_estimators = [
         prange_complexity,
-        stern_complexity,
-        dumer_complexity,
         ball_collision_decoding_complexity,
         bjmm_depth_2_complexity,
         bjmm_depth_3_complexity,
@@ -133,8 +129,8 @@ def ext_all():
     return inputs_with_expected_outputs
 
 
-def ext_all2():
-
+def ext_estimators_2():
+    """Estimators taken from https://github.com/Crypto-TII/syndrome_decoding_estimator."""
     inputs = [
         (100, 50, 10),
         (1284, 1028, 24),
@@ -145,6 +141,34 @@ def ext_all2():
         both_may_depth_2_complexity,
         may_ozerov_depth_2_complexity,
         may_ozerov_depth_3_complexity,
+    ]
+
+    def gen_single_kat(input, ext_estimator):
+        n, k, w = input
+        algorithm_name = ext_estimator.__name__
+        expected_complexity = ext_estimator(n, k, w)["time"]
+        input = n, k, w, external_to_internal_mappings[algorithm_name]
+        return input, expected_complexity
+
+    inputs_with_expected_outputs = [
+        gen_single_kat(input, estimator)
+        for input in inputs
+        for estimator in external_estimators
+    ]
+
+    return inputs_with_expected_outputs
+
+def ext_estimators_3():
+    """PENDING"""
+    inputs = [
+        (100, 50, 10),
+        (1284, 1028, 24),
+        (3488, 2720, 64),
+    ]
+
+    external_estimators = [
+        stern_complexity,
+        dumer_complexity,
     ]
 
     def gen_single_kat(input, ext_estimator):

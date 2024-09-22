@@ -52,7 +52,7 @@ def bjmm_plus(input: tuple, epsilon: float = 0.01):
     return actual_complexity, epsilon
 
 
-def all(input: tuple, epsilon: float = 0.01):
+def estimators_1(input: tuple, epsilon: float = 0.01):
     n, k, w, estimator_name = input
     internal_estimator = globals()[estimator_name]
     actual_complexity = internal_estimator(
@@ -62,5 +62,15 @@ def all(input: tuple, epsilon: float = 0.01):
     return actual_complexity, epsilon
 
 
-def all2(input: tuple, epsilon: float = 0.015):
-    return all(input, epsilon)
+def estimators_2(input: tuple, epsilon: float = 1.5):
+    """
+    The CryptographicEstimators finds (slightly) better parameters which lead to slightly better timings in case of Both-May and May-Ozerov. But given the same parameters the CryptographicEstimatos and SyndromeDecodingEstimators compute the same expected runtime. That's why we use a higher tolerance in this case.
+    """
+    return estimators_1(input, epsilon)
+
+def estimators_3(input: tuple, epsilon: float = 0.5):
+    """
+    PENDING
+    """
+    return estimators_1(input, epsilon)
+

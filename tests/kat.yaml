@@ -1,9 +1,120 @@
 sd:
-  all:
+  # bjmm_plus:
+  #   inputs_with_expected_outputs:
+  #   - !!python/tuple
+  #     - !!python/tuple [100, 50, 10]
+  #     - 16.135073446600188
+  #   - !!python/tuple
+  #     - !!python/tuple [1284, 1028, 24]
+  #     - 56.01962754624196
+  #   - !!python/tuple
+  #     - !!python/tuple [3488, 2720, 64]
+  #     - 130.34282760155017
+  # estimators_1:
+  #   inputs_with_expected_outputs:
+  #   - !!python/tuple
+  #     - !!python/tuple [100, 50, 10, Prange]
+  #     - 21.647918033475467
+  #   - !!python/tuple
+  #     - !!python/tuple [100, 50, 10, BallCollision]
+  #     - 16.647075562620103
+  #   - !!python/tuple
+  #     - !!python/tuple [100, 50, 10, BJMMd2]
+  #     - 16.135073446600188
+  #   - !!python/tuple
+  #     - !!python/tuple [100, 50, 10, BJMMd3]
+  #     - 18.199650004575485
+  #   - !!python/tuple
+  #     - !!python/tuple [100, 50, 10, BJMM]
+  #     - 16.135073446600188
+  #   - !!python/tuple
+  #     - !!python/tuple [100, 50, 10, BJMMdw]
+  #     - 16.772816191448968
+  #   - !!python/tuple
+  #     - !!python/tuple [100, 50, 10, BJMMpdw]
+  #     - 16.606547015866674
+  #   - !!python/tuple
+  #     - !!python/tuple [100, 50, 10, MayOzerov]
+  #     - 15.60773200776453
+  #   - !!python/tuple
+  #     - !!python/tuple [1284, 1028, 24, Prange]
+  #     - 73.12759719716266
+  #   - !!python/tuple
+  #     - !!python/tuple [1284, 1028, 24, BallCollision]
+  #     - 57.42672857556006
+  #   - !!python/tuple
+  #     - !!python/tuple [1284, 1028, 24, BJMMd2]
+  #     - 56.325847196338515
+  #   - !!python/tuple
+  #     - !!python/tuple [1284, 1028, 24, BJMMd3]
+  #     - 56.73962118409502
+  #   - !!python/tuple
+  #     - !!python/tuple [1284, 1028, 24, BJMM]
+  #     - 56.325847196338515
+  #   - !!python/tuple
+  #     - !!python/tuple [1284, 1028, 24, BJMMdw]
+  #     - 56.50313292488432
+  #   - !!python/tuple
+  #     - !!python/tuple [1284, 1028, 24, BJMMpdw]
+  #     - 56.124156148650755
+  #   - !!python/tuple
+  #     - !!python/tuple [1284, 1028, 24, MayOzerov]
+  #     - 55.00266278223495
+  #   - !!python/tuple
+  #     - !!python/tuple [3488, 2720, 64, Prange]
+  #     - 161.61956928406457
+  #   - !!python/tuple
+  #     - !!python/tuple [3488, 2720, 64, BallCollision]
+  #     - 139.69182244627814
+  #   - !!python/tuple
+  #     - !!python/tuple [3488, 2720, 64, BJMMd2]
+  #     - 130.56674965493403
+  #   - !!python/tuple
+  #     - !!python/tuple [3488, 2720, 64, BJMMd3]
+  #     - 130.11744591748055
+  #   - !!python/tuple
+  #     - !!python/tuple [3488, 2720, 64, BJMM]
+  #     - 130.11744591748055
+  #   - !!python/tuple
+  #     - !!python/tuple [3488, 2720, 64, BJMMdw]
+  #     - 131.8582059235822
+  #   - !!python/tuple
+  #     - !!python/tuple [3488, 2720, 64, BJMMpdw]
+  #     - 131.67976322296934
+  #   - !!python/tuple
+  #     - !!python/tuple [3488, 2720, 64, MayOzerov]
+  #     - 129.02721295167652
+  # estimators_2:
+  #   inputs_with_expected_outputs:
+  #   - !!python/tuple
+  #     - !!python/tuple [100, 50, 10, BothMay]
+  #     - 16.112675889065212
+  #   - !!python/tuple
+  #     - !!python/tuple [100, 50, 10, MayOzerovD2]
+  #     - 15.60773200776453
+  #   - !!python/tuple
+  #     - !!python/tuple [100, 50, 10, MayOzerovD3]
+  #     - 17.096776518501812
+  #   - !!python/tuple
+  #     - !!python/tuple [1284, 1028, 24, BothMay]
+  #     - 56.66242774517839
+  #   - !!python/tuple
+  #     - !!python/tuple [1284, 1028, 24, MayOzerovD2]
+  #     - 55.00266278223495
+  #   - !!python/tuple
+  #     - !!python/tuple [1284, 1028, 24, MayOzerovD3]
+  #     - 56.41499399680342
+  #   - !!python/tuple
+  #     - !!python/tuple [3488, 2720, 64, BothMay]
+  #     - 130.95111267584178
+  #   - !!python/tuple
+  #     - !!python/tuple [3488, 2720, 64, MayOzerovD2]
+  #     - 129.1807953760876
+  #   - !!python/tuple
+  #     - !!python/tuple [3488, 2720, 64, MayOzerovD3]
+  #     - 129.02721295167652
+  estimators_3:
     inputs_with_expected_outputs:
-    - !!python/tuple
-      - !!python/tuple [100, 50, 10, Prange]
-      - 21.647918033475467
     - !!python/tuple
       - !!python/tuple [100, 50, 10, Dumer]
       - 15.659088730856316
@@ -11,155 +122,14 @@ sd:
       - !!python/tuple [100, 50, 10, Stern]
       - 16.05673647417296
     - !!python/tuple
-      - !!python/tuple [100, 50, 10, BallCollision]
-      - 16.647075562620103
-    - !!python/tuple
-      - !!python/tuple [100, 50, 10, BJMMd2]
-      - 16.135073446600188
-    - !!python/tuple
-      - !!python/tuple [100, 50, 10, BJMMd3]
-      - 18.199650004575485
-    - !!python/tuple
-      - !!python/tuple [100, 50, 10, BJMM]
-      - 16.135073446600188
-    - !!python/tuple
-      - !!python/tuple [100, 50, 10, BJMMdw]
-      - 16.772816191448968
-    - !!python/tuple
-      - !!python/tuple [100, 50, 10, BJMMpdw]
-      - 16.606547015866674
-    - !!python/tuple
-      - !!python/tuple [100, 50, 10, MayOzerov]
-      - 15.60773200776453
-    - !!python/tuple
-      - !!python/tuple [1284, 1028, 24, Prange]
-      - 73.12759719716266
-    - !!python/tuple
       - !!python/tuple [1284, 1028, 24, Dumer]
       - 56.900967633756416
     - !!python/tuple
       - !!python/tuple [1284, 1028, 24, Stern]
       - 57.372676683492024
     - !!python/tuple
-      - !!python/tuple [1284, 1028, 24, BallCollision]
-      - 57.42672857556006
-    - !!python/tuple
-      - !!python/tuple [1284, 1028, 24, BJMMd2]
-      - 56.325847196338515
-    - !!python/tuple
-      - !!python/tuple [1284, 1028, 24, BJMMd3]
-      - 56.73962118409502
-    - !!python/tuple
-      - !!python/tuple [1284, 1028, 24, BJMM]
-      - 56.325847196338515
-    - !!python/tuple
-      - !!python/tuple [1284, 1028, 24, BJMMdw]
-      - 56.50313292488432
-    - !!python/tuple
-      - !!python/tuple [1284, 1028, 24, BJMMpdw]
-      - 56.124156148650755
-    - !!python/tuple
-      - !!python/tuple [1284, 1028, 24, MayOzerov]
-      - 55.00266278223495
-    - !!python/tuple
-      - !!python/tuple [3488, 2720, 64, Prange]
-      - 161.61956928406457
-    - !!python/tuple
       - !!python/tuple [3488, 2720, 64, Dumer]
       - 139.64037572480805
     - !!python/tuple
       - !!python/tuple [3488, 2720, 64, Stern]
       - 139.61168851504806
-    - !!python/tuple
-      - !!python/tuple [3488, 2720, 64, BallCollision]
-      - 139.69182244627814
-    - !!python/tuple
-      - !!python/tuple [3488, 2720, 64, BJMMd2]
-      - 130.56674965493403
-    - !!python/tuple
-      - !!python/tuple [3488, 2720, 64, BJMMd3]
-      - 130.11744591748055
-    - !!python/tuple
-      - !!python/tuple [3488, 2720, 64, BJMM]
-      - 130.11744591748055
-    - !!python/tuple
-      - !!python/tuple [3488, 2720, 64, BJMMdw]
-      - 131.8582059235822
-    - !!python/tuple
-      - !!python/tuple [3488, 2720, 64, BJMMpdw]
-      - 131.67976322296934
-    - !!python/tuple
-      - !!python/tuple [3488, 2720, 64, MayOzerov]
-      - 129.02721295167652
-  all2:
-    inputs_with_expected_outputs:
-    - !!python/tuple
-      - !!python/tuple [100, 50, 10, BothMay]
-      - 16.112675889065212
-    - !!python/tuple
-      - !!python/tuple [100, 50, 10, MayOzerovD2]
-      - 15.60773200776453
-    - !!python/tuple
-      - !!python/tuple [100, 50, 10, MayOzerovD3]
-      - 17.096776518501812
-    - !!python/tuple
-      - !!python/tuple [1284, 1028, 24, BothMay]
-      - 56.66242774517839
-    - !!python/tuple
-      - !!python/tuple [1284, 1028, 24, MayOzerovD2]
-      - 55.00266278223495
-    - !!python/tuple
-      - !!python/tuple [1284, 1028, 24, MayOzerovD3]
-      - 56.41499399680342
-    - !!python/tuple
-      - !!python/tuple [3488, 2720, 64, BothMay]
-      - 130.95111267584178
-    - !!python/tuple
-      - !!python/tuple [3488, 2720, 64, MayOzerovD2]
-      - 129.1807953760876
-    - !!python/tuple
-      - !!python/tuple [3488, 2720, 64, MayOzerovD3]
-      - 129.02721295167652
-  bjmm_plus:
-    inputs_with_expected_outputs:
-    - !!python/tuple
-      - !!python/tuple [100, 50, 10]
-      - 16.135073446600188
-    - !!python/tuple
-      - !!python/tuple [1284, 1028, 24]
-      - 56.01962754624196
-    - !!python/tuple
-      - !!python/tuple [3488, 2720, 64]
-      - 130.34282760155017
-  estimates_with_prange:
-    inputs_with_expected_outputs:
-    - !!python/tuple
-      - !!python/tuple
-        - 100
-        - 50
-        - 2
-        - !!python/tuple [Dumer, BallCollision, BJMM, BJMMplus, BJMMpdw, BJMMdw, BothMay,
-          MayOzerov, Stern]
-      - Prange:
-          additional_information: {gauss: 10.929258408636972, permutations: 2.014646775964401}
-          estimate:
-            memory: 12.688250309133178
-            parameters: {r: 4}
-            time: 19.587761374376097
-sdfq:
-  lee_brickell:
-    inputs_with_expected_outputs:
-    - !!python/tuple
-      - &id001 !!python/tuple [256, 128, 64, 251]
-      - 95.46226324266954
-    - !!python/tuple
-      - &id002 !!python/tuple [961, 771, 48, 31]
-      - 138.01051677537373
-  stern:
-    inputs_with_expected_outputs:
-    - !!python/tuple
-      - *id001
-      - 94.41599530389556
-    - !!python/tuple
-      - *id002
-      - 129.05171782411085
