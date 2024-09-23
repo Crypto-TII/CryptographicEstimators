@@ -45,8 +45,7 @@ class SDAlgorithm(BaseAlgorithm):
 
     @optimal_parameter
     def r(self):
-        """Returns the optimal parameter `r` used in the optimization of the M4RI Gaussian elimination.
-        """
+        """Returns the optimal parameter `r` used in the optimization of the M4RI Gaussian elimination."""
 
         if self._optimal_parameters.get("r") is None:
             n = self.problem.parameters["code length"]
@@ -67,8 +66,7 @@ class SDAlgorithm(BaseAlgorithm):
         raise NotImplementedError
 
     def _find_optimal_parameters(self):
-        """Enumerates over all valid parameter configurations within the ranges of the optimization and saves the best result in `self._optimal_parameter`.
-        """
+        """Enumerates over all valid parameter configurations within the ranges of the optimization and saves the best result in `self._optimal_parameter`."""
         _ = self.r()
         time = inf
         while True:
@@ -98,13 +96,11 @@ class SDAlgorithm(BaseAlgorithm):
         self._current_minimum_for_early_abort = inf
 
     def _find_optimal_tilde_o_parameters(self):
-        """Enumerates all valid parameters within the given ranges to find the optimal one asymptotically. Calls the C interface.
-        """
+        """Enumerates all valid parameters within the given ranges to find the optimal one asymptotically. Calls the C interface."""
         self._tilde_o_time_and_memory_complexity(self._optimal_parameters)
 
     def _adjust_parameter_ranges(self):
-        """Readjust the boundaries of the `ESTIMATE` optimization routine if the optimization detects that it runs into one or more of the boundaries, these boundaries will be increased/decreased by `self._adjust_radius`.
-        """
+        """Readjust the boundaries of the `ESTIMATE` optimization routine if the optimization detects that it runs into one or more of the boundaries, these boundaries will be increased/decreased by `self._adjust_radius`."""
         kept_old_ranges = True
         r = self._adjust_radius
 
@@ -129,8 +125,7 @@ class SDAlgorithm(BaseAlgorithm):
         return kept_old_ranges
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """Computes time and memory complexity for given parameters.
-        """
+        """Computes time and memory complexity for given parameters."""
         raise NotImplementedError
 
     def _compute_time_complexity(self, parameters: dict):

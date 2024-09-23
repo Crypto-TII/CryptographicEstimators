@@ -129,8 +129,7 @@ class BallCollision(SDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
-        """
+        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`."""
         new_ranges = self._fix_ranges_for_already_set_parameters()
         n, k, w = self.problem.get_parameters()
         start_p = new_ranges["p"]["min"] + (new_ranges["p"]["min"] % 2)
@@ -154,8 +153,7 @@ class BallCollision(SDAlgorithm):
                     yield indices
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """Computes the expected runtime and memory consumption for a given parameter set.
-        """
+        """Computes the expected runtime and memory consumption for a given parameter set."""
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2

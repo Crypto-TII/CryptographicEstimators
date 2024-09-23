@@ -61,8 +61,7 @@ class BothMay(SDAlgorithm):
         self.scipy_model = BothMayScipyModel
 
     def initialize_parameter_ranges(self):
-        """Initialize the parameter ranges for p, p1, p2, and l to start the optimization process.
-        """
+        """Initialize the parameter ranges for p, p1, p2, and l to start the optimization process."""
         self.set_parameter_ranges("p", 0, 20)
         self.set_parameter_ranges("p1", 0, 15)
         self.set_parameter_ranges("l", 0, 160)
@@ -153,8 +152,7 @@ class BothMay(SDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
-        """
+        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`."""
         new_ranges = self._fix_ranges_for_already_set_parameters()
         n, k, w = self.problem.get_parameters()
 
@@ -182,8 +180,7 @@ class BothMay(SDAlgorithm):
                             yield indices
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """Computes the expected runtime and memory consumption for a given parameter set.
-        """
+        """Computes the expected runtime and memory consumption for a given parameter set."""
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = k // 2

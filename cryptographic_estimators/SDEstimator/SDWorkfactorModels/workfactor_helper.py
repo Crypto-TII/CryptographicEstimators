@@ -39,8 +39,7 @@ def inverse_binary_entropy(v: float):
 
 
 def binary_entropy(c: float):
-    """Computes the binary entropy function H.
-    """
+    """Computes the binary entropy function H."""
     if c == 0. or c == 1.:
         return 0.
 
@@ -51,8 +50,7 @@ def binary_entropy(c: float):
 
 
 def binomial_approximation(n: float, k: float):
-    """Computes the binomial coefficient (n over k) via Sterlings approximation.
-    """
+    """Computes the binomial coefficient (n over k) via Sterlings approximation."""
     if k > n or n == 0:
         return 0
     if k == n:
@@ -61,8 +59,7 @@ def binomial_approximation(n: float, k: float):
 
 
 def wrap(f, g):
-    """Helper function for the SciPy optimization framework.
-    """
+    """Helper function for the SciPy optimization framework."""
 
     def inner(x):
         return f(g(*x))
@@ -75,8 +72,7 @@ def list_of_random_tuples(x: float, y: float, z: int):
 
 
 def may_ozerov_near_neighbor_time(list_size: float, vector_length: float, target_weight: float):
-    """Computes the asymptotic runtime of the Nearest Neighbour Algorithm by May-Ozerov [MO15]_.
-    """
+    """Computes the asymptotic runtime of the Nearest Neighbour Algorithm by May-Ozerov [MO15]_."""
     if vector_length <= 0 or list_size < 0:
         return 100
     normed_list_size = list_size / vector_length

@@ -151,8 +151,7 @@ class BJMMplus(SDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
-        """
+        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`."""
         new_ranges = self._fix_ranges_for_already_set_parameters()
 
         n, k, w = self.problem.get_parameters()
@@ -175,8 +174,7 @@ class BJMMplus(SDAlgorithm):
                         yield indices
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """Computes the expected runtime and memory consumption for the depth 2 version.
-        """
+        """Computes the expected runtime and memory consumption for the depth 2 version."""
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2

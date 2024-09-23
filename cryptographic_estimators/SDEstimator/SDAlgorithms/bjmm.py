@@ -67,8 +67,7 @@ class BJMM(SDAlgorithm):
         self.BJMM_depth_3 = BJMMd3(problem, **kwargs)
 
     def initialize_parameter_ranges(self):
-        """Initialize parameter range for d.
-        """
+        """Initialize parameter range for d."""
         self.set_parameter_ranges("depth", 2, 3)
 
     @optimal_parameter
@@ -88,28 +87,24 @@ class BJMM(SDAlgorithm):
 
     @property
     def complexity_type(self):
-        """Returns the complexity type.
-        """
+        """Returns the complexity type."""
         return super().complexity_type
 
     @complexity_type.setter
     def complexity_type(self, new_type: Union[str, int]):
-        """Sets the complexity type.
-        """
+        """Sets the complexity type."""
         super(BJMM, self.__class__).complexity_type.fset(self, new_type)
         self.BJMM_depth_2.complexity_type = new_type
         self.BJMM_depth_3.complexity_type = new_type
 
     def reset(self):
-        """Resets all parameters to restart the optimization process.
-        """
+        """Resets all parameters to restart the optimization process."""
         super().reset()
         self.BJMM_depth_2.reset()
         self.BJMM_depth_3.reset()
 
     def _find_optimal_parameters(self):
-        """Finds optimal parameters for depth 2 and 3.
-        """
+        """Finds optimal parameters for depth 2 and 3."""
         self.BJMM_depth_2._find_optimal_parameters()
         if self.limit_depth:
             self._optimal_parameters["depth"] = 2
@@ -145,13 +140,11 @@ class BJMM(SDAlgorithm):
             return inf, inf
 
     def _tilde_o_time_and_memory_complexity(self, parameters: dict):
-        """Returns the optimal time and memory complexity for BJMM d3.
-        """
+        """Returns the optimal time and memory complexity for BJMM d3."""
         return self.BJMM_depth_3._tilde_o_time_and_memory_complexity(parameters)
 
     def get_optimal_parameters_dict(self):
-        """Returns the optimal parameters dictionary.
-        """
+        """Returns the optimal parameters dictionary."""
         a = dict()
         a.update(self._optimal_parameters)
         if self.depth() == 2:
@@ -194,8 +187,7 @@ class BJMMd2(SDAlgorithm):
         self.initialize_parameter_ranges()
 
     def initialize_parameter_ranges(self):
-        """Initialize the parameter ranges for p, p1, and l to start the optimization process.
-        """
+        """Initialize the parameter ranges for p, p1, and l to start the optimization process."""
         n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(35, w, s))
@@ -242,8 +234,7 @@ class BJMMd2(SDAlgorithm):
         return self._get_optimal_parameter("p1")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """Return if the parameter set `parameters` is invalid.
-        """
+        """Return if the parameter set `parameters` is invalid."""
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
@@ -253,8 +244,7 @@ class BJMMd2(SDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
-        """
+        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`."""
         new_ranges = self._fix_ranges_for_already_set_parameters()
 
         n, k, w = self.problem.get_parameters()
@@ -282,8 +272,7 @@ class BJMMd2(SDAlgorithm):
                     yield indices
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """Computes the expected runtime and memory consumption for the depth 2 version.
-        """
+        """Computes the expected runtime and memory consumption for the depth 2 version."""
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
@@ -370,8 +359,7 @@ class BJMMd3(SDAlgorithm):
 
     def initialize_parameter_ranges(self):
         """Initialize the parameter ranges for p, p1, p2, and l to start the optimization
-        process.
-        """
+        process."""
         n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(25, w, s))
@@ -459,8 +447,7 @@ class BJMMd3(SDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
-        """
+        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`."""
         new_ranges = self._fix_ranges_for_already_set_parameters()
         n, k, w = self.problem.get_parameters()
 
@@ -487,8 +474,7 @@ class BJMMd3(SDAlgorithm):
                         yield indices
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """Computes the expected runtime and memory consumption for the depth 3 version.
-        """
+        """Computes the expected runtime and memory consumption for the depth 3 version."""
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
 

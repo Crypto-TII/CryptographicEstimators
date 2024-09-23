@@ -62,8 +62,7 @@ class Dumer(SDAlgorithm):
         self.scipy_model = DumerScipyModel
 
     def initialize_parameter_ranges(self):
-        """Initialize the parameter ranges for p and l to start the optimization process.
-        """
+        """Initialize the parameter ranges for p and l to start the optimization process."""
         n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(w // 2, 20, s))
@@ -113,8 +112,7 @@ class Dumer(SDAlgorithm):
         return False
 
     def _time_and_memory_complexity(self, parameters, verbose_information=None):
-        """Computes the expected runtime and memory consumption for a given parameter set.
-        """
+        """Computes the expected runtime and memory consumption for a given parameter set."""
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2

@@ -60,8 +60,7 @@ class Stern(SDAlgorithm):
         self.scipy_model = SternScipyModel
 
     def initialize_parameter_ranges(self):
-        """Initialize the parameter ranges for p and l to start the optimization process.
-        """
+        """Initialize the parameter ranges for p and l to start the optimization process."""
         n, k, w = self.problem.get_parameters()
         s = self.full_domain
         self.set_parameter_ranges("p", 0, min_max(w // 2, 20, s))
@@ -111,8 +110,7 @@ class Stern(SDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
-        """
+        """Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`."""
         new_ranges = self._fix_ranges_for_already_set_parameters()
 
         _, k, _ = self.problem.get_parameters()

@@ -72,8 +72,7 @@ class SDProblem(BaseProblem):
         return self.to_bitcomplexity_time(elements_to_store)
 
     def expected_number_solutions(self):
-        """Returns the logarithm of the expected number of existing solutions to the problem.
-        """
+        """Returns the logarithm of the expected number of existing solutions to the problem."""
         n, k, w = self.get_parameters()
         return log2(comb(n, w)) - (n - k)
 
@@ -92,8 +91,7 @@ class SDProblem(BaseProblem):
         return rep
 
     def get_parameters(self):
-        """Returns the ISD paramters n, k, w.
-        """
+        """Returns the ISD paramters n, k, w."""
         n = self.parameters[SD_CODE_LENGTH]
         k = self.parameters[SD_CODE_DIMENSION]
         w = self.parameters[SD_ERROR_WEIGHT]
