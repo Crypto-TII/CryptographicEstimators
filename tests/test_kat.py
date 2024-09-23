@@ -60,17 +60,33 @@ def import_internal_estimator(internal_estimator_path: Tuple[str, ...]) -> Calla
     return function
 
 
-def kat_test(expected_output: Any, actual_output: Any, epsilon: float):
+def kat_test(
+    internal_estimator_name: str,
+    input: Any,
+    expected_output: Any,
+    actual_output: Any,
+    epsilon: float,
+):
     """Asserts that the absolute difference between the expected and actual outputs is less than the specified epsilon.
 
     The expected output comes from the KAT values produced from external estimators, and the actual ones are produced by our internals estimators.
 
     Args:
+        internal_estimator_name (str): The name of the internal estimator.
+        input (Any): The input tuple used for the test.
         expected_output (Any): The expected output value.
         actual_output (Any): The actual output value.
         epsilon (float): The maximum allowable difference between the expected and actual outputs.
     """
-    assert abs(expected_output - actual_output) < epsilon
+    if not abs(expected_output - actual_output) <= epsilon:
+        print("FAILED TEST!!!")
+        print(f"Input: {input}, estimator: {internal_estimator_name}")
+        print(
+            f"Expected: {expected_output}, actual: {actual_output}, tolerance: {epsilon} "
+        )
+        return False
+    else:
+        return True
 
 
 def test_all_estimators(kat: dict):
@@ -85,9 +101,28 @@ def test_all_estimators(kat: dict):
     """
 
     int_estimator_paths_with_values = extract_paths(kat)
+    execution_list = []
 
     for internal_estimator_path, inputs_with_outputs in int_estimator_paths_with_values:
         inputs, expected_outputs = zip(*inputs_with_outputs)
         internal_estimator_function = import_internal_estimator(internal_estimator_path)
         actual_outputs, epsilon = zip(*map(internal_estimator_function, inputs))
-        list(starmap(kat_test, list(zip(expected_outputs, actual_outputs, epsilon))))
+        internal_estimator_name = internal_estimator_path[-1]
+
+        execution_list.extend(
+            list(
+                starmap(
+                    kat_test,
+                    list(
+                        zip(
+                            [internal_estimator_name] * len(inputs),
+                            inputs,
+                            expected_outputs,
+                            actual_outputs,
+                            epsilon,
+                        )
+                    ),
+                )
+            )
+        )
+    assert False not in execution_list
