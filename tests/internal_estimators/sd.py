@@ -38,7 +38,7 @@ def estimates_with_prange(input: tuple, epsilon: int = 0):
     )
     actual_complexity = SDEstimator(
         n, k, w, excluded_algorithms=excluded_algorithms
-    ).estimate()
+    ).estimate()["Prange"]["estimate"]["time"]
 
     return actual_complexity, epsilon
 
