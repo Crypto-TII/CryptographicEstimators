@@ -67,9 +67,7 @@ def ext_estimates_with_prange():
     #         }
     #     }
     # ]
-    expected_outputs = [
-        (19.587761374376097,)
-    ]
+    expected_outputs = [19.587761374376097]
     inputs_with_expected_outputs = list(zip(inputs, expected_outputs))
     return inputs_with_expected_outputs
 
@@ -155,6 +153,7 @@ def ext_estimators_2():
     ]
 
     return inputs_with_expected_outputs
+
 
 def ext_estimators_3():
     """PENDING"""

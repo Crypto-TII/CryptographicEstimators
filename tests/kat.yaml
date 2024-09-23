@@ -19,7 +19,7 @@ sd:
         - 2
         - !!python/tuple [Dumer, BallCollision, BJMM, BJMMplus, BJMMpdw, BJMMdw, BothMay,
           MayOzerov, Stern]
-      - !!python/tuple [19.587761374376097]
+      - 19.587761374376097
   estimators_1:
     inputs_with_expected_outputs:
     - !!python/tuple
