@@ -23,14 +23,14 @@ from ..sdfq_constants import *
 
 class Prange(SDFqAlgorithm):
     def __init__(self, problem: SDFqProblem, **kwargs):
-        """Construct an instance of Prange's estimator [Pra62].
+        """Construct an instance of Prange's estimator [Pra62]_.
 
-        The expected weight distribution is as follows:
+        Expected weight distribution:
 
-        +--------------------------------+-------------------------------+
-        | <----------+ n - k +---------> | <----------+ k +------------> |
-        |                w               |              0                |
-        +--------------------------------+-------------------------------+
+            +--------------------------------+-------------------------------+
+            | <----------+ n - k +---------> | <----------+ k +------------> |
+            |                w               |              0                |
+            +--------------------------------+-------------------------------+
 
         Args:
             problem (SDFqProblem): SDProblem object including all necessary parameters.
@@ -45,8 +45,7 @@ class Prange(SDFqAlgorithm):
         super(Prange, self).__init__(problem, **kwargs)
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """
-        Returns the time complexity of Prange's algorithm for the given set of parameters.
+        """Returns the time complexity of Prange's algorithm for the given set of parameters.
     
         Args:
             parameters (dict): A dictionary including the parameters.

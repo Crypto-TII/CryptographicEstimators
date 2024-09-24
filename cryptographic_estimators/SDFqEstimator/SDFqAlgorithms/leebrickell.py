@@ -25,15 +25,14 @@ from types import SimpleNamespace
 
 class LeeBrickell(SDFqAlgorithm):
     def __init__(self, problem: SDFqProblem, **kwargs):
-        """
-        Construct an instance of Lee-Brickell's estimator [LB88].
+        """Construct an instance of Lee-Brickell's estimator [LB88]_.
 
-        The expected weight distribution is as follows:
+        Expected weight distribution:
 
-        +--------------------------------+-------------------------------+
-        | <----------+ n - k +---------> | <----------+ k +------------> |
-        |               w-p              |              p                |
-        +--------------------------------+-------------------------------+
+            +--------------------------------+-------------------------------+
+            | <----------+ n - k +---------> | <----------+ k +------------> |
+            |               w-p              |              p                |
+            +--------------------------------+-------------------------------+
 
         Args:
             problem (SDFqProblem): An SDProblem object including all necessary parameters.
@@ -58,8 +57,7 @@ class LeeBrickell(SDFqAlgorithm):
     
     @optimal_parameter
     def p(self):
-        """
-        Returns the optimal parameter p used in the algorithm optimization.
+        """Returns the optimal parameter $p$ used in the algorithm optimization.
     
         Examples:
             >>> from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell
@@ -71,8 +69,7 @@ class LeeBrickell(SDFqAlgorithm):
         return self._get_optimal_parameter("p")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """
-        Checks if the given parameter set is invalid.
+        """Checks if the given parameter set is invalid.
     
         Args:
             parameters (dict): The parameter set to be checked.
@@ -87,8 +84,7 @@ class LeeBrickell(SDFqAlgorithm):
         return False
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """
-        Return the time complexity of Lee-Brickell's algorithm over Fq, where q > 2,
+        """Return the time complexity of Lee-Brickell's algorithm over Fq, where q > 2,
         for the given set of parameters.
     
         Note:

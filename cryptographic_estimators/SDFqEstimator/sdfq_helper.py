@@ -20,8 +20,7 @@ from math import log2, comb, inf
 
 
 def binom(n: int, k: int):
-    """
-    Computes the binomial coefficient.
+    """Computes the binomial coefficient.
 
     Args:
         n (int): The total number of items.
@@ -34,8 +33,7 @@ def binom(n: int, k: int):
 
 
 def min_max(a: int, b: int, s: bool):
-    """
-    Returns the minimum or maximum of two integers, depending on a boolean switch.
+    """Returns the minimum or maximum of two integers, depending on a boolean switch.
 
     Args:
         a (int): The first integer to compare.
@@ -63,8 +61,7 @@ def __truncate(x: float, precision: int):
 
 
 def __round_or_truncate_to_given_precision(T: float, M: float, truncate: bool, precision: int):
-    """
-    Rounds or truncates the input values `T` and `M`.
+    """Rounds or truncates the input values `T` and `M`.
 
     Args:
         T (float): The first value to truncate or round.
@@ -87,11 +84,9 @@ def _gaussian_elimination_complexity(n: int, k: int, r: int):
         k (int): Matrix consists of `n-k` rows.
         r (int): Blocksize of method of the four Russian for inversion, default is zero.
 
-    References:
-        .. [Bar07] Bard, G.V.: Algorithms for solving linear and polynomial systems of equations over finite fields
-           with applications to cryptanalysis. Ph.D. thesis (2007)
-        .. [BLP08] Bernstein, D.J., Lange, T., Peters, C.: Attacking and defending the mceliece cryptosystem.
-           In: International Workshop on Post-Quantum Cryptography. pp. 31–46. Springer (2008)
+    References: 
+        .. [Bar07]_ 
+        .. [BLP08]_ pp. 31–46.
 
     Examples:
         >>> from cryptographic_estimators.SDEstimator import _gaussian_elimination_complexity

@@ -29,10 +29,10 @@ class Stern(SDFqAlgorithm):
 
         Expected weight distribution:
 
-        +-------------------------+---------+-------------+-------------+
-        | <----+ n - k - l +----> |<-- l -->|<--+ k/2 +-->|<--+ k/2 +-->|
-        |          w - 2p         |    0    |      p      |      p      |
-        +-------------------------+---------+-------------+-------------+
+            +-------------------------+---------+-------------+-------------+
+            | <----+ n - k - l +----> |<-- l -->|<--+ k/2 +-->|<--+ k/2 +-->|
+            |          w - 2p         |    0    |      p      |      p      |
+            +-------------------------+---------+-------------+-------------+
 
         Args:
             problem (SDFqProblem): SDProblem object including all necessary parameters.
@@ -51,8 +51,7 @@ class Stern(SDFqAlgorithm):
 
     @optimal_parameter
     def l(self):
-        """
-        Return the optimal parameter `l` used in the algorithm optimization.
+        """Return the optimal parameter $l$ used in the algorithm optimization.
 
         Examples:
             >>> from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
@@ -66,8 +65,7 @@ class Stern(SDFqAlgorithm):
 
     @optimal_parameter
     def p(self):
-        """
-        Returns the optimal parameter `p` used in the algorithm optimization.
+        """Returns the optimal parameter $p$ used in the algorithm optimization.
     
         Examples:
             >>> from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
@@ -80,7 +78,8 @@ class Stern(SDFqAlgorithm):
         return self._get_optimal_parameter("p")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """
+        """Returns whether the provided parameter set is invalid.
+
         Args:
             parameters (dict): The parameter set to be checked for validity.
     
@@ -95,8 +94,7 @@ class Stern(SDFqAlgorithm):
         return False
 
     def _valid_choices(self):
-        """
-        Yields a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
+        """Yields a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
     
         Yields:
             set: A new set of valid parameters.

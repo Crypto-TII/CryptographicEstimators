@@ -20,8 +20,7 @@ from .sdfq_problem import SDFqProblem
 
 
 class SDFqAlgorithm(BaseAlgorithm):
-    """
-    Base class for Syndrome Decoding over FQ algorithms complexity estimator.
+    """Base class for Syndrome Decoding over FQ algorithms complexity estimator.
 
     Args:
         problem (SDFqProblem): An SDFqProblem object including all necessary parameters.
@@ -34,8 +33,7 @@ class SDFqAlgorithm(BaseAlgorithm):
         self._adjust_radius = kwargs.get("adjust_radius", 10)
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """Computes time and memory complexity for given parameters.
-        """
+        """Computes time and memory complexity for given parameters."""
         raise NotImplementedError
 
     def _compute_time_complexity(self, parameters: dict):

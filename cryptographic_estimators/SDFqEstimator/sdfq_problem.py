@@ -50,8 +50,7 @@ class SDFqProblem(BaseProblem):
         self.is_syndrome_zero = kwargs.get("is_syndrome_zero", True)
 
     def to_bitcomplexity_time(self, basic_operations: float):
-        """
-        Calculates the bit-complexity corresponding to the number of field additions.
+        """Calculates the bit-complexity corresponding to the number of field additions.
     
         Args:
             basic_operations (float): The number of field additions (logarithmic).
@@ -60,8 +59,7 @@ class SDFqProblem(BaseProblem):
         return basic_operations + log2(log2(q))
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
-        """
-        Returns the memory bit-complexity associated with a given number of elements to store.
+        """Returns the memory bit-complexity associated with a given number of elements to store.
     
         Args:
             elements_to_store (float): The number of elements to store (in logarithmic scale).
@@ -69,8 +67,7 @@ class SDFqProblem(BaseProblem):
         return self.to_bitcomplexity_time(elements_to_store)
 
     def expected_number_solutions(self):
-        """Returns the logarithm of the expected number of existing solutions to the problem.
-        """
+        """Returns the logarithm of the expected number of existing solutions to the problem."""
         n, k, w, q = self.get_parameters()
         Nw = log2(comb(n, w)) + log2(q-1)*w + log2(q)*(k - n)
         return max(Nw, 0)
@@ -83,8 +80,7 @@ class SDFqProblem(BaseProblem):
         return rep
 
     def get_parameters(self):
-        """
-        Returns the ISD parameters n, k, w, q.
+        """Returns the ISD parameters n, k, w, q.
     
         Returns:
             tuple: A tuple containing the ISD parameters n, k, w, q.
