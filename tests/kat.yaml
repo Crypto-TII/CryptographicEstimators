@@ -1,3 +1,83 @@
+mq:
+  estimates_with_bjorklund_1:
+    inputs_with_expected_outputs:
+    - !!python/tuple
+      - !!python/tuple
+        - 100
+        - 50
+        - 2
+        - [DinurFirst, DinurSecond, BooleanSolveFXL, HybridF5, Lokshtanov, Crossbred,
+          F5, KPG, CGMTA, MHT]
+      - 67.23834058346328
+  estimates_with_bjorklund_2:
+    inputs_with_expected_outputs:
+    - !!python/tuple
+      - !!python/tuple
+        - 100
+        - 50
+        - 2
+        - [DinurFirst, DinurSecond, BooleanSolveFXL, HybridF5, Lokshtanov, Crossbred,
+          F5, KPG, CGMTA, MHT]
+      - 52.48921146923813
+  estimators:
+    inputs_with_expected_outputs:
+    - !!python/tuple
+      - !!python/tuple [50, 50, 2, Bjorklund]
+      - 68.1138641713971
+    - !!python/tuple
+      - !!python/tuple [50, 50, 2, BooleanSolveFXL]
+      - 55.339850002884624
+    - !!python/tuple
+      - !!python/tuple [50, 50, 2, Crossbred]
+      - 54.043983358615094
+    - !!python/tuple
+      - !!python/tuple [50, 50, 2, DinurFirst]
+      - 61.081643727762035
+    - !!python/tuple
+      - !!python/tuple [50, 50, 2, DinurSecond]
+      - 50.493880769427264
+    - !!python/tuple
+      - !!python/tuple [50, 50, 2, F5]
+      - 99.24490513673642
+    - !!python/tuple
+      - !!python/tuple [50, 50, 2, HybridF5]
+      - 54.64385618977472
+    - !!python/tuple
+      - !!python/tuple [70, 70, 4, BooleanSolveFXL]
+      - 128.9256180928613
+    - !!python/tuple
+      - !!python/tuple [70, 70, 4, Crossbred]
+      - 120.3019574863388
+    - !!python/tuple
+      - !!python/tuple [70, 70, 4, F5]
+      - 194.97126334881673
+    - !!python/tuple
+      - !!python/tuple [70, 70, 4, HybridF5]
+      - 137.2892446073368
+    - !!python/tuple
+      - !!python/tuple [50, 70, 8, BooleanSolveFXL]
+      - 98.46004941266848
+    - !!python/tuple
+      - !!python/tuple [50, 70, 8, Crossbred]
+      - 98.4130367043279
+    - !!python/tuple
+      - !!python/tuple [50, 70, 8, F5]
+      - 126.727984027005
+    - !!python/tuple
+      - !!python/tuple [50, 70, 8, HybridF5]
+      - 115.21528398880497
+    - !!python/tuple
+      - !!python/tuple [120, 40, 8, BooleanSolveFXL]
+      - 94.13074054329404
+    - !!python/tuple
+      - !!python/tuple [120, 40, 8, Crossbred]
+      - 88.32398658404229
+    - !!python/tuple
+      - !!python/tuple [120, 40, 8, F5]
+      - 141.7950664927947
+    - !!python/tuple
+      - !!python/tuple [120, 40, 8, HybridF5]
+      - 102.29814674960852
 sdfq:
   lee_brickell:
     inputs_with_expected_outputs:

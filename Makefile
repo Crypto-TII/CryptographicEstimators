@@ -148,6 +148,7 @@ docker-pytest:
 		&& docker exec pytest-estimators sh -c " \
 		pytest --doctest-modules -n auto -vv \
 		tests/test_kat.py \
+		tests/test_mq.py \
 		cryptographic_estimators/SDEstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
