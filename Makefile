@@ -146,7 +146,7 @@ docker-pytest:
 	@echo "Creating container..."
 	@docker run --name pytest-estimators -d -it ${image_name} sh \
 		&& docker exec pytest-estimators sh -c " \
-		pytest --doctest-modules -n auto -vv \
+		pytest --doctest-modules -n auto -vv -s \
 		tests/test_kat.py \
 		cryptographic_estimators/SDEstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
