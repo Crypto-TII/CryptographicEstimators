@@ -80,3 +80,54 @@ def ext_estimates_with_bjorklund_2():
     expected_outputs = [52.48921146923813]
     inputs_with_expected_outputs = list(zip(inputs, expected_outputs))
     return inputs_with_expected_outputs
+
+
+def ext_estimators():
+    """Generate expected complexities for MQ algorithms.
+
+    Taken from https://github.com/Crypto-TII/multivariate_quadratic_estimatorup.
+    """
+
+    inputs = [
+        [50, 50, 2],
+        [70, 70, 4],
+        [50, 70, 8],
+        [120, 40, 8],
+    ]
+
+    external_algorithms = [
+        Bjorklund,
+        BooleanSolveFXL,
+        CGMTA,
+        Crossbred,
+        DinurFirst,
+        DinurSecond,
+        ExhaustiveSearch,
+        F5,
+        HybridF5,
+        KPG,
+        Lokshtanov,
+        MHT,
+    ]
+
+    def gen_single_kat(input, external_algorithm):
+        n, m, q = input
+        external_algorithm_name = external_algorithm.__name__
+        try:
+            if q == 2 and external_algorithm in [Bjorklund, DinurFirst, DinurSecond]:
+                external_estimator = external_algorithm(n=n, m=m)
+            else:
+                external_estimator = external_algorithm(n=n, m=m, q=q, w=2.81)
+        except:
+            return None
+
+        expected_complexity = log2(external_estimator.time_complexity())
+        input = n, m, q, external_algorithm_name
+        return input, expected_complexity
+
+    inputs_with_expected_outputs = [
+        gen_single_kat(input, estimator)
+        for input in inputs
+        for estimator in external_algorithms
+    ]
+    return [element for element in inputs_with_expected_outputs if element is not None]

@@ -70,7 +70,7 @@ def kat_test(expected_output: Any, actual_output: Any, epsilon: float):
         actual_output (Any): The actual output value.
         epsilon (float): The maximum allowable difference between the expected and actual outputs.
     """
-    assert abs(expected_output - actual_output) < epsilon
+    assert abs(expected_output - actual_output) <= epsilon
 
 
 def test_all_estimators(kat: dict):

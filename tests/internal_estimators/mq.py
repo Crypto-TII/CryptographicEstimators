@@ -44,3 +44,15 @@ def estimates_with_bjorklund_2(input: tuple, epsilon: int = 0):
     ]
 
     return actual_complexity, epsilon
+
+
+def estimators(input: tuple, epsilon: float = 0.01):
+    n, m, q, algorithm_name = input
+
+    internal_algorithm = globals()[algorithm_name]
+    internal_estimator = internal_algorithm(
+        MQProblem(n=n, m=m, q=q), bit_complexities=0
+    )
+    actual_complexity = internal_estimator.time_complexity()
+
+    return actual_complexity, epsilon
