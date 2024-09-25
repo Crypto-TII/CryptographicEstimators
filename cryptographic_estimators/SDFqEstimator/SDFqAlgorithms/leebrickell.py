@@ -107,7 +107,6 @@ class LeeBrickell(SDFqAlgorithm):
 
         solutions = self.problem.nsolutions
         enum = binom(k, par.p) * (q-1)**(max(0, par.p-self.is_syndrome_zero))
-        # TODO: Remove?
         # Beullens code uses (contrary to his paper)
         #enum = k**par.p * q**(max(0, par.p-self.is_syndrome_zero))
         memory = log2(k * n)

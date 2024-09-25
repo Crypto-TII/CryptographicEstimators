@@ -135,7 +135,6 @@ def _mem_matrix(n: int, k: int, r: int):
     return n - k + 2 ** r
 
 
-# TODO: Remove?
 def _list_merge_complexity(L: float, l: int, hmap: bool):
     """Complexity estimate of merging two lists.
 
