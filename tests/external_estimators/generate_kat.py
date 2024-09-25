@@ -1,6 +1,7 @@
 import yaml
 import os
 import inspect
+import itertools
 from pathlib import Path
 from importlib import import_module
 from functools import reduce
@@ -43,7 +44,7 @@ def collect_ext_modules() -> List[ModuleType]:
 
         if ext == ".py":
             try:
-                module = import_module(f"{root_package_name}.{module_path}")
+                module = import_module(f"{module_path}")
                 modules.append(module)
             except ImportError as e:
                 print(f"Error importing {module_path}: {e}")
@@ -134,7 +135,9 @@ def main():
     5. Saves the serialized data to a YAML file.
     """
 
-    external_kat_generators = list(*map(collect_ext_functions, collect_ext_modules()))
+    external_kat_generators = list(
+        itertools.chain.from_iterable(map(collect_ext_functions, collect_ext_modules()))
+    )
     kat_dictionary = reduce(
         deep_merge, list(map(dictionary_from_tuple, external_kat_generators))
     )
