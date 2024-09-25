@@ -175,6 +175,7 @@ docker-pytest-kat: docker-build
 	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
 		pytest --doctest-modules -n auto -vv \
 		tests/test_kat.py \
+		tests/test_sd.py \
 		"
 
 docker-pytest: CONTAINER_NAME := "pytest-container"
