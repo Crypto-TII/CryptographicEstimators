@@ -70,7 +70,9 @@ def kat_test(expected_output: Any, actual_output: Any, epsilon: float):
         actual_output (Any): The actual output value.
         epsilon (float): The maximum allowable difference between the expected and actual outputs.
     """
-    assert abs(expected_output - actual_output) < epsilon
+    print(f"Expected output: {expected_output}, actual output: {actual_output}, epsilon: {epsilon} ")
+    print(f"Difference: {abs(expected_output-actual_output)}")
+    assert abs(expected_output - actual_output) <= epsilon
 
 
 def test_all_estimators(kat: dict):
@@ -90,4 +92,4 @@ def test_all_estimators(kat: dict):
         inputs, expected_outputs = zip(*inputs_with_outputs)
         internal_estimator_function = import_internal_estimator(internal_estimator_path)
         actual_outputs, epsilon = zip(*map(internal_estimator_function, inputs))
-        assert starmap(kat_test, list(zip(expected_outputs, actual_outputs, epsilon)))
+        list(starmap(kat_test, list(zip(expected_outputs, actual_outputs, epsilon))))
