@@ -25,15 +25,12 @@ from math import log2, inf
 
 class SDAlgorithm(BaseAlgorithm):
     def __init__(self, problem: SDProblem, **kwargs):
-        """
-        Base class for Syndrome Decoding algorithms complexity estimator
+        """Base class for Syndrome Decoding algorithms complexity estimator.
 
-        INPUT:
-
-        - ``problem`` -- SDProblem object including all necessary parameters
-        - ``var_ranges`` -- allow parameter optimization to adapt ranges if necessary (default: true)
-        - ``hmap`` -- indicates if hashmap is being used for linear time sorting (default: true)
-
+        Args:
+            problem (SDProblem): SDProblem object including all necessary parameters.
+            var_ranges (bool, optional): Allow parameter optimization to adapt ranges if necessary. Defaults to True.
+            hmap (bool, optional): Indicates if hashmap is being used for linear time sorting. Defaults to True.
         """
         super(SDAlgorithm, self).__init__(problem, **kwargs)
         self._variable_parameter_ranges = kwargs.get("var_ranges", 1)
@@ -48,10 +45,7 @@ class SDAlgorithm(BaseAlgorithm):
 
     @optimal_parameter
     def r(self):
-        """
-        Return the optimal parameter $r$ used in the optimization of the M4RI Gaussian elimination
-
-        """
+        """Returns the optimal parameter `r` used in the optimization of the M4RI Gaussian elimination."""
 
         if self._optimal_parameters.get("r") is None:
             n = self.problem.parameters["code length"]
@@ -64,16 +58,15 @@ class SDAlgorithm(BaseAlgorithm):
         return self._optimal_parameters.get("r")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """
-        returns `true` if `parameters` is an invalid parameter set
+        """Returns whether the provided parameter set is invalid.
+
+        Returns:
+            bool: True if `parameters` is an invalid parameter set.
         """
         raise NotImplementedError
 
     def _find_optimal_parameters(self):
-        """
-        Enumerates over all valid parameter configurations withing the ranges
-        of the optimization and saves the best result in `self._optimal_parameter`
-        """
+        """Enumerates over all valid parameter configurations within the ranges of the optimization and saves the best result in `self._optimal_parameter`."""
         _ = self.r()
         time = inf
         while True:
@@ -84,8 +77,7 @@ class SDAlgorithm(BaseAlgorithm):
                 tmp_time, tmp_memory = self._time_and_memory_complexity(params)
 
                 if self.bit_complexities:
-                    tmp_memory = self.problem.to_bitcomplexity_memory(
-                        tmp_memory)
+                    tmp_memory = self.problem.to_bitcomplexity_memory(tmp_memory)
 
                 tmp_time += self.memory_access_cost(tmp_memory)
 
@@ -104,18 +96,11 @@ class SDAlgorithm(BaseAlgorithm):
         self._current_minimum_for_early_abort = inf
 
     def _find_optimal_tilde_o_parameters(self):
-        """
-        Enumerates all valid parameter within the given ranges to find the optimal one asymptotically.
-        Calls the C interface.
-        """
+        """Enumerates all valid parameters within the given ranges to find the optimal one asymptotically. Calls the C interface."""
         self._tilde_o_time_and_memory_complexity(self._optimal_parameters)
 
     def _adjust_parameter_ranges(self):
-        """
-        Readjust the boundaries of the `ESTIMATE` optimization routine if the
-        optimization detects that it runs into one or more of the boundaries,
-        these boundaries will be increased/decreased by `self._adjust_radius`.
-        """
+        """Readjust the boundaries of the `ESTIMATE` optimization routine if the optimization detects that it runs into one or more of the boundaries, these boundaries will be increased/decreased by `self._adjust_radius`."""
         kept_old_ranges = True
         r = self._adjust_radius
 
@@ -140,96 +125,83 @@ class SDAlgorithm(BaseAlgorithm):
         return kept_old_ranges
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """
-        Computes time and memory complexity for given parameters
-        """
+        """Computes time and memory complexity for given parameters."""
         raise NotImplementedError
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Compute and return the time complexity either in the asymptotic case or for
-        real parameters.
+        """Compute and return the time complexity either in the asymptotic case or for real parameters.
 
-        INPUT:
-        - ``parameters`` -- dictionary of parameters used for time complexity computation
-
+        Args:
+            parameters (dict): Dictionary of parameters used for time complexity computation.
         """
         return self._time_and_memory_complexity(parameters)[0]
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Compute and return the time complexity of the algorithm for a given set of parameters
+        """Compute and return the time complexity of the algorithm for a given set of parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
+        Args:
+            parameters (dict): A dictionary containing the parameters.
         """
         return self._tilde_o_time_and_memory_complexity(parameters)[0]
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Compute and return time complexity of the algorithm for given parameter set
+        """Compute and return the memory complexity of the algorithm for the given parameter set.
 
-        INPUT:
-        - ``parameters`` -- dictionary of parameters used for time complexity computation
-
+        Args:
+            parameters (dict): A dictionary of parameters used for the memory complexity computation.
         """
+        pass
         return self._time_and_memory_complexity(parameters)[1]
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Compute and return time complexity the algorithm for given parameter set
+        """Compute and return the memory complexity of the algorithm for the given parameter set.
 
-        INPUT:
-        - ``parameters`` -- dictionary of parameters used for time complexity computation
-
+        Args:
+            parameters (dict): A dictionary of parameters used for the memory complexity computation.
         """
         return self._tilde_o_time_and_memory_complexity(parameters)[1]
 
     def _tilde_o_time_and_memory_complexity(self, parameters: dict):
-        """
-        Computes and returns time and memory complexity of the algorithm for given parameter set
+        """Computes and returns the time and memory complexity of the algorithm for the given parameter set.
 
-        INPUT:
-        - ``parameters`` -- dictionary of parameters used for time complexity computation
-
+        Args:
+            parameters (dict): Dictionary of parameters used for the time complexity computation.
         """
+        pass
         if self.scipy_model is None:
-            raise NotImplementedError(
-                "For " + self._name + " TildeO complexity is not yet implemented")
-        model = self.scipy_model(self.parameter_names(
-        ), self.problem, iterations=self.workfactor_accuracy * 10, accuracy=1e-7)
-        wf_time, wf_memory, par = model.get_time_memory_and_parameters(
-            parameters=parameters)
+            raise NotImplementedError("For " + self._name + " TildeO complexity is not yet implemented")
+        model = self.scipy_model(
+            self.parameter_names(),
+            self.problem,
+            iterations=self.workfactor_accuracy * 10,
+            accuracy=1e-7,
+        )
+        wf_time, wf_memory, par = model.get_time_memory_and_parameters(parameters=parameters)
         self._optimal_parameters.update(par)
         n, _, _ = self.problem.get_parameters()
         return wf_time * n, wf_memory * n
 
     def set_parameters(self, parameters: dict):
-        """
-        Set optimal parameters to predefined values, then do not allow optimization to modify the ranges again
+        """Set optimal parameters to predefined values, then do not allow optimization to modify the ranges again.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including parameters to set (for a subset of optimal_parameters functions)
-
+        Args:
+            parameters (dict): A dictionary including parameters to set (for a subset of optimal_parameters functions).
         """
         BaseAlgorithm.set_parameters(self, parameters)
         self._variable_parameter_ranges = 0
 
     def _get_verbose_information(self):
-        """
-        returns a dictionary containing
-            {
+        """Get extra information.
+
+        Returns:
+            dict: Containing 
                 CONSTRAINTS,
                 PERMUTATIONS,
                 TREE,
                 GAUSS,
                 REPRESENTATIONS,
                 LISTS
-            }
         """
         verb = dict()
-        _ = self._time_and_memory_complexity(
-            self.optimal_parameters(), verbose_information=verb)
+        _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)
         return verb
