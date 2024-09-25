@@ -1,4 +1,4 @@
-from .ball_collision  import BallCollision
+from .ball_collision import BallCollision
 from .bjmm_dw import BJMMdw
 from .bjmm_pdw import BJMMpdw
 from .bjmm import BJMM, BJMMd2, BJMMd3
