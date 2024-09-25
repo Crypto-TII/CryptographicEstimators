@@ -46,9 +46,7 @@ class SDEstimator(BaseEstimator):
         kwargs["excluded_algorithms"] += self.excluded_algorithms_by_default
 
         super(SDEstimator, self).__init__(
-            SDAlgorithm,
-            SDProblem(n, k, w, memory_bound=memory_bound, **kwargs),
-            **kwargs
+            SDAlgorithm, SDProblem(n, k, w, memory_bound=memory_bound, **kwargs), **kwargs
         )
 
     def table(

@@ -16,22 +16,20 @@
 # ****************************************************************************
 
 
-import collections
 from .scipy_model import ScipyModel
 from ..sd_problem import SDProblem
-from .workfactor_helper import representations_asymptotic, binomial_approximation, may_ozerov_near_neighbor_time
+from .workfactor_helper import binomial_approximation
 
 
 class BallCollisionScipyModel(ScipyModel):
     def __init__(self, par_names: list, problem: SDProblem, iterations, accuracy):
-        """
-        Optimization model for workfactor computation of Ball-Collision algorithm
-        """
+        """Optimization model for workfactor computation of Ball-Collision algorithm."""
         super().__init__(par_names, problem, iterations, accuracy)
 
     def _build_model_and_set_constraints(self):
         self.L1 = lambda x: binomial_approximation(
-            self.rate(x) / 2, x.p / 2) + binomial_approximation(x.l / 2, x.pl / 2)
+            self.rate(x) / 2, x.p / 2
+        ) + binomial_approximation(x.l / 2, x.pl / 2)
 
         self.constraints = [
             {'type': 'ineq', 'fun': self._inject_vars(

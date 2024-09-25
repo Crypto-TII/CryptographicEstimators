@@ -16,16 +16,24 @@
 # ****************************************************************************
 
 
-import collections
 from .scipy_model import ScipyModel
 from ..sd_problem import SDProblem
-from .workfactor_helper import representations_asymptotic, binomial_approximation, may_ozerov_near_neighbor_time
+from .workfactor_helper import (
+    representations_asymptotic,
+    binomial_approximation,
+    may_ozerov_near_neighbor_time,
+)
 
 
 class MayOzerovScipyModel(ScipyModel):
     def __init__(self, par_names: list, problem: SDProblem, iterations, accuracy):
-        """
-        Optimization model for workfactor computation of May-Ozerov algorithm in depth 3 using May-Ozerov nearest neighbor search
+        """Optimization model for workfactor computation of May-Ozerov algorithm in depth 3 using May-Ozerov nearest neighbor search.
+
+        Args:
+            par_names (list): List of parameter names.
+            problem (SDProblem): The problem instance.
+            iterations (int): Number of iterations.
+            accuracy (float): Desired accuracy.
         """
         super().__init__(par_names, problem, iterations, accuracy)
 
@@ -41,8 +49,7 @@ class MayOzerovScipyModel(ScipyModel):
         self.q2 = lambda x: self.D2(x) + self.r1(x) - 2 * self.D1(x)
         self.q3 = lambda x: self.D3(x) + self.r2(x) - 2 * self.D2(x)
 
-        self.L1 = lambda x: binomial_approximation(
-            (self.rate(x) + x.l) / 2, x.p1 / 2)
+        self.L1 = lambda x: binomial_approximation((self.rate(x) + x.l) / 2, x.p1 / 2)
         self.L2 = lambda x: 2 * self.L1(x) - self.r1(x)
         self.L3 = lambda x: 2 * self.L2(x) - (x.l - self.r1(x)) + self.q2(x)
 
@@ -72,7 +79,8 @@ class MayOzerovScipyModel(ScipyModel):
         time_list1 = max(self.L1(x), 2 * self.L1(x) - self.r1(x))
         time_list2 = max(self.L2(x), 2 * self.L2(x) - (x.l - self.r1(x)))
         time_list3 = may_ozerov_near_neighbor_time(
-            self.L3(x), 1 - self.rate(x) - x.l, self.w(x) - x.p)
+            self.L3(x), 1 - self.rate(x) - x.l, self.w(x) - x.p
+        )
 
         return time_list1, time_list2, time_list3
 
