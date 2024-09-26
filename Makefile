@@ -91,7 +91,6 @@ docker-test: docker-build
 		cryptographic_estimators/PEEstimator/ \
 		cryptographic_estimators/PKEstimator/ \
 		cryptographic_estimators/RegSDEstimator/ \
-		cryptographic_estimators/SDFqEstimator/ \
 		cryptographic_estimators/UOVEstimator/ \
 		cryptographic_estimators/base_algorithm.py \
 		cryptographic_estimators/base_constants.py \
@@ -100,6 +99,7 @@ docker-test: docker-build
 		cryptographic_estimators/estimation_renderer.py \
 		cryptographic_estimators/helper.py \
 		# cryptographic_estimators/SDEstimator/ \
+		# cryptographic_estimators/SDFqEstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
@@ -120,7 +120,6 @@ docker-testfast: docker-build
 		cryptographic_estimators/PEEstimator/ \
 		cryptographic_estimators/PKEstimator/ \
 		cryptographic_estimators/RegSDEstimator/ \
-		cryptographic_estimators/SDFqEstimator/ \
 		cryptographic_estimators/UOVEstimator/ \
 		cryptographic_estimators/base_algorithm.py \
 		cryptographic_estimators/base_constants.py \
@@ -129,6 +128,7 @@ docker-testfast: docker-build
 		cryptographic_estimators/estimation_renderer.py \
 		cryptographic_estimators/helper.py \
 		# cryptographic_estimators/SDEstimator/ \
+		# cryptographic_estimators/SDFqEstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
@@ -141,6 +141,7 @@ docker-pytest-doctests: docker-build
 	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
 		pytest --doctest-modules -n auto -vv \
 		cryptographic_estimators/SDEstimator/ \
+		cryptographic_estimators/SDFqEstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
 		# cryptographic_estimators/MAYOEstimator/ \
@@ -149,7 +150,6 @@ docker-pytest-doctests: docker-build
 		# cryptographic_estimators/PEEstimator/ \
 		# cryptographic_estimators/PKEstimator/ \
 		# cryptographic_estimators/RegSDEstimator/ \
-		# cryptographic_estimators/SDFqEstimator/ \
 		# cryptographic_estimators/UOVEstimator/ \
 		# cryptographic_estimators/base_algorithm.py \
 		# cryptographic_estimators/base_constants.py \

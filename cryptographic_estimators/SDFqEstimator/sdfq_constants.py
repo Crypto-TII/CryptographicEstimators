@@ -25,8 +25,6 @@ SDFQ_ERROR_FIELD_SIZE = "field size"
 
 
 class VerboseInformation(Enum):
-    """
-    """
     CONSTRAINTS = "constraints"
     PERMUTATIONS = "permutations"
     TREE = "tree"
