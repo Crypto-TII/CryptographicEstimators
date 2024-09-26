@@ -1,0 +1,71 @@
+le:
+  beullens:
+    inputs_with_expected_outputs:
+    - !!python/tuple
+      - !!python/tuple [250, 125, 11]
+      - 137.38439113160806
+    - !!python/tuple
+      - !!python/tuple [250, 125, 17]
+      - 145.9682213665759
+    - !!python/tuple
+      - !!python/tuple [250, 125, 31]
+      - 152.07841867680494
+    - !!python/tuple
+      - !!python/tuple [250, 125, 53]
+      - 149.5922914041875
+  beullens_range:
+    inputs_with_expected_outputs:
+    - !!python/tuple
+      - !!python/tuple [100, 50, 7]
+      - 56.74447695451341
+    - !!python/tuple
+      - !!python/tuple [100, 50, 11]
+      - 61.05872141133065
+    - !!python/tuple
+      - !!python/tuple [100, 51, 7]
+      - 56.85331840452391
+    - !!python/tuple
+      - !!python/tuple [100, 51, 11]
+      - 61.142121724263994
+    - !!python/tuple
+      - !!python/tuple [100, 52, 7]
+      - 55.85294020421421
+    - !!python/tuple
+      - !!python/tuple [100, 52, 11]
+      - 61.20412589171779
+    - !!python/tuple
+      - !!python/tuple [101, 50, 7]
+      - 56.983803286295476
+    - !!python/tuple
+      - !!python/tuple [101, 50, 11]
+      - 61.35708289171745
+    - !!python/tuple
+      - !!python/tuple [101, 51, 7]
+      - 57.100457748918075
+    - !!python/tuple
+      - !!python/tuple [101, 51, 11]
+      - 61.44990619970795
+    - !!python/tuple
+      - !!python/tuple [101, 52, 7]
+      - 57.19798619735266
+    - !!python/tuple
+      - !!python/tuple [101, 52, 11]
+      - 61.521395666721574
+    - !!python/tuple
+      - !!python/tuple [102, 50, 7]
+      - 57.22228387042586
+    - !!python/tuple
+      - !!python/tuple [102, 50, 11]
+      - 61.653027469742845
+    - !!python/tuple
+      - !!python/tuple [102, 51, 7]
+      - 57.34673014967684
+    - !!python/tuple
+      - !!python/tuple [102, 51, 11]
+      - 61.7552150529382
+    - !!python/tuple
+      - !!python/tuple [102, 52, 7]
+      - 57.452029543608106
+    - !!python/tuple
+      - !!python/tuple [102, 52, 11]
+      - 61.83613025226884
