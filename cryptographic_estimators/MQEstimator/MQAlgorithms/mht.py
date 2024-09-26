@@ -29,7 +29,7 @@ class MHT(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
         """Construct an instance of MHT estimator.
 
-        The MHT is an algorithm to solve the MQ problem when  $m  (m + 3) / 2 \leq n$ [MHT13]_.
+        The MHT is an algorithm to solve the MQ problem when  $m  (m + 3) / 2 \\leq n$ [MHT13]_.
 
         Args:
             problem (MQProblem): MQProblem object including all necessary parameters.

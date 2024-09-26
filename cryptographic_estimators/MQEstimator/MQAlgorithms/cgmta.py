@@ -26,7 +26,7 @@ class CGMTA(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
         """Construct an instance of CGMT-A estimator.
 
-        CGMT-A is an algorithm to solve the MQ problem over any finite field. It works when there is an integer $k$ such that $m - 2k < 2k^2 \leq n - 2k$ [CGMT02]_.
+        CGMT-A is an algorithm to solve the MQ problem over any finite field. It works when there is an integer $k$ such that $m - 2k < 2k^2 \\leq n - 2k$ [CGMT02]_.
 
         Note:
             In this module the complexities are computed for k = min(m / 2, floor(sqrt(n / 2 - sqrt(n / 2)))).
