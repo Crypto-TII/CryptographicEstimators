@@ -139,7 +139,7 @@ docker-pytest-doctests: docker-build
 		|| true
 	@echo "Running doctests..."
 	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
-		pytest --doctest-modules -n auto -vv \
+		pytest --doctest-modules -n auto -vv -s \
 		cryptographic_estimators/SDEstimator/ \
 		cryptographic_estimators/SDFqEstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
