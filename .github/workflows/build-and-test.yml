@@ -4,7 +4,6 @@ on:
     types: [opened, synchronize, reopened, edited]
     branches:
       - develop
-
 jobs:
   build-and-run-tests:
     runs-on: ubuntu-22.04
@@ -12,10 +11,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-
       - name: Cache Docker layers
         uses: actions/cache@v3
         with:
@@ -23,7 +20,6 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-
       - name: Build
         uses: docker/build-push-action@v4
         id: built-image
@@ -34,14 +30,11 @@ jobs:
           tags: estimators-lib:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
       - name: Run Sage doctests
         run: make docker-test
-
-      - name: Run pytest
+      - name: Run KAT and doctests
         run: make docker-pytest

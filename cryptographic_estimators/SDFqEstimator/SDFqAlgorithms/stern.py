@@ -25,27 +25,23 @@ from ..sdfq_constants import *
 
 class Stern(SDFqAlgorithm):
     def __init__(self, problem: SDFqProblem, **kwargs):
-        """
-        Construct an instance of Stern's estimator [Pet11]_, [Ste88]_, [BLP08]_.
+        """Construct an instance of Stern's estimator [Pet11]_, [Ste88]_, [BLP08]_.
 
-        Expected weight distribution::
+        Expected weight distribution:
 
             +-------------------------+---------+-------------+-------------+
             | <----+ n - k - l +----> |<-- l -->|<--+ k/2 +-->|<--+ k/2 +-->|
             |          w - 2p         |    0    |      p      |      p      |
             +-------------------------+---------+-------------+-------------+
 
-        INPUT:
+        Args:
+            problem (SDFqProblem): SDProblem object including all necessary parameters.
 
-        - ``problem`` -- SDProblem object including all necessary parameters
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
-            sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
-            sage: Stern(SDFqProblem(n=100,k=50,w=10,q=3))
+        Examples:
+            >>> from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
+            >>> from cryptographic_estimators.SDFqEstimator import SDFqProblem
+            >>> Stern(SDFqProblem(n=100,k=50,w=10,q=3))
             Stern estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 3
-
         """
         self._name = "Stern"
         super(Stern, self).__init__(problem, **kwargs)
@@ -55,41 +51,40 @@ class Stern(SDFqAlgorithm):
 
     @optimal_parameter
     def l(self):
-        """
-        Return the optimal parameter $l$ used in the algorithm optimization
+        """Return the optimal parameter $l$ used in the algorithm optimization.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
-            sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
-            sage: A = Stern(SDFqProblem(n=100,k=50,w=10,q=3))
-            sage: A.l()
+        Examples:
+            >>> from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
+            >>> from cryptographic_estimators.SDFqEstimator import SDFqProblem
+            >>> A = Stern(SDFqProblem(n=100,k=50,w=10,q=3))
+            >>> A.l()
             7
-
         """
 
         return self._get_optimal_parameter("l")
 
     @optimal_parameter
     def p(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
-            sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
-            sage: A = Stern(SDFqProblem(n=100,k=50,w=10,q=3))
-            sage: A.p()
+        """Returns the optimal parameter $p$ used in the algorithm optimization.
+    
+        Examples:
+            >>> from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import Stern
+            >>> from cryptographic_estimators.SDFqEstimator import SDFqProblem
+            >>> A = Stern(SDFqProblem(n=100,k=50,w=10,q=3))
+            >>> A.p()
             2
-
         """
 
         return self._get_optimal_parameter("p")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """
-        Return if the parameter set `parameters` is invalid
+        """Returns whether the provided parameter set is invalid.
+
+        Args:
+            parameters (dict): The parameter set to be checked for validity.
+    
+        Returns:
+            bool: True if the parameter set is invalid, False otherwise.
         """
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
@@ -99,9 +94,10 @@ class Stern(SDFqAlgorithm):
         return False
 
     def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
-        set parameters in `_optimal_parameters`
+        """Yields a new set of valid parameters based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
+    
+        Yields:
+            set: A new set of valid parameters.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
 
@@ -117,18 +113,13 @@ class Stern(SDFqAlgorithm):
                 yield indices
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """
-        Return time complexity of Sterns's algorithm over Fq for given set of
-        parameters. Code originaly from
-            - https://github.com/secomms/pkpattack/blob/main/cost_isd.sage
-        which was adapted from:
-            - https://github.com/christianepetersisdfq/blob/master/isdfq.gp
-
-        INPUT:
-        -  ``parameters`` -- dictionary including parameters
-        -  ``verbose_information`` -- if set to a dictionary `permutations`,
-                                      `gauß` and `list` will be returned.
-
+        """Return time complexity of Sterns's algorithm over Fq for given set of parameters.
+    
+        Code originally from https://github.com/secomms/pkpattack/blob/main/cost_isd.sage, which was adapted from https://github.com/christianepetersisdfq/blob/master/isdfq.gp.
+    
+        Args:
+            parameters (dict): Dictionary including parameters.
+            verbose_information (dict, optional): If set to a dictionary, 'permutations', 'gauß', and 'list' will be returned.
         """
         n, k, w, q = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)

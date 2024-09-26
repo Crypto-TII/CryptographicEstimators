@@ -1,4 +1,4 @@
-load("tests/helpers/cost.sage")
+load("tests/external_estimators/helpers/cost.sage")
 
 
 def binary_entropy(x):
