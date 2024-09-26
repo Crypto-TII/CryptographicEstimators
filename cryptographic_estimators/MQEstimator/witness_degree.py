@@ -20,8 +20,7 @@ from ..MQEstimator.series.hilbert import HilbertSeries
 
 
 def semi_regular_system(n: int, degrees: list[int], q=None):
-    """
-    Returns the witness degree for a semi-regular system.
+    """Returns the witness degree for a semi-regular system.
 
     Args:
         n (int): The number of variables.
@@ -50,8 +49,7 @@ def semi_regular_system(n: int, degrees: list[int], q=None):
 
 
 def quadratic_system(n: int, m: int, q=None):
-    """
-    Returns the witness degree for a quadratic system.
+    """Returns the witness degree for a quadratic system.
 
     Args:
         n (int): The number of variables.

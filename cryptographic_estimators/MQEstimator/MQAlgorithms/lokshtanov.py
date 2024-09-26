@@ -69,29 +69,27 @@ class Lokshtanov(MQAlgorithm):
 
     @optimal_parameter
     def delta(self):
-        """
-        Return the optimal `δ` for Lokshtanov et al.'s algorithm.
+        """Return the optimal delta for Lokshtanov et al.'s algorithm.
     
         Returns:
-            float: The optimal `δ` value.
+            float: The optimal delta value.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = Lokshtanov(MQProblem(n=10, m=12, q=9))
             >>> E.delta()
-            1/10
+            0.1
         """
         return self._get_optimal_parameter("delta")
 
     def _valid_choices(self):
-        """
-        Yields valid values for `δ`.
+        """Yields valid values for delta.
     
         Each call increments `l`.
     
         Yields:
-            float: A valid value for `δ`.
+            float: A valid value for delta.
         """
         n, _, _ = self.get_reduced_parameters()
         ranges = self._parameter_ranges
@@ -148,8 +146,7 @@ class Lokshtanov(MQAlgorithm):
         return h * log2(q) + time
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Compute the memory complexity of the algorithm for a given set of parameters.
+        """Compute the memory complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary containing the parameters.
@@ -177,8 +174,7 @@ class Lokshtanov(MQAlgorithm):
         return log2(memory)
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of the algorithm for a given set of parameters.
+        """Return the Ō time complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary including the parameters.
@@ -220,8 +216,7 @@ class Lokshtanov(MQAlgorithm):
         return (1 - delta) * n * log2(q)
 
     def _find_optimal_tilde_o_parameters(self):
-        """
-        Return the optimal parameters to achieve the optimal Ō time complexity.
+        """Return the optimal parameters to achieve the optimal Ō time complexity.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov

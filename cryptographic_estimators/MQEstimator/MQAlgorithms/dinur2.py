@@ -27,8 +27,7 @@ class DinurSecond(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
         """Construct an instance of Dinur's second estimator.
 
-        Dinur's second is a probabilistic algorithm to solve the MQ problem over GF(2) [Din21b]_. It is based on ideas from
-        [Din21a]_.
+        Dinur's second is a probabilistic algorithm to solve the MQ problem over GF(2) [Din21b]_. It is based on ideas from [Din21a]_.
 
         Args:
             problem (MQProblem): MQProblem object including all necessary parameters.
@@ -54,8 +53,7 @@ class DinurSecond(MQAlgorithm):
 
     @optimal_parameter
     def n1(self):
-        """
-        Returns the optimal parameter `n_1`.
+        """Returns the optimal parameter n_1.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond
@@ -67,8 +65,7 @@ class DinurSecond(MQAlgorithm):
         return self._get_optimal_parameter("n1")
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters.
+        """Return the time complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary including the parameters.
@@ -98,8 +95,7 @@ class DinurSecond(MQAlgorithm):
         return h + log2(time)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Compute the memory complexity of the algorithm for a given set of parameters.
+        """Compute the memory complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary containing the parameters.
@@ -140,8 +136,7 @@ class DinurSecond(MQAlgorithm):
         return h + ((1 - 1.0 / (2.7 * 2)) * n)
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Compute and return the memory complexity of the algorithm for a given set of parameters.
+        """Compute and return the memory complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary including the parameters.
@@ -157,8 +152,7 @@ class DinurSecond(MQAlgorithm):
         return n * 0.63
 
     def _find_optimal_tilde_o_parameters(self):
-        """
-        Return the Ō time complexity of Bjorklund et al.'s algorithm.
+        """Return the Ō time complexity of Bjorklund et al.'s algorithm.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2 import DinurSecond

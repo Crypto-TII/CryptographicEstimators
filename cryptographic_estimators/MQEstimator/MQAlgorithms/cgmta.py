@@ -26,10 +26,10 @@ class CGMTA(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
         """Construct an instance of CGMT-A estimator.
 
-        CGMT-A is an algorithm to solve the MQ problem over any finite field. It works when there is an integer `k` such that `m - 2k < 2k^2 ≤ n - 2k` [CGMT02]_.
+        CGMT-A is an algorithm to solve the MQ problem over any finite field. It works when there is an integer $k$ such that $m - 2k < 2k^2 \leq n - 2k$ [CGMT02]_.
 
         Note:
-            In this module the complexities are computed for `k = min(m / 2, floor(sqrt(n / 2 - sqrt(n / 2))))`.
+            In this module the complexities are computed for k = min(m / 2, floor(sqrt(n / 2 - sqrt(n / 2)))).
 
         Args:
             problem (MQProblem): MQProblem object including all necessary parameters.
@@ -86,8 +86,7 @@ class CGMTA(MQAlgorithm):
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Compute the memory complexity of the algorithm for a given set of parameters.
+        """Compute the memory complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary containing the parameters.
@@ -106,8 +105,7 @@ class CGMTA(MQAlgorithm):
         return memory
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of the algorithm for a given set of parameters.
+        """Return the Ō time complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary including the parameters.
@@ -117,8 +115,7 @@ class CGMTA(MQAlgorithm):
         return (m - k) * log2(q)
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Compute the Ō memory complexity of the algorithm for a given set of parameters.
+        """Compute the Ō memory complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): Dictionary including the parameters.

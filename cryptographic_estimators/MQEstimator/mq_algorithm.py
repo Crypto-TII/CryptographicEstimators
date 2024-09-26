@@ -70,8 +70,7 @@ class MQAlgorithm(BaseAlgorithm):
         self._m_reduced = None
 
     def nvariables_reduced(self):
-        """
-        Return the number of variables after fixing some values.
+        """Return the number of variables after fixing some values.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
@@ -101,8 +100,7 @@ class MQAlgorithm(BaseAlgorithm):
         return self._n_reduced
 
     def npolynomials_reduced(self):
-        """
-        Return the number of polynomials after applying the Thomae and Wolf strategy.
+        """Return the number of polynomials after applying the Thomae and Wolf strategy.
     
         Returns:
             int: The number of polynomials after applying the Thomae and Wolf strategy.
@@ -133,8 +131,7 @@ class MQAlgorithm(BaseAlgorithm):
         )
 
     def linear_algebra_constant(self):
-        """
-        Returns the linear algebra constant.
+        """Returns the linear algebra constant.
     
         Tests:
             >>> from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm

@@ -34,8 +34,8 @@ class DinurFirst(MQAlgorithm):
 
         Args:
             problem (MQProblem): MQProblem object including all necessary parameters.
-            nsolutions (int, optional): Number of solutions (default: 1).
-            h (int, optional): External hybridization parameter (default: 0).
+            nsolutions (int): Number of solutions (default: 1).
+            h (int): External hybridization parameter (default: 0).
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur1 import DinurFirst
@@ -56,36 +56,32 @@ class DinurFirst(MQAlgorithm):
 
     @optimal_parameter
     def lambda_(self):
-        """
-        Return the optimal lambda_.
+        """Return the optimal lambda_.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur1 import DinurFirst
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = DinurFirst(MQProblem(n=10, m=12, q=2))
             >>> E.lambda_()
-            2/9
+            0.2222222222222222
         """
         return self._get_optimal_parameter("lambda_")
 
     @optimal_parameter
     def kappa(self):
-        """
-        Return the optimal kappa.
+        """Return the optimal kappa.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur1 import DinurFirst
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = DinurFirst(MQProblem(n=10, m=12, q=2))
             >>> E.kappa()
-            1/3
+            0.3333333333333333
         """
         return self._get_optimal_parameter("kappa")
 
     def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters for the optimization routine based.
-        """
+        """Generator which yields on each call a new set of valid parameters for the optimization routine based."""
         new_ranges = self._fix_ranges_for_already_set_parameters()
 
         n, m, _ = self.get_reduced_parameters()
@@ -125,8 +121,7 @@ class DinurFirst(MQAlgorithm):
             return t * (temp1 + temp2 + temp3 + temp4)
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Compute the time complexity of the algorithm for the given parameters.
+        """Compute the time complexity of the algorithm for the given parameters.
     
         Args:
             parameters (dict): A dictionary containing the parameters.
@@ -168,8 +163,7 @@ class DinurFirst(MQAlgorithm):
         return h + log2(time)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Compute the memory complexity of the algorithm for a given set of parameters.
+        """Compute the memory complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary containing the parameters.
@@ -191,8 +185,7 @@ class DinurFirst(MQAlgorithm):
         return memory
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of the algorithm for a given set of parameters.
+        """Return the Ō time complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary including the parameters.
@@ -213,8 +206,7 @@ class DinurFirst(MQAlgorithm):
         return h + 0.6943 * n
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Computes the Ō memory complexity of the algorithm for a given set of parameters.
+        """Computes the Ō memory complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary of parameters.
@@ -225,8 +217,7 @@ class DinurFirst(MQAlgorithm):
         return memory
 
     def _find_optimal_tilde_o_parameters(self):
-        """
-        Return the Ō time complexity of DinurFirst et al.'s algorithm.
+        """Return the Ō time complexity of DinurFirst et al.'s algorithm.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.dinur1 import DinurFirst

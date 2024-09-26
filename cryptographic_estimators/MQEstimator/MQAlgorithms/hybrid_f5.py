@@ -32,11 +32,11 @@ class HybridF5(MQAlgorithm):
 
         HybridF5 is an algorithm to solve systems of polynomials over a finite field proposed in [BFP09]_, [BFP12]_. The
         algorithm is a tradeoff between exhaustive search and Groebner bases computation. The idea is to fix the value of,
-        say, `k` variables and compute the Groebner bases of `q^{k}` subsystems, where `q` is the order of the finite
+        say, $k$ variables and compute the Groebner bases of $q^{k}$ subsystems, where $q$ is the order of the finite
         field. The Grobner bases computation is done using F5 algorithm.
 
         Notes:
-            See also: `mpkc.algorithms.f5.F5`, class to compute the complexity of F5 algorithm.
+            See also: mpkc.algorithms.f5.F5, class to compute the complexity of F5 algorithm.
 
         Args:
             problem (MQProblem): The MQProblem object including all necessary parameters.
@@ -72,8 +72,7 @@ class HybridF5(MQAlgorithm):
         self.set_parameter_ranges("k", 0, n - 1)
 
     def degree_of_polynomials(self):
-        """
-        Return a list of degree of the polynomials.
+        """Return a list of degree of the polynomials.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
@@ -86,8 +85,7 @@ class HybridF5(MQAlgorithm):
 
     @optimal_parameter
     def k(self):
-        """
-        Return the optimal k.
+        """Return the optimal k.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5
@@ -130,7 +128,7 @@ class HybridF5(MQAlgorithm):
         return log2(q) * k + E.time_complexity() + h * log2(q)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """Compute the memory complexity with respect to `k`.
+        """Compute the memory complexity with respect to k.
     
         Args:
             parameters (dict): A dictionary including the parameters.
@@ -152,8 +150,7 @@ class HybridF5(MQAlgorithm):
         return max(E.memory_complexity(), log2(m * n**2))
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of the algorithm for a given set of parameters.
+        """Return the Ō time complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary including the parameters.
@@ -174,8 +171,7 @@ class HybridF5(MQAlgorithm):
         return log2(q) * k + E.time_complexity() + h * log2(q)
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Compute the Ō memory complexity of the algorithm for a given set of parameters.
+        """Compute the Ō memory complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary containing the required parameters.
@@ -195,8 +191,7 @@ class HybridF5(MQAlgorithm):
         return max(E.memory_complexity(), log2(m * n**2))
 
     def _find_optimal_tilde_o_parameters(self):
-        """
-        Return the optimal parameters to achive the optimal Ō time complexity.
+        """Return the optimal parameters to achive the optimal Ō time complexity.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hybrid_f5 import HybridF5

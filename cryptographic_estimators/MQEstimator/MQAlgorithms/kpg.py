@@ -65,8 +65,7 @@ class KPG(MQAlgorithm):
         self._m_reduced = m
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters.
+        """Return the time complexity of the algorithm for a given set of parameters.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.kpg import KPG
@@ -80,8 +79,7 @@ class KPG(MQAlgorithm):
         return log2(m * n**w)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters.
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.kpg import KPG
@@ -94,9 +92,7 @@ class KPG(MQAlgorithm):
         return log2(m * n**2)
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of the algorithm for a given set of parameters.
-        """
+        """Return the Ō time complexity of the algorithm for a given set of parameters."""
         return 0
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):

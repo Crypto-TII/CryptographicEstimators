@@ -20,8 +20,7 @@ from ..MQEstimator.series.hilbert import HilbertSeries
 
 
 def generic_system(n: int, degrees: list[int], q=None):
-    """
-    Returns the degree of regularity for the system of polynomial equations.
+    """Returns the degree of regularity for the system of polynomial equations.
 
     Args:
         n (int): The number of variables.
@@ -85,7 +84,7 @@ def semi_regular_system(n: int, degrees: list[int], q=None):
 
     (prod_{i=1}^{m} (1 - z^{d_i})) / (1 - z)^{n}
 
-    If the system is defined over a finite field of order `q`, then it is the index of the first non-positive
+    If the system is defined over a finite field of order q, then it is the index of the first non-positive
     coefficient of the following sequence:
 
     (prod_{i=1}^{m} (1 - z^{d_i}) / (1 - z^{q d_i})) * ((1 - z^{q}) / (1 - z))^{n}

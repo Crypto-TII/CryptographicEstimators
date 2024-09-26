@@ -64,8 +64,7 @@ class MQProblem(BaseProblem):
             raise ValueError("nsolutions must be >= 0")
 
     def to_bitcomplexity_time(self, basic_operations: float):
-        """
-        Calculates the bit-complexity corresponding to the number of field multiplications.
+        """Returns the bit-complexity corresponding to basic_operations field multiplications.
     
         Args:
             basic_operations (float): The number of field additions (logarithmic).
@@ -76,14 +75,12 @@ class MQProblem(BaseProblem):
 
     @property
     def theta(self):
-        """Returns the runtime of the algorithm.
-        """
+        """Returns the runtime of the algorithm."""
         return self._theta
 
     @theta.setter
     def theta(self, value: float):
-        """Sets the runtime.
-        """
+        """Sets the runtime."""
         self._theta = value
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
@@ -98,8 +95,7 @@ class MQProblem(BaseProblem):
         return log2(ceil(log2(q))) + elements_to_store
 
     def expected_number_solutions(self):
-        """Returns the logarithm of the expected number of existing solutions to the problem.
-        """
+        """Returns the logarithm of the expected number of existing solutions to the problem."""
         n, m, q = self.get_problem_parameters()
         return max(0, log2(q) * (n - m))
 
@@ -110,8 +106,7 @@ class MQProblem(BaseProblem):
         return q
 
     def is_defined_over_finite_field(self):
-        """
-        Determine if the algorithm is defined over a finite field.
+        """Determine if the algorithm is defined over a finite field.
     
         Returns:
             bool: True if the algorithm is defined over a finite field, False otherwise.
@@ -119,8 +114,7 @@ class MQProblem(BaseProblem):
         return self.order_of_the_field()
 
     def npolynomials(self):
-        """
-        Return the number of polynomials.
+        """Return the number of polynomials.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -130,8 +124,7 @@ class MQProblem(BaseProblem):
         return self.parameters[MQ_NUMBER_POLYNOMIALS]
 
     def nvariables(self):
-        """
-        Return the number of variables.
+        """Return the number of variables.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -141,8 +134,7 @@ class MQProblem(BaseProblem):
         return self.parameters[MQ_NUMBER_VARIABLES]
 
     def get_problem_parameters(self):
-        """Returns the problem parameters n, m, and q.
-        """
+        """Returns the problem parameters n, m, and q."""
         return (
             self.parameters[MQ_NUMBER_VARIABLES],
             self.parameters[MQ_NUMBER_POLYNOMIALS],
@@ -150,8 +142,7 @@ class MQProblem(BaseProblem):
         )
 
     def is_overdefined_system(self):
-        """
-        Determines if the system is overdefined.
+        """Determines if the system is overdefined.
     
         Returns:
             bool: True if the system is overdefined, False otherwise.
@@ -168,7 +159,8 @@ class MQProblem(BaseProblem):
         return self.npolynomials() > self.nvariables()
 
     def is_underdefined_system(self):
-        """
+        """Determines if the system is underdefined.
+
         Returns:
             bool: True if the system is underdefined, False otherwise.
 
@@ -184,9 +176,10 @@ class MQProblem(BaseProblem):
         return self.nvariables() > self.npolynomials()
 
     def is_square_system(self):
-        """
+        """Determines if the system is underdefined, i.e. there are an equal number of variables and polynomials.
+
         Returns:
-            bool: True if the system is square, i.e. there are an equal number of variables and polynomials.
+            bool: True if the system is square.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem

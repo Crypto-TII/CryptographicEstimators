@@ -59,15 +59,14 @@ class Bjorklund(MQAlgorithm):
 
     @optimal_parameter
     def lambda_(self):
-        """
-        Return the optimal lambda_.
+        """Return the optimal lambda_.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = Bjorklund(MQProblem(n=10, m=12, q=2))
             >>> E.lambda_()
-            3/10
+            0.3
         """
 
         return self._get_optimal_parameter("lambda_")
@@ -87,12 +86,11 @@ class Bjorklund(MQAlgorithm):
                 stop = True
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters.
-    
+        """Return the time complexity of the algorithm for a given set of parameters.
+
         Args:
             parameters (dict): Dictionary including the parameters.
-    
+
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -118,12 +116,11 @@ class Bjorklund(MQAlgorithm):
         return h + log2(time)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Compute the memory complexity of the algorithm for a given set of parameters.
-    
+        """Compute the memory complexity of the algorithm for a given set of parameters.
+
         Args:
             parameters (dict): A dictionary containing the relevant parameters.
-    
+
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
@@ -154,8 +151,7 @@ class Bjorklund(MQAlgorithm):
         return log2(_internal_memory_complexity_(n, m, lambda_))
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of Bjorklund et al.'s algorithm
+        """Return the Ō time complexity of Bjorklund et al.'s algorithm.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
@@ -169,23 +165,21 @@ class Bjorklund(MQAlgorithm):
         return h + 0.803225 * n
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of Bjorklund et al.'s algorithm
+        """Return the Ō time complexity of Bjorklund et al.'s algorithm.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = Bjorklund(MQProblem(n=10, m=12, q=2), complexity_type=1)
             >>> E.memory_complexity(lambda_=7/10)
-            3
+            3.0000000000000004
         """
         n = self.nvariables_reduced()
         lambda_ = parameters["lambda_"]
         return (1 - lambda_) * n
 
     def _find_optimal_tilde_o_parameters(self):
-        """
-        Return the Ō time complexity of Bjorklund et al.'s algorithm
+        """Return the Ō time complexity of Bjorklund et al.'s algorithm.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
@@ -198,8 +192,7 @@ class Bjorklund(MQAlgorithm):
 
     @staticmethod
     def _internal_time_complexity_(n: int, m: int, lambda_: float):
-        """
-        Helper function. Computes the runtime of the algorithm for given n, m and lambda.
+        """Helper function. Computes the runtime of the algorithm for given n, m and lambda.
 
         ALgorithm taken from: Stefano Barbero et al. Practical complexities of probabilistic algorithms for solving
         Boolean polynomial systems. Cryptology ePrint Archive, Paper 2021/913. https://

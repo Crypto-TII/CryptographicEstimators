@@ -26,7 +26,7 @@ class ExhaustiveSearch(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
         """Construct an instance of Exhaustive Search estimator.
 
-        ExhaustiveSearch solves the MQ problem by evaluating all possible solutions until one is found. The formulas used in this module are generalizations of one shown in [BCCCNSY10].
+        ExhaustiveSearch solves the MQ problem by evaluating all possible solutions until one is found. The formulas used in this module are generalizations of one shown in [BCCCNSY10]_.
 
         Args:
             problem (MQProblem): MQProblem object including all necessary parameters.
@@ -50,8 +50,7 @@ class ExhaustiveSearch(MQAlgorithm):
         self._name = "ExhaustiveSearch"
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters.
+        """Return the time complexity of the algorithm for a given set of parameters.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.exhaustive_search import ExhaustiveSearch
@@ -78,8 +77,7 @@ class ExhaustiveSearch(MQAlgorithm):
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters.
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.exhaustive_search import ExhaustiveSearch
@@ -98,15 +96,12 @@ class ExhaustiveSearch(MQAlgorithm):
         return log2(m * n**2)
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of the algorithm for a given set of parameters.
-        """
+        """Return the Ō time complexity of the algorithm for a given set of parameters."""
         n, _, q = self.get_reduced_parameters()
         return n * log2(q)
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Computes the Ō memory complexity of the algorithm for a given set of parameters.
+        """Computes the Ō memory complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary containing the parameters.

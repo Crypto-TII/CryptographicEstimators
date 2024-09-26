@@ -24,17 +24,16 @@ from math import log2, comb as binomial
 
 class F5(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
-        """
-        Construct an instance of the F5 complexity estimator.
+        """Construct an instance of the F5 complexity estimator.
+
+        Note:
+            The complexity formula is taken from Proposition 1 in [BFP09]_.
 
         Args:
             problem (MQProblem): The MQProblem object including all necessary parameters.
             h (int, optional): The external hybridization parameter. Defaults to 0.
             w (float, optional): The linear algebra constant. Defaults to 2.81.
             degrees (list, tuple, optional): A list or tuple of the degrees of the polynomials. Defaults to [2] * m.
-
-        Note:
-            The complexity formula is taken from Proposition 1 in [BFP09].
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
@@ -62,8 +61,7 @@ class F5(MQAlgorithm):
         self._ncols_at_degree_dreg = None
 
     def degree_of_polynomials(self):
-        """
-        Return a list of degree of the polynomials.
+        """Return a list of degree of the polynomials.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
@@ -88,8 +86,7 @@ class F5(MQAlgorithm):
         return self._ncols_at_degree_dreg
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters.
+        """Return the time complexity of the algorithm for a given set of parameters.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
@@ -114,8 +111,7 @@ class F5(MQAlgorithm):
         return h * log2(q) + max(time, self._time_complexity_fglm())
 
     def _time_complexity_fglm(self):
-        """
-        Return the time complexity of the FGLM algorithm for this system.
+        """Return the time complexity of the FGLM algorithm for this system.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
@@ -130,8 +126,7 @@ class F5(MQAlgorithm):
         return h * log2(q) + log2(n * D**3)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters.
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
@@ -146,9 +141,7 @@ class F5(MQAlgorithm):
         return memory
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of the algorithm for a given set of parameters.
-        """
+        """Return the Ō time complexity of the algorithm for a given set of parameters."""
         q = self.problem.order_of_the_field()
         w = self.linear_algebra_constant()
         ncols = self._get_number_of_columns_at_degree_of_regularity()
@@ -157,17 +150,13 @@ class F5(MQAlgorithm):
         return h * log2(q) + max(time, self._tilde_o_time_complexity_fglm(parameters))
 
     def _tilde_o_time_complexity_fglm(self, parameters: dict):
-        """
-        Return the Ō time complexity of the FGLM algorithm for this system.
-        """
+        """Return the Ō time complexity of the FGLM algorithm for this system."""
         q = self.problem.order_of_the_field()
         D = 2**self.problem.nsolutions
         h = self._h
         return h * log2(q) + log2(D**3)
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Return the Ō memory complexity of the algorithm for a given set of parameters.
-        """
+        """Return the Ō memory complexity of the algorithm for a given set of parameters."""
         ncols = self._get_number_of_columns_at_degree_of_regularity()
         return log2(ncols) * 2

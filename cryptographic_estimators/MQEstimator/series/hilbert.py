@@ -63,8 +63,7 @@ class HilbertSeries(object):
 
     @property
     def _hilbert_serie(self):
-        """
-        Return the representation of the _series attribute.
+        """Return the representation of the _series attribute.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
@@ -76,8 +75,7 @@ class HilbertSeries(object):
 
     @property
     def _hilbert_serie_up_to_degree(self):
-        """
-        Return the representation of the _series_up_to_degree attribute.
+        """Return the representation of the _series_up_to_degree attribute.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
@@ -89,8 +87,7 @@ class HilbertSeries(object):
 
     @property
     def nvariables(self):
-        """
-        Return the number of variables.
+        """Return the number of variables.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
@@ -102,8 +99,7 @@ class HilbertSeries(object):
 
     @property
     def degrees(self):
-        """
-        Return a list of degrees of the polynomials.
+        """Return a list of degrees of the polynomials.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
@@ -115,8 +111,7 @@ class HilbertSeries(object):
 
     @property
     def precision(self):
-        """
-        Return the precision of the series.
+        """Return the precision of the series.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
@@ -128,8 +123,7 @@ class HilbertSeries(object):
 
     @property
     def npolynomials(self):
-        """
-        Return the number of polynomials
+        """Return the number of polynomials.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
@@ -140,8 +134,7 @@ class HilbertSeries(object):
         return len(self._degrees)
 
     def coefficient_of_degree(self, d: int):
-        """
-        Return the d-th coefficient in the Hilbert serie `self._serie`.
+        """Return the d-th coefficient in the Hilbert serie self._serie.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
@@ -158,8 +151,7 @@ class HilbertSeries(object):
         )
 
     def coefficient_up_to_degree(self, d: int):
-        """
-        Return the d-th coefficient in the Hilbert serie `self._series/(1-x)`
+        """Return the d-th coefficient in the Hilbert serie self._series/(1-x)
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
@@ -175,8 +167,7 @@ class HilbertSeries(object):
         )
 
     def first_nonpositive_coefficient(self):
-        """
-        Return the first non-positive integer of the series.
+        """Return the first non-positive integer of the series.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
@@ -191,8 +182,7 @@ class HilbertSeries(object):
         raise ValueError("Unable to find a nonpositive coefficient in the serie.")
 
     def first_nonpositive_coefficient_up_to_degree(self):
-        """
-        Return the first non-positive integer of the serie `self._series/(1-x)`.
+        """Return the first non-positive integer of the serie self._series/(1-x).
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries

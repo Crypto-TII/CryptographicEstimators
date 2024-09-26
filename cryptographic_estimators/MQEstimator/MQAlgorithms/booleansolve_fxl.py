@@ -86,8 +86,7 @@ class BooleanSolveFXL(MQAlgorithm):
 
     @optimal_parameter
     def k(self):
-        """
-        Return the optimal `k`.
+        """Return the optimal k.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
@@ -100,8 +99,7 @@ class BooleanSolveFXL(MQAlgorithm):
 
     @optimal_parameter
     def variant(self):
-        """
-        Return the optimal variant.
+        """Return the optimal variant.
 
         Examples:
             >>> from  cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
@@ -113,8 +111,7 @@ class BooleanSolveFXL(MQAlgorithm):
         return self._get_optimal_parameter(MQ_VARIANT)
 
     def _valid_choices(self):
-        """
-        Yields a new set of valid parameters for the optimization routine.
+        """Yields a new set of valid parameters for the optimization routine.
     
         This generator yields a new set of valid parameters on each call, based on the optimization routine's requirements.
         """
@@ -185,8 +182,7 @@ class BooleanSolveFXL(MQAlgorithm):
         return time_complexity + h * log2(q)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Computes the memory complexity of the algorithm for a given set of parameters.
+        """Computes the memory complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary containing the parameters.
@@ -230,8 +226,7 @@ class BooleanSolveFXL(MQAlgorithm):
         return memory_complexity
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Compute the Ō time complexity of BooleanSolve and FXL algorithms.
+        """Compute the Ō time complexity of BooleanSolve and FXL algorithms.
     
         Args:
             parameters (dict): A dictionary including the parameters.
@@ -263,8 +258,7 @@ class BooleanSolveFXL(MQAlgorithm):
         return complexity
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Compute the Ō time complexity of BooleanSolve and FXL algorithms.
+        """Compute the Ō time complexity of BooleanSolve and FXL algorithms.
     
         Args:
             parameters (dict): A dictionary including the parameters.
@@ -286,8 +280,7 @@ class BooleanSolveFXL(MQAlgorithm):
         return memory
 
     def _find_optimal_tilde_o_parameters(self):
-        """
-        Finds the optimal parameters.
+        """Finds the optimal parameters.
 
         Tests:
             >>> from  cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL

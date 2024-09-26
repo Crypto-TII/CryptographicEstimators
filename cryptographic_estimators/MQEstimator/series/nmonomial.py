@@ -61,8 +61,7 @@ class NMonomialSeries(object):
 
     @property
     def _nmonomial_serie_of_degree(self):
-        """
-        Return the representation of the _series_of_degree attribute.
+        """Return the representation of the _series_of_degree attribute.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
@@ -74,8 +73,7 @@ class NMonomialSeries(object):
 
     @property
     def _nmonomial_serie_up_to_degree(self):
-        """
-        Return the representation of the _series_up_to_degree attribute.
+        """Return the representation of the _series_up_to_degree attribute.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
@@ -86,8 +84,7 @@ class NMonomialSeries(object):
         return self._series_up_to_degree
 
     def nmonomials_of_degree(self, d: int):
-        """
-        Returns the number of monomials of degree `d`.
+        """Returns the number of monomials of degree d.
     
         Args:
             d (int): A non-negative integer.
@@ -107,8 +104,7 @@ class NMonomialSeries(object):
         )
 
     def nmonomials_up_to_degree(self, d: int):
-        """
-        Return the number of monomials up to degree `d`.
+        """Return the number of monomials up to degree d.
     
         Args:
             d (int): A non-negative integer.

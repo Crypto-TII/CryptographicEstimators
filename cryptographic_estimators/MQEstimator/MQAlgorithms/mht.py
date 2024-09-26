@@ -29,7 +29,7 @@ class MHT(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
         """Construct an instance of MHT estimator.
 
-        The MHT is an algorithm to solve the MQ problem when `m(m + 3) / 2 <= n` [MHT13]_.
+        The MHT is an algorithm to solve the MQ problem when  $m  (m + 3) / 2 \leq n$ [MHT13]_.
 
         Args:
             problem (MQProblem): MQProblem object including all necessary parameters.
@@ -64,8 +64,7 @@ class MHT(MQAlgorithm):
         self._m_reduced = m
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters.
+        """Return the time complexity of the algorithm for a given set of parameters.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.mht import MHT
@@ -84,8 +83,7 @@ class MHT(MQAlgorithm):
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters.
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.mht import MHT
@@ -98,9 +96,7 @@ class MHT(MQAlgorithm):
         return log2(m * n**2)
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of the algorithm for a given set of parameters.
-        """
+        """Return the Ō time complexity of the algorithm for a given set of parameters."""
         _, m, _ = self.get_reduced_parameters()
         if is_power_of_two(self.problem.order_of_the_field()):
             time = 0
@@ -109,8 +105,7 @@ class MHT(MQAlgorithm):
         return time
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Return the Ō memory complexity of the algorithm for a given set of parameters.
+        """Return the Ō memory complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): A dictionary including the parameters.
