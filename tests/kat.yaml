@@ -1,0 +1,14 @@
+le:
+  bbps_1:
+    inputs_with_expected_outputs:
+    - !!python/tuple
+      - !!python/tuple [200, 100, 17]
+      - 88.01232020398258
+    - !!python/tuple
+      - !!python/tuple [200, 100, 31]
+      - 97.6016190581889
+  bbps_2:
+    inputs_with_expected_outputs:
+    - !!python/tuple
+      - !!python/tuple [200, 100, 11]
+      - 82.87872901507777

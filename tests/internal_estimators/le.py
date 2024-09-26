@@ -6,10 +6,11 @@ BEULLENS_PARAMS = {"bit_complexities": 0}
 
 BBPS_PARAMS = {
     "bit_complexities": 1,
-    "sd_parameters": {"excluded_algorithms": ["Prange", "LeeBrickell"]},
+    "sd_parameters": {"excluded_algorithms": [Prange, LeeBrickell]},
 }
 
 
+# Beullens
 def beullens(input: tuple, epsilon: float = 0.12):
     n, k, q = input
 
@@ -21,6 +22,34 @@ def beullens(input: tuple, epsilon: float = 0.12):
 
 
 def beullens_range(input: tuple, epsilon: float = 0.12):
+    n, k, q = input
+
+    candidate_1 = Beullens(LEProblem(n, k, q), **BEULLENS_PARAMS).time_complexity()
+    candidate_2 = Beullens(LEProblem(n, k, q), **BEULLENS_PARAMS).time_complexity()
+    actual_complexity = min(candidate_1, candidate_2)
+
+    return actual_complexity, epsilon
+
+
+# BBPS
+def bbps_1(input: tuple, epsilon: float = 0.1):
+    n, k, q = input
+
+    actual_complexity = BBPS(LEProblem(n, k, q), **BEULLENS_PARAMS).time_complexity()
+
+    return actual_complexity, epsilon
+
+
+def bbps_2(input: tuple, epsilon: float = 1):
+    """For small q we need to allow for a slightly larger tolerance, because the coupon collector approximation is less accurate."""
+    n, k, q = input
+
+    actual_complexity = BBPS(LEProblem(n, k, q), **BEULLENS_PARAMS).time_complexity()
+
+    return actual_complexity, epsilon
+
+
+def bbps_range(input: tuple, epsilon: float = 0.2):
     n, k, q = input
 
     candidate_1 = Beullens(LEProblem(n, k, q), **BEULLENS_PARAMS).time_complexity()
