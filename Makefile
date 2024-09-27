@@ -87,7 +87,6 @@ docker-test: docker-build
 		cryptographic_estimators/LEEstimator/ \
 		cryptographic_estimators/MAYOEstimator/ \
 		cryptographic_estimators/MQEstimator/ \
-		cryptographic_estimators/MREstimator/ \
 		cryptographic_estimators/PEEstimator/ \
 		cryptographic_estimators/PKEstimator/ \
 		cryptographic_estimators/RegSDEstimator/ \
@@ -100,6 +99,7 @@ docker-test: docker-build
 		cryptographic_estimators/helper.py \
 		# cryptographic_estimators/SDEstimator/ \
 		# cryptographic_estimators/SDFqEstimator/ \
+		# cryptographic_estimators/MREstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
@@ -116,7 +116,6 @@ docker-testfast: docker-build
 		cryptographic_estimators/LEEstimator/ \
 		cryptographic_estimators/MAYOEstimator/ \
 		cryptographic_estimators/MQEstimator/ \
-		cryptographic_estimators/MREstimator/ \
 		cryptographic_estimators/PEEstimator/ \
 		cryptographic_estimators/PKEstimator/ \
 		cryptographic_estimators/RegSDEstimator/ \
@@ -129,6 +128,7 @@ docker-testfast: docker-build
 		cryptographic_estimators/helper.py \
 		# cryptographic_estimators/SDEstimator/ \
 		# cryptographic_estimators/SDFqEstimator/ \
+		# cryptographic_estimators/MREstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
@@ -142,11 +142,11 @@ docker-pytest-doctests: docker-build
 		pytest --doctest-modules -n auto -vv -s \
 		cryptographic_estimators/SDEstimator/ \
 		cryptographic_estimators/SDFqEstimator/ \
+		cryptographic_estimators/MREstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
 		# cryptographic_estimators/MAYOEstimator/ \
 		# cryptographic_estimators/MQEstimator/ \
-		# cryptographic_estimators/MREstimator/ \
 		# cryptographic_estimators/PEEstimator/ \
 		# cryptographic_estimators/PKEstimator/ \
 		# cryptographic_estimators/RegSDEstimator/ \
