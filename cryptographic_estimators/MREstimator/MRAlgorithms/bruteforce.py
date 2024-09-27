@@ -132,7 +132,7 @@ class BruteForce(MRAlgorithm):
         _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
         time_complexity = self._BFE_time_complexity_helper_(q, k_reduced, r)
-        reduction_cost = self.cost_reduction(a)
+        reduction_cost = self.cost_reduction(a, lv)
         time += max(time_complexity, reduction_cost)
         if abs(time_complexity - reduction_cost) < 0:
             time += 1

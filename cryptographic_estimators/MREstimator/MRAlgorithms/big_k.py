@@ -130,7 +130,7 @@ class BigK(MRAlgorithm):
         _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
         time_complexity = self._bk_time_complexity_helper_(q, m, n_reduced, k_reduced, r)
-        reduction_cost = self.cost_reduction(a)
+        reduction_cost = self.cost_reduction(a, lv)
         time += max(time_complexity, reduction_cost)
         return time
 
