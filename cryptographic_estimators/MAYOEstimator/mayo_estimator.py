@@ -23,30 +23,28 @@ from math import inf
 
 
 class MAYOEstimator(BaseEstimator):
-    """
-    Construct an instance of MAYOEstimator
-
-    INPUT:
-
-    - ``n`` -- number of variables
-    - ``m`` -- number of polynomials
-    - ``o`` -- dimension of the oil space
-    - ``k`` -- whipping parameter
-    - ``q`` -- order of the finite field
-    - ``theta`` -- exponent of the conversion factor (default: 2)
-        - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
-        - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
-    - ``w`` -- linear algebra constant (default: 2.81)
-    - ``w_ks`` -- linear algebra constant (only for kipnis-shamir algorithm) (default: 2.8)
-    - ``h`` -- external hybridization parameter (default: 0)
-     - ``excluded_algorithms`` -- a list/tuple of algorithms to be excluded (default: [])
-    - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-    - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
-    - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
-
-    """
-
     def __init__(self, n: int, m: int, o: int, k: int, q: int, memory_bound=inf, **kwargs):
+        """Construct an instance of MAYOEstimator.
+
+        Args:
+            n (int): Number of variables.
+            m (int): Number of polynomials.
+            o (int): Dimension of the oil space.
+            k (int): Whipping parameter.
+            q (int): Order of the finite field.
+            memory_bound: Memory bound.
+            **kwargs: Additional keyword arguments.
+                theta: Exponent of the conversion factor (default: 2).
+                    If 0 <= theta <= 2, every multiplication in GF(q) is counted as log2(q) ^ theta binary operation.
+                    If theta = None, every multiplication in GF(q) is counted as 2 * log2(q) ^ 2 + log2(q) binary operation.
+                w: Linear algebra constant (default: 2.81).
+                w_ks: Linear algebra constant (only for kipnis-shamir algorithm) (default: 2.8).
+                h: External hybridization parameter (default: 0).
+                excluded_algorithms: A list/tuple of algorithms to be excluded (default: []).
+                memory_access: Specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage).
+                complexity_type: Complexity type to consider (0: estimate, 1: tilde O complexity, default: 0).
+                bit_complexities: Determines if complexity is given in bit operations or basic operations (default 1: in bit).
+        """
         super(MAYOEstimator, self).__init__(
             MAYOAlgorithm, 
             MAYOProblem(n=n, m=m, o=o, k=k, q=q, memory_bound=memory_bound, **kwargs), 
@@ -54,26 +52,24 @@ class MAYOEstimator(BaseEstimator):
         )
         self._estimator_type = "scheme"
 
+    # TODO: Optimize MAYOEstimator class constructor (it is taking too long to create an instance)
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
               show_all_parameters=0, precision=1, truncate=0):
-        """
-        Print table describing the complexity of each algorithm and its optimal parameters
-
-        INPUT:
-
-        - ``show_quantum_complexity`` -- show quantum time complexity (default: false)
-        - ``show_tilde_o_time`` -- show Ō time complexity (default: false)
-        - ``show_all_parameters`` -- show all optimization parameters (default: false)
-        - ``precision`` -- number of decimal digits output (default: 1)
-        - ``truncate`` -- truncate rather than round the output (default: false)
-
-        # TODO: Optimize MAYOEstimator class constructor (it is taking too long to create an instance)
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MAYOEstimator import MAYOEstimator
-            sage: E = MAYOEstimator(n=66, m=64, o=8, k=9, q=16) # long test
-            sage: E.table(show_all_parameters=1) # long time
+        """Print table describing the complexity of each algorithm and its optimal parameters.
+    
+        Args:
+            show_quantum_complexity (int): Show quantum time complexity (default: 0)
+            show_tilde_o_time (int): Show Ō time complexity (default: 0)
+            show_all_parameters (int): Show all optimization parameters (default: 0)
+            precision (int): Number of decimal digits output (default: 1)
+            truncate (int): Truncate rather than round the output (default: 0)
+    
+        Tests:
+            >>> if skip_long_doctests:
+            ...     pytest.skip()
+            >>> from cryptographic_estimators.MAYOEstimator import MAYOEstimator
+            >>> E = MAYOEstimator(n=66, m=64, o=8, k=9, q=16)
+            >>> E.table(show_all_parameters=1) # long time
             +----------------------+--------------+------------------------------------------------------------------+
             |                      |              |                             estimate                             |
             +----------------------+--------------+-------+--------+-------------------------------------------------+
@@ -86,8 +82,8 @@ class MAYOEstimator(BaseEstimator):
             | ClawFinding          |   forgery    | 142.1 |  132.1 |           {'X': 130.915, 'Y': 125.085}          |
             +----------------------+--------------+-------+--------+-------------------------------------------------+
 
-            sage: E = MAYOEstimator(n=78, m=64, o=18, k=4, q=16) # long test
-            sage: E.table(show_all_parameters=1) # long time
+            >>> E = MAYOEstimator(n=78, m=64, o=18, k=4, q=16)
+            >>> E.table(show_all_parameters=1) # long time
             +----------------------+--------------+------------------------------------------------------------------+
             |                      |              |                             estimate                             |
             +----------------------+--------------+-------+--------+-------------------------------------------------+
@@ -100,8 +96,8 @@ class MAYOEstimator(BaseEstimator):
             | ClawFinding          |   forgery    | 142.1 |  132.1 |           {'X': 130.915, 'Y': 125.085}          |
             +----------------------+--------------+-------+--------+-------------------------------------------------+
 
-            sage: E = MAYOEstimator(n=99, m=96, o=10, k=11, q=16) # long test
-            sage: E.table(show_all_parameters=1) # long time 
+            >>> E = MAYOEstimator(n=99, m=96, o=10, k=11, q=16)
+            >>> E.table(show_all_parameters=1) # long time 
             +----------------------+--------------+------------------------------------------------------------------+
             |                      |              |                             estimate                             |
             +----------------------+--------------+-------+--------+-------------------------------------------------+
@@ -114,8 +110,8 @@ class MAYOEstimator(BaseEstimator):
             | ClawFinding          |   forgery    | 206.4 |  196.4 |           {'X': 194.623, 'Y': 189.377}          |
             +----------------------+--------------+-------+--------+-------------------------------------------------+
 
-            sage: E = MAYOEstimator(n=133, m=128, o=12, k=12, q=16) # long test
-            sage: E.table(show_all_parameters=1) # long time
+            >>> E = MAYOEstimator(n=133, m=128, o=12, k=12, q=16)
+            >>> E.table(show_all_parameters=1) # long time
             +----------------------+--------------+------------------------------------------------------------------+
             |                      |              |                             estimate                             |
             +----------------------+--------------+-------+--------+-------------------------------------------------+
@@ -128,8 +124,8 @@ class MAYOEstimator(BaseEstimator):
             | ClawFinding          |   forgery    | 270.6 |  260.6 |           {'X': 258.415, 'Y': 253.585}          |
             +----------------------+--------------+-------+--------+-------------------------------------------------+
 
-            sage: E = MAYOEstimator(n=90, m=56, o=8, k=10, q=16) # long test
-            sage: E.table(show_all_parameters=1) # long time
+            >>> E = MAYOEstimator(n=90, m=56, o=8, k=10, q=16)
+            >>> E.table(show_all_parameters=1) # long time
             +----------------------+--------------+------------------------------------------------------------------+
             |                      |              |                             estimate                             |
             +----------------------+--------------+-------+--------+-------------------------------------------------+
@@ -142,8 +138,8 @@ class MAYOEstimator(BaseEstimator):
             | ClawFinding          |   forgery    | 126.0 |  116.0 |           {'X': 115.011, 'Y': 108.989}          |
             +----------------------+--------------+-------+--------+-------------------------------------------------+
 
-            sage: E = MAYOEstimator(n=64, m=60, o=10, k=21, q=16) # long time
-            sage: E.table(show_all_parameters=1) # long time
+            >>> E = MAYOEstimator(n=64, m=60, o=10, k=21, q=16)
+            >>> E.table(show_all_parameters=1) # long time
             +----------------------+--------------+------------------------------------------------------------------+
             |                      |              |                             estimate                             |
             +----------------------+--------------+-------+--------+-------------------------------------------------+

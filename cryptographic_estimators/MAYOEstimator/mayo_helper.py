@@ -21,16 +21,14 @@ from math import log2, inf, floor
 
 
 def _optimize_k(n: int, m: int, k: int, q: int, w: float):
-    """
-    Find the optimal parameter `K` from Furue, Nakamura, and Takagi strategy
+    """Find the optimal parameter `K` from Furue, Nakamura, and Takagi strategy.
 
-    INPUT:
-
-    - ``n`` -- number of variables
-    - ``m`` -- number of polynomials
-    - ``k`` -- whipping parameter
-    - ``q`` -- order of the finite field
-
+    Args:
+        n (int): Number of variables
+        m (int): Number of polynomials
+        k (int): Whipping parameter
+        q (int): Order of the finite field
+        w (float): Description not provided in original docstring
     """
     (K, time) = (0, inf)
 
