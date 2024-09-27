@@ -53,7 +53,7 @@ class SupportMinors(MRAlgorithm):
 
         q, m, n, k, r = self.problem.get_parameters()
         self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m) - 1))
-        self.set_parameter_ranges('lv', 0, r - 1)
+        self.set_parameter_ranges('lv', 0, min(r, k) - 1)
         self.set_parameter_ranges('b', 1, r + 1)
         self.set_parameter_ranges('nprime', r + 1, n)
         self.set_parameter_ranges('variant', 1, 2)

@@ -47,7 +47,7 @@ class BigK(MRAlgorithm):
         super(BigK, self).__init__(problem, **kwargs)
         q, m, n, k, r = self.problem.get_parameters()
         self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m) - 1))
-        self.set_parameter_ranges('lv', 0, r - 1)
+        self.set_parameter_ranges('lv', 0, min(r, k) - 1)
         self._name = "BigK"
 
     @optimal_parameter
