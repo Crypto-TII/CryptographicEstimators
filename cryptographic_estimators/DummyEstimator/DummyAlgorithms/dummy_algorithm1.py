@@ -39,7 +39,7 @@ class DummyAlgorithm1(DummyAlgorithm):
             >>> from cryptographic_estimators.DummyEstimator.dummy_problem import DummyProblem
             >>> E = DummyAlgorithm1(DummyProblem(100, 50))
             >>> E
-            dummy_algorithm1 estimator for the dummy problem with parameters 100 and 50
+            dummy_algorithm1 estimator for the dummy problem with parameters 100 and 50 
         """
         super().__init__(problem, **kwargs)
 
