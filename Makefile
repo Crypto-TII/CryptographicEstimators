@@ -100,6 +100,7 @@ docker-test: docker-build
 		cryptographic_estimators/helper.py \
 		# cryptographic_estimators/SDEstimator/ \
 		# cryptographic_estimators/SDFqEstimator/ \
+		# cryptographic_estimators/BIKEEstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
@@ -129,6 +130,7 @@ docker-testfast: docker-build
 		cryptographic_estimators/helper.py \
 		# cryptographic_estimators/SDEstimator/ \
 		# cryptographic_estimators/SDFqEstimator/ \
+		# cryptographic_estimators/BIKEEstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
@@ -142,6 +144,7 @@ docker-pytest-doctests: docker-build
 		pytest --doctest-modules -n auto -vv -s \
 		cryptographic_estimators/SDEstimator/ \
 		cryptographic_estimators/SDFqEstimator/ \
+		cryptographic_estimators/BIKEEstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
 		# cryptographic_estimators/MAYOEstimator/ \
