@@ -25,15 +25,14 @@ from sage.all import RR
 
 class EstimationRenderer():
     def __init__(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0) -> None:
-        """
-        Creates an estimation renderer
-        INPUT:
+        """Creates an estimation renderer.
 
-        - ``show_quantum_complexity`` -- show quantum time complexity (default: false)
-        - ``show_tilde_o_time`` -- show Ō time complexity (default: false)
-        - ``show_all_parameters`` -- show all optimization parameters (default: false)
-        - ``precision`` -- number of decimal digits output (default: 1)
-        - ``truncate`` -- truncate rather than round the output (default: false)
+        Args:
+            show_quantum_complexity (int): Show quantum time complexity (default: 0).
+            show_tilde_o_time (int): Show Ō time complexity (default: 0).
+            show_all_parameters (int): Show all optimization parameters (default: 0).
+            precision (int): Number of decimal digits output (default: 1).
+            truncate (int): Truncate rather than round the output (default: 0).
         """
         self._show_quantum_complexity = show_quantum_complexity
         self._show_tilde_o_time = show_tilde_o_time
@@ -42,9 +41,7 @@ class EstimationRenderer():
         self._truncate = truncate
 
     def as_table(self, estimation_result: dict) -> None:
-        """
-        Prints the given estimation dictionary as a table
-        """
+        """Prints the given estimation dictionary as a table."""
         estimation = deepcopy(estimation_result)
         if estimation == {}:
             raise ValueError("No algorithms associated with this estimator.")
@@ -75,11 +72,11 @@ class EstimationRenderer():
         print(tbl_join)
 
     def _create_initial_table_containing_algorithm_column(self, estimation: dict) -> PrettyTable:
-        """
-        creates a `PrettyTable` with the analysis results, containg
-            - expected runtime and memory
-            - optimal parameters
-
+        """Creates a PrettyTable with the analysis results.
+    
+        Creates a table containing:
+        - expected runtime and memory
+        - optimal parameters
         """
         table = PrettyTable([BASE_ALGORITHM])
         table.padding_width = 1
@@ -91,14 +88,13 @@ class EstimationRenderer():
 
         return table
 
+    #TODO: Sub_table_name description
     def _create_subtable_containing_all_columns(self, sub_table_name: str, estimation: dict):
-        """
-        Creates a `PrettyTable` subtable.
-
-        INPUT:
-
-        - ``sub_table_name`` -- TODO
-        - ``estimation`` the estimation dictionary containing the results
+        """Creates a `PrettyTable` subtable.
+    
+        Args:
+            sub_table_name (str): 
+            estimation (dict): The estimation dictionary containing the results
         """
         algorithm_name = list(estimation.keys())[0]
         table_columns = [
@@ -115,14 +111,14 @@ class EstimationRenderer():
         return table
 
     def _add_rows(self, sub_table: PrettyTable, estimation: dict) -> PrettyTable:
-        """
-
-        INPUT:
-
-        - ``tbl`` -- current `PrettyTable` table
-        - ``truncate`` -- bool: if set the value will be truncated
-        - ``estimation`` the estimation dictionary containing the results
-
+        """Add rows to the table based on estimation.
+    
+        Args:
+            sub_table (PrettyTable): Current PrettyTable table
+            estimation (dict): The estimation dictionary containing the results
+    
+        Returns:
+            PrettyTable: Updated table with added rows
         """
         for i in estimation.keys():
             row = [estimation[i][sub_table.title][k]
