@@ -110,14 +110,14 @@ def is_prime_power(n, return_pair=False):
         >>> is_prime_power(11)
         True
 
-        >>> is_prime_power(7^3, return_pair = True)
+        >>> is_prime_power(7**3, return_pair = True)
         (True, (7, 3))
 
     Tests:
-        >>> is_prime_power(101^2)
+        >>> is_prime_power(101**2)
         True
 
-        >>> is_prime_power(7^3+1)
+        >>> is_prime_power(7**3+1)
         False
 
         >>> is_prime_power(1121)
@@ -207,7 +207,7 @@ def is_power_of_two(n):
         True
 
     Tests:
-        >>> is_power_of_two(2^15)
+        >>> is_power_of_two(2**15)
         True
 
         >>> is_power_of_two(21)
@@ -228,10 +228,10 @@ def gf_order_to_characteristic(q):
         7
 
     Tests:
-        >>> gf_order_to_characteristic(11^3)
+        >>> gf_order_to_characteristic(11**3)
         11
 
-        >>> gf_order_to_characteristic(10^3)
+        >>> gf_order_to_characteristic(10**3)
         Traceback (most recent call last):
         ...
         ValueError: q must be a prime power.
@@ -252,14 +252,14 @@ def gf_order_to_degree(q):
 
     Examples:
         >>> from cryptographic_estimators.helper import gf_order_to_degree
-        >>> gf_order_to_degree(3^2)
+        >>> gf_order_to_degree(3**2)
         2
 
     Tests:
-        >>> gf_order_to_degree(127^4)
+        >>> gf_order_to_degree(127**4)
         4
 
-        >>> gf_order_to_degree(10^3)
+        >>> gf_order_to_degree(10**3)
         Traceback (most recent call last):
         ...
         ValueError: q must be a prime power.
