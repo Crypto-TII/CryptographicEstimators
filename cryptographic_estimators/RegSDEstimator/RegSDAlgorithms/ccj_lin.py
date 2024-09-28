@@ -17,6 +17,7 @@
 
 from ..regsd_algorithm import RegSDAlgorithm
 from ..regsd_problem import RegSDProblem
+from math import log2
 
 
 class CCJLin(RegSDAlgorithm):
