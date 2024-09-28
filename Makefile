@@ -92,12 +92,12 @@ docker-test: docker-build
 		cryptographic_estimators/PKEstimator/ \
 		cryptographic_estimators/RegSDEstimator/ \
 		cryptographic_estimators/UOVEstimator/ \
-		cryptographic_estimators/base_algorithm.py \
-		cryptographic_estimators/base_constants.py \
-		cryptographic_estimators/base_estimator.py \
-		cryptographic_estimators/base_problem.py \
-		cryptographic_estimators/estimation_renderer.py \
-		cryptographic_estimators/helper.py \
+		# cryptographic_estimators/base_algorithm.py \
+		# cryptographic_estimators/base_constants.py \
+		# cryptographic_estimators/base_estimator.py \
+		# cryptographic_estimators/base_problem.py \
+		# cryptographic_estimators/estimation_renderer.py \
+		# cryptographic_estimators/helper.py \
 		# cryptographic_estimators/SDEstimator/ \
 		# cryptographic_estimators/SDFqEstimator/ \
 		" \
@@ -121,12 +121,12 @@ docker-testfast: docker-build
 		cryptographic_estimators/PKEstimator/ \
 		cryptographic_estimators/RegSDEstimator/ \
 		cryptographic_estimators/UOVEstimator/ \
-		cryptographic_estimators/base_algorithm.py \
-		cryptographic_estimators/base_constants.py \
-		cryptographic_estimators/base_estimator.py \
-		cryptographic_estimators/base_problem.py \
-		cryptographic_estimators/estimation_renderer.py \
-		cryptographic_estimators/helper.py \
+		# cryptographic_estimators/base_algorithm.py \
+		# cryptographic_estimators/base_constants.py \
+		# cryptographic_estimators/base_estimator.py \
+		# cryptographic_estimators/base_problem.py \
+		# cryptographic_estimators/estimation_renderer.py \
+		# cryptographic_estimators/helper.py \
 		# cryptographic_estimators/SDEstimator/ \
 		# cryptographic_estimators/SDFqEstimator/ \
 		" \
@@ -142,6 +142,12 @@ docker-pytest-doctests: docker-build
 		pytest --doctest-modules -n auto -vv -s \
 		cryptographic_estimators/SDEstimator/ \
 		cryptographic_estimators/SDFqEstimator/ \
+		cryptographic_estimators/base_algorithm.py \
+		cryptographic_estimators/base_constants.py \
+		cryptographic_estimators/base_estimator.py \
+		cryptographic_estimators/base_problem.py \
+		cryptographic_estimators/estimation_renderer.py \
+		cryptographic_estimators/helper.py \
 		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
 		# cryptographic_estimators/MAYOEstimator/ \
@@ -151,12 +157,6 @@ docker-pytest-doctests: docker-build
 		# cryptographic_estimators/PKEstimator/ \
 		# cryptographic_estimators/RegSDEstimator/ \
 		# cryptographic_estimators/UOVEstimator/ \
-		# cryptographic_estimators/base_algorithm.py \
-		# cryptographic_estimators/base_constants.py \
-		# cryptographic_estimators/base_estimator.py \
-		# cryptographic_estimators/base_problem.py \
-		# cryptographic_estimators/estimation_renderer.py \
-		# cryptographic_estimators/helper.py \
 		"
 
 docker-pytest-doctests-fast: CONTAINER_NAME := "pytest-container"
