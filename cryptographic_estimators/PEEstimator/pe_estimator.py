@@ -23,22 +23,19 @@ from math import inf
 
 
 class PEEstimator(BaseEstimator):
-    """
-    Construct an instance of Permutation Code Equivalence Estimator
+    def __init__(self, n: int, k: int, q: int, memory_bound=inf, **kwargs):
+        """Construct an instance of Permutation Code Equivalence Estimator.
 
-    INPUT:
-
-    - ``n`` -- code length
-    - ``k`` -- code dimension
-    - ``q`` -- field size
-    - ``excluded_algorithms`` -- a list/tuple of excluded algorithms (default: None)
-    - ``sd_parameters`` -- dictionary of parameters for SDEstimator used as a subroutine by some algorithms (default: {})
-    - ``nsolutions`` -- no. of solutions
-
-    """
-    excluded_algorithms_by_default = []
-
-    def __init__(self, n: int, k: int, q: int, memory_bound=inf, **kwargs):  # Add estimator parameters
+        Args:
+            n (int): Code length.
+            k (int): Code dimension.
+            q (int): Field size.
+            memory_bound (float): Memory bound (default: inf).
+            **kwargs: Additional keyword arguments.
+                excluded_algorithms (list/tuple): A list/tuple of excluded algorithms (default: None).
+                sd_parameters (dict): Dictionary of parameters for SDEstimator used as a subroutine by some algorithms (default: {}).
+                nsolutions (int): No. of solutions.
+        """
         if not kwargs.get("excluded_algorithms"):
             kwargs["excluded_algorithms"] = []
 
@@ -49,23 +46,19 @@ class PEEstimator(BaseEstimator):
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
               show_all_parameters=0, precision=1, truncate=0):
-        """
-        Print table describing the complexity of each algorithm and its optimal parameters
+        """Print table describing the complexity of each algorithm and its optimal parameters.
+    
+        Args:
+            show_quantum_complexity (int): Show quantum time complexity (default: true)
+            show_tilde_o_time (int): Show Ō time complexity (default: true)
+            show_all_parameters (int): Show all optimization parameters (default: true)
+            precision (int): Number of decimal digits output (default: 1)
+            truncate (int): Truncate rather than round the output (default: false)
 
-        INPUT:
-
-        - ``show_quantum_complexity`` -- show quantum time complexity (default: true)
-        - ``show_tilde_o_time`` -- show Ō time complexity (default: true)
-        - ``show_all_parameters`` -- show all optimization parameters (default: true)
-        - ``precision`` -- number of decimal digits output (default: 1)
-        - ``truncate`` -- truncate rather than round the output (default: false)
-
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.PEEstimator import PEEstimator
-            sage: A = PEEstimator(n=60, k=20, q=7)
-            sage: A.table(precision=3, show_all_parameters=1)
+        Examples:
+            >>> from cryptographic_estimators.PEEstimator import PEEstimator
+            >>> A = PEEstimator(n=60, k=20, q=7)
+            >>> A.table(precision=3, show_all_parameters=1)
             +-----------+-------------------------------+
             |           |            estimate           |
             +-----------+---------+--------+------------+
@@ -76,13 +69,12 @@ class PEEstimator(BaseEstimator):
             | SSA       | 127.480 | 14.040 |     {}     |
             +-----------+---------+--------+------------+
 
-
-
-        TESTS::
-
-            sage: from cryptographic_estimators.PEEstimator import PEEstimator
-            sage: A = PEEstimator(n=150, k=100, q=51)
-            sage: A.table(precision=3, show_all_parameters=1) # long time
+        Tests:
+            >>> if skip_long_doctests:
+            ...     pytest.skip()
+            >>> from cryptographic_estimators.PEEstimator import PEEstimator
+            >>> A = PEEstimator(n=150, k=100, q=51)
+            >>> A.table(precision=3, show_all_parameters=1) # long time
             +-----------+-------------------------------+
             |           |            estimate           |
             +-----------+---------+--------+------------+
@@ -92,8 +84,6 @@ class PEEstimator(BaseEstimator):
             | Beullens  |  72.962 | 44.308 | {'w': 41}  |
             | SSA       | 302.551 | 17.377 |     {}     |
             +-----------+---------+--------+------------+
-
-
         """
         super(PEEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,
