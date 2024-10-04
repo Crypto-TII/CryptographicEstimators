@@ -163,10 +163,8 @@ docker-pytest-doctests-fast: CONTAINER_NAME := "pytest-container"
 docker-pytest-doctests-fast: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME}
 	@echo "Running short doctests..."
-	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
-		pytest --skip-long-doctests --doctest-modules -n auto -vv \
-		cryptographic_estimators/
-		"
+	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "pytest \
+	--skip-long-doctests  --doctest-modules -n auto -vv cryptographic_estimators/"
 
 docker-pytest-kat: CONTAINER_NAME := "pytest-container"
 docker-pytest-kat: docker-build
