@@ -20,7 +20,7 @@ from ..MQEstimator.mq_algorithm import MQAlgorithm
 from ..MQEstimator.mq_problem import MQProblem
 from ..base_estimator import BaseEstimator
 from math import inf
-
+import pytest
 
 class MQEstimator(BaseEstimator):
     def __init__(self, n: int, m: int, q=None, memory_bound=inf, **kwargs):
