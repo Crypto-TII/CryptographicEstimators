@@ -42,7 +42,6 @@ class RegularISDEnum(RegSDAlgorithm):
         self.set_parameter_ranges("p", 0, 30)
         self.set_parameter_ranges("ell", 0, n-k)
 
-    #TODO: Update examples
     @optimal_parameter
     def p(self):
         """Return the optimal parameter p used in the algorithm optimization.
@@ -56,7 +55,6 @@ class RegularISDEnum(RegSDAlgorithm):
         """
         return self._get_optimal_parameter("p")
 
-    #TODO: Update examples
     @optimal_parameter
     def ell(self):
         """Return the optimal parameter p used in the algorithm optimization.
