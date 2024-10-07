@@ -22,21 +22,17 @@ from .regsd_constants import *
 
 
 class RegSDProblem(BaseProblem):
-    """
-    Construct an instance of the Regular Syndrome Decoding Problem
-
-    INPUT:
-
-    - ``n`` -- code length
-    - ``k`` -- code dimension
-    - ``w`` -- error weight
-    - ``nsolutions`` -- number of (expected) solutions of the problem in logarithmic scale
-    - ``memory_bound`` -- maximum allowed memory to use for solving the problem
-
-
-    """
-
     def __init__(self, n: int, k: int, w: int, **kwargs):
+        """Construct an instance of the Regular Syndrome Decoding Problem.
+
+        Args:
+            n (int): Code length
+            k (int): Code dimension
+            w (int): Error weight
+            **kwargs: Additional keyword arguments
+                nsolutions: Number of (expected) solutions of the problem in logarithmic scale
+                memory_bound: Maximum allowed memory to use for solving the problem
+        """
         super().__init__(**kwargs)
         if k > n:
             raise ValueError("k must be smaller or equal to n")
@@ -60,41 +56,30 @@ class RegSDProblem(BaseProblem):
             self.expected_number_solutions(), 0))
 
     def to_bitcomplexity_time(self, basic_operations: float):
-        """
-        Return the bit-complexity corresponding to a certain amount of basic_operations
-
-        INPUT:
-
-        - ``basic_operations`` -- Number of basic operations (logarithmic)
-
+        """Return the bit-complexity corresponding to a certain amount of basic_operations.
+    
+        Args:
+            basic_operations (float): Number of basic operations (logarithmic)
         """
         n, _, _ = self.get_parameters()
         return basic_operations + log2(n)
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
-        """
-        Return the memory bit-complexity associated to a given number of elements to store
-
-        INPUT:
-
-        - ``elements_to_store`` -- number of memory operations (logarithmic)
-
+        """Return the memory bit-complexity associated to a given number of elements to store.
+    
+        Args:
+            elements_to_store (float): Number of memory operations (logarithmic)
         """
         n, _, _ = self.get_parameters()
         return elements_to_store + log2(n)
 
     def expected_number_solutions(self):
-        """
-        Return the logarithm of the expected number of existing solutions to the problem
-
-        """
+        """Return the logarithm of the expected number of existing solutions to the problem."""
         n, k, w = self.get_parameters()
         return log2(n / w) * w - (n - k)
 
     def get_parameters(self):
-        """
-        Return the optimizations parameters
-        """
+        """Return the optimizations parameters."""
         return list(self.parameters.values())
 
     def __repr__(self):
