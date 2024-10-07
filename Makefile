@@ -133,8 +133,8 @@ docker-testfast: docker-build
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
 
-docker-pytest-doctests: CONTAINER_NAME := "pytest-container"
-docker-pytest-doctests: docker-build
+docker-doctests: CONTAINER_NAME := "pytest-container"
+docker-doctests: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
 		|| true
 	@echo "Running doctests..."
@@ -159,15 +159,15 @@ docker-pytest-doctests: docker-build
 		# cryptographic_estimators/helper.py \
 		"
 
-docker-pytest-doctests-fast: CONTAINER_NAME := "pytest-container"
-docker-pytest-doctests-fast: docker-build
+docker-doctests-fast: CONTAINER_NAME := "pytest-container"
+docker-doctests-fast: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME}
 	@echo "Running short doctests..."
-	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "pytest \
-	--skip-long-doctests  --doctest-modules -n auto -vv cryptographic_estimators/"
+	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
+		pytest --skip-long-doctests  --doctest-modules -n auto -vv cryptographic_estimators/"
 
-docker-pytest-kat: CONTAINER_NAME := "pytest-container"
-docker-pytest-kat: docker-build
+docker-kat-tests: CONTAINER_NAME := "pytest-container"
+docker-kat-tests: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME}
 	@echo "Running KAT..."
 	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
@@ -176,8 +176,18 @@ docker-pytest-kat: docker-build
 		tests/test_sd.py \
 		"
 
-docker-pytest: CONTAINER_NAME := "pytest-container"
-docker-pytest: docker-pytest-kat docker-pytest-doctests
+docker-functional-tests: CONTAINER_NAME := "pytest-container"
+docker-functional-tests: docker-build
+	@make stop-container-and-remove container_name=${CONTAINER_NAME}
+	@echo "Running KAT..."
+	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
+		pytest --doctest-modules -n auto -vv \
+		tests/test_sd.py \
+		tests/test_mq.py \
+		"
+
+docker-tests-all: CONTAINER_NAME := "pytest-container"
+docker-tests-all: docker-functional-tests docker-doctests docker-kat-tests
 
 docker-pytest-cov:
 	pytest -v --cov-report xml:coverage.xml --cov=${PACKAGE} tests/
