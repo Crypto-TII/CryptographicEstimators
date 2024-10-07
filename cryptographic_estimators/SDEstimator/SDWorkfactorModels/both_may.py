@@ -16,29 +16,32 @@
 # ****************************************************************************
 
 
-import collections
 from .scipy_model import ScipyModel
 from ..sd_problem import SDProblem
-from .workfactor_helper import representations_asymptotic, binomial_approximation, may_ozerov_near_neighbor_time
+from .workfactor_helper import (
+    representations_asymptotic,
+    binomial_approximation,
+    may_ozerov_near_neighbor_time,
+)
 
 
 class BothMayScipyModel(ScipyModel):
     def __init__(self, par_names: list, problem: SDProblem, iterations, accuracy):
-        """
-        Optimization model for workfactor computation of Both-May algorithm in depth 2 using May-Ozerov nearest neighbor search
-        """
+        """Optimization model for workfactor computation of Both-May algorithm in depth 2 using May-Ozerov nearest neighbor search."""
         super().__init__(par_names, problem, iterations, accuracy)
 
     def _build_model_and_set_constraints(self):
         self.r1 = lambda x: representations_asymptotic(
-            x.p, x.p1 - x.p / 2, self.rate(x))
-        self.c1 = lambda x: x.l - \
-            representations_asymptotic(x.w2, x.w1 - x.w2 / 2, x.l)
+            x.p, x.p1 - x.p / 2, self.rate(x)
+        )
+        self.c1 = lambda x: x.l - representations_asymptotic(x.w2, x.w1 - x.w2 / 2, x.l)
 
-        self.L1 = lambda x: binomial_approximation(
-            (self.rate(x)) / 2, x.p1 / 2.0)
-        self.L2 = lambda x: binomial_approximation(
-            self.rate(x), x.p1) - x.l + binomial_approximation(x.l, x.w1)
+        self.L1 = lambda x: binomial_approximation((self.rate(x)) / 2, x.p1 / 2.0)
+        self.L2 = (
+            lambda x: binomial_approximation(self.rate(x), x.p1)
+            - x.l
+            + binomial_approximation(x.l, x.w1)
+        )
 
         self.constraints = [
             {'type': 'eq', 'fun': self._inject_vars(
@@ -65,7 +68,8 @@ class BothMayScipyModel(ScipyModel):
     def _time_lists(self, x):
         time_list1 = may_ozerov_near_neighbor_time(self.L1(x), x.l, x.w1)
         time_list2 = may_ozerov_near_neighbor_time(
-            self.L2(x), 1 - self.rate(x) - x.l, self.w(x) - x.p - x.w2)
+            self.L2(x), 1 - self.rate(x) - x.l, self.w(x) - x.p - x.w2
+        )
 
         return time_list1, time_list2
 
