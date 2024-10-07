@@ -27,7 +27,7 @@ class Bjorklund(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
         """Construct an instance of Bjorklund et al.'s estimator.
 
-        Bjorklund et al.'s is a probabilistic algorithm to solve the MQ problem of GF(2) [BKW19]_. It finds a solution of a quadratic
+        Bjorklund et al.'s is a probabilistic algorithm to solve the MQ problem over GF(2) [BKW19]_. It finds a solution of a quadratic
         system by computing the parity of its number of solutions.
 
         Args:

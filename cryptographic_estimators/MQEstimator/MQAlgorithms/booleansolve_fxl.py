@@ -48,7 +48,7 @@ class BooleanSolveFXL(MQAlgorithm):
                 1 - logarithmic
                 2 - square-root
                 3 - cube-root
-                Alternatively, deploy a custom function which takes as input the logarithm of the total memory usage.
+                Alternatively, deploy a custom function which takes as input the logarithm of the total memory usage and returns the logarithm of the memory access cost.
             complexity_type (int): Complexity type to consider.
                 0 - estimate (default)
                 1 - tilde O complexity
