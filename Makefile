@@ -74,6 +74,8 @@ stop-container-and-remove:
 	@docker rm $(container_name) || true
 
 docker-doc: docker-build
+	@make stop-container-and-remove container_name="container-for-docs" \
+		|| true
 	@make mount-volume-and-run && make generate-documentation && make stop-container-and-remove container_name="container-for-docs"
 
 docker-test: CONTAINER_NAME := "sage-doctests-container"
