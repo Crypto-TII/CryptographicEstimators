@@ -173,17 +173,15 @@ docker-kat-tests: docker-build
 	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
 		pytest --doctest-modules -n auto -vv \
 		tests/test_kat.py \
-		tests/test_sd.py \
 		"
 
 docker-functional-tests: CONTAINER_NAME := "pytest-container"
 docker-functional-tests: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME}
-	@echo "Running KAT..."
+	@echo "Running functional tests..."
 	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
 		pytest --doctest-modules -n auto -vv \
 		tests/test_sd.py \
-		tests/test_mq.py \
 		"
 
 docker-tests-all: CONTAINER_NAME := "pytest-container"
