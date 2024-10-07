@@ -22,46 +22,34 @@ from .regsd_problem import RegSDProblem
 
 class RegSDAlgorithm(BaseAlgorithm):
     def __init__(self, problem: RegSDProblem, **kwargs):
-        """
-        Base class for RegSD algorithms complexity estimator
+        """Base class for RegSD algorithms complexity estimator.
 
-        INPUT:
-
-        - ``problem`` -- RegSDProblem object including all necessary parameters
-
+        Args:
+            problem (RegSDProblem): RegSDProblem object including all necessary parameters
         """
         super(RegSDAlgorithm, self).__init__(problem, **kwargs)
         self._name = "sample_name"
 
     def _compute_time_and_memory_complexity(self, parameters: dict):
-        """
-        Returns the time and memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Returns the time and memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         raise NotImplementedError
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         return self._compute_time_and_memory_complexity(parameters)[0]
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Return the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         return self._compute_time_and_memory_complexity(parameters)[1]
