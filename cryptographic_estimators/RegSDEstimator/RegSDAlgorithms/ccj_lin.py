@@ -15,45 +15,36 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-from ...base_algorithm import optimal_parameter
 from ..regsd_algorithm import RegSDAlgorithm
 from ..regsd_problem import RegSDProblem
-from ..regsd_helper import r_int
-from math import log2, ceil, inf
+from math import log2
 
 
 class CCJLin(RegSDAlgorithm):
-    """
-    Construct an instance of CCJ-Linearization estimator from [CCJ23]_
-    (concrete formulas taken from [ES23]_)
-
-    INPUT:
-
-    - ``problem`` -- an instance of the RegSDProblem class
-
-    EXAMPLES::
-
-    sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import CCJLin
-    sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
-    sage: A = CCJLin(RegSDProblem(n=100,k=50,w=10))
-    sage: A
-    CCJ-Linearization estimator for the RegSDProblem with parameters (n, k, w) = (100, 50, 10)
-    """
-
     def __init__(self, problem: RegSDProblem, **kwargs):
+        """Construct an instance of CCJ-Linearization estimator from [CCJ23]_.
 
+        (concrete formulas taken from [ES23]_)
+
+        Args:
+            problem: An instance of the RegSDProblem class
+
+        Examples:
+            >>> from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import CCJLin
+            >>> from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            >>> A = CCJLin(RegSDProblem(n=100,k=50,w=10))
+            >>> A
+            CCJ-Linearization estimator for the RegSDProblem with parameters (n, k, w) = (100, 50, 10)
+        """
         super(CCJLin, self).__init__(problem, **kwargs)
         n, k, w = self.problem.get_parameters()
         self._name = "CCJ-Linearization"
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         n, k, w = self.problem.get_parameters()
 
@@ -63,13 +54,10 @@ class CCJLin(RegSDAlgorithm):
 
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Return the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         n, k, w = self.problem.get_parameters()
         return log2(n - k)

@@ -24,24 +24,19 @@ from types import SimpleNamespace
 
 
 class RegularISDRep(RegSDAlgorithm):
-    """
-    Construct an instance of RegularISD-Enum estimator in depth 3 from [ES23]_
-
-    INPUT:
-
-    - ``problem`` -- an instance of the RegSDProblem class
-
-    EXAMPLES::
-
-    sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
-    sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
-    sage: A = RegularISDRep(RegSDProblem(n=100,k=50,w=10))
-    sage: A
-    RegularISD-Rep estimator for the RegSDProblem with parameters (n, k, w) = (100, 50, 10)
-    """
-
     def __init__(self, problem: RegSDProblem, **kwargs):
+        """Construct an instance of RegularISD-Enum estimator in depth 3 from [ES23]_.
 
+        Args:
+            problem (RegSDProblem): An instance of the RegSDProblem class
+
+        Examples:
+        >>> from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
+        >>> from cryptographic_estimators.RegSDEstimator import RegSDProblem
+        >>> A = RegularISDRep(RegSDProblem(n=100,k=50,w=10))
+        >>> A
+        RegularISD-Rep estimator for the RegSDProblem with parameters (n, k, w) = (100, 50, 10)
+        """
         super(RegularISDRep, self).__init__(problem, **kwargs)
         self._name = "RegularISD-Rep"
         n, k, w = self.problem.get_parameters()
@@ -53,69 +48,58 @@ class RegularISDRep(RegSDAlgorithm):
 
     @optimal_parameter
     def p(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization
+        """Return the optimal parameter p used in the algorithm optimization.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
-            sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
-            sage: A = RegularISDRep(RegSDProblem(n=300,k=150,w=30))
-            sage: A.p()
+        Examples:
+            >>> from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
+            >>> from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            >>> A = RegularISDRep(RegSDProblem(n=300,k=150,w=30))
+            >>> A.p()
             8
         """
         return self._get_optimal_parameter("p")
 
     @optimal_parameter
     def ell(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization
+        """Return the optimal parameter ell used in the algorithm optimization.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
-            sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
-            sage: A = RegularISDRep(RegSDProblem(n=300,k=150,w=30))
-            sage: A.ell()
+        Examples:
+            >>> from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
+            >>> from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            >>> A = RegularISDRep(RegSDProblem(n=300,k=150,w=30))
+            >>> A.ell()
             22
         """
         return self._get_optimal_parameter("ell")
 
     @optimal_parameter
     def eps_x(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization
+        """Return the optimal parameter eps_x used in the algorithm optimization.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
-            sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
-            sage: A = RegularISDRep(RegSDProblem(n=300,k=150,w=30))
-            sage: A.eps_x()
+        Examples:
+            >>> from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
+            >>> from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            >>> A = RegularISDRep(RegSDProblem(n=300,k=150,w=30))
+            >>> A.eps_x()
             0
         """
         return self._get_optimal_parameter("eps_x")
 
     @optimal_parameter
     def eps_y(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization
+        """Return the optimal parameter eps_y used in the algorithm optimization.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
-            sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
-            sage: A = RegularISDRep(RegSDProblem(n=300,k=150,w=30))
-            sage: A.eps_y()
+        Examples:
+            >>> from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDRep
+            >>> from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            >>> A = RegularISDRep(RegSDProblem(n=300,k=150,w=30))
+            >>> A.eps_y()
             0
         """
         return self._get_optimal_parameter("eps_y")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """
-        return if the parameter set `parameters` is invalid
-
-        """
+        """Return if the parameter set `parameters` is invalid."""
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k_prime = k - w
@@ -127,9 +111,9 @@ class RegularISDRep(RegSDAlgorithm):
         return False
 
     def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
-        set parameters in `_optimal_parameters`
+        """Generator yielding new sets of valid parameters.
+    
+        Based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
 
@@ -151,13 +135,10 @@ class RegularISDRep(RegSDAlgorithm):
                         yield indices
 
     def _compute_time_and_memory_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         n, k, w = self.problem.get_parameters()
         p, ell, eps_x, eps_y= list(parameters.values())
