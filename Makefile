@@ -178,6 +178,7 @@ docker-pytest-kat: docker-build
 		pytest --doctest-modules -n auto -vv \
 		tests/test_kat.py \
 		tests/test_sd.py \
+		tests/test_mq.py \
 		"
 
 docker-pytest: CONTAINER_NAME := "pytest-container"
