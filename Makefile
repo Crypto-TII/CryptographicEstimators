@@ -74,6 +74,8 @@ stop-container-and-remove:
 	@docker rm $(container_name) || true
 
 docker-doc: docker-build
+	@make stop-container-and-remove container_name="container-for-docs" \
+		|| true
 	@make mount-volume-and-run && make generate-documentation && make stop-container-and-remove container_name="container-for-docs"
 
 docker-test: CONTAINER_NAME := "sage-doctests-container"
@@ -89,7 +91,6 @@ docker-test: docker-build
 		cryptographic_estimators/MQEstimator/ \
 		cryptographic_estimators/MREstimator/ \
 		cryptographic_estimators/PKEstimator/ \
-		cryptographic_estimators/RegSDEstimator/ \
 		cryptographic_estimators/UOVEstimator/ \
 		cryptographic_estimators/base_algorithm.py \
 		cryptographic_estimators/base_constants.py \
@@ -100,6 +101,7 @@ docker-test: docker-build
 		# cryptographic_estimators/SDEstimator/ \
 		# cryptographic_estimators/SDFqEstimator/ \
 		# cryptographic_estimators/PEEstimator/ \
+		# cryptographic_estimators/RegSDEstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
@@ -118,7 +120,6 @@ docker-testfast: docker-build
 		cryptographic_estimators/MQEstimator/ \
 		cryptographic_estimators/MREstimator/ \
 		cryptographic_estimators/PKEstimator/ \
-		cryptographic_estimators/RegSDEstimator/ \
 		cryptographic_estimators/UOVEstimator/ \
 		cryptographic_estimators/base_algorithm.py \
 		cryptographic_estimators/base_constants.py \
@@ -129,6 +130,7 @@ docker-testfast: docker-build
 		# cryptographic_estimators/SDEstimator/ \
 		# cryptographic_estimators/SDFqEstimator/ \
 		# cryptographic_estimators/PEEstimator/ \
+		# cryptographic_estimators/RegSDEstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
@@ -143,13 +145,13 @@ docker-pytest-doctests: docker-build
 		cryptographic_estimators/SDEstimator/ \
 		cryptographic_estimators/SDFqEstimator/ \
 		cryptographic_estimators/PEEstimator/ \
+		cryptographic_estimators/RegSDEstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
 		# cryptographic_estimators/MAYOEstimator/ \
 		# cryptographic_estimators/MQEstimator/ \
 		# cryptographic_estimators/MREstimator/ \
 		# cryptographic_estimators/PKEstimator/ \
-		# cryptographic_estimators/RegSDEstimator/ \
 		# cryptographic_estimators/UOVEstimator/ \
 		# cryptographic_estimators/base_algorithm.py \
 		# cryptographic_estimators/base_constants.py \
@@ -176,6 +178,7 @@ docker-pytest-kat: docker-build
 		pytest --doctest-modules -n auto -vv \
 		tests/test_kat.py \
 		tests/test_sd.py \
+		tests/test_mq.py \
 		"
 
 docker-pytest: CONTAINER_NAME := "pytest-container"
