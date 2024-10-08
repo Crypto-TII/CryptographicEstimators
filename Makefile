@@ -184,6 +184,7 @@ docker-functional-tests: docker-build
 	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
 		pytest --doctest-modules -n auto -vv \
 		tests/test_sd.py \
+		tests/test_mq.py \
 		"
 
 docker-tests-all: CONTAINER_NAME := "pytest-container"
