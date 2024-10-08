@@ -16,6 +16,7 @@
 # ****************************************************************************
 
 
+import pytest
 from .uov_algorithm import UOVAlgorithm
 from .uov_problem import UOVProblem
 from ..base_estimator import BaseEstimator
