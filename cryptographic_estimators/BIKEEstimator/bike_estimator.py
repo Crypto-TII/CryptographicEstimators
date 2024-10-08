@@ -16,6 +16,7 @@
 # ****************************************************************************
 
 
+import pytest
 from .bike_algorithm import BIKEAlgorithm
 from .bike_problem import BIKEProblem
 from ..base_estimator import BaseEstimator
