@@ -16,6 +16,7 @@
 # ****************************************************************************
 
 
+import pytest
 from ..LEEstimator.le_algorithm import LEAlgorithm
 from ..LEEstimator.le_problem import LEProblem
 from ..base_estimator import BaseEstimator
