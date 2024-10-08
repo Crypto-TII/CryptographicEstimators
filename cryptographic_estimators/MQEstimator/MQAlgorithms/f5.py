@@ -23,29 +23,26 @@ from math import log2, comb as binomial
 
 
 class F5(MQAlgorithm):
-    """
-    Construct an instance of F5 complexity estimator
-
-    INPUT:
-
-    - ``problem`` -- MQProblem object including all necessary parameters
-    - ``h`` -- external hybridization parameter (default: 0)
-    - ``w`` -- linear algebra constant (default: 2.81)
-    - ``degrees`` -- a list/tuple of degree of the polynomials (default: [2]*m)
-
-
-    .. NOTE:: Complexity formula taken from Proposition 1 [BFP09]_ .
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
-        sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-        sage: E = F5(MQProblem(n=10, m=5, q=3))
-        sage: E
-        F5 estimator for the MQ problem with 10 variables and 5 polynomials
-    """
-
     def __init__(self, problem: MQProblem, **kwargs):
+        """Construct an instance of the F5 complexity estimator.
+
+        Note:
+            The complexity formula is taken from Proposition 1 in [BFP09]_.
+
+        Args:
+            problem (MQProblem): The MQProblem object including all necessary parameters.
+            h (int, optional): The external hybridization parameter. Defaults to 0.
+            w (float, optional): The linear algebra constant. Defaults to 2.81.
+            degrees (list, tuple, optional): A list or tuple of the degrees of the polynomials. Defaults to [2] * m.
+
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = F5(MQProblem(n=10, m=5, q=3))
+            >>> E
+            F5 estimator for the MQ problem with 10 variables and 5 polynomials
+        """
+
         m = problem.npolynomials()
         degrees = kwargs.get("degrees", [2] * m)
         if len(degrees) != m:
@@ -64,17 +61,14 @@ class F5(MQAlgorithm):
         self._ncols_at_degree_dreg = None
 
     def degree_of_polynomials(self):
-        """
-        Return a list of degree of the polynomials
+        """Return a list of degree of the polynomials.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = F5(MQProblem(n=10, m=5, q=3))
-            sage: E.degree_of_polynomials()
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = F5(MQProblem(n=10, m=5, q=3))
+            >>> E.degree_of_polynomials()
             [2, 2, 2, 2]
-
         """
         return self._degrees
 
@@ -92,25 +86,21 @@ class F5(MQAlgorithm):
         return self._ncols_at_degree_dreg
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
+        """Return the time complexity of the algorithm for a given set of parameters.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = F5(MQProblem(n=10, m=15, q=3), bit_complexities=False)
-            sage: E.time_complexity()
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = F5(MQProblem(n=10, m=15, q=3), bit_complexities=False)
+            >>> E.time_complexity()
             30.550746998589286
 
-        TESTS::
-
-            sage: F5(MQProblem(n=10, m=12, q=5)).time_complexity()
+        Tests:
+            >>> F5(MQProblem(n=10, m=12, q=5)).time_complexity()
             40.548132826157364
-            sage: E = F5(MQProblem(n=1, m=15, q=2), bit_complexities=False)
-            sage: E.time_complexity()
+            >>> E = F5(MQProblem(n=1, m=15, q=2), bit_complexities=False)
+            >>> E.time_complexity()
             3.9068905956085187
-
         """
         _, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
@@ -121,15 +111,13 @@ class F5(MQAlgorithm):
         return h * log2(q) + max(time, self._time_complexity_fglm())
 
     def _time_complexity_fglm(self):
-        """
-        Return the time complexity of the FGLM algorithm for this system
+        """Return the time complexity of the FGLM algorithm for this system.
 
-        TEST::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = F5(MQProblem(n=10, m=15, q=3, nsolutions=1))
-            sage: E._time_complexity_fglm()
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = F5(MQProblem(n=10, m=15, q=3, nsolutions=1))
+            >>> E._time_complexity_fglm()
             6.321928094887363
         """
         n, _, q = self.get_reduced_parameters()
@@ -138,17 +126,14 @@ class F5(MQAlgorithm):
         return h * log2(q) + log2(n * D**3)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: F5_ = F5(MQProblem(n=10, m=12, q=5), bit_complexities=False)
-            sage: F5_.memory_complexity()
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> F5_ = F5(MQProblem(n=10, m=12, q=5), bit_complexities=False)
+            >>> F5_.memory_complexity()
             24.578308707446713
-
         """
         n, m, _ = self.get_reduced_parameters()
         ncols = self._get_number_of_columns_at_degree_of_regularity()
@@ -156,10 +141,7 @@ class F5(MQAlgorithm):
         return memory
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of the algorithm for a given set of parameters
-
-        """
+        """Return the Ō time complexity of the algorithm for a given set of parameters."""
         q = self.problem.order_of_the_field()
         w = self.linear_algebra_constant()
         ncols = self._get_number_of_columns_at_degree_of_regularity()
@@ -168,19 +150,13 @@ class F5(MQAlgorithm):
         return h * log2(q) + max(time, self._tilde_o_time_complexity_fglm(parameters))
 
     def _tilde_o_time_complexity_fglm(self, parameters: dict):
-        """
-        Return the Ō time complexity of the FGLM algorithm for this system
-
-        """
+        """Return the Ō time complexity of the FGLM algorithm for this system."""
         q = self.problem.order_of_the_field()
         D = 2**self.problem.nsolutions
         h = self._h
         return h * log2(q) + log2(D**3)
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Return the Ō  memory complexity of the algorithm for a given set of parameters
-
-        """
+        """Return the Ō memory complexity of the algorithm for a given set of parameters."""
         ncols = self._get_number_of_columns_at_degree_of_regularity()
         return log2(ncols) * 2
