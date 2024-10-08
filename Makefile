@@ -149,7 +149,7 @@ docker-doctests: docker-build
 		cryptographic_estimators/RegSDEstimator/ \
 		cryptographic_estimators/MAYOEstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
-		# cryptographic_estimators/LEEstimator/ \
+		# cryptographic_estimators/LEEstimator/ 
 		# cryptographic_estimators/PEEstimator/ \
 		# cryptographic_estimators/PKEstimator/ \
 		# cryptographic_estimators/UOVEstimator/ \
