@@ -32,30 +32,29 @@ from sage.all import Integer
 
 
 class Lokshtanov(MQAlgorithm):
-    r"""
-     Construct an instance of Lokshtanov et al.'s estimator
-     Lokshtanov et al.'s is a probabilistic algorithm to solve the MQ problem over GF(q) [LPTWY17]_. It describes an
-     algorithm to determine the consistency of a given system of polynomial equations.
-
-     INPUT:
-
-    - ``problem`` --MQProblem object including all necessary parameters
-     - ``h`` -- external hybridization parameter (default: 0)
-     - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-     - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
-
-
-     EXAMPLES::
-
-         sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
-         sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-         sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9))
-         sage: E
-         Lokshtanov et al. estimator for the MQ problem with 10 variables and 12 polynomials
-
-    """
-
     def __init__(self, problem: MQProblem, **kwargs):
+        """Construct an instance of Lokshtanov et al.'s estimator.
+
+        Lokshtanov et al.'s is a probabilistic algorithm to solve the MQ problem over GF(q) [LPTWY17]_. It describes an
+        algorithm to determine the consistency of a given system of polynomial equations.
+
+        Args:
+            problem (MQProblem): An MQProblem object including all necessary parameters.
+            h (int, optional): The external hybridization parameter. Defaults to 0.
+            memory_access (int, optional): Specifies the memory access cost model. Defaults to 0 (constant),
+                choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function
+                which takes as input the logarithm of the total memory usage.
+            complexity_type (int, optional): The complexity type to consider. Defaults to 0 (estimate),
+                choices: 0 - estimate, 1 - tilde O complexity.
+
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = Lokshtanov(MQProblem(n=10, m=12, q=9))
+            >>> E
+            Lokshtanov et al. estimator for the MQ problem with 10 variables and 12 polynomials
+        """
+
         q = problem.order_of_the_field()
         if not isinstance(q, (int, Integer)):
             raise TypeError("q must be an integer")
@@ -70,24 +69,27 @@ class Lokshtanov(MQAlgorithm):
 
     @optimal_parameter
     def delta(self):
-        r"""
-        Return the optimal `\delta` for Lokshtanov et al.'s algorithm
+        """Return the optimal delta for Lokshtanov et al.'s algorithm.
+    
+        Returns:
+            float: The optimal delta value.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9))
-            sage: E.delta()
-            1/10
-
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = Lokshtanov(MQProblem(n=10, m=12, q=9))
+            >>> E.delta()
+            0.1
         """
         return self._get_optimal_parameter("delta")
 
     def _valid_choices(self):
-        """
-        Yields valid values for `delta`.
-        Each call incremetns `l`
+        """Yields valid values for delta.
+    
+        Each call increments `l`.
+    
+        Yields:
+            float: A valid value for delta.
         """
         n, _, _ = self.get_reduced_parameters()
         ranges = self._parameter_ranges
@@ -103,21 +105,17 @@ class Lokshtanov(MQAlgorithm):
                 stop = True
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), bit_complexities=False)
-            sage: E.time_complexity(delta=2/10)
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
+    
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = Lokshtanov(MQProblem(n=10, m=12, q=9), bit_complexities=False)
+            >>> E.time_complexity(delta=2/10)
             210.99786719362038
-
         """
         delta = parameters["delta"]
         n, _, q = self.get_reduced_parameters()
@@ -148,21 +146,17 @@ class Lokshtanov(MQAlgorithm):
         return h * log2(q) + time
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), bit_complexities=False)
-            sage: E.memory_complexity(delta=2/10)
+        """Compute the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary containing the parameters.
+    
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = Lokshtanov(MQProblem(n=10, m=12, q=9), bit_complexities=False)
+            >>> E.memory_complexity(delta=2/10)
             27.471075081419315
-
         """
         delta = parameters["delta"]
         n, _, q = self.get_reduced_parameters()
@@ -180,21 +174,17 @@ class Lokshtanov(MQAlgorithm):
         return log2(memory)
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
-            sage: E.time_complexity(delta=2/10)
+        """Return the Ō time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
+    
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
+            >>> E.time_complexity(delta=2/10)
             6.339850002884624
-
         """
         delta = parameters["delta"]
         e = 2.718
@@ -209,38 +199,31 @@ class Lokshtanov(MQAlgorithm):
         return h * log2(q) + time
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        r"""
-        Return the Ō time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TEST::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
-            sage: E.memory_complexity(delta=2/10)
+        """Return the Ō time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
+    
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
+            >>> E.memory_complexity(delta=2/10)
             25.359400011538497
-
         """
         delta = parameters["delta"]
         n, _, q = self.get_reduced_parameters()
         return (1 - delta) * n * log2(q)
 
     def _find_optimal_tilde_o_parameters(self):
-        """
-        Return the optimal parameters to achieve the optimal Ō time complexity.
+        """Return the optimal parameters to achieve the optimal Ō time complexity.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
-            sage: E.optimal_parameters()
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = Lokshtanov(MQProblem(n=10, m=12, q=9), complexity_type=1)
+            >>> E.optimal_parameters()
             {'delta': 0.9975}
-
         """
         _, _, q = self.get_reduced_parameters()
         e = 2.718

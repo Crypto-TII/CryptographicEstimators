@@ -88,7 +88,6 @@ docker-test: docker-build
 		cryptographic_estimators/DummyEstimator/ \
 		cryptographic_estimators/LEEstimator/ \
 		cryptographic_estimators/MAYOEstimator/ \
-		cryptographic_estimators/MQEstimator/ \
 		cryptographic_estimators/MREstimator/ \
 		cryptographic_estimators/PEEstimator/ \
 		cryptographic_estimators/PKEstimator/ \
@@ -100,6 +99,7 @@ docker-test: docker-build
 		# cryptographic_estimators/estimation_renderer.py \
 		# cryptographic_estimators/helper.py \
 		# cryptographic_estimators/SDEstimator/ \
+		# cryptographic_estimators/MQEstimator/ \
 		# cryptographic_estimators/SDFqEstimator/ \
 		# cryptographic_estimators/RegSDEstimator/ \
 		" \
@@ -117,7 +117,6 @@ docker-testfast: docker-build
 		cryptographic_estimators/DummyEstimator/ \
 		cryptographic_estimators/LEEstimator/ \
 		cryptographic_estimators/MAYOEstimator/ \
-		cryptographic_estimators/MQEstimator/ \
 		cryptographic_estimators/MREstimator/ \
 		cryptographic_estimators/PEEstimator/ \
 		cryptographic_estimators/PKEstimator/ \
@@ -129,20 +128,22 @@ docker-testfast: docker-build
 		# cryptographic_estimators/estimation_renderer.py \
 		# cryptographic_estimators/helper.py \
 		# cryptographic_estimators/SDEstimator/ \
+		# cryptographic_estimators/MQEstimator/ \
 		# cryptographic_estimators/SDFqEstimator/ \
 		# cryptographic_estimators/RegSDEstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
 
-docker-pytest-doctests: CONTAINER_NAME := "pytest-container"
-docker-pytest-doctests: docker-build
+docker-doctests: CONTAINER_NAME := "pytest-container"
+docker-doctests: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
 		|| true
 	@echo "Running doctests..."
 	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
 		pytest --doctest-modules -n auto -vv -s \
 		cryptographic_estimators/SDEstimator/ \
+		cryptographic_estimators/MQEstimator/ \
 		cryptographic_estimators/SDFqEstimator/ \
 		cryptographic_estimators/base_algorithm.py \
 		cryptographic_estimators/base_constants.py \
@@ -154,35 +155,40 @@ docker-pytest-doctests: docker-build
 		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
 		# cryptographic_estimators/MAYOEstimator/ \
-		# cryptographic_estimators/MQEstimator/ \
 		# cryptographic_estimators/MREstimator/ \
 		# cryptographic_estimators/PEEstimator/ \
 		# cryptographic_estimators/PKEstimator/ \
 		# cryptographic_estimators/UOVEstimator/ \
 		"
 
-docker-pytest-doctests-fast: CONTAINER_NAME := "pytest-container"
-docker-pytest-doctests-fast: docker-build
+docker-doctests-fast: CONTAINER_NAME := "pytest-container"
+docker-doctests-fast: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME}
 	@echo "Running short doctests..."
 	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
-		pytest --skip-long-doctests --doctest-modules -n auto -vv \
-		cryptographic_estimators/
-		"
+		pytest --skip-long-doctests  --doctest-modules -n auto -vv cryptographic_estimators/"
 
-docker-pytest-kat: CONTAINER_NAME := "pytest-container"
-docker-pytest-kat: docker-build
+docker-kat-tests: CONTAINER_NAME := "pytest-container"
+docker-kat-tests: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME}
 	@echo "Running KAT..."
 	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
 		pytest --doctest-modules -n auto -vv \
 		tests/test_kat.py \
+		"
+
+docker-functional-tests: CONTAINER_NAME := "pytest-container"
+docker-functional-tests: docker-build
+	@make stop-container-and-remove container_name=${CONTAINER_NAME}
+	@echo "Running functional tests..."
+	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
+		pytest --doctest-modules -n auto -vv \
 		tests/test_sd.py \
 		tests/test_mq.py \
 		"
 
-docker-pytest: CONTAINER_NAME := "pytest-container"
-docker-pytest: docker-pytest-kat docker-pytest-doctests
+docker-tests-all: CONTAINER_NAME := "pytest-container"
+docker-tests-all: docker-functional-tests docker-doctests docker-kat-tests
 
 docker-pytest-cov:
 	pytest -v --cov-report xml:coverage.xml --cov=${PACKAGE} tests/
