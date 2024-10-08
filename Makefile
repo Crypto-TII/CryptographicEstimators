@@ -129,7 +129,7 @@ docker-testfast: docker-build
 		# cryptographic_estimators/SDFqEstimator/ \
 		# cryptographic_estimators/MREstimator/ \
 		# cryptographic_estimators/RegSDEstimator/ \
-	    # cryptographic_estimators/LEEstimator/ \
+	  # cryptographic_estimators/LEEstimator/ \
 		# cryptographic_estimators/MAYOEstimator/ \
 		# cryptographic_estimators/BIKEEstimator/ \
 		# cryptographic_estimators/UOVEstimator/ \
