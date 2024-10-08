@@ -23,64 +23,53 @@ from math import log2, comb as binomial, ceil, floor
 from types import SimpleNamespace
 
 class RegularISDEnum(RegSDAlgorithm):
-    """
-    Construct an instance of RegularISD-Enum estimator from [ES23]_
-
-    INPUT:
-
-    - ``problem`` -- an instance of the RegSDProblem class
-
-    EXAMPLES::
-
-    sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDEnum
-    sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
-    sage: A = RegularISDEnum(RegSDProblem(n=100,k=50,w=10))
-    sage: A
-    RegularISD-Enum estimator for the RegSDProblem with parameters (n, k, w) = (100, 50, 10)
-    """
-
     def __init__(self, problem: RegSDProblem, **kwargs):
+        """Construct an instance of RegularISD-Enum estimator from [ES23]_.
 
+        Args:
+            problem (RegSDProblem): An instance of the RegSDProblem class
+
+        Examples:
+            >>> from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDEnum
+            >>> from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            >>> A = RegularISDEnum(RegSDProblem(n=100,k=50,w=10))
+            >>> A
+            RegularISD-Enum estimator for the RegSDProblem with parameters (n, k, w) = (100, 50, 10)
+        """
         super(RegularISDEnum, self).__init__(problem, **kwargs)
         n, k, w = self.problem.get_parameters()
         self._name = "RegularISD-Enum"
         self.set_parameter_ranges("p", 0, 30)
         self.set_parameter_ranges("ell", 0, n-k)
+
     @optimal_parameter
     def p(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization
-        TODO update examples
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDEnum
-            sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
-            sage: A = RegularISDEnum(RegSDProblem(n=100,k=50,w=10))
-            sage: A.p()
+        """Return the optimal parameter p used in the algorithm optimization.
+    
+        Examples:
+            >>> from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDEnum
+            >>> from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            >>> A = RegularISDEnum(RegSDProblem(n=100,k=50,w=10))
+            >>> A.p()
             4
         """
         return self._get_optimal_parameter("p")
 
     @optimal_parameter
     def ell(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization
-        TODO update examples
-        EXAMPLES::
+        """Return the optimal parameter p used in the algorithm optimization.
 
-            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDEnum
-            sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
-            sage: A = RegularISDEnum(RegSDProblem(n=100,k=50,w=10))
-            sage: A.ell()
+        Examples:
+            >>> from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import RegularISDEnum
+            >>> from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            >>> A = RegularISDEnum(RegSDProblem(n=100,k=50,w=10))
+            >>> A.ell()
             4
         """
         return self._get_optimal_parameter("ell")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """
-        return if the parameter set `parameters` is invalid
-
-        """
+        """Return if the parameter set `parameters` is invalid."""
         n, k, w = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
         k_prime = k - w
@@ -90,9 +79,9 @@ class RegularISDEnum(RegSDAlgorithm):
             return True
         return False
     def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
-        set parameters in `_optimal_parameters`
+        """Generator yielding new sets of valid parameters.
+    
+        Based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
 
@@ -110,13 +99,10 @@ class RegularISDEnum(RegSDAlgorithm):
                 yield indices
 
     def _compute_time_and_memory_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         n, k, w = self.problem.get_parameters()
         ell = parameters["ell"]
