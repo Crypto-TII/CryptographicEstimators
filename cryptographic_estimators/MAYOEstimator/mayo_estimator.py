@@ -16,6 +16,7 @@
 # ****************************************************************************
 
 
+import pytest
 from .mayo_algorithm import MAYOAlgorithm
 from .mayo_problem import MAYOProblem
 from ..base_estimator import BaseEstimator
