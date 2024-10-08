@@ -36,5 +36,5 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
       - name: Run Sage doctests
         run: make docker-test
-      - name: Run KAT and doctests
-        run: make docker-pytest
+      - name: Run functional, doctests and KAT tests
+        run: make docker-tests-all
