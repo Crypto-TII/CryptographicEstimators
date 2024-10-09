@@ -16,12 +16,12 @@
 # ****************************************************************************
 
 
-from ..rsd_algorithm import RANKSDAlgorithm
-from ..rsd_problem import RANKSDProblem
+from ..rsd_algorithm import RSDAlgorithm
+from ..rsd_problem import RSDProblem
 from math import log2, ceil
 
 
-class GRSImproved(RANKSDAlgorithm):
+class GRSImproved(RSDAlgorithm):
     """
     Construct an instance of RANKSDAlgorithm1 estimator
 
@@ -32,8 +32,8 @@ class GRSImproved(RANKSDAlgorithm):
     - ``problem`` -- an instance of the RANKSDProblem class
     """
 
-    def __init__(self, problem: RANKSDProblem, **kwargs):
-        self._name = "RANKSDAlgorithm1"
+    def __init__(self, problem: RSDProblem, **kwargs):
+        self._name = "GRSImproved"
         super(GRSImproved, self).__init__(problem, **kwargs)
 
     def _compute_time_complexity(self, parameters: dict):
@@ -45,9 +45,9 @@ class GRSImproved(RANKSDAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
-        w = 3
+
         q, m, n, k, r = self.problem.get_parameters()
-        t1 = w * log2(n - k) + w * log2(m)
+        t1 = self.w * log2(n - k) + self.w * log2(m)
 
         mu1 = r * ceil((k + 1) * m / n) - m
         time_complexity = t1 + mu1 * log2(q)

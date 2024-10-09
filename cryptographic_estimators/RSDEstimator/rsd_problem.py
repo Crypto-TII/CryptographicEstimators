@@ -20,9 +20,9 @@ from ..base_problem import BaseProblem
 from .rsd_constants import *
 from math import log2, ceil
 from ..MQEstimator.mq_helper import ngates
+from cryptographic_estimators.helper import is_prime_power
 
-
-class RANKSDProblem(BaseProblem):
+class RSDProblem(BaseProblem):
     """
     Construct an instance of RANKSDProblem. Contains the parameters to optimize
     over.
@@ -34,12 +34,31 @@ class RANKSDProblem(BaseProblem):
 
     def __init__(self, q: int, m: int, n: int, k: int, r: int, **kwargs):  # Fill with parameters
         super().__init__(**kwargs)
-        self.parameters[RANKSD_q] = q
-        self.parameters[RANKSD_m] = m
-        self.parameters[RANKSD_n] = n
-        self.parameters[RANKSD_k] = k
-        self.parameters[RANKSD_r] = r
+        self.parameters[RSD_q] = q
+        self.parameters[RSD_m] = m
+        self.parameters[RSD_n] = n
+        self.parameters[RSD_k] = k
+        self.parameters[RSD_r] = r
         self._theta = kwargs.get("theta", 2)
+
+        if q is not None and not is_prime_power(q):
+            raise ValueError("q must be a prime power")
+
+        if n < 1:
+            raise ValueError("n must be >= 1")
+
+        if m < 1:
+            raise ValueError("m must be >= 1")
+
+        if k < 1:
+            raise ValueError("k must be >= 1")
+
+        if r < 1:
+            raise ValueError("r must be >= 1")
+
+        if self._theta is not None and not (0 <= self._theta <= 2):
+            raise ValueError("theta must be either None or 0<=theta <= 2")
+
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """
@@ -50,7 +69,7 @@ class RANKSDProblem(BaseProblem):
         - ``basic_operations`` -- Number of basic operations (logarithmic)
 
         """
-        q = self.parameters[RANKSD_q]
+        q = self.parameters[RSD_q]
         theta = self._theta
         return ngates(q, basic_operations, theta=theta)
 
@@ -63,7 +82,7 @@ class RANKSDProblem(BaseProblem):
         - ``elements_to_store`` -- number of memory operations (logarithmic)
 
         """
-        q = self.parameters[RANKSD_q]
+        q = self.parameters[RSD_q]
 
         return log2(ceil(log2(q))) + elements_to_store
 

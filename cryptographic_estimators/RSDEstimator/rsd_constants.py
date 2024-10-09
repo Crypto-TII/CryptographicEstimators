@@ -15,8 +15,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-RANKSD_q = "q"
-RANKSD_m = "m"
-RANKSD_n = "n"
-RANKSD_k = "k"
-RANKSD_r = "r"
+RSD_q = "q"
+RSD_m = "m"
+RSD_n = "n"
+RSD_k = "k"
+RSD_r = "r"
