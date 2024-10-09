@@ -1,4 +1,4 @@
-from .rsd_algorithm import RANKSDAlgorithm
-from .rsd_estimator import RANKSDEstimator
-from .rsd_problem import RANKSDProblem
+from .rsd_algorithm import RSDAlgorithm
+from .rsd_estimator import RSDEstimator
+from .rsd_problem import RSDProblem
 from .RSDAlgorithms import *

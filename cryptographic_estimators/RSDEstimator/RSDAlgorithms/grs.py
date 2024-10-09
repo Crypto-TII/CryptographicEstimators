@@ -16,12 +16,12 @@
 # ****************************************************************************
 
 
-from ..rsd_algorithm import RANKSDAlgorithm
-from ..rsd_problem import RANKSDProblem
+from ..rsd_algorithm import RSDAlgorithm
+from ..rsd_problem import RSDProblem
 from math import log2, floor
 
 
-class GRS(RANKSDAlgorithm):
+class GRS(RSDAlgorithm):
     """
     Construct an instance of RANKSDAlgorithm1 estimator
 
@@ -32,8 +32,8 @@ class GRS(RANKSDAlgorithm):
     - ``problem`` -- an instance of the RANKSDProblem class
     """
 
-    def __init__(self, problem: RANKSDProblem, **kwargs):
-        self._name = "RANKSDAlgorithm1"
+    def __init__(self, problem: RSDProblem, **kwargs):
+        self._name = "GRS"
         super(GRS, self).__init__(problem, **kwargs)
 
     def _compute_time_complexity(self, parameters: dict):

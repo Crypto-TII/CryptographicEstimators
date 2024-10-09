@@ -16,13 +16,13 @@
 # ****************************************************************************
 
 
-from .rsd_algorithm import RANKSDAlgorithm
-from .rsd_problem import RANKSDProblem
+from .rsd_algorithm import RSDAlgorithm
+from .rsd_problem import RSDProblem
 from ..base_estimator import BaseEstimator
 from math import inf
 
 
-class RANKSDEstimator(BaseEstimator):
+class RSDEstimator(BaseEstimator):
     """
     Construct an instance of RSDEstimator
 
@@ -34,9 +34,9 @@ class RANKSDEstimator(BaseEstimator):
     excluded_algorithms_by_default = []
 
     def __init__(self, q: int, m: int, n: int, k: int, r: int, memory_bound=inf, **kwargs):  # Fill with parameters
-        super(RANKSDEstimator, self).__init__(
-            RANKSDAlgorithm,
-            RANKSDProblem(q, m, n, k, r, memory_bound=memory_bound, **kwargs),
+        super(RSDEstimator, self).__init__(
+            RSDAlgorithm,
+            RSDProblem(q, m, n, k, r, memory_bound=memory_bound, **kwargs),
             **kwargs
         )
 
@@ -53,7 +53,7 @@ class RANKSDEstimator(BaseEstimator):
         - ``precision`` -- number of decimal digits output (default: 1)
         - ``truncate`` -- truncate rather than round the output (default: False)
         """
-        super(RANKSDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
-                                           show_tilde_o_time=show_tilde_o_time,
-                                           show_all_parameters=show_all_parameters,
-                                           precision=precision, truncate=truncate)
+        super(RSDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
+                                        show_tilde_o_time=show_tilde_o_time,
+                                        show_all_parameters=show_all_parameters,
+                                        precision=precision, truncate=truncate)

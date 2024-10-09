@@ -17,11 +17,11 @@
 
 
 from ..base_algorithm import BaseAlgorithm
-from .rsd_problem import RANKSDProblem
+from .rsd_problem import RSDProblem
 
 
-class RANKSDAlgorithm(BaseAlgorithm):
-    def __init__(self, problem: RANKSDProblem, **kwargs):
+class RSDAlgorithm(BaseAlgorithm):
+    def __init__(self, problem: RSDProblem, **kwargs):
         """
         Base class for RANKSD algorithms complexity estimator
 
@@ -30,5 +30,6 @@ class RANKSDAlgorithm(BaseAlgorithm):
         - ``problem`` -- RANKSDProblem object including all necessary parameters
 
         """
-        super(RANKSDAlgorithm, self).__init__(problem, **kwargs)
+        super(RSDAlgorithm, self).__init__(problem, **kwargs)
         self._name = "sample_name"
+        self.w = kwargs.get("w", 2)
