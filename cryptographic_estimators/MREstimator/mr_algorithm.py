@@ -23,22 +23,19 @@ from math import log2
 
 class MRAlgorithm(BaseAlgorithm):
     def __init__(self, problem: MRProblem, **kwargs):
-        """
-        Base class for MR algorithms complexity estimator
+        """Base class for MR algorithms complexity estimator.
 
-        INPUT:
+        Args:
+            problem (MRProblem): MRProblem object including all necessary parameters
+            **kwargs: Additional keyword arguments
+                w (int, optional): linear algebra constant. Defaults to 3.
 
-        - ``problem`` -- MRProblem object including all necessary parameters
-        - ``w`` -- linear algebra constant (default: 3)
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MREstimator.mr_algorithm import MRAlgorithm
-            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: E = MRAlgorithm(MRProblem(q=7, m=9, n=10, k=15, r=4))
-            sage: E
+        Examples:
+            >>> from cryptographic_estimators.MREstimator.mr_algorithm import MRAlgorithm
+            >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            >>> E = MRAlgorithm(MRProblem(q=7, m=9, n=10, k=15, r=4))
+            >>> E
             BaseMRAlgorithm estimator for the MinRank problem with (q, m, n, k, r) = (7, 9, 10, 15, 4)
-
         """
         super(MRAlgorithm, self).__init__(problem, **kwargs)
         w = kwargs.get("w", 3)
@@ -49,25 +46,23 @@ class MRAlgorithm(BaseAlgorithm):
             raise ValueError("w must be in the range 2 <= w <= 3")
 
     def linear_algebra_constant(self):
-        """
-        Return the linear algebra constant
+        """Return the linear algebra constant.
 
-        TESTS::
-
-            sage: from cryptographic_estimators.MREstimator.mr_algorithm import MRAlgorithm
-            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: MRAlgorithm(MRProblem(q=7, m=9, n=10, k=15, r=4), w=2).linear_algebra_constant()
+        Tests:
+            >>> from cryptographic_estimators.MREstimator.mr_algorithm import MRAlgorithm
+            >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            >>> MRAlgorithm(MRProblem(q=7, m=9, n=10, k=15, r=4), w=2).linear_algebra_constant()
             2
         """
         return self._w
 
     def get_problem_parameters_reduced(self, a, lv):
-        """
-        Return the problem parameters of the reduced instance, i.e., after guessing `a` kernel vectors
-        and `lv` entries in the solution vector
+        """Return the problem parameters of the reduced instance.
+    
+        Returns the problem parameters after guessing `a` kernel vectors
+        and `lv` entries in the solution vector.
 
-        INPUT:
-
+        Args:
         - ``a`` -- no. of vectors to guess in the kernel of the low-rank matrix
         - ``lv`` -- no. of entries to guess in the solution vector
         """
@@ -80,15 +75,12 @@ class MRAlgorithm(BaseAlgorithm):
         return q_reduced, m_reduced, n_reduced, k_reduced, r_reduced
 
     def cost_reduction(self, a, lv):
-        """
-        Return the cost of computing the reduced instance, i.e., the obtained instance after one guess of
-        `a` kernel vectors.
-
-        INPUT:
-
-        - ``a`` -- no. of vectors to guess in the kernel of the low-rank matrix
-        - ``lv``-- no. of entries to guess in the solution vector
-
+        """Return the cost of computing the reduced instance.
+    
+        The reduced instance is obtained after one guess of `a` kernel vectors.
+    
+        Args:
+            a: Number of vectors to guess in the kernel of the low-rank matrix
         """
         cost_guess_kernel_vectors = 0
         cost_guess_entries = 0
@@ -105,19 +97,15 @@ class MRAlgorithm(BaseAlgorithm):
         return reduction_cost
 
     def hybridization_factor(self, a, lv):
-        """
-        Return the logarithm of the number of reduced instances to be solved
-
-        INPUT:
-
-        - ``a`` -- no. of vectors to guess in the kernel of the low-rank matrix
-        - ``lv``-- no. of entries to guess in the solution vector
+        """Return the logarithm of the number of reduced instances to be solved.
+    
+        Args:
+            a: No. of vectors to guess in the kernel of the low-rank matrix.
+            lv: No. of entries to guess in the solution vector.
         """
         q, _, _, _, r = self.problem.get_parameters()
         return (r * a + lv) * log2(q)
 
     def __repr__(self):
-        """
-        """
         q, m, n, k, r = self.problem.get_parameters()
         return f"{self._name} estimator for the MinRank problem with (q, m, n, k, r) = ({q}, {m}, {n}, {k}, {r})"
