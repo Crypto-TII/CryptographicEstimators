@@ -16,6 +16,7 @@
 # ****************************************************************************
 
 
+import pytest
 from ..PEEstimator.pe_algorithm import PEAlgorithm
 from ..PEEstimator.pe_problem import PEProblem
 from ..base_estimator import BaseEstimator
