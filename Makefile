@@ -189,7 +189,7 @@ docker-doctests-fast: docker-build
 		# cryptographic_estimators/estimation_renderer.py \
 		# cryptographic_estimators/helper.py \
 		"
-    
+
 docker-kat-tests: CONTAINER_NAME := "pytest-container"
 docker-kat-tests: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME}
