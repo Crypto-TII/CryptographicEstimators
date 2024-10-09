@@ -22,12 +22,11 @@ from math import log2
 from cryptographic_estimators.base_constants import BASE_KEY_RECOVERY_ATTACK
 
 
-#TODO: Add examples and reference
 class KipnisShamir(UOVAlgorithm):
     def __init__(self, problem: UOVProblem, **kwargs):
         """Construct an instance of Kipnis-Shamir estimator.
 
-        In []_, Kipnis and Shamir proposed a powerful attack against the balanced Oil
+        In [Beu20]_, Kipnis and Shamir proposed a powerful attack against the balanced Oil
         and Vinegar signature scheme (n = 2v), which finds an equivalent private key in
         polynomial time. This key can then be used to generate signatures for arbitrary
         messages.
@@ -39,8 +38,6 @@ class KipnisShamir(UOVAlgorithm):
                     0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy 
                     custom function which takes as input the logarithm of the total memory usage).
                 complexity_type: Complexity type to consider (0: estimate, 1: tilde O complexity, default: 0).
-
-        Examples:
         """
 
         super().__init__(problem, **kwargs)
