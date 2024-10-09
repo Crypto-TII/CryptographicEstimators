@@ -21,22 +21,6 @@ def leon2(input, epsilon=0.01):
     return actual_complexity, epsilon
 
 
-# For small values due to rounding issues we have to slightly increase the tolerance
-def leon(input, epsilon=0.2):
-    n, k, q = input
-
-    # due to slightly different calculation of "number_of_weight_d_codewords" optimal w might differ by 1
-    # for some edge cases
-    actual_complexity_1 = Leon(PEProblem(n, k, q), **leon_params).time_complexity()
-    actual_complexity_2 = Leon(PEProblem(n, k, q), **leon_params).time_complexity(
-        w=A.optimal_parameters()["w"] - 1
-    )
-
-    # FIX: Now what?
-
-    return actual_complexity, epsilon
-
-
 def beullens(input, epsilon=0.01):
     n, k, q = input
 
