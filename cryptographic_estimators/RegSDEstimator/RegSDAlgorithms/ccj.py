@@ -23,25 +23,21 @@ from math import log2, ceil, inf
 
 
 class CCJ(RegSDAlgorithm):
-    """
-    Construct an instance of CCJ estimator from [CCJ23]_
-    (concrete formulas taken from [ES23]_)
-
-    INPUT:
-
-    - ``problem`` -- an instance of the RegSDProblem class
-
-    EXAMPLES::
-
-    sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import CCJ
-    sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
-    sage: A = CCJ(RegSDProblem(n=100,k=50,w=10))
-    sage: A
-    CCJ estimator for the RegSDProblem with parameters (n, k, w) = (100, 50, 10)
-    """
-
     def __init__(self, problem: RegSDProblem, **kwargs):
+        """Construct an instance of CCJ estimator from [CCJ23]_.
 
+        (concrete formulas taken from [ES23]_)
+
+        Args:
+            problem (RegSDProblem): an instance of the RegSDProblem class
+
+        Examples:
+            >>> from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import CCJ
+            >>> from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            >>> A = CCJ(RegSDProblem(n=100,k=50,w=10))
+            >>> A
+            CCJ estimator for the RegSDProblem with parameters (n, k, w) = (100, 50, 10)
+        """
         super(CCJ, self).__init__(problem, **kwargs)
         n, k, w = self.problem.get_parameters()
         self._name = "CCJ"
@@ -49,23 +45,22 @@ class CCJ(RegSDAlgorithm):
 
     @optimal_parameter
     def ell(self):
-        """
-        Return the optimal parameter $ell$ used in the algorithm optimization
+        """Return the optimal parameter ell used in the algorithm optimization.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import CCJ
-            sage: from cryptographic_estimators.RegSDEstimator import RegSDProblem
-            sage: A = CCJ(RegSDProblem(n=100,k=50,w=10))
-            sage: A.ell()
+        Examples:
+            >>> from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import CCJ
+            >>> from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            >>> A = CCJ(RegSDProblem(n=100,k=50,w=10))
+            >>> A.ell()
             10
         """
         return self._get_optimal_parameter("ell")
 
     def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
-        set parameters in `_optimal_parameters`
+        """Generator yielding new sets of valid parameters.
+    
+        Yields new sets of valid parameters based on the `_parameter_ranges` and
+        already set parameters in `_optimal_parameters`.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
 
@@ -84,13 +79,10 @@ class CCJ(RegSDAlgorithm):
             yield indices
 
     def _compute_time_and_memory_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         n, k, w = self.problem.get_parameters()
         ell = parameters["ell"]

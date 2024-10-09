@@ -16,17 +16,14 @@
 # ****************************************************************************
 
 
-import collections
 from .scipy_model import ScipyModel
 from ..sd_problem import SDProblem
-from .workfactor_helper import representations_asymptotic, binomial_approximation, may_ozerov_near_neighbor_time
+from .workfactor_helper import binomial_approximation
 
 
 class PrangeScipyModel(ScipyModel):
     def __init__(self, par_names: list, problem: SDProblem, iterations, accuracy):
-        """
-        Optimization model for workfactor computation of Prange's algorithm
-        """
+        """Optimization model for workfactor computation of Prange's algorithm."""
         par_names += ["p"]
         super().__init__(par_names, problem, iterations, accuracy)
 

@@ -44,7 +44,7 @@ def collect_ext_modules() -> List[ModuleType]:
 
         if ext == ".py":
             try:
-                module = import_module(f"{root_package_name}.{module_path}")
+                module = import_module(f"{module_path}")
                 modules.append(module)
             except ImportError as e:
                 print(f"Error importing {module_path}: {e}")
