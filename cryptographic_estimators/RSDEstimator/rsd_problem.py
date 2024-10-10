@@ -19,12 +19,12 @@
 from ..base_problem import BaseProblem
 from .rsd_constants import *
 from math import log2, ceil
-from ..MQEstimator.mq_helper import ngates
-from cryptographic_estimators.helper import is_prime_power
+from cryptographic_estimators.helper import is_prime_power, ngates
+
 
 class RSDProblem(BaseProblem):
     """
-    Construct an instance of RANKSDProblem. Contains the parameters to optimize
+    Construct an instance of RSDProblem. Contains the parameters to optimize
     over.
 
     INPUT: 
@@ -58,7 +58,6 @@ class RSDProblem(BaseProblem):
 
         if self._theta is not None and not (0 <= self._theta <= 2):
             raise ValueError("theta must be either None or 0<=theta <= 2")
-
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """
@@ -100,4 +99,4 @@ class RSDProblem(BaseProblem):
         return list(self.parameters.values())
 
     def __repr__(self):
-        return "RANKSDProblem"
+        return "RSDProblem"

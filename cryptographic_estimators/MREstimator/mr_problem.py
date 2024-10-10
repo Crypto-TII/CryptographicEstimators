@@ -18,7 +18,7 @@
 
 from ..base_problem import BaseProblem
 from .mr_constants import *
-from ..MQEstimator.mq_helper import ngates
+from ..helper import ngates
 from sage.arith.misc import is_prime_power
 from sage.functions.other import ceil
 from math import log2

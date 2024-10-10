@@ -23,11 +23,11 @@ from .rsd_problem import RSDProblem
 class RSDAlgorithm(BaseAlgorithm):
     def __init__(self, problem: RSDProblem, **kwargs):
         """
-        Base class for RANKSD algorithms complexity estimator
+        Base class for RSD algorithms complexity estimator
 
         INPUT:
 
-        - ``problem`` -- RANKSDProblem object including all necessary parameters
+        - ``problem`` -- RSDProblem object including all necessary parameters
 
         """
         super(RSDAlgorithm, self).__init__(problem, **kwargs)

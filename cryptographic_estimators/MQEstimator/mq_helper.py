@@ -17,35 +17,7 @@
 
 
 from cryptographic_estimators.MQEstimator.series.nmonomial import NMonomialSeries
-from math import log2, comb as binomial
-from cryptographic_estimators.helper import is_prime_power
-
-
-def ngates(q, n, theta=2):
-    """Returns the number of gates for the given number of multiplications in a finite field.
-
-    Args:
-        q (int): The order of the finite field.
-        n (int): The number of multiplications (logarithmic).
-        theta (int): The exponent of the conversion factor (default: 2).
-
-    Examples:
-        >>> from cryptographic_estimators.MQEstimator.mq_helper import ngates
-        >>> ngates(16, 16)
-        20.0
-
-    Tests:
-        >>> ngates(6, 2**16)
-        Traceback (most recent call last):
-        ...
-        ValueError: q must be a prime power
-    """
-    if not is_prime_power(q):
-        raise ValueError("q must be a prime power")
-    if theta is None:
-        return n + log2(2 * log2(q) ** 2 + log2(q))
-    else:
-        return n + log2(log2(q)) * theta
+from math import comb as binomial
 
 
 def nmonomials_of_degree(d, n, q=None):
