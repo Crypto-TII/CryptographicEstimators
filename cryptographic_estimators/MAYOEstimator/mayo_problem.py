@@ -24,25 +24,24 @@ from math import log2, ceil
 
 
 class MAYOProblem(BaseProblem):
-    """
-    Construct an instance of MAYOProblem.
-
-    INPUT:
-
-    - ``n`` -- number of variables
-    - ``m`` -- number of polynomials
-    - ``o`` -- dimension of the oil space
-    - ``k`` -- whipping parameter
-    - ``q`` -- order of the finite field
-    - ``theta`` -- exponent of the conversion factor (default: None)
-        - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
-        - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
-    - ``cost_one_hash`` -- bit complexity of computing one hash value (default: 17)
-    - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
-
-    """
-
     def __init__(self, n: int, m: int, o: int, k: int, q: int, **kwargs):
+        """Construct an instance of MAYOProblem.
+
+        Args:
+            n (int): Number of variables
+            m (int): Number of polynomials
+            o (int): Dimension of the oil space
+            k (int): Whipping parameter
+            q (int): Order of the finite field
+            **kwargs: Additional keyword arguments
+                theta (float or None): Exponent of the conversion factor. If 0 <= theta <= 2,
+                    every multiplication in GF(q) is counted as log2(q) ^ theta binary operation.
+                    If None, every multiplication in GF(q) is counted as 2 * log2(q) ^ 2 + log2(q)
+                    binary operation. Default is None.
+                cost_one_hash (int): Bit complexity of computing one hash value. Default is 17.
+                memory_bound (float): Maximum allowed memory to use for solving the problem.
+                    Default is inf.
+        """
         super().__init__(**kwargs)
 
         theta = kwargs.get("theta", None)
@@ -81,13 +80,10 @@ class MAYOProblem(BaseProblem):
         self._cost_one_hash = cost_one_hash
 
     def hashes_to_basic_operations(self, number_of_hashes: float):
-        """
-        Return the number basic operations corresponding to a certain amount of hashes
-
-        INPUT:
-
-        - ``number_of_hashes`` -- Number of hashes  (logarithmic) (default: None)
-
+        """Return the number basic operations corresponding to a certain amount of hashes.
+    
+        Args:
+            number_of_hashes (float): Number of hashes (logarithmic)
         """
         bit_complexity_one_hash = self._cost_one_hash
         bit_complexity_all_hashes = number_of_hashes + bit_complexity_one_hash
@@ -96,103 +92,67 @@ class MAYOProblem(BaseProblem):
         return number_of_basic_operations
 
     def to_bitcomplexity_time(self, basic_operations: float):
-        """
-        Returns the bit-complexity corresponding to a certain amount of basic_operations
-
-        INPUT:
-
-        - ``basic_operations`` -- Number of basic operations (logarithmic)
-
+        """Returns the bit-complexity corresponding to a certain amount of basic_operations.
+    
+        Args:
+            basic_operations (float): Number of basic operations (logarithmic)
         """
         q = self.parameters[MAYO_FIELD_SIZE]
         theta = self._theta
         return ngates(q, basic_operations, theta=theta)
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
-        """
-        Returns the memory bit-complexity associated to a given number of elements to store
-
-        INPUT:
-
-        - ``elements_to_store`` -- number of memory operations (logarithmic)
-
+        """Returns the memory bit-complexity associated to a given number of elements to store.
+    
+        Args:
+            elements_to_store (float): Number of memory operations (logarithmic)
         """
         q = self.parameters[MAYO_FIELD_SIZE]
         return log2(ceil(log2(q))) + elements_to_store
 
     def get_parameters(self):
-        """
-        Returns the optimizations parameters
-
-        """
+        """Returns the optimizations parameters."""
         return list(self.parameters.values())
     
     def npolynomials(self):
-        """"
-        Return the number of polynomials
-  
-        """
+        """Return the number of polynomials."""
         return self.parameters[MAYO_NUMBER_POLYNOMIALS]
     
     def nvariables(self):
-        """
-        Return the number of variables
-
-        """
+        """Return the number of variables."""
         return self.parameters[MAYO_NUMBER_VARIABLES]
     
 
     def order_oil_space(self):
-        """
-        Return the dimension of the oil space
-
-        """
+        """Return the dimension of the oil space."""
         return self.parameters[MAYO_OIL_SPACE]
     
     def whipping_parameter(self):
-        """
-        Return the whipping parameter
-        
-        """
+        """Return the whipping parameter."""
         return self.parameters[MAYO_WHIPPING_PARAMETER]
 
     def order_of_the_field(self):
-        """
-        Return the order of the field
-
-        """
+        """Return the order of the field."""
         return self.parameters[MAYO_FIELD_SIZE]
 
     @property
     def theta(self):
-        """
-        Returns the runtime of the algorithm
-
-        """
+        """Returns the runtime of the algorithm."""
         return self._theta
 
     @theta.setter
     def theta(self, value: float):
-        """
-        Sets the runtime
-
-        """
+        """Sets the runtime."""
         self._theta = value
 
     @property
     def cost_one_hash(self):
-        """
-        Returns the bit-complexity of computing one hash
-
-        """
+        """Returns the bit-complexity of computing one hash."""
         return self._cost_one_hash
 
     @cost_one_hash.setter
     def cost_one_hash(self, value: float):
-        """
-        Sets the bit-complexity of computing one hash
-
-        """
+        """Sets the bit-complexity of computing one hash."""
         self._cost_one_hash = value
 
     def __repr__(self):
