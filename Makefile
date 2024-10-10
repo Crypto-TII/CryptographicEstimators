@@ -102,6 +102,7 @@ docker-test: docker-build
 		# cryptographic_estimators/MREstimator/ \
 		# cryptographic_estimators/RegSDEstimator/ \
 		# cryptographic_estimators/MAYOEstimator/ \
+		# cryptographic_estimators/BIKEEstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
@@ -131,6 +132,7 @@ docker-testfast: docker-build
 		# cryptographic_estimators/MREstimator/ \
 		# cryptographic_estimators/RegSDEstimator/ \
 		# cryptographic_estimators/MAYOEstimator/ \
+		# cryptographic_estimators/BIKEEstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
@@ -148,6 +150,7 @@ docker-doctests: docker-build
 		cryptographic_estimators/MREstimator/ \
 		cryptographic_estimators/RegSDEstimator/ \
 		cryptographic_estimators/MAYOEstimator/ \
+		cryptographic_estimators/BIKEEstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
 		# cryptographic_estimators/PEEstimator/ \
@@ -174,6 +177,7 @@ docker-doctests-fast: docker-build
 		cryptographic_estimators/MREstimator/ \
 		cryptographic_estimators/RegSDEstimator/ \
 		cryptographic_estimators/MAYOEstimator/ \
+		cryptographic_estimators/BIKEEstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
 		# cryptographic_estimators/PEEstimator/ \

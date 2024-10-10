@@ -24,16 +24,14 @@ from ...SDEstimator import SDEstimator
 from math import log2
 
 class SDKeyAttack(BIKEAlgorithm):
-    """
-    Construct an instance of SDKeyAttack estimator
-    (estimates complexity of solving syndrome decoding problem corresponding to recovering the BIKE secret key from its public key)
-
-    INPUT:
-
-    - ``problem`` -- an instance of the BIKEProblem class
-    """
-
     def __init__(self, problem: BIKEProblem, **kwargs):
+        """Construct an instance of SDKeyAttack estimator.
+
+        Estimates complexity of solving syndrome decoding problem corresponding to recovering the BIKE secret key from its public key.
+
+        Args:
+            problem (BIKEProblem): An instance of the BIKEProblem class.
+        """
         self._name = "SDKeyAttack"
         super(SDKeyAttack, self).__init__(problem, **kwargs)
         self._attack_type = BASE_ATTACK_TYPE_KEY_RECOVERY
@@ -43,73 +41,53 @@ class SDKeyAttack(BIKEAlgorithm):
 
     @BaseAlgorithm.complexity_type.setter
     def complexity_type(self, input_type):
-        """
-        sets complexity type of algorithm and included SDEstimator object
-        """
+        """Sets complexity type of algorithm and included SDEstimator object."""
         BaseAlgorithm.complexity_type.fset(self, input_type)
         self._SDEstimator.complexity_type = input_type
 
     def get_fastest_sd_algorithm(self):
-        """
-        Fastest algorithm returned by the SDEstimator object
-        """
+        """Fastest algorithm returned by the SDEstimator object."""
         return self._SDEstimator.fastest_algorithm()
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         return self.get_fastest_sd_algorithm().time_complexity()
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Return the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         return self.get_fastest_sd_algorithm().memory_complexity()
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the tilde-O time complexity of the algorithm
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Return the tilde-O time complexity of the algorithm.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         return self.get_fastest_sd_algorithm().time_complexity()
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Return the tilde-O memory complexity of the algorithm
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Return the tilde-O memory complexity of the algorithm.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         return self.get_fastest_sd_algorithm().memory_complexity()
 
     def get_optimal_parameters_dict(self):
-        """
-        return the optimal parameters of the internally used sd algorithm
-        """
+        """Return the optimal parameters of the internally used sd algorithm."""
         parameters_sd = self.get_fastest_sd_algorithm().get_optimal_parameters_dict()
         parameters_sd["SD-algorithm"] = self.get_fastest_sd_algorithm()._name
         return parameters_sd
 
     def reset(self):
-        """
-        reset to the initial state of the estimation object
-        """
+        """Reset to the initial state of the estimation object."""
         super().reset()
         self._SDEstimator.reset()
