@@ -26,26 +26,23 @@ from math import log2, e
 
 
 class ClawFinding(MAYOAlgorithm):
-    """
-    Construct an instance of ClawFinding estimator
-
-    Claw finding attack is a general attack which works against any signature which 
-    follows the hash-and-sign paradigm. 
-
-    INPUT:
-
-    - ``problem`` -- MAYOProblem object including all necessary parameters
-    - ``w`` -- linear algebra constant (default: obtained from MAYOAlgorithm)
-    - ``h`` -- external hybridization parameter (default: 0)
-    - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
-    - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-    - ``complexity_type`` -- complexity type to consider (0: estimate, default: 0)
-    - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
-    - ``hash_bit_size` -- hash function output size given in bits (default: 512)
-    
-    """
-
     def __init__(self, problem: MAYOProblem, **kwargs):
+        """Construct an instance of ClawFinding estimator.
+
+        Claw finding attack is a general attack which works against any signature which
+        follows the hash-and-sign paradigm.
+
+        Args:
+            problem (MAYOProblem): MAYOProblem object including all necessary parameters
+            **kwargs: Additional keyword arguments
+                w: Linear algebra constant (default: obtained from MAYOAlgorithm)
+                h: External hybridization parameter (default: 0)
+                excluded_algorithms: A list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
+                memory_access: Specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
+                complexity_type: Complexity type to consider (0: estimate, default: 0)
+                bit_complexities: Determines if complexity is given in bit operations or basic operations (default 1: in bit)
+                hash_bit_size: Hash function output size given in bits (default: 512)
+        """
         super().__init__(problem, **kwargs)
 
         self._name = "ClawFinding"
@@ -57,19 +54,17 @@ class ClawFinding(MAYOAlgorithm):
 
     @optimal_parameter
     def X(self):
-        """
-        Return logarithm of the optimal `X`, i.e. no. of inputs (preimages)
+        """Return logarithm of the optimal `X`, i.e. number of inputs (preimages).
+    
         Optimal value for `X` is obtained from optimizing the bit-cost expression of the attack 
-        reported in MAYO specification (see Section 5.4 in [BCCHK23]_) 36 * m * X + Y * 2 ** 17 using X * Y = q ** m 
+        reported in MAYO specification (see Section 5.4 in [BCCHK23]_) 36 * m * X + Y * 2 ** 17 using X * Y = q ** m
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.claw_finding import ClawFinding
-            sage: E = ClawFinding(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
-            sage: E.X()
+        Examples:
+            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.claw_finding import ClawFinding
+            >>> E = ClawFinding(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
+            >>> E.X()
             122.962
-
         """
         _, m, _, _, q = self.problem.get_parameters()
         X = (1 / 2) * (17 - log2(36 * m) + m * log2(q))
@@ -78,18 +73,17 @@ class ClawFinding(MAYOAlgorithm):
 
     @optimal_parameter
     def Y(self):
-        """
-        Return logarithm of the optimal `Y`, i.e. logarithm of no. of hashes to compute
-        Optimal value for `Y` is obtained from X * Y = q ** m using the optimal value of `X`
+        """Return logarithm of the optimal Y.
+    
+        Return logarithm of the number of hashes to compute.
+        Optimal value for Y is obtained from X * Y = q ** m using the optimal value of X.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.claw_finding import ClawFinding
-            sage: E = ClawFinding(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
-            sage: E.Y()
+        Examples:
+            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.claw_finding import ClawFinding
+            >>> E = ClawFinding(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
+            >>> E.Y()
             117.038
-
         """
         X =  self.X()
         _, m, _, _, q = self.problem.get_parameters()
@@ -98,21 +92,17 @@ class ClawFinding(MAYOAlgorithm):
         return Y_rounded
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.claw_finding import ClawFinding
-            sage: E = ClawFinding(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
-            sage: E.time_complexity()
+        Tests:
+            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.claw_finding import ClawFinding
+            >>> E = ClawFinding(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
+            >>> E.time_complexity()
             134.0384078561605
-
         """
         m = self.problem.npolynomials()
         X = self.X()
@@ -124,21 +114,17 @@ class ClawFinding(MAYOAlgorithm):
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
+        """Return the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.claw_finding import ClawFinding
-            sage: E = ClawFinding(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
-            sage: E.memory_complexity()
+        Tests:
+            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.claw_finding import ClawFinding
+            >>> E = ClawFinding(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
+            >>> E.memory_complexity()
             124.038
-
         """
         X = self.X()
         Y = self.Y()
