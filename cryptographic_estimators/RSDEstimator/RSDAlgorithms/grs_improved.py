@@ -23,13 +23,13 @@ from math import log2, ceil
 
 class GRSImproved(RSDAlgorithm):
     """
-    Construct an instance of RANKSDAlgorithm1 estimator
+    Construct an instance of RSDAlgorithm1 estimator
 
     Add reference to correponding paper here.
 
     INPUT:
 
-    - ``problem`` -- an instance of the RANKSDProblem class
+    - ``problem`` -- an instance of the RSDProblem class
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):

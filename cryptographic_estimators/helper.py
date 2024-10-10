@@ -17,6 +17,9 @@
 
 from enum import Enum
 from bisect import bisect_left
+from math import log2
+
+import cryptographic_estimators
 
 
 class ComplexityType(Enum):
@@ -270,3 +273,30 @@ def gf_order_to_degree(q):
         return degree
     else:
         raise ValueError("q must be a prime power.")
+
+
+def ngates(q, n, theta=2):
+    """Returns the number of gates for the given number of multiplications in a finite field.
+
+    Args:
+        q (int): The order of the finite field.
+        n (int): The number of multiplications (logarithmic).
+        theta (int): The exponent of the conversion factor (default: 2).
+
+    Examples:
+        >>> from cryptographic_estimators.MQEstimator.mq_helper import ngates
+        >>> ngates(16, 16)
+        20.0
+
+    Tests:
+        >>> ngates(6, 2**16)
+        Traceback (most recent call last):
+        ...
+        ValueError: q must be a prime power
+    """
+    if not is_prime_power(q):
+        raise ValueError("q must be a prime power")
+    if theta is None:
+        return n + log2(2 * log2(q) ** 2 + log2(q))
+    else:
+        return n + log2(log2(q)) * theta
