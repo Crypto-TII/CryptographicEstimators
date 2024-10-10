@@ -27,25 +27,21 @@ from math import log2, floor
 
 
 class DirectAttack(MAYOAlgorithm):
-    """
-    Construct an instance of DirectAttack estimator
-
-    The most straightforward attack against MAYO is the direct attack, in which the attacker 
-    aims to solve an instance of the MQ problem associated with the public map P^* [BCCHK23]_.
-
-    INPUT:
-
-    - ``problem`` -- MAYOProblem object including all necessary parameters
-    - ``w`` -- linear algebra constant (default: obtained from MAYOAlgorithm)
-    - ``h`` -- external hybridization parameter (default: 0)
-    - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
-    - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-    - ``complexity_type`` -- complexity type to consider (0: estimate, default: 0)
-    - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
-
-    """
-
     def __init__(self, problem: MAYOProblem, **kwargs):
+        """Construct an instance of DirectAttack estimator.
+
+        The most straightforward attack against MAYO is the direct attack, in which the attacker 
+        aims to solve an instance of the MQ problem associated with the public map P^* [BCCHK23]_.
+
+        Args:
+            problem (MAYOProblem): MAYOProblem object including all necessary parameters
+            w: Linear algebra constant (default: obtained from MAYOAlgorithm)
+            h: External hybridization parameter (default: 0)
+            excluded_algorithms: A list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
+            memory_access: Specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
+            complexity_type: Complexity type to consider (0: estimate, default: 0)
+            bit_complexities: Determines if complexity is given in bit operations or basic operations (default 1: in bit)
+        """
         super().__init__(problem, **kwargs)
 
         self._name = "DirectAttack"
@@ -78,15 +74,13 @@ class DirectAttack(MAYOAlgorithm):
 
     @optimal_parameter
     def K(self):
-        """
-        Return the optimal parameter `K` from Furue, Nakamura, and Takagi strategy [FNT21]_.
+        """Return the optimal parameter `K` from Furue, Nakamura, and Takagi strategy [FNT21]_.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
-            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            sage: E = DirectAttack(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
-            sage: E.K()
+        Examples:
+            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
+            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            >>> E = DirectAttack(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
+            >>> E.K()
             15
                 
         """
@@ -101,29 +95,23 @@ class DirectAttack(MAYOAlgorithm):
         return self._optimal_parameters.get("K")
 
     def get_fastest_mq_algorithm(self):
-        """
-        Return the fastest algorithm for solving the MQ instance associated with the attack
-        """
+        """Return the fastest algorithm for solving the MQ instance associated with the attack."""
         if self._fastest_algorithm is None:
             self._fastest_algorithm = self._MQEstimator.fastest_algorithm()
         return self._fastest_algorithm
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
-            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            sage: E = DirectAttack(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
-            sage: E.time_complexity()
+        Tests:
+            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
+            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            >>> E = DirectAttack(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
+            >>> E.time_complexity()
             144.82775006902293
-
         """
         q = self.problem.order_of_the_field()
         fastest_algorithm = self.get_fastest_mq_algorithm()
@@ -131,21 +119,17 @@ class DirectAttack(MAYOAlgorithm):
         return self._fastest_algorithm.time_complexity() + self._K * log2(q)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
+        """Return the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
-            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            sage: E = DirectAttack(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
-            sage: E.memory_complexity()
+        Tests:
+            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
+            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            >>> E = DirectAttack(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
+            >>> E.memory_complexity()
             35.269766417276806
-
         """
         n, m, _, _, _ = self.problem.get_parameters()
         fastest_algorithm = self.get_fastest_mq_algorithm()
@@ -153,10 +137,7 @@ class DirectAttack(MAYOAlgorithm):
         return max(fastest_algorithm.memory_complexity(), log2(m * n ** 2))
     
     def get_optimal_parameters_dict(self):
-        """
-        Returns the optimal parameters dictionary
-
-        """
+        """Returns the optimal parameters dictionary."""
         fastest_algorithm = self.get_fastest_mq_algorithm()
         d = fastest_algorithm.get_optimal_parameters_dict()
         d["K"] = self._K

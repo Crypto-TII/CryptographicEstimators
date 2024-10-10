@@ -22,12 +22,9 @@ from .bike_problem import BIKEProblem
 
 class BIKEAlgorithm(BaseAlgorithm):
     def __init__(self, problem: BIKEProblem, **kwargs):
-        """
-        Base class for BIKE algorithms complexity estimator
+        """Base class for BIKE algorithms complexity estimator.
 
-        INPUT:
-
-        - ``problem`` -- BIKEProblem object including all necessary parameters
-
+        Args:
+            problem (BIKEProblem): BIKEProblem object including all necessary parameters
         """
         super(BIKEAlgorithm, self).__init__(problem, **kwargs)
