@@ -25,26 +25,22 @@ from math import log2, inf, ceil, log, comb as binom
 
 
 class Beullens(LEAlgorithm):
-
     def __init__(self, problem: LEProblem, **kwargs):
-        """
-        Complexity estimate of Beullens algorithm
+        """Complexity estimate of Beullens algorithm.
 
         Estimates are adapted versions of the scripts derived in [Beu20]_ with the code accessible at
         https://github.com/WardBeullens/LESS_Attack
 
-        INPUT:
+        Args:
+            problem (LEProblem): Object including all necessary parameters
+            **kwargs: Additional keyword arguments
+                sd_parameters (dict): Parameters for SDFqEstimator used as a subroutine (default: {})
 
-        - ``problem`` -- LEProblem object including all necessary parameters
-        - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import Beullens
-            sage: from cryptographic_estimators.LEEstimator import LEProblem
-            sage: Beullens(LEProblem(n=100,k=50,q=3))
+        Examples:
+            >>> from cryptographic_estimators.LEEstimator.LEAlgorithms import Beullens
+            >>> from cryptographic_estimators.LEEstimator import LEProblem
+            >>> Beullens(LEProblem(n=100,k=50,q=3))
             Beullens estimator for permutation equivalence problem with (n,k,q) = (100,50,3)
-
         """
         super().__init__(problem, **kwargs)
         self._name = "Beullens"
@@ -53,29 +49,23 @@ class Beullens(LEAlgorithm):
 
     @optimal_parameter
     def w(self):
-        """
-        Return the optimal parameter $w$ used in the algorithm optimization
+        """Return the optimal parameter w used in the algorithm optimization.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import Beullens
-            sage: from cryptographic_estimators.LEEstimator import LEProblem
-            sage: A = Beullens(LEProblem(n=100,k=50,q=3))
-            sage: A.w()
+        Examples:
+            >>> from cryptographic_estimators.LEEstimator.LEAlgorithms import Beullens
+            >>> from cryptographic_estimators.LEEstimator import LEProblem
+            >>> A = Beullens(LEProblem(n=100,k=50,q=3))
+            >>> A.w()
             34
-
         """
         return self._get_optimal_parameter("w")
 
     def _time_and_memory_complexity(self, parameters, verbose_information=None):
-        """
-        Return time and memory complexity of Beulens algorithm for given parameters
-
-        INPUT:
-
-        -  ``parameters`` -- dictionary including parameters
-        -  ``verbose_information`` -- if set to a dictionary with additional information will be returned.
-
+        """Return time and memory complexity of Beulens algorithm for given parameters.
+    
+        Args:
+            parameters (dict): Dictionary including parameters.
+            verbose_information (dict, optional): If set, additional information will be returned.
         """
         n, k, q = self.problem.get_parameters()
         w = parameters["w"]
@@ -108,9 +98,7 @@ class Beullens(LEAlgorithm):
         return self._time_and_memory_complexity(parameters)[1]
 
     def _get_verbose_information(self):
-        """
-        returns a dictionary containing additional algorithm information
-        """
+        """Returns a dictionary containing additional algorithm information."""
         verb = dict()
         _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)
         return verb
