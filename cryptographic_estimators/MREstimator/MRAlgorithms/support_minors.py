@@ -15,16 +15,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-from ...MREstimator.mr_algorithm import MRAlgorithm
-from ...MREstimator.mr_problem import MRProblem
-from ...base_algorithm import optimal_parameter
 from math import log2, ceil
-from sage.arith.misc import binomial
 from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, \
     MR_NUMBER_OF_COEFFICIENTS_TO_GUESS, \
     MR_REDUCED_NUMBER_OF_COLUMNS, \
     MR_LINEAR_VARIABLES_DEGREE, MR_VARIANT
+from ...MREstimator.mr_algorithm import MRAlgorithm
+from ...MREstimator.mr_problem import MRProblem
 from ...MREstimator.mr_helper import Variant, _strassen_complexity_, _bw_complexity_
+from ...MREstimator.mr_helper import extended_binomial as binomial
+from ...base_algorithm import optimal_parameter
 
 
 class SupportMinors(MRAlgorithm):
