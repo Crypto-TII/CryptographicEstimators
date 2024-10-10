@@ -85,7 +85,6 @@ docker-test: docker-build
 	@echo "Running Sage doctests..."
 	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
 		sage -t --long --timeout 3600 --force-lib \
-		cryptographic_estimators/DummyEstimator/ \
 		cryptographic_estimators/LEEstimator/ \
 		cryptographic_estimators/PEEstimator/ \
 		cryptographic_estimators/PKEstimator/ \
@@ -95,6 +94,7 @@ docker-test: docker-build
 		cryptographic_estimators/base_problem.py \
 		cryptographic_estimators/estimation_renderer.py \
 		cryptographic_estimators/helper.py \
+		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/SDEstimator/ \
 		# cryptographic_estimators/MQEstimator/ \
 		# cryptographic_estimators/SDFqEstimator/ \
@@ -115,7 +115,6 @@ docker-testfast: docker-build
 	@echo "Running short Sage doctests..."
 	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
 		sage -t --timeout 3600 --force-lib \
-		cryptographic_estimators/DummyEstimator/ \
 		cryptographic_estimators/LEEstimator/ \
 		cryptographic_estimators/PEEstimator/ \
 		cryptographic_estimators/PKEstimator/ \
@@ -125,6 +124,7 @@ docker-testfast: docker-build
 		cryptographic_estimators/base_problem.py \
 		cryptographic_estimators/estimation_renderer.py \
 		cryptographic_estimators/helper.py \
+		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/SDEstimator/ \
 		# cryptographic_estimators/MQEstimator/ \
 		# cryptographic_estimators/SDFqEstimator/ \
@@ -144,6 +144,7 @@ docker-doctests: docker-build
 	@echo "Running doctests..."
 	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
 		pytest --doctest-modules -n auto -vv -s \
+		cryptographic_estimators/DummyEstimator/ \
 		cryptographic_estimators/SDEstimator/ \
 		cryptographic_estimators/MQEstimator/ \
 		cryptographic_estimators/SDFqEstimator/ \
@@ -152,7 +153,6 @@ docker-doctests: docker-build
 		cryptographic_estimators/MAYOEstimator/ \
 		cryptographic_estimators/BIKEEstimator/ \
 		cryptographic_estimators/UOVEstimator/ \
-		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
 		# cryptographic_estimators/PEEstimator/ \
 		# cryptographic_estimators/PKEstimator/ \
@@ -171,6 +171,7 @@ docker-doctests-fast: docker-build
 	@echo "Running short doctests..."
 	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
 		pytest --skip-long-doctests  --doctest-modules -n auto -vv -s \
+		cryptographic_estimators/DummyEstimator/ \
 		cryptographic_estimators/SDEstimator/ \
 		cryptographic_estimators/MQEstimator/ \
 		cryptographic_estimators/SDFqEstimator/ \
@@ -179,7 +180,6 @@ docker-doctests-fast: docker-build
 		cryptographic_estimators/MAYOEstimator/ \
 		cryptographic_estimators/BIKEEstimator/ \
 		cryptographic_estimators/UOVEstimator/ \
-		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
 		# cryptographic_estimators/PEEstimator/ \
 		# cryptographic_estimators/PKEstimator/ \
