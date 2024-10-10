@@ -128,8 +128,8 @@ docker-testfast: docker-build
 		# cryptographic_estimators/SDFqEstimator/ \
 		# cryptographic_estimators/MREstimator/ \
 		# cryptographic_estimators/RegSDEstimator/ \
-	    # cryptographic_estimators/LEEstimator/ \
-	    # cryptographic_estimators/PKEstimator/ \
+	  # cryptographic_estimators/LEEstimator/ \
+	  # cryptographic_estimators/PKEstimator/ \
 		# cryptographic_estimators/MAYOEstimator/ \
 		# cryptographic_estimators/BIKEEstimator/ \
 		# cryptographic_estimators/UOVEstimator/ \
@@ -166,7 +166,8 @@ docker-doctests: docker-build
 
 docker-doctests-fast: CONTAINER_NAME := "pytest-container"
 docker-doctests-fast: docker-build
-	@make stop-container-and-remove container_name=${CONTAINER_NAME}
+	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
+	    || true
 	@echo "Running short doctests..."
 	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
 		pytest --skip-long-doctests  --doctest-modules -n auto -vv -s \
