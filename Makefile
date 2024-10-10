@@ -87,7 +87,6 @@ docker-test: docker-build
 		sage -t --long --timeout 3600 --force-lib \
 		cryptographic_estimators/DummyEstimator/ \
 		cryptographic_estimators/LEEstimator/ \
-		cryptographic_estimators/MAYOEstimator/ \
 		cryptographic_estimators/PEEstimator/ \
 		cryptographic_estimators/PKEstimator/ \
 		cryptographic_estimators/UOVEstimator/ \
@@ -102,6 +101,7 @@ docker-test: docker-build
 		# cryptographic_estimators/SDFqEstimator/ \
 		# cryptographic_estimators/MREstimator/ \
 		# cryptographic_estimators/RegSDEstimator/ \
+		# cryptographic_estimators/MAYOEstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
@@ -116,7 +116,6 @@ docker-testfast: docker-build
 		sage -t --timeout 3600 --force-lib \
 		cryptographic_estimators/DummyEstimator/ \
 		cryptographic_estimators/LEEstimator/ \
-		cryptographic_estimators/MAYOEstimator/ \
 		cryptographic_estimators/PEEstimator/ \
 		cryptographic_estimators/PKEstimator/ \
 		cryptographic_estimators/UOVEstimator/ \
@@ -131,6 +130,7 @@ docker-testfast: docker-build
 		# cryptographic_estimators/SDFqEstimator/ \
 		# cryptographic_estimators/MREstimator/ \
 		# cryptographic_estimators/RegSDEstimator/ \
+		# cryptographic_estimators/MAYOEstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
@@ -147,9 +147,9 @@ docker-doctests: docker-build
 		cryptographic_estimators/SDFqEstimator/ \
 		cryptographic_estimators/MREstimator/ \
 		cryptographic_estimators/RegSDEstimator/ \
+		cryptographic_estimators/MAYOEstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
-		# cryptographic_estimators/MAYOEstimator/ \
 		# cryptographic_estimators/PEEstimator/ \
 		# cryptographic_estimators/PKEstimator/ \
 		# cryptographic_estimators/UOVEstimator/ \
@@ -163,7 +163,8 @@ docker-doctests: docker-build
 
 docker-doctests-fast: CONTAINER_NAME := "pytest-container"
 docker-doctests-fast: docker-build
-	@make stop-container-and-remove container_name=${CONTAINER_NAME}
+	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
+	    || true
 	@echo "Running short doctests..."
 	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
 		pytest --skip-long-doctests  --doctest-modules -n auto -vv -s \
@@ -172,9 +173,9 @@ docker-doctests-fast: docker-build
 		cryptographic_estimators/SDFqEstimator/ \
 		cryptographic_estimators/MREstimator/ \
 		cryptographic_estimators/RegSDEstimator/ \
+		cryptographic_estimators/MAYOEstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
-		# cryptographic_estimators/MAYOEstimator/ \
 		# cryptographic_estimators/PEEstimator/ \
 		# cryptographic_estimators/PKEstimator/ \
 		# cryptographic_estimators/UOVEstimator/ \
