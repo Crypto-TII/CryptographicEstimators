@@ -89,7 +89,6 @@ docker-test: docker-build
 		cryptographic_estimators/LEEstimator/ \
 		cryptographic_estimators/PEEstimator/ \
 		cryptographic_estimators/PKEstimator/ \
-		cryptographic_estimators/UOVEstimator/ \
 		cryptographic_estimators/base_algorithm.py \
 		cryptographic_estimators/base_constants.py \
 		cryptographic_estimators/base_estimator.py \
@@ -103,6 +102,7 @@ docker-test: docker-build
 		# cryptographic_estimators/RegSDEstimator/ \
 		# cryptographic_estimators/MAYOEstimator/ \
 		# cryptographic_estimators/BIKEEstimator/ \
+		# cryptographic_estimators/UOVEstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
@@ -119,7 +119,6 @@ docker-testfast: docker-build
 		cryptographic_estimators/LEEstimator/ \
 		cryptographic_estimators/PEEstimator/ \
 		cryptographic_estimators/PKEstimator/ \
-		cryptographic_estimators/UOVEstimator/ \
 		cryptographic_estimators/base_algorithm.py \
 		cryptographic_estimators/base_constants.py \
 		cryptographic_estimators/base_estimator.py \
@@ -133,6 +132,7 @@ docker-testfast: docker-build
 		# cryptographic_estimators/RegSDEstimator/ \
 		# cryptographic_estimators/MAYOEstimator/ \
 		# cryptographic_estimators/BIKEEstimator/ \
+		# cryptographic_estimators/UOVEstimator/ \
 		" \
 		&& echo "All tests passed." \
 		|| echo "Some test have failed, please see previous lines."
@@ -151,11 +151,11 @@ docker-doctests: docker-build
 		cryptographic_estimators/RegSDEstimator/ \
 		cryptographic_estimators/MAYOEstimator/ \
 		cryptographic_estimators/BIKEEstimator/ \
+		cryptographic_estimators/UOVEstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
 		# cryptographic_estimators/PEEstimator/ \
 		# cryptographic_estimators/PKEstimator/ \
-		# cryptographic_estimators/UOVEstimator/ \
 		# cryptographic_estimators/base_algorithm.py \
 		# cryptographic_estimators/base_constants.py \
 		# cryptographic_estimators/base_estimator.py \
@@ -178,11 +178,11 @@ docker-doctests-fast: docker-build
 		cryptographic_estimators/RegSDEstimator/ \
 		cryptographic_estimators/MAYOEstimator/ \
 		cryptographic_estimators/BIKEEstimator/ \
+		cryptographic_estimators/UOVEstimator/ \
 		# cryptographic_estimators/DummyEstimator/ \
 		# cryptographic_estimators/LEEstimator/ \
 		# cryptographic_estimators/PEEstimator/ \
 		# cryptographic_estimators/PKEstimator/ \
-		# cryptographic_estimators/UOVEstimator/ \
 		# cryptographic_estimators/base_algorithm.py \
 		# cryptographic_estimators/base_constants.py \
 		# cryptographic_estimators/base_estimator.py \
