@@ -25,8 +25,6 @@ PE_SD_PARAMETERS = "sd_parameters"
 
 
 class VerboseInformation(Enum):
-    """
-    """
     LIST_COMPUTATION = "list_computation"
     LISTS_SIZE = "list_size"
     NORMAL_FORM = "norm_form"
