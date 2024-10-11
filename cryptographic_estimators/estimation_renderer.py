@@ -72,9 +72,7 @@ class EstimationRenderer():
         print(tbl_join)
 
     def _create_initial_table_containing_algorithm_column(self, estimation: dict) -> PrettyTable:
-        """Creates a PrettyTable with the analysis results.
-    
-        Creates a table containing:
+        """ Creates a table containing:
         - expected runtime and memory
         - optimal parameters
         """
