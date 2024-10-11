@@ -53,7 +53,7 @@ def bbps_2(input: tuple, epsilon: float = 1):
     return actual_complexity, epsilon
 
 
-def bbps_range(input: tuple, epsilon: float = 0.2):
+def bbps_range(input: tuple, epsilon: float = 1):
     n, k, q = input
 
     candidate_1 = Beullens(LEProblem(n, k, q), **BEULLENS_PARAMS).time_complexity()
