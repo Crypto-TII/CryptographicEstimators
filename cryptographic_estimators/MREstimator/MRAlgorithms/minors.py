@@ -20,7 +20,7 @@ from ...MREstimator.mr_problem import MRProblem
 from ...base_algorithm import optimal_parameter
 from math import log2, ceil
 from math import comb as binomial
-from ..mr_helper import minors_polynomial
+from ..mr_helper import minors_polynomial_degree
 from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, MR_NUMBER_OF_COEFFICIENTS_TO_GUESS
 
 
@@ -90,8 +90,7 @@ class Minors(MRAlgorithm):
 
     def _ME_time_memory_complexity_helper_(self, m: int, n_reduced: int, k_reduced: int, r: int, time_mem: str):
         out = 0
-        poly = minors_polynomial(m, n_reduced, k_reduced, r)
-        D = poly.degree()
+        D = minors_polynomial_degree(m, n_reduced, k_reduced, r)
         if k_reduced > 0:
             if time_mem == "time":
                 w = self._w
