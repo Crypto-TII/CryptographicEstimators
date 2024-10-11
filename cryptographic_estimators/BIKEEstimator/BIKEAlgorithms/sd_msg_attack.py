@@ -25,16 +25,14 @@ from math import log2
 
 
 class SDMsgAttack(BIKEAlgorithm):
-    """
-    Construct an instance of SDMsgAttack estimator
-    (estimates complexity of solving syndrome decoding problem corresponding to recovering a BIKE message from a ciphertext)
-
-    INPUT:
-
-    - ``problem`` -- an instance of the BIKEProblem class
-    """
-
     def __init__(self, problem: BIKEProblem, **kwargs):
+        """Construct an instance of SDMsgAttack estimator.
+
+        Estimates complexity of solving syndrome decoding problem corresponding to recovering a BIKE message from a ciphertext.
+
+        Args:
+            problem (BIKEProblem): An instance of the BIKEProblem class.
+        """
         self._name = "SDMsgAttack"
         super(SDMsgAttack, self).__init__(problem, **kwargs)
         self._attack_type = BASE_ATTACK_TYPE_MSG_RECOVERY
@@ -51,61 +49,45 @@ class SDMsgAttack(BIKEAlgorithm):
         return self._SDEstimator.fastest_algorithm()
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters (empty dictionary in this specific case)
-
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters (empty dictionary in this specific case).
         """
         r, _, _ = self.problem.get_parameters()
         return max(self.get_fastest_sd_algorithm().time_complexity() - log2(r)/2, self._compute_memory_complexity(parameters))
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters (empty dictionary in this specific case)
-
+        """Return the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters (empty dictionary in this specific case)
         """
         return self.get_fastest_sd_algorithm().memory_complexity()
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the tilde-O time complexity of the algorithm
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Return the tilde-O time complexity of the algorithm.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         return self.get_fastest_sd_algorithm().time_complexity()
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Return the tilde-O memory complexity of the algorithm
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Return the tilde-O memory complexity of the algorithm.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         return self.get_fastest_sd_algorithm().memory_complexity()
 
     def get_optimal_parameters_dict(self):
-        """
-        return the optimal parameters of the internally used sd algorithm
-        """
+        """Returns the optimal parameters of the internally used sd algorithm."""
         parameters_sd = self.get_fastest_sd_algorithm().get_optimal_parameters_dict()
         parameters_sd["SD-algorithm"] = self.get_fastest_sd_algorithm()._name
         return parameters_sd
 
     def reset(self):
-        """
-        reset to the initial state of the estimation object
-        """
+        """Reset to the initial state of the estimation object."""
         super().reset()
         self._SDEstimator.reset()

@@ -22,26 +22,23 @@ from ...PEEstimator.pe_problem import PEProblem
 
 
 class Leon(PELeon, LEAlgorithm):
-
     def __init__(self, problem: LEProblem, **kwargs):
-        """
-        Complexity estimate of Leons algorithm [Leo82]_
+        """Complexity estimate of Leons algorithm [Leo82]_.
+
         Estimates are adapted versions of the scripts derived in [Beu20]_ with the code accessible at
         https://github.com/WardBeullens/LESS_Attack
 
-        INPUT:
+        Args:
+            problem (LEProblem): PEProblem object including all necessary parameters
+            **kwargs: Additional keyword arguments
+                codewords_needed_for_success (int): Number of low word codewords needed for success (default = 100)
+                sd_parameters (dict): Dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
 
-        - ``problem`` -- PEProblem object including all necessary parameters
-        - ``codewords_needed_for_success`` -- Number of low word codewords needed for success (default = 100)
-        - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import Leon
-            sage: from cryptographic_estimators.LEEstimator import LEProblem
-            sage: Leon(LEProblem(n=100,k=50,q=3))
+        Examples:
+            >>> from cryptographic_estimators.LEEstimator.LEAlgorithms import Leon
+            >>> from cryptographic_estimators.LEEstimator import LEProblem
+            >>> Leon(LEProblem(n=100,k=50,q=3))
             Leon estimator for permutation equivalence problem with (n,k,q) = (100,50,3)
-
         """
         LEAlgorithm.__init__(self, problem, **kwargs)
         self._name = "Leon"

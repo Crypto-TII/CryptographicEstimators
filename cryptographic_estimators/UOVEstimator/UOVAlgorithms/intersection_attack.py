@@ -20,29 +20,23 @@ from ..uov_algorithm import UOVAlgorithm
 from ..uov_problem import UOVProblem
 from ...base_algorithm import optimal_parameter
 from math import log2, inf, comb as binomial
-from ...MQEstimator.mq_estimator import MQEstimator
 from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
 from ...MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
-from ...base_constants import BASE_EXCLUDED_ALGORITHMS
-from ...MQEstimator.mq_constants import MQ_VARIANT, MQ_LAS_VEGAS
 from cryptographic_estimators.base_constants import BASE_KEY_RECOVERY_ATTACK
 
 class IntersectionAttack(UOVAlgorithm):
     def __init__(self, problem: UOVProblem, **kwargs):
-        """
-        Construct an instance of IntersectionAttack estimator
+        """Construct an instance of IntersectionAttack estimator.
 
         The intersection attack [Beu20]_ generalizes the ideas behind the Kipnis-Shamir attack, in
         combination with a system-solving approach such as in the reconciliation attack.
 
-        INPUT:
-
-        - ``problem`` -- an instance of the UOVProblem class
-        - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-        - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
-
+        Args:
+            problem (UOVProblem): An instance of the UOVProblem class.
+            **kwargs: Additional keyword arguments.
+                memory_access: Specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage).
+                complexity_type: Complexity type to consider (0: estimate, 1: tilde O complexity, default: 0).
         """
-
         super().__init__(problem, **kwargs)
 
         n, m, _ = self.problem.get_parameters()
@@ -55,36 +49,29 @@ class IntersectionAttack(UOVAlgorithm):
 
     @optimal_parameter
     def k(self):
-        """
-        Return the optimal parameter $k$ used in the algorithm optimization
+        """Return the optimal parameter k used in the algorithm optimization.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.intersection_attack import IntersectionAttack
-            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
-            sage: E = IntersectionAttack(UOVProblem(n=24, m=10, q=2))
-            sage: E.k()
+        Examples:
+            >>> from cryptographic_estimators.UOVEstimator.UOVAlgorithms.intersection_attack import IntersectionAttack
+            >>> from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
+            >>> E = IntersectionAttack(UOVProblem(n=24, m=10, q=2))
+            >>> E.k()
             2
-
         """
         return self._get_optimal_parameter("k")
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.intersection_attack import IntersectionAttack
-            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
-            sage: E = IntersectionAttack(UOVProblem(n=24, m=10, q=2))
-            sage: E.time_complexity()
+        Tests:
+            >>> from cryptographic_estimators.UOVEstimator.UOVAlgorithms.intersection_attack import IntersectionAttack
+            >>> from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
+            >>> E = IntersectionAttack(UOVProblem(n=24, m=10, q=2))
+            >>> E.time_complexity()
             23.339850002884624
-
         """
         n, m, q = self.problem.get_parameters()
         k = parameters["k"]
@@ -100,21 +87,17 @@ class IntersectionAttack(UOVAlgorithm):
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
+        """Return the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.UOVEstimator.UOVAlgorithms.intersection_attack import IntersectionAttack
-            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
-            sage: E = IntersectionAttack(UOVProblem(n=24, m=10, q=2))
-            sage: E.memory_complexity()     
+        Tests:
+            >>> from cryptographic_estimators.UOVEstimator.UOVAlgorithms.intersection_attack import IntersectionAttack
+            >>> from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
+            >>> E = IntersectionAttack(UOVProblem(n=24, m=10, q=2))
+            >>> E.memory_complexity()     
             13.147204924942228
-
         """
         n, m, q = self.problem.get_parameters()
         k = parameters["k"]
@@ -127,21 +110,17 @@ class IntersectionAttack(UOVAlgorithm):
         return E.memory_complexity()
     
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
+        """Return the Ō time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         raise NotImplementedError
     
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Return the Ō memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
+        """Return the Ō memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         raise NotImplementedError

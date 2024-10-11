@@ -25,22 +25,18 @@ from ...SDFqEstimator.sdfq_estimator import SDFqEstimator
 
 
 class SBC(PKAlgorithm):
-    """
-    Complexity estimate of the SBC algorithm
-
-    The estimates are adapted versions of the code accompanying [SBC22]_, original code is accessible at
-    https://github.com/secomms/pkpattack
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
-        sage: from cryptographic_estimators.PKEstimator import PKProblem
-        sage: SBC(PKProblem(n=20,m=10,q=7,ell=2))
-        SBC estimator for the permuted kernel problem with (n,m,q,ell) = (20,10,7,2)
-
-    """
-
     def __init__(self, problem: PKProblem, **kwargs):
+        """Complexity estimate of the SBC algorithm.
+
+        The estimates are adapted versions of the code accompanying [SBC22]_, original code is accessible at
+        https://github.com/secomms/pkpattack
+
+        Examples:
+            >>> from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
+            >>> from cryptographic_estimators.PKEstimator import PKProblem
+            >>> SBC(PKProblem(n=20,m=10,q=7,ell=2))
+            SBC estimator for the permuted kernel problem with (n,m,q,ell) = (20,10,7,2)
+        """
         super().__init__(problem, **kwargs)
         self._name = "SBC"
         n, m, _, _ = self.problem.get_parameters()
@@ -57,49 +53,40 @@ class SBC(PKAlgorithm):
 
     @optimal_parameter
     def d(self):
-        """
-        Return the optimal parameter $d$ used in the algorithm optimization
+        """Return the optimal parameter d used in the algorithm optimization.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
-            sage: from cryptographic_estimators.PKEstimator import PKProblem
-            sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
-            sage: A.d()
+        Examples:
+            >>> from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
+            >>> from cryptographic_estimators.PKEstimator import PKProblem
+            >>> A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
+            >>> A.d()
             3
-
         """
         return self._get_optimal_parameter("d")
 
     @optimal_parameter
     def w(self):
-        """
-        Return the optimal parameter $w$ used in the algorithm optimization
+        """Return the optimal parameter w used in the algorithm optimization.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
-            sage: from cryptographic_estimators.PKEstimator import PKProblem
-            sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
-            sage: A.w()
+        Examples:
+            >>> from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
+            >>> from cryptographic_estimators.PKEstimator import PKProblem
+            >>> A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
+            >>> A.w()
             11
-
         """
         return self._get_optimal_parameter("w")
 
     @optimal_parameter
     def w1(self):
-        """
-        Return the optimal parameter $w1$ used in the algorithm optimization
+        """Return the optimal parameter w1 used in the algorithm optimization.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
-            sage: from cryptographic_estimators.PKEstimator import PKProblem
-            sage: A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
-            sage: A.w1()
+        Examples:
+            >>> from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
+            >>> from cryptographic_estimators.PKEstimator import PKProblem
+            >>> A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
+            >>> A.w1()
             5
-
         """
         return self._get_optimal_parameter("w1")
 
@@ -115,14 +102,13 @@ class SBC(PKAlgorithm):
         return False
 
     def _compute_time_and_memory(self, parameters: dict, verbose_information=None):
-        """
-        Computes the time and memory complexity of the SBC algorithm in number of Fq additions and Fq elements resp.
-
-        INPUT:
-
-        -  ``parameters`` -- dictionary including parameters
-        -  ``verbose_information`` -- if set to a dictionary `L1`, `L1`, and `final_list` will be returned.
-
+        """Computes the time and memory complexity of the SBC algorithm.
+    
+        Calculates the number of Fq additions and Fq elements for time and memory complexity respectively.
+    
+        Args:
+            parameters (dict): Dictionary including parameters.
+            verbose_information: If set to a dictionary, L1, L1, and final_list will be returned.
         """
         d = parameters["d"]
         w = parameters["w"]
@@ -196,9 +182,7 @@ class SBC(PKAlgorithm):
         return self._compute_time_and_memory(parameters)[1]
 
     def _get_verbose_information(self):
-        """
-        returns a dictionary containing additional algorithm information
-        """
+        """Returns a dictionary containing additional algorithm information."""
         verb = dict()
         _ = self._compute_time_and_memory(self.optimal_parameters(), verbose_information=verb)
         return verb

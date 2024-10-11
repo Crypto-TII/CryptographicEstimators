@@ -26,26 +26,22 @@ from ...base_constants import BASE_BIT_COMPLEXITIES, BASE_MEMORY_BOUND, BASE_NSO
 
 
 class BBPS(LEAlgorithm):
-
     def __init__(self, problem: LEProblem, **kwargs):
-        """
-        Complexity estimate of [BBPS20]_ algorithm.
+        """Complexity estimate of [BBPS20]_ algorithm.
 
         Estimates are adapted versions of the scripts derived in [BBPS20]_ with the code accessible at
         https://github.com/paolo-santini/LESS_project
 
-        INPUT:
+        Args:
+            problem (LEProblem): PEProblem object including all necessary parameters
+            **kwargs: Additional keyword arguments
+                sd_parameters (dict): Dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
 
-        - ``problem`` -- PEProblem object including all necessary parameters
-        - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
-            sage: from cryptographic_estimators.LEEstimator import LEProblem
-            sage: BBPS(LEProblem(30,20,251))
+        Examples:
+            >>> from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
+            >>> from cryptographic_estimators.LEEstimator import LEProblem
+            >>> BBPS(LEProblem(30,20,251))
             BBPS estimator for permutation equivalence problem with (n,k,q) = (30,20,251)
-
         """
         super().__init__(problem, **kwargs)
         self._name = "BBPS"
@@ -61,33 +57,27 @@ class BBPS(LEAlgorithm):
 
     @optimal_parameter
     def w(self):
-        """
-        Return the optimal parameter $w$ used in the algorithm optimization
+        """Return the optimal parameter w used in the algorithm optimization.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
-            sage: from cryptographic_estimators.LEEstimator import LEProblem
-            sage: A = BBPS(LEProblem(30,20,251))
-            sage: A.w()
+        Examples:
+            >>> from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
+            >>> from cryptographic_estimators.LEEstimator import LEProblem
+            >>> A = BBPS(LEProblem(30,20,251))
+            >>> A.w()
             12
-
         """
         return self._get_optimal_parameter("w")
 
     @optimal_parameter
     def w_prime(self):
-        """
-        Return the optimal parameter $w_prime$ used in the algorithm optimization
+        """Return the optimal parameter $w_prime$ used in the algorithm optimization.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
-            sage: from cryptographic_estimators.LEEstimator import LEProblem
-            sage: A = BBPS(LEProblem(30,20,251))
-            sage: A.w_prime()
+        Examples:
+            >>> from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
+            >>> from cryptographic_estimators.LEEstimator import LEProblem
+            >>> A = BBPS(LEProblem(30,20,251))
+            >>> A.w_prime()
             10
-
         """
         return self._get_optimal_parameter("w_prime")
 
@@ -101,14 +91,11 @@ class BBPS(LEAlgorithm):
         return False
 
     def _time_and_memory_complexity(self, parameters, verbose_information=None):
-        """
-        Return time complexity of BBPS algorithm
-
-        INPUT:
-
-        -  ``parameters`` -- dictionary including parameters
-        -  ``verbose_information`` -- if set to a dictionary within `Nw_prime`, c_isd` and `lists` will be returned.
-
+        """Return time complexity of BBPS algorithm.
+    
+        Args:
+            parameters (dict): Dictionary including parameters.
+            verbose_information (dict, optional): If set, a dictionary with 'Nw_prime', 'c_isd' and 'lists' will be returned.
         """
         w = parameters["w"]
         w_prime = parameters["w_prime"]
@@ -159,9 +146,7 @@ class BBPS(LEAlgorithm):
         return self._time_and_memory_complexity(parameters)[1]
 
     def _get_verbose_information(self):
-        """
-        returns a dictionary containing additional algorithm information
-        """
+        """Returns a dictionary containing additional algorithm information."""
         verb = dict()
         _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)
         return verb
