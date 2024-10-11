@@ -21,14 +21,13 @@ from .pk_problem import PKProblem
 
 class PKAlgorithm(BaseAlgorithm):
     def __init__(self, problem: PKProblem, **kwargs):
-        """
-        Base class for Permuted Kernel algorithms
+        """Base class for Permuted Kernel algorithms.
 
-        INPUT:
-
-        - ``problem`` -- LEProblem object including all necessary parameters
-        - ``cost_for_list_operation`` -- cost in Fq additions for one list operation in the SBC and KMP algorithms (default: n-m)
-        - ``memory_for_list_element`` -- memory in Fq elements for one list element in the SBC and KMP algorithms (default: n-m)
+        Args:
+            problem (PKProblem): LEProblem object including all necessary parameters
+            **kwargs: Additional keyword arguments
+                cost_for_list_operation (int): Cost in Fq additions for one list operation in the SBC and KMP algorithms (default: n-m)
+                memory_for_list_element (int): Memory in Fq elements for one list element in the SBC and KMP algorithms (default: n-m)
         """
         super(PKAlgorithm, self).__init__(problem, **kwargs)
         n, m, _, _ = self.problem.get_parameters()
