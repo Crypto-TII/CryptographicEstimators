@@ -20,8 +20,15 @@ from math import log2, inf, \
 
 
 def cost_to_find_random_2dim_subcodes_with_support_w(n: int, k: int, w: int):
-    """
-    returns the cost of finding a 2 dimensional subcode in a code of length n and dimension k and support w
+    """Returns the cost of finding a 2 dimensional subcode with specific parameters.
+
+    Args:
+        n (int): Length of the code
+        k (int): Dimension of the code
+        w (int): Support of the code
+
+    Returns:
+        The cost of finding a 2 dimensional subcode
     """
     if n-k<w-2:
         return inf
