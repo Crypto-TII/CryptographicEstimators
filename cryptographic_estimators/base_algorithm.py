@@ -18,7 +18,6 @@
 
 from typing import Union, Callable
 from .helper import ComplexityType
-from .base_problem import BaseProblem
 import functools
 from math import inf, log2
 from .base_constants import BASE_BIT_COMPLEXITIES, BASE_COMPLEXITY_TYPE, BASE_ESTIMATE, BASE_MEMORY_ACCESS, BASE_TILDEO, BASE_ATTACK_TYPE
@@ -26,16 +25,17 @@ from .base_constants import BASE_BIT_COMPLEXITIES, BASE_COMPLEXITY_TYPE, BASE_ES
 
 class BaseAlgorithm:
     def __init__(self, problem, **kwargs):
-        """
-        Base class for algorithms complexity estimator
+        """Base class for algorithms complexity estimator.
 
-        INPUT:
-
-        - ``problem`` -- BaseProblem object including all necessary parameters
-        - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-        - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default 0)
-        - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
-
+        Args:
+            problem (BaseProblem): BaseProblem object including all necessary parameters
+            memory_access (int, optional): Specifies the memory access cost model. Defaults to 0.
+                Choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root
+                or deploy custom function which takes as input the logarithm of the total memory usage.
+            complexity_type (int, optional): Complexity type to consider. Defaults to 0.
+                0: estimate, 1: tilde O complexity
+            bit_complexities (int, optional): Determines if complexity is given in bit operations
+                or basic operations. Defaults to 1 (in bit).
         """
 
         self.bit_complexities = kwargs.get(BASE_BIT_COMPLEXITIES, 1)
@@ -69,29 +69,25 @@ class BaseAlgorithm:
 
     @property
     def parameter_ranges(self):
-        """
-        Returns the set ranges in which for optimal parameters are searched by the optimization algorithm (used only for complexity type estimate)
+        """Returns the set ranges for optimal parameter search.
+    
+        Returns the set ranges in which optimal parameters are searched by the
+        optimization algorithm (used only for complexity type estimate).
         """
         if self.complexity_type == ComplexityType.ESTIMATE.value:
             return self._parameter_ranges
 
     @property
     def memory_access(self):
-        """
-        Returns the attribute _memory_access
-
-        """
+        """Returns the attribute _memory_access."""
         return self._memory_access
 
     @memory_access.setter
     def memory_access(self, new_memory_access: Union[int, Callable[[float], float]]):
-        """
-        Sets the attribute _memory_access and resets internal state respectively
-
-        INPUT:
-
-        - ``new_memory_access`` -- new memory_access value
-
+        """Sets the attribute _memory_access and resets internal state respectively.
+    
+        Args:
+            new_memory_access (Union[int, Callable[[float], float]]): New memory_access value.
         """
         if new_memory_access not in [0, 1, 2, 3] and not callable(self.memory_access):
             raise ValueError("invalid value for memory_access")
@@ -101,29 +97,20 @@ class BaseAlgorithm:
 
     @property
     def complexity_type(self):
-        """
-        Returns the attribute _complexity_type
-
-        """
+        """Returns the attribute _complexity_type."""
         return self._complexity_type
     
     @property
     def attack_type(self):
-        """
-        Returns the attack type of the algorithm
-
-        """
+        """Returns the attack type of the algorithm."""
         return self._attack_type
 
     @complexity_type.setter
     def complexity_type(self, input_type: Union[int, str]):
-        """
-        Sets the attribute _complexity_type and resets internal state respectively
-
-        INPUT:
-
-        - ``input_type`` -- new complexity_type value
-
+        """Sets the attribute _complexity_type and resets internal state respectively.
+    
+        Args:
+            input_type (Union[int, str]): New complexity_type value.
         """
         if type(input_type) is str:
             if input_type == BASE_ESTIMATE:
@@ -144,21 +131,24 @@ class BaseAlgorithm:
             self.reset()
             self._complexity_type = new_type
 
+    # FIX: What memory_access?
     def memory_access_cost(self, mem: float):
-        """
-        Returns the memory access cost (in logarithmic scale) of the algorithm per basic operation
-
-        INPUT:
+        """Returns the memory access cost (in logarithmic scale) of the algorithm per basic operation.
     
-        - ```mem`` -- memory consumption of an algorithm
-        - ```memory_access`` -- specifies the memory access cost model 
-                (default: 0, choices:
-                0 - constant,
-                1 - logarithmic,
-                2 - square-root,
-                3 - cube-root or deploy custom function which takes as input the
-                logarithm of the total memory usage)
-
+        Args:
+            mem (float): Memory consumption of an algorithm.
+    
+        Returns:
+            float: Memory access cost in logarithmic scale.
+    
+        Note:
+            memory_access: Specifies the memory access cost model 
+            (default: 0, choices:
+            0 - constant,
+            1 - logarithmic,
+            2 - square-root,
+            3 - cube-root or deploy custom function which takes as input the
+            logarithm of the total memory usage)
         """
         if self._memory_access == 0:
             return 0
@@ -173,17 +163,11 @@ class BaseAlgorithm:
         return 0
 
     def _get_verbose_information(self):
-        """
-        Returns dictionary with any additional information relevant to this algorithm
-
-        """
+        """Returns dictionary with any additional information relevant to this algorithm."""
         return dict()
 
     def reset(self):
-        """
-         Resets internal state of the algorithm
-
-        """
+        """Resets internal state of the algorithm."""
         self._complexity_type = ComplexityType.ESTIMATE.value
         self._optimal_parameters = {}
         self._time_complexity = None
@@ -191,15 +175,14 @@ class BaseAlgorithm:
         self._verbose_information = None
 
     def set_parameter_ranges(self, parameter: str, min_value: float, max_value: float):
-        """
-        Set range of specific parameter (if optimal parameter is already set, it must fall in that range)
-
-        INPUT:
-
-        - ``parameter`` -- name of parameter to set
-        - ``min_value`` -- lowerbound for parameter (inclusive)
-        - ``max_value`` -- upperbound for parameter (inclusive)
-
+        """Set range of specific parameter.
+    
+        If optimal parameter is already set, it must fall in that range.
+    
+        Args:
+            parameter (str): Name of parameter to set
+            min_value (float): Lowerbound for parameter (inclusive)
+            max_value (float): Upperbound for parameter (inclusive)
         """
         if parameter not in self.parameter_names():
             raise IndexError(
@@ -220,46 +203,34 @@ class BaseAlgorithm:
         return True
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Compute and return the time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Compute and return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         raise NotImplementedError
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Compute and return the memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Compute and return the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         raise NotImplementedError
 
     def _compute_tilde_o_time_complexity(self, parameters):
-        """
-        Compute and return the tilde-O time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Compute and return the tilde-O time complexity of the algorithm.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         raise NotImplementedError
 
     def _compute_tilde_o_memory_complexity(self, parameters):
-        """
-        Compute and return the tilde-O memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Compute and return the tilde-O memory complexity of the algorithm.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         raise NotImplementedError
 
@@ -267,10 +238,7 @@ class BaseAlgorithm:
         raise NotImplementedError
 
     def _get_optimal_parameter_methods_(self):
-        """
-        Return a list of methods decorated with @optimal_parameter ordered by linenumber of appearance
-
-        """
+        """Return a list of methods decorated with @optimal_parameter ordered by linenumber of appearance."""
 
         def sort_operator(v):
             return v[1]
@@ -289,21 +257,16 @@ class BaseAlgorithm:
         return [f[0] for f in members]
 
     def _is_early_abort_possible(self, time_lower_bound: float):
-        """
-        checks whether the current time lower bound is below the
-        early exit limit
-        """
+        """Checks whether the current time lower bound is below the early exit limit."""
         if time_lower_bound > self._current_minimum_for_early_abort:
             return True
         return False
 
     def _find_optimal_parameters(self):
+        """Enumerates all valid parameter configurations within the _parameter_ranges.
+    
+        Saves the best result (according to time complexity) in `_optimal_parameters`.
         """
-        Enumerates all valid parameter configurations within the _parameter_ranges and saves the best
-        result (according to time complexity) in `_optimal_parameters`
-
-        """
-
         time = inf
         for params in self._valid_choices():
             tmp_time = self._compute_time_complexity(params)
@@ -324,10 +287,11 @@ class BaseAlgorithm:
         self._current_minimum_for_early_abort = inf
 
     def _get_optimal_parameter(self, key: str):
-        """
-        Returns the optimal value for the parameter `key`. Either calculates the asymptotic optimization or
-        for real instances. This function is meant for fetching optimization parameters which need to be optimized together.
-
+        """Returns the optimal value for the parameter `key`.
+    
+        Either calculates the asymptotic optimization or for real instances. This
+        function is meant for fetching optimization parameters which need to be
+        optimized together.
         """
         if key not in self._optimal_parameters:
             if self.complexity_type == ComplexityType.ESTIMATE.value:
@@ -341,17 +305,11 @@ class BaseAlgorithm:
         return self._optimal_parameters.get(key)
 
     def get_optimal_parameters_dict(self):
-        """
-        Returns the optimal parameters dictionary
-
-        """
+        """Returns the optimal parameters dictionary."""
         return self._optimal_parameters
 
     def _fix_ranges_for_already_set_parameters(self):
-        """
-        Returns a new parameter rangers dictionary, which fixes already
-        optimal paramters.
-        """
+        """Returns a new parameter rangers dictionary, which fixes already optimal parameters."""
         parameters = self._optimal_parameters
         ranges = self._parameter_ranges
         new_ranges = {i: ranges[i].copy() if i not in parameters else {"min": parameters[i], "max": parameters[i]}
@@ -359,16 +317,13 @@ class BaseAlgorithm:
         return new_ranges
 
     def _are_parameters_invalid(self, parameters: dict):
-        """
-        Specifies constraints on the parameters
-        """
+        """Specifies constraints on the parameters."""
         return False
 
     def _valid_choices(self):
-        """
-        Generator which yields on each call a new set of valid parameters based on the `_parameter_ranges` and already
-        set parameters in `_optimal_parameters`
-
+        """Generator yielding new sets of valid parameters.
+    
+        Based on the `_parameter_ranges` and already set parameters in `_optimal_parameters`.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
         indices = {i: new_ranges[i]["min"] for i in new_ranges}
@@ -389,9 +344,7 @@ class BaseAlgorithm:
                     break
 
     def __set_dict(self, **kwargs):
-        """
-        Returns a dictionary of parameters whose values are all either optimized or they are all specified in kwargs.
-        """
+        """Returns a dictionary of parameters whose values are all either optimized or they are all specified in kwargs."""
         params = dict()
         if kwargs != {}:
             missing_parameters = [
@@ -407,13 +360,10 @@ class BaseAlgorithm:
         return params
 
     def set_parameters(self, parameters: dict):
-        """
-        Set optimal parameters to predifined values:
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including parameters to set (for a subset of optimal_parameters functions)
-
+        """Set optimal parameters to predifined values.
+    
+        Args:
+            parameters (dict): Dictionary including parameters to set (for a subset of optimal_parameters functions)
         """
         save_complexity_type = self.complexity_type
         self.reset()
@@ -435,9 +385,9 @@ class BaseAlgorithm:
         self._time_complexity = None
 
     def _compute_estimate_time_complexity(self, params):
-        """
-
-        computes time complexity (in estimate mode) for given parameter set and converts to bit complexity
+        """Computes time complexity in estimate mode and converts to bit complexity.
+    
+        Computes time complexity (in estimate mode) for given parameter set and converts to bit complexity
         and adds memory access costs if set.
         """
         temp_time_complexity = self._compute_time_complexity(params)
@@ -457,13 +407,13 @@ class BaseAlgorithm:
         return temp_time_complexity
 
     def time_complexity(self, **kwargs):
-        """
-        Return the time complexity of the algorithm
-
-        INPUT:
-
-        - ``optimal_parameters`` -- if for each optimal parameter of the algorithm a value is provided the computation is done based on those parameters
-
+        """Return the time complexity of the algorithm.
+    
+        Args:
+            **kwargs: Arbitrary keyword arguments.
+                optimal_parameters: If for each optimal parameter of the algorithm
+                    a value is provided, the computation is done based on those
+                    parameters.
         """
         if kwargs == {}:
             if self._time_complexity is not None:
@@ -487,15 +437,14 @@ class BaseAlgorithm:
         return temp_time_complexity
 
     def memory_complexity(self, **kwargs):
+        """Return the memory complexity of the algorithm.
+    
+        Args:
+            **kwargs: Arbitrary keyword arguments.
+                optimal_parameters: If for each optimal parameter of the algorithm
+                    a value is provided, the computation is done based on those
+                    parameters.
         """
-        Return the memory complexity of the algorithm
-
-        INPUT:
-
-        - ``optimal_parameters`` -- if for each optimal parameter of the algorithm a value is provided the computation is done based on those parameters
-
-        """
-
         if kwargs == {}:
             if self._memory_complexity is not None:
                 return self._memory_complexity
@@ -522,13 +471,11 @@ class BaseAlgorithm:
         return temp_memory_complexity
 
     def optimal_parameters(self):
-        """
-        Return a dictionary of optimal parameters
+        """Return a dictionary of optimal parameters.
 
-        TESTS::
-
-            sage: from cryptographic_estimators import BaseAlgorithm, BaseProblem
-            sage: BaseAlgorithm(BaseProblem()).optimal_parameters()
+        Tests:
+            >>> from cryptographic_estimators import BaseAlgorithm, BaseProblem
+            >>> BaseAlgorithm(BaseProblem()).optimal_parameters()
             {}
         """
         if self.has_optimal_parameter():
@@ -537,10 +484,7 @@ class BaseAlgorithm:
         return self._optimal_parameters
 
     def _call_all_preceeding_optimal_parameter_functions(self, key: str):
-        """
-        call the decorator function for each parameter, if they are optimal.
-
-        """
+        """Call the decorator function for each parameter, if they are optimal."""
 
         if self.has_optimal_parameter():
             for f in self._optimal_parameters_methods:
@@ -549,25 +493,21 @@ class BaseAlgorithm:
                 _ = f()
 
     def has_optimal_parameter(self):
-        """
-        Return `True` if the algorithm has optimal parameter
+        """Return `True` if the algorithm has optimal parameter.
 
-        TESTS::
-
-            sage: from cryptographic_estimators import BaseAlgorithm, BaseProblem
-            sage: BaseAlgorithm(BaseProblem()).has_optimal_parameter()
+        Tests:
+            >>> from cryptographic_estimators import BaseAlgorithm, BaseProblem
+            >>> BaseAlgorithm(BaseProblem()).has_optimal_parameter()
             False
         """
         return len(self._optimal_parameters_methods) > 0
 
     def parameter_names(self):
-        """
-        Return the list with the names of the algorithm's parameters
+        """Return the list with the names of the algorithm's parameters.
 
-        TESTS::
-
-            sage: from cryptographic_estimators import BaseAlgorithm, BaseProblem
-            sage: BaseAlgorithm(BaseProblem()).parameter_names()
+        Tests:
+            >>> from cryptographic_estimators import BaseAlgorithm, BaseProblem
+            >>> BaseAlgorithm(BaseProblem()).parameter_names()
             []
         """
         parameter_method_names = []
@@ -579,12 +519,10 @@ class BaseAlgorithm:
         return f"{self._name} estimator for the " + str(self.problem)
 
 def optimal_parameter(func):
-    """
-    Decorator to indicate optimization parameter in BaseAlgorithm
+    """Decorator to indicate optimization parameter in BaseAlgorithm.
 
-    INPUT:
-
-    - ``func`` -- a method of a BaseAlgoritm subclass
+    Args:
+        func: A method of a BaseAlgoritm subclass.
     """
 
     @functools.wraps(func)

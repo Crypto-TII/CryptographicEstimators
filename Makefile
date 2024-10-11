@@ -78,19 +78,18 @@ docker-doc: docker-build
 		|| true
 	@make mount-volume-and-run && make generate-documentation && make stop-container-and-remove container_name="container-for-docs"
 
-docker-test: CONTAINER_NAME := "sage-doctests-container"
 docker-test: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
 		|| true
 	@echo "Running Sage doctests..."
 	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
           sage -t --long --timeout 3600 --force-lib \
-          cryptographic_estimators/base_algorithm.py \
-          cryptographic_estimators/base_constants.py \
-          cryptographic_estimators/base_estimator.py \
-          cryptographic_estimators/base_problem.py \
-          cryptographic_estimators/estimation_renderer.py \
-          cryptographic_estimators/helper.py \
+          # cryptographic_estimators/base_algorithm.py \
+          # cryptographic_estimators/base_constants.py \
+          # cryptographic_estimators/base_estimator.py \
+          # cryptographic_estimators/base_problem.py \
+          # cryptographic_estimators/estimation_renderer.py \
+          # cryptographic_estimators/helper.py \
           # cryptographic_estimators/DummyEstimator/ \
           # cryptographic_estimators/SDEstimator/ \
           # cryptographic_estimators/MQEstimator/ \
@@ -107,8 +106,6 @@ docker-test: docker-build
           && echo "All tests passed." \
           || echo "Some test have failed, please see previous lines."
 
-
-
 docker-testfast: CONTAINER_NAME := "sage-doctests-container"
 docker-testfast: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
@@ -116,12 +113,12 @@ docker-testfast: docker-build
 	@echo "Running short Sage doctests..."
 	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
           sage -t --timeout 3600 --force-lib \
-          cryptographic_estimators/base_algorithm.py \
-          cryptographic_estimators/base_constants.py \
-          cryptographic_estimators/base_estimator.py \
-          cryptographic_estimators/base_problem.py \
-          cryptographic_estimators/estimation_renderer.py \
-          cryptographic_estimators/helper.py \
+          # cryptographic_estimators/base_algorithm.py \
+          # cryptographic_estimators/base_constants.py \
+          # cryptographic_estimators/base_estimator.py \
+          # cryptographic_estimators/base_problem.py \
+          # cryptographic_estimators/estimation_renderer.py \
+          # cryptographic_estimators/helper.py \
           # cryptographic_estimators/DummyEstimator/ \
           # cryptographic_estimators/SDEstimator/ \
           # cryptographic_estimators/MQEstimator/ \
@@ -144,25 +141,25 @@ docker-doctests: docker-build
 		|| true
 	@echo "Running doctests..."
 	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
-            pytest --doctest-modules -n auto -vv -s \
-            cryptographic_estimators/DummyEstimator/ \
-            cryptographic_estimators/SDEstimator/ \
-            cryptographic_estimators/MQEstimator/ \
-            cryptographic_estimators/SDFqEstimator/ \
-            cryptographic_estimators/MREstimator/ \
-            cryptographic_estimators/RegSDEstimator/ \
-            cryptographic_estimators/LEEstimator/ \
-            cryptographic_estimators/PKEstimator/ \
-            cryptographic_estimators/PEEstimator/ \
-            cryptographic_estimators/MAYOEstimator/ \
-            cryptographic_estimators/BIKEEstimator/ \
-            cryptographic_estimators/UOVEstimator/ \
-            # cryptographic_estimators/base_algorithm.py \
-            # cryptographic_estimators/base_constants.py \
-            # cryptographic_estimators/base_estimator.py \
-            # cryptographic_estimators/base_problem.py \
-            # cryptographic_estimators/estimation_renderer.py \
-            # cryptographic_estimators/helper.py \
+          pytest --doctest-modules -n auto -vv -s \
+          cryptographic_estimators/DummyEstimator/ \
+          cryptographic_estimators/SDEstimator/ \
+          cryptographic_estimators/MQEstimator/ \
+          cryptographic_estimators/SDFqEstimator/ \
+          cryptographic_estimators/MREstimator/ \
+          cryptographic_estimators/RegSDEstimator/ \
+          cryptographic_estimators/LEEstimator/ \
+          cryptographic_estimators/PKEstimator/ \
+          cryptographic_estimators/PEEstimator/ \
+          cryptographic_estimators/MAYOEstimator/ \
+          cryptographic_estimators/BIKEEstimator/ \
+          cryptographic_estimators/UOVEstimator/ \
+          cryptographic_estimators/base_algorithm.py \
+          cryptographic_estimators/base_constants.py \
+          cryptographic_estimators/base_estimator.py \
+          cryptographic_estimators/base_problem.py \
+          cryptographic_estimators/estimation_renderer.py \
+          cryptographic_estimators/helper.py \
 		"
 
 docker-doctests-fast: CONTAINER_NAME := "pytest-container"
@@ -171,25 +168,25 @@ docker-doctests-fast: docker-build
 	    || true
 	@echo "Running short doctests..."
 	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
-            pytest --skip-long-doctests  --doctest-modules -n auto -vv -s \
-            cryptographic_estimators/DummyEstimator/ \
-            cryptographic_estimators/SDEstimator/ \
-            cryptographic_estimators/MQEstimator/ \
-            cryptographic_estimators/SDFqEstimator/ \
-            cryptographic_estimators/MREstimator/ \
-            cryptographic_estimators/RegSDEstimator/ \
-            cryptographic_estimators/LEEstimator/ \
-            cryptographic_estimators/PKEstimator/ \
-            cryptographic_estimators/PEEstimator/ \
-            cryptographic_estimators/MAYOEstimator/ \
-            cryptographic_estimators/BIKEEstimator/ \
-            cryptographic_estimators/UOVEstimator/ \
-            # cryptographic_estimators/base_algorithm.py \
-            # cryptographic_estimators/base_constants.py \
-            # cryptographic_estimators/base_estimator.py \
-            # cryptographic_estimators/base_problem.py \
-            # cryptographic_estimators/estimation_renderer.py \
-            # cryptographic_estimators/helper.py \
+          pytest --skip-long-doctests  --doctest-modules -n auto -vv -s \
+          cryptographic_estimators/DummyEstimator/ \
+          cryptographic_estimators/SDEstimator/ \
+          cryptographic_estimators/MQEstimator/ \
+          cryptographic_estimators/SDFqEstimator/ \
+          cryptographic_estimators/MREstimator/ \
+          cryptographic_estimators/RegSDEstimator/ \
+          cryptographic_estimators/LEEstimator/ \
+          cryptographic_estimators/PKEstimator/ \
+          cryptographic_estimators/PEEstimator/ \
+          cryptographic_estimators/MAYOEstimator/ \
+          cryptographic_estimators/BIKEEstimator/ \
+          cryptographic_estimators/UOVEstimator/ \
+          cryptographic_estimators/base_algorithm.py \
+          cryptographic_estimators/base_constants.py \
+          cryptographic_estimators/base_estimator.py \
+          cryptographic_estimators/base_problem.py \
+          cryptographic_estimators/estimation_renderer.py \
+          cryptographic_estimators/helper.py \
         "
 
 docker-kat-tests: CONTAINER_NAME := "pytest-container"
