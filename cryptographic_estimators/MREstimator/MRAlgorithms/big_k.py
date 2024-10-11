@@ -43,7 +43,7 @@ class BigK(MRAlgorithm):
         super(BigK, self).__init__(problem, **kwargs)
         q, m, n, k, r = self.problem.get_parameters()
         self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m) - 1))
-        self.set_parameter_ranges('lv', 0, r - 1)
+        self.set_parameter_ranges('lv', 0, min(r, k) - 1)
         self._name = "BigK"
 
     @optimal_parameter
@@ -116,7 +116,7 @@ class BigK(MRAlgorithm):
         _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
         time_complexity = self._bk_time_complexity_helper_(q, m, n_reduced, k_reduced, r)
-        reduction_cost = self.cost_reduction(a)
+        reduction_cost = self.cost_reduction(a, lv)
         time += max(time_complexity, reduction_cost)
         return time
 

@@ -26,26 +26,22 @@ from ...SDFqEstimator.sdfq_estimator import SDFqEstimator
 
 
 class Beullens(PEAlgorithm):
-
     def __init__(self, problem: PEProblem, **kwargs):
-        """
-        Complexity estimate of Beullens algorithm
+        """Complexity estimate of Beullens algorithm.
 
         Estimates are adapted versions of the scripts derived in [Beu20]_ with the code accessible at
         https://github.com/WardBeullens/LESS_Attack
 
-        INPUT:
+        Args:
+            problem (PEProblem): PEProblem object including all necessary parameters
+            **kwargs: Additional keyword arguments
+                sd_parameters (dict): Dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
 
-        - ``problem`` -- PEProblem object including all necessary parameters
-        - ``sd_parameters`` -- dictionary of parameters for SDFqEstimator used as a subroutine (default: {})
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Beullens
-            sage: from cryptographic_estimators.PEEstimator import PEProblem
-            sage: Beullens(PEProblem(n=100,k=50,q=3))
+        Examples:
+            >>> from cryptographic_estimators.PEEstimator.PEAlgorithms import Beullens
+            >>> from cryptographic_estimators.PEEstimator import PEProblem
+            >>> Beullens(PEProblem(n=100,k=50,q=3))
             Beullens estimator for permutation equivalence problem with (n,k,q) = (100,50,3)
-
         """
         super().__init__(problem, **kwargs)
         self._name = "Beullens"
@@ -61,27 +57,23 @@ class Beullens(PEAlgorithm):
 
     @optimal_parameter
     def w(self):
-        """
-        Return the optimal parameter $w$ used in the algorithm optimization
+        """Return the optimal parameter w used in the algorithm optimization.
 
-        EXAMPLES::
-            sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import Beullens
-            sage: from cryptographic_estimators.PEEstimator import PEProblem
-            sage: A = Beullens(PEProblem(n=100,k=50,q=31))
-            sage: A.w()
+        Examples:
+            >>> from cryptographic_estimators.PEEstimator.PEAlgorithms import Beullens
+            >>> from cryptographic_estimators.PEEstimator import PEProblem
+            >>> A = Beullens(PEProblem(n=100,k=50,q=31))
+            >>> A.w()
             42
-
         """
         return self._get_optimal_parameter("w")
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """
-
-        INPUT:
-        -  ``parameters`` -- dictionary including parameters
-        -  ``verbose_information`` -- if set to a dictionary `lists`,
-                                      `list_cost` and `norm_factor` will be returned.
-
+        """Time and memory complexity calculation.
+    
+        Args:
+            parameters (dict): Dictionary including parameters.
+            verbose_information: If set to a dictionary, 'lists', 'list_cost' and 'norm_factor' will be returned.
         """
         n, k, q, _ = self.problem.get_parameters()
         w = parameters["w"]
@@ -118,9 +110,7 @@ class Beullens(PEAlgorithm):
         return self._time_and_memory_complexity(parameters)[1]
 
     def _get_verbose_information(self):
-        """
-        returns a dictionary containing additional algorithm information
-        """
+        """Returns a dictionary containing additional algorithm information."""
         verb = dict()
         _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)
         return verb

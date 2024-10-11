@@ -21,22 +21,18 @@ from math import log2, factorial
 
 
 class PKProblem(BaseProblem):
-    """
-    Construct an instance of the Permuted Kernel Problem
-
-    INPUT:
-
-    - ``n`` -- columns of the matrix
-    - ``m`` -- rows of the matrix
-    - ``q`` -- size of the field
-    - ``ell`` -- number of rows of the matrix whose permutation should lie in the kernel (default: 1)
-    - ``use_parity_row`` -- enables trick of appending extra (all one) row to the matrix, i.e., m -> m+1 (default: false)
-    - ``nsolutions`` -- number of solutions of the problem in logarithmic scale (default: expected_number_solutions)
-
-    """
-
-
     def __init__(self, n: int, m: int, q: int, ell=1, **kwargs):
+        """Construct an instance of the Permuted Kernel Problem.
+
+        Args:
+            n (int): Columns of the matrix.
+            m (int): Rows of the matrix.
+            q (int): Size of the field.
+            ell (int, optional): Number of rows of the matrix whose permutation should lie in the kernel. Defaults to 1.
+            **kwargs: Additional keyword arguments.
+                use_parity_row (bool): Enables trick of appending extra (all one) row to the matrix, i.e., m -> m+1. Defaults to False.
+                nsolutions (int): Number of solutions of the problem in logarithmic scale. Defaults to expected_number_solutions.
+        """
         super().__init__(**kwargs)
 
         self.parameters[PK_COLUMNS] = n
@@ -52,32 +48,23 @@ class PKProblem(BaseProblem):
             self.parameters[PK_ROWS] += 1
 
     def to_bitcomplexity_time(self, basic_operations: float):
-        """
-        Returns the bit-complexity corresponding to basic_operations field additions
-
-        INPUT:
-
-        - ``basic_operations`` -- Number of Fq additions (logarithmic)
-
+        """Returns the bit-complexity corresponding to basic_operations field additions.
+    
+        Args:
+            basic_operations (float): Number of Fq additions (logarithmic)
         """
         return basic_operations + log2(log2(self.parameters[PK_FIELD_SIZE]))
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
-        """
-        Returns the memory bit-complexity associated to a given number of elements to store
-
-        INPUT:
-
-        - ``elements_to_store`` -- number of Fq elements the algorithm needs to store (logarithmic)
-
+        """Returns the memory bit-complexity associated to a given number of elements to store.
+    
+        Args:
+            elements_to_store (float): Number of Fq elements the algorithm needs to store (logarithmic)
         """
         return elements_to_store + log2(log2(self.parameters[PK_FIELD_SIZE]))
 
     def expected_number_solutions(self):
-        """
-        Returns the logarithm of the expected number of existing solutions to the problem
-
-        """
+        """Returns the logarithm of the expected number of existing solutions to the problem."""
         n, m, q, ell = self.get_parameters()
         return log2(factorial(n)) - log2(q) * m * ell
 

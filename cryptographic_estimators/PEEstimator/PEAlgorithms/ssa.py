@@ -21,23 +21,19 @@ from math import log, log2
 
 
 class SSA(PEAlgorithm):
-
     def __init__(self, problem: PEProblem, **kwargs):
-        """
-        Complexity estimate of Support Splitting Algorithm [Sen06]_
+        """Complexity estimate of Support Splitting Algorithm [Sen06]_
+
         Rough Estimate according to [BBPS20]_
 
-        INPUT:
+        Args:
+            problem (PEProblem): PEProblem object including all necessary parameters
 
-        - ``problem`` -- PEProblem object including all necessary parameters
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.PEEstimator.PEAlgorithms import SSA
-            sage: from cryptographic_estimators.PEEstimator import PEProblem
-            sage: SSA(PEProblem(n=100,k=50,q=3))
+        Examples:
+            >>> from cryptographic_estimators.PEEstimator.PEAlgorithms import SSA
+            >>> from cryptographic_estimators.PEEstimator import PEProblem
+            >>> SSA(PEProblem(n=100,k=50,q=3))
             Support Splitting Algorithm estimator for permutation equivalence problem with (n,k,q) = (100,50,3)
-
         """
 
         super().__init__(problem, **kwargs)
