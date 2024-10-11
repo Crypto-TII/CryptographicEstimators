@@ -22,13 +22,10 @@ from .pe_problem import PEProblem
 
 class PEAlgorithm(BaseAlgorithm):
     def __init__(self, problem: PEProblem, **kwargs):
-        """
-        Base class for PE algorithms complexity estimator
+        """Base class for PE algorithms complexity estimator.
 
-        INPUT:
-
-        - ``problem`` -- PEProblem object including all necessary parameters
-
+        Args:
+            problem (PEProblem): PEProblem object including all necessary parameters
         """
         super(PEAlgorithm, self).__init__(problem, **kwargs)
 
