@@ -21,7 +21,11 @@ def beullens(input: tuple, epsilon: float = 0.12):
     return actual_complexity, epsilon
 
 
-def beullens_range(input: tuple, epsilon: float = 0.12):
+def beullens_range(input: tuple, epsilon: float = 1.2):
+    """The higher tolerance is required to compensate the variance caused by the probabilistic nature of beullens runtime computation.
+
+    For more info: https://github.com/Crypto-TII/CryptographicEstimators/issues/152#issuecomment-2395990074
+    """
     n, k, q = input
 
     candidate_1 = Beullens(LEProblem(n, k, q), **BEULLENS_PARAMS).time_complexity()
