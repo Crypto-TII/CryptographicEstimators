@@ -19,7 +19,6 @@
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from math import log2, log
-from sage.all import Integer
 
 
 class ExhaustiveSearch(MQAlgorithm):
@@ -43,7 +42,7 @@ class ExhaustiveSearch(MQAlgorithm):
         """
 
         q = problem.order_of_the_field()
-        if not isinstance(q, (int, Integer)):
+        if not isinstance(q, int):
             raise TypeError("q must be an integer")
 
         super().__init__(problem, **kwargs)

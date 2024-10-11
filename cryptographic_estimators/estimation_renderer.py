@@ -20,7 +20,6 @@ from .base_constants import BASE_ALGORITHM, BASE_PARAMETERS, BASE_TIME, BASE_MEM
 from .helper import concat_all_tables, round_or_truncate
 from copy import deepcopy
 from prettytable import PrettyTable
-from sage.all import RR
 
 
 class EstimationRenderer():
@@ -122,6 +121,6 @@ class EstimationRenderer():
             row = [estimation[i][sub_table.title][k]
                    for k in sub_table.field_names]
             row = [round_or_truncate(
-                i, self._truncate, self._precision) if i in RR else i for i in row]
+                i, self._truncate, self._precision) if type(i) is float else i for i in row]
             sub_table.add_row(row)
         return sub_table
