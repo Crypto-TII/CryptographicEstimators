@@ -44,7 +44,7 @@ class BruteForce(MRAlgorithm):
 
         _, m, n, k, r = self.problem.get_parameters()
         self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)))
-        self.set_parameter_ranges('lv', 0, r)
+        self.set_parameter_ranges('lv', 0, min(r, k) - 1)
         self._name = "BruteForce"
 
     @optimal_parameter
@@ -113,7 +113,7 @@ class BruteForce(MRAlgorithm):
         _, _, _, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
         time_complexity = self._BFE_time_complexity_helper_(q, k_reduced, r)
-        reduction_cost = self.cost_reduction(a)
+        reduction_cost = self.cost_reduction(a, lv)
         time += max(time_complexity, reduction_cost)
         if abs(time_complexity - reduction_cost) < 0:
             time += 1

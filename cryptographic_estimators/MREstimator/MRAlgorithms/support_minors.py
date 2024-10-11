@@ -48,7 +48,7 @@ class SupportMinors(MRAlgorithm):
 
         q, m, n, k, r = self.problem.get_parameters()
         self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m) - 1))
-        self.set_parameter_ranges('lv', 0, r - 1)
+        self.set_parameter_ranges('lv', 0, min(r, k) - 1)
         self.set_parameter_ranges('b', 1, r + 1)
         self.set_parameter_ranges('nprime', r + 1, n)
         self.set_parameter_ranges('variant', 1, 2)
@@ -236,7 +236,7 @@ class SupportMinors(MRAlgorithm):
         q, m, n, k, r = self.problem.get_parameters()
         time = self.hybridization_factor(a, lv)
         _, _, _, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
-        reduction_cost = self.cost_reduction(a)
+        reduction_cost = self.cost_reduction(a, lv)
         if k_reduced > 0:
             time_complexity = self._sm_time_complexity_helper_(q=q, K=k_reduced + 1, r=r, nprime=nprime, b=b, variant=variant)
             time += max(time_complexity, reduction_cost)
