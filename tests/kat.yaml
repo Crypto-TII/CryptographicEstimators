@@ -510,48 +510,69 @@ mq:
 pe:
   beullens:
     inputs_with_expected_outputs:
-      - !!python/tuple
-        - &id001 !!python/tuple [250, 125, 53]
-        - 118.78088521885496
-      - !!python/tuple
-        - &id002 !!python/tuple [106, 45, 7]
-        - 44.09967071080304
+    - !!python/tuple
+      - &id002 !!python/tuple [250, 125, 53]
+      - 118.78088521885496
+    - !!python/tuple
+      - &id003 !!python/tuple [106, 45, 7]
+      - 44.09967071080304
   leon1:
     inputs_with_expected_outputs:
-      - !!python/tuple
-        - *id001
-        - 137.01928566775692
-      - !!python/tuple
-        - *id002
-        - 48.293726286385905
+    - !!python/tuple
+      - *id002
+      - 137.01928566775692
+    - !!python/tuple
+      - *id003
+      - 48.293726286385905
   leon2:
     inputs_with_expected_outputs:
-      - !!python/tuple
-        - !!python/tuple [250, 150, 11]
-        - 99.18739479907072
-      - !!python/tuple
-        - !!python/tuple [250, 150, 17]
-        - 109.87905194226076
-      - !!python/tuple
-        - !!python/tuple [250, 150, 53]
-        - 130.68194491735946
-      - !!python/tuple
-        - !!python/tuple [250, 150, 103]
-        - 141.18776615204766
-      - !!python/tuple
-        - !!python/tuple [250, 150, 151]
-        - 146.78177706724986
-      - !!python/tuple
-        - !!python/tuple [250, 150, 199]
-        - 149.35854783614326
-      - !!python/tuple
-        - !!python/tuple [250, 150, 251]
-        - 152.3875986427211
+    - !!python/tuple
+      - !!python/tuple [250, 150, 11]
+      - !!python/object/apply:sage.rings.real_mpfr.__create__RealNumber_version0
+        - *id001
+        - 3.35vshm1bj00@1
+        - 32
+    - !!python/tuple
+      - !!python/tuple [250, 150, 17]
+      - !!python/object/apply:sage.rings.real_mpfr.__create__RealNumber_version0
+        - *id001
+        - 3.ds44oojrup0@1
+        - 32
+    - !!python/tuple
+      - !!python/tuple [250, 150, 53]
+      - !!python/object/apply:sage.rings.real_mpfr.__create__RealNumber_version0
+        - *id001
+        - 4.2lq9v2bdrf0@1
+        - 32
+    - !!python/tuple
+      - !!python/tuple [250, 150, 103]
+      - !!python/object/apply:sage.rings.real_mpfr.__create__RealNumber_version0
+        - *id001
+        - 4.d608n2iin50@1
+        - 32
+    - !!python/tuple
+      - !!python/tuple [250, 150, 151]
+      - !!python/object/apply:sage.rings.real_mpfr.__create__RealNumber_version0
+        - *id001
+        - 4.ip0h8le4pr0@1
+        - 32
+    - !!python/tuple
+      - !!python/tuple [250, 150, 199]
+      - !!python/object/apply:sage.rings.real_mpfr.__create__RealNumber_version0
+        - *id001
+        - 4.lbf4skvi9e0@1
+        - 32
+    - !!python/tuple
+      - !!python/tuple [250, 150, 251]
+      - !!python/object/apply:sage.rings.real_mpfr.__create__RealNumber_version0
+        - *id001
+        - 4.occsqk9jm10@1
+        - 32
 pk:
   kmp:
     inputs_with_expected_outputs:
     - !!python/tuple
-      - &id002 !!python/tuple [94, 55, 509, 1]
+      - &id004 !!python/tuple [94, 55, 509, 1]
       - 190.8212386323483
   kmp_range:
     inputs_with_expected_outputs:
@@ -23415,7 +23436,7 @@ pk:
   sbc:
     inputs_with_expected_outputs:
     - !!python/tuple
-      - *id002
+      - *id004
       - 189.76940093865682
   sbc_range:
     inputs_with_expected_outputs:
@@ -23928,18 +23949,18 @@ sdfq:
   lee_brickell:
     inputs_with_expected_outputs:
     - !!python/tuple
-      - &id003 !!python/tuple [256, 128, 64, 251]
+      - &id005 !!python/tuple [256, 128, 64, 251]
       - 95.46226324266954
     - !!python/tuple
-      - &id004 !!python/tuple [961, 771, 48, 31]
+      - &id006 !!python/tuple [961, 771, 48, 31]
       - 138.01051677537373
   stern:
     inputs_with_expected_outputs:
     - !!python/tuple
-      - *id003
+      - *id005
       - 94.41599530389556
     - !!python/tuple
-      - *id004
+      - *id006
       - 129.05171782411085
   stern_range:
     inputs_with_expected_outputs:
