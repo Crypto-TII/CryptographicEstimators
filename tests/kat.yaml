@@ -78,6 +78,46 @@ mq:
     - !!python/tuple
       - !!python/tuple [120, 40, 8, HybridF5]
       - 102.29814674960852
+pe:
+  beullens:
+    inputs_with_expected_outputs:
+      - !!python/tuple
+        - &id001 !!python/tuple [250, 125, 53]
+        - 118.78088521885496
+      - !!python/tuple
+        - &id002 !!python/tuple [106, 45, 7]
+        - 44.09967071080304
+  leon1:
+    inputs_with_expected_outputs:
+      - !!python/tuple
+        - *id001
+        - 137.01928566775692
+      - !!python/tuple
+        - *id002
+        - 48.293726286385905
+  leon2:
+    inputs_with_expected_outputs:
+      - !!python/tuple
+        - !!python/tuple [250, 150, 11]
+        - 99.18739479907072
+      - !!python/tuple
+        - !!python/tuple [250, 150, 17]
+        - 109.87905194226076
+      - !!python/tuple
+        - !!python/tuple [250, 150, 53]
+        - 130.68194491735946
+      - !!python/tuple
+        - !!python/tuple [250, 150, 103]
+        - 141.18776615204766
+      - !!python/tuple
+        - !!python/tuple [250, 150, 151]
+        - 146.78177706724986
+      - !!python/tuple
+        - !!python/tuple [250, 150, 199]
+        - 149.35854783614326
+      - !!python/tuple
+        - !!python/tuple [250, 150, 251]
+        - 152.3875986427211
 pk:
   kmp:
     inputs_with_expected_outputs:
@@ -43898,43 +43938,3 @@ sdfq:
     - !!python/tuple
       - !!python/tuple [65, 38, 25, 251]
       - 61.92120438863431
-pe:
-  beullens:
-    inputs_with_expected_outputs:
-      - !!python/tuple
-        - &id001 !!python/tuple [250, 125, 53]
-        - 118.78088521885496
-      - !!python/tuple
-        - &id002 !!python/tuple [106, 45, 7]
-        - 44.09967071080304
-  leon1:
-    inputs_with_expected_outputs:
-      - !!python/tuple
-        - *id001
-        - 137.01928566775692
-      - !!python/tuple
-        - *id002
-        - 48.293726286385905
-  leon2:
-    inputs_with_expected_outputs:
-      - !!python/tuple
-        - !!python/tuple [250, 150, 11]
-        - 99.18739479907072
-      - !!python/tuple
-        - !!python/tuple [250, 150, 17]
-        - 109.87905194226076
-      - !!python/tuple
-        - !!python/tuple [250, 150, 53]
-        - 130.68194491735946
-      - !!python/tuple
-        - !!python/tuple [250, 150, 103]
-        - 141.18776615204766
-      - !!python/tuple
-        - !!python/tuple [250, 150, 151]
-        - 146.78177706724986
-      - !!python/tuple
-        - !!python/tuple [250, 150, 199]
-        - 149.35854783614326
-      - !!python/tuple
-        - !!python/tuple [250, 150, 251]
-        - 152.3875986427211
