@@ -24,25 +24,21 @@ from ...base_constants import BASE_KEY_RECOVERY_ATTACK
 
 
 class ReconciliationAttack(MAYOAlgorithm):
-    """
-    Construct an instance of ReconciliationAttack estimator
-
-    Reconciliation attack attempts to find vectors in the oils space O by using the fact
-    that P(o) = 0 for all o in O. 
-
-    INPUT:
-
-    - ``problem`` -- MAYOProblem object including all necessary parameters
-    - ``w`` -- linear algebra constant (default: obtained from MAYOAlgorithm)
-    - ``h`` -- external hybridization parameter (default: 0)
-    - ``excluded_algorithms`` -- a list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
-    - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-    - ``complexity_type`` -- complexity type to consider (0: estimate, default: 0)
-    - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
-
-    """
-
     def __init__(self, problem: MAYOProblem, **kwargs):
+        """Construct an instance of ReconciliationAttack estimator.
+
+        Reconciliation attack attempts to find vectors in the oils space O by using the fact
+        that P(o) = 0 for all o in O.
+
+        Args:
+            problem (MAYOProblem): MAYOProblem object including all necessary parameters
+            w: Linear algebra constant (default: obtained from MAYOAlgorithm)
+            h: External hybridization parameter (default: 0)
+            excluded_algorithms: A list/tuple of MQ algorithms to be excluded (default: [Lokshtanov])
+            memory_access: Specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
+            complexity_type: Complexity type to consider (0: estimate, default: 0)
+            bit_complexities: Determines if complexity is given in bit operations or basic operations (default 1: in bit)
+        """
         super().__init__(problem, **kwargs)
 
         self._name = "ReconciliationAttack"
@@ -51,50 +47,39 @@ class ReconciliationAttack(MAYOAlgorithm):
         self._boolean_solve = BooleanSolveFXL(MQProblem(n=n-o, m=m, q=q), bit_complexities=False)
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.reconciliation_attack import ReconciliationAttack
-            sage: E = ReconciliationAttack(MAYOProblem(n=32, m=30, o=12, k=9, q=16))
-            sage: E.time_complexity()
+        Tests:
+            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.reconciliation_attack import ReconciliationAttack
+            >>> E = ReconciliationAttack(MAYOProblem(n=32, m=30, o=12, k=9, q=16))
+            >>> E.time_complexity()
             53.33754239288287
-
         """
         E = self._boolean_solve
         return E.time_complexity()
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
+        """Return the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            sage: from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.reconciliation_attack import ReconciliationAttack
-            sage: E = ReconciliationAttack(MAYOProblem(n=32, m=30, o=12, k=9, q=16))
-            sage: E.memory_complexity()
+        Tests:
+            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.reconciliation_attack import ReconciliationAttack
+            >>> E = ReconciliationAttack(MAYOProblem(n=32, m=30, o=12, k=9, q=16))
+            >>> E.memory_complexity()
             20.434204686526638
-
         """
         E = self._boolean_solve
         return E.memory_complexity()
     
 
     def get_optimal_parameters_dict(self):
-        """
-        Returns the optimal parameters dictionary
-
-        """
+        """Returns the optimal parameters dictionary."""
         E = self._boolean_solve
         return E.get_optimal_parameters_dict()      

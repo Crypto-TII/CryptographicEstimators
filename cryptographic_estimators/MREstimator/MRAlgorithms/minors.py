@@ -20,89 +20,77 @@ from ...MREstimator.mr_problem import MRProblem
 from ...base_algorithm import optimal_parameter
 from math import log2, ceil
 from math import comb as binomial
-from ..mr_helper import minors_polynomial
+from ..mr_helper import minors_polynomial_degree
 from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, MR_NUMBER_OF_COEFFICIENTS_TO_GUESS
 
 
 class Minors(MRAlgorithm):
-    """
-    Construct an instance of Minors estimator
-
-
-    INPUT:
-
-    - ``problem`` -- an instance of the MRProblem class
-    - ``w`` -- linear algebra constant (default: 3)
-    - ``theta`` -- exponent of the conversion factor (default: 2)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
-        sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-        sage: E = Minors(MRProblem(q=7, m=9, n=10, k=15, r=4))
-        sage: E
-        Minors estimator for the MinRank problem with (q, m, n, k, r) = (7, 9, 10, 15, 4)
-    """
-
     def __init__(self, problem: MRProblem, **kwargs):
+        """Construct an instance of Minors estimator.
 
+        Args:
+            problem (MRProblem): An instance of the MRProblem class
+            **kwargs: Additional keyword arguments
+                w (int): Linear algebra constant (default: 3)
+                theta (int): Exponent of the conversion factor (default: 2)
+
+        Examples:
+            >>> from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
+            >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            >>> E = Minors(MRProblem(q=7, m=9, n=10, k=15, r=4))
+            >>> E
+            Minors estimator for the MinRank problem with (q, m, n, k, r) = (7, 9, 10, 15, 4)
+        """
         super(Minors, self).__init__(problem, **kwargs)
 
         q, m, n, k, r = self.problem.get_parameters()
         self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)))
-        self.set_parameter_ranges('lv', 0, r)
+        self.set_parameter_ranges('lv', 0, min(r, k) - 1)
         self._name = "Minors"
 
     @optimal_parameter
     def a(self):
-        """
-        Return the optimal `a`, i.e. no. of vectors to guess in the kernel of the low-rank matrix
+        """Return the optimal `a`, i.e. number of vectors to guess in the kernel of the low-rank matrix.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
-            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: ME = Minors(MRProblem(q=7, m=9, n=10, k=15, r=4))
-            sage: ME.a()
+        Examples:
+            >>> from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
+            >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            >>> ME = Minors(MRProblem(q=7, m=9, n=10, k=15, r=4))
+            >>> ME.a()
             2
 
-        TESTS::
-
-            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
-            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            sage: ME.a()
+        Tests:
+            >>> from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
+            >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            >>> ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            >>> ME.a()
             5
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS)
 
     @optimal_parameter
     def lv(self):
-        """
-        Return the optimal `lv`, i.e. no. of entries to guess in the solution
+        """Return the optimal `lv`, i.e. number of entries to guess in the solution.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
-            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: ME = Minors(MRProblem(q=7, m=9, n=10, k=15, r=4))
-            sage: ME.lv()
+        Examples:
+            >>> from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
+            >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            >>> ME = Minors(MRProblem(q=7, m=9, n=10, k=15, r=4))
+            >>> ME.lv()
             0
 
-        TESTS::
-
-            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
-            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            sage: ME.lv()
+        Tests:
+            >>> from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
+            >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            >>> ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            >>> ME.lv()
             0
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
     def _ME_time_memory_complexity_helper_(self, m: int, n_reduced: int, k_reduced: int, r: int, time_mem: str):
         out = 0
-        poly = minors_polynomial(m, n_reduced, k_reduced, r)
-        D = poly.degree()
+        D = minors_polynomial_degree(m, n_reduced, k_reduced, r)
         if k_reduced > 0:
             if time_mem == "time":
                 w = self._w
@@ -112,19 +100,16 @@ class Minors(MRAlgorithm):
         return out
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
-            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            sage: ME.time_complexity()
+        Tests:
+            >>> from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
+            >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            >>> ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            >>> ME.time_complexity()
             143.1769522683363
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
@@ -133,26 +118,23 @@ class Minors(MRAlgorithm):
         _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
         time_complexity = self._ME_time_memory_complexity_helper_(m, n_reduced, k_reduced, r, "time")
-        reduction_cost = self.cost_reduction(a)
+        reduction_cost = self.cost_reduction(a, lv)
         time += max(time_complexity, reduction_cost)
         if abs(time_complexity - reduction_cost) < 0:
             time += 1
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
+        """Return the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
-            sage: from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            sage: ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            sage: ME.memory_complexity()
+        Tests:
+            >>> from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
+            >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
+            >>> ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
+            >>> ME.memory_complexity()
             14.784634845557521
         """
 

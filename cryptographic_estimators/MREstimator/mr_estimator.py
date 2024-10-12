@@ -23,27 +23,25 @@ from math import inf
 
 
 class MREstimator(BaseEstimator):
-    """
-    Construct an instance of MREstimator
-
-    INPUT:
-    - ``q`` -- order of the finite field
-    - ``m`` -- number of rows of the input matrices
-    - ``n`` -- number of columns of the input matrices
-    - ``k`` -- length of the solution vector
-    - ``r`` -- target rank
-    - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
-    - ``excluded_algorithm`` -- A list/tuple of excluded algorithms (default: None)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.MREstimator import MREstimator
-        sage: MRE = MREstimator(q=16, m=15, n=15, k=78, r=6)
-
-    """
     excluded_algorithms_by_default = []
-
     def __init__(self, q: int, m: int, n: int, k: int, r: int, memory_bound=inf, **kwargs):
+        """Construct an instance of MREstimator.
+
+        Args:
+            q (int): Order of the finite field.
+            m (int): Number of rows of the input matrices.
+            n (int): Number of columns of the input matrices.
+            k (int): Length of the solution vector.
+            r (int): Target rank.
+            memory_bound (float, optional): Maximum allowed memory to use for solving the problem. Defaults to inf.
+            **kwargs: Additional keyword arguments.
+                excluded_algorithm (list): A list/tuple of excluded algorithms (default: None)
+
+        Examples:
+            >>> from cryptographic_estimators.MREstimator import MREstimator
+            >>> MRE = MREstimator(q=16, m=15, n=15, k=78, r=6)
+        """
+
         super(MREstimator, self).__init__(
             MRAlgorithm,
             MRProblem(q, m, n, k, r, memory_bound=memory_bound, **kwargs),
@@ -52,22 +50,19 @@ class MREstimator(BaseEstimator):
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
               show_all_parameters=0, precision=1, truncate=0):
-        """
-        Print table describing the complexity of each algorithm and its optimal parameters
+        """Print table describing the complexity of each algorithm and its optimal parameters.
+    
+        Args:
+            show_quantum_complexity (int): Show quantum time complexity (default: 0)
+            show_tilde_o_time (int): Show Ō time complexity (default: 0)
+            show_all_parameters (int): Show all optimization parameters (default: 0)
+            precision (int): Number of decimal digits output (default: 1)
+            truncate (int): Truncate rather than round the output (default: 0)
 
-        INPUT:
-
-        - ``show_quantum_complexity`` -- show quantum time complexity (default: False)
-        - ``show_tilde_o_time`` -- show Ō time complexity (default: False)
-        - ``show_all_parameters`` -- show all optimization parameters (default: False)
-        - ``precision`` -- number of decimal digits output (default: 1)
-        - ``truncate`` -- truncate rather than round the output (default: False)
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MREstimator import MREstimator
-            sage: MRE = MREstimator(q=7, m=9, n=10, k=15, r=4)
-            sage: MRE.table(show_all_parameters=1)
+        Examples:
+            >>> from cryptographic_estimators.MREstimator import MREstimator
+            >>> MRE = MREstimator(q=7, m=9, n=10, k=15, r=4)
+            >>> MRE.table(show_all_parameters=1)
             +---------------+---------------------------------------------------------------------------------------+
             |               |                                        estimate                                       |
             +---------------+-------+--------+----------------------------------------------------------------------+
@@ -80,12 +75,23 @@ class MREstimator(BaseEstimator):
             | BruteForce    |  37.1 |   12.1 |                          {'a': 1, 'lv': 0}                           |
             +---------------+-------+--------+----------------------------------------------------------------------+
 
+        Tests:
+            >>> from cryptographic_estimators.MREstimator import MREstimator
+            >>> from cryptographic_estimators.MREstimator.MRAlgorithms import Minors, BigK
+            >>> MR = MREstimator(q=2, m=64, n=64, k=44, r=44, excluded_algorithms=[Minors, BigK])
+            >>> MR.table(show_all_parameters=1)
+            +---------------+----------------------------------------------------------------------------------------+
+            |               |                                        estimate                                        |
+            +---------------+------+--------+------------------------------------------------------------------------+
+            | algorithm     | time | memory |                               parameters                               |
+            +---------------+------+--------+------------------------------------------------------------------------+
+            | SupportMinors | 73.1 |   12.0 | {'a': 0, 'lv': 43, 'b': 1, 'nprime': 46, 'variant': 'block_wiedemann'} |
+            | KernelSearch  | 60.4 |   18.5 |                           {'a': 0, 'lv': 0}                            |
+            | BruteForce    | 60.4 |   17.5 |                           {'a': 0, 'lv': 0}                            |
+            +---------------+------+--------+------------------------------------------------------------------------+
 
-        TESTS:
-
-            sage: from cryptographic_estimators.MREstimator import MREstimator
-            sage: MRE = MREstimator(q=16, m=15, n=15, k=78, r=6)
-            sage: MRE.table(show_all_parameters=1)
+            >>> MRE = MREstimator(q=16, m=15, n=15, k=78, r=6)
+            >>> MRE.table(show_all_parameters=1)
             +---------------+---------------------------------------------------------------------------------------+
             |               |                                        estimate                                       |
             +---------------+-------+--------+----------------------------------------------------------------------+
@@ -98,9 +104,8 @@ class MREstimator(BaseEstimator):
             | BruteForce    | 143.8 |   16.1 |                          {'a': 5, 'lv': 0}                           |
             +---------------+-------+--------+----------------------------------------------------------------------+
 
-
-            sage: MRE = MREstimator(q=16, m=16, n=16, k=142, r=4)
-            sage: MRE.table(show_all_parameters=1)
+            >>> MRE = MREstimator(q=16, m=16, n=16, k=142, r=4)
+            >>> MRE.table(show_all_parameters=1)
             +---------------+---------------------------------------------------------------------------------------+
             |               |                                        estimate                                       |
             +---------------+-------+--------+----------------------------------------------------------------------+
@@ -113,9 +118,8 @@ class MREstimator(BaseEstimator):
             | BruteForce    | 169.4 |   17.2 |                          {'a': 9, 'lv': 0}                           |
             +---------------+-------+--------+----------------------------------------------------------------------+
 
-
-            sage: MRE = MREstimator(q=16, m=19, n=19, k=109, r=8)
-            sage: MRE.table(show_all_parameters=1)
+            >>> MRE = MREstimator(q=16, m=19, n=19, k=109, r=8)
+            >>> MRE.table(show_all_parameters=1)
             +---------------+----------------------------------------------------------------------------------------+
             |               |                                        estimate                                        |
             +---------------+-------+--------+-----------------------------------------------------------------------+
@@ -128,9 +132,8 @@ class MREstimator(BaseEstimator):
             | BruteForce    | 216.3 |   17.3 |                           {'a': 6, 'lv': 0}                           |
             +---------------+-------+--------+-----------------------------------------------------------------------+
 
-
-            sage: MRE = MREstimator(q=16, m=19, n=19, k=167, r=6)
-            sage: MRE.table(show_all_parameters=1)
+            >>> MRE = MREstimator(q=16, m=19, n=19, k=167, r=6)
+            >>> MRE.table(show_all_parameters=1)
             +---------------+----------------------------------------------------------------------------------------+
             |               |                                        estimate                                        |
             +---------------+-------+--------+-----------------------------------------------------------------------+
@@ -143,9 +146,8 @@ class MREstimator(BaseEstimator):
             | BruteForce    | 242.2 |   17.9 |                           {'a': 9, 'lv': 0}                           |
             +---------------+-------+--------+-----------------------------------------------------------------------+
 
-
-            sage: MRE = MREstimator(q=16, m=21, n=21, k=189, r=7)
-            sage: MRE.table(show_all_parameters=1)
+            >>> MRE = MREstimator(q=16, m=21, n=21, k=189, r=7)
+            >>> MRE.table(show_all_parameters=1)
             +---------------+----------------------------------------------------------------------------------------+
             |               |                                        estimate                                        |
             +---------------+-------+--------+-----------------------------------------------------------------------+
@@ -158,9 +160,8 @@ class MREstimator(BaseEstimator):
             | BruteForce    | 278.7 |   18.4 |                           {'a': 9, 'lv': 0}                           |
             +---------------+-------+--------+-----------------------------------------------------------------------+
 
-
-            sage: MRE = MREstimator(q=16, m=22, n=22, k=254, r=6)
-            sage: MRE.table(show_all_parameters=1)
+            >>> MRE = MREstimator(q=16, m=22, n=22, k=254, r=6)
+            >>> MRE.table(show_all_parameters=1)
             +---------------+-----------------------------------------------------------------------------------------+
             |               |                                         estimate                                        |
             +---------------+-------+--------+------------------------------------------------------------------------+
@@ -172,8 +173,6 @@ class MREstimator(BaseEstimator):
             | Minors        | 307.1 |   60.1 |                           {'a': 9, 'lv': 0}                            |
             | BruteForce    | 316.0 |   18.9 |                           {'a': 12, 'lv': 0}                           |
             +---------------+-------+--------+------------------------------------------------------------------------+
-
-
             """
         super(MREstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,

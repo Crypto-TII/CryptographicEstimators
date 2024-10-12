@@ -20,22 +20,17 @@ from bisect import bisect_left
 
 
 class ComplexityType(Enum):
-    """
-    Distinguish between normal optimisation and tilde O optimisation
-    """
+    """Distinguish between normal optimisation and tilde O optimisation."""
 
     ESTIMATE = 0
     TILDEO = 1
 
 
 def concat_all_tables(tables):
-    """
-    Concatenates all tables in a list into a single PrettyTable object.
+    """Concatenates all tables in a list into a single PrettyTable object.
 
-    INPUT:
-
-    - ``tables`` -- list of `PrettyTable`
-
+    Args:
+        tables (list): List of PrettyTable objects.
     """
     tbl_join = concat_pretty_tables(str(tables[0]), str(tables[1]))
     for i in range(2, len(tables)):
@@ -44,14 +39,11 @@ def concat_all_tables(tables):
 
 
 def concat_pretty_tables(t1: str, t2: str):
-    """
-    Merge two columns into one
+    """Merge two columns into one.
 
-    INPUT:
-
-    - ``t1`` -- first column
-    - ``t2`` -- second column
-
+    Args:
+        t1 (str): First column
+        t2 (str): Second column
     """
     v = t1.split("\n")
     v2 = t2.split("\n")
@@ -62,34 +54,28 @@ def concat_pretty_tables(t1: str, t2: str):
 
 
 def _truncate(x: float, precision: int):
-    """
-    Truncate a value
+    """Truncate a value.
 
-    INPUT:
-
-    - ``x`` -- value to truncate
-    - ``precision`` -- number of decimial digits to truncate to
-
+    Args:
+        x (float): Value to truncate.
+        precision (int): Number of decimal digits to truncate to.
     """
     return float(int(x * 10**precision) / 10**precision)
 
 
 def round_or_truncate(x: float, truncate: bool, precision: int):
-    """
-    Eiter rounds or truncates `x` if `truncate` is `true`
+    """Either rounds or truncates `x` if `truncate` is `true`.
 
-    INPUT:
-
-    - ``x`` -- value to either truncate or round
-    - ``truncate`` -- if `true`: `x` will be truncated else rounded
-    - ``precision`` -- number of decimial digits
-
+    Args:
+        x (float): Value to either truncate or round
+        truncate (bool): If `true`: `x` will be truncated else rounded
+        precision (int): Number of decimal digits
     """
     val = _truncate(x, precision) if truncate else round(float(x), precision)
     return "{:.{p}f}".format(val, p=precision)
 
 
-# Don't remove this lead and trail comments, they are used for Black.
+# Don't remove this lead and trail comments, they are used for disable Black.
 # fmt: off
 PRIMES = [
     2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
@@ -108,36 +94,37 @@ PRIMES = [
 
 
 def is_prime_power(n, return_pair=False):
-    """
-    Determines if a given number is a power of a prime number.
+    """Determines if a given number is a power of a prime number.
 
-    INPUT:
+    Args:
+        n: The number to be checked.
+        return_pair (bool): Whether to return a pair or not. Defaults to False.
 
-    - ``n`` -- The number to be checked.
+    Returns:
+        If return_pair is True, a tuple (boolean, (a:int, b:int)) where, if
+        boolean is true, the input number is of the form a^b. Otherwise only
+        returns the boolean.
 
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.helper import is_prime_power
-        sage: is_prime_power(11)
+    Examples:
+        >>> from cryptographic_estimators.helper import is_prime_power
+        >>> is_prime_power(11)
         True
 
-        sage: is_prime_power(7^3, return_pair = True)
+        >>> is_prime_power(7**3, return_pair = True)
         (True, (7, 3))
 
-    TESTS::
-
-        sage: is_prime_power(101^2)
+    Tests:
+        >>> is_prime_power(101**2)
         True
 
-        sage: is_prime_power(7^3+1)
+        >>> is_prime_power(7**3+1)
         False
 
-        sage: is_prime_power(1121)
+        >>> is_prime_power(1121)
         False
 
-        sage: is_prime_power(1087*1091)
+        >>> is_prime_power(1087*1091)
         False
-
     """
     global PRIMES
 
@@ -149,8 +136,11 @@ def is_prime_power(n, return_pair=False):
         return (n == 1, m)
 
     def check_small_primes(n, max_prime):
-        """
-        If `n` is within the range of the precomputed list, performs a binary search. Otherwise, checks divisibility by the precomputed primes up to the square root of `n`.
+        """Checks primality using precomputed list or divisibility.
+    
+        If `n` is within the range of the precomputed list, performs a binary search. 
+        Otherwise, checks divisibility by the precomputed primes up to the square 
+        root of `n`.
         """
         if n < max_prime:
             index = bisect_left(PRIMES, n)
@@ -167,9 +157,10 @@ def is_prime_power(n, return_pair=False):
         return None
 
     def check_large_candidates(n, max_prime):
-        """
-        Determines wich form have max_prime, either 6k-1 or 6k+1, to start searching divisibility of n by subsequent prime candidates with the same form up to the sqrt(n).
-
+        """Determines which form max_prime has, either 6k-1 or 6k+1, to start searching divisibility of n.
+    
+        Searches for subsequent prime candidates with the same form up to the sqrt(n).
+    
         See:
         - https://crypto.stackexchange.com/questions/72351/why-can-every-prime-number-be-written-as-6k±1
         - https://stackoverflow.com/questions/5811151/why-do-we-check-up-to-the-square-root-of-a-number-to-determine-if-the-number-is
@@ -205,55 +196,45 @@ def is_prime_power(n, return_pair=False):
 
 
 def is_power_of_two(n):
-    """
-    Determines if a given number is a power of two.
+    """Determines if a given number is a power of two.
 
-    INPUT:
+    Args:
+        n: The number to be checked.
 
-    - ``n`` -- The number to be checked.
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.helper import is_power_of_two
-        sage: is_power_of_two(16)
+    Examples:
+        >>> from cryptographic_estimators.helper import is_power_of_two
+        >>> is_power_of_two(16)
         True
 
-    TESTS::
-
-        sage: is_power_of_two(2^15)
+    Tests:
+        >>> is_power_of_two(2**15)
         True
 
-        sage: is_power_of_two(21)
+        >>> is_power_of_two(21)
         False
-
     """
     return (n & (n - 1) == 0) and n != 0
 
 
 def gf_order_to_characteristic(q):
-    """
-    Returns the characteristic of the Galois field GF(q) where q is the number of elements.
+    """Returns the characteristic of the Galois field GF(q) where q is the number of elements.
 
-    INPUT:
+    Args:
+        q: A prime power representing the number of elements in the Galois field.
 
-    - ``p`` -- A prime power representing the number of elements in the Galois field.
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.helper import gf_order_to_characteristic
-        sage: gf_order_to_characteristic(7)
+    Examples:
+        >>> from cryptographic_estimators.helper import gf_order_to_characteristic
+        >>> gf_order_to_characteristic(7)
         7
 
-    TESTS::
-
-        sage: gf_order_to_characteristic(11^3)
+    Tests:
+        >>> gf_order_to_characteristic(11**3)
         11
 
-        sage: gf_order_to_characteristic(10^3)
+        >>> gf_order_to_characteristic(10**3)
         Traceback (most recent call last):
         ...
         ValueError: q must be a prime power.
-
     """
     is_prime_pwr, characteristic_degree_pair = is_prime_power(q, return_pair=True)
     characteristic = characteristic_degree_pair[0]
@@ -264,29 +245,24 @@ def gf_order_to_characteristic(q):
 
 
 def gf_order_to_degree(q):
-    """
-    Returns the degree of the Galois field GF(q) where q is the number of elements.
+    """Returns the degree of the Galois field GF(q) where q is the number of elements.
 
-    INPUT:
+    Args:
+        q: A prime power representing the number of elements in the Galois field.
 
-    - ``q`` -- A prime power representing the number of elements in the Galois field.
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.helper import gf_order_to_degree
-        sage: gf_order_to_degree(3^2)
+    Examples:
+        >>> from cryptographic_estimators.helper import gf_order_to_degree
+        >>> gf_order_to_degree(3**2)
         2
 
-    TESTS::
-
-        sage: gf_order_to_degree(127^4)
+    Tests:
+        >>> gf_order_to_degree(127**4)
         4
 
-        sage: gf_order_to_degree(10^3)
+        >>> gf_order_to_degree(10**3)
         Traceback (most recent call last):
         ...
         ValueError: q must be a prime power.
-
     """
     is_prime_pwr, characteristic_degree_pair = is_prime_power(q, return_pair=True)
     degree = characteristic_degree_pair[1]

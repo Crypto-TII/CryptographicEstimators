@@ -22,18 +22,16 @@ from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
 
 class UOVAlgorithm(BaseAlgorithm):
     def __init__(self, problem: UOVProblem, **kwargs):
-        """
-        Base class for UOV algorithms complexity estimator
+        """Base class for UOV algorithms complexity estimator.
 
-        INPUT:
-
-        - ``problem`` -- UOVProblem object including all necessary parameters
-        - ``w`` -- linear algebra constant (default: 2)
-        - ``h`` -- external hybridization parameter (default: 0)
-        - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-        - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
-        - ``bit_complexities`` -- determines if complexity is given in bit operations or basic operations (default 1: in bit)
-
+        Args:
+            problem (UOVProblem): UOVProblem object including all necessary parameters
+            **kwargs: Additional keyword arguments
+                w (int): Linear algebra constant (default: 2)
+                h (int): External hybridization parameter (default: 0)
+                memory_access (int): Specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
+                complexity_type (int): Complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
+                bit_complexities (int): Determines if complexity is given in bit operations or basic operations (default 1: in bit)
         """
         super(UOVAlgorithm, self).__init__(problem, **kwargs)
 
@@ -48,19 +46,16 @@ class UOVAlgorithm(BaseAlgorithm):
             raise ValueError("h must be >= 0")
 
     def linear_algebra_constant(self):
-        """
-        Return the linear algebra constant
+        """Return the linear algebra constant.
 
-        TESTS::
-
-            sage: from cryptographic_estimators.UOVEstimator.uov_algorithm import UOVAlgorithm
-            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
-            sage: UOVAlgorithm(UOVProblem(n=10, m=5, q=4), w=2).linear_algebra_constant()
+        Tests:
+            >>> from cryptographic_estimators.UOVEstimator.uov_algorithm import UOVAlgorithm
+            >>> from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
+            >>> UOVAlgorithm(UOVProblem(n=10, m=5, q=4), w=2).linear_algebra_constant()
             2
         """
         return self._w
 
     def __repr__(self):
-        """ """
         n, m, q = self.problem.get_parameters()
         return f"{self._name} estimator for the UOV signature scheme with parameters (q, n, m) = ({q}, {n}, {m})"
