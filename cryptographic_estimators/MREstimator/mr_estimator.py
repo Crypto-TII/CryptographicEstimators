@@ -77,6 +77,19 @@ class MREstimator(BaseEstimator):
 
         Tests:
             >>> from cryptographic_estimators.MREstimator import MREstimator
+            >>> from cryptographic_estimators.MREstimator.MRAlgorithms import Minors, BigK
+            >>> MR = MREstimator(q=2, m=64, n=64, k=44, r=44, excluded_algorithms=[Minors, BigK])
+            >>> MR.table(show_all_parameters=1)
+            +---------------+----------------------------------------------------------------------------------------+
+            |               |                                        estimate                                        |
+            +---------------+------+--------+------------------------------------------------------------------------+
+            | algorithm     | time | memory |                               parameters                               |
+            +---------------+------+--------+------------------------------------------------------------------------+
+            | SupportMinors | 73.1 |   12.0 | {'a': 0, 'lv': 43, 'b': 1, 'nprime': 46, 'variant': 'block_wiedemann'} |
+            | KernelSearch  | 60.4 |   18.5 |                           {'a': 0, 'lv': 0}                            |
+            | BruteForce    | 60.4 |   17.5 |                           {'a': 0, 'lv': 0}                            |
+            +---------------+------+--------+------------------------------------------------------------------------+
+
             >>> MRE = MREstimator(q=16, m=15, n=15, k=78, r=6)
             >>> MRE.table(show_all_parameters=1)
             +---------------+---------------------------------------------------------------------------------------+

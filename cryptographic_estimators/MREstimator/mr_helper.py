@@ -17,11 +17,11 @@
 
 from math import log2
 from enum import Enum
-from sage.all import QQ
-from sage.rings.power_series_ring import PowerSeriesRing
 from itertools import product
 from math import comb as binomial
-from sage.matrix.special import zero_matrix
+from sympy import Poly, QQ
+from sympy.abc import t
+from sympy.polys.matrices import DomainMatrix
 
 
 class Variant(Enum):
@@ -57,32 +57,35 @@ def entry_i_j_of_A(n, m, t, i, j):
     limit = max(m - i, n - j)
     return sum([_binomial_mult(n, m, i, j, l) * t ** l for l in range(limit +  1)])
 
-def matrix_A(m, n, r, PR):
-    A = zero_matrix(PR, r, r)
-    t = PR.gen()
+def matrix_A(m, n, r, t):
+    A = DomainMatrix.zeros((r,r), QQ[t])
     square_r = range(1, r + 1)
     for i, j in product(square_r, square_r):
         entry_i_j = entry_i_j_of_A(n, m, t, i, j)
-        A.add_to_entry(i-1, j-1, entry_i_j)
+        A[i-1,j-1] = QQ[t].from_sympy(entry_i_j)
     return A
 
-def deteterminant_of_A(m, n, r, t):
+def determinant_of_A(m, n, r, t):
     A = matrix_A(m, n, r, t)
-    return A.determinant()
+    return A.det()
 
 def minors_series(m, n, k, r):
-    PR =  PowerSeriesRing(QQ, 't', default_prec=max(n, m) + 2)
-    t = PR.gen()
     exp = (m - r) * (n - r) - (k + 1)
-    series = (1 - t) ** exp  * deteterminant_of_A(m, n, r, PR)/(t ** binomial(r, 2))
+    num = QQ[t].from_sympy((1 - t) ** exp)  * determinant_of_A(m, n, r, t)
+    den = QQ[t].from_sympy((t ** binomial(r, 2)))
+    series = num/den
     return series
 
-def minors_polynomial(m, n_reduced, k_reduced, r):
+
+def minors_polynomial_degree(m, n_reduced, k_reduced, r):
     poly = 0
     series = minors_series(m, n_reduced, k_reduced, r)
-    t = series.parent().gen()
+    series_coeffs = list(reversed(Poly(QQ[t].to_sympy(series)).all_coeffs())) # cast from PolyElement to Poly
     for D in range(series.degree()):
-        poly += series[D] * t ** D
-        if series[D + 1] <= 0:
+        poly += series_coeffs[D] * QQ[t].from_sympy(t) ** D
+        if series_coeffs[D + 1] <= 0:
             break
-    return poly
+    return poly.degree()
+
+def extended_binomial(n, k):
+    return binomial(n,k) if n>=0 else (-1)**k * binomial(k-n-1,k)

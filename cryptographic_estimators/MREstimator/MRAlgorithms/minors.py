@@ -20,7 +20,7 @@ from ...MREstimator.mr_problem import MRProblem
 from ...base_algorithm import optimal_parameter
 from math import log2, ceil
 from math import comb as binomial
-from ..mr_helper import minors_polynomial
+from ..mr_helper import minors_polynomial_degree
 from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, MR_NUMBER_OF_COEFFICIENTS_TO_GUESS
 
 
@@ -45,7 +45,7 @@ class Minors(MRAlgorithm):
 
         q, m, n, k, r = self.problem.get_parameters()
         self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)))
-        self.set_parameter_ranges('lv', 0, r)
+        self.set_parameter_ranges('lv', 0, min(r, k) - 1)
         self._name = "Minors"
 
     @optimal_parameter
@@ -90,8 +90,7 @@ class Minors(MRAlgorithm):
 
     def _ME_time_memory_complexity_helper_(self, m: int, n_reduced: int, k_reduced: int, r: int, time_mem: str):
         out = 0
-        poly = minors_polynomial(m, n_reduced, k_reduced, r)
-        D = poly.degree()
+        D = minors_polynomial_degree(m, n_reduced, k_reduced, r)
         if k_reduced > 0:
             if time_mem == "time":
                 w = self._w
@@ -119,7 +118,7 @@ class Minors(MRAlgorithm):
         _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
         time_complexity = self._ME_time_memory_complexity_helper_(m, n_reduced, k_reduced, r, "time")
-        reduction_cost = self.cost_reduction(a)
+        reduction_cost = self.cost_reduction(a, lv)
         time += max(time_complexity, reduction_cost)
         if abs(time_complexity - reduction_cost) < 0:
             time += 1
