@@ -1,7 +1,8 @@
 #reset();
+from sage.misc.functional import log as log_sage
 
 def log2(x):
-    return log(x*1.)/log(2.);
+    return log_sage(x*1.)/log_sage(2.);
 
 #####################################
 
@@ -47,8 +48,8 @@ def peters_isd(n,k,q,w):
     for p in range(0,max_p):
         Anum=binomial(x,p);
         Bnum=binomial(k-x,p);
-        #for(l=1,floor(log(Anum)/log(q)+p*log(q-1)/log(q))+10,\
-        for l in range(1,floor( log(Anum)/log(q)+p*log(q-1)/log(q))+10 +1):
+        #for(l=1,floor(log_sage(Anum)/log_sage(q)+p*log_sage(q-1)/log_sage(q))+10,\
+        for l in range(1,floor( log_sage(Anum)/log_sage(q)+p*log_sage(q-1)/log_sage(q))+10 +1):
             if n-k-l <= w-2*p:
                 continue
 
@@ -91,7 +92,7 @@ def leon_cost(n,k,q):
     w = w+1;
     #consider cost of ISD 
     C_isd,p,l = peters_isd(n,k,q,w);
-    cost = C_isd+log2(log(Nw));
+    cost = C_isd+log2(log_sage(Nw));
 
     return cost, w, Nw*1.
 
@@ -119,7 +120,7 @@ def improved_linear_beullens(n,k,q):
             
             pr_w_w_prime = binomial(w_prime,2*w_prime-w)*binomial(n-w_prime,w-w_prime)/binomial(n,w_prime); #zeta probability in the paper
             
-            L_prime = (2*Nw_prime^2/(pr_w_w_prime)*(2*log(n*1.)))^0.25;
+            L_prime = (2*Nw_prime^2/(pr_w_w_prime)*(2*log_sage(n*1.)))^0.25;
             
             if L_prime < Nw_prime:
                 
@@ -132,7 +133,7 @@ def improved_linear_beullens(n,k,q):
                 if M_second < 1:
                         
                     C_isd,p,l = peters_isd(n,k,q,w_prime);         
-                    #cost = C_isd+log2(2*log(1.-L_prime/Nw_prime)/log(1.-1/Nw_prime)/Nw_prime);
+                    #cost = C_isd+log2(2*log_sage(1.-L_prime/Nw_prime)/log_sage(1.-1/Nw_prime)/Nw_prime);
 #                    cost = C_isd+ log2(L_prime/Nw_prime);
                     
                     
@@ -140,7 +141,7 @@ def improved_linear_beullens(n,k,q):
                     if L_prime < Nw_prime/2:
                         cost = C_isd+ log2(L_prime/Nw_prime);
                     else:
-                        cost = C_isd+log2(2*log(1.-L_prime/Nw_prime)/log(1.-1./Nw_prime)/Nw_prime);
+                        cost = C_isd+log2(2*log_sage(1.-L_prime/Nw_prime)/log_sage(1.-1./Nw_prime)/Nw_prime);
                     
                     
                     if cost < best_cost:
@@ -184,7 +185,7 @@ def linear_beullens(n,k,q):
                 
                 #uncomment to consider Prange's ISD
 #                    C_isd = log2((n^3+binomial(k,2))/(binomial(w,2)*binomial(n-w,k-2)/binomial(n,k)))
-                cost = C_isd+log2(2*log(1.-L/Nw2)/log(1.-1/Nw2)/Nw2);
+                cost = C_isd+log2(2*log_sage(1.-L/Nw2)/log_sage(1.-1/Nw2)/Nw2);
                 cost = C_isd + log2(L/Nw2);
                     
                 if cost < best_cost:
