@@ -194,7 +194,7 @@ docker-kat-tests: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME}
 	@echo "Running KAT..."
 	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
-		pytest --doctest-modules -n auto -vv \
+		pytest --doctest-modules -n auto -vv -s \
 		tests/test_kat.py \
 		"
 
