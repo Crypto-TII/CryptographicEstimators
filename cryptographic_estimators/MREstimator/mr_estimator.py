@@ -20,6 +20,7 @@ from .mr_algorithm import MRAlgorithm
 from .mr_problem import MRProblem
 from ..base_estimator import BaseEstimator
 from math import inf
+import pytest
 
 
 class MREstimator(BaseEstimator):
@@ -118,6 +119,8 @@ class MREstimator(BaseEstimator):
             | BruteForce    | 169.4 |   17.2 |                          {'a': 9, 'lv': 0}                           |
             +---------------+-------+--------+----------------------------------------------------------------------+
 
+            >>> if skip_long_doctests:
+            ...     pytest.skip()
             >>> MRE = MREstimator(q=16, m=19, n=19, k=109, r=8)
             >>> MRE.table(show_all_parameters=1)
             +---------------+----------------------------------------------------------------------------------------+
