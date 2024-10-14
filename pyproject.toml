@@ -17,8 +17,23 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
 ]
 
+dynamic = ["version"]
+
+dependencies = [
+  "sphinx>=5.3.0",
+  "scipy>=1.4.0",
+  "furo",
+  "prettytable",
+  "pytest",
+  "pytest-xdist",
+  "python-flint",
+  "pytest-cov",
+  "pyyaml",
+]
+
+
 [tool.setuptools]
-packages = ["cryptographic_estimators"]
+packages = ["cryptographic_estimators", "tests"]
 
 [tool.setuptools.package-data]
 cryptographic_estimators = ["*"]
@@ -27,16 +42,4 @@ cryptographic_estimators = ["*"]
 addopts = "-v --import-mode=importlib"
 testpaths = [
   "tests",
-]
-
-dependencies = [
-  "sphinx>=5.3.0",
-  "scipy>=1.4.0",
-  "furo",
-  "prettytable",
-  "pytest", 
-  "pytest-xdist", 
-  "python-flint",
-  "pytest-cov",
-  "pyyaml",
 ]
