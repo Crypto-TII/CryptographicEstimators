@@ -14,7 +14,7 @@ FUNCTIONAL_TESTS_COMMAND = pytest --doctest-modules -n auto -vv \
 
 ## Local commands
 install:
-	@pip install -e .
+	@pip3 install -e .
 
 doctests-fast:
 	@${DOCTESTS_FAST_COMMAND}
