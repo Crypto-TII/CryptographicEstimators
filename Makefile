@@ -168,7 +168,7 @@ docker-doctests-fast: docker-build
 	    || true
 	@echo "Running short doctests..."
 	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
-          pytest --skip-long-doctests  --doctest-modules -n auto -vv -s \
+          pytest --skip-long-doctests  --doctest-modules -n auto -vv \
           cryptographic_estimators/DummyEstimator/ \
           cryptographic_estimators/SDEstimator/ \
           cryptographic_estimators/MQEstimator/ \
