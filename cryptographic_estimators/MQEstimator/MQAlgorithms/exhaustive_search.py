@@ -105,4 +105,4 @@ class ExhaustiveSearch(MQAlgorithm):
         Args:
             parameters (dict): A dictionary containing the parameters.
         """
-        return 0
+        return 0.0
