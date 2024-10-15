@@ -110,7 +110,7 @@ def ext_bbps_range():
         if expected_complexity == 100000000000000:
             return None
 
-        return input, expected_complexity
+        return input, float(expected_complexity)
 
     inputs_with_expected_outputs = list(map(gen_single_kat, inputs))
 

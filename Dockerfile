@@ -1,9 +1,13 @@
 FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractiv
-RUN apt update && apt install -y sagemath
-RUN sage -python3 -m pip install prettytable scipy sphinx==5.3.0 furo pytest pytest-xdist pytest-cov python-flint pyyaml
-WORKDIR "/home/cryptographic_estimators/"
-COPY . .
 ENV SAGE_PKGS=/usr/share/sagemath/installed
-RUN sage setup.py install
-RUN sage -python3 -m pip install .
+WORKDIR "/home/cryptographic_estimators/"
+RUN apt update && apt install -y sagemath && pip install toml
+# Avoid the download and installation of dependencies on rebuild; 
+# but without harcoding them
+COPY ./pyproject.toml ./
+COPY ./scripts/generate_requirements.py ./scripts/
+RUN python3 scripts/generate_requirements.py
+RUN sage -python3 -m pip install -r requirements.txt && rm -r ./*
+COPY . .
+RUN sage -python3 -m pip install --no-deps .

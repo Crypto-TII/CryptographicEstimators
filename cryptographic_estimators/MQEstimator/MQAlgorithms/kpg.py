@@ -21,9 +21,6 @@ from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
 from cryptographic_estimators.helper import is_power_of_two
 from math import log2
 
-# TODO: Remove at final step
-from sage.all import Integer
-
 
 class KPG(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
@@ -50,7 +47,7 @@ class KPG(MQAlgorithm):
         """
 
         n, m, q = problem.get_problem_parameters()
-        if not isinstance(q, (int, Integer)):
+        if not isinstance(q, int):
             raise TypeError("q must be an integer")
 
         if not is_power_of_two(q):

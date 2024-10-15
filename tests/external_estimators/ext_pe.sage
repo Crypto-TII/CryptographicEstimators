@@ -35,7 +35,7 @@ def ext_leon2():
     def gen_single_kat(input: tuple):
         n, k, q = input
         expected_complexity = LEON(n, k, q) + log2(n) - lee_brickell_correction(k)
-        return input, expected_complexity
+        return input, float(expected_complexity)
 
     inputs_with_expected_outputs = list(map(gen_single_kat, inputs))
     return inputs_with_expected_outputs

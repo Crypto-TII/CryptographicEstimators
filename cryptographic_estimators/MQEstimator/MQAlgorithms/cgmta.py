@@ -19,7 +19,6 @@
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from math import log2, sqrt, floor, comb as binomial
-from sage.all import Integer
 
 
 class CGMTA(MQAlgorithm):
@@ -50,7 +49,7 @@ class CGMTA(MQAlgorithm):
         """
 
         n, m, q = problem.get_problem_parameters()
-        if not isinstance(q, (int, Integer)):
+        if not isinstance(q, int):
             raise TypeError("q must be an integer")
 
         if m > n:

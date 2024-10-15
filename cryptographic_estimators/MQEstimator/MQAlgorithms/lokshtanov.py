@@ -27,9 +27,6 @@ from cryptographic_estimators.helper import (
 )
 from math import log2, inf, ceil, floor
 
-# TODO: Remove at final step
-from sage.all import Integer
-
 
 class Lokshtanov(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
@@ -56,7 +53,7 @@ class Lokshtanov(MQAlgorithm):
         """
 
         q = problem.order_of_the_field()
-        if not isinstance(q, (int, Integer)):
+        if not isinstance(q, int):
             raise TypeError("q must be an integer")
 
         if q > 1024:
