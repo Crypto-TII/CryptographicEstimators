@@ -18,10 +18,10 @@
 
 from ..rsd_algorithm import RSDAlgorithm
 from ..rsd_problem import RSDProblem
-from math import log2, ceil
+from math import log2
 
 
-class GRSImproved(RSDAlgorithm):
+class OJ2(RSDAlgorithm):
     """
     Construct an instance of RSDAlgorithm1 estimator
 
@@ -33,8 +33,8 @@ class GRSImproved(RSDAlgorithm):
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):
-        self._name = "GRSImproved"
-        super(GRSImproved, self).__init__(problem, **kwargs)
+        self._name = "Ourivski-Johansson-2"
+        super(OJ2, self).__init__(problem, **kwargs)
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -47,10 +47,7 @@ class GRSImproved(RSDAlgorithm):
         """
 
         q, m, n, k, r = self.problem.get_parameters()
-        t1 = self.w * log2(n - k) + self.w * log2(m)
-
-        mu1 = r * ceil((k + 1) * m / n) - m
-        time_complexity = t1 + mu1 * log2(q)
+        time_complexity = 3 * (log2(k + r) + log2(r)) + (r - 1) * (m - r) * log2(q)
 
         return time_complexity
 
