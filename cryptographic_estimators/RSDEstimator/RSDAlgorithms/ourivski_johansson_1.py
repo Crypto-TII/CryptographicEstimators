@@ -18,10 +18,10 @@
 
 from ..rsd_algorithm import RSDAlgorithm
 from ..rsd_problem import RSDProblem
-from math import log2, floor
+from math import log2, ceil
 
 
-class GRS(RSDAlgorithm):
+class OJ1(RSDAlgorithm):
     """
     Construct an instance of RSDAlgorithm1 estimator
 
@@ -33,8 +33,8 @@ class GRS(RSDAlgorithm):
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):
-        self._name = "GRS"
-        super(GRS, self).__init__(problem, **kwargs)
+        self._name = "Ourivski-Johansson-1"
+        super(OJ1, self).__init__(problem, **kwargs)
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -47,11 +47,9 @@ class GRS(RSDAlgorithm):
         """
 
         q, m, n, k, r = self.problem.get_parameters()
-        t1 = 3 * log2(n - k) + 3 * log2(m)
-        mu1 = r * floor(k * m / n)
-        time_complexity_1 = t1 + mu1 * log2(q)
+        time_complexity = 3 * log2(m * r) + (r - 1) * (k + 1) * log2(q)
 
-        return time_complexity_1
+        return time_complexity
 
     def _compute_memory_complexity(self, parameters: dict):
         """
