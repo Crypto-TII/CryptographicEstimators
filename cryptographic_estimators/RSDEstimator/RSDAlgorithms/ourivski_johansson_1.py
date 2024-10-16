@@ -47,7 +47,7 @@ class OJ1(RSDAlgorithm):
         """
 
         q, m, n, k, r = self.problem.get_parameters()
-        time_complexity = 3 * log2(m * r) + (r - 1) * (k + 1) * log2(q)
+        time_complexity = self.w * log2(m * r) + (r - 1) * (k + 1) * log2(q)
 
         return time_complexity
 

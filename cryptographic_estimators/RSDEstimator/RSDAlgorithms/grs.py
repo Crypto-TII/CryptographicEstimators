@@ -47,7 +47,7 @@ class GRS(RSDAlgorithm):
         """
 
         q, m, n, k, r = self.problem.get_parameters()
-        t1 = 3 * log2(n - k) + 3 * log2(m)
+        t1 = self.w * log2(n - k) + self.w * log2(m)
         mu1 = r * floor(k * m / n)
         time_complexity_1 = t1 + mu1 * log2(q)
 
