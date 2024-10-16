@@ -31,5 +31,5 @@ class RSDAlgorithm(BaseAlgorithm):
 
         """
         super(RSDAlgorithm, self).__init__(problem, **kwargs)
-        self._name = "sample_name"
-        self.w = kwargs.get("w", 2)
+        self._name = "RSDAlgorithm"
+        self.w = kwargs.get("w", 3)

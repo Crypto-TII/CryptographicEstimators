@@ -48,7 +48,7 @@ class BasisEnumeration(RSDAlgorithm):
 
         q, m, n, k, r = self.problem.get_parameters()
 
-        time_complexity = 3 * log2(n * r + m) + (m - r) * (r - 1) * log2(q)
+        time_complexity = self.w * log2(n * r + m) + (m - r) * (r - 1) * log2(q)
 
         return time_complexity
 
