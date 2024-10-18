@@ -24,9 +24,6 @@ from cryptographic_estimators.MQEstimator.mq_helper import nmonomials_up_to_degr
 from cryptographic_estimators.base_algorithm import optimal_parameter
 from math import log2, inf, comb as binomial
 
-# TODO:Remove at final step
-from sage.all import Integer
-
 
 class Crossbred(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
@@ -64,7 +61,7 @@ class Crossbred(MQAlgorithm):
         """
 
         q = problem.order_of_the_field()
-        if not isinstance(q, (int, Integer)):
+        if not isinstance(q, int):
             raise TypeError("q must be an integer")
 
         super(Crossbred, self).__init__(problem, **kwargs)
@@ -72,7 +69,7 @@ class Crossbred(MQAlgorithm):
         self._max_D = kwargs.get(
             "max_D", min(30, min(problem.nvariables(), problem.npolynomials()))
         )
-        if not isinstance(self._max_D, (int, Integer)):
+        if not isinstance(self._max_D, int):
             raise TypeError("max_D must be an integer")
 
         n = self.nvariables_reduced()

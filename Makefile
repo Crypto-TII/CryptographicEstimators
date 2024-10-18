@@ -1,24 +1,34 @@
-# Docker variables
+## Docker variables
 IMAGE_NAME = estimators-lib:latest
 DOCUMENTATION_PATH = $(shell pwd)
-SAGE = sage
 PACKAGE = cryptographic_estimators
-UNAME := $(shell uname -m)
+MACHINE_ARCHITECTURE := $(shell uname -m)
 
-tools:
-	@sage -python -m pip install setuptools==63.0 wheel==0.38.4 sphinx==5.3.0 furo prettytable scipy pytest pytest-xdist python-flint 
+DOCTESTS_COMMAND = pytest --doctest-modules -n auto -vv -s $(PACKAGE)/
+DOCTESTS_FAST_COMMAND = pytest --skip-long-doctests  --doctest-modules -n auto -vv $(PACKAGE)/
+KAT_TESTS_COMMAND = pytest -n auto -vv tests/test_kat.py
+FUNCTIONAL_TESTS_COMMAND = pytest --doctest-modules -n auto -vv \
+													 tests/test_sd.py \
+													 tests/test_mq.py
 
-lib:
-	@python3 setup.py install && sage -python -m pip install .
 
+## Local commands
 install:
-	@make tools && make lib
+	@pip3 install -e .
 
-testfast:
-	@sage setup.py testfast
+doctests-fast:
+	@${DOCTESTS_FAST_COMMAND}
 
-testall: install
-	@sage setup.py testall
+doctests:
+	@${DOCTESTS_COMMAND}
+
+kat-tests:
+	@${KAT_TESTS_COMMAND}
+
+functional-tests:
+	@${FUNCTIONAL_TESTS_COMMAND}
+
+tests-all: functional-tests doctests kat-tests
 
 clean-docs:
 	@rm -rf docs/build docs/source docs/make.bat docs/Makefile
@@ -45,7 +55,6 @@ append-new-estimator:
 	@python3 scripts/append_estimator_to_input_dictionary.py
 
 ### Docker commands
-
 generate-documentation:
 	@docker exec container-for-docs make doc
 
@@ -59,7 +68,7 @@ docker-build-m1:
 	@docker buildx build -t ${IMAGE_NAME} --platform linux/x86_64 .
 
 docker-build:
-ifeq ($(UNAME), arm64)
+ifeq ($(MACHINE_ARCHITECTURE), arm64)
 	@make docker-build-m1
 else
 	@make docker-build-x86
@@ -78,135 +87,33 @@ docker-doc: docker-build
 		|| true
 	@make mount-volume-and-run && make generate-documentation && make stop-container-and-remove container_name="container-for-docs"
 
-docker-test: docker-build
-	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
-		|| true
-	@echo "Running Sage doctests..."
-	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
-          sage -t --long --timeout 3600 --force-lib \
-          # cryptographic_estimators/base_algorithm.py \
-          # cryptographic_estimators/base_constants.py \
-          # cryptographic_estimators/base_estimator.py \
-          # cryptographic_estimators/base_problem.py \
-          # cryptographic_estimators/estimation_renderer.py \
-          # cryptographic_estimators/helper.py \
-          # cryptographic_estimators/DummyEstimator/ \
-          # cryptographic_estimators/SDEstimator/ \
-          # cryptographic_estimators/MQEstimator/ \
-          # cryptographic_estimators/SDFqEstimator/ \
-          # cryptographic_estimators/MREstimator/ \
-          # cryptographic_estimators/RegSDEstimator/ \
-          # cryptographic_estimators/LEEstimator/ \
-          # cryptographic_estimators/PKEstimator/ \
-          # cryptographic_estimators/PEEstimator/ \
-          # cryptographic_estimators/MAYOEstimator/ \
-          # cryptographic_estimators/BIKEEstimator/ \
-          # cryptographic_estimators/UOVEstimator/ \
-          " \
-          && echo "All tests passed." \
-          || echo "Some test have failed, please see previous lines."
-
-docker-testfast: CONTAINER_NAME := "sage-doctests-container"
-docker-testfast: docker-build
-	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
-		|| true
-	@echo "Running short Sage doctests..."
-	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
-          sage -t --timeout 3600 --force-lib \
-          # cryptographic_estimators/base_algorithm.py \
-          # cryptographic_estimators/base_constants.py \
-          # cryptographic_estimators/base_estimator.py \
-          # cryptographic_estimators/base_problem.py \
-          # cryptographic_estimators/estimation_renderer.py \
-          # cryptographic_estimators/helper.py \
-          # cryptographic_estimators/DummyEstimator/ \
-          # cryptographic_estimators/SDEstimator/ \
-          # cryptographic_estimators/MQEstimator/ \
-          # cryptographic_estimators/SDFqEstimator/ \
-          # cryptographic_estimators/MREstimator/ \
-          # cryptographic_estimators/RegSDEstimator/ \
-          # cryptographic_estimators/LEEstimator/ \
-          # cryptographic_estimators/PKEstimator/ \
-          # cryptographic_estimators/PEEstimator/ \
-          # cryptographic_estimators/MAYOEstimator/ \
-          # cryptographic_estimators/BIKEEstimator/ \
-          # cryptographic_estimators/UOVEstimator/ \
-          " \
-          && echo "All tests passed." \
-          || echo "Some test have failed, please see previous lines."
-
 docker-doctests: CONTAINER_NAME := "pytest-container"
 docker-doctests: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
 		|| true
 	@echo "Running doctests..."
-	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
-          pytest --doctest-modules -n auto -vv -s \
-          cryptographic_estimators/DummyEstimator/ \
-          cryptographic_estimators/SDEstimator/ \
-          cryptographic_estimators/MQEstimator/ \
-          cryptographic_estimators/SDFqEstimator/ \
-          cryptographic_estimators/MREstimator/ \
-          cryptographic_estimators/RegSDEstimator/ \
-          cryptographic_estimators/LEEstimator/ \
-          cryptographic_estimators/PKEstimator/ \
-          cryptographic_estimators/PEEstimator/ \
-          cryptographic_estimators/MAYOEstimator/ \
-          cryptographic_estimators/BIKEEstimator/ \
-          cryptographic_estimators/UOVEstimator/ \
-          cryptographic_estimators/base_algorithm.py \
-          cryptographic_estimators/base_constants.py \
-          cryptographic_estimators/base_estimator.py \
-          cryptographic_estimators/base_problem.py \
-          cryptographic_estimators/estimation_renderer.py \
-          cryptographic_estimators/helper.py \
-		"
+	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "${DOCTESTS_COMMAND}"
 
 docker-doctests-fast: CONTAINER_NAME := "pytest-container"
 docker-doctests-fast: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
 	    || true
 	@echo "Running short doctests..."
-	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "\
-          pytest --skip-long-doctests  --doctest-modules -n auto -vv \
-          cryptographic_estimators/DummyEstimator/ \
-          cryptographic_estimators/SDEstimator/ \
-          cryptographic_estimators/MQEstimator/ \
-          cryptographic_estimators/SDFqEstimator/ \
-          cryptographic_estimators/MREstimator/ \
-          cryptographic_estimators/RegSDEstimator/ \
-          cryptographic_estimators/LEEstimator/ \
-          cryptographic_estimators/PKEstimator/ \
-          cryptographic_estimators/PEEstimator/ \
-          cryptographic_estimators/MAYOEstimator/ \
-          cryptographic_estimators/BIKEEstimator/ \
-          cryptographic_estimators/UOVEstimator/ \
-          cryptographic_estimators/base_algorithm.py \
-          cryptographic_estimators/base_constants.py \
-          cryptographic_estimators/base_estimator.py \
-          cryptographic_estimators/base_problem.py \
-          cryptographic_estimators/estimation_renderer.py \
-          cryptographic_estimators/helper.py \
-        "
+	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "${DOCTESTS_FAST_COMMAND}"
 
 docker-kat-tests: CONTAINER_NAME := "pytest-container"
 docker-kat-tests: docker-build
-	@make stop-container-and-remove container_name=${CONTAINER_NAME}
+	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
+		|| true
 	@echo "Running KAT..."
-	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
-		pytest --doctest-modules -n auto -vv -s \
-		tests/test_kat.py \
-		"
+	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "${KAT_TESTS_COMMAND}"
 
 docker-functional-tests: CONTAINER_NAME := "pytest-container"
 docker-functional-tests: docker-build
-	@make stop-container-and-remove container_name=${CONTAINER_NAME}
+	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
+		|| true
 	@echo "Running functional tests..."
-	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "\
-		pytest --doctest-modules -n auto -vv \
-		tests/test_sd.py \
-		tests/test_mq.py \
-		"
+	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "${FUNCTIONAL_TESTS_COMMAND}"
 
 docker-tests-all: CONTAINER_NAME := "pytest-container"
 docker-tests-all: docker-functional-tests docker-doctests docker-kat-tests
@@ -214,7 +121,8 @@ docker-tests-all: docker-functional-tests docker-doctests docker-kat-tests
 docker-pytest-cov:
 	pytest -v --cov-report xml:coverage.xml --cov=${PACKAGE} tests/
 
-docker-generate-kat:
+docker-generate-kat: docker-build
 	@docker run --name kat-container -v ./tests:/home/cryptographic_estimators/tests --rm ${IMAGE_NAME} sh -c \
 		"sage tests/external_estimators/generate_kat.py"
 	@make docker-build
+
