@@ -4,7 +4,7 @@ DOCUMENTATION_PATH = $(shell pwd)
 PACKAGE = cryptographic_estimators
 MACHINE_ARCHITECTURE := $(shell uname -m)
 
-DOCTESTS_COMMAND = pytest --doctest-modules -n auto -vv -s $(PACKAGE)/
+DOCTESTS_COMMAND = pytest --doctest-modules -n auto -vv $(PACKAGE)/
 DOCTESTS_FAST_COMMAND = pytest --skip-long-doctests  --doctest-modules -n auto -vv $(PACKAGE)/
 KAT_TESTS_COMMAND = pytest -n auto -vv tests/test_kat.py
 FUNCTIONAL_TESTS_COMMAND = pytest --doctest-modules -n auto -vv \
