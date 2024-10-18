@@ -13,12 +13,56 @@ CryptographicEstimators library following SageMath guidelines.
 
 .. toctree::
 
-    base_algorithm
+    base_problem
     estimation_renderer
+    base_estimator
     helper
     base_constants
-    base_estimator
-    base_problem
+    base_algorithm
+
+-----------
+MREstimator
+-----------
+
+.. toctree::
+
+    MREstimator/mr_algorithm
+    MREstimator/mr_helper
+    MREstimator/mr_constants
+    MREstimator/mr_problem
+    MREstimator/mr_estimator
+
+MRAlgorithms
+============
+
+.. toctree::
+
+    MREstimator/MRAlgorithms/minors
+    MREstimator/MRAlgorithms/bruteforce
+    MREstimator/MRAlgorithms/support_minors
+    MREstimator/MRAlgorithms/kernel_search
+    MREstimator/MRAlgorithms/big_k
+
+-------------
+SDFqEstimator
+-------------
+
+.. toctree::
+
+    SDFqEstimator/sdfq_constants
+    SDFqEstimator/sdfq_algorithm
+    SDFqEstimator/sdfq_estimator
+    SDFqEstimator/sdfq_helper
+    SDFqEstimator/sdfq_problem
+
+SDFqAlgorithms
+==============
+
+.. toctree::
+
+    SDFqEstimator/SDFqAlgorithms/stern
+    SDFqEstimator/SDFqAlgorithms/prange
+    SDFqEstimator/SDFqAlgorithms/leebrickell
 
 -----------
 PEEstimator
@@ -26,10 +70,10 @@ PEEstimator
 
 .. toctree::
 
-    PEEstimator/pe_constants
-    PEEstimator/pe_helper
-    PEEstimator/pe_estimator
     PEEstimator/pe_algorithm
+    PEEstimator/pe_helper
+    PEEstimator/pe_constants
+    PEEstimator/pe_estimator
     PEEstimator/pe_problem
 
 PEAlgorithms
@@ -38,8 +82,167 @@ PEAlgorithms
 .. toctree::
 
     PEEstimator/PEAlgorithms/leon
-    PEEstimator/PEAlgorithms/beullens
     PEEstimator/PEAlgorithms/ssa
+    PEEstimator/PEAlgorithms/beullens
+
+--------------
+RegSDEstimator
+--------------
+
+.. toctree::
+
+    RegSDEstimator/regsd_helper
+    RegSDEstimator/regsd_problem
+    RegSDEstimator/regsd_estimator
+    RegSDEstimator/regsd_algorithm
+    RegSDEstimator/regsd_constants
+
+RegSDAlgorithms
+===============
+
+.. toctree::
+
+    RegSDEstimator/RegSDAlgorithms/regisd_rep
+    RegSDEstimator/RegSDAlgorithms/regisd_enum
+    RegSDEstimator/RegSDAlgorithms/regisd_perm
+    RegSDEstimator/RegSDAlgorithms/ccj
+    RegSDEstimator/RegSDAlgorithms/sd_attack
+
+------------
+UOVEstimator
+------------
+
+.. toctree::
+
+    UOVEstimator/uov_estimator
+    UOVEstimator/uov_problem
+    UOVEstimator/uov_algorithm
+    UOVEstimator/uov_constants
+
+UOVAlgorithms
+=============
+
+.. toctree::
+
+    UOVEstimator/UOVAlgorithms/direct_attack
+    UOVEstimator/UOVAlgorithms/intersection_attack
+    UOVEstimator/UOVAlgorithms/collision_attack
+    UOVEstimator/UOVAlgorithms/kipnis_shamir
+
+-----------------
+lattice estimator
+-----------------
+
+.. toctree::
+
+    lattice_estimator/readthedocs
+    lattice_estimator/.flake8
+    lattice_estimator/doctest
+    lattice_estimator/requirements
+    lattice_estimator/fix-doctest
+    lattice_estimator/Makefile
+    lattice_estimator/pyproject
+    lattice_estimator/.gitignore
+    lattice_estimator/param_sweep
+    lattice_estimator/README
+    lattice_estimator/.git
+
+docker
+======
+
+.. toctree::
+
+    lattice_estimator/docker/Dockerfile
+    lattice_estimator/docker/Dockerfile
+
+estimator
+=========
+
+.. toctree::
+
+    lattice_estimator/estimator/nd
+    lattice_estimator/estimator/gb
+    lattice_estimator/estimator/prob
+    lattice_estimator/estimator/lwe
+    lattice_estimator/estimator/lwe_guess
+    lattice_estimator/estimator/reduction
+    lattice_estimator/estimator/ntru_parameters
+    lattice_estimator/estimator/util
+    lattice_estimator/estimator/conf
+    lattice_estimator/estimator/io
+    lattice_estimator/estimator/lwe_dual
+    lattice_estimator/estimator/lwe_bkw
+    lattice_estimator/estimator/ntru
+    lattice_estimator/estimator/lwe_parameters
+    lattice_estimator/estimator/schemes
+    lattice_estimator/estimator/ntru_primal
+    lattice_estimator/estimator/simulator
+    lattice_estimator/estimator/errors
+    lattice_estimator/estimator/cost
+    lattice_estimator/estimator/lwe_primal
+
+docs
+====
+
+.. toctree::
+
+    lattice_estimator/docs/prompt
+    lattice_estimator/docs/readme_link
+    lattice_estimator/docs/index
+    lattice_estimator/docs/contributing
+    lattice_estimator/docs/Makefile
+    lattice_estimator/docs/conf
+    lattice_estimator/docs/genindex
+    lattice_estimator/docs/api_doc
+
+schemes
+-------
+
+.. toctree::
+
+    lattice_estimator/docs/schemes/hes
+    lattice_estimator/docs/schemes/nist-pqc-round-3
+
+ templates
+----------
+
+.. toctree::
+
+
+autosummary
+```````````
+
+.. toctree::
+
+    lattice_estimator/docs/_templates/autosummary/class
+    lattice_estimator/docs/_templates/autosummary/base
+    lattice_estimator/docs/_templates/autosummary/module
+
+algorithms
+----------
+
+.. toctree::
+
+    lattice_estimator/docs/algorithms/lwe-primal
+    lattice_estimator/docs/algorithms/lwe-dual
+    lattice_estimator/docs/algorithms/gb
+    lattice_estimator/docs/algorithms/ntru
+    lattice_estimator/docs/algorithms/lwe-bkw
+
+.github
+=======
+
+.. toctree::
+
+
+workflows
+---------
+
+.. toctree::
+
+    lattice_estimator/.github/workflows/pep8
+    lattice_estimator/.github/workflows/jupyter
+    lattice_estimator/.github/workflows/tests
 
 --------------
 DummyEstimator
@@ -47,9 +250,9 @@ DummyEstimator
 
 .. toctree::
 
+    DummyEstimator/dummy_estimator
     DummyEstimator/dummy_problem
     DummyEstimator/dummy_algorithm
-    DummyEstimator/dummy_estimator
 
 DummyAlgorithms
 ===============
@@ -58,25 +261,23 @@ DummyAlgorithms
 
     DummyEstimator/DummyAlgorithms/dummy_algorithm1
 
------------
-PKEstimator
------------
+------------
+LATEstimator
+------------
 
 .. toctree::
 
-    PKEstimator/pk_constants
-    PKEstimator/pk_helper
-    PKEstimator/pk_estimator
-    PKEstimator/pk_problem
-    PKEstimator/pk_algorithm
+    LATEstimator/lat_estimator
+    LATEstimator/lat_algorithm
+    LATEstimator/lat_problem
+    LATEstimator/lat_constants
 
-PKAlgorithms
-============
+LATAlgorithms
+=============
 
 .. toctree::
 
-    PKEstimator/PKAlgorithms/sbc
-    PKEstimator/PKAlgorithms/kmp
+    LATEstimator/LATAlgorithms/lat_algorithm1
 
 -----------
 MQEstimator
@@ -84,31 +285,13 @@ MQEstimator
 
 .. toctree::
 
-    MQEstimator/mq_helper
-    MQEstimator/mq_algorithm
-    MQEstimator/mq_problem
-    MQEstimator/degree_of_regularity
-    MQEstimator/witness_degree
     MQEstimator/mq_estimator
+    MQEstimator/degree_of_regularity
+    MQEstimator/mq_problem
+    MQEstimator/mq_helper
     MQEstimator/mq_constants
-
-MQAlgorithms
-============
-
-.. toctree::
-
-    MQEstimator/MQAlgorithms/bjorklund
-    MQEstimator/MQAlgorithms/dinur2
-    MQEstimator/MQAlgorithms/crossbred
-    MQEstimator/MQAlgorithms/mht
-    MQEstimator/MQAlgorithms/hybrid_f5
-    MQEstimator/MQAlgorithms/dinur1
-    MQEstimator/MQAlgorithms/booleansolve_fxl
-    MQEstimator/MQAlgorithms/exhaustive_search
-    MQEstimator/MQAlgorithms/f5
-    MQEstimator/MQAlgorithms/kpg
-    MQEstimator/MQAlgorithms/lokshtanov
-    MQEstimator/MQAlgorithms/cgmta
+    MQEstimator/witness_degree
+    MQEstimator/mq_algorithm
 
 series
 ======
@@ -118,47 +301,43 @@ series
     MQEstimator/series/nmonomial
     MQEstimator/series/hilbert
 
------------
-LEEstimator
------------
-
-.. toctree::
-
-    LEEstimator/le_algorithm
-    LEEstimator/le_helper
-    LEEstimator/le_estimator
-    LEEstimator/le_problem
-    LEEstimator/le_constants
-
-LEAlgorithms
+MQAlgorithms
 ============
 
 .. toctree::
 
-    LEEstimator/LEAlgorithms/leon
-    LEEstimator/LEAlgorithms/beullens
-    LEEstimator/LEAlgorithms/bbps
+    MQEstimator/MQAlgorithms/exhaustive_search
+    MQEstimator/MQAlgorithms/f5
+    MQEstimator/MQAlgorithms/bjorklund
+    MQEstimator/MQAlgorithms/lokshtanov
+    MQEstimator/MQAlgorithms/cgmta
+    MQEstimator/MQAlgorithms/mht
+    MQEstimator/MQAlgorithms/booleansolve_fxl
+    MQEstimator/MQAlgorithms/hybrid_f5
+    MQEstimator/MQAlgorithms/dinur1
+    MQEstimator/MQAlgorithms/dinur2
+    MQEstimator/MQAlgorithms/kpg
+    MQEstimator/MQAlgorithms/crossbred
 
--------------
-SDFqEstimator
--------------
-
-.. toctree::
-
-    SDFqEstimator/sdfq_problem
-    SDFqEstimator/sdfq_constants
-    SDFqEstimator/sdfq_algorithm
-    SDFqEstimator/sdfq_estimator
-    SDFqEstimator/sdfq_helper
-
-SDFqAlgorithms
-==============
+-----------
+PKEstimator
+-----------
 
 .. toctree::
 
-    SDFqEstimator/SDFqAlgorithms/leebrickell
-    SDFqEstimator/SDFqAlgorithms/stern
-    SDFqEstimator/SDFqAlgorithms/prange
+    PKEstimator/pk_problem
+    PKEstimator/pk_estimator
+    PKEstimator/pk_algorithm
+    PKEstimator/pk_helper
+    PKEstimator/pk_constants
+
+PKAlgorithms
+============
+
+.. toctree::
+
+    PKEstimator/PKAlgorithms/kmp
+    PKEstimator/PKAlgorithms/sbc
 
 -----------
 SDEstimator
@@ -166,41 +345,62 @@ SDEstimator
 
 .. toctree::
 
+    SDEstimator/sd_algorithm
     SDEstimator/sd_problem
     SDEstimator/sd_constants
-    SDEstimator/sd_estimator
     SDEstimator/sd_helper
-    SDEstimator/sd_algorithm
+    SDEstimator/sd_estimator
 
 SDWorkfactorModels
 ==================
 
 .. toctree::
 
-    SDEstimator/SDWorkfactorModels/bjmm
-    SDEstimator/SDWorkfactorModels/may_ozerov
-    SDEstimator/SDWorkfactorModels/ball_collision
-    SDEstimator/SDWorkfactorModels/workfactor_helper
-    SDEstimator/SDWorkfactorModels/dumer
     SDEstimator/SDWorkfactorModels/stern
-    SDEstimator/SDWorkfactorModels/prange
     SDEstimator/SDWorkfactorModels/both_may
+    SDEstimator/SDWorkfactorModels/ball_collision
+    SDEstimator/SDWorkfactorModels/dumer
+    SDEstimator/SDWorkfactorModels/workfactor_helper
+    SDEstimator/SDWorkfactorModels/may_ozerov
+    SDEstimator/SDWorkfactorModels/prange
+    SDEstimator/SDWorkfactorModels/bjmm
 
 SDAlgorithms
 ============
 
 .. toctree::
 
-    SDEstimator/SDAlgorithms/bjmm
-    SDEstimator/SDAlgorithms/may_ozerov
-    SDEstimator/SDAlgorithms/ball_collision
-    SDEstimator/SDAlgorithms/bjmm_plus
-    SDEstimator/SDAlgorithms/bjmm_pdw
-    SDEstimator/SDAlgorithms/dumer
     SDEstimator/SDAlgorithms/stern
-    SDEstimator/SDAlgorithms/prange
     SDEstimator/SDAlgorithms/both_may
+    SDEstimator/SDAlgorithms/ball_collision
+    SDEstimator/SDAlgorithms/dumer
+    SDEstimator/SDAlgorithms/bjmm_pdw
+    SDEstimator/SDAlgorithms/may_ozerov
+    SDEstimator/SDAlgorithms/bjmm_plus
+    SDEstimator/SDAlgorithms/prange
+    SDEstimator/SDAlgorithms/bjmm
     SDEstimator/SDAlgorithms/bjmm_dw
+
+-----------
+LEEstimator
+-----------
+
+.. toctree::
+
+    LEEstimator/le_constants
+    LEEstimator/le_algorithm
+    LEEstimator/le_helper
+    LEEstimator/le_estimator
+    LEEstimator/le_problem
+
+LEAlgorithms
+============
+
+.. toctree::
+
+    LEEstimator/LEAlgorithms/leon
+    LEEstimator/LEAlgorithms/bbps
+    LEEstimator/LEAlgorithms/beullens
 
 
 
