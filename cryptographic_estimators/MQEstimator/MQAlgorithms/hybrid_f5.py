@@ -22,9 +22,6 @@ from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
 from cryptographic_estimators.MQEstimator.MQAlgorithms.f5 import F5
 from math import log2
 
-# TODO: Remove at final step
-from sage.all import Integer
-
 
 class HybridF5(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
@@ -53,7 +50,7 @@ class HybridF5(MQAlgorithm):
         """
         q = problem.order_of_the_field()
         m = problem.npolynomials()
-        if not isinstance(q, (int, Integer)):
+        if not isinstance(q, int):
             raise TypeError("q must be an integer")
 
         degrees = kwargs.get("degrees", [2] * m)

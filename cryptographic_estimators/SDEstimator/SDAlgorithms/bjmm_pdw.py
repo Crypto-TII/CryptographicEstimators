@@ -157,6 +157,11 @@ class BJMMpdw(SDAlgorithm):
         try:
 
             def f(x):
+                try:
+                    x = float(x[0])
+                except:
+                    x = float(x)
+
                 return log2((binom(par.p, par.p // 2) * binom_sp((k + x) / 2 - par.p, par.p1 - par.p // 2))) * 2 - x
 
             l1_val = int(fsolve(f, 0)[0])
@@ -175,6 +180,10 @@ class BJMMpdw(SDAlgorithm):
         try:
 
             def f(x):
+                try:
+                    x = float(x[0])
+                except:
+                    x = float(x)
                 return log2(list_size) + 2 * log2(binom_sp(x, par.w2)) - 2 * x
 
             l2_val = int(fsolve(f, 0)[0])

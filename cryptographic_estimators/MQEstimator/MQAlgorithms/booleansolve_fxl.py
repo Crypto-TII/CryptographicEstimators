@@ -27,9 +27,6 @@ from cryptographic_estimators.MQEstimator.mq_constants import (
 )
 from math import log2, comb as binomial
 
-# TODO: Remove at final step
-from sage.all import Integer
-
 
 class BooleanSolveFXL(MQAlgorithm):
     _variants = (MQ_LAS_VEGAS, MQ_DETERMINISTIC)
@@ -65,7 +62,7 @@ class BooleanSolveFXL(MQAlgorithm):
         """
 
         q = problem.order_of_the_field()
-        if not isinstance(q, (int, Integer)):
+        if not isinstance(q, int):
             raise TypeError("q must be an integer")
         super(BooleanSolveFXL, self).__init__(problem, **kwargs)
         n, m, _ = self.get_reduced_parameters()
