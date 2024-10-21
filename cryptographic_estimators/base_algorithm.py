@@ -181,8 +181,8 @@ class BaseAlgorithm:
     
         Args:
             parameter (str): Name of parameter to set
-            min_value (float): Lowerbound for parameter (inclusive)
-            max_value (float): Upperbound for parameter (inclusive)
+            min_value (float): Lower bound for parameter (inclusive)
+            max_value (float): Upper bound for parameter (inclusive)
         """
         if parameter not in self.parameter_names():
             raise IndexError(
