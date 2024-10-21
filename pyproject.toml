@@ -1,11 +1,10 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
-
-[tool.setuptools_scm]
 
 [project]
 name = "cryptographic_estimators"
+version = "1.4.0"
 description = "This library provides bit security estimators and asymptotic complexity estimators for cryptographic problems."
 authors = [
   {name = "TII", email = "cryptographic_estimators@tii.ae"}
@@ -17,7 +16,6 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
 ]
 
-dynamic = ["version"]
 
 dependencies = [
   "sphinx>=5.3.0",
