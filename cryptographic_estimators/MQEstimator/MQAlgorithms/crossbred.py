@@ -44,7 +44,7 @@ class Crossbred(MQAlgorithm):
             **kwargs: Additional keyword arguments.
                 h (int): External hybridization parameter. Defaults to 0.
                 w (float): Linear algebra constant (2 <= w <= 3). Defaults to 2.81.
-                max_D (int): Upper bound to the parameter D. Defaults to 30.
+                max_D (int): Upper bound to the parameter D. Defaults to 20.
                 memory_access (int): Specifies the memory access cost model. Defaults to 0.
                     Choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root.
                     Alternatively, deploy a custom function which takes as input the logarithm
