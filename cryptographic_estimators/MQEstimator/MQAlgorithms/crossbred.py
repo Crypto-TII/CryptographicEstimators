@@ -229,7 +229,7 @@ class Crossbred(MQAlgorithm):
         max_D = self.max_D
 
         Hn = HilbertSeries(n=n, degrees=[2] * m, q=q)
-        k = 1
+        k = new_ranges["k"]["min"]
         stop = False
         while not stop:
 
