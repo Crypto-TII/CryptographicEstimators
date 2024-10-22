@@ -60,10 +60,9 @@ class Bardet2019(RSDAlgorithm):
 
         binom_1 = m * binomial(n - k - 1, r)
         binom_2 = binomial(n, r)
-        w = 2.807
+        w = self.w
         if binom_1 < binom_2:
             param = r + 1
-
         else:
             param = r
 
