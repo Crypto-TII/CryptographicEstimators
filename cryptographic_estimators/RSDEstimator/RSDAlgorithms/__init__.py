@@ -7,3 +7,4 @@ from .guessing_enhanced_grs import GuessingEnhancedGRS
 from .algebraic_grs import AlgebraicGRS
 from .bardet_2019 import Bardet2019
 from .max_minors import MaxMinors
+from .support_minors import SupportMinors

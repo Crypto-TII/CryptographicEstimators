@@ -33,3 +33,21 @@ class RSDAlgorithm(BaseAlgorithm):
         super(RSDAlgorithm, self).__init__(problem, **kwargs)
         self._name = "RSDAlgorithm"
         self.w = kwargs.get("w", 3)
+
+    def get_problem_parameters_reduced(self, a, p):
+        """
+        Return the problem parameters of the reduced instance, i.e., after pucturing the code on p positions
+        and especializing `a` columns in X
+
+        INPUT:
+
+        - ``a`` -- no. of columns to guess in in X
+        - ``p`` -- no. of positions to puncture in the code
+        """
+        q, m, n, k, r = self.problem.get_parameters()
+        q_reduced = q
+        m_reduced = m
+        n_reduced = n - a - p
+        k_reduced = k - a
+        r_reduced = r
+        return q_reduced, m_reduced, n_reduced, k_reduced, r_reduced

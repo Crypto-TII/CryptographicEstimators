@@ -19,11 +19,11 @@
 from ..rsd_algorithm import RSDAlgorithm
 from ..rsd_problem import RSDProblem
 from ...base_algorithm import optimal_parameter
-from math import log2
+from math import log2, ceil
 from math import comb as binomial
 
 
-class MaxMinors(RSDAlgorithm):
+class SupportMinors(RSDAlgorithm):
     """
     Construct an instance of RSDAlgorithm1 estimator
 
@@ -35,20 +35,25 @@ class MaxMinors(RSDAlgorithm):
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):
-        super(MaxMinors, self).__init__(problem, **kwargs)
+        super(SupportMinors, self).__init__(problem, **kwargs)
 
         q, m, n, k, r = self.problem.get_parameters()
+        self.set_parameter_ranges('b', 1, r + 1)
         self.set_parameter_ranges('a', 0, k)
-        self.set_parameter_ranges('p', 0, n)
-        self._name = "MaxMinors"
+        # self.set_parameter_ranges('p', 0, 0)
+        self._name = "SupportMinors"
+
+    @optimal_parameter
+    def b(self):
+        return self._get_optimal_parameter('b')
 
     @optimal_parameter
     def a(self):
         return self._get_optimal_parameter("a")
 
-    @optimal_parameter
-    def p(self):
-        return self._get_optimal_parameter("p")
+    # @optimal_parameter
+    # def p(self):
+    #    return self._get_optimal_parameter("p")
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -62,12 +67,31 @@ class MaxMinors(RSDAlgorithm):
 
         q, m, n, k, r = self.problem.get_parameters()
         a = parameters['a']
-        p = parameters['p']
-        _, _, n_red, k_red, r = self.get_problem_parameters_reduced(a, p)
+        b = parameters['b']
+
+        _, m, n_red, k_red, r = self.get_problem_parameters_reduced(a, 0)
+        N, M = self._compute_N_and_M(b, m, n_red, k_red, r)
         w = self.w
-        bin2 = binomial(n_red, r)
-        time_complexity = a * r * log2(q) + w * log2(bin2)
+
+        time_complexity = (a * r) * log2(q) + 2 * log2(m) + log2(N) + (w - 1) * log2(M)
+
         return time_complexity
+
+    def _compute_N_and_M(self, b, m, n, k, r):
+        N = 0
+        for i in range(1, k + 1):
+            N = N + binomial(n - i, r) * binomial(k + b - 1 - i, b - 1)
+
+        N = N - binomial(n - k - 1, r) * binomial(k + b - 1, b)
+        N1 = 0
+        for i in range(1, b + 1):
+            N1 = N1 + (-1) ** (i + 1) * binomial(k + b - i - 1, b - i) * binomial(n - k - 1, r + i)
+
+        N = N - (m - 1) * N1
+
+        M = binomial(k + b - 1, b) * (binomial(n, r) - m * binomial(n - k - 1, r))
+
+        return N, M
 
     def _compute_memory_complexity(self, parameters: dict):
         """
@@ -84,14 +108,15 @@ class MaxMinors(RSDAlgorithm):
         """
         Specifies constraints on the parameters
         """
-        q, m, n, k, r = self.problem.get_parameters()
+
         a = parameters['a']
-        p = parameters['p']
-        _, _, n_red, k_red, r = self.get_problem_parameters_reduced(a, p)
+        b = parameters['b']
 
-        if (n_red - k_red - 1) >= r and n_red >= r:
-            bin1 = m * binomial(n_red - k_red - 1, r)
-            bin2 = binomial(n_red, r) - 1
-            return bin1 < bin2
+        _, m, n_red, k_red, r = self.get_problem_parameters_reduced(a, 0)
 
-        return True
+        if n_red <= 0 or k_red <= 0 or n_red < k_red or n_red - k_red - 1 < r:
+            return True
+
+        N, M = self._compute_N_and_M(b, m, n_red, k_red, r)
+
+        return N < (M - 1) or M < 0 or N < 0
