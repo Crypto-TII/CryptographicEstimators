@@ -19,7 +19,7 @@
 from ..rsd_algorithm import RSDAlgorithm
 from ..rsd_problem import RSDProblem
 from ...base_algorithm import optimal_parameter
-from math import log2, ceil
+from math import log2
 from math import comb as binomial
 
 
