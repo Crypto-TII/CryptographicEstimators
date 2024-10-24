@@ -87,11 +87,11 @@ class BruteForce(MRAlgorithm):
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
-    def _BFE_time_complexity_helper_(self, q: int, k_reduced: int, r: int):
+    def _BFE_time_complexity_helper_(self, q: int, n: int, k_reduced: int, r: int):
         time = 0
         w = self._w
-        if k_reduced > 0:
-            time = k_reduced * log2(q)  +  w * log2(r)
+        if k_reduced > 0 and n > r:
+            time = k_reduced * log2(q) + w * log2(r)
         return time
 
     def _compute_time_complexity(self, parameters: dict):
@@ -109,10 +109,10 @@ class BruteForce(MRAlgorithm):
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
-        q, _, _, _, r = self.problem.get_parameters()
+        q, _, n, _, r = self.problem.get_parameters()
         _, _, _, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
-        time_complexity = self._BFE_time_complexity_helper_(q, k_reduced, r)
+        time_complexity = self._BFE_time_complexity_helper_(q, n, k_reduced, r)
         reduction_cost = self.cost_reduction(a, lv)
         time += max(time_complexity, reduction_cost)
         if abs(time_complexity - reduction_cost) < 0:
@@ -132,7 +132,6 @@ class BruteForce(MRAlgorithm):
             >>> BFE.memory_complexity()
             16.11756193939414
         """
-
-        _, m, n, k, _ = self.problem.get_parameters()
-        memory = log2(k + 1) +  log2(m * n)
+        q, m, n, k, _ = self.problem.get_parameters()
+        memory = log2((k + 1) * m * n)
         return memory

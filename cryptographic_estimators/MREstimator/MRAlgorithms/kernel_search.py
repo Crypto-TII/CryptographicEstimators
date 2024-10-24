@@ -86,21 +86,13 @@ class KernelSearch(MRAlgorithm):
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
-    def _ks_time_complexity_helper_(self, q, m, k, r):
+    def _ks_time_complexity_helper_(self, q: int, m: int, n_reduced: int, k_reduced: int, r: int):
         time = 0
         w = self._w
-        if k > 0:
-            a = ceil(k / m)
-            time = (a * r) * log2(q) + w * log2(k)
+        if k_reduced > 0 and n_reduced > r:
+            a = ceil(k_reduced / m)
+            time = (a * r) * log2(q) + w * log2(k_reduced)
         return time
-
-    def _ks_memory_complexity_helper_(self, m, n, k):
-        memory = 0
-        if k > 0:
-            memory = max(1, 2 * k * m * n)
-            memory = log2(memory)
-
-        return memory
 
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
@@ -118,9 +110,9 @@ class KernelSearch(MRAlgorithm):
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, _, k, r = self.problem.get_parameters()
-        _, _, _, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
+        _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
-        time_complexity = self._ks_time_complexity_helper_(q, m, k_reduced, r)
+        time_complexity = self._ks_time_complexity_helper_(q, m, n_reduced, k_reduced, r)
         reduction_cost = self.cost_reduction(a, lv)
         time += max(time_complexity, reduction_cost)
         return time
@@ -136,12 +128,10 @@ class KernelSearch(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> KS = KernelSearch(MRProblem(q=16, m=15, n=15, k=78, r=6))
             >>> KS.memory_complexity()
-            14.273212809854334
+            16.11756193939414
         """
-
-        a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
-        lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, n, k, r = self.problem.get_parameters()
-        _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
-        memory = self._ks_memory_complexity_helper_(m, n_reduced, k_reduced)
+        memory_store_matrices = log2((k + 1) * m * n)
+        memory_linear_system = log2(k ** 2)
+        memory = max(memory_store_matrices, memory_linear_system)
         return memory
