@@ -90,8 +90,8 @@ class Minors(MRAlgorithm):
 
     def _ME_time_memory_complexity_helper_(self, m: int, n_reduced: int, k_reduced: int, r: int, time_mem: str):
         out = 0
-        D = minors_polynomial_degree(m, n_reduced, k_reduced, r)
         if k_reduced > 0 and n_reduced > r:
+            D = minors_polynomial_degree(m, n_reduced, k_reduced, r)
             if time_mem == "time":
                 w = self._w
                 out = w * log2(binomial(k_reduced + D, D))
