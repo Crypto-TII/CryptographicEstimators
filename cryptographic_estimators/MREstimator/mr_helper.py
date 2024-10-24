@@ -53,25 +53,29 @@ def _bw_complexity_(row_density, ncols):
 def _binomial_mult(n, m, i, j, l):
     return binomial(m - i, l) * binomial(n - j, l)
 
+
 def entry_i_j_of_A(n, m, t, i, j):
     limit = max(m - i, n - j)
     return sum([_binomial_mult(n, m, i, j, l) * t ** l for l in range(limit +  1)])
 
+
 def matrix_A(m, n, r, t):
-    A = DomainMatrix.zeros((r,r), QQ[t])
+    A = DomainMatrix.zeros((r, r), QQ[t])
     square_r = range(1, r + 1)
     for i, j in product(square_r, square_r):
         entry_i_j = entry_i_j_of_A(n, m, t, i, j)
         A[i-1,j-1] = QQ[t].from_sympy(entry_i_j)
     return A
 
+
 def determinant_of_A(m, n, r, t):
     A = matrix_A(m, n, r, t)
     return A.det()
 
+
 def minors_series(m, n, k, r):
     exp = (m - r) * (n - r) - (k + 1)
-    num = QQ[t].from_sympy((1 - t) ** exp)  * determinant_of_A(m, n, r, t)
+    num = QQ[t].from_sympy((1 - t) ** exp) * determinant_of_A(m, n, r, t)
     den = QQ[t].from_sympy((t ** binomial(r, 2)))
     series = num/den
     return series
@@ -86,6 +90,7 @@ def minors_polynomial_degree(m, n_reduced, k_reduced, r):
         if series_coeffs[D + 1] <= 0:
             break
     return poly.degree()
+
 
 def extended_binomial(n, k):
     return binomial(n,k) if n>=0 else (-1)**k * binomial(k-n-1,k)
