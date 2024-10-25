@@ -19,7 +19,7 @@
 from ..rsd_algorithm import RSDAlgorithm
 from ..rsd_problem import RSDProblem
 from ...base_algorithm import optimal_parameter
-from math import log2, ceil
+from math import log2
 from math import comb as binomial
 
 
@@ -50,10 +50,6 @@ class SupportMinors(RSDAlgorithm):
     @optimal_parameter
     def a(self):
         return self._get_optimal_parameter("a")
-
-    # @optimal_parameter
-    # def p(self):
-    #    return self._get_optimal_parameter("p")
 
     def _compute_time_complexity(self, parameters: dict):
         """
