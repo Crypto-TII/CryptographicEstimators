@@ -192,7 +192,7 @@ class SupportMinors(MRAlgorithm):
         exp = self._expected_dimension_of_support_minors_equations(q, m, nprime, k_reduced + 1, r, b)
         return dim >= exp
 
-    def _sm_time_complexity_helper_(self, q, K, r, nprime, b, variant):
+    def _sm_time_complexity_helper_(self, q: int, K: int, r: int, nprime: int, b: int, variant: str):
         if variant == Variant.block_wiedemann.value:
             time = _bw_complexity_(row_density=K * (r + 1), ncols=self._dimension(q, nprime, K, r, b))
 
@@ -201,13 +201,14 @@ class SupportMinors(MRAlgorithm):
                                          ncols=self._dimension(q, nprime, K, r, b))
         return time
 
-    def _sm_memory_complexity_helper_(self, q, K, r, nprime, b, variant):
-        ncols = self._dimension(q, nprime, K, r, b)
-        if variant == Variant.block_wiedemann.value:
-            memory = log2(log2(q)) + log2(2 * ncols)
-
-        else:
-            memory = 2 * log2(ncols)
+    def _sm_memory_complexity_helper_(self, q: int, n_reduced: int, K: int, r: int, nprime: int, b: int, variant: str):
+        memory = 0
+        if K > 1 and n_reduced > r:
+            ncols = self._dimension(q, nprime, K, r, b)
+            if variant == Variant.block_wiedemann.value:
+                memory = log2(2 * ncols)
+            else:
+                memory = 2 * log2(ncols)
         return memory
 
     def _compute_time_complexity(self, parameters: dict):
@@ -235,9 +236,9 @@ class SupportMinors(MRAlgorithm):
 
         q, m, n, k, r = self.problem.get_parameters()
         time = self.hybridization_factor(a, lv)
-        _, _, _, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
+        _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         reduction_cost = self.cost_reduction(a, lv)
-        if k_reduced > 0:
+        if k_reduced > 0 and n_reduced > r:
             time_complexity = self._sm_time_complexity_helper_(q=q, K=k_reduced + 1, r=r, nprime=nprime, b=b, variant=variant)
             time += max(time_complexity, reduction_cost)
         else:
@@ -255,7 +256,7 @@ class SupportMinors(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> SM = SupportMinors(MRProblem(q=16, m=15, n=15, k=78, r=6))
             >>> SM.memory_complexity()
-            11.807354922057604
+            16.11756193939414
         """
 
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
@@ -265,11 +266,10 @@ class SupportMinors(MRAlgorithm):
         variant = parameters[MR_VARIANT]
 
         q, m, n, k, r = self.problem.get_parameters()
-
-        memory = log2(log2(q)) + log2(m * n) + log2(k)
-        k_hybrid = k - a * m - lv
-        if k_hybrid > 0:
-            memory = self._sm_memory_complexity_helper_(q=q, K=k_hybrid + 1, r=r, nprime=nprime, b=b, variant=variant)
+        _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
+        memory_store_matrices = log2((k + 1) * m * n)
+        memory_attack = self._sm_memory_complexity_helper_(q=q, n_reduced=n_reduced, K=k_reduced + 1, r=r, nprime=nprime, b=b, variant=variant)
+        memory = max(memory_store_matrices, memory_attack)
         return memory
 
     def get_optimal_parameters_dict(self):

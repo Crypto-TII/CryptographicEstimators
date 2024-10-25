@@ -86,15 +86,18 @@ class BigK(MRAlgorithm):
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
-    def _bk_time_complexity_helper_(self, q, m, n, k, r):
+    def _bk_time_complexity_helper_(self, q: int, m: int, n_reduced: int, k_reduced: int, r: int):
         time = 0
-        if k > 0:
-            time = max(log2(q) * (max(0, m * (n - r) - k + 1))  +   self._w * log2((m * (n - r))), 0)
+        w = self._w
+        if k_reduced > 0 and n_reduced > r:
+            time = max(log2(q) * (max(0, m * (n_reduced - r) - k_reduced + 1)) + w * log2((m * (n_reduced - r))), 0)
         return time
 
-    def _bk_memory_complexity_helper_(self, m, n, r):
-        memory = max((m * (n - r)) ** 2, 1)
-        memory = log2(memory)
+    def _bk_memory_complexity_helper_(self, m: int, n_reduced: int, r: int):
+        memory = 0
+        if n_reduced > r:
+            memory = max((m * (n_reduced - r)) ** 2, 1)
+            memory = log2(memory)
         return memory
 
     def _compute_time_complexity(self, parameters: dict):
@@ -131,11 +134,10 @@ class BigK(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> BK = BigK(MRProblem(q=16, m=15, n=15, k=78, r=6))
             >>> BK.memory_complexity()
-            13.813781191217037
+            16.11756193939414
         """
-        a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
-        lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, n, k, r = self.problem.get_parameters()
-        _, _, n_reduced, _, _ = self.get_problem_parameters_reduced(a, lv)
-        memory = self._bk_memory_complexity_helper_(m, n_reduced, r)
+        memory_store_matrices = log2((k + 1) * m * n)
+        memory_attack = log2(k ** 2)
+        memory = max(memory_store_matrices, memory_attack)
         return memory

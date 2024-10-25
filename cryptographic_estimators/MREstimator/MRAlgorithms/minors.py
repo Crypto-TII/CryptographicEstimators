@@ -90,8 +90,8 @@ class Minors(MRAlgorithm):
 
     def _ME_time_memory_complexity_helper_(self, m: int, n_reduced: int, k_reduced: int, r: int, time_mem: str):
         out = 0
-        D = minors_polynomial_degree(m, n_reduced, k_reduced, r)
-        if k_reduced > 0:
+        if k_reduced > 0 and n_reduced > r:
+            D = minors_polynomial_degree(m, n_reduced, k_reduced, r)
             if time_mem == "time":
                 w = self._w
                 out = w * log2(binomial(k_reduced + D, D))
@@ -135,12 +135,14 @@ class Minors(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
             >>> ME.memory_complexity()
-            14.784634845557521
+            16.11756193939414
         """
 
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, n, k, r = self.problem.get_parameters()
         _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
-        memory = self._ME_time_memory_complexity_helper_(m, n_reduced, k_reduced, r, "memory")
+        memory_attack = self._ME_time_memory_complexity_helper_(m, n_reduced, k_reduced, r, "memory")
+        memory_store_matrices = log2((k + 1) * m * n)
+        memory = max(memory_attack, memory_store_matrices)
         return memory
