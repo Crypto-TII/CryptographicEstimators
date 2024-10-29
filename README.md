@@ -13,7 +13,8 @@
 
 ## Introduction 🎉
 
-This library provides bit security estimators and asymptotic complexity estimators for cryptographic problems. Some of the implemented estimators are:
+This library provides bit complexity estimators for cryptographic problems and bit security estimators for some cryptographic schemes. 
+Currently, the implemented estimators are:
 
 - ### Problem Estimators  
   - Multivariate Quadratic
@@ -26,66 +27,50 @@ This library provides bit security estimators and asymptotic complexity estimato
   - Regular Syndrome Decoding
 
 - ### Scheme Estimators
-  - UOV
+  - BIKE
+  - MAYO
+  - UOV 
 
-You can also access the estimators through [this](https://estimators.crypto.tii.ae/) user friendly and installation-free web application.
 
-
-## Getting Started 🚀
-This project is meant to be run through a terminal or inside a docker container.
+This project is meant to be run through a terminal. You can also access the estimators through [this](https://estimators.crypto.tii.ae/) user friendly 
+and installation-free web application.
 
 ---
 ## Pre-requisites ✔️
-### Local
-You would need to have Sage installed in your machine. For this follow the instructions described [here](https://www.sagemath.org/). 
-### Docker
-You would need to have Docker installed in your machine. For this follow the instructions described [here](https://www.docker.com/products/docker-desktop/).
+
+You would need to have Python installed in your machine.
 
 ---
 ## Installation 🛠
-### Local
-Once you've Sage installed you can go to this project folder and run `make install` in a terminal. This will install `cryptographic_estimators` library globally. If you encounter some permission error please try again adding `sudo` as a prefix.
 
-### Docker
-If you don’t have sage installed in your machine you can start with our dockerized app. First you will need to have running the DockerDesktop app, then open a new terminal, go to the project folder and run `make docker-build` or if you have Apple Silicon M1 Chip `make docker-build-m1`.
-
-> Note: This process may take up to 15 or 20 minutes depending on your bandwith and  computer capacity.
+Once you've Python installed you can go to this project folder and run `make install` in a terminal. This will install
+`cryptographic_estimators` library locally. If you encounter some permission error please try again adding `sudo` 
+as a prefix.
 
 
 ---
 ## Running the project ✈️
-### Local
-Open the Sage interpreter in a terminal and try importing the library as the following example.
+Open the Python interpreter in a terminal and try importing the library as the following example.
 ```python
-sage: from cryptographic_estimators.SDEstimator import SDEstimator                                                                
-sage: sd = SDEstimator(15,10,5)                                                                                                   
-sage: sd.estimate() 
-```
-### Docker
-Open a terminal and execute `make docker-run` to start the container, then you can run `sage` as if it were in local
-```python
-root@31d20617c222:/home/cryptographic_estimators# sage
-┌────────────────────────────────────────────────────────────────────┐
-│ SageMath version 9.0, Release Date: 2020-01-01                     │
-│ Using Python 3.8.10. Type "help()" for help.                       │
-└────────────────────────────────────────────────────────────────────┘
-sage: from cryptographic_estimators.SDEstimator import SDEstimator                                                                                                                 
-sage:  
+>>> from cryptographic_estimators.SDEstimator import SDEstimator                                                                
+>>> SD = SDEstimator(n=15, k=10, w=5)                                                                                                   
+>>> SD.table() 
 ```
 
 ---
 ## Documentation 📝
 
-You can either generate the documentation through docker via running `make docker-doc`
-open `docs/build/html/index.html` to view it, or you can find it online [here](https://crypto-tii.github.io/CryptographicEstimators/)
+The documentation can be found online [here](https://crypto-tii.github.io/CryptographicEstimators/). In addition, it can be generated locally by running `make doc`
+or through docker by running `make docker-doc`. Once it is generated, open `docs/build/html/index.html` to see the documentation.  
 
 Additionally, we provide a User Guide [here](https://github.com/Crypto-TII/CryptographicEstimators/blob/main/docs/User_Guide.ipynb).
 
 ---
 ## Contributing 🖊️
 The aim of this project is to be maintained by the community. We want you to help us grow this library, so please feel free to submit your pull request following the [CONTRIBUTING.md](./docs/CONTRIBUTING.md) document. 
- 
+
 ---
+
 ## Contact 🖊️
 If you need any help about contributing to this project feel free to contact us 
 at `cryptographic_estimators at tii.ae`
