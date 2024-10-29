@@ -13,7 +13,7 @@
 
 ## Introduction 🎉
 
-This library provides bit complexity estimators for cryptographic problems and bit security estimators for some cryptographic schemes. 
+This library provides bit complexity estimators for cryptographic problems, as well as some cryptographic schemes.
 Currently, the implemented estimators are:
 
 - ### Problem Estimators  
@@ -27,9 +27,9 @@ Currently, the implemented estimators are:
   - Regular Syndrome Decoding
 
 - ### Scheme Estimators
-  - BIKE
-  - MAYO
-  - UOV 
+  - [BIKE](https://bikesuite.org)
+  - [MAYO](https://pqmayo.org)
+  - [UOV](https://www.uovsig.org)
 
 
 This project is meant to be run through a terminal. You can also access the estimators through [this](https://estimators.crypto.tii.ae/) user friendly 
