@@ -335,7 +335,7 @@
         }
       ]
     },
-        {
+    {
       "estimator_id": "RegSDEstimator",
       "algorithm_id": "RegSDAlgorithm",
       "display_label": "Regular Syndrome Decoding",
@@ -347,7 +347,10 @@
           "display_label": "Code length (n)",
           "placeholder": "Insert parameter",
           "tooltip": "Code length of the specified code",
-          "validate_fields_ids": ["k", "w"]
+          "validate_fields_ids": [
+            "k",
+            "w"
+          ]
         },
         {
           "id": "k",
@@ -355,7 +358,9 @@
           "display_label": "Code dimension (k)",
           "placeholder": "Insert parameter",
           "tooltip": "Code dimension of specified code",
-          "validate_fields_ids": ["w"],
+          "validate_fields_ids": [
+            "w"
+          ],
           "dependencies": [
             {
               "id": "n",
@@ -412,7 +417,7 @@
           "default_value": true,
           "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations"
         },
-       {
+        {
           "id": "included_algorithms",
           "type": "multiple_selector",
           "direction": "column",
@@ -430,7 +435,12 @@
           "display_label": "Memory access cost",
           "default_value": 0,
           "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
-          "options": ["Constant", "Logaritmic", "Square root", "Cube root"]
+          "options": [
+            "Constant",
+            "Logaritmic",
+            "Square root",
+            "Cube root"
+          ]
         },
         {
           "id": "precision",
@@ -1161,6 +1171,149 @@
           "tooltip": "Algorithms to include for optimization",
           "default_value": [],
           "excluded_algorithms": [],
+          "options": [],
+          "dependencies": []
+        },
+        {
+          "id": "memory_access",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Memory access cost",
+          "default_value": 0,
+          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+          "options": [
+            "Constant",
+            "Logarithmic",
+            "Square root",
+            "Cube root"
+          ]
+        },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
+        }
+      ]
+    },
+    {
+      "estimator_id": "MAYOEstimator",
+      "algorithm_id": "MAYOAlgorithm",
+      "display_label": "MAYO Signature Scheme",
+      "landing_page_content": "# MAYO Estimator\n\n\nThis project provides an estimator for the security of the MAYO signature scheme. This scheme is mainly based on the hardness of the MQ problem and it was submitted as a candidate to the NIST call for post-quantum signatures. \n\nMore details on the theoretical foundations of the signature scheme and the estimator can be found in:\n\n[[MAYO]](https://pqmayo.org/assets/specs/mayo.pdf) Ward Beullens, Fabio Campos, Sofía Celi, Basil Hess, Matthias J. Kannwischer. MAYO. Algorithm Specifications and Supporting Documentation. \n\n[[Beu21]](https://link.springer.com/chapter/10.1007/978-3-030-99277-4_17) Ward Beullens. MAYO: Practical Post-Quantum Signatures from Oil-and-Vinegar Maps. SAC 2021. [[eprint]](https://eprint.iacr.org/2021/1144.pdf)",
+      "problem_parameters": [
+        {
+          "id": "n",
+          "type": "number",
+          "display_label": "Number of variables (n)",
+          "placeholder": "Insert parameter",
+          "tooltip": "The number of variables in the multivariate quadratic polynomials in the public key"
+        },
+        {
+          "id": "m",
+          "type": "number",
+          "display_label": "Number of equations (m)",
+          "placeholder": "Insert parameter",
+          "tooltip": "The number of multivariate quadratic polynomials in the public key"
+        },
+        {
+          "id": "q",
+          "type": "number",
+          "display_label": "Field size (q)",
+          "placeholder": "Insert parameter",
+          "tooltip": "An integer of the form p^x for some integer x, where p is prime number.  This value indicates the number of elements in the underlying field"
+        },
+        {
+          "id": "o",
+          "type": "number",
+          "display_label": "Oil space dimension (o)",
+          "placeholder": "Insert parameter",
+          "tooltip": "The secret oil space has dimension o",
+          "dependencies": [
+            {
+              "id": "m",
+              "action": "validateLessThan"
+            }]
+        },
+        {
+          "id": "k",
+          "type": "number",
+          "display_label": "The whipping parameter (k)",
+          "placeholder": "Insert parameter",
+          "tooltip": "The number of variables of the whipped map is kn",
+          "dependencies": [
+            {
+              "id": "n",
+              "action": "validateLessThan"
+            },
+            {
+              "action": "validateLessThanOperation",
+              "operation": "n - o"
+            }]
+        }
+      ],
+      "optional_parameters": [
+        {
+          "id": "memory_bound",
+          "required": false,
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "default_value": null,
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+          "id": "w",
+          "type": "slider",
+          "direction": "column",
+          "display_label": "Matrix multiplication constant",
+          "default_value": 2.81,
+          "tooltip": "Indicates that two square matrices of size n can be multiplied by performing O(n^w) field multiplications",
+          "min": 2,
+          "max": 3,
+          "number_of_decimals": 2,
+          "step": 0.01
+        }
+        ],
+            "estimator_parameters": [
+        {
+          "id": "bit_complexities",
+          "type": "switch",
+          "display_label": "Bit complexities",
+          "default_value": true,
+          "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations",
+          "dependencies": [
+            {
+              "id": "theta",
+              "parent_value": true,
+              "action": "show"
+            }
+          ]
+        },
+        {
+          "id": "theta",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Bitcomplexity exponent",
+          "default_value": 2,
+          "placeholder": "Insert value",
+          "tooltip": "The bitcomplexity of a field multiplication is assumed to be log_2(q)^(theta). Note that for theta = 0 the output gives the (log of the) necessary number of field multiplications."
+        },
+        {
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": [
+            "Lokshtanov"
+          ],
           "options": [],
           "dependencies": []
         },
