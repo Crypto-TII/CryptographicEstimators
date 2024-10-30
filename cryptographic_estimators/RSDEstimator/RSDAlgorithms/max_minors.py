@@ -78,7 +78,15 @@ class MaxMinors(RSDAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
-        return 0
+        q, m, n, k, r = self.problem.get_parameters()
+        a = parameters['a']
+        p = parameters['p']
+        _, _, n_red, k_red, r = self.get_problem_parameters_reduced(a, p)
+
+        n_rows = m * binomial(n_red - k_red - 1, r)
+        n_columns = binomial(n_red, r)
+        memory_complexity = log2(n_rows * n_columns)
+        return memory_complexity
 
     def _are_parameters_invalid(self, parameters: dict):
         """

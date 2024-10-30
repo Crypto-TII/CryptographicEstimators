@@ -28,6 +28,7 @@ class RSDAlgorithm(BaseAlgorithm):
         INPUT:
 
         - ``problem`` -- RSDProblem object including all necessary parameters
+        - ``w`` -- linear algebra constant (default: 3)
 
         """
         super(RSDAlgorithm, self).__init__(problem, **kwargs)

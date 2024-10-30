@@ -98,7 +98,15 @@ class SupportMinors(RSDAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
-        return 0
+        q, m, n, k, r = self.problem.get_parameters()
+        a = parameters['a']
+        b = parameters['b']
+
+        _, m, n_red, k_red, r = self.get_problem_parameters_reduced(a, 0)
+        N, M = self._compute_N_and_M(b, m, n_red, k_red, r)
+        memory_complexity = log2(N * M)
+
+        return memory_complexity
 
     def _are_parameters_invalid(self, parameters: dict):
         """

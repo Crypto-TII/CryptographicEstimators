@@ -23,13 +23,19 @@ from math import log2
 
 class BasisEnumeration(RSDAlgorithm):
     """
-    Construct an instance of RSDAlgorithm1 estimator
-
-    Add reference to correponding paper here.
+    Construct an instance of Basis Enumerator estimator
+    Florent Chabaud and Jacques Stern.
+    The Cryptographic Security of the Syndrome Decoding Problem for Rank Distance Codes. ASIACRYPT ’96
+    This algorithm enumerates the possible supports for the vector x.
 
     INPUT:
 
     - ``problem`` -- an instance of the RSDProblem class
+    - ``w`` -- linear algebra constant (default: 3)
+
+    EXAMPLES::
+
+
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):
@@ -61,4 +67,9 @@ class BasisEnumeration(RSDAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
-        return 0
+        q, m, n, k, r = self.problem.get_parameters()
+        n_rows = (n - k) * m
+        n_columns = n * r + m
+        memory_complexity = log2(n_rows * n_columns)
+
+        return memory_complexity

@@ -62,4 +62,11 @@ class GRS(RSDAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
-        return 0
+
+        q, m, n, k, r = self.problem.get_parameters()
+        r_1 = floor((n - k) * m / n)
+        n_columns = r_1 * n
+        n_rows = (n - k) * m
+        memory_complexity = log2(n_rows * n_columns)
+
+        return memory_complexity

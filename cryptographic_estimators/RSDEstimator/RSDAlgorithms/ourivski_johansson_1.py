@@ -60,4 +60,9 @@ class OJ1(RSDAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
-        return 0
+        q, m, n, k, r = self.problem.get_parameters()
+        cm = ceil(((r - 1) * m + k + 1) / (m - 1))
+        n_rows = cm * m
+        n_columns = (r - 1) * m + k + cm + 1
+        memory_complexity = log2(n_rows * n_columns)
+        return memory_complexity

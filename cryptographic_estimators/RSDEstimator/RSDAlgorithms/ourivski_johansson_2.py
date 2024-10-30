@@ -18,7 +18,7 @@
 
 from ..rsd_algorithm import RSDAlgorithm
 from ..rsd_problem import RSDProblem
-from math import log2
+from math import log2, ceil
 
 
 class OJ2(RSDAlgorithm):
@@ -60,4 +60,9 @@ class OJ2(RSDAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
-        return 0
+        q, m, n, k, r = self.problem.get_parameters()
+        cm = ceil(((k + 1) * r) / (m - r))
+        n_rows = cm * m
+        n_columns = (k + 1 + cm) * r
+        memory_complexity = log2(n_rows * n_columns)
+        return memory_complexity

@@ -19,7 +19,7 @@
 from ..rsd_algorithm import RSDAlgorithm
 from ..rsd_problem import RSDProblem
 from ...base_algorithm import optimal_parameter
-from math import log2, ceil
+from math import log2, ceil, floor
 
 
 class GuessingEnhancedGRS(RSDAlgorithm):
@@ -72,4 +72,12 @@ class GuessingEnhancedGRS(RSDAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
-        return 0
+
+        q, m, n, k, r = self.problem.get_parameters()
+        t = parameters['t']
+        r_1 = floor(((n - k) * m + t) / n)
+        n_columns = r_1 * n
+        n_rows = (n - k) * m + t
+        memory_complexity = log2(n_rows * n_columns)
+
+        return memory_complexity
