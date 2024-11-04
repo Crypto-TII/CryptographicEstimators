@@ -18,8 +18,7 @@
 
 from ..base_problem import BaseProblem
 from .mr_constants import *
-from ..MQEstimator.mq_helper import ngates
-from cryptographic_estimators.helper import is_prime_power
+from cryptographic_estimators.helper import is_prime_power, ngates
 from math import log2, ceil
 
 

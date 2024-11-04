@@ -24,33 +24,31 @@ from cryptographic_estimators.helper import is_prime_power, ngates
 
 class RSDProblem(BaseProblem):
     """
-    Construct an instance of RSDProblem. Contains the parameters to optimize
-    over.
+    Construct an instance of RSDProblem.
+    Contains the parameters to optimize over.
 
+        Args:
+            q (int): Order of the base finite field
+            m (int): Degree of the extension field
+            n (int): Dimension of the vector space
+            k (int): Dimension of the code
+            r (int): Target rank
+            theta (float, optional): Exponent of the conversion factor. Defaults to 2.
+            nsolutions (int, optional): Number of solutions in logarithmic scale. Defaults to max(expected_number_solutions, 0).
+            memory_bound (float, optional): Maximum allowed memory to use for solving the problem. Defaults to inf.
 
-    INPUT:
-
-    - ``q`` -- order of the base finite field
-    - ``m`` -- degree of the field extension
-    - ``n`` -- dimension of the vector space where the linear code is defined.
-    - ``k`` -- dimension of the code.
-    - ``r`` -- target rank
-    - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
-
-    NOTE:
-
-    - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
-    - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
-
+        Note:
+            - If 0 <= theta <= 2, every multiplication in GF(q) is counted as log2(q) ^ theta binary operation.
+            - If theta = None, every multiplication in GF(q) is counted as 2 * log2(q) ^ 2 + log2(q) binary operation
     """
 
     def __init__(self, q: int, m: int, n: int, k: int, r: int, **kwargs):  # Fill with parameters
         super().__init__(**kwargs)
-        self.parameters[RSD_q] = q
-        self.parameters[RSD_m] = m
-        self.parameters[RSD_n] = n
-        self.parameters[RSD_k] = k
-        self.parameters[RSD_r] = r
+        self.parameters[RSD_ORDER_BASE_FIELD] = q
+        self.parameters[RSD_DEGREE_EXTENSION] = m
+        self.parameters[RSD_DIMENSION_VECTOR_SPACE] = n
+        self.parameters[RSD_DIMENSION_CODE] = k
+        self.parameters[RSD_TARGET_RANK] = r
         self._theta = kwargs.get("theta", 2)
 
         if q is not None and not is_prime_power(q):
@@ -72,15 +70,18 @@ class RSDProblem(BaseProblem):
             raise ValueError("theta must be either None or 0<=theta <= 2")
 
     def to_bitcomplexity_time(self, basic_operations: float):
+        """Return the bit-complexity corresponding to a certain amount of basic_operations.
+
+        Args:
+            basic_operations (float): Number of basic operations (logarithmic)
+
+        Tests:
+            >>> from cryptographic_estimators.RSDEstimator.rsd_estimator import RSDProblem
+            >>> RSDP = RSDProblem(q=2, m=127, n=118, k=48, r=7)
+            >>> RSDP.to_bitcomplexity_time(200)
+                200
         """
-        Return the bit-complexity corresponding to a certain amount of basic_operations
-
-        INPUT:
-
-        - ``basic_operations`` -- Number of basic operations (logarithmic)
-
-        """
-        q = self.parameters[RSD_q]
+        q = self.parameters[RSD_ORDER_BASE_FIELD]
         theta = self._theta
         return ngates(q, basic_operations, theta=theta)
 
@@ -93,7 +94,7 @@ class RSDProblem(BaseProblem):
         - ``elements_to_store`` -- number of memory operations (logarithmic)
 
         """
-        q = self.parameters[RSD_q]
+        q = self.parameters[RSD_ORDER_BASE_FIELD]
 
         return log2(ceil(log2(q))) + elements_to_store
 
@@ -110,5 +111,82 @@ class RSDProblem(BaseProblem):
         """
         return list(self.parameters.values())
 
+    @property
+    def theta(self):
+        """Returns the value of `theta`."""
+        return self._theta
+
+    @theta.setter
+    def theta(self, value: float):
+        """Sets the value of `theta`"""
+        self._theta = value
+
+    def order_of_the_base_field(self):
+        """Return the order of the based finite field.
+
+        Tests:
+            >>> from cryptographic_estimators.RSDEstimator.rsd_problem  import RSDProblem
+            >>> RSDP = RSDProblem(q=2, m=127, n=118, k=48, r=7)
+            >>> RSDP.order_of_the_base_field()
+            2
+        """
+        return self.parameters[RSD_ORDER_BASE_FIELD]
+
+    def degree_extension(self):
+        """Return the degree of the field extension.
+
+         Tests:
+            >>> from cryptographic_estimators.RSDEstimator.rsd_problem  import RSDProblem
+            >>> RSDP = RSDProblem(q=2, m=127, n=118, k=48, r=7)
+            >>> RSDP.degree_extension()
+            127
+        """
+        return self.parameters[RSD_DEGREE_EXTENSION]
+
+    def dimension_vector_spapce(self):
+        """Return the dimension of the vector space.
+
+        Tests:
+            >>> from cryptographic_estimators.RSDEstimator.rsd_problem  import RSDProblem
+            >>> RSDP = RSDProblem(q=2, m=127, n=118, k=48, r=7)
+            >>> RSDP.dimension_vector_spapce()
+            118
+        """
+        return self.parameters[RSD_DIMENSION_VECTOR_SPACE]
+
+    def dimension_code(self):
+        """Return the dimension of the code.
+
+        Tests:
+            >>> from cryptographic_estimators.RSDEstimator.rsd_problem  import RSDProblem
+            >>> RSDP = RSDProblem(q=2, m=127, n=118, k=48, r=7)
+            >>> RSDP.dimension_code()
+            48
+        """
+        return self.parameters[RSD_DIMENSION_CODE]
+
+    def target_rank(self):
+        """Return the target rank.
+
+       Tests:
+            >>> from cryptographic_estimators.RSDEstimator.rsd_problem  import RSDProblem
+            >>> RSDP = RSDProblem(q=2, m=127, n=118, k=48, r=7)
+            >>> RSDP.target_rank()
+            7
+        """
+        return self.parameters[RSD_TARGET_RANK]
+
     def __repr__(self):
-        return "RSDProblem"
+        """Returns a string representation of the object.
+
+        Tests:
+            >>> from cryptographic_estimators.RSDEstimator.rsd_problem  import RSDProblem
+            >>> RSDP = RSDProblem(q=2, m=127, n=118, k=48, r=7)
+            >>> RSDP
+            Rank Syndrome Decoding problem with (q, m, n, k, r) = (2,127,118,48,7)
+        """
+        q, m, n, k, r = self.get_parameters()
+        rep = "Rank Syndrome Decoding problem with (q, m, n, k, r) = " \
+              + "(" + str(q) + "," + str(m) + "," + str(n) + "," + \
+              str(k) + "," + str(r) + ")"
+        return rep

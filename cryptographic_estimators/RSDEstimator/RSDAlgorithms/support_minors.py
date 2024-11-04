@@ -30,41 +30,78 @@ class SupportMinors(RSDAlgorithm):
     M. Bardet, P. Briaud, M. Bros, P. Gaborit, and J.-P. Tillich,
     “Revisiting algebraic attacks on MinRank and on the rank decoding problem.
 
-     INPUT:
+     Args:
+            problem (MRProblem): An instance of the MRProblem class.
+            **kwargs: Additional keyword arguments.
+            w (int): Linear algebra constant (default: 3).
+            theta (int): Exponent of the conversion factor (default: 2).
 
-    - ``problem`` -- an instance of the RSDProblem class
-    - ``w`` -- linear algebra constant (default: 3)
-
-    EXAMPLES::
-
-
+    Examples:
+         >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.support_minors import SupportMinors
+         >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+         >>> SM = SupportMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10))
+         >>> SM
+         SupportMinors estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):
         super(SupportMinors, self).__init__(problem, **kwargs)
-
         q, m, n, k, r = self.problem.get_parameters()
         self.set_parameter_ranges('b', 1, r + 1)
         self.set_parameter_ranges('a', 0, k)
-        # self.set_parameter_ranges('p', 0, 0)
         self._name = "SupportMinors"
 
     @optimal_parameter
     def b(self):
+        """Return the optimal `b`, such that Nb>=Mb-1,where Nb is the number rows and Mb is the number of columns.
+
+           Examples:
+                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.support_minors import SupportMinors
+                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+                >>> SM = SupportMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+                >>> SM.b()
+                1
+
+           Tests:
+                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.support_minors import SupportMinors
+                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+                >>> SM = SupportMinors(RSDProblem(q=2,m=37,n=41,k=18,r=13), w=2)
+                >>> SM.b()
+                2
+        """
         return self._get_optimal_parameter('b')
 
     @optimal_parameter
     def a(self):
+        """Return the optimal `a`, i.e. the number of columns specialized in X.
+           Examples:
+                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.support_minors import SupportMinors
+                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+                >>> SM = SupportMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+                >>> SM.a()
+                11
+
+           Tests:
+                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.support_minors import SupportMinors
+                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+                >>> SM = SupportMinors(RSDProblem(q=2,m=37,n=41,k=18,r=13), w=2)
+                >>> SM.a()
+                14
+        """
         return self._get_optimal_parameter("a")
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
+        """Return the time complexity of the algorithm for a given set of parameters.
 
-        INPUT:
+           Args:
+              parameters (dict): Dictionary including the parameters.
 
-        - ``parameters`` -- dictionary including the parameters
-
+           Tests:
+              >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.support_minors import SupportMinors
+              >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+              >>> SM = SupportMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+              >>> SM.time_complexity()
+              155.10223904640839
         """
 
         q, m, n, k, r = self.problem.get_parameters()
@@ -73,7 +110,7 @@ class SupportMinors(RSDAlgorithm):
 
         _, m, n_red, k_red, r = self.get_problem_parameters_reduced(a, 0)
         N, M = self._compute_N_and_M(b, m, n_red, k_red, r)
-        w = self.w
+        w = self._w
 
         time_complexity = (a * r) * log2(q) + 2 * log2(m) + log2(N) + (w - 1) * log2(M)
 
@@ -99,12 +136,16 @@ class SupportMinors(RSDAlgorithm):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
-        INPUT:
+        Args:
+              parameters (dict): Dictionary including the parameters.
 
-        - ``parameters`` -- dictionary including the parameters
-
+        Tests:
+              >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.support_minors import SupportMinors
+              >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+              >>> SM = SupportMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+              >>> SM.memory_complexity()
+              35.19384642563464
         """
-        q, m, n, k, r = self.problem.get_parameters()
         a = parameters['a']
         b = parameters['b']
 

@@ -30,14 +30,18 @@ class MaxMinors(RSDAlgorithm):
     M. Bardet, P. Briaud, M. Bros, P. Gaborit, and J.-P. Tillich,
     “Revisiting algebraic attacks on MinRank and on the rank decoding problem.
 
-    INPUT:
+    Args:
+            problem (MRProblem): An instance of the MRProblem class.
+            **kwargs: Additional keyword arguments.
+            w (int): Linear algebra constant (default: 3).
+            theta (int): Exponent of the conversion factor (default: 2).
 
-    - ``problem`` -- an instance of the RSDProblem class
-    - ``w`` -- linear algebra constant (default: 3)
-
-    EXAMPLES::
-
-
+    Examples:
+         >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
+         >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+         >>> MM = MaxMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10))
+         >>> MM
+         MaxMinors estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):
@@ -50,39 +54,78 @@ class MaxMinors(RSDAlgorithm):
 
     @optimal_parameter
     def a(self):
+        """Return the optimal `a`, i.e. the number of columns specialized in X.
+
+           Examples:
+                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
+                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+                >>> MM = MaxMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+                >>> MM.a()
+                12
+
+           Tests:
+                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
+                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+                >>> MM = MaxMinors(RSDProblem(q=2,m=37,n=41,k=18,r=13), w=2)
+                >>> MM.a()
+                15
+        """
         return self._get_optimal_parameter("a")
 
     @optimal_parameter
     def p(self):
+        """Return the optimal `p`, i.e. the number of positions to puncture the code.
+
+           Examples:
+                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
+                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+                >>> MM = MaxMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+                >>> MM.p()
+                2
+
+           Tests:
+                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
+                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+                >>> MM = MaxMinors(RSDProblem(q=2,m=37,n=41,k=18,r=13), w=2)
+                >>> MM.p()
+                2
+        """
         return self._get_optimal_parameter("p")
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
+        """Return the time complexity of the algorithm for a given set of parameters.
 
-        INPUT:
+           Args:
+              parameters (dict): Dictionary including the parameters.
 
-        - ``parameters`` -- dictionary including the parameters
-
+           Tests:
+              >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
+              >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+              >>> MM = MaxMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+              >>> MM.time_complexity()
+              152.99052338294462
         """
 
         q, m, n, k, r = self.problem.get_parameters()
         a = parameters['a']
         p = parameters['p']
         _, _, n_red, k_red, r = self.get_problem_parameters_reduced(a, p)
-        w = self.w
+        w = self._w
         bin2 = binomial(n_red, r)
         time_complexity = a * r * log2(q) + w * log2(bin2)
         return time_complexity
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
+        """Return the memory complexity of the algorithm for a given set of parameters
+           Args:
+              parameters (dict): Dictionary including the parameters.
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+           Tests:
+              >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
+              >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+              >>> MM = MaxMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+              >>> MM.memory_complexity()
+              33.00164676141634
         """
         q, m, n, k, r = self.problem.get_parameters()
         a = parameters['a']

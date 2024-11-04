@@ -63,7 +63,7 @@ class BBPS(LEAlgorithm):
             >>> from cryptographic_estimators.LEEstimator.LEAlgorithms import BBPS
             >>> from cryptographic_estimators.LEEstimator import LEProblem
             >>> A = BBPS(LEProblem(30,20,251))
-            >>> A.w()
+            >>> A._w()
             12
         """
         return self._get_optimal_parameter("w")

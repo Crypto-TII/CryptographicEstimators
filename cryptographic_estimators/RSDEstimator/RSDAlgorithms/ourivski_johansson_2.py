@@ -23,52 +23,64 @@ from math import log2, ceil
 
 class OJ2(RSDAlgorithm):
     """
-    Construct an instance of OJ algorithm 2  estimator
+     Construct an instance of OJ strategy 2  estimator
 
-    . V. Ourivski and T. Johansson,
-    “New technique for decoding codes in the rank metric and its cryptography applications,”
+     V. Ourivski and T. Johansson,
+     “New technique for decoding codes in the rank metric and its cryptography applications,”
 
-    INPUT:
+     Args:
+             problem (MRProblem): An instance of the MRProblem class.
+             **kwargs: Additional keyword arguments.
+             w (int): Linear algebra constant (default: 3).
+            theta (int): Exponent of the conversion factor (default: 2).
 
-    - ``problem`` -- an instance of the RSDProblem class
-    - ``w`` -- linear algebra constant (default: 3)
-
-    EXAMPLES::
-
-
-    """
+     Examples:
+            >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.ourivski_johansson_2 import OJ2
+            >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+            >>> OJ = OJ2(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+            >>> OJ
+            OJ strategy 2 estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
+     """
 
     def __init__(self, problem: RSDProblem, **kwargs):
-        self._name = "Ourivski-Johansson-2"
         super(OJ2, self).__init__(problem, **kwargs)
+        self._name = "OJ strategy 2"
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
+        """Return the time complexity of the algorithm for a given set of parameters.
 
-        INPUT:
+               Args:
+                   parameters (dict): Dictionary including the parameters.
 
-        - ``parameters`` -- dictionary including the parameters
-
+               Tests:
+                   >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.ourivski_johansson_2 import OJ2
+                   >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+                   >>> OJ = OJ2(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+                   >>> OJ.time_complexity()
+                   745.7661439067468
         """
 
         q, m, n, k, r = self.problem.get_parameters()
-        time_complexity = self.w * (log2(k + r) + log2(r)) + (r - 1) * (m - r) * log2(q)
+        time_complexity = self._w * (log2(k + r) + log2(r)) + (r - 1) * (m - r) * log2(q)
 
         return time_complexity
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
-        INPUT:
+        Args:
+           parameters (dict): Dictionary including the parameters.
 
-        - ``parameters`` -- dictionary including the parameters
-
+        Tests:
+           >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.ourivski_johansson_2 import OJ2
+           >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+           >>> OJ = OJ2(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+           >>> OJ.memory_complexity()
+           17.081441827692018
         """
         q, m, n, k, r = self.problem.get_parameters()
-        cm = ceil(((k + 1) * r) / (m - r))
-        n_rows = cm * m
-        n_columns = (k + 1 + cm) * r
+        N = ceil(((k + 1) * r) / (m - r))
+        n_rows = N * m
+        n_columns = (k + 1 + N) * r
         memory_complexity = log2(n_rows * n_columns)
         return memory_complexity

@@ -72,7 +72,7 @@ class SBC(PKAlgorithm):
             >>> from cryptographic_estimators.PKEstimator.PKAlgorithms import SBC
             >>> from cryptographic_estimators.PKEstimator import PKProblem
             >>> A = SBC(PKProblem(n=20,m=10,q=7,ell=2))
-            >>> A.w()
+            >>> A._w()
             11
         """
         return self._get_optimal_parameter("w")

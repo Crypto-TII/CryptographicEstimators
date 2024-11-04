@@ -29,13 +29,18 @@ class GuessingEnhancedGRS(RSDAlgorithm):
     G. D’Alconzo2, A. Esser, A. Gangemi, and C. Sanna,
     “Ryde with mira: Partial key exposure attacks on rank-based schemes,”
 
-    INPUT:
+    Args:
+        problem (MRProblem): An instance of the MRProblem class.
+        **kwargs: Additional keyword arguments.
+        w (int): Linear algebra constant (default: 3).
+        theta (int): Exponent of the conversion factor (default: 2).
 
-    - ``problem`` -- an instance of the RSDProblem class
-    - ``w`` -- linear algebra constant (default: 3)
-
-    EXAMPLES::
-
+    Examples:
+          >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.guessing_enhanced_grs import GuessingEnhancedGRS
+          >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+          >>> GEGRS = GuessingEnhancedGRS(RSDProblem(q=2,m=31,n=33,k=15,r=10))
+          >>> GEGRS
+          GuessingEnhancedGRS estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
 
     """
 
@@ -48,21 +53,41 @@ class GuessingEnhancedGRS(RSDAlgorithm):
 
     @optimal_parameter
     def t(self):
+        """Return the optimal `t`, i.e. the number of Fq-elements guessed in X.
+
+          Examples:
+              >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.guessing_enhanced_grs import GuessingEnhancedGRS
+              >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+              >>> GEGRS = GuessingEnhancedGRS(RSDProblem(q=2,m=31,n=33,k=15,r=10))
+              >>> GEGRS.t()
+              1
+
+          Tests:
+              >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.guessing_enhanced_grs import GuessingEnhancedGRS
+              >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+              >>> GEGRS = GuessingEnhancedGRS(RSDProblem(q=2,m=37,n=41,k=18,r=13))
+              >>> GEGRS.t()
+              6
+          """
         return self._get_optimal_parameter("t")
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
+        """Return the time complexity of the algorithm for a given set of parameters.
 
-        INPUT:
+           Args:
+              parameters (dict): Dictionary including the parameters.
 
-        - ``parameters`` -- dictionary including the parameters
-
+           Tests:
+               >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.guessing_enhanced_grs import GuessingEnhancedGRS
+               >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+               >>> GEGRS = GuessingEnhancedGRS(RSDProblem(q=2,m=31,n=33,k=15,r=10),w=2)
+               >>> GEGRS.time_complexity()
+               138.25340894568637
         """
 
         q, m, n, k, r = self.problem.get_parameters()
         t = parameters['t']
-        t1 = self.w * log2((n - k) * m + t)
+        t1 = self._w * log2((n - k) * m + t)
 
         mu1 = r * ceil(((k + 1) * m - t) / n) - m + t
         time_complexity = t1 + max(0, mu1 * log2(q))
@@ -73,10 +98,15 @@ class GuessingEnhancedGRS(RSDAlgorithm):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
-        INPUT:
+        Args:
+           parameters (dict): Dictionary including the parameters.
 
-        - ``parameters`` -- dictionary including the parameters
-
+        Tests:
+           >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.guessing_enhanced_grs import GuessingEnhancedGRS
+           >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+           >>> GEGRS = GuessingEnhancedGRS(RSDProblem(q=2,m=31,n=33,k=15,r=10),w=2)
+           >>> GEGRS.memory_complexity()
+           18.08878823871691
         """
 
         q, m, n, k, r = self.problem.get_parameters()

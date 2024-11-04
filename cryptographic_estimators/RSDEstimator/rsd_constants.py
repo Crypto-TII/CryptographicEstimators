@@ -15,8 +15,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-RSD_q = "q"
-RSD_m = "m"
-RSD_n = "n"
-RSD_k = "k"
-RSD_r = "r"
+RSD_ORDER_BASE_FIELD = "q"
+RSD_DEGREE_EXTENSION = "m"
+RSD_DIMENSION_VECTOR_SPACE = "n"
+RSD_DIMENSION_CODE = "k"
+RSD_TARGET_RANK = "r"

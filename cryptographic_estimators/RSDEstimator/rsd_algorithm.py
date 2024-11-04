@@ -22,18 +22,38 @@ from .rsd_problem import RSDProblem
 
 class RSDAlgorithm(BaseAlgorithm):
     def __init__(self, problem: RSDProblem, **kwargs):
-        """
-        Base class for RSD algorithms complexity estimator
+        """Base class for MR algorithms complexity estimator.
 
-        INPUT:
+               Args:
+                   problem (MRProblem): MRProblem object including all necessary parameters
+                   **kwargs: Additional keyword arguments
+                       w (int, optional): linear algebra constant. Defaults to 3.
 
-        - ``problem`` -- RSDProblem object including all necessary parameters
-        - ``w`` -- linear algebra constant (default: 3)
-
-        """
+               Examples:
+                  >>> from cryptographic_estimators.RSDEstimator.rsd_algorithm import RSDAlgorithm
+                  >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+                  >>> E = RSDAlgorithm(RSDProblem(q=2, m=31, n=33, k=15, r=10))
+                  >>> E
+                  BaseRSDAlgorithm estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
+               """
         super(RSDAlgorithm, self).__init__(problem, **kwargs)
-        self._name = "RSDAlgorithm"
-        self.w = kwargs.get("w", 3)
+        w = kwargs.get("w", 3)
+        self._w = w
+        self._name = "BaseMRAlgorithm"
+
+        if w < 2 or 3 < w:
+            raise ValueError("w must be in the range 2 <= w <= 3")
+
+    def linear_algebra_constant(self):
+        """Return the linear algebra constant.
+
+        Tests:
+            >>> from cryptographic_estimators.RSDEstimator.rsd_algorithm import RSDAlgorithm
+            >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+            >>> RSDAlgorithm(RSDProblem(q=2, m=31, n=33, k=15, r=10), w=2).linear_algebra_constant()
+            2
+        """
+        return self._w
 
     def get_problem_parameters_reduced(self, a, p):
         """
@@ -52,3 +72,7 @@ class RSDAlgorithm(BaseAlgorithm):
         k_reduced = k - a
         r_reduced = r
         return q_reduced, m_reduced, n_reduced, k_reduced, r_reduced
+
+    def __repr__(self):
+        q, m, n, k, r = self.problem.get_parameters()
+        return f"{self._name} estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = ({q}, {m}, {n}, {k}, {r})"
