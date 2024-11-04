@@ -26,8 +26,9 @@ class GuessingEnhancedGRS(RSDAlgorithm):
     """
     Construct an instance of GuessingEnhancedGRS estimator
 
+    This algorithm is introduced in
     G. D’Alconzo2, A. Esser, A. Gangemi, and C. Sanna,
-    “Ryde with mira: Partial key exposure attacks on rank-based schemes,”
+    “Ryde with mira: Partial key exposure attacks on rank-based schemes”, 2024.
 
     Args:
         problem (MRProblem): An instance of the MRProblem class.

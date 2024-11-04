@@ -24,8 +24,9 @@ from math import log2, ceil, floor
 class ImprovedGRS(RSDAlgorithm):
     """Construct an instance of ImprovedGRS estimator
 
+    This algorithm is introduced in
     N. Aragon, P. Gaborit, A. Hauteville, and J. Tillich,
-    “A new algorithm for solving the rank syndrome decoding problem,”
+    “A new algorithm for solving the rank syndrome decoding problem,” ISIT, 2018.
 
     Args:
         problem (MRProblem): An instance of the MRProblem class.

@@ -25,8 +25,10 @@ class OJ2(RSDAlgorithm):
     """
      Construct an instance of OJ strategy 2  estimator
 
+     This algorithm is introduced in
      V. Ourivski and T. Johansson,
-     “New technique for decoding codes in the rank metric and its cryptography applications,”
+    “New technique for decoding codes in the rank metric and its cryptography applications,”
+    in Problems of Information Transmission, 2002.
 
      Args:
              problem (MRProblem): An instance of the MRProblem class.

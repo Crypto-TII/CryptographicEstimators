@@ -25,7 +25,9 @@ class GRS(RSDAlgorithm):
     """
     Construct an instance of GRS estimator
 
-    P. Gaborit, O. Ruatta, and J. Schrek, “On the complexity of the rank syndrome decoding problem,”
+    This algorithm is introduced in
+    P. Gaborit, O. Ruatta, and J. Schrek,
+    “On the complexity of the rank syndrome decoding problem,” in IEEE Transactions on Information Theory, 2016.
 
     Args:
         problem (MRProblem): An instance of the MRProblem class.

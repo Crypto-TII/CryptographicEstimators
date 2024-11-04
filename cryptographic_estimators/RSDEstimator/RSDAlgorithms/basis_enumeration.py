@@ -23,9 +23,11 @@ from math import log2
 
 class BasisEnumeration(RSDAlgorithm):
     """Construct an instance of Basis Enumerator estimator
-       Florent Chabaud and Jacques Stern.
-       The Cryptographic Security of the Syndrome Decoding Problem for Rank Distance Codes. ASIACRYPT ’96
-       This algorithm enumerates the possible supports for the vector x.
+
+      This algorithm enumerates the possible supports for the vector x and is introduced in
+      Florent Chabaud and Jacques Stern,
+      "The Cryptographic Security of the Syndrome Decoding Problem for Rank Distance Codes", ASIACRYPT, 1996.
+
 
        Args:
             problem (MRProblem): An instance of the MRProblem class.

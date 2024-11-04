@@ -26,8 +26,9 @@ class Bardet(RSDAlgorithm):
     """
     Construct an instance of Bardet estimator
 
+    This algorithm is introduced in
     M. Bardet, P. Briaud, M. Bros, P. Gaborit, V. Neiger, O. Ruatta, and J.P. Tillich,
-    “An algebraic attack on rank metric code-based cryptosystems,
+    “An algebraic attack on rank metric code-based cryptosystems", EUROCRYPT, 2020.
 
     Args:
             problem (MRProblem): An instance of the MRProblem class.

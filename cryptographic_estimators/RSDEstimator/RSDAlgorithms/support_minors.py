@@ -27,8 +27,9 @@ class SupportMinors(RSDAlgorithm):
     """
     Construct an instance of SupportMinors estimator
 
+    This algorith is introduced in
     M. Bardet, P. Briaud, M. Bros, P. Gaborit, and J.-P. Tillich,
-    “Revisiting algebraic attacks on MinRank and on the rank decoding problem.
+    “Revisiting algebraic attacks on MinRank and on the rank decoding problem",in DCC, 2023.
 
      Args:
             problem (MRProblem): An instance of the MRProblem class.
