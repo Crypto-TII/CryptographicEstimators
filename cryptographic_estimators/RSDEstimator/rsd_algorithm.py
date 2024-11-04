@@ -55,8 +55,7 @@ class RSDAlgorithm(BaseAlgorithm):
         return self._w
 
     def get_problem_parameters_reduced(self, a, p):
-        """Return the problem parameters of the reduced instance, i.e., after puncturing the code on ``p`` positions
-           and specializing ``a`` columns in X
+        """Return the problem parameters of the reduced instance, i.e., after puncturing the code on ``p`` positions and specializing ``a`` columns in X
 
         Args:
            a (int): Number of columns to guess in X
