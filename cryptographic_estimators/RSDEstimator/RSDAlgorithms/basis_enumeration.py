@@ -58,7 +58,7 @@ class BasisEnumeration(RSDAlgorithm):
             >>> BE.time_complexity()
             749.6889972117298
         """
-        q, m, n, k, r = self.problem.get_parameters()
+        q, m, n, _, r = self.problem.get_parameters()
         time_complexity = self._w * log2(n * r + m) + (m - r) * (r - 1) * log2(q)
         return time_complexity
 
@@ -75,7 +75,7 @@ class BasisEnumeration(RSDAlgorithm):
             >>> BE.memory_complexity()
             23.014300107627076
         """
-        q, m, n, k, r = self.problem.get_parameters()
+        _, m, n, k, r = self.problem.get_parameters()
         n_rows = (n - k) * m
         n_columns = n * r + m
         memory_complexity = log2(n_rows * n_columns)

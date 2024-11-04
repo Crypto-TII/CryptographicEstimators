@@ -46,8 +46,7 @@ class MaxMinors(RSDAlgorithm):
 
     def __init__(self, problem: RSDProblem, **kwargs):
         super(MaxMinors, self).__init__(problem, **kwargs)
-
-        q, m, n, k, r = self.problem.get_parameters()
+        _, _, n, k, _ = self.problem.get_parameters()
         self.set_parameter_ranges('a', 0, k)
         self.set_parameter_ranges('p', 0, n)
         self._name = "MaxMinors"
@@ -106,10 +105,9 @@ class MaxMinors(RSDAlgorithm):
               152.99052338294462
         """
 
-        q, m, n, k, r = self.problem.get_parameters()
         a = parameters['a']
         p = parameters['p']
-        _, _, n_red, k_red, r = self.get_problem_parameters_reduced(a, p)
+        q, _, n_red, k_red, r = self.get_problem_parameters_reduced(a, p)
         w = self._w
         bin2 = binomial(n_red, r)
         time_complexity = a * r * log2(q) + w * log2(bin2)
@@ -127,10 +125,10 @@ class MaxMinors(RSDAlgorithm):
               >>> MM.memory_complexity()
               33.00164676141634
         """
-        q, m, n, k, r = self.problem.get_parameters()
+
         a = parameters['a']
         p = parameters['p']
-        _, _, n_red, k_red, r = self.get_problem_parameters_reduced(a, p)
+        _, m, n_red, k_red, r = self.get_problem_parameters_reduced(a, p)
 
         n_rows = m * binomial(n_red - k_red - 1, r)
         n_columns = binomial(n_red, r)
@@ -141,10 +139,9 @@ class MaxMinors(RSDAlgorithm):
         """
         Specifies constraints on the parameters
         """
-        q, m, n, k, r = self.problem.get_parameters()
         a = parameters['a']
         p = parameters['p']
-        _, _, n_red, k_red, r = self.get_problem_parameters_reduced(a, p)
+        _, m, n_red, k_red, r = self.get_problem_parameters_reduced(a, p)
 
         if (n_red - k_red - 1) >= r and n_red >= r:
             bin1 = m * binomial(n_red - k_red - 1, r)

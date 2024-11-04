@@ -60,7 +60,7 @@ class OJ1(RSDAlgorithm):
                    323.3881188264893
         """
 
-        q, m, n, k, r = self.problem.get_parameters()
+        q, m, _, k, r = self.problem.get_parameters()
         time_complexity = self._w * log2(m * r) + (r - 1) * (k + 1) * log2(q)
 
         return time_complexity
@@ -79,7 +79,7 @@ class OJ1(RSDAlgorithm):
                19.47199664177152
         """
 
-        q, m, n, k, r = self.problem.get_parameters()
+        q, m, _, k, r = self.problem.get_parameters()
         N = ceil(((r - 1) * m + k + 1) / (m - 1))
         n_rows = N * m
         n_columns = (r - 1) * m + k + N + 1

@@ -45,8 +45,6 @@ class Bardet(RSDAlgorithm):
 
     def __init__(self, problem: RSDProblem, **kwargs):
         super(Bardet, self).__init__(problem, **kwargs)
-
-        q, m, n, k, r = self.problem.get_parameters()
         self._name = "Bardet"
 
     def _compute_time_complexity(self, parameters: dict):

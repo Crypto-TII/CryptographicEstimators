@@ -44,9 +44,6 @@ class ImprovedGRS(RSDAlgorithm):
 
     def __init__(self, problem: RSDProblem, **kwargs):
         super(ImprovedGRS, self).__init__(problem, **kwargs)
-
-        q, m, n, k, r = self.problem.get_parameters()
-
         self._name = "Improved GRS"
 
     def _compute_time_complexity(self, parameters: dict):
@@ -86,7 +83,7 @@ class ImprovedGRS(RSDAlgorithm):
             >>> IGRS.memory_complexity()
             26.002220005940632
         """
-        q, m, n, k, r = self.problem.get_parameters()
+        _, m, n, k, _ = self.problem.get_parameters()
         r1 = floor((n - (k + 1) * m / n))
         n_columns = r1 * n
         n_rows = (n - k - 1) * m

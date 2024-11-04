@@ -46,7 +46,7 @@ class SupportMinors(RSDAlgorithm):
 
     def __init__(self, problem: RSDProblem, **kwargs):
         super(SupportMinors, self).__init__(problem, **kwargs)
-        q, m, n, k, r = self.problem.get_parameters()
+        _, _, _, k, r = self.problem.get_parameters()
         self.set_parameter_ranges('b', 1, r + 1)
         self.set_parameter_ranges('a', 0, k)
         self._name = "SupportMinors"
@@ -104,11 +104,10 @@ class SupportMinors(RSDAlgorithm):
               155.10223904640839
         """
 
-        q, m, n, k, r = self.problem.get_parameters()
         a = parameters['a']
         b = parameters['b']
 
-        _, m, n_red, k_red, r = self.get_problem_parameters_reduced(a, 0)
+        q, m, n_red, k_red, r = self.get_problem_parameters_reduced(a, 0)
         N, M = self._compute_N_and_M(b, m, n_red, k_red, r)
         w = self._w
 

@@ -82,7 +82,7 @@ class GRS(RSDAlgorithm):
             26.229429443574855
         """
 
-        q, m, n, k, r = self.problem.get_parameters()
+        _, m, n, k, r = self.problem.get_parameters()
         r_1 = floor((n - k) * m / n)
         n_columns = r_1 * n
         n_rows = (n - k) * m

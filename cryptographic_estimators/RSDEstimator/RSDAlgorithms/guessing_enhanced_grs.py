@@ -46,8 +46,7 @@ class GuessingEnhancedGRS(RSDAlgorithm):
 
     def __init__(self, problem: RSDProblem, **kwargs):
         super(GuessingEnhancedGRS, self).__init__(problem, **kwargs)
-
-        q, m, n, k, r = self.problem.get_parameters()
+        _, m, n, _, _ = self.problem.get_parameters()
         self.set_parameter_ranges('t', 0, n * m)
         self._name = "GuessingEnhancedGRS"
 
@@ -88,7 +87,6 @@ class GuessingEnhancedGRS(RSDAlgorithm):
         q, m, n, k, r = self.problem.get_parameters()
         t = parameters['t']
         t1 = self._w * log2((n - k) * m + t)
-
         mu1 = r * ceil(((k + 1) * m - t) / n) - m + t
         time_complexity = t1 + max(0, mu1 * log2(q))
 
@@ -109,7 +107,7 @@ class GuessingEnhancedGRS(RSDAlgorithm):
            18.08878823871691
         """
 
-        q, m, n, k, r = self.problem.get_parameters()
+        _, m, n, k, _ = self.problem.get_parameters()
         t = parameters['t']
         r_1 = floor(((n - k - 1) * m + t) / n)
         n_columns = r_1 * n
