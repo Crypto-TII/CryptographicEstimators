@@ -25,13 +25,19 @@ from math import comb as binomial
 
 class MaxMinors(RSDAlgorithm):
     """
-    Construct an instance of RSDAlgorithm1 estimator
+    Construct an instance of MaxMinors estimator
 
-    Add reference to correponding paper here.
+    M. Bardet, P. Briaud, M. Bros, P. Gaborit, and J.-P. Tillich,
+    “Revisiting algebraic attacks on MinRank and on the rank decoding problem.
 
     INPUT:
 
     - ``problem`` -- an instance of the RSDProblem class
+    - ``w`` -- linear algebra constant (default: 3)
+
+    EXAMPLES::
+
+
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):

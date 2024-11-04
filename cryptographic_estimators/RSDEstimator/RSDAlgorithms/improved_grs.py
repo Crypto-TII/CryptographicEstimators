@@ -23,13 +23,19 @@ from math import log2, ceil, floor
 
 class ImprovedGRS(RSDAlgorithm):
     """
-    Construct an instance of RSDAlgorithm1 estimator
+    Construct an instance of ImprovedGRS estimator
 
-    Add reference to correponding paper here.
+    N. Aragon, P. Gaborit, A. Hauteville, and J. Tillich,
+    “A new algorithm for solving the rank syndrome decoding problem,”
 
     INPUT:
 
     - ``problem`` -- an instance of the RSDProblem class
+    - ``w`` -- linear algebra constant (default: 3)
+
+    EXAMPLES::
+
+
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):
@@ -68,9 +74,9 @@ class ImprovedGRS(RSDAlgorithm):
 
         """
         q, m, n, k, r = self.problem.get_parameters()
-        r_1 = floor((n - k) * m / n)
-        n_columns = r_1 * n
-        n_rows = (n - k) * m
+        r1 = floor((n - (k + 1) * m / n))
+        n_columns = r1 * n
+        n_rows = (n - k - 1) * m
         memory_complexity = log2(n_rows * n_columns)
 
         return memory_complexity

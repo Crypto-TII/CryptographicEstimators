@@ -27,8 +27,20 @@ class RSDProblem(BaseProblem):
     Construct an instance of RSDProblem. Contains the parameters to optimize
     over.
 
-    INPUT: 
-        - Fill with parameters
+
+    INPUT:
+
+    - ``q`` -- order of the base finite field
+    - ``m`` -- degree of the field extension
+    - ``n`` -- dimension of the vector space where the linear code is defined.
+    - ``k`` -- dimension of the code.
+    - ``r`` -- target rank
+    - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
+
+    NOTE:
+
+    - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
+    - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
 
     """
 

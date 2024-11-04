@@ -23,13 +23,19 @@ from math import log2, ceil
 
 class OJ1(RSDAlgorithm):
     """
-    Construct an instance of RSDAlgorithm1 estimator
+    Construct an instance of OJ algorithm 1  estimator
 
-    Add reference to correponding paper here.
+    . V. Ourivski and T. Johansson,
+    “New technique for decoding codes in the rank metric and its cryptography applications,”
 
     INPUT:
 
     - ``problem`` -- an instance of the RSDProblem class
+    - ``w`` -- linear algebra constant (default: 3)
+
+    EXAMPLES::
+
+
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):

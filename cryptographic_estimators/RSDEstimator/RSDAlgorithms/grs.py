@@ -23,13 +23,18 @@ from math import log2, floor
 
 class GRS(RSDAlgorithm):
     """
-    Construct an instance of RSDAlgorithm1 estimator
+    Construct an instance of GRS estimator
 
-    Add reference to correponding paper here.
+    P. Gaborit, O. Ruatta, and J. Schrek, “On the complexity of the rank syndrome decoding problem,”
 
     INPUT:
 
     - ``problem`` -- an instance of the RSDProblem class
+    - ``w`` -- linear algebra constant (default: 3)
+
+    EXAMPLES::
+
+
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):

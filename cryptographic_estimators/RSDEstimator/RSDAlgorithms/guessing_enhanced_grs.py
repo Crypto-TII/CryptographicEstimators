@@ -24,13 +24,19 @@ from math import log2, ceil, floor
 
 class GuessingEnhancedGRS(RSDAlgorithm):
     """
-    Construct an instance of RSDAlgorithm1 estimator
+    Construct an instance of GuessingEnhancedGRS estimator
 
-    Add reference to correponding paper here.
+    G. D’Alconzo2, A. Esser, A. Gangemi, and C. Sanna,
+    “Ryde with mira: Partial key exposure attacks on rank-based schemes,”
 
     INPUT:
 
     - ``problem`` -- an instance of the RSDProblem class
+    - ``w`` -- linear algebra constant (default: 3)
+
+    EXAMPLES::
+
+
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):
@@ -75,9 +81,9 @@ class GuessingEnhancedGRS(RSDAlgorithm):
 
         q, m, n, k, r = self.problem.get_parameters()
         t = parameters['t']
-        r_1 = floor(((n - k) * m + t) / n)
+        r_1 = floor(((n - k - 1) * m + t) / n)
         n_columns = r_1 * n
-        n_rows = (n - k) * m + t
+        n_rows = (n - k - 1) * m + t
         memory_complexity = log2(n_rows * n_columns)
 
         return memory_complexity

@@ -24,11 +24,18 @@ from math import inf
 
 class RSDEstimator(BaseEstimator):
     """
-    Construct an instance of RSDEstimator
+     Construct an instance of MREstimator
 
     INPUT:
-
+    - ``q`` -- order of the base finite field
+    - ``m`` -- degree of the field extension
+    - ``n`` -- dimension of the vector space where the linear code is defined.
+    - ``k`` -- dimension of the code.
+    - ``r`` -- target rank
+    - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
     - ``excluded_algorithm`` -- A list/tuple of excluded algorithms (default: None)
+
+    EXAMPLES::
 
     """
     excluded_algorithms_by_default = []

@@ -18,15 +18,17 @@
 
 from ..rsd_algorithm import RSDAlgorithm
 from ..rsd_problem import RSDProblem
-from math import log2, ceil
+from ...base_algorithm import optimal_parameter
+from math import log2
+from math import comb as binomial
 
 
-class OJ2(RSDAlgorithm):
+class Bardet(RSDAlgorithm):
     """
-    Construct an instance of OJ algorithm 2  estimator
+    Construct an instance of Bardet estimator
 
-    . V. Ourivski and T. Johansson,
-    “New technique for decoding codes in the rank metric and its cryptography applications,”
+    M. Bardet, P. Briaud, M. Bros, P. Gaborit, V. Neiger, O. Ruatta, and J.P. Tillich,
+    “An algebraic attack on rank metric code-based cryptosystems,
 
     INPUT:
 
@@ -39,8 +41,10 @@ class OJ2(RSDAlgorithm):
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):
-        self._name = "Ourivski-Johansson-2"
-        super(OJ2, self).__init__(problem, **kwargs)
+        super(Bardet, self).__init__(problem, **kwargs)
+
+        q, m, n, k, r = self.problem.get_parameters()
+        self._name = "Bardet"
 
     def _compute_time_complexity(self, parameters: dict):
         """
@@ -53,7 +57,15 @@ class OJ2(RSDAlgorithm):
         """
 
         q, m, n, k, r = self.problem.get_parameters()
-        time_complexity = self.w * (log2(k + r) + log2(r)) + (r - 1) * (m - r) * log2(q)
+
+        bin1 = m * binomial(n - k - 1, r)
+        bin2 = binomial(n, r)
+        w = self.w
+        if bin1 < bin2:
+            a = r + 1
+        else:
+            a = r
+        time_complexity = self.w * (a * (log2(m + n) + log2(r)) - sum([log2(i) for i in range(1, a + 1)]))
 
         return time_complexity
 
@@ -66,9 +78,5 @@ class OJ2(RSDAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
-        q, m, n, k, r = self.problem.get_parameters()
-        cm = ceil(((k + 1) * r) / (m - r))
-        n_rows = cm * m
-        n_columns = (k + 1 + cm) * r
-        memory_complexity = log2(n_rows * n_columns)
-        return memory_complexity
+
+        return 0
