@@ -23,21 +23,18 @@ from cryptographic_estimators.helper import is_prime_power, ngates
 
 
 class RSDProblem(BaseProblem):
-    """
-    Construct an instance of RSDProblem.
-    Contains the parameters to optimize over.
+    """Construct an instance of RSDProblem.
 
-        Args:
+       Args:
             q (int): Order of the base finite field
             m (int): Degree of the extension field
             n (int): Dimension of the vector space
             k (int): Dimension of the code
             r (int): Target rank
             theta (float, optional): Exponent of the conversion factor. Defaults to 2.
-            nsolutions (int, optional): Number of solutions in logarithmic scale. Defaults to max(expected_number_solutions, 0).
             memory_bound (float, optional): Maximum allowed memory to use for solving the problem. Defaults to inf.
 
-        Note:
+       Note:
             - If 0 <= theta <= 2, every multiplication in GF(q) is counted as log2(q) ^ theta binary operation.
             - If theta = None, every multiplication in GF(q) is counted as 2 * log2(q) ^ 2 + log2(q) binary operation
     """
@@ -86,12 +83,10 @@ class RSDProblem(BaseProblem):
         return ngates(q, basic_operations, theta=theta)
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
-        """
-        Return the memory bit-complexity associated to a given number of elements to store
+        """Return the memory bit-complexity associated to a given number of elements to store
 
-        INPUT:
-
-        - ``elements_to_store`` -- number of memory operations (logarithmic)
+         Args:
+             elements_to_store: number of memory operations (logarithmic)
 
         """
         q = self.parameters[RSD_ORDER_BASE_FIELD]
@@ -99,16 +94,11 @@ class RSDProblem(BaseProblem):
         return log2(ceil(log2(q))) + elements_to_store
 
     def expected_number_solutions(self):
-        """
-        Return the logarithm of the expected number of existing solutions to the problem
-
-        """
+        """Return the logarithm of the expected number of existing solutions to the problem"""
         pass
 
     def get_parameters(self):
-        """
-        Return the optimizations parameters
-        """
+        """Return the optimizations parameters"""
         return list(self.parameters.values())
 
     @property

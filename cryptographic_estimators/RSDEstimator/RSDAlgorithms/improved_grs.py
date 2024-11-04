@@ -35,12 +35,11 @@ class ImprovedGRS(RSDAlgorithm):
         theta (int): Exponent of the conversion factor (default: 2).
 
     Examples:
-         >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.improved_grs import ImprovedGRS
-         >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-         >>> IGRS = ImprovedGRS(RSDProblem(q=2,m=127,n=118,k=48,r=7))
-         >>> IGRS
-         Improved GRS estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
-
+        >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.improved_grs import ImprovedGRS
+        >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+        >>> IGRS = ImprovedGRS(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+        >>> IGRS
+        Improved GRS estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):

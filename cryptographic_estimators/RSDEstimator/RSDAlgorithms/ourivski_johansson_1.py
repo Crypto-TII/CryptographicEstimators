@@ -31,10 +31,10 @@ class OJ1(RSDAlgorithm):
     in Problems of Information Transmission, 2002.
 
     Args:
-            problem (MRProblem): An instance of the MRProblem class.
-            **kwargs: Additional keyword arguments.
-            w (int): Linear algebra constant (default: 3).
-            theta (int): Exponent of the conversion factor (default: 2).
+           problem (MRProblem): An instance of the MRProblem class.
+           **kwargs: Additional keyword arguments.
+           w (int): Linear algebra constant (default: 3).
+           theta (int): Exponent of the conversion factor (default: 2).
 
     Examples:
            >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.ourivski_johansson_1 import OJ1
@@ -78,7 +78,7 @@ class OJ1(RSDAlgorithm):
            >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
            >>> OJ = OJ1(RSDProblem(q=2,m=127,n=118,k=48,r=7))
            >>> OJ.memory_complexity()
-               19.47199664177152
+           19.47199664177152
         """
 
         q, m, _, k, r = self.problem.get_parameters()

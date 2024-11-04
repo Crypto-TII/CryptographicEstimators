@@ -23,19 +23,18 @@ from .rsd_problem import RSDProblem
 class RSDAlgorithm(BaseAlgorithm):
     def __init__(self, problem: RSDProblem, **kwargs):
         """Base class for MR algorithms complexity estimator.
+            Args:
+                problem (MRProblem): MRProblem object including all necessary parameters
+                **kwargs: Additional keyword arguments
+                w (int, optional): linear algebra constant. Defaults to 3.
 
-               Args:
-                   problem (MRProblem): MRProblem object including all necessary parameters
-                   **kwargs: Additional keyword arguments
-                       w (int, optional): linear algebra constant. Defaults to 3.
-
-               Examples:
-                  >>> from cryptographic_estimators.RSDEstimator.rsd_algorithm import RSDAlgorithm
-                  >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-                  >>> E = RSDAlgorithm(RSDProblem(q=2, m=31, n=33, k=15, r=10))
-                  >>> E
-                  BaseRSDAlgorithm estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
-               """
+            Examples:
+                >>> from cryptographic_estimators.RSDEstimator.rsd_algorithm import RSDAlgorithm
+                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+                >>> E = RSDAlgorithm(RSDProblem(q=2, m=31, n=33, k=15, r=10))
+                >>> E
+                BaseRSDAlgorithm estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
+        """
         super(RSDAlgorithm, self).__init__(problem, **kwargs)
         w = kwargs.get("w", 3)
         self._w = w
@@ -56,14 +55,12 @@ class RSDAlgorithm(BaseAlgorithm):
         return self._w
 
     def get_problem_parameters_reduced(self, a, p):
-        """
-        Return the problem parameters of the reduced instance, i.e., after puncturing the code on ``p`` positions
-        and specializing ``a`` columns in X
+        """Return the problem parameters of the reduced instance, i.e., after puncturing the code on ``p`` positions
+           and specializing ``a`` columns in X
 
-        INPUT:
-
-        - ``a`` -- no. of columns to guess in X
-        - ``p`` -- no. of positions to puncture in the code
+        Args:
+           a (int): Number of columns to guess in X
+           p (int): Number of positions to puncture in the code
         """
         q, m, n, k, r = self.problem.get_parameters()
         q_reduced = q

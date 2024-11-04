@@ -25,20 +25,20 @@ from math import inf
 class RSDEstimator(BaseEstimator):
     """Construct an instance of RSDEstimator.
 
-    Args:
-        q (int): Order of the base finite field.
-        m (int): Degree of the extension.
-        n (int): Dimension of the vector space.
-        k (int): Dimension of the code.
-        r (int): Target rank.
-        memory_bound (float, optional): Maximum allowed memory to use for solving the problem. Defaults to inf.
-        **kwargs: Additional keyword arguments.
-        excluded_algorithm (list): A list/tuple of excluded algorithms (default: None)
+      Args:
+          q (int): Order of the base finite field.
+          m (int): Degree of the extension.
+          n (int): Dimension of the vector space.
+          k (int): Dimension of the code.
+          r (int): Target rank.
+          memory_bound (float, optional): Maximum allowed memory to use for solving the problem. Defaults to inf.
+          **kwargs: Additional keyword arguments.
+          excluded_algorithm (list): A list/tuple of excluded algorithms (default: None)
 
-        Examples:
-              >>> from cryptographic_estimators.RSDEstimator.rsd_estimator import RSDEstimator
-              >>> RSDE = RSDEstimator(q=2, m=127, n=118, k=48, r=7)
-        """
+      Examples:
+          >>> from cryptographic_estimators.RSDEstimator.rsd_estimator import RSDEstimator
+          >>> RSDE = RSDEstimator(q=2, m=127, n=118, k=48, r=7)
+    """
     excluded_algorithms_by_default = []
 
     def __init__(self, q: int, m: int, n: int, k: int, r: int, memory_bound=inf, **kwargs):  # Fill with parameters
@@ -132,7 +132,7 @@ class RSDEstimator(BaseEstimator):
             | MaxMinors           | 308.7 |   53.8 | {'a': 15, 'p': 2} |
             | SupportMinors       |    -- |     -- |         {}        |
             +---------------------+-------+--------+-------------------+
-            """
+        """
         super(RSDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                         show_tilde_o_time=show_tilde_o_time,
                                         show_all_parameters=show_all_parameters,

@@ -31,9 +31,9 @@ class OJ2(RSDAlgorithm):
     in Problems of Information Transmission, 2002.
 
      Args:
-             problem (MRProblem): An instance of the MRProblem class.
-             **kwargs: Additional keyword arguments.
-             w (int): Linear algebra constant (default: 3).
+            problem (MRProblem): An instance of the MRProblem class.
+            **kwargs: Additional keyword arguments.
+            w (int): Linear algebra constant (default: 3).
             theta (int): Exponent of the conversion factor (default: 2).
 
      Examples:

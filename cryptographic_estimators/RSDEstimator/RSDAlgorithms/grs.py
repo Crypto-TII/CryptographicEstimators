@@ -30,10 +30,10 @@ class GRS(RSDAlgorithm):
     “On the complexity of the rank syndrome decoding problem,” in IEEE Transactions on Information Theory, 2016.
 
     Args:
-        problem (MRProblem): An instance of the MRProblem class.
-        **kwargs: Additional keyword arguments.
-        w (int): Linear algebra constant (default: 3).
-        theta (int): Exponent of the conversion factor (default: 2).
+         problem (MRProblem): An instance of the MRProblem class.
+         **kwargs: Additional keyword arguments.
+         w (int): Linear algebra constant (default: 3).
+         theta (int): Exponent of the conversion factor (default: 2).
 
     Examples:
          >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.grs import GRS
@@ -41,7 +41,6 @@ class GRS(RSDAlgorithm):
          >>> GRSA = GRS(RSDProblem(q=2,m=127,n=118,k=48,r=7))
          >>> GRSA
          GRS estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
-
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):
@@ -51,15 +50,15 @@ class GRS(RSDAlgorithm):
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
 
-                Args:
-                    parameters (dict): Dictionary including the parameters.
+            Args:
+               parameters (dict): Dictionary including the parameters.
 
-                Tests:
-                    >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.grs import GRS
-                    >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-                    >>> GRSA = GRS(RSDProblem(q=2,m=127,n=118,k=48,r=7))
-                    >>> GRSA.time_complexity()
-                    351.3539031111514
+            Tests:
+               >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.grs import GRS
+               >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+               >>> GRSA = GRS(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+               >>> GRSA.time_complexity()
+               351.3539031111514
         """
 
         q, m, n, k, r = self.problem.get_parameters()

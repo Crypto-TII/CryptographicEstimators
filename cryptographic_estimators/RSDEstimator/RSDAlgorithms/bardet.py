@@ -37,11 +37,11 @@ class Bardet(RSDAlgorithm):
             theta (int): Exponent of the conversion factor (default: 2).
 
     Examples:
-             >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.bardet import Bardet
-             >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-             >>> BD = Bardet(RSDProblem(q=2,m=127,n=118,k=48,r=7))
-             >>> BD
-             Bardet estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
+            >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.bardet import Bardet
+            >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+            >>> BD = Bardet(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+            >>> BD
+            Bardet estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):

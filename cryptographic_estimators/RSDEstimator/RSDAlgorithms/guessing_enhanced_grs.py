@@ -37,12 +37,11 @@ class GuessingEnhancedGRS(RSDAlgorithm):
         theta (int): Exponent of the conversion factor (default: 2).
 
     Examples:
-          >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.guessing_enhanced_grs import GuessingEnhancedGRS
-          >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-          >>> GEGRS = GuessingEnhancedGRS(RSDProblem(q=2,m=31,n=33,k=15,r=10))
-          >>> GEGRS
-          GuessingEnhancedGRS estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
-
+        >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.guessing_enhanced_grs import GuessingEnhancedGRS
+        >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+        >>> GEGRS = GuessingEnhancedGRS(RSDProblem(q=2,m=31,n=33,k=15,r=10))
+        >>> GEGRS
+        GuessingEnhancedGRS estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
     """
 
     def __init__(self, problem: RSDProblem, **kwargs):

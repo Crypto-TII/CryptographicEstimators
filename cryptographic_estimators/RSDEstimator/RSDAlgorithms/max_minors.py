@@ -32,10 +32,10 @@ class MaxMinors(RSDAlgorithm):
     “Revisiting algebraic attacks on MinRank and on the rank decoding problem",in DCC, 2023.
 
     Args:
-            problem (MRProblem): An instance of the MRProblem class.
-            **kwargs: Additional keyword arguments.
-            w (int): Linear algebra constant (default: 3).
-            theta (int): Exponent of the conversion factor (default: 2).
+         problem (MRProblem): An instance of the MRProblem class.
+         **kwargs: Additional keyword arguments.
+         w (int): Linear algebra constant (default: 3).
+         theta (int): Exponent of the conversion factor (default: 2).
 
     Examples:
          >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
