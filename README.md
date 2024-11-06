@@ -25,6 +25,7 @@ Currently, the implemented estimators are:
   - Linear Equivalence
   - MinRank 
   - Regular Syndrome Decoding
+  - Rank Syndrome Decoding
 
 - ### Scheme Estimators
   - [BIKE](https://bikesuite.org)
