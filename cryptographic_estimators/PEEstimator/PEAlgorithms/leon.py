@@ -65,7 +65,7 @@ class Leon(PEAlgorithm):
             >>> from cryptographic_estimators.PEEstimator.PEAlgorithms import Leon
             >>> from cryptographic_estimators.PEEstimator import PEProblem
             >>> A = Leon(PEProblem(n=100,k=50,q=3))
-            >>> A._w()
+            >>> A.w()
             20
         """
         n, k, q, _ = self.problem.get_parameters()

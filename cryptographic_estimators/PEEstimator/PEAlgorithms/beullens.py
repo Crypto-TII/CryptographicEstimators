@@ -63,7 +63,7 @@ class Beullens(PEAlgorithm):
             >>> from cryptographic_estimators.PEEstimator.PEAlgorithms import Beullens
             >>> from cryptographic_estimators.PEEstimator import PEProblem
             >>> A = Beullens(PEProblem(n=100,k=50,q=31))
-            >>> A._w()
+            >>> A.w()
             42
         """
         return self._get_optimal_parameter("w")

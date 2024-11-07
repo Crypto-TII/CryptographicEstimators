@@ -76,7 +76,8 @@ class RSDProblem(BaseProblem):
             >>> from cryptographic_estimators.RSDEstimator.rsd_estimator import RSDProblem
             >>> RSDP = RSDProblem(q=2, m=127, n=118, k=48, r=7)
             >>> RSDP.to_bitcomplexity_time(200)
-                200
+            200.0
+
         """
         q = self.parameters[RSD_ORDER_BASE_FIELD]
         theta = self._theta

@@ -29,16 +29,17 @@ class RSDAlgorithm(BaseAlgorithm):
                 w (int, optional): linear algebra constant. Defaults to 3.
 
             Examples:
-                >>> from cryptographic_estimators.RSDEstimator.rsd_algorithm import RSDAlgorithm
-                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-                >>> E = RSDAlgorithm(RSDProblem(q=2, m=31, n=33, k=15, r=10))
-                >>> E
-                BaseRSDAlgorithm estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
+              >>> from cryptographic_estimators.RSDEstimator.rsd_algorithm import RSDAlgorithm
+              >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
+              >>> E = RSDAlgorithm(RSDProblem(q=2, m=31, n=33, k=15, r=10))
+              >>> E
+              BaseRSDAlgorithm estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
+
         """
         super(RSDAlgorithm, self).__init__(problem, **kwargs)
         w = kwargs.get("w", 3)
         self._w = w
-        self._name = "BaseMRAlgorithm"
+        self._name = "BaseRSDAlgorithm"
 
         if w < 2 or 3 < w:
             raise ValueError("w must be in the range 2 <= w <= 3")

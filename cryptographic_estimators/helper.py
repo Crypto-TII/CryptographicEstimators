@@ -284,7 +284,7 @@ def ngates(q, n, theta=2):
         theta (int): The exponent of the conversion factor (default: 2).
 
     Examples:
-        >>> from cryptographic_estimators.MQEstimator.mq_helper import ngates
+        >>> from cryptographic_estimators.helper import ngates
         >>> ngates(16, 16)
         20.0
 

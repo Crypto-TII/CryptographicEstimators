@@ -55,7 +55,7 @@ class Beullens(LEAlgorithm):
             >>> from cryptographic_estimators.LEEstimator.LEAlgorithms import Beullens
             >>> from cryptographic_estimators.LEEstimator import LEProblem
             >>> A = Beullens(LEProblem(n=100,k=50,q=3))
-            >>> A._w()
+            >>> A.w()
             34
         """
         return self._get_optimal_parameter("w")
