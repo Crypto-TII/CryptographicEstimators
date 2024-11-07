@@ -16,36 +16,34 @@
 # ****************************************************************************
 
 
-from ..rsd_algorithm import RSDAlgorithm
-from ..rsd_problem import RSDProblem
+from ..ranksd_algorithm import RankSDAlgorithm
+from ..ranksd_problem import RankSDProblem
 from ...base_algorithm import optimal_parameter
 from math import log2
 from math import comb as binomial
 
 
-class MaxMinors(RSDAlgorithm):
+class MaxMinors(RankSDAlgorithm):
     """
     Construct an instance of MaxMinors estimator
 
-    This algorith is introduced in
-    M. Bardet, P. Briaud, M. Bros, P. Gaborit, and J.-P. Tillich,
-    “Revisiting algebraic attacks on MinRank and on the rank decoding problem",in DCC, 2023.
+    This algorith is introduced in [BBBGT23].
 
     Args:
-         problem (MRProblem): An instance of the MRProblem class.
+         problem (RankSDProblem): An instance of the RankSDProblem class.
          **kwargs: Additional keyword arguments.
          w (int): Linear algebra constant (default: 3).
          theta (int): Exponent of the conversion factor (default: 2).
 
     Examples:
-         >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
-         >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-         >>> MM = MaxMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10))
+         >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.max_minors import MaxMinors
+         >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+         >>> MM = MaxMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10))
          >>> MM
          MaxMinors estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
     """
 
-    def __init__(self, problem: RSDProblem, **kwargs):
+    def __init__(self, problem: RankSDProblem, **kwargs):
         super(MaxMinors, self).__init__(problem, **kwargs)
         _, _, n, k, _ = self.problem.get_parameters()
         self.set_parameter_ranges('a', 0, k)
@@ -57,16 +55,16 @@ class MaxMinors(RSDAlgorithm):
         """Return the optimal `a`, i.e. the number of columns specialized in X.
 
            Examples:
-                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
-                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-                >>> MM = MaxMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+                >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.max_minors import MaxMinors
+                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+                >>> MM = MaxMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
                 >>> MM.a()
                 12
 
            Tests:
-                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
-                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-                >>> MM = MaxMinors(RSDProblem(q=2,m=37,n=41,k=18,r=13), w=2)
+                >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.max_minors import MaxMinors
+                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+                >>> MM = MaxMinors(RankSDProblem(q=2,m=37,n=41,k=18,r=13), w=2)
                 >>> MM.a()
                 15
         """
@@ -77,16 +75,16 @@ class MaxMinors(RSDAlgorithm):
         """Return the optimal `p`, i.e. the number of positions to puncture the code.
 
            Examples:
-                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
-                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-                >>> MM = MaxMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+                >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.max_minors import MaxMinors
+                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+                >>> MM = MaxMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
                 >>> MM.p()
                 2
 
            Tests:
-                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
-                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-                >>> MM = MaxMinors(RSDProblem(q=2,m=37,n=41,k=18,r=13), w=2)
+                >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.max_minors import MaxMinors
+                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+                >>> MM = MaxMinors(RankSDProblem(q=2,m=37,n=41,k=18,r=13), w=2)
                 >>> MM.p()
                 2
         """
@@ -99,9 +97,9 @@ class MaxMinors(RSDAlgorithm):
               parameters (dict): Dictionary including the parameters.
 
            Tests:
-              >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
-              >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-              >>> MM = MaxMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+              >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.max_minors import MaxMinors
+              >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+              >>> MM = MaxMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
               >>> MM.time_complexity()
               152.99052338294462
         """
@@ -120,9 +118,9 @@ class MaxMinors(RSDAlgorithm):
               parameters (dict): Dictionary including the parameters.
 
            Tests:
-              >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.max_minors import MaxMinors
-              >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-              >>> MM = MaxMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+              >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.max_minors import MaxMinors
+              >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+              >>> MM = MaxMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
               >>> MM.memory_complexity()
               33.00164676141634
         """

@@ -16,35 +16,32 @@
 # ****************************************************************************
 
 
-from ..rsd_algorithm import RSDAlgorithm
-from ..rsd_problem import RSDProblem
+from ..ranksd_algorithm import RankSDAlgorithm
+from ..ranksd_problem import RankSDProblem
 from math import log2, ceil
 
 
-class OJ2(RSDAlgorithm):
+class OJ2(RankSDAlgorithm):
     """
      Construct an instance of OJ strategy 2  estimator
 
-     This algorithm is introduced in
-     V. Ourivski and T. Johansson,
-    “New technique for decoding codes in the rank metric and its cryptography applications,”
-    in Problems of Information Transmission, 2002.
+     This algorithm is introduced in [OJ02].
 
      Args:
-            problem (MRProblem): An instance of the MRProblem class.
+            problem (RankSDProblem): An instance of the RankSDProblem class.
             **kwargs: Additional keyword arguments.
             w (int): Linear algebra constant (default: 3).
             theta (int): Exponent of the conversion factor (default: 2).
 
      Examples:
-            >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.ourivski_johansson_2 import OJ2
-            >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-            >>> OJ = OJ2(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+            >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.ourivski_johansson_2 import OJ2
+            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+            >>> OJ = OJ2(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
             >>> OJ
             OJ strategy 2 estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
      """
 
-    def __init__(self, problem: RSDProblem, **kwargs):
+    def __init__(self, problem: RankSDProblem, **kwargs):
         super(OJ2, self).__init__(problem, **kwargs)
         self._name = "OJ strategy 2"
 
@@ -55,9 +52,9 @@ class OJ2(RSDAlgorithm):
                    parameters (dict): Dictionary including the parameters.
 
                Tests:
-                   >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.ourivski_johansson_2 import OJ2
-                   >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-                   >>> OJ = OJ2(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+                   >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.ourivski_johansson_2 import OJ2
+                   >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+                   >>> OJ = OJ2(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
                    >>> OJ.time_complexity()
                    745.7661439067468
         """
@@ -74,9 +71,9 @@ class OJ2(RSDAlgorithm):
            parameters (dict): Dictionary including the parameters.
 
         Tests:
-           >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.ourivski_johansson_2 import OJ2
-           >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-           >>> OJ = OJ2(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+           >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.ourivski_johansson_2 import OJ2
+           >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+           >>> OJ = OJ2(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
            >>> OJ.memory_complexity()
            17.081441827692018
         """

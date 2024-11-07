@@ -16,34 +16,33 @@
 # ****************************************************************************
 
 
-from ..rsd_algorithm import RSDAlgorithm
-from ..rsd_problem import RSDProblem
+from ..ranksd_algorithm import RankSDAlgorithm
+from ..ranksd_problem import RankSDProblem
 from math import log2, floor
 
 
-class GRS(RSDAlgorithm):
+class GRS(RankSDAlgorithm):
     """
     Construct an instance of GRS estimator
 
-    This algorithm is introduced in
-    P. Gaborit, O. Ruatta, and J. Schrek,
-    “On the complexity of the rank syndrome decoding problem,” in IEEE Transactions on Information Theory, 2016.
+    This algorithm is introduced in [GRS16].
+
 
     Args:
-         problem (MRProblem): An instance of the MRProblem class.
+         problem (RankSDProblem): An instance of the RankSDProblem class.
          **kwargs: Additional keyword arguments.
          w (int): Linear algebra constant (default: 3).
          theta (int): Exponent of the conversion factor (default: 2).
 
     Examples:
-         >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.grs import GRS
-         >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-         >>> GRSA = GRS(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+         >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.grs import GRS
+         >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+         >>> GRSA = GRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
          >>> GRSA
          GRS estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
     """
 
-    def __init__(self, problem: RSDProblem, **kwargs):
+    def __init__(self, problem: RankSDProblem, **kwargs):
         super(GRS, self).__init__(problem, **kwargs)
         self._name = "GRS"
 
@@ -54,9 +53,9 @@ class GRS(RSDAlgorithm):
                parameters (dict): Dictionary including the parameters.
 
             Tests:
-               >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.grs import GRS
-               >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-               >>> GRSA = GRS(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.grs import GRS
+               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+               >>> GRSA = GRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
                >>> GRSA.time_complexity()
                351.3539031111514
         """
@@ -76,9 +75,9 @@ class GRS(RSDAlgorithm):
             parameters (dict): Dictionary including the parameters.
 
         Tests:
-            >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.grs import GRS
-            >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-            >>> GRSA = GRS(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+            >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.grs import GRS
+            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+            >>> GRSA = GRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
             >>> GRSA.memory_complexity()
             26.229429443574855
         """

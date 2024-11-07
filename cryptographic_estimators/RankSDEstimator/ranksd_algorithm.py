@@ -17,29 +17,29 @@
 
 
 from ..base_algorithm import BaseAlgorithm
-from .rsd_problem import RSDProblem
+from .ranksd_problem import RankSDProblem
 
 
-class RSDAlgorithm(BaseAlgorithm):
-    def __init__(self, problem: RSDProblem, **kwargs):
-        """Base class for MR algorithms complexity estimator.
+class RankSDAlgorithm(BaseAlgorithm):
+    def __init__(self, problem: RankSDProblem, **kwargs):
+        """Base class for RankSD algorithms complexity estimator.
             Args:
-                problem (MRProblem): MRProblem object including all necessary parameters
+                problem (RankSDProblem): RankSDProblem object including all necessary parameters
                 **kwargs: Additional keyword arguments
                 w (int, optional): linear algebra constant. Defaults to 3.
 
             Examples:
-              >>> from cryptographic_estimators.RSDEstimator.rsd_algorithm import RSDAlgorithm
-              >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-              >>> E = RSDAlgorithm(RSDProblem(q=2, m=31, n=33, k=15, r=10))
+              >>> from cryptographic_estimators.RankSDEstimator.ranksd_algorithm import RankSDAlgorithm
+              >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+              >>> E = RankSDAlgorithm(RankSDProblem(q=2, m=31, n=33, k=15, r=10))
               >>> E
-              BaseRSDAlgorithm estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
+              BaseRankSDAlgorithm estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
 
         """
-        super(RSDAlgorithm, self).__init__(problem, **kwargs)
+        super(RankSDAlgorithm, self).__init__(problem, **kwargs)
         w = kwargs.get("w", 3)
         self._w = w
-        self._name = "BaseRSDAlgorithm"
+        self._name = "BaseRankSDAlgorithm"
 
         if w < 2 or 3 < w:
             raise ValueError("w must be in the range 2 <= w <= 3")
@@ -48,9 +48,9 @@ class RSDAlgorithm(BaseAlgorithm):
         """Return the linear algebra constant.
 
         Tests:
-            >>> from cryptographic_estimators.RSDEstimator.rsd_algorithm import RSDAlgorithm
-            >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-            >>> RSDAlgorithm(RSDProblem(q=2, m=31, n=33, k=15, r=10), w=2).linear_algebra_constant()
+            >>> from cryptographic_estimators.RankSDEstimator.ranksd_algorithm import RankSDAlgorithm
+            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+            >>> RankSDAlgorithm(RankSDProblem(q=2, m=31, n=33, k=15, r=10), w=2).linear_algebra_constant()
             2
         """
         return self._w

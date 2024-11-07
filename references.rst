@@ -34,6 +34,9 @@ References
 
 **A**
 
+.. [OJ02]   \Alexei Ourivski, and Thomas Johansson.
+            *New Technique for Decoding Codes in the Rank Metric and Its Cryptography Applications*
+            https://doi.org/10.1023/A:1020369320078
 .. [BKW19]  \Andreas Björklund, Petteri Kaski, and Ryan Williams.
             *Solving Systems of Polynomial Equations over GF(2) by a Parity-Counting Self-Reduction*
             https://drops.dagstuhl.de/opus/volltexte/2019/10602/pdf/LIPIcs-ICALP-2019-26.pdf
@@ -87,6 +90,7 @@ References
 .. [BCCCNSY10]  \Charles Bouillaguet, Hsieh-Chung Chen, Chen-Mou Cheng, Tung Chou, Ruben Niederhagen, Adi Shamir, and Bo-Yin Yang.
                 *Fast Exhaustive Search for Polynomial Systems in F_2* https://www.iacr.org/archive/ches2010/62250195/62250195.pdf
 
+
 .. _ref-D:
 
 **D**
@@ -122,6 +126,10 @@ References
 .. _ref-F:
 
 **F**
+
+.. [CS96]  \Florent Chabaud, Jacques Stern.
+            *The cryptographic security of the syndrome decoding problem for rank distance codes*
+            https://doi.org/10.1007/BFb0034862
 
 .. _ref-G:
 
@@ -201,10 +209,16 @@ References
             *On the Complexity of Solving Quadratic Boolean Systems*
             https://www.sciencedirect.com/science/article/pii/S0885064X12000611
 
+.. [BBBGT23] \Magali Bardet, Pierre Briaud, Maxime Bros, Philippe Gaborit, and Jean-Pierre Tillich
+             *Revisiting algebraic attacks on MinRank and on the rank decoding problem*
+             https://doi.org/10.1007/s10623-023-01265-x
 .. _ref-N:
 
 **N**
 
+.. [AGHT18] \Nicolas Aragon, Philippe Gaborit, Adrien Hauteville, Jean-Pierre Tillich.
+            *A New Algorithm for Solving the Rank Syndrome Decoding Problem*
+            http://doi.org/10.1109/ISIT.2018.8437464
 .. [CKPS]   \Nicolas Courtois, Alexander Klimov, Jacques Patarin, and Adi Shamir.
             *Efficient Algorithms for Solving Overdefined Systems of Multivariate Polynomial Equations*
             https://www.iacr.org/archive/eurocrypt2000/1807/18070398-new.pdf
@@ -233,6 +247,10 @@ References
 .. [SBC22] \Paolo Santini, Marco Baldi, and Franco Chiaraluce
             *Computational Hardness of the Permuted Kernel and Subcode Equivalence Problems*
             https://eprint.iacr.org/2022/1749.pdf
+
+.. [GRS16] \Philippe Gaborit, Olivier Ruatta, and Julien Schrek
+           *On the Complexity of the Rank Syndrome Decoding Problem*
+           https://doi.org/10.1109/TIT.2015.2511786
 
 .. _ref-Q:
 

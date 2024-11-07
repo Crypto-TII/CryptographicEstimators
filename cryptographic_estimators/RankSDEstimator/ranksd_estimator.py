@@ -16,14 +16,14 @@
 # ****************************************************************************
 
 
-from .rsd_algorithm import RSDAlgorithm
-from .rsd_problem import RSDProblem
+from .ranksd_algorithm import RankSDAlgorithm
+from .ranksd_problem import RankSDProblem
 from ..base_estimator import BaseEstimator
 from math import inf
 
 
-class RSDEstimator(BaseEstimator):
-    """Construct an instance of RSDEstimator.
+class RankSDEstimator(BaseEstimator):
+    """Construct an instance of RankSDEstimator.
 
       Args:
           q (int): Order of the base finite field.
@@ -36,15 +36,15 @@ class RSDEstimator(BaseEstimator):
           excluded_algorithm (list): A list/tuple of excluded algorithms (default: None)
 
       Examples:
-          >>> from cryptographic_estimators.RSDEstimator.rsd_estimator import RSDEstimator
-          >>> RSDE = RSDEstimator(q=2, m=127, n=118, k=48, r=7)
+          >>> from cryptographic_estimators.RankSDEstimator.ranksd_estimator import RankSDEstimator
+          >>> RSDE = RankSDEstimator(q=2, m=127, n=118, k=48, r=7)
     """
     excluded_algorithms_by_default = []
 
     def __init__(self, q: int, m: int, n: int, k: int, r: int, memory_bound=inf, **kwargs):  # Fill with parameters
-        super(RSDEstimator, self).__init__(
-            RSDAlgorithm,
-            RSDProblem(q, m, n, k, r, memory_bound=memory_bound, **kwargs),
+        super(RankSDEstimator, self).__init__(
+            RankSDAlgorithm,
+            RankSDProblem(q, m, n, k, r, memory_bound=memory_bound, **kwargs),
             **kwargs
         )
 
@@ -60,8 +60,8 @@ class RSDEstimator(BaseEstimator):
             truncate (int): Truncate rather than round the output (default: 0)
 
         Examples:
-            >>> from cryptographic_estimators.RSDEstimator.rsd_estimator import RSDEstimator
-            >>> RSDE = RSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2)
+            >>> from cryptographic_estimators.RankSDEstimator.ranksd_estimator import RankSDEstimator
+            >>> RSDE = RankSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2)
             >>> RSDE.table(show_all_parameters=1)
             +---------------------+------------------------------------+
             |                     |              estimate              |
@@ -81,9 +81,9 @@ class RSDEstimator(BaseEstimator):
 
 
         Tests:
-            >>> from cryptographic_estimators.RSDEstimator.rsd_estimator import RSDEstimator
-            >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms import BasisEnumeration,GRS,GuessingEnhancedGRS,OJ1,OJ2
-            >>> RSDE = RSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2, excluded_algorithms=[BasisEnumeration,GRS,GuessingEnhancedGRS,OJ1,OJ2])
+            >>> from cryptographic_estimators.RankSDEstimator.ranksd_estimator import RankSDEstimator
+            >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms import BasisEnumeration,GRS,GuessingEnhancedGRS,OJ1,OJ2
+            >>> RSDE = RankSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2, excluded_algorithms=[BasisEnumeration,GRS,GuessingEnhancedGRS,OJ1,OJ2])
             >>> RSDE.table(show_all_parameters=1)
             +---------------+------------------------------------+
             |               |              estimate              |
@@ -96,7 +96,7 @@ class RSDEstimator(BaseEstimator):
             +---------------+-------+--------+-------------------+
 
 
-            >>> RSDE = RSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2])
+            >>> RSDE = RankSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2])
             >>> RSDE.table(show_all_parameters=1)
             +---------------------+------------------------------------+
             |                     |              estimate              |
@@ -109,7 +109,7 @@ class RSDEstimator(BaseEstimator):
             | SupportMinors       | 155.1 |   35.2 | {'b': 1, 'a': 11} |
             +---------------------+-------+--------+-------------------+
 
-            >>> RSDE = RSDEstimator(q=2, m=37, n=41, k=18, r=13, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2])
+            >>> RSDE = RankSDEstimator(q=2, m=37, n=41, k=18, r=13, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2])
             >>> RSDE.table(show_all_parameters=1)
             +---------------------+------------------------------------+
             |                     |              estimate              |
@@ -123,7 +123,7 @@ class RSDEstimator(BaseEstimator):
             +---------------------+-------+--------+-------------------+
 
 
-            >>> RSDE = RSDEstimator(q=2, m=43, n=47, k=18, r=17, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2])
+            >>> RSDE = RankSDEstimator(q=2, m=43, n=47, k=18, r=17, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2])
             >>> RSDE.table(show_all_parameters=1)
             +---------------------+------------------------------------+
             |                     |              estimate              |
@@ -137,7 +137,7 @@ class RSDEstimator(BaseEstimator):
             +---------------------+-------+--------+-------------------+
 
         """
-        super(RSDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
-                                        show_tilde_o_time=show_tilde_o_time,
-                                        show_all_parameters=show_all_parameters,
-                                        precision=precision, truncate=truncate)
+        super(RankSDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
+                                           show_tilde_o_time=show_tilde_o_time,
+                                           show_all_parameters=show_all_parameters,
+                                           precision=precision, truncate=truncate)

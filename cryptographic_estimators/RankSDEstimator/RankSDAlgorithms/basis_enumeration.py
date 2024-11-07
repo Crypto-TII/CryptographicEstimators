@@ -16,34 +16,32 @@
 # ****************************************************************************
 
 
-from ..rsd_algorithm import RSDAlgorithm
-from ..rsd_problem import RSDProblem
+from ..ranksd_algorithm import RankSDAlgorithm
+from ..ranksd_problem import RankSDProblem
 from math import log2
 
 
-class BasisEnumeration(RSDAlgorithm):
-    """Construct an instance of Basis Enumerator estimator
+class BasisEnumeration(RankSDAlgorithm):
+    """Construct an instance of Basis Enumeration estimator
 
-      This algorithm enumerates the possible supports for the vector x and is introduced in
-      Florent Chabaud and Jacques Stern,
-      "The Cryptographic Security of the Syndrome Decoding Problem for Rank Distance Codes", ASIACRYPT, 1996.
+      This algorithm enumerates the possible supports for the vector x and is introduced in [CS96].
 
 
        Args:
-            problem (MRProblem): An instance of the MRProblem class.
+            problem (RankSDProblem): An instance of the RankSDProblem class.
             **kwargs: Additional keyword arguments.
             w (int): Linear algebra constant (default: 3).
             theta (int): Exponent of the conversion factor (default: 2).
 
        Examples:
-            >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.basis_enumeration import BasisEnumeration
-            >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-            >>> BE = BasisEnumeration(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+            >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.basis_enumeration import BasisEnumeration
+            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+            >>> BE = BasisEnumeration(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
             >>> BE
             BasisEnumeration estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
     """
 
-    def __init__(self, problem: RSDProblem, **kwargs):
+    def __init__(self, problem: RankSDProblem, **kwargs):
         super(BasisEnumeration, self).__init__(problem, **kwargs)
         self._name = "BasisEnumeration"
 
@@ -54,9 +52,9 @@ class BasisEnumeration(RSDAlgorithm):
             parameters (dict): Dictionary including the parameters.
 
         Tests:
-            >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.basis_enumeration import BasisEnumeration
-            >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-            >>> BE = BasisEnumeration(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+            >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.basis_enumeration import BasisEnumeration
+            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+            >>> BE = BasisEnumeration(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
             >>> BE.time_complexity()
             749.6889972117298
         """
@@ -71,9 +69,9 @@ class BasisEnumeration(RSDAlgorithm):
             parameters (dict): Dictionary including the parameters.
 
         Tests:
-            >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.basis_enumeration import BasisEnumeration
-            >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-            >>> BE = BasisEnumeration(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+            >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.basis_enumeration import BasisEnumeration
+            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+            >>> BE = BasisEnumeration(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
             >>> BE.memory_complexity()
             23.014300107627076
         """

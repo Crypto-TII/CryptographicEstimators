@@ -16,36 +16,34 @@
 # ****************************************************************************
 
 
-from ..rsd_algorithm import RSDAlgorithm
-from ..rsd_problem import RSDProblem
+from ..ranksd_algorithm import RankSDAlgorithm
+from ..ranksd_problem import RankSDProblem
 from ...base_algorithm import optimal_parameter
 from math import log2
 from math import comb as binomial
 
 
-class SupportMinors(RSDAlgorithm):
+class SupportMinors(RankSDAlgorithm):
     """
     Construct an instance of SupportMinors estimator
 
-    This algorith is introduced in
-    M. Bardet, P. Briaud, M. Bros, P. Gaborit, and J.-P. Tillich,
-    “Revisiting algebraic attacks on MinRank and on the rank decoding problem",in DCC, 2023.
+    This algorith is introduced in [BBBGT23].
 
      Args:
-         problem (MRProblem): An instance of the MRProblem class.
+         problem (RankSDAlgorithm): An instance of the RankSDAlgorithm class.
          **kwargs: Additional keyword arguments.
          w (int): Linear algebra constant (default: 3).
          theta (int): Exponent of the conversion factor (default: 2).
 
     Examples:
-         >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.support_minors import SupportMinors
-         >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-         >>> SM = SupportMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10))
+         >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
+         >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+         >>> SM = SupportMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10))
          >>> SM
          SupportMinors estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
     """
 
-    def __init__(self, problem: RSDProblem, **kwargs):
+    def __init__(self, problem: RankSDProblem, **kwargs):
         super(SupportMinors, self).__init__(problem, **kwargs)
         _, _, _, k, r = self.problem.get_parameters()
         self.set_parameter_ranges('b', 1, r + 1)
@@ -57,16 +55,16 @@ class SupportMinors(RSDAlgorithm):
         """Return the optimal `b`, such that Nb>=Mb-1,where Nb is the number rows and Mb is the number of columns.
 
            Examples:
-                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.support_minors import SupportMinors
-                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-                >>> SM = SupportMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+                >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
+                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+                >>> SM = SupportMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
                 >>> SM.b()
                 1
 
            Tests:
-                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.support_minors import SupportMinors
-                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-                >>> SM = SupportMinors(RSDProblem(q=2,m=37,n=41,k=18,r=13), w=2)
+                >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
+                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+                >>> SM = SupportMinors(RankSDProblem(q=2,m=37,n=41,k=18,r=13), w=2)
                 >>> SM.b()
                 2
         """
@@ -76,16 +74,16 @@ class SupportMinors(RSDAlgorithm):
     def a(self):
         """Return the optimal `a`, i.e. the number of columns specialized in X.
            Examples:
-                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.support_minors import SupportMinors
-                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-                >>> SM = SupportMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+                >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
+                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+                >>> SM = SupportMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
                 >>> SM.a()
                 11
 
            Tests:
-                >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.support_minors import SupportMinors
-                >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-                >>> SM = SupportMinors(RSDProblem(q=2,m=37,n=41,k=18,r=13), w=2)
+                >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
+                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+                >>> SM = SupportMinors(RankSDProblem(q=2,m=37,n=41,k=18,r=13), w=2)
                 >>> SM.a()
                 14
         """
@@ -98,9 +96,9 @@ class SupportMinors(RSDAlgorithm):
               parameters (dict): Dictionary including the parameters.
 
            Tests:
-              >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.support_minors import SupportMinors
-              >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-              >>> SM = SupportMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+              >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
+              >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+              >>> SM = SupportMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
               >>> SM.time_complexity()
               155.10223904640839
         """
@@ -140,9 +138,9 @@ class SupportMinors(RSDAlgorithm):
               parameters (dict): Dictionary including the parameters.
 
         Tests:
-              >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.support_minors import SupportMinors
-              >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-              >>> SM = SupportMinors(RSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+              >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
+              >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+              >>> SM = SupportMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
               >>> SM.memory_complexity()
               35.19384642563464
         """

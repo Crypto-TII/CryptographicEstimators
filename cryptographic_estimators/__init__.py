@@ -13,7 +13,7 @@ from . import DummyEstimator
 from . import MREstimator
 from . import UOVEstimator
 from . import MAYOEstimator
-from . import RSDEstimator
+from . import RankSDEstimator
 
 # WARNING:
 # This sets the MAXIMUM number of coefficients that can be calculated for any

@@ -16,33 +16,31 @@
 # ****************************************************************************
 
 
-from ..rsd_algorithm import RSDAlgorithm
-from ..rsd_problem import RSDProblem
+from ..ranksd_algorithm import RankSDAlgorithm
+from ..ranksd_problem import RankSDProblem
 from math import log2, ceil, floor
 
 
-class ImprovedGRS(RSDAlgorithm):
+class ImprovedGRS(RankSDAlgorithm):
     """Construct an instance of ImprovedGRS estimator
 
-    This algorithm is introduced in
-    N. Aragon, P. Gaborit, A. Hauteville, and J. Tillich,
-    “A new algorithm for solving the rank syndrome decoding problem,” ISIT, 2018.
+    This algorithm is introduced in [AGHT18]
 
     Args:
-        problem (MRProblem): An instance of the MRProblem class.
+        problem (RankSDProblem): An instance of the RankSDProblem class.
         **kwargs: Additional keyword arguments.
         w (int): Linear algebra constant (default: 3).
         theta (int): Exponent of the conversion factor (default: 2).
 
     Examples:
-        >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.improved_grs import ImprovedGRS
-        >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-        >>> IGRS = ImprovedGRS(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+        >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.improved_grs import ImprovedGRS
+        >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+        >>> IGRS = ImprovedGRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
         >>> IGRS
         Improved GRS estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
     """
 
-    def __init__(self, problem: RSDProblem, **kwargs):
+    def __init__(self, problem: RankSDProblem, **kwargs):
         super(ImprovedGRS, self).__init__(problem, **kwargs)
         self._name = "Improved GRS"
 
@@ -53,9 +51,9 @@ class ImprovedGRS(RSDAlgorithm):
                parameters (dict): Dictionary including the parameters.
 
            Tests:
-              >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.improved_grs import ImprovedGRS
-              >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-              >>> IGRS = ImprovedGRS(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+              >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.improved_grs import ImprovedGRS
+              >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+              >>> IGRS = ImprovedGRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
               >>> IGRS.time_complexity()
               283.3539031111514
         """
@@ -77,9 +75,9 @@ class ImprovedGRS(RSDAlgorithm):
             parameters (dict): Dictionary including the parameters.
 
         Tests:
-            >>> from cryptographic_estimators.RSDEstimator.RSDAlgorithms.improved_grs import ImprovedGRS
-            >>> from cryptographic_estimators.RSDEstimator.rsd_problem import RSDProblem
-            >>> IGRS = ImprovedGRS(RSDProblem(q=2,m=127,n=118,k=48,r=7))
+            >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.improved_grs import ImprovedGRS
+            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+            >>> IGRS = ImprovedGRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
             >>> IGRS.memory_complexity()
             26.002220005940632
         """
