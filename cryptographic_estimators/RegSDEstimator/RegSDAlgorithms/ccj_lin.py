@@ -32,55 +32,50 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-
 from ..regsd_algorithm import RegSDAlgorithm
 from ..regsd_problem import RegSDProblem
-from ...SDEstimator import SDEstimator
-from ...SDEstimator.SDAlgorithms import BJMMdw, BJMMpdw, BJMMplus, MayOzerov, BothMay, Stern, Dumer
+from math import log2
 
 
-class SDAttack(RegSDAlgorithm):
-    """
-    Construct an instance of SDEstimator to solve the RegSDProblem
-    (for performance reasons for now only BJMM is estimated, TODO fix performance)
-
-    INPUT:
-
-    - ``problem`` -- an instance of the RegSDProblem class
-    """
-
+class CCJLin(RegSDAlgorithm):
     def __init__(self, problem: RegSDProblem, **kwargs):
+        """Construct an instance of CCJ-Linearization estimator from [CCJ23]_.
 
-        super(SDAttack, self).__init__(problem, **kwargs)
-        self._name = "SD-Attack"
+        (concrete formulas taken from [ES23]_)
+
+        Args:
+            problem: An instance of the RegSDProblem class
+
+        Examples:
+            >>> from cryptographic_estimators.RegSDEstimator.RegSDAlgorithms import CCJLin
+            >>> from cryptographic_estimators.RegSDEstimator import RegSDProblem
+            >>> A = CCJLin(RegSDProblem(n=100,k=50,w=10))
+            >>> A
+            CCJ-Linearization estimator for the RegSDProblem with parameters (n, k, w) = (100, 50, 10)
+        """
+        super(CCJLin, self).__init__(problem, **kwargs)
+        n, k, w = self.problem.get_parameters()
+        self._name = "CCJ-Linearization"
+
+    def _compute_time_complexity(self, parameters: dict):
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
+        """
         n, k, w = self.problem.get_parameters()
 
-        _ = kwargs.pop("bit_complexities", None)
-        _ = kwargs.pop("nsolutions", None)
-        _ = kwargs.pop("excluded_algorithms", None)
-        self.SDEstimator = SDEstimator(n, k, w, bit_complexities=0
-                                       , nsolutions=self.problem.nsolutions
-                                       , excluded_algorithms=[BJMMdw, BJMMpdw, BJMMplus, MayOzerov, BothMay, Stern, Dumer]
-                                       , **kwargs)
+        iterations = log2((n - w) / (n - k)) * (w * (1 - w / n))
+        T_iter = (n - k) ** 2 * n
+        return log2(T_iter) + iterations
 
-    def _compute_time_and_memory_complexity(self, parameters: dict):
+
+    def _compute_memory_complexity(self, parameters: dict):
+        """Return the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
-        Return the time complexity of the algorithm for a given set of parameters
+        n, k, w = self.problem.get_parameters()
+        return log2(n - k)
 
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        """
-        SD = self.SDEstimator.fastest_algorithm()
-        return SD.time_complexity(), SD.memory_complexity()
-
-    def get_optimal_parameters_dict(self):
-        """
-        Returns the optimal parameters dictionary
-
-        """
-        SD = self.SDEstimator.fastest_algorithm()
-        d = SD.get_optimal_parameters_dict()
-        d["variant"] = SD._name
-        return d
