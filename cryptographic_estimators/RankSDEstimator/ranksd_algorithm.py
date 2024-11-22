@@ -31,10 +31,9 @@ class RankSDAlgorithm(BaseAlgorithm):
             Examples:
               >>> from cryptographic_estimators.RankSDEstimator.ranksd_algorithm import RankSDAlgorithm
               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-              >>> E = RankSDAlgorithm(RankSDProblem(q=2, m=31, n=33, k=15, r=10))
-              >>> E
+              >>> A = RankSDAlgorithm(RankSDProblem(q=2, m=31, n=33, k=15, r=10))
+              >>> A
               BaseRankSDAlgorithm estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
-
         """
         super(RankSDAlgorithm, self).__init__(problem, **kwargs)
         w = kwargs.get("w", 3)
@@ -55,8 +54,9 @@ class RankSDAlgorithm(BaseAlgorithm):
         """
         return self._w
 
-    def get_problem_parameters_reduced(self, a, p):
-        """Return the problem parameters of the reduced instance, i.e., after puncturing the code on ``p`` positions and specializing ``a`` columns in X
+    def get_reduced_instance_parameters(self, a, p):
+        """Return the problem parameters of the reduced instance, i.e., after puncturing the code on ``p`` positions
+           and specializing ``a`` columns in X
 
         Args:
            a (int): Number of columns to guess in X

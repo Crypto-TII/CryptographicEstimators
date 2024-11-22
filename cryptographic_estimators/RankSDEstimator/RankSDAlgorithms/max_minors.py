@@ -106,7 +106,7 @@ class MaxMinors(RankSDAlgorithm):
 
         a = parameters['a']
         p = parameters['p']
-        q, _, n_red, k_red, r = self.get_problem_parameters_reduced(a, p)
+        q, _, n_red, k_red, r = self.get_reduced_instance_parameters(a, p)
         w = self._w
         bin2 = binomial(n_red, r)
         time_complexity = a * r * log2(q) + w * log2(bin2)
@@ -127,7 +127,7 @@ class MaxMinors(RankSDAlgorithm):
 
         a = parameters['a']
         p = parameters['p']
-        _, m, n_red, k_red, r = self.get_problem_parameters_reduced(a, p)
+        _, m, n_red, k_red, r = self.get_reduced_instance_parameters(a, p)
 
         n_rows = m * binomial(n_red - k_red - 1, r)
         n_columns = binomial(n_red, r)
@@ -140,7 +140,7 @@ class MaxMinors(RankSDAlgorithm):
         """
         a = parameters['a']
         p = parameters['p']
-        _, m, n_red, k_red, r = self.get_problem_parameters_reduced(a, p)
+        _, m, n_red, k_red, r = self.get_reduced_instance_parameters(a, p)
 
         if (n_red - k_red - 1) >= r and n_red >= r:
             bin1 = m * binomial(n_red - k_red - 1, r)

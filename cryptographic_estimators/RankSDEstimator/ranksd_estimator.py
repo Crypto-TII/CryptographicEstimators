@@ -26,10 +26,10 @@ class RankSDEstimator(BaseEstimator):
     """Construct an instance of RankSDEstimator.
 
       Args:
-          q (int): Order of the base finite field.
-          m (int): Degree of the extension.
-          n (int): Dimension of the vector space.
-          k (int): Dimension of the code.
+          q (int): Base field order.
+          m (int): Extension degree.
+          n (int): Code lenght.
+          k (int): Code dimension.
           r (int): Target rank.
           memory_bound (float, optional): Maximum allowed memory to use for solving the problem. Defaults to inf.
           **kwargs: Additional keyword arguments.
@@ -63,20 +63,19 @@ class RankSDEstimator(BaseEstimator):
             >>> from cryptographic_estimators.RankSDEstimator.ranksd_estimator import RankSDEstimator
             >>> RSDE = RankSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2)
             >>> RSDE.table(show_all_parameters=1)
-            +---------------------+------------------------------------+
-            |                     |              estimate              |
             +---------------------+-------+--------+-------------------+
             | algorithm           |  time | memory |     parameters    |
             +---------------------+-------+--------+-------------------+
             | BasisEnumeration    | 206.0 |   17.6 |         {}        |
             | OJ1                 | 160.6 |   16.5 |         {}        |
             | OJ2                 | 204.9 |   15.9 |         {}        |
-            | GRS                 | 153.2 |   18.2 |         {}        |
-            | ImprovedGRS         | 147.2 |   18.2 |         {}        |
+            | GRS                 | 153.2 |   18.3 |         {}        |
+            | ImprovedGRS         | 147.2 |   18.0 |         {}        |
             | GuessingEnhancedGRS | 138.3 |   18.1 |      {'t': 1}     |
             | MaxMinors           | 153.0 |   33.0 | {'a': 12, 'p': 2} |
             | SupportMinors       | 155.1 |   35.2 | {'b': 1, 'a': 11} |
             +---------------------+-------+--------+-------------------+
+
 
 
 
@@ -90,7 +89,7 @@ class RankSDEstimator(BaseEstimator):
             +---------------+-------+--------+-------------------+
             | algorithm     |  time | memory |     parameters    |
             +---------------+-------+--------+-------------------+
-            | ImprovedGRS   | 147.2 |   18.2 |         {}        |
+            | ImprovedGRS   | 147.2 |   18.0 |         {}        |
             | MaxMinors     | 153.0 |   33.0 | {'a': 12, 'p': 2} |
             | SupportMinors | 155.1 |   35.2 | {'b': 1, 'a': 11} |
             +---------------+-------+--------+-------------------+
@@ -103,7 +102,7 @@ class RankSDEstimator(BaseEstimator):
             +---------------------+-------+--------+-------------------+
             | algorithm           |  time | memory |     parameters    |
             +---------------------+-------+--------+-------------------+
-            | ImprovedGRS         | 147.2 |   18.2 |         {}        |
+            | ImprovedGRS         | 147.2 |   18.0 |         {}        |
             | GuessingEnhancedGRS | 138.3 |   18.1 |      {'t': 1}     |
             | MaxMinors           | 153.0 |   33.0 | {'a': 12, 'p': 2} |
             | SupportMinors       | 155.1 |   35.2 | {'b': 1, 'a': 11} |
@@ -116,7 +115,7 @@ class RankSDEstimator(BaseEstimator):
             +---------------------+-------+--------+-------------------+
             | algorithm           |  time | memory |     parameters    |
             +---------------------+-------+--------+-------------------+
-            | ImprovedGRS         | 216.5 |   19.5 |         {}        |
+            | ImprovedGRS         | 216.5 |   19.3 |         {}        |
             | GuessingEnhancedGRS | 209.5 |   19.4 |      {'t': 6}     |
             | MaxMinors           | 237.5 |   42.7 | {'a': 15, 'p': 2} |
             | SupportMinors       | 240.5 |   48.1 | {'b': 2, 'a': 14} |
@@ -130,7 +129,7 @@ class RankSDEstimator(BaseEstimator):
             +---------------------+-------+--------+-------------------+
             | algorithm           |  time | memory |     parameters    |
             +---------------------+-------+--------+-------------------+
-            | ImprovedGRS         | 283.6 |   20.6 |         {}        |
+            | ImprovedGRS         | 283.6 |   20.4 |         {}        |
             | GuessingEnhancedGRS | 283.6 |   20.4 |      {'t': 0}     |
             | MaxMinors           | 308.7 |   53.8 | {'a': 15, 'p': 2} |
             | SupportMinors       |    -- |     -- |         {}        |

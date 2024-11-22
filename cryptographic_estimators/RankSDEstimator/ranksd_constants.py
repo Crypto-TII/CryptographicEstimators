@@ -15,8 +15,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-RANKSD_ORDER_BASE_FIELD = "q"
+RANKSD_BASE_FIELD_ORDER = "q"
 RANKSD_DEGREE_EXTENSION = "m"
-RANKSD_DIMENSION_VECTOR_SPACE = "n"
-RANKSD_DIMENSION_CODE = "k"
+RANKSD_CODE_LENGTH = "n"
+RANKSD_CODE_DIMENSION = "k"
 RANKSD_TARGET_RANK = "r"

@@ -26,11 +26,11 @@ class RankSDProblem(BaseProblem):
     """Construct an instance of RankSDProblem.
 
        Args:
-            q (int): Order of the base finite field
-            m (int): Degree of the extension field
-            n (int): Dimension of the vector space
-            k (int): Dimension of the code
-            r (int): Target rank
+            q (int): Base field order.
+            m (int): Extension degree.
+            n (int): Code length.
+            k (int): Code dimension.
+            r (int): Target rank.
             theta (float, optional): Exponent of the conversion factor. Defaults to 2.
             memory_bound (float, optional): Maximum allowed memory to use for solving the problem. Defaults to inf.
 
@@ -41,10 +41,10 @@ class RankSDProblem(BaseProblem):
 
     def __init__(self, q: int, m: int, n: int, k: int, r: int, **kwargs):  # Fill with parameters
         super().__init__(**kwargs)
-        self.parameters[RANKSD_ORDER_BASE_FIELD] = q
+        self.parameters[RANKSD_BASE_FIELD_ORDER] = q
         self.parameters[RANKSD_DEGREE_EXTENSION] = m
-        self.parameters[RANKSD_DIMENSION_VECTOR_SPACE] = n
-        self.parameters[RANKSD_DIMENSION_CODE] = k
+        self.parameters[RANKSD_CODE_LENGTH] = n
+        self.parameters[RANKSD_CODE_DIMENSION] = k
         self.parameters[RANKSD_TARGET_RANK] = r
         self._theta = kwargs.get("theta", 2)
 
@@ -79,7 +79,7 @@ class RankSDProblem(BaseProblem):
             200.0
 
         """
-        q = self.parameters[RANKSD_ORDER_BASE_FIELD]
+        q = self.parameters[RANKSD_BASE_FIELD_ORDER]
         theta = self._theta
         return ngates(q, basic_operations, theta=theta)
 
@@ -90,7 +90,7 @@ class RankSDProblem(BaseProblem):
              elements_to_store: number of memory operations (logarithmic)
 
         """
-        q = self.parameters[RANKSD_ORDER_BASE_FIELD]
+        q = self.parameters[RANKSD_BASE_FIELD_ORDER]
 
         return log2(ceil(log2(q))) + elements_to_store
 
@@ -112,16 +112,16 @@ class RankSDProblem(BaseProblem):
         """Sets the value of `theta`"""
         self._theta = value
 
-    def order_of_the_base_field(self):
-        """Return the order of the based finite field.
+    def base_field_order(self):
+        """Return the order of the base finite field.
 
         Tests:
             >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
             >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
-            >>> RSDP.order_of_the_base_field()
+            >>> RSDP.base_field_order()
             2
         """
-        return self.parameters[RANKSD_ORDER_BASE_FIELD]
+        return self.parameters[RANKSD_BASE_FIELD_ORDER]
 
     def degree_extension(self):
         """Return the degree of the field extension.
@@ -134,27 +134,27 @@ class RankSDProblem(BaseProblem):
         """
         return self.parameters[RANKSD_DEGREE_EXTENSION]
 
-    def dimension_vector_spapce(self):
+    def code_length(self):
         """Return the dimension of the vector space.
 
         Tests:
             >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
             >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
-            >>> RSDP.dimension_vector_spapce()
+            >>> RSDP.code_length()
             118
         """
-        return self.parameters[RANKSD_DIMENSION_VECTOR_SPACE]
+        return self.parameters[RANKSD_CODE_LENGTH]
 
-    def dimension_code(self):
+    def code_dimension(self):
         """Return the dimension of the code.
 
         Tests:
             >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
             >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
-            >>> RSDP.dimension_code()
+            >>> RSDP.code_dimension()
             48
         """
-        return self.parameters[RANKSD_DIMENSION_CODE]
+        return self.parameters[RANKSD_CODE_DIMENSION]
 
     def target_rank(self):
         """Return the target rank.

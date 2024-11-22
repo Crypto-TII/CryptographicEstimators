@@ -106,7 +106,7 @@ class SupportMinors(RankSDAlgorithm):
         a = parameters['a']
         b = parameters['b']
 
-        q, m, n_red, k_red, r = self.get_problem_parameters_reduced(a, 0)
+        q, m, n_red, k_red, r = self.get_reduced_instance_parameters(a, 0)
         N, M = self._compute_N_and_M(b, m, n_red, k_red, r)
         w = self._w
 
@@ -147,7 +147,7 @@ class SupportMinors(RankSDAlgorithm):
         a = parameters['a']
         b = parameters['b']
 
-        _, m, n_red, k_red, r = self.get_problem_parameters_reduced(a, 0)
+        _, m, n_red, k_red, r = self.get_reduced_instance_parameters(a, 0)
         N, M = self._compute_N_and_M(b, m, n_red, k_red, r)
         memory_complexity = log2(N * M)
 
@@ -161,7 +161,7 @@ class SupportMinors(RankSDAlgorithm):
         a = parameters['a']
         b = parameters['b']
 
-        _, m, n_red, k_red, r = self.get_problem_parameters_reduced(a, 0)
+        _, m, n_red, k_red, r = self.get_reduced_instance_parameters(a, 0)
 
         if n_red <= 0 or k_red <= 0 or n_red < k_red or n_red - k_red - 1 < r:
             return True

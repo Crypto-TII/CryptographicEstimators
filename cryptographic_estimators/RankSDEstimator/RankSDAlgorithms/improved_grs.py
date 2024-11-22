@@ -79,10 +79,10 @@ class ImprovedGRS(RankSDAlgorithm):
             >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
             >>> IGRS = ImprovedGRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
             >>> IGRS.memory_complexity()
-            26.002220005940632
+            26.189305558541125
         """
         _, m, n, k, _ = self.problem.get_parameters()
-        r1 = floor((n - (k + 1) * m / n))
+        r1 = m - ceil(((k + 1) * m) / n)
         n_columns = r1 * n
         n_rows = (n - k - 1) * m
         memory_complexity = log2(n_rows * n_columns)

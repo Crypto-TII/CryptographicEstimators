@@ -61,7 +61,8 @@ class GRS(RankSDAlgorithm):
         """
 
         q, m, n, k, r = self.problem.get_parameters()
-        t1 = self._w * log2(n - k) + self._w * log2(m)
+
+        t1 = self._w * log2((n - k) * m)
         mu1 = r * floor(k * m / n)
         mu2 = (r - 1) * floor((k + 1) * m / n)
         time_complexity_1 = t1 + mu1 * log2(q)
@@ -79,11 +80,11 @@ class GRS(RankSDAlgorithm):
             >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
             >>> GRSA = GRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
             >>> GRSA.memory_complexity()
-            26.229429443574855
+            26.24853826652256
         """
 
         _, m, n, k, r = self.problem.get_parameters()
-        r_1 = floor((n - k) * m / n)
+        r_1 = m - floor(k * m / n)
         n_columns = r_1 * n
         n_rows = (n - k) * m
         memory_complexity = log2(n_rows * n_columns)

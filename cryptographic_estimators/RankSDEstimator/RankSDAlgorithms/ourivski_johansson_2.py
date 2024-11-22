@@ -23,7 +23,7 @@ from math import log2, ceil
 
 class OJ2(RankSDAlgorithm):
     """
-     Construct an instance of OJ strategy 2  estimator
+     Construct an instance of OJ strategy 2 estimator
 
      This algorithm is introduced in [OJ02].
 
