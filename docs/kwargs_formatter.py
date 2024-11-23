@@ -22,9 +22,12 @@ def format_kwargs(lines):
             if in_kwargs and kwargs_items:
                 formatted_lines.append('')  # Add a blank line
                 for item in kwargs_items:
-                    key, value = item.split(':', 1)
-                    formatted_lines.append(f'    {key.strip()} - {value.strip()}')
-                    formatted_lines.append('')
+                    if ":" in item:
+                        key, value = item.split(':', 1)
+                        formatted_lines.append(f'    *{key.strip()}* - {value.strip()}')
+                        formatted_lines.append('')
+                    else:
+                        formatted_lines[-2] = formatted_lines[-2] + f' {item}'
                 formatted_lines.append('')
                 kwargs_items = []
             in_kwargs = False
