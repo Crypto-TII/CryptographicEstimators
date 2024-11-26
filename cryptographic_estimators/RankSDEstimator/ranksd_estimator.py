@@ -28,7 +28,7 @@ class RankSDEstimator(BaseEstimator):
       Args:
           q (int): Base field order.
           m (int): Extension degree.
-          n (int): Code lenght.
+          n (int): Code length.
           k (int): Code dimension.
           r (int): Target rank.
           memory_bound (float, optional): Maximum allowed memory to use for solving the problem. Defaults to inf.

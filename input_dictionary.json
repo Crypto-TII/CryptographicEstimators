@@ -1203,7 +1203,7 @@
       "estimator_id": "MAYOEstimator",
       "algorithm_id": "MAYOAlgorithm",
       "display_label": "MAYO Signature Scheme",
-      "landing_page_content": "# MAYO Estimator\n\n\nThis project provides an estimator for the security of the MAYO signature scheme. This scheme is mainly based on the hardness of the MQ problem and it was submitted as a candidate to the NIST call for post-quantum signatures. \n\nMore details on the theoretical foundations of the signature scheme and the estimator can be found in:\n\n[[MAYO]](https://pqmayo.org/assets/specs/mayo.pdf) Ward Beullens, Fabio Campos, Sofía Celi, Basil Hess, Matthias J. Kannwischer. MAYO. Algorithm Specifications and Supporting Documentation. \n\n[[Beu21]](https://link.springer.com/chapter/10.1007/978-3-030-99277-4_17) Ward Beullens. MAYO: Practical Post-Quantum Signatures from Oil-and-Vinegar Maps. SAC 2021. [[eprint]](https://eprint.iacr.org/2021/1144.pdf)",
+      "landing_page_content": "# MAYO Estimator\n\n\nThis project provides an estimator for the security of the MAYO signature scheme. This scheme is mainly based on the hardness of the MQ problem and it was submitted as a candidate to the NIST call for post-quantum signatures. \n\nMore details on the theoretical foundations of the signature scheme and the estimator can be found in:\n\n[[MAYO]](https://pqmayo.org/assets/specs/mayo.pdf) Ward Beullens, Fabio Campos, Sof\u00eda Celi, Basil Hess, Matthias J. Kannwischer. MAYO. Algorithm Specifications and Supporting Documentation. \n\n[[Beu21]](https://link.springer.com/chapter/10.1007/978-3-030-99277-4_17) Ward Beullens. MAYO: Practical Post-Quantum Signatures from Oil-and-Vinegar Maps. SAC 2021. [[eprint]](https://eprint.iacr.org/2021/1144.pdf)",
       "problem_parameters": [
         {
           "id": "n",
@@ -1236,7 +1236,8 @@
             {
               "id": "m",
               "action": "validateLessThan"
-            }]
+            }
+          ]
         },
         {
           "id": "k",
@@ -1252,7 +1253,8 @@
             {
               "action": "validateLessThanOperation",
               "operation": "n - o"
-            }]
+            }
+          ]
         }
       ],
       "optional_parameters": [
@@ -1279,8 +1281,8 @@
           "number_of_decimals": 2,
           "step": 0.01
         }
-        ],
-            "estimator_parameters": [
+      ],
+      "estimator_parameters": [
         {
           "id": "bit_complexities",
           "type": "switch",
@@ -1314,6 +1316,145 @@
           "excluded_algorithms": [
             "Lokshtanov"
           ],
+          "options": [],
+          "dependencies": []
+        },
+        {
+          "id": "memory_access",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Memory access cost",
+          "default_value": 0,
+          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+          "options": [
+            "Constant",
+            "Logarithmic",
+            "Square root",
+            "Cube root"
+          ]
+        },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
+        }
+      ]
+    },
+    {
+      "estimator_id": "RankSDEstimator",
+      "algorithm_id": "RankSDAlgorithm",
+      "display_label": "Rank Syndrome Decoding",
+      "landing_page_content": "# Rank Syndrome Decoding Estimator\n\n\nThis project provides an estimator for the hardness of the rank syndrome decoding problem. This problem is defined as follows:\n\nLet $\\mathbf H\\in\\mathbb{F}_{q^m}^{(n-k)\\times n}$ be the parity-check matrix of a linear $(n,k)_{q^m}$-code $\\mathcal{C}$. Given $\\mathbf H$, a syndrome $\\mathbf{y}\\in\\mathbb{F}_{q^m}^{n-k}$ and a positive integer $r < n$, the rank syndrome decoding problem asks to find a vector $\\mathbf x \\in \\mathbb{F}_{q^m}^n$ satisfying $\\mathbf H \\mathbf x^T=\\mathbf y^T$ such that the rank of $\\mathbf X$, the matrix associated to the solution vector $\\mathbf x$ with respect to a $\\mathbb{F}_{q}$-basis of $\\mathbb{F}_{q^m}$, is smaller or equal to $r$.\n\nThe estimator covers combinatorial and algebraic algorithms to estimate the hardness of given instances. More details on the theoretical foundations of the estimator can be found in the corresponding papers:\n\n*[[BBBGT23]](https://doi.org/10.1007/s10623-023-01265-x) Magali Bardet, Pierre Briaud, Maxime Bros, Philippe Gaborit, and Jean-Pierre Tillich. Revisiting algebraic attacks on MinRank and on the rank decoding problem.*\n\n*[[BBCGPSTV20]](https://doi.org/10.1007/978-3-030-64837-4_17) Magali Bardet, Maxime Bros, Daniel Cabarcas, Philippe Gaborit, Ray Perlner, Daniel Smith-Tone, Jean-Pierre Tillich, and Javier Verbel. Improvements of Algebraic Attacks for Solving the Rank Decoding and MinRank Problems.*\n\n*[[AGHT18]](http://doi.org/10.1109/ISIT.2018.8437464) Nicolas Aragon, Philippe Gaborit, Adrien Hauteville, Jean-Pierre Tillich. A New Algorithm for Solving the Rank Syndrome Decoding Problem.*\n\n*[[GRS16]](https://doi.org/10.1109/TIT.2015.2511786) Philippe Gaborit, Olivier Ruatta, and Julien Schrek. On the Complexity of the Rank Syndrome Decoding Problem.*\n\n*[[OJ02]](https://doi.org/10.1023/A:1020369320078) Alexei Ourivski, and Thomas Johansson. New Technique for Decoding Codes in the Rank Metric and Its Cryptography Applications.*\n\n*[[CS96]](https://doi.org/10.1007/BFb0034862) Florent Chabaud, Jacques Stern. The cryptographic security of the syndrome decoding problem for rank distance codes.*",
+      "problem_parameters": [
+        {
+          "id": "q",
+          "type": "number",
+          "display_label": "Base field order (q)",
+          "placeholder": "Insert parameter",
+          "tooltip": "A positive integer of the form p^x for some positive integer x, where p is a prime number.  This value indicates the number of elements of the underlying field."
+        },
+        {
+          "id": "m",
+          "type": "number",
+          "display_label": "Extension degree (m)",
+          "placeholder": "Insert parameter",
+          "tooltip": "A positive integer that represents the extension degree. Thus, q^m indicates the order of the extension field."
+        },
+        {
+          "id": "n",
+          "type": "number",
+          "display_label": "Code length (n)",
+          "placeholder": "Insert parameter",
+          "tooltip": "Code length of the specified code."
+        },
+        {
+          "id": "k",
+          "type": "number",
+          "display_label": "Code dimension (k)",
+          "placeholder": "Insert parameter",
+          "tooltip": "Dimension of the specified code."
+        },
+        {
+          "id": "r",
+          "type": "number",
+          "display_label": "Target rank (r)",
+          "placeholder": "Insert parameter",
+          "tooltip": "Upper bound on the rank of the matrix associated with the solution vector x."
+        }
+      ],
+      "optional_parameters": [
+        {
+          "id": "memory_bound",
+          "required": false,
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "default_value": null,
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+          "id": "nsolutions",
+          "required": false,
+          "type": "number",
+          "direction": "column",
+          "display_label": "Number of solutions",
+          "placeholder": "Insert value",
+          "caption": "Leave empty to take expected amount of solutions",
+          "tooltip": "Log2 of number of existing solutions of which one has to be found"
+        },
+        {
+          "id": "include_tildeo",
+          "type": "switch",
+          "display_label": "Tilde-O complexity",
+          "default_value": false,
+          "tooltip": "Include complexity estimates that disregard polynomial factors",
+          "dependencies": []
+        },
+        {
+          "id": "w",
+          "type": "slider",
+          "direction": "column",
+          "display_label": "Matrix multiplication constant",
+          "default_value": 3,
+          "tooltip": "Indicates that two square matrices of size n can be multiplied by performing O(n^w) field multiplications",
+          "min": 2,
+          "max": 3,
+          "number_of_decimals": 2,
+          "step": 0.01
+        }
+      ],
+      "estimator_parameters": [
+        {
+          "id": "bit_complexities",
+          "type": "switch",
+          "display_label": "Bit complexities",
+          "default_value": true,
+          "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations",
+          "dependencies": []
+        },
+        {
+          "id": "theta",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Bit complexity exponent",
+          "default_value": 2,
+          "placeholder": "Insert value",
+          "tooltip": "The bit complexity of a field multiplication is assumed to be log_2(q)^(theta). Note that for theta = 0 the output gives the (log of the) necessary number of field multiplications."
+        },
+        {
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": [],
           "options": [],
           "dependencies": []
         },
