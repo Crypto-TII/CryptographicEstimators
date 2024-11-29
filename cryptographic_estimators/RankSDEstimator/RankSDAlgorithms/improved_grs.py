@@ -18,7 +18,7 @@
 
 from ..ranksd_algorithm import RankSDAlgorithm
 from ..ranksd_problem import RankSDProblem
-from math import log2, ceil, floor
+from math import log2, ceil
 
 
 class ImprovedGRS(RankSDAlgorithm):

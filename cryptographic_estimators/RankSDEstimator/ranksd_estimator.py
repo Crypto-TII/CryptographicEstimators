@@ -60,26 +60,26 @@ class RankSDEstimator(BaseEstimator):
             truncate (int): Truncate rather than round the output (default: 0)
 
         Examples:
-           >>> from cryptographic_estimators.RankSDEstimator.ranksd_estimator import RankSDEstimator
-           >>> RSDE = RankSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2)
-           >>> RSDE.table(show_all_parameters=1)
-           +---------------------+------------------------------------+
-           |                     |              estimate              |
-           +---------------------+-------+--------+-------------------+
-           | algorithm           |  time | memory |     parameters    |
-           +---------------------+-------+--------+-------------------+
-           | BasisEnumeration    | 206.0 |   17.6 |         {}        |
-           | OJ1                 | 160.6 |   16.5 |         {}        |
-           | OJ2                 | 204.9 |   15.9 |         {}        |
-           | GRS                 | 153.2 |   18.3 |         {}        |
-           | ImprovedGRS         | 147.2 |   18.0 |         {}        |
-           | GuessingEnhancedGRS | 138.3 |   18.1 |      {'t': 1}     |
-           | MaxMinors           | 153.0 |   33.0 | {'a': 12, 'p': 2} |
-           | SupportMinors       | 155.1 |   35.2 | {'b': 1, 'a': 11} |
-           +---------------------+-------+--------+-------------------+
-
+            >>> from cryptographic_estimators.RankSDEstimator.ranksd_estimator import RankSDEstimator
+            >>> RSDE = RankSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2)
+            >>> RSDE.table(show_all_parameters=1)
+            +---------------------+------------------------------------+
+            |                     |              estimate              |
+            +---------------------+-------+--------+-------------------+
+            | algorithm           |  time | memory |     parameters    |
+            +---------------------+-------+--------+-------------------+
+            | BasisEnumeration    | 206.0 |   17.6 |         {}        |
+            | OJ1                 | 160.6 |   16.5 |         {}        |
+            | OJ2                 | 204.9 |   15.9 |         {}        |
+            | GRS                 | 153.2 |   18.3 |         {}        |
+            | ImprovedGRS         | 147.2 |   18.0 |         {}        |
+            | GuessingEnhancedGRS | 138.3 |   18.1 |      {'t': 1}     |
+            | MaxMinors           | 153.0 |   33.0 | {'a': 12, 'p': 2} |
+            | SupportMinors       | 155.1 |   40.1 | {'b': 1, 'a': 11} |
+            +---------------------+-------+--------+-------------------+
 
         Tests:
+
             >>> from cryptographic_estimators.RankSDEstimator.ranksd_estimator import RankSDEstimator
             >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms import BasisEnumeration,GRS,GuessingEnhancedGRS,OJ1,OJ2
             >>> RSDE = RankSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2, excluded_algorithms=[BasisEnumeration,GRS,GuessingEnhancedGRS,OJ1,OJ2])
@@ -91,7 +91,7 @@ class RankSDEstimator(BaseEstimator):
             +---------------+-------+--------+-------------------+
             | ImprovedGRS   | 147.2 |   18.0 |         {}        |
             | MaxMinors     | 153.0 |   33.0 | {'a': 12, 'p': 2} |
-            | SupportMinors | 155.1 |   35.2 | {'b': 1, 'a': 11} |
+            | SupportMinors | 155.1 |   40.1 | {'b': 1, 'a': 11} |
             +---------------+-------+--------+-------------------+
 
             >>> RSDE = RankSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2])
@@ -104,7 +104,7 @@ class RankSDEstimator(BaseEstimator):
             | ImprovedGRS         | 147.2 |   18.0 |         {}        |
             | GuessingEnhancedGRS | 138.3 |   18.1 |      {'t': 1}     |
             | MaxMinors           | 153.0 |   33.0 | {'a': 12, 'p': 2} |
-            | SupportMinors       | 155.1 |   35.2 | {'b': 1, 'a': 11} |
+            | SupportMinors       | 155.1 |   40.1 | {'b': 1, 'a': 11} |
             +---------------------+-------+--------+-------------------+
 
             >>> RSDE = RankSDEstimator(q=2, m=37, n=41, k=18, r=13, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2])
@@ -117,22 +117,21 @@ class RankSDEstimator(BaseEstimator):
             | ImprovedGRS         | 216.5 |   19.3 |         {}        |
             | GuessingEnhancedGRS | 209.5 |   19.4 |      {'t': 6}     |
             | MaxMinors           | 237.5 |   42.7 | {'a': 15, 'p': 2} |
-            | SupportMinors       | 240.5 |   48.1 | {'b': 2, 'a': 14} |
+            | SupportMinors       | 240.5 |   53.3 | {'b': 2, 'a': 14} |
             +---------------------+-------+--------+-------------------+
 
-
-           >>> RSDE = RankSDEstimator(q=2, m=43, n=47, k=18, r=17, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2])
-           >>> RSDE.table(show_all_parameters=1)
-           +---------------------+------------------------------------+
-           |                     |              estimate              |
-           +---------------------+-------+--------+-------------------+
-           | algorithm           |  time | memory |     parameters    |
-           +---------------------+-------+--------+-------------------+
-           | ImprovedGRS         | 283.6 |   20.4 |         {}        |
-           | GuessingEnhancedGRS | 283.6 |   20.4 |      {'t': 0}     |
-           | MaxMinors           | 308.7 |   53.8 | {'a': 15, 'p': 2} |
-           | SupportMinors       |    -- |     -- |         {}        |
-           +---------------------+-------+--------+-------------------+
+            >>> RSDE = RankSDEstimator(q=2, m=43, n=47, k=18, r=17, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2])
+            >>> RSDE.table(show_all_parameters=1)
+            +---------------------+------------------------------------+
+            |                     |              estimate              |
+            +---------------------+-------+--------+-------------------+
+            | algorithm           |  time | memory |     parameters    |
+            +---------------------+-------+--------+-------------------+
+            | ImprovedGRS         | 283.6 |   20.4 |         {}        |
+            | GuessingEnhancedGRS | 283.6 |   20.4 |      {'t': 0}     |
+            | MaxMinors           | 308.7 |   53.8 | {'a': 15, 'p': 2} |
+            | SupportMinors       |    -- |     -- |         {}        |
+            +---------------------+-------+--------+-------------------+
 
         """
         super(RankSDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,

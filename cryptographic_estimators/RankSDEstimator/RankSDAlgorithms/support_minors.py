@@ -19,8 +19,7 @@
 from ..ranksd_algorithm import RankSDAlgorithm
 from ..ranksd_problem import RankSDProblem
 from ...base_algorithm import optimal_parameter
-from math import log2
-from math import comb as binomial
+from math import log2, comb as binomial
 
 
 class SupportMinors(RankSDAlgorithm):
@@ -142,14 +141,14 @@ class SupportMinors(RankSDAlgorithm):
               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
               >>> SM = SupportMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
               >>> SM.memory_complexity()
-              35.19384642563464
+              40.148042736021516
         """
         a = parameters['a']
         b = parameters['b']
 
         _, m, n_red, k_red, r = self.get_reduced_instance_parameters(a, 0)
         N, M = self._compute_N_and_M(b, m, n_red, k_red, r)
-        memory_complexity = log2(N * M)
+        memory_complexity = log2(m * N * M)
 
         return memory_complexity
 
