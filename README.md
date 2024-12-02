@@ -13,70 +13,107 @@
 
 ## Introduction 🎉
 
-This library provides bit complexity estimators for cryptographic problems, as well as some cryptographic schemes.
-Currently, the implemented estimators are:
+This library provides bit complexity estimators for cryptographic problems, as
+well as some cryptographic schemes. Currently, the implemented estimators are:
 
-- ### Problem Estimators  
+- ### Problem Estimators
   - Multivariate Quadratic
   - Binary Syndrome Decoding
   - Syndrome Decoding over Fq
   - Permuted Kernel
   - Permutation Equivalence
   - Linear Equivalence
-  - MinRank 
+  - MinRank
   - Regular Syndrome Decoding
-
 - ### Scheme Estimators
   - [BIKE](https://bikesuite.org)
   - [MAYO](https://pqmayo.org)
   - [UOV](https://www.uovsig.org)
 
+## Getting Started 🚀
 
-This project is meant to be run through a terminal. You can also access the estimators through [this](https://estimators.crypto.tii.ae/) user friendly 
-and installation-free web application.
+This project is meant to be run through a terminal as a Python package. You can
+also access the estimators through [this](https://estimators.crypto.tii.ae/)
+user friendly and installation-free web application.
 
----
-## Pre-requisites ✔️
+### Prerequisites ✔️
 
-You would need to have Python installed in your machine.
+You would need to have Python 3 installed in your machine.
 
----
-## Installation 🛠
+**Optional:** If you want to install the package in an isolated
+[Python virtual environment](https://docs.python.org/3/library/venv.html), run
+the next commands before the installation process:
 
-Once you've Python installed you can go to this project folder and run `make install` in a terminal. This will install
-`cryptographic_estimators` library locally. If you encounter some permission error please try again adding `sudo` 
-as a prefix.
-
-
----
-## Running the project ✈️
-Open the Python interpreter in a terminal and try importing the library as the following example.
-```python
->>> from cryptographic_estimators.SDEstimator import SDEstimator                                                                
->>> SD = SDEstimator(n=15, k=10, w=5)                                                                                                   
->>> SD.table() 
+```shell
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
----
+### Installation 🛠
+
+- Clone and `cd` into the project directory.
+
+- Run `make install`. This will install `cryptographic_estimators` library
+  locally.
+
+  _Note:_ If you encounter some permission error, please try creating a virtual
+  environment with the steps mentioned at the
+  [prerequisites section](#prerequisites-%E2%9C%94%EF%B8%8F), so you don't need
+  to use `sudo` to interact with python/pip related commands.
+
+### Running the project ✈️
+
+Open the Python interpreter in a terminal and try importing the library as the
+following example.
+
+```python
+>>> from cryptographic_estimators.SDEstimator import SDEstimator
+>>> SD = SDEstimator(n=15, k=10, w=5)
+>>> SD.table()
+```
+
 ## Documentation 📝
 
-The documentation can be found online [here](https://crypto-tii.github.io/CryptographicEstimators/). In addition, it can be generated locally by running `make doc`
-or through docker by running `make docker-doc`. Once it is generated, open `docs/build/html/index.html` to see the documentation.  
+- A user guide can be found [here](./docs/github/user_guide.md).
 
-Additionally, we provide a User Guide [here](https://github.com/Crypto-TII/CryptographicEstimators/blob/main/docs/User_Guide.ipynb).
+- Reference documentation for the library estimators can be found online
+  [here](https://crypto-tii.github.io/CryptographicEstimators/), or be generated
+  locally with the command `make doc` or `make docker-doc` (see at
+  `docs/build/html/index.html` after successful generation).
 
----
-## Contributing 🖊️
-The aim of this project is to be maintained by the community. We want you to help us grow this library, so please feel free to submit your pull request following the [CONTRIBUTING.md](./docs/CONTRIBUTING.md) document. 
+- Look for contributing documentation in its
+  [own section](#Contributing-%F0%9F%A4%9D).
 
----
+## Contributing 🤝
+
+Thank you for considering contributing to our project. This project thrives on
+community involvement, and we warmly welcome your contributions.
+
+### Where to begin 🌱
+
+1. **Explore Open Issues**: If you're looking for a place to start, check out
+   our [open issues](link-to-issues). There might be something that catches your
+   interest!
+
+2. **Read the Contribution Guide**: Before submitting a pull request, please
+   take a moment to review our
+   [Contribution Documentation](./docs/github/contributing.md). It contains
+   important information about our development guidelines and process.
+
+3. **Ask for Help**: Stuck on something? Don't hesitate to reach out! You can:
+
+- Start a
+  [new discussion](https://github.com/Crypto-TII/CryptographicEstimators/discussions)
+- Open a
+  [new issue](https://github.com/Crypto-TII/CryptographicEstimators/issues)
+- [Contact us directly](https://github.com/Crypto-TII/CryptographicEstimators?tab=readme-ov-file#contact-%EF%B8%8F)
+
+Every contribution, big or small, is valued and appreciated. Whether you're
+fixing a typo, improving documentation, or adding a new feature, your efforts
+help make this library better for everyone. We look forward to collaborating
+with you!
 
 ## Contact 🖊️
-If you need any help about contributing to this project feel free to contact us 
+
+If you need any help about contributing to this project feel free to contact us
 at `cryptographic_estimators at tii.ae`
-
----
-
-<!--### Usage -->
-
-

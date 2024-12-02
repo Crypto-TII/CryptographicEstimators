@@ -1,40 +1,3 @@
-# General Things:
-
-Use python syntax/features. If sage features are necessary, import them via
-import statements
-
-## GIT Conventions
-
-### Commits
-
-To contribute to this project please follow this subset of
-[conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). These
-are some examples Type Must be one of the following:
-
-- docs: Documentation only changes
-- feat: A new feature
-- fix: A bug fix
-- refactor: A code change that neither fixes a bug nor adds a feature
-
-### Branching
-
-Branch names should be snake_case. Which means that all the text must be
-lowercase and replace spaces with dashes. Also, we should add as a prefix based
-on the type of implementation. For example:
-
-```
-refactor/modify_base_problem
-feature/implement_dummy_estimator
-fix/algorithm_parameter
-```
-
-### Pull request
-
-1. Only create pull requests to the `develop` branch.
-2. Fulfill the template
-
----
-
 # Adding a new estimator
 
 This tutorial shows how to add your own estimator to the CryptographicEstimators
@@ -486,6 +449,9 @@ parameters via `h = parameters["h"]`. Additionally, see the runtime formula
 automatically balances the time and memory of the algorithm, resulting in the
 numbers shown in the table.
 
+As a final advice, we strongly encourage to write examples for all optimization
+parameters of an algorithm.
+
 ### Different Types of Optimization Parameters
 
 There are two ways of implementing optimization parameters. If a parameter has
@@ -518,6 +484,12 @@ print(algo.get_optimal_parameters_dict())
 ```
 
 # Advanced Topics:
+
+## Difference between `_compute_time_complexity(...)` and `time_complexity(...)`
+
+The first one returns the time for a given set of parameters in number of basic
+operations, while the second initiates a search for the optimal parameters and
+converts time to bit operations if specified, includes memory access costs etc.
 
 ## Benchmarking under memory constrains
 
@@ -756,13 +728,13 @@ the computations of big numbers. The same holds for the return values of
 functions, which should be always logarithmic (if not strictly needed
 otherwise).
 
-# Tests
+<!--FIX: Instructions-->
 
-You can learn how the library testing process works by looking at the
-[tests documentation](./tests.md).
+# Reimplementing an existent estimator
 
-Or for some specific resources:
-
-[Testing Suite Architecture and Guide](./tests.md#Testing-Suite-Architecture-and-Guide)
-[Writing Doctests](./tests.md#Writing-Doctests)
-[Testing the Frontend](./tests.md#Testing-the-Frontend)
+If you incorporated an existing estimator to the CryptographicEstimators
+library, is a good practice to load the old estimator as a module into
+`test/module` and write unit tests comparing the estimation results of the newly
+incorporated estimator against the online available code. An example for such an
+integration test can be found under `tests/test_le_bbps.sage`. Its important
+that all tests functions start with a `test_`.
