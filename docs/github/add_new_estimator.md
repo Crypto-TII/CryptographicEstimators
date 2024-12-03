@@ -64,7 +64,7 @@ cryptographic_estimators/DUMMYEstimator
 As one can see, the script generated the three main classes, each in one file,
 `dummy_problem.py`, `dummy_estimator.py` and `dummy_algorithm.py`. Each
 estimator of the CryptographicEstimators project needs those to be functioning.
-So they are mandatory. Aditionally, the script added one `dummy_algorithm1.py`
+So they are mandatory. Additionally, the script added one `dummy_algorithm1.py`
 file, which acts like the first algorithm we want to implement.
 
 Note that the script already added all needed links to other files in their
@@ -258,9 +258,9 @@ easy-to-use API.
 Notably the two functions `to_bitcomplexity_time` and `to_bitcomplexity_memory`
 which are implemented by the `Problem` class of your estimation, in our case
 `DUMMYProblem`. These two functions are automatically called by the
-`BaseEstimator` if implemented. They are therefore mandatory to implement. Note
-that the estimator generation script by default assumes that the algorithm's
-`basic operation` is a bitoperation and that the `basic element` is a bit.
+`BaseEstimator`, so they are mandatory to implement. Note that the estimator
+generation script by default assumes that the algorithm's `basic operation` is a
+bitoperation and that the `basic element` is a bit.
 
 Let us assume our `DummyEstimator` estimates the complexity not in bit
 operations but in binary vector operations of length `n` and correspondingly the
@@ -333,8 +333,8 @@ A well-known example for such a MITM algorithm is the
 algorithm for solving the
 [discrete logarithm problem](https://en.wikipedia.org/wiki/Discrete_logarithm).
 
-To implement this, let us add a new algorithm called `DUMMYAlgorithm2`. Therefor
-copy the `DUMMYALgorithm1` like:
+To implement this, let us add a new algorithm called `DUMMYAlgorithm2`.
+Therefore copy the `DUMMYALgorithm1` like:
 
 ```shell
 cp cryptographic_estimators/DummyEstimator/DummyAlgorithms/dummy_algorithm1.py cryptographic_estimators/DummyEstimator/DummyAlgorithms/dummy_algorithm2.py
@@ -347,7 +347,7 @@ framework add
 from .dummy_algorithm2 import DUMMYAlgorithm2
 ```
 
-to `cryptographic_estimators/DUmmyEstimator/DummyAlgorithms/__init__.py`
+to `cryptographic_estimators/DummyEstimator/DummyAlgorithms/__init__.py`
 
 And finally to add the parameter we need to inform our `DUMMYAlgorithm2` class
 about it, for this add the following functions
@@ -361,7 +361,7 @@ def h(self):
 The function represents a helper function to efficiently access the optimal
 parameter `h`, without the knowledge of the internals of the full implementation
 of the class. The nice thing about the CryptographicEstimator framework is, it
-will keep track of the optimal optimization parameters, and you are therefor
+will keep track of the optimal optimization parameters, and you are therefore
 able to access via:
 
 ```python
@@ -456,7 +456,7 @@ parameters of an algorithm.
 
 There are two ways of implementing optimization parameters. If a parameter has
 to be optimized in conjunction with other parameters, meaning it has to be set
-in dependence of the time complexity, you can use
+depending on the time complexity, you can use
 `opt_parameter_name = self._get_optimal_parameter(“<parameter name>”)`, as in
 the example above. Note that this is usually the case.
 
@@ -676,7 +676,7 @@ estimation process, one can overload the
 `_are_paramters_invalid(self, parameters: dict)` function. This function takes a
 dictionary containing a optimization parameter set, and returns false in case
 the parameter set is valid and true otherwise. Thus, if we want to enforce our
-simple MITM algorithm to only select even `h` we can add the following code to
+simple MITM algorithm to only choose even `h` we can add the following code to
 the `DUMMYAlgorithm1` class:
 
 ```python
@@ -691,7 +691,7 @@ skip invalid optimization parameter sets. Notice that this is an easy way to
 model basic dependencies between different optimization parameters, i.e. reject
 sets with two contradicting optimizations parameters.
 
-Sometimes this not enough, thus it can be desirable to fully replace the
+Sometimes this is not enough, thus it can be desirable to fully replace the
 optimization parameter selection process with a custom function to further speed
 things up. This can make sense if for example one parameter should be set in to
 specific values in dependence on another parameter. This can be achieved by

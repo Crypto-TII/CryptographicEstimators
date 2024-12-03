@@ -1,18 +1,30 @@
 # Docstrings and HTML documentation
 
-[Docstrings](https://en.wikipedia.org/wiki/Docstring#Python) are comments at the start of any class, method or function. By being embedded directly into the code, they are a practical approach to avoid obsolete documentation.
+[Docstrings](https://en.wikipedia.org/wiki/Docstring#Python) are comments at the
+start of any class, method or function. By being embedded directly into the
+code, they are a practical approach to avoid obsolete documentation.
 
-At the CryptographicEstimators library, this feature is also used to provide the [HTML documentation](https://crypto-tii.github.io/CryptographicEstimators/), requiring a more carefully formatting of the docstrings so everything is rendered properly.
+In the CryptographicEstimators library, docstrings are also used to generate
+[HTML documentation](https://crypto-tii.github.io/CryptographicEstimators/).
+This requires careful formatting of the docstrings to ensure proper rendering.
 
-Tech stack: 
-- [Sphinx](https://www.sphinx-doc.org/en/master/index.html) with the [Napoleon](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html#sections) extension enabled.
-- We also have a custom extension [kwargs formatter](../kwargs_formatter.py) to extend the parsing capabilities of Sphinx.
+Tech stack:
+
+- [Sphinx](https://www.sphinx-doc.org/en/master/index.html) with the
+  [Napoleon](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html#sections)
+  extension enabled.
+- We also have a custom extension [kwargs formatter](../kwargs_formatter.py) to
+  extend the parsing capabilities of Sphinx.
 
 ## Syntax
 
-The docstring syntax used in the library is based on the [Google Style](https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html), which allows a condense and clean way to represent all the required information.
+The docstring syntax used in the library is based on the
+[Google Style](https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html),
+which allows a concise and clean way to represent all the required information.
 
-A typical docstring should look something as below, but other [sections]("https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html#docstring-sections") can be included if needed:
+A typical docstring should look something as below, but other
+[sections](%22https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html#docstring-sections%22)
+can be included if needed:
 
 ```python
 class Crossbred(MQAlgorithm):
@@ -53,10 +65,16 @@ class Crossbred(MQAlgorithm):
 
 ## Conventions
 
-1. Every method or function in the library should have, at least, a one-liner docstring. Some self-explanatory functions can skip this convention.
+1. Every method or function in the library should have a docstring. Some
+   self-explanatory functions can skip this convention.
 
-2. Every docstring should have a one-liner top description. On simpler methods this one-liner could be enough.
+2. Every docstring should have a one-liner top description. On some very simple
+   methods this one-liner could be enough.
 
-3. If your docstring needs any external reference, please include them with the syntax `[XXXX]_` . Ex: `[JV18]_` or `[Dua20]_`. This format is parsed by Sphinx to create hyperlinks on the HTML documentation.
+3. If your docstring needs any external reference, please include them with the
+   syntax `[XXXX]_` . Ex: `[JV18]_` or `[Dua20]_`. This format is parsed by
+   Sphinx to create hyperlinks on the HTML documentation.
 
-4. If your method or function supports `**kwargs`, you can document the expected named arguments by adding another indentation level, and then following the same estructure used by normal arguments.
+4. If your method or function supports `**kwargs`, you can document the expected
+   named arguments by adding another indentation level, and then following the
+   same structure used by normal arguments.

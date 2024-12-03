@@ -1,13 +1,13 @@
 # User Guide of the CryptographicEstimators Library
 
-This document serves as a guide to use the _CyptographicEstimators_ library.
+This document serves as a guide to use the _CryptographicEstimators_ library.
 This is an open source project to estimate the hardness of computational
 problems relevant in cryptography. The source code is available
 [here](https://github.com/Crypto-TII/cryptographic_estimators).
 
 ## Prerequisites and installation of the library
 
-You can found a list of prerequisites and step-by-step instructions to install
+You can find a list of prerequisites and step-by-step instructions to install
 the _CyptographicEstimators_ library
 [here](https://github.com/Crypto-TII/cryptographic_estimators).
 
@@ -43,7 +43,7 @@ An estimator of the hardness of the _Example_ problem with $p_1=10$ and $p_2=7$
 is created by running: `ExampleEstimator(p1=10, p2=7)`.
 
 The following code creates an estimator of the SD problem with code length $n =
-100$, code dimension $k = 50$ and weigth $w = 10$
+100$, code dimension $k = 50$ and weight $w = 10$
 
 ```python
 from cryptographic_estimators.SDEstimator import SDEstimator
@@ -89,9 +89,9 @@ full [documentation](https://crypto-tii.github.io/cryptographic_estimators/).
 
 #### Associated algorithms
 
-When an estimator object is created it creates a set of algorithm objects
-associated with it. Each of these algorithms implements an estimator of the
-complexity of the algorithm having the same name.<br />
+When an estimator object is created, it generates a set of associated algorithm
+objects. Each of these algorithms implements an estimator of the complexity of
+the algorithm having the same name.<br />
 
 We use the method `algorithms_names()` to get the **names** of the algorithms
 solving the input instance for which there is an implemented estimator in the
@@ -258,7 +258,7 @@ Stern.memory_complexity(r=2, p=3, l=4)
 The attribute `complexity_type` sets the mode to which complexities computed by
 the estimator refer.
 
-Currently the _CryptographicEstimators_ library supports up two types of
+Currently, the _CryptographicEstimators_ library supports two types of
 complexity: `Estimate` and `TildeO`.
 
 The `Estimate` mode uses the most precise formula (according to the

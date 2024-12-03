@@ -32,13 +32,13 @@ well as some cryptographic schemes. Currently, the implemented estimators are:
 
 ## Getting Started 🚀
 
-This project is meant to be run through a terminal as a Python package. You can
-also access the estimators through [this](https://estimators.crypto.tii.ae/)
+This project is designed to be run through a terminal as a Python package. You
+can also access the estimators through [this](https://estimators.crypto.tii.ae/)
 user friendly and installation-free web application.
 
 ### Prerequisites ✔️
 
-You would need to have Python 3 installed in your machine.
+You need to have Python 3 installed on your machine.
 
 **Optional:** If you want to install the package in an isolated
 [Python virtual environment](https://docs.python.org/3/library/venv.html), run
@@ -53,8 +53,7 @@ source .venv/bin/activate
 
 - Clone and `cd` into the project directory.
 
-- Run `make install`. This will install `cryptographic_estimators` library
-  locally.
+- Run `make install` to install the `cryptographic_estimators` library locally.
 
   _Note:_ If you encounter some permission error, please try creating a virtual
   environment with the steps mentioned at the
@@ -63,8 +62,8 @@ source .venv/bin/activate
 
 ### Running the project ✈️
 
-Open the Python interpreter in a terminal and try importing the library as the
-following example.
+Open the Python interpreter in a terminal and import the library as shown in the
+following example:
 
 ```python
 >>> from cryptographic_estimators.SDEstimator import SDEstimator
@@ -86,8 +85,8 @@ following example.
 
 ## Contributing 🤝
 
-Thank you for considering contributing to our project. This project thrives on
-community involvement, and we warmly welcome your contributions.
+Thank you for considering contributing to our project. We thrive on community
+involvement and warmly welcome your contributions.
 
 ### Where to begin 🌱
 

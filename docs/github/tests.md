@@ -32,11 +32,11 @@ Importantly, while pre-calculated parameters and values are common, some
 researchers provide source code (estimators) for their estimates, serving as
 **KAT generators**. These generators allow for dynamic KAT value generation.
 
-Unlike isolated doctests, KATs take a broader approach by comparing outputs
-across entire estimators, often involving complex and computationally intensive
-operations. To optimize this process, we serialize expected outputs for specific
-predefined inputs. These serialized results streamline subsequent test runs,
-enabling efficient comparisons and saving valuable development time.
+Unlike isolated doctests, KATs take a more comprehensive approach by comparing
+outputs across entire estimators, often involving complex and computationally
+intensive operations. To optimize this process, we serialize expected outputs
+for specific predefined inputs. These serialized results streamline subsequent
+test runs, enabling efficient comparisons and saving valuable development time.
 
 Here's a breakdown of how our KAT testing process works:
 
@@ -141,7 +141,7 @@ def ext_lee_brickell():
 
 - From the library root, run the following Docker command to generate the
   reference KAT values. These are generated based on your KAT generator
-  functions and their hardcoded inputs:
+  functions and their hardcoded inputs.
 
   ```bash
   make docker-generate-kat
@@ -275,7 +275,7 @@ for subsequent calls **on the same doctest**.
 ### Skipping long doctests
 
 While we **strongly** discourage the introduction of doctests with very long
-computation times, as those tests drastically slows our _CI_ as well as
+computation times, as those tests drastically slow our _CI_ as well as
 development work cycles; we have developed one feature to mitigating its impacts
 from a development perspective.
 
@@ -331,8 +331,8 @@ library.
 
 ## Testing the Frontend
 
-After you finished implementing your estimator, you may want to export it to the
-[webfrontend](https://github.com/Crypto-TII/cryptographic_estimators_ui).
+After you have finished implementing your estimator, you may want to export it
+to the [webfrontend](https://github.com/Crypto-TII/cryptographic_estimators_ui).
 
 The webfrontend is configured via a json file `input_dictionary.json` which is
 already contained in this project root directory. This file already contains all

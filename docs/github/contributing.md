@@ -1,6 +1,6 @@
 # Contributing guide
 
-To streamline your contribution process, you can follow the next pages as you
+To streamline your contribution process, you can use the following pages as you
 need:
 
 - Code guidelines

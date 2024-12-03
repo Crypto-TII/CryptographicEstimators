@@ -3,13 +3,13 @@
 - Line width: 120 characters.
 - Use absolute imports instead of relative imports.
 
-# GIT Conventions
+# Git Conventions
 
 ## Commits
 
 We use a subset of the
 [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) types,
-given by:
+which include:
 
 - docs: Documentation only changes
 - feat: A new feature
@@ -18,8 +18,8 @@ given by:
 
 ## Branching
 
-Branch names should be snake_case. Which means that all the text must be
-lowercase and replace spaces with dashes. Also, we should add as a prefix based
+Branch names should be in snake_case, which means all text must be lowercase
+with spaces replaced by underscores. Additionally, we should add a prefix based
 on the type of implementation. For example:
 
 ```
