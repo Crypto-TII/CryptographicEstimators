@@ -18,15 +18,18 @@
 
 from ..ranksd_algorithm import RankSDAlgorithm
 from ..ranksd_problem import RankSDProblem
+from ..ranksd_constants import RANKSD_NUMBER_OF_PUNCTURED_POSITIONS, \
+    RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS, RANKSD_LINEAR_VARIABLES_DEGREE
 from ...base_algorithm import optimal_parameter
-from math import log2, comb as binomial
+from ..ranksd_helper import find_valid_choices_param_sm_fqm
 
 
 class SupportMinors(RankSDAlgorithm):
     """
     Construct an instance of SupportMinors estimator
 
-    This algorith is introduced in [BBBGT23].
+    This algorithm tries to solve an given instance by solving the system from the
+    Support Minors over Fq^m combined with MaxMinors over Fq modelling introduced in [BBBGT23].
 
      Args:
          problem (RankSDAlgorithm): An instance of the RankSDAlgorithm class.
@@ -44,9 +47,11 @@ class SupportMinors(RankSDAlgorithm):
 
     def __init__(self, problem: RankSDProblem, **kwargs):
         super(SupportMinors, self).__init__(problem, **kwargs)
-        _, _, _, k, r = self.problem.get_parameters()
-        self.set_parameter_ranges('b', 1, r + 1)
-        self.set_parameter_ranges('a', 0, k)
+        _, n, _, k, r = self.problem.get_parameters()
+        self.set_parameter_ranges(RANKSD_LINEAR_VARIABLES_DEGREE, 1, 100)
+        self.set_parameter_ranges(RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS, 0, k)
+        self.set_parameter_ranges(RANKSD_NUMBER_OF_PUNCTURED_POSITIONS, 0, n)
+        self.on_base_field = False
         self._name = "SupportMinors"
 
     @optimal_parameter
@@ -67,7 +72,7 @@ class SupportMinors(RankSDAlgorithm):
                 >>> SM.b()
                 2
         """
-        return self._get_optimal_parameter('b')
+        return self._get_optimal_parameter(RANKSD_LINEAR_VARIABLES_DEGREE)
 
     @optimal_parameter
     def a(self):
@@ -86,7 +91,31 @@ class SupportMinors(RankSDAlgorithm):
                 >>> SM.a()
                 14
         """
-        return self._get_optimal_parameter("a")
+        return self._get_optimal_parameter(RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS)
+
+    @optimal_parameter
+    def p(self):
+        """Return the optimal `p`, i.e. the number of positions to puncture the code.
+
+           Examples:
+                >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
+                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+                >>> SM = SupportMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+                >>> SM.p()
+                0
+
+           Tests:
+                >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
+                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+                >>> SM = SupportMinors(RankSDProblem(q=2,m=37,n=41,k=18,r=13), w=2)
+                >>> SM.p()
+                0
+
+                >>> SM = SupportMinors(RankSDProblem(q=2,m=37,n=41,k=18,r=6), w=2)
+                >>> SM.p()
+                0
+        """
+        return self._get_optimal_parameter(RANKSD_NUMBER_OF_PUNCTURED_POSITIONS)
 
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
@@ -102,32 +131,10 @@ class SupportMinors(RankSDAlgorithm):
               155.10223904640839
         """
 
-        a = parameters['a']
-        b = parameters['b']
-
-        q, m, n_red, k_red, r = self.get_reduced_instance_parameters(a, 0)
-        N, M = self._compute_N_and_M(b, m, n_red, k_red, r)
-        w = self._w
-
-        time_complexity = (a * r) * log2(q) + 2 * log2(m) + log2(N) + (w - 1) * log2(M)
-
-        return time_complexity
-
-    def _compute_N_and_M(self, b, m, n, k, r):
-        N = 0
-        for i in range(1, k + 1):
-            N = N + binomial(n - i, r) * binomial(k + b - 1 - i, b - 1)
-
-        N = N - binomial(n - k - 1, r) * binomial(k + b - 1, b)
-        N1 = 0
-        for i in range(1, b + 1):
-            N1 = N1 + (-1) ** (i + 1) * binomial(k + b - i - 1, b - i) * binomial(n - k - 1, r + i)
-
-        N = N - (m - 1) * N1
-
-        M = binomial(k + b - 1, b) * (binomial(n, r) - m * binomial(n - k - 1, r))
-
-        return N, M
+        a = parameters[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS]
+        b = parameters[RANKSD_LINEAR_VARIABLES_DEGREE]
+        p = parameters[RANKSD_NUMBER_OF_PUNCTURED_POSITIONS]
+        return self.compute_time_complexity_helper(a, b, p, self.on_base_field)
 
     def _compute_memory_complexity(self, parameters: dict):
         """
@@ -143,28 +150,28 @@ class SupportMinors(RankSDAlgorithm):
               >>> SM.memory_complexity()
               40.148042736021516
         """
-        a = parameters['a']
-        b = parameters['b']
+        a = parameters[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS]
+        b = parameters[RANKSD_LINEAR_VARIABLES_DEGREE]
+        p = parameters[RANKSD_NUMBER_OF_PUNCTURED_POSITIONS]
+        return self.compute_memory_complexity_helper(a, b, p, self.on_base_field)
 
-        _, m, n_red, k_red, r = self.get_reduced_instance_parameters(a, 0)
-        N, M = self._compute_N_and_M(b, m, n_red, k_red, r)
-        memory_complexity = log2(m * N * M)
-
-        return memory_complexity
-
-    def _are_parameters_invalid(self, parameters: dict):
+    def _valid_choices(self):
         """
-        Specifies constraints on the parameters
+        Generator yielding new sets of valid parameters.
         """
+        new_ranges = self._fix_ranges_for_already_set_parameters()
+        a_min = new_ranges[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS]["min"]
+        a_max = new_ranges[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS]["max"]
+        p_min = new_ranges[RANKSD_NUMBER_OF_PUNCTURED_POSITIONS]["min"]
+        p_max = new_ranges[RANKSD_NUMBER_OF_PUNCTURED_POSITIONS]["max"]
+        b_min = new_ranges[RANKSD_LINEAR_VARIABLES_DEGREE]["min"]
+        b_max = new_ranges[RANKSD_LINEAR_VARIABLES_DEGREE]["max"]
+        _, m, n, k, r = self.problem.get_parameters()
 
-        a = parameters['a']
-        b = parameters['b']
+        valid_choices = find_valid_choices_param_sm_fqm(m, n, k, r, a_min, a_max, p_min, p_max, b_min, b_max)
 
-        _, m, n_red, k_red, r = self.get_reduced_instance_parameters(a, 0)
-
-        if n_red <= 0 or k_red <= 0 or n_red < k_red or n_red - k_red - 1 < r:
-            return True
-
-        N, M = self._compute_N_and_M(b, m, n_red, k_red, r)
-
-        return N < (M - 1) or M < 0 or N < 0
+        if len(valid_choices) > 0:
+            for valid_choice in valid_choices:
+                yield {RANKSD_LINEAR_VARIABLES_DEGREE: valid_choice[RANKSD_LINEAR_VARIABLES_DEGREE],
+                       RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS: valid_choice[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS],
+                       RANKSD_NUMBER_OF_PUNCTURED_POSITIONS: valid_choice[RANKSD_NUMBER_OF_PUNCTURED_POSITIONS]}

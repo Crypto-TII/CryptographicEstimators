@@ -25,7 +25,8 @@ class OJ2(RankSDAlgorithm):
     """
      Construct an instance of OJ strategy 2 estimator
 
-     This algorithm is introduced in [OJ02].
+     This algorithm tries to solve a given instance by enumerating the possible F_q basis
+     of Suppx, and solving a linearized quadratic system [OJ02].
 
      Args:
             problem (RankSDProblem): An instance of the RankSDProblem class.
@@ -43,6 +44,7 @@ class OJ2(RankSDAlgorithm):
 
     def __init__(self, problem: RankSDProblem, **kwargs):
         super(OJ2, self).__init__(problem, **kwargs)
+        self.on_base_field = True
         self._name = "OJ strategy 2"
 
     def _compute_time_complexity(self, parameters: dict):
@@ -60,6 +62,7 @@ class OJ2(RankSDAlgorithm):
         """
 
         q, m, _, k, r = self.problem.get_parameters()
+        self.problem.set_operations_on_base_field(self.on_base_field)
         time_complexity = self._w * (log2(k + r) + log2(r)) + (r - 1) * (m - r) * log2(q)
 
         return time_complexity
@@ -78,6 +81,7 @@ class OJ2(RankSDAlgorithm):
            17.081441827692018
         """
         q, m, _, k, r = self.problem.get_parameters()
+        self.problem.set_operations_on_base_field(self.on_base_field)
         N = ceil(((k + 1) * r) / (m - r))
         n_rows = N * m
         n_columns = (k + 1 + N) * r

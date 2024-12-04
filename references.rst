@@ -209,6 +209,14 @@ References
             *On the Complexity of Solving Quadratic Boolean Systems*
             https://www.sciencedirect.com/science/article/pii/S0885064X12000611
 
+.. [BBBGNRT20] \Magali Bardet, Pierre Briaud, Maxime Bros, Philippe Gaborit, Vincent Neiger, Olivier Ruatta and Jean-Pierre Tillich
+             *An algebraic attack on rank metric code-based cryptosystems*
+             https://doi.org/10.1007/978-3-030-45727-3_3
+
+.. [BBCGPSTV20] \Magali Bardet, Maxime Bros, Daniel Cabarcas, Philippe Gaborit, Ray Perlner, Daniel Smith-Tone, Jean-Pierre Tillich and Javier Verbel
+             *Improvements of Algebraic Attacks for Solving the Rank Decoding and MinRank Problems*
+             https://doi.org/10.1007/978-3-030-64837-4_17
+
 .. [BBBGT23] \Magali Bardet, Pierre Briaud, Maxime Bros, Philippe Gaborit, and Jean-Pierre Tillich
              *Revisiting algebraic attacks on MinRank and on the rank decoding problem*
              https://doi.org/10.1007/s10623-023-01265-x

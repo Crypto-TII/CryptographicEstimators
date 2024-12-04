@@ -18,15 +18,16 @@
 
 from ..ranksd_algorithm import RankSDAlgorithm
 from ..ranksd_problem import RankSDProblem
-from math import log2, floor
+from math import log2, ceil
 
 
 class GRS(RankSDAlgorithm):
     """
-    Construct an instance of GRS estimator
+    Construct an instance of GRS estimator.
 
-    This algorithm is introduced in [GRS16].
-
+    This algorithm tries to solve a given instance by searching a linear subspace E'
+    of dimension r' ≥ r such that Suppx ⊆ E', and solving the linear system
+    given by the parity-check equations [GRS16].
 
     Args:
          problem (RankSDProblem): An instance of the RankSDProblem class.
@@ -44,6 +45,7 @@ class GRS(RankSDAlgorithm):
 
     def __init__(self, problem: RankSDProblem, **kwargs):
         super(GRS, self).__init__(problem, **kwargs)
+        self.on_base_field = True
         self._name = "GRS"
 
     def _compute_time_complexity(self, parameters: dict):
@@ -57,14 +59,15 @@ class GRS(RankSDAlgorithm):
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
                >>> GRSA = GRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
                >>> GRSA.time_complexity()
-               351.3539031111514
+               357.3539031111514
         """
 
         q, m, n, k, r = self.problem.get_parameters()
+        self.problem.set_operations_on_base_field(self.on_base_field)
 
         t1 = self._w * log2((n - k) * m)
-        mu1 = r * floor(k * m / n)
-        mu2 = (r - 1) * floor((k + 1) * m / n)
+        mu1 = r * ceil(k * m / n)
+        mu2 = (r - 1) * ceil((k + 1) * m / n)
         time_complexity_1 = t1 + mu1 * log2(q)
         time_complexity_2 = t1 + mu2 * log2(q)
         return min(time_complexity_1, time_complexity_2)
@@ -80,11 +83,12 @@ class GRS(RankSDAlgorithm):
             >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
             >>> GRSA = GRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
             >>> GRSA.memory_complexity()
-            26.24853826652256
+            26.229429443574855
         """
 
         _, m, n, k, r = self.problem.get_parameters()
-        r_1 = m - floor(k * m / n)
+        self.problem.set_operations_on_base_field(self.on_base_field)
+        r_1 = m - ceil(k * m / n)
         n_columns = r_1 * n
         n_rows = (n - k) * m
         memory_complexity = log2(n_rows * n_columns)

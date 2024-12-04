@@ -23,9 +23,10 @@ from math import log2, ceil
 
 class OJ1(RankSDAlgorithm):
     """
-    Construct an instance of OJ strategy 1  estimator
+    Construct an instance of OJ strategy 1  estimator.
 
-    This algorithm is introduced in [OJ02].
+    This algorithm tries to solve a given instance by guessing the coefficient matrix of x
+    associated with F_q basis of Suppx and solving a linearized quadratic system [OJ02].
 
     Args:
            problem (RankSDProblem): An instance of the RankSDProblem class.
@@ -43,6 +44,7 @@ class OJ1(RankSDAlgorithm):
 
     def __init__(self, problem: RankSDProblem, **kwargs):
         super(OJ1, self).__init__(problem, **kwargs)
+        self.on_base_field = True
         self._name = "OJ strategy 1"
 
     def _compute_time_complexity(self, parameters: dict):
@@ -60,6 +62,7 @@ class OJ1(RankSDAlgorithm):
         """
 
         q, m, _, k, r = self.problem.get_parameters()
+        self.problem.set_operations_on_base_field(self.on_base_field)
         time_complexity = self._w * log2(m * r) + (r - 1) * (k + 1) * log2(q)
 
         return time_complexity
@@ -79,8 +82,9 @@ class OJ1(RankSDAlgorithm):
         """
 
         q, m, _, k, r = self.problem.get_parameters()
-        N = ceil(((r - 1) * m + k + 1) / (m - 1))
-        n_rows = N * m
-        n_columns = (r - 1) * m + k + N + 1
+        self.problem.set_operations_on_base_field(self.on_base_field)
+        nn = ceil(((r - 1) * m + k + 1) / (m - 1))
+        n_rows = nn * m
+        n_columns = (r - 1) * m + k + nn + 1
         memory_complexity = log2(n_rows * n_columns)
         return memory_complexity

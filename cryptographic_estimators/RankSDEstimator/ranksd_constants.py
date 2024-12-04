@@ -15,8 +15,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
+
 RANKSD_BASE_FIELD_ORDER = "q"
 RANKSD_DEGREE_EXTENSION = "m"
 RANKSD_CODE_LENGTH = "n"
 RANKSD_CODE_DIMENSION = "k"
 RANKSD_TARGET_RANK = "r"
+
+RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS = 't'
+
+RANKSD_NUMBER_OF_PUNCTURED_POSITIONS = 'p'
+RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS = 'a'
+RANKSD_LINEAR_VARIABLES_DEGREE = "b"

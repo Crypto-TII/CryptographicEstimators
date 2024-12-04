@@ -18,16 +18,17 @@
 
 from ..ranksd_algorithm import RankSDAlgorithm
 from ..ranksd_problem import RankSDProblem
+from ..ranksd_constants import RANKSD_NUMBER_OF_PUNCTURED_POSITIONS, RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS
 from ...base_algorithm import optimal_parameter
-from math import log2
-from math import comb as binomial
+from ..ranksd_helper import find_best_choice_param_mm
 
 
 class MaxMinors(RankSDAlgorithm):
     """
-    Construct an instance of MaxMinors estimator
+    Construct an instance of MaxMinors estimator.
 
-    This algorith is introduced in [BBBGT23].
+    This algorithm tries to solve a given instance by solving the linear system from
+    the Max Minors modelling introduced in [BBBGNRT20], and improved in [BBCGPSTV20] and [BBBGT23].
 
     Args:
          problem (RankSDProblem): An instance of the RankSDProblem class.
@@ -41,13 +42,16 @@ class MaxMinors(RankSDAlgorithm):
          >>> MM = MaxMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10))
          >>> MM
          MaxMinors estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
+
     """
 
     def __init__(self, problem: RankSDProblem, **kwargs):
         super(MaxMinors, self).__init__(problem, **kwargs)
         _, _, n, k, _ = self.problem.get_parameters()
-        self.set_parameter_ranges('a', 0, k)
-        self.set_parameter_ranges('p', 0, n)
+        self.set_parameter_ranges(RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS, 0, k)
+        self.set_parameter_ranges(RANKSD_NUMBER_OF_PUNCTURED_POSITIONS, 0, n)
+        self.on_base_field = True
+
         self._name = "MaxMinors"
 
     @optimal_parameter
@@ -68,7 +72,7 @@ class MaxMinors(RankSDAlgorithm):
                 >>> MM.a()
                 15
         """
-        return self._get_optimal_parameter("a")
+        return self._get_optimal_parameter(RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS)
 
     @optimal_parameter
     def p(self):
@@ -88,7 +92,7 @@ class MaxMinors(RankSDAlgorithm):
                 >>> MM.p()
                 2
         """
-        return self._get_optimal_parameter("p")
+        return self._get_optimal_parameter(RANKSD_NUMBER_OF_PUNCTURED_POSITIONS)
 
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
@@ -101,19 +105,16 @@ class MaxMinors(RankSDAlgorithm):
               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
               >>> MM = MaxMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
               >>> MM.time_complexity()
-              152.99052338294462
+              153.00164676141634
         """
 
-        a = parameters['a']
-        p = parameters['p']
-        q, _, n_red, k_red, r = self.get_reduced_instance_parameters(a, p)
-        w = self._w
-        bin2 = binomial(n_red, r)
-        time_complexity = a * r * log2(q) + w * log2(bin2)
-        return time_complexity
+        a = parameters[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS]
+        p = parameters[RANKSD_NUMBER_OF_PUNCTURED_POSITIONS]
+        return self.compute_time_complexity_helper(a, 0, p, self.on_base_field)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """Return the memory complexity of the algorithm for a given set of parameters
+        """Return the memory complexity of the algorithm for a given set of parameters.
+
            Args:
               parameters (dict): Dictionary including the parameters.
 
@@ -125,26 +126,23 @@ class MaxMinors(RankSDAlgorithm):
               33.00164676141634
         """
 
-        a = parameters['a']
-        p = parameters['p']
-        _, m, n_red, k_red, r = self.get_reduced_instance_parameters(a, p)
+        a = parameters[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS]
+        p = parameters[RANKSD_NUMBER_OF_PUNCTURED_POSITIONS]
+        return self.compute_memory_complexity_helper(a, 0, p, self.on_base_field)
 
-        n_rows = m * binomial(n_red - k_red - 1, r)
-        n_columns = binomial(n_red, r)
-        memory_complexity = log2(n_rows * n_columns)
-        return memory_complexity
-
-    def _are_parameters_invalid(self, parameters: dict):
+    def _valid_choices(self):
         """
-        Specifies constraints on the parameters
+        Generator yielding new sets of valid parameters.
         """
-        a = parameters['a']
-        p = parameters['p']
-        _, m, n_red, k_red, r = self.get_reduced_instance_parameters(a, p)
+        new_ranges = self._fix_ranges_for_already_set_parameters()
+        a_min = new_ranges[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS]["min"]
+        a_max = new_ranges[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS]["max"]
+        p_min = new_ranges[RANKSD_NUMBER_OF_PUNCTURED_POSITIONS]["min"]
+        p_max = new_ranges[RANKSD_NUMBER_OF_PUNCTURED_POSITIONS]["max"]
+        _, m, n, k, r = self.problem.get_parameters()
 
-        if (n_red - k_red - 1) >= r and n_red >= r:
-            bin1 = m * binomial(n_red - k_red - 1, r)
-            bin2 = binomial(n_red, r) - 1
-            return bin1 < bin2
+        valid_choice = find_best_choice_param_mm(m, n, k, r, a_min, a_max, p_min, p_max)
 
-        return True
+        if len(valid_choice) > 0:
+            yield {RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS: valid_choice[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS],
+                   RANKSD_NUMBER_OF_PUNCTURED_POSITIONS: valid_choice[RANKSD_NUMBER_OF_PUNCTURED_POSITIONS]}

@@ -18,14 +18,16 @@
 
 from ..base_algorithm import BaseAlgorithm
 from .ranksd_problem import RankSDProblem
+from .ranksd_helper import compute_nb, compute_mb
+from math import log2
 
 
 class RankSDAlgorithm(BaseAlgorithm):
     def __init__(self, problem: RankSDProblem, **kwargs):
         """Base class for RankSD algorithms complexity estimator.
             Args:
-                problem (RankSDProblem): RankSDProblem object including all necessary parameters
-                **kwargs: Additional keyword arguments
+                problem (RankSDProblem): RankSDProblem object including all necessary parameters.
+                **kwargs: Additional keyword arguments.
                 w (int, optional): linear algebra constant. Defaults to 3.
 
             Examples:
@@ -38,6 +40,7 @@ class RankSDAlgorithm(BaseAlgorithm):
         super(RankSDAlgorithm, self).__init__(problem, **kwargs)
         w = kwargs.get("w", 3)
         self._w = w
+        self.on_base_field = True
         self._name = "BaseRankSDAlgorithm"
 
         if w < 2 or 3 < w:
@@ -56,11 +59,11 @@ class RankSDAlgorithm(BaseAlgorithm):
 
     def get_reduced_instance_parameters(self, a, p):
         """Return the problem parameters of the reduced instance, i.e., after puncturing the code on ``p`` positions
-           and specializing ``a`` columns in X
+           and specializing ``a`` columns in X.
 
         Args:
-           a (int): Number of columns to guess in X
-           p (int): Number of positions to puncture in the code
+           a (int): Number of columns to guess in X.
+           p (int): Number of positions to puncture in the code.
         """
         q, m, n, k, r = self.problem.get_parameters()
         q_reduced = q
@@ -69,6 +72,49 @@ class RankSDAlgorithm(BaseAlgorithm):
         k_reduced = k - a
         r_reduced = r
         return q_reduced, m_reduced, n_reduced, k_reduced, r_reduced
+
+    def compute_time_complexity_helper(self, a, b, p, op_on_base_field):
+        """Return the time complexity of the reduced instance, i.e.,
+           after puncturing the code on ``p`` positions and specializing ``a`` columns in X.
+
+        Args:
+            a (int): Number of columns to guess in X.
+            b (int): Degree of linear variables.
+            p (int): Number of positions to puncture in the code.
+            op_on_base_field (boolean): True if operations are performed on Fq. False if performed on Fq^m.
+         """
+        self.problem.set_operations_on_base_field(op_on_base_field)
+
+        q, m, n_red, k_red, r = self.get_reduced_instance_parameters(a, p)
+        w = self._w
+        n_rows = compute_nb(m, n_red, k_red, r, b)
+        n_columns = compute_mb(m, n_red, k_red, r, b)
+        time_complexity = (a * r) * log2(q) + log2(n_rows) + (w - 1) * log2(n_columns)
+
+        return time_complexity
+
+    def compute_memory_complexity_helper(self, a, b, p, op_on_base_field):
+        """Return the time complexity of the reduced instance, i.e.,
+           after puncturing the code on ``p`` positions and specializing ``a`` columns in X.
+
+        Args:
+            a (int): Number of columns to guess in X.
+            b (int): Degree of linear variables.
+            p (int): Number of positions to puncture in the code.
+            op_on_base_field (boolean): True if operations are performed on Fq. False if performed on Fq^m.
+        """
+
+        self.problem.set_operations_on_base_field(op_on_base_field)
+
+        _, m, n_red, k_red, r = self.get_reduced_instance_parameters(a, p)
+        self.problem.set_operations_on_base_field(op_on_base_field)
+
+        n_rows = compute_nb(m, n_red, k_red, r, b)
+        n_columns = compute_mb(m, n_red, k_red, r, b)
+
+        memory_complexity = log2(n_rows * n_columns)
+
+        return memory_complexity
 
     def __repr__(self):
         q, m, n, k, r = self.problem.get_parameters()

@@ -22,10 +22,11 @@ from math import log2
 
 
 class BasisEnumeration(RankSDAlgorithm):
-    """Construct an instance of Basis Enumeration estimator
+    """Construct an instance of Basis Enumeration estimator.
 
-      This algorithm enumerates the possible supports for the vector x and is introduced in [CS96].
-
+      This algorithm tries to solve a given instance by enumerating
+      the possible supports for the vector x, and solving the linear system
+      given by the parity-check equations [CS96].
 
        Args:
             problem (RankSDProblem): An instance of the RankSDProblem class.
@@ -43,6 +44,7 @@ class BasisEnumeration(RankSDAlgorithm):
 
     def __init__(self, problem: RankSDProblem, **kwargs):
         super(BasisEnumeration, self).__init__(problem, **kwargs)
+        self.on_base_field = True
         self._name = "BasisEnumeration"
 
     def _compute_time_complexity(self, parameters: dict):
@@ -59,6 +61,7 @@ class BasisEnumeration(RankSDAlgorithm):
             749.6889972117298
         """
         q, m, n, _, r = self.problem.get_parameters()
+        self.problem.set_operations_on_base_field(self.on_base_field)
         time_complexity = self._w * log2(n * r + m) + (m - r) * (r - 1) * log2(q)
         return time_complexity
 
@@ -76,6 +79,7 @@ class BasisEnumeration(RankSDAlgorithm):
             23.014300107627076
         """
         _, m, n, k, r = self.problem.get_parameters()
+        self.problem.set_operations_on_base_field(self.on_base_field)
         n_rows = (n - k) * m
         n_columns = n * r + m
         memory_complexity = log2(n_rows * n_columns)

@@ -17,7 +17,8 @@
 
 
 from ..base_problem import BaseProblem
-from .ranksd_constants import *
+from .ranksd_constants import RANKSD_BASE_FIELD_ORDER, RANKSD_DEGREE_EXTENSION, \
+    RANKSD_CODE_LENGTH, RANKSD_CODE_DIMENSION, RANKSD_TARGET_RANK
 from math import log2, ceil
 from cryptographic_estimators.helper import is_prime_power, ngates
 
@@ -36,7 +37,7 @@ class RankSDProblem(BaseProblem):
 
        Note:
             - If 0 <= theta <= 2, every multiplication in GF(q) is counted as log2(q) ^ theta binary operation.
-            - If theta = None, every multiplication in GF(q) is counted as 2 * log2(q) ^ 2 + log2(q) binary operation
+            - If theta = None, every multiplication in GF(q) is counted as 2 * log2(q) ^ 2 + log2(q) binary operation.
     """
 
     def __init__(self, q: int, m: int, n: int, k: int, r: int, **kwargs):  # Fill with parameters
@@ -47,7 +48,7 @@ class RankSDProblem(BaseProblem):
         self.parameters[RANKSD_CODE_DIMENSION] = k
         self.parameters[RANKSD_TARGET_RANK] = r
         self._theta = kwargs.get("theta", 2)
-
+        self.operations_on_base_field = True
         if q is not None and not is_prime_power(q):
             raise ValueError("q must be a prime power")
 
@@ -66,40 +67,60 @@ class RankSDProblem(BaseProblem):
         if self._theta is not None and not (0 <= self._theta <= 2):
             raise ValueError("theta must be either None or 0<=theta <= 2")
 
+    def set_operations_on_base_field(self, value):
+        """Set operations_on_base_field to value.
+
+        Args:
+            value (boolean): True if operations are performed on Fq. False if operations are performed on Fq^m.
+
+        """
+
+        self.operations_on_base_field = value
+
     def to_bitcomplexity_time(self, basic_operations: float):
         """Return the bit-complexity corresponding to a certain amount of basic_operations.
 
         Args:
-            basic_operations (float): Number of basic operations (logarithmic)
+            basic_operations (float): Number of basic operations (logarithmic).
 
         Tests:
             >>> from cryptographic_estimators.RankSDEstimator.ranksd_estimator import RankSDProblem
             >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
+            >>> RSDP.set_operations_on_base_field(True)
             >>> RSDP.to_bitcomplexity_time(200)
             200.0
 
+            >>> RSDP.set_operations_on_base_field(False)
+            >>> RSDP.to_bitcomplexity_time(200)
+            213.97736937354432
         """
         q = self.parameters[RANKSD_BASE_FIELD_ORDER]
         theta = self._theta
+        m = self.parameters[RANKSD_DEGREE_EXTENSION]
+
+        if not self.operations_on_base_field:
+            q = q ** m
         return ngates(q, basic_operations, theta=theta)
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
-        """Return the memory bit-complexity associated to a given number of elements to store
+        """Return the memory bit-complexity associated to a given number of elements to store.
 
          Args:
-             elements_to_store: number of memory operations (logarithmic)
+             elements_to_store: number of memory operations (logarithmic).
 
         """
         q = self.parameters[RANKSD_BASE_FIELD_ORDER]
-
+        m = self.parameters[RANKSD_DEGREE_EXTENSION]
+        if not self.operations_on_base_field:
+            q = q ** m
         return log2(ceil(log2(q))) + elements_to_store
 
     def expected_number_solutions(self):
-        """Return the logarithm of the expected number of existing solutions to the problem"""
+        """Return the logarithm of the expected number of existing solutions to the problem."""
         pass
 
     def get_parameters(self):
-        """Return the optimizations parameters"""
+        """Return the optimizations parameters."""
         return list(self.parameters.values())
 
     @property

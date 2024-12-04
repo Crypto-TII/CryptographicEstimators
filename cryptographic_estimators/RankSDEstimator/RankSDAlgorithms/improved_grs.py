@@ -22,9 +22,11 @@ from math import log2, ceil
 
 
 class ImprovedGRS(RankSDAlgorithm):
-    """Construct an instance of ImprovedGRS estimator
+    """Construct an instance of ImprovedGRS estimator.
 
-    This algorithm is introduced in [AGHT18]
+    This algorithm tries to solve a given instance by searching for a linear subspace E'
+    of dimension r' ≥ r such that e*Suppx ⊆ E' for a nonzero e in Fq^m and then
+    solving the linear system given by the parity-check equations [AGHT18].
 
     Args:
         problem (RankSDProblem): An instance of the RankSDProblem class.
@@ -42,6 +44,7 @@ class ImprovedGRS(RankSDAlgorithm):
 
     def __init__(self, problem: RankSDProblem, **kwargs):
         super(ImprovedGRS, self).__init__(problem, **kwargs)
+        self.on_base_field = True
         self._name = "Improved GRS"
 
     def _compute_time_complexity(self, parameters: dict):
@@ -59,9 +62,9 @@ class ImprovedGRS(RankSDAlgorithm):
         """
 
         q, m, n, k, r = self.problem.get_parameters()
+        self.problem.set_operations_on_base_field(self.on_base_field)
 
         t1 = self._w * log2((n - k) * m)
-
         mu1 = r * ceil(((k + 1) * m) / n) - m
         time_complexity = t1 + max(0, mu1 * log2(q))
 
@@ -69,7 +72,7 @@ class ImprovedGRS(RankSDAlgorithm):
 
     def _compute_memory_complexity(self, parameters: dict):
         """
-        Return the memory complexity of the algorithm for a given set of parameters
+        Return the memory complexity of the algorithm for a given set of parameters.
 
         Args:
             parameters (dict): Dictionary including the parameters.
@@ -82,6 +85,7 @@ class ImprovedGRS(RankSDAlgorithm):
             26.189305558541125
         """
         _, m, n, k, _ = self.problem.get_parameters()
+        self.problem.set_operations_on_base_field(self.on_base_field)
         r1 = m - ceil(((k + 1) * m) / n)
         n_columns = r1 * n
         n_rows = (n - k - 1) * m
