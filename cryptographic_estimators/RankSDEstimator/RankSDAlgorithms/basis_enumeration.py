@@ -22,17 +22,18 @@ from math import log2
 
 
 class BasisEnumeration(RankSDAlgorithm):
-    """Construct an instance of Basis Enumeration estimator.
+    """
+       Construct an instance of Basis Enumeration estimator.
 
-      This algorithm tries to solve a given instance by enumerating
-      the possible supports for the vector x, and solving the linear system
-      given by the parity-check equations [CS96].
+       This algorithm tries to solve a given instance by enumerating
+       the possible supports for the vector x, and solving the linear system
+       given by the parity-check equations [CS96]_
 
        Args:
             problem (RankSDProblem): An instance of the RankSDProblem class.
             **kwargs: Additional keyword arguments.
-            w (int): Linear algebra constant (default: 3).
-            theta (int): Exponent of the conversion factor (default: 2).
+                w (int): Linear algebra constant (default: 3).
+                theta (int): Exponent of the conversion factor (default: 2).
 
        Examples:
             >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.basis_enumeration import BasisEnumeration
@@ -48,17 +49,18 @@ class BasisEnumeration(RankSDAlgorithm):
         self._name = "BasisEnumeration"
 
     def _compute_time_complexity(self, parameters: dict):
-        """Return the time complexity of the algorithm for a given set of parameters.
+        """
+           Return the time complexity of the algorithm for a given set of parameters.
 
-        Args:
-            parameters (dict): Dictionary including the parameters.
+           Args:
+               parameters (dict): Dictionary including the parameters.
 
-        Tests:
-            >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.basis_enumeration import BasisEnumeration
-            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-            >>> BE = BasisEnumeration(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
-            >>> BE.time_complexity()
-            749.6889972117298
+           Tests:
+               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.basis_enumeration import BasisEnumeration
+               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+               >>> BE = BasisEnumeration(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
+               >>> BE.time_complexity()
+               749.6889972117298
         """
         q, m, n, _, r = self.problem.get_parameters()
         self.problem.set_operations_on_base_field(self.on_base_field)
@@ -66,17 +68,18 @@ class BasisEnumeration(RankSDAlgorithm):
         return time_complexity
 
     def _compute_memory_complexity(self, parameters: dict):
-        """Return the memory complexity of the algorithm for a given set of parameters.
+        """
+           Return the memory complexity of the algorithm for a given set of parameters.
 
-        Args:
-            parameters (dict): Dictionary including the parameters.
+           Args:
+               parameters (dict): Dictionary including the parameters.
 
-        Tests:
-            >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.basis_enumeration import BasisEnumeration
-            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-            >>> BE = BasisEnumeration(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
-            >>> BE.memory_complexity()
-            23.014300107627076
+           Tests:
+               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.basis_enumeration import BasisEnumeration
+               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+               >>> BE = BasisEnumeration(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
+               >>> BE.memory_complexity()
+               23.014300107627076
         """
         _, m, n, k, r = self.problem.get_parameters()
         self.problem.set_operations_on_base_field(self.on_base_field)

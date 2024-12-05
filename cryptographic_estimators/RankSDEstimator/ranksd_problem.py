@@ -24,20 +24,21 @@ from cryptographic_estimators.helper import is_prime_power, ngates
 
 
 class RankSDProblem(BaseProblem):
-    """Construct an instance of RankSDProblem.
+    """
+       Construct an instance of RankSDProblem.
 
        Args:
-            q (int): Base field order.
-            m (int): Extension degree.
-            n (int): Code length.
-            k (int): Code dimension.
-            r (int): Target rank.
-            theta (float, optional): Exponent of the conversion factor. Defaults to 2.
-            memory_bound (float, optional): Maximum allowed memory to use for solving the problem. Defaults to inf.
+           q (int): Base field order.
+           m (int): Extension degree.
+           n (int): Code length.
+           k (int): Code dimension.
+           r (int): Target rank.
+           theta (float, optional): Exponent of the conversion factor. Defaults to 2.
+           memory_bound (float, optional): Maximum allowed memory to use for solving the problem. Defaults to inf.
 
        Note:
-            - If 0 <= theta <= 2, every multiplication in GF(q) is counted as log2(q) ^ theta binary operation.
-            - If theta = None, every multiplication in GF(q) is counted as 2 * log2(q) ^ 2 + log2(q) binary operation.
+           - If 0 <= theta <= 2, every multiplication in GF(q) is counted as log2(q) ^ theta binary operation.
+           - If theta = None, every multiplication in GF(q) is counted as 2 * log2(q) ^ 2 + log2(q) binary operation.
     """
 
     def __init__(self, q: int, m: int, n: int, k: int, r: int, **kwargs):  # Fill with parameters
@@ -68,31 +69,33 @@ class RankSDProblem(BaseProblem):
             raise ValueError("theta must be either None or 0<=theta <= 2")
 
     def set_operations_on_base_field(self, value):
-        """Set operations_on_base_field to value.
+        """
+           Set operations_on_base_field to value.
 
-        Args:
-            value (boolean): True if operations are performed on Fq. False if operations are performed on Fq^m.
+           Args:
+               value (boolean): True if operations are performed on Fq. False if operations are performed on Fq^m.
 
         """
 
         self.operations_on_base_field = value
 
     def to_bitcomplexity_time(self, basic_operations: float):
-        """Return the bit-complexity corresponding to a certain amount of basic_operations.
+        """
+           Return the bit-complexity corresponding to a certain amount of basic_operations.
 
-        Args:
-            basic_operations (float): Number of basic operations (logarithmic).
+           Args:
+               basic_operations (float): Number of basic operations (logarithmic).
 
-        Tests:
-            >>> from cryptographic_estimators.RankSDEstimator.ranksd_estimator import RankSDProblem
-            >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
-            >>> RSDP.set_operations_on_base_field(True)
-            >>> RSDP.to_bitcomplexity_time(200)
-            200.0
+           Tests:
+               >>> from cryptographic_estimators.RankSDEstimator.ranksd_estimator import RankSDProblem
+               >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
+               >>> RSDP.set_operations_on_base_field(True)
+               >>> RSDP.to_bitcomplexity_time(200)
+               200.0
 
-            >>> RSDP.set_operations_on_base_field(False)
-            >>> RSDP.to_bitcomplexity_time(200)
-            213.97736937354432
+               >>> RSDP.set_operations_on_base_field(False)
+               >>> RSDP.to_bitcomplexity_time(200)
+               213.97736937354432
         """
         q = self.parameters[RANKSD_BASE_FIELD_ORDER]
         theta = self._theta
@@ -103,10 +106,11 @@ class RankSDProblem(BaseProblem):
         return ngates(q, basic_operations, theta=theta)
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
-        """Return the memory bit-complexity associated to a given number of elements to store.
+        """
+           Return the memory bit-complexity associated to a given number of elements to store.
 
-         Args:
-             elements_to_store: number of memory operations (logarithmic).
+           Args:
+              elements_to_store: number of memory operations (logarithmic).
 
         """
         q = self.parameters[RANKSD_BASE_FIELD_ORDER]
@@ -134,68 +138,74 @@ class RankSDProblem(BaseProblem):
         self._theta = value
 
     def base_field_order(self):
-        """Return the order of the base finite field.
+        """
+           Return the order of the base finite field.
 
-        Tests:
-            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
-            >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
-            >>> RSDP.base_field_order()
-            2
+           Tests:
+               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
+               >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
+               >>> RSDP.base_field_order()
+               2
         """
         return self.parameters[RANKSD_BASE_FIELD_ORDER]
 
     def degree_extension(self):
-        """Return the degree of the field extension.
+        """
+           Return the degree of the field extension.
 
-         Tests:
-            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
-            >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
-            >>> RSDP.degree_extension()
-            127
+           Tests:
+               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
+               >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
+               >>> RSDP.degree_extension()
+               127
         """
         return self.parameters[RANKSD_DEGREE_EXTENSION]
 
     def code_length(self):
-        """Return the dimension of the vector space.
+        """
+           Return the dimension of the vector space.
 
-        Tests:
-            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
-            >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
-            >>> RSDP.code_length()
-            118
+           Tests:
+               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
+               >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
+               >>> RSDP.code_length()
+               118
         """
         return self.parameters[RANKSD_CODE_LENGTH]
 
     def code_dimension(self):
-        """Return the dimension of the code.
+        """
+           Return the dimension of the code.
 
-        Tests:
-            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
-            >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
-            >>> RSDP.code_dimension()
-            48
+           Tests:
+               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
+               >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
+               >>> RSDP.code_dimension()
+               48
         """
         return self.parameters[RANKSD_CODE_DIMENSION]
 
     def target_rank(self):
-        """Return the target rank.
+        """
+           Return the target rank.
 
-       Tests:
-            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
-            >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
-            >>> RSDP.target_rank()
-            7
+           Tests:
+               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
+               >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
+               >>> RSDP.target_rank()
+               7
         """
         return self.parameters[RANKSD_TARGET_RANK]
 
     def __repr__(self):
-        """Returns a string representation of the object.
+        """
+           Returns a string representation of the object.
 
-        Tests:
-            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
-            >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
-            >>> RSDP
-            Rank Syndrome Decoding problem with (q, m, n, k, r) = (2,127,118,48,7)
+           Tests:
+               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
+               >>> RSDP = RankSDProblem(q=2, m=127, n=118, k=48, r=7)
+               >>> RSDP
+               Rank Syndrome Decoding problem with (q, m, n, k, r) = (2,127,118,48,7)
         """
         q, m, n, k, r = self.get_parameters()
         rep = "Rank Syndrome Decoding problem with (q, m, n, k, r) = " \

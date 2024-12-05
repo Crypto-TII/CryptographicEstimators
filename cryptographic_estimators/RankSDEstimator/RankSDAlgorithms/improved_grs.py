@@ -22,24 +22,25 @@ from math import log2, ceil
 
 
 class ImprovedGRS(RankSDAlgorithm):
-    """Construct an instance of ImprovedGRS estimator.
+    """
+       Construct an instance of ImprovedGRS estimator.
 
-    This algorithm tries to solve a given instance by searching for a linear subspace E'
-    of dimension r' ≥ r such that e*Suppx ⊆ E' for a nonzero e in Fq^m and then
-    solving the linear system given by the parity-check equations [AGHT18].
+       This algorithm tries to solve a given instance by searching for a linear subspace E'
+       of dimension r' ≥ r such that e*Suppx ⊆ E' for a nonzero e in Fq^m and then
+       solving the linear system given by the parity-check equations [AGHT18]_
 
-    Args:
-        problem (RankSDProblem): An instance of the RankSDProblem class.
-        **kwargs: Additional keyword arguments.
-        w (int): Linear algebra constant (default: 3).
-        theta (int): Exponent of the conversion factor (default: 2).
+       Args:
+           problem (RankSDProblem): An instance of the RankSDProblem class.
+           **kwargs: Additional keyword arguments.
+               w (int): Linear algebra constant (default: 3).
+               theta (int): Exponent of the conversion factor (default: 2).
 
-    Examples:
-        >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.improved_grs import ImprovedGRS
-        >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-        >>> IGRS = ImprovedGRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
-        >>> IGRS
-        Improved GRS estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
+       Examples:
+           >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.improved_grs import ImprovedGRS
+           >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+           >>> IGRS = ImprovedGRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
+           >>> IGRS
+           Improved GRS estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
     """
 
     def __init__(self, problem: RankSDProblem, **kwargs):
@@ -48,10 +49,11 @@ class ImprovedGRS(RankSDAlgorithm):
         self._name = "Improved GRS"
 
     def _compute_time_complexity(self, parameters: dict):
-        """Return the time complexity of the algorithm for a given set of parameters.
+        """
+           Return the time complexity of the algorithm for a given set of parameters.
 
            Args:
-               parameters (dict): Dictionary including the parameters.
+              parameters (dict): Dictionary including the parameters.
 
            Tests:
               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.improved_grs import ImprovedGRS
@@ -72,17 +74,17 @@ class ImprovedGRS(RankSDAlgorithm):
 
     def _compute_memory_complexity(self, parameters: dict):
         """
-        Return the memory complexity of the algorithm for a given set of parameters.
+           Return the memory complexity of the algorithm for a given set of parameters.
 
-        Args:
-            parameters (dict): Dictionary including the parameters.
+           Args:
+               parameters (dict): Dictionary including the parameters.
 
-        Tests:
-            >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.improved_grs import ImprovedGRS
-            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-            >>> IGRS = ImprovedGRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
-            >>> IGRS.memory_complexity()
-            26.189305558541125
+           Tests:
+               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.improved_grs import ImprovedGRS
+               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+               >>> IGRS = ImprovedGRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
+               >>> IGRS.memory_complexity()
+               26.189305558541125
         """
         _, m, n, k, _ = self.problem.get_parameters()
         self.problem.set_operations_on_base_field(self.on_base_field)

@@ -25,23 +25,23 @@ from ..ranksd_helper import find_best_choice_param_mm
 
 class MaxMinors(RankSDAlgorithm):
     """
-    Construct an instance of MaxMinors estimator.
+       Construct an instance of MaxMinors estimator.
 
-    This algorithm tries to solve a given instance by solving the linear system from
-    the Max Minors modelling introduced in [BBBGNRT20], and improved in [BBCGPSTV20] and [BBBGT23].
+       This algorithm tries to solve a given instance by solving the linear system from
+       the Max Minors modelling introduced in [BBBGNRT20]_, and improved in [BBCGPSTV20]_ and [BBBGT23]_
 
-    Args:
-         problem (RankSDProblem): An instance of the RankSDProblem class.
-         **kwargs: Additional keyword arguments.
-         w (int): Linear algebra constant (default: 3).
-         theta (int): Exponent of the conversion factor (default: 2).
+       Args:
+           problem (RankSDProblem): An instance of the RankSDProblem class.
+           **kwargs: Additional keyword arguments.
+               w (int): Linear algebra constant (default: 3).
+               theta (int): Exponent of the conversion factor (default: 2).
 
-    Examples:
-         >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.max_minors import MaxMinors
-         >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-         >>> MM = MaxMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10))
-         >>> MM
-         MaxMinors estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
+       Examples:
+           >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.max_minors import MaxMinors
+           >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+           >>> MM = MaxMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10))
+           >>> MM
+           MaxMinors estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
 
     """
 
@@ -56,7 +56,8 @@ class MaxMinors(RankSDAlgorithm):
 
     @optimal_parameter
     def a(self):
-        """Return the optimal `a`, i.e. the number of columns specialized in X.
+        """
+           Return the optimal `a`, i.e. the number of columns specialized in X.
 
            Examples:
                 >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.max_minors import MaxMinors
@@ -76,7 +77,8 @@ class MaxMinors(RankSDAlgorithm):
 
     @optimal_parameter
     def p(self):
-        """Return the optimal `p`, i.e. the number of positions to puncture the code.
+        """
+           Return the optimal `p`, i.e. the number of positions to puncture the code.
 
            Examples:
                 >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.max_minors import MaxMinors
@@ -95,7 +97,8 @@ class MaxMinors(RankSDAlgorithm):
         return self._get_optimal_parameter(RANKSD_NUMBER_OF_PUNCTURED_POSITIONS)
 
     def _compute_time_complexity(self, parameters: dict):
-        """Return the time complexity of the algorithm for a given set of parameters.
+        """
+           Return the time complexity of the algorithm for a given set of parameters.
 
            Args:
               parameters (dict): Dictionary including the parameters.
@@ -113,7 +116,8 @@ class MaxMinors(RankSDAlgorithm):
         return self.compute_time_complexity_helper(a, 0, p, self.on_base_field)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """Return the memory complexity of the algorithm for a given set of parameters.
+        """
+           Return the memory complexity of the algorithm for a given set of parameters.
 
            Args:
               parameters (dict): Dictionary including the parameters.
@@ -132,7 +136,7 @@ class MaxMinors(RankSDAlgorithm):
 
     def _valid_choices(self):
         """
-        Generator yielding new sets of valid parameters.
+           Generator yielding new sets of valid parameters.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
         a_min = new_ranges[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS]["min"]

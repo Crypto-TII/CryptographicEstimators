@@ -26,23 +26,23 @@ from ..ranksd_helper import find_valid_choices_param_sm_fqm
 
 class SupportMinors(RankSDAlgorithm):
     """
-    Construct an instance of SupportMinors estimator
+       Construct an instance of SupportMinors estimator
 
-    This algorithm tries to solve an given instance by solving the system from the
-    Support Minors over Fq^m combined with MaxMinors over Fq modelling introduced in [BBBGT23].
+       This algorithm tries to solve a given instance by solving the system from the
+       Support Minors over Fq^m combined with MaxMinors over Fq modelling introduced in [BBBGT23]_
 
-     Args:
-         problem (RankSDAlgorithm): An instance of the RankSDAlgorithm class.
-         **kwargs: Additional keyword arguments.
-         w (int): Linear algebra constant (default: 3).
-         theta (int): Exponent of the conversion factor (default: 2).
+       Args:
+           problem (RankSDAlgorithm): An instance of the RankSDAlgorithm class.
+           **kwargs: Additional keyword arguments.
+              w (int): Linear algebra constant (default: 3).
+              theta (int): Exponent of the conversion factor (default: 2).
 
-    Examples:
-         >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
-         >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-         >>> SM = SupportMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10))
-         >>> SM
-         SupportMinors estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
+       Examples:
+           >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
+           >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+           >>> SM = SupportMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10))
+           >>> SM
+           SupportMinors estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 31, 33, 15, 10)
     """
 
     def __init__(self, problem: RankSDProblem, **kwargs):
@@ -56,7 +56,8 @@ class SupportMinors(RankSDAlgorithm):
 
     @optimal_parameter
     def b(self):
-        """Return the optimal `b`, such that Nb>=Mb-1,where Nb is the number rows and Mb is the number of columns.
+        """
+           Return the optimal `b`, such that Nb>=Mb-1,where Nb is the number rows and Mb is the number of columns.
 
            Examples:
                 >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
@@ -76,7 +77,9 @@ class SupportMinors(RankSDAlgorithm):
 
     @optimal_parameter
     def a(self):
-        """Return the optimal `a`, i.e. the number of columns specialized in X.
+        """
+           Return the optimal `a`, i.e. the number of columns specialized in X.
+
            Examples:
                 >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
                 >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
@@ -95,7 +98,8 @@ class SupportMinors(RankSDAlgorithm):
 
     @optimal_parameter
     def p(self):
-        """Return the optimal `p`, i.e. the number of positions to puncture the code.
+        """
+           Return the optimal `p`, i.e. the number of positions to puncture the code.
 
            Examples:
                 >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
@@ -118,7 +122,8 @@ class SupportMinors(RankSDAlgorithm):
         return self._get_optimal_parameter(RANKSD_NUMBER_OF_PUNCTURED_POSITIONS)
 
     def _compute_time_complexity(self, parameters: dict):
-        """Return the time complexity of the algorithm for a given set of parameters.
+        """
+           Return the time complexity of the algorithm for a given set of parameters.
 
            Args:
               parameters (dict): Dictionary including the parameters.
@@ -138,17 +143,17 @@ class SupportMinors(RankSDAlgorithm):
 
     def _compute_memory_complexity(self, parameters: dict):
         """
-        Return the memory complexity of the algorithm for a given set of parameters
+           Return the memory complexity of the algorithm for a given set of parameters
 
-        Args:
-              parameters (dict): Dictionary including the parameters.
+           Args:
+               parameters (dict): Dictionary including the parameters.
 
-        Tests:
-              >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
-              >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-              >>> SM = SupportMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
-              >>> SM.memory_complexity()
-              40.148042736021516
+           Tests:
+               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
+               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+               >>> SM = SupportMinors(RankSDProblem(q=2,m=31,n=33,k=15,r=10), w=2)
+               >>> SM.memory_complexity()
+               40.148042736021516
         """
         a = parameters[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS]
         b = parameters[RANKSD_LINEAR_VARIABLES_DEGREE]
@@ -157,7 +162,7 @@ class SupportMinors(RankSDAlgorithm):
 
     def _valid_choices(self):
         """
-        Generator yielding new sets of valid parameters.
+           Generator yielding new sets of valid parameters.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
         a_min = new_ranges[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS]["min"]

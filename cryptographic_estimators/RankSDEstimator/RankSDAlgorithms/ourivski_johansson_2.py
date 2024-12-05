@@ -23,18 +23,18 @@ from math import log2, ceil
 
 class OJ2(RankSDAlgorithm):
     """
-     Construct an instance of OJ strategy 2 estimator
+       Construct an instance of OJ strategy 2 estimator
 
-     This algorithm tries to solve a given instance by enumerating the possible F_q basis
-     of Suppx, and solving a linearized quadratic system [OJ02].
+       This algorithm tries to solve a given instance by enumerating the possible F_q basis
+       of Suppx, and solving a linearized quadratic system [OJ02]_
 
-     Args:
+       Args:
             problem (RankSDProblem): An instance of the RankSDProblem class.
             **kwargs: Additional keyword arguments.
-            w (int): Linear algebra constant (default: 3).
-            theta (int): Exponent of the conversion factor (default: 2).
+                w (int): Linear algebra constant (default: 3).
+                theta (int): Exponent of the conversion factor (default: 2).
 
-     Examples:
+       Examples:
             >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.ourivski_johansson_2 import OJ2
             >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
             >>> OJ = OJ2(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
@@ -48,17 +48,18 @@ class OJ2(RankSDAlgorithm):
         self._name = "OJ strategy 2"
 
     def _compute_time_complexity(self, parameters: dict):
-        """Return the time complexity of the algorithm for a given set of parameters.
+        """
+           Return the time complexity of the algorithm for a given set of parameters.
 
-               Args:
-                   parameters (dict): Dictionary including the parameters.
+           Args:
+               parameters (dict): Dictionary including the parameters.
 
-               Tests:
-                   >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.ourivski_johansson_2 import OJ2
-                   >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-                   >>> OJ = OJ2(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
-                   >>> OJ.time_complexity()
-                   745.7661439067468
+           Tests:
+               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.ourivski_johansson_2 import OJ2
+               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+               >>> OJ = OJ2(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
+               >>> OJ.time_complexity()
+               745.7661439067468
         """
 
         q, m, _, k, r = self.problem.get_parameters()
@@ -68,17 +69,18 @@ class OJ2(RankSDAlgorithm):
         return time_complexity
 
     def _compute_memory_complexity(self, parameters: dict):
-        """Return the memory complexity of the algorithm for a given set of parameters.
+        """
+           Return the memory complexity of the algorithm for a given set of parameters.
 
-        Args:
-           parameters (dict): Dictionary including the parameters.
+           Args:
+              parameters (dict): Dictionary including the parameters.
 
-        Tests:
-           >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.ourivski_johansson_2 import OJ2
-           >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-           >>> OJ = OJ2(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
-           >>> OJ.memory_complexity()
-           17.081441827692018
+           Tests:
+              >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.ourivski_johansson_2 import OJ2
+              >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+              >>> OJ = OJ2(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
+              >>> OJ.memory_complexity()
+              17.081441827692018
         """
         q, m, _, k, r = self.problem.get_parameters()
         self.problem.set_operations_on_base_field(self.on_base_field)

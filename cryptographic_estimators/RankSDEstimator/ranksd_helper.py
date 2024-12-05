@@ -4,14 +4,15 @@ from .ranksd_constants import RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS, \
 
 
 def nb_fqm(m, n, k, r, b):
-    """ Returns the number of rows in SMFq^m at bi-degree b,1.
+    """
+       Returns the number of rows in SMFq^m at bi-degree b,1.
 
-               Args:
-                   m (int): Extension degree.
-                   n (int): Code length.
-                   k (int): Code dimension.
-                   r (int): Target rank.
-                   b (int): Linear variables degree.
+       Args:
+           m (int): Extension degree.
+           n (int): Code length.
+           k (int): Code dimension.
+           r (int): Target rank.
+           b (int): Linear variables degree.
     """
     if (1 > k) or (k > n) or (b < 1) or (r < 1) or (m < 1) or (r > n - k - 1):
         return None
@@ -26,15 +27,16 @@ def nb_fqm(m, n, k, r, b):
 
 
 def nb_fq_syz(m, n, k, r, b):
-    """ Returns the number of syzygies in SMFq^m at bi-degree b,1.
+    """
+       Returns the number of syzygies in SMFq^m at bi-degree b,1.
 
-            Args:
-                m (int): Extension degree.
-                n (int): Code length.
-                k (int): Code dimension.
-                r (int): Target rank.
-                b (int): Linear variables degree
-        """
+       Args:
+           m (int): Extension degree.
+           n (int): Code length.
+           k (int): Code dimension.
+           r (int): Target rank.
+           b (int): Linear variables degree
+    """
     if (1 > k) or (k > n) or (b < 1) or (r < 1) or (m < 1) or (r > n - k - 1):
         return None
 
@@ -46,14 +48,15 @@ def nb_fq_syz(m, n, k, r, b):
 
 
 def compute_nb(m, n, k, r, b):
-    """Returns the number of rows.
+    """
+       Returns the number of rows.
 
-        Args:
-            m (int): Extension degree.
-            n (int): Code length.
-            k (int): Code dimension.
-            r (int): Target rank.
-            b (int): Linear variables degree.
+       Args:
+           m (int): Extension degree.
+           n (int): Code length.
+           k (int): Code dimension.
+           r (int): Target rank.
+           b (int): Linear variables degree.
     """
     if b == 0:
         if (n - k - 1) >= r:
@@ -69,14 +72,15 @@ def compute_nb(m, n, k, r, b):
 
 
 def compute_mb(m, n, k, r, b):
-    """Returns the number of columns.
+    """
+       Returns the number of columns.
 
-        Args:
-            m (int): Extension degree.
-            n (int): Code length.
-            k (int): Code dimension.
-            r (int): Target rank.
-            b (int): Linear variables degree
+       Args:
+           m (int): Extension degree.
+           n (int): Code length.
+           k (int): Code dimension.
+           r (int): Target rank.
+           b (int): Linear variables degree
     """
     if (1 > k) or (k > n) or (b < 0) or (r < 1) or (m < 1) or (r > n - k - 1):
         return None
@@ -92,7 +96,8 @@ def compute_mb(m, n, k, r, b):
 
 
 def find_p_sm_fqm(m, n, k, r, b, p_min, p_max):
-    """Returns p for the given instance.
+    """
+       Returns p for the given instance.
 
        Args:
            m (int): Extension degree.
@@ -119,18 +124,19 @@ def find_p_sm_fqm(m, n, k, r, b, p_min, p_max):
 
 
 def find_best_choice_param_mm(m, n, k, r, a_min, a_max, p_min, p_max):
-    """Returns the best choice (a,p) for Max Minors for the given instance.
+    """
+       Returns the best choice (a,p) for Max Minors for the given instance.
 
-         Args:
-             m (int): Extension degree.
-             n (int): Code length.
-             k (int): Code dimension.
-             r (int): Target rank.
-             a_min (int): minimum value for a
-             a_max (int): maximum value for a
-             p_min (int): minimum value for p
-             p_max (int): maximum value for p
-      """
+       Args:
+           m (int): Extension degree.
+           n (int): Code length.
+           k (int): Code dimension.
+           r (int): Target rank.
+           a_min (int): minimum value for a
+           a_max (int): maximum value for a
+           p_min (int): minimum value for p
+           p_max (int): maximum value for p
+    """
     a = a_min
     nb = compute_nb(m, n - a, k - a, r, 0)
     mb = compute_mb(m, n - a, k - a, r, 0)
@@ -150,7 +156,8 @@ def find_best_choice_param_mm(m, n, k, r, a_min, a_max, p_min, p_max):
 
 
 def find_b_sm_fqm(m, n, k, r, b_min, b_max):
-    """Returns a proper b in range [b_min,b_max] for the given instance.
+    """
+       Returns a proper b in range [b_min,b_max] for the given instance.
 
        Args:
            m (int): Extension degree.
@@ -159,7 +166,6 @@ def find_b_sm_fqm(m, n, k, r, b_min, b_max):
            r (int): Target rank.
            b_min (int): minimum value for b
            b_max (int): maximum value for b
-
     """
     b = b_min
     nb = compute_nb(m, n, k, r, b)
@@ -177,9 +183,10 @@ def find_b_sm_fqm(m, n, k, r, b_min, b_max):
 
 
 def find_valid_choices_param_sm_fqm(m, n, k, r, a_min, a_max, p_min, p_max, b_min, b_max):
-    """Returns valid choices of params (b,a,p) for Support Minors for the given instance.
+    """
+       Returns valid choices of params (b,a,p) for Support Minors for the given instance.
 
-        Args:
+       Args:
             m (int): Extension degree.
             n (int): Code length.
             k (int): Code dimension.
