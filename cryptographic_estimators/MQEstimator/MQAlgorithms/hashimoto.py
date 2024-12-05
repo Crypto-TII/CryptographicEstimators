@@ -19,8 +19,8 @@
 from cryptographic_estimators.base_algorithm import optimal_parameter
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
+from ...MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
 from ...base_constants import BASE_KEY_RECOVERY_ATTACK
-from ...MQEstimator.mq_helper import MQ
 from math import log2, inf
 
 from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
@@ -109,11 +109,15 @@ class Hashimoto(MQAlgorithm):
         k = parameters["k"]
 
         if (a * (m - k) - (a-1)**2 + k) <= n:
-            """com1 = log2(m - a - k + 1) + MQ(q, a, a)
-            com2 = k * log2(q) + MQ(q, a - 1, a - 1)
-            com3 = k * log2(q) + MQ(q, m - a - k, m - a)
-            comp = max(com1, com2, com3)
-            return comp""" 
+            E_1 = BooleanSolveFXL(MQProblem(q=q, n=a, m=a), bit_complexities=0)
+            E_2 = BooleanSolveFXL(MQProblem(q=q, n=a-1, m=a-1), bit_complexities=0)
+            E_3 = BooleanSolveFXL(MQProblem(q=q, n=m-a-k, m=m-a), bit_complexities=0)
+
+            com1 = log2(m - a - k + 1) + E_1.time_complexity()
+            com2 = k * log2(q) + E_2.time_complexity()
+            com3 = k * log2(q) + E_3.time_complexity()
+            return max(com1, com2, com3)
+
         return inf
     
     def _compute_memory_complexity(self, parameters: dict):
