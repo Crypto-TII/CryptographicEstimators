@@ -33,8 +33,6 @@ class SDEstimator(BaseEstimator):
         excluded_algorithms (Union[List, Tuple], optional): A list or tuple of excluded algorithms. Defaults to None.
         nsolutions (int): Number of solutions.
 
-    Todo:
-        * Maybe we should add the optional_parameters dictionary here?
     """
 
     excluded_algorithms_by_default = [BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3]

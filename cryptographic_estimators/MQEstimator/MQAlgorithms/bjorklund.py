@@ -59,7 +59,7 @@ class Bjorklund(MQAlgorithm):
 
     @optimal_parameter
     def lambda_(self):
-        """Return the optimal lambda_.
+        """Return the optimal lambda\_.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.bjorklund import Bjorklund
