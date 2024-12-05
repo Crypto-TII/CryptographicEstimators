@@ -23,8 +23,6 @@ from ...MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
 from ...base_constants import BASE_KEY_RECOVERY_ATTACK
 from math import log2, inf
 
-from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-
 
 class Hashimoto(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
@@ -116,6 +114,7 @@ class Hashimoto(MQAlgorithm):
             com1 = log2(m - a - k + 1) + E_1.time_complexity()
             com2 = k * log2(q) + E_2.time_complexity()
             com3 = k * log2(q) + E_3.time_complexity()
+            print(a, k, max(com1, com2, com3))
             return max(com1, com2, com3)
 
         return inf
@@ -125,8 +124,29 @@ class Hashimoto(MQAlgorithm):
     
         Args:
             parameters (dict): Dictionary including the parameters.
+
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hashimoto import Hashimoto
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = Hashimoto(MQProblem(q=16, n=924, m=67), bit_complexities=False)
+            >>> E.memory_complexity()
+            31.062267061719346      
         """
-        return 0
+        n, m, q = self.problem.get_problem_parameters()
+        a = parameters["a"]
+        k = parameters["k"]
+
+        if (a * (m - k) - (a-1)**2 + k) <= n:
+            E_1 = BooleanSolveFXL(MQProblem(q=q, n=a, m=a), bit_complexities=0)
+            E_2 = BooleanSolveFXL(MQProblem(q=q, n=a-1, m=a-1), bit_complexities=0)
+            E_3 = BooleanSolveFXL(MQProblem(q=q, n=m-a-k, m=m-a), bit_complexities=0)
+
+            com1 = E_1.memory_complexity()
+            com2 = E_2.memory_complexity()
+            com3 = E_3.memory_complexity()
+            return max(com1, com2, com3)
+        
+        return inf
 
 
 
