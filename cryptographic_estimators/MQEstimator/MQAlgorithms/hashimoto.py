@@ -30,7 +30,8 @@ class Hashimoto(MQAlgorithm):
 
         There are several algorithms for solving systems of quadratic equations, especially 
         when the number of variables is significantly larger than the number of equations. 
-        This algorithm reduces the number of variables required compared to previous strategies [Has21]_.
+        This algorithm ([Has21]_) reduces the number of variables required compared to previous strategies 
+        such as those presented in [FNT21]_ and [TW12].  
 
         Args:
             problem (MQProblem): MQProblem object including all necessary parameters.
@@ -59,7 +60,7 @@ class Hashimoto(MQAlgorithm):
 
         m = self.problem.npolynomials()               
         self.set_parameter_ranges("a", 3, (m // 2) - 1)   
-        self.set_parameter_ranges("k", 1, (m // 2) - 1 )
+        self.set_parameter_ranges("k", 1, (m // 2) - 1)
 
     @optimal_parameter
     def k(self):
@@ -114,7 +115,6 @@ class Hashimoto(MQAlgorithm):
             com1 = log2(m - a - k + 1) + E_1.time_complexity()
             com2 = k * log2(q) + E_2.time_complexity()
             com3 = k * log2(q) + E_3.time_complexity()
-            print(a, k, max(com1, com2, com3))
             return max(com1, com2, com3)
 
         return inf
