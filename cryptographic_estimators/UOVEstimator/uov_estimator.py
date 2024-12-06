@@ -118,7 +118,7 @@ class UOVEstimator(BaseEstimator):
             +--------------------+--------------+-------+--------+-----------------------------------------+
             | algorithm          | attack_type  |  time | memory |                parameters               |
             +--------------------+--------------+-------+--------+-----------------------------------------+
-            | DirectAttack       |   forgery    | 165.2 |   53.0 | {'k': 12, 'variant': 'BooleanSolveFXL'} |
+            | DirectAttack       |   forgery    | 160.7 |   53.0 | {'k': 12, 'variant': 'BooleanSolveFXL'} |
             | KipnisShamir       | key-recovery | 153.7 |   22.6 |                    {}                   |
             | CollisionAttack    |   forgery    | 141.0 |  131.7 |       {'X': 132.618, 'Y': 121.747}      |
             | IntersectionAttack | key-recovery | 176.2 |   76.9 |                 {'k': 3}                |

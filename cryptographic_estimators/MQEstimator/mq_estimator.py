@@ -57,6 +57,7 @@ class MQEstimator(BaseEstimator):
             | F5               | 27.065 | 23.158 |
             | HybridF5         | 17.906 | 11.720 |
             | Lokshtanov       | 62.854 | 16.105 |
+            | Hashimoto        |     -- |     -- |
             +------------------+--------+--------+
 
             >>> if skip_long_doctests:
@@ -78,6 +79,7 @@ class MQEstimator(BaseEstimator):
             | F5               | 62.4 |   57.0 |
             | HybridF5         | 45.4 |   16.1 |
             | Lokshtanov       | 87.1 |   42.4 |
+            | Hashimoto        |   -- |     -- |
             +------------------+------+--------+
 
 
