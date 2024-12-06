@@ -71,10 +71,16 @@ class Crossbred(MQAlgorithm):
 2. Every docstring should have a one-liner top description. On some very simple
    methods this one-liner could be enough.
 
-3. If your docstring needs any external reference, please include them with the
-   syntax `[XXXX]_` . Ex: `[JV18]_` or `[Dua20]_`. This format is parsed by
-   Sphinx to create hyperlinks on the HTML documentation.
+3. If your docstring needs any external reference, please:
+
+- Include your reference in the `references.rst` file at the root of the
+  project. You can find examples on how to do it there.
+
+- Include any cite in your docstrings by using the syntax `[XXXX]_` . Ex:
+  `[JV18]_` or `[Dua20]_`. This format is parsed by Sphinx to create hyperlinks
+  on the HTML documentation.
 
 4. If your method or function supports `**kwargs`, you can document the expected
    named arguments by adding another indentation level, and then following the
-   same structure used by normal arguments.
+   same structure used by normal arguments (look at the example above for
+   details).

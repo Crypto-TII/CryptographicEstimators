@@ -38,7 +38,7 @@ user friendly and installation-free web application.
 
 ### Prerequisites ✔️
 
-You need to have Python 3 installed on your machine.
+You need to have `python3`, `make` and `git` installed on your machine.
 
 **Optional:** If you want to install the package in an isolated
 [Python virtual environment](https://docs.python.org/3/library/venv.html), run

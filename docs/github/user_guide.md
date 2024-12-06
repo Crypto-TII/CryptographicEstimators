@@ -5,15 +5,15 @@ This is an open source project to estimate the hardness of computational
 problems relevant in cryptography. The source code is available
 [here](https://github.com/Crypto-TII/cryptographic_estimators).
 
-## Prerequisites and installation of the library
+## 1. Prerequisites and installation of the library
 
 You can find a list of prerequisites and step-by-step instructions to install
 the _CyptographicEstimators_ library
 [here](https://github.com/Crypto-TII/cryptographic_estimators).
 
-## Using the Estimators
+## 2. Using the Estimators
 
-### Importing estimators
+### 2.1. Importing estimators
 
 The estimator class of the _Dummy problem_ is imported from the by executing:
 `from cryptographic_estimators.ExampleEstimator import ExampleEstimator`
@@ -37,7 +37,7 @@ the _permuted kernel problem_, the `PEEstimator` for the _permutation
 equivalence problem_, the `LEEstimator` for the _linear equivalence problem_ and
 the `SDFqEstimator` for the _syndrome decoding problem over Fq_
 
-### Creating estimator objects
+### 2.2. Creating estimator objects
 
 An estimator of the hardness of the _Example_ problem with $p_1=10$ and $p_2=7$
 is created by running: `ExampleEstimator(p1=10, p2=7)`.
