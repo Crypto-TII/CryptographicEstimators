@@ -39,9 +39,9 @@ def header_style(section, level):
 
 
 with Path(SOURCE_ROOT_FOLDER, "index.rst").open(mode="w") as index_rst_file:
-    index_rst_file.write("=========================\n"
+    index_rst_file.write("================================\n"
                          "CryptographicEstimators Library\n"
-                         "=========================\n"
+                         "================================\n"
                          "\n"
                          "This is a sample reference manual for CryptographicEstimators library.\n"
                          "\n"
