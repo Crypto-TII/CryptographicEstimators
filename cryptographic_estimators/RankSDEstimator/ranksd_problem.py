@@ -16,16 +16,16 @@
 # ****************************************************************************
 
 
-from ..base_problem import BaseProblem
+from math import log2, ceil
+
+from cryptographic_estimators.helper import is_prime_power, ngates
 from .ranksd_constants import RANKSD_BASE_FIELD_ORDER, RANKSD_DEGREE_EXTENSION, \
     RANKSD_CODE_LENGTH, RANKSD_CODE_DIMENSION, RANKSD_TARGET_RANK
-from math import log2, ceil
-from cryptographic_estimators.helper import is_prime_power, ngates
+from ..base_problem import BaseProblem
 
 
 class RankSDProblem(BaseProblem):
-    """
-       Construct an instance of RankSDProblem.
+    """Construct an instance of RankSDProblem.
 
        Args:
            q (int): Base field order.
@@ -43,13 +43,7 @@ class RankSDProblem(BaseProblem):
 
     def __init__(self, q: int, m: int, n: int, k: int, r: int, **kwargs):  # Fill with parameters
         super().__init__(**kwargs)
-        self.parameters[RANKSD_BASE_FIELD_ORDER] = q
-        self.parameters[RANKSD_DEGREE_EXTENSION] = m
-        self.parameters[RANKSD_CODE_LENGTH] = n
-        self.parameters[RANKSD_CODE_DIMENSION] = k
-        self.parameters[RANKSD_TARGET_RANK] = r
-        self._theta = kwargs.get("theta", 2)
-        self.operations_on_base_field = True
+
         if q is not None and not is_prime_power(q):
             raise ValueError("q must be a prime power")
 
@@ -59,18 +53,27 @@ class RankSDProblem(BaseProblem):
         if m < 1:
             raise ValueError("m must be >= 1")
 
-        if k < 1:
-            raise ValueError("k must be >= 1")
+        if k < 1 or n <= k:
+            raise ValueError("k must be in the range [1, n-1]")
 
-        if r < 1:
-            raise ValueError("r must be >= 1")
+        if r < 1 or m <= r:
+            raise ValueError("r must be in the range [1, m-1]")
 
-        if self._theta is not None and not (0 <= self._theta <= 2):
+        theta = kwargs.get("theta", 2)
+
+        if theta is not None and not (0 <= theta <= 2):
             raise ValueError("theta must be either None or 0<=theta <= 2")
 
+        self.parameters[RANKSD_BASE_FIELD_ORDER] = q
+        self.parameters[RANKSD_DEGREE_EXTENSION] = m
+        self.parameters[RANKSD_CODE_LENGTH] = n
+        self.parameters[RANKSD_CODE_DIMENSION] = k
+        self.parameters[RANKSD_TARGET_RANK] = r
+        self._theta = theta
+        self.operations_on_base_field = True
+
     def set_operations_on_base_field(self, value):
-        """
-           Set operations_on_base_field to value.
+        """Set operations_on_base_field to value.
 
            Args:
                value (boolean): True if operations are performed on Fq. False if operations are performed on Fq^m.
@@ -80,8 +83,7 @@ class RankSDProblem(BaseProblem):
         self.operations_on_base_field = value
 
     def to_bitcomplexity_time(self, basic_operations: float):
-        """
-           Return the bit-complexity corresponding to a certain amount of basic_operations.
+        """Return the bit-complexity corresponding to a certain amount of basic_operations.
 
            Args:
                basic_operations (float): Number of basic operations (logarithmic).
@@ -106,8 +108,7 @@ class RankSDProblem(BaseProblem):
         return ngates(q, basic_operations, theta=theta)
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
-        """
-           Return the memory bit-complexity associated to a given number of elements to store.
+        """Return the memory bit-complexity associated to a given number of elements to store.
 
            Args:
               elements_to_store: number of memory operations (logarithmic).
@@ -138,8 +139,7 @@ class RankSDProblem(BaseProblem):
         self._theta = value
 
     def base_field_order(self):
-        """
-           Return the order of the base finite field.
+        """Return the order of the base finite field.
 
            Tests:
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
@@ -150,8 +150,7 @@ class RankSDProblem(BaseProblem):
         return self.parameters[RANKSD_BASE_FIELD_ORDER]
 
     def degree_extension(self):
-        """
-           Return the degree of the field extension.
+        """Return the degree of the field extension.
 
            Tests:
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
@@ -162,8 +161,7 @@ class RankSDProblem(BaseProblem):
         return self.parameters[RANKSD_DEGREE_EXTENSION]
 
     def code_length(self):
-        """
-           Return the dimension of the vector space.
+        """Return the dimension of the vector space.
 
            Tests:
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
@@ -174,8 +172,7 @@ class RankSDProblem(BaseProblem):
         return self.parameters[RANKSD_CODE_LENGTH]
 
     def code_dimension(self):
-        """
-           Return the dimension of the code.
+        """Return the dimension of the code.
 
            Tests:
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
@@ -186,8 +183,7 @@ class RankSDProblem(BaseProblem):
         return self.parameters[RANKSD_CODE_DIMENSION]
 
     def target_rank(self):
-        """
-           Return the target rank.
+        """Return the target rank.
 
            Tests:
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem
@@ -198,8 +194,7 @@ class RankSDProblem(BaseProblem):
         return self.parameters[RANKSD_TARGET_RANK]
 
     def __repr__(self):
-        """
-           Returns a string representation of the object.
+        """Returns a string representation of the object.
 
            Tests:
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem  import RankSDProblem

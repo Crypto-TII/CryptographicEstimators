@@ -17,16 +17,15 @@
 
 
 from ..ranksd_algorithm import RankSDAlgorithm
-from ..ranksd_problem import RankSDProblem
 from ..ranksd_constants import RANKSD_NUMBER_OF_PUNCTURED_POSITIONS, \
     RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS, RANKSD_LINEAR_VARIABLES_DEGREE
-from ...base_algorithm import optimal_parameter
 from ..ranksd_helper import find_valid_choices_param_sm_fqm
+from ..ranksd_problem import RankSDProblem
+from ...base_algorithm import optimal_parameter
 
 
 class SupportMinors(RankSDAlgorithm):
-    """
-       Construct an instance of SupportMinors estimator
+    """Construct an instance of SupportMinors estimator
 
        This algorithm tries to solve a given instance by solving the system from the
        Support Minors over Fq^m combined with MaxMinors over Fq modelling introduced in [BBBGT23]_
@@ -56,8 +55,7 @@ class SupportMinors(RankSDAlgorithm):
 
     @optimal_parameter
     def b(self):
-        """
-           Return the optimal `b`, such that Nb>=Mb-1,where Nb is the number rows and Mb is the number of columns.
+        """Return the optimal `b`, such that Nb>=Mb-1,where Nb is the number rows and Mb is the number of columns.
 
            Examples:
                 >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
@@ -77,8 +75,7 @@ class SupportMinors(RankSDAlgorithm):
 
     @optimal_parameter
     def a(self):
-        """
-           Return the optimal `a`, i.e. the number of columns specialized in X.
+        """Return the optimal `a`, i.e. the number of columns specialized in X.
 
            Examples:
                 >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
@@ -98,8 +95,7 @@ class SupportMinors(RankSDAlgorithm):
 
     @optimal_parameter
     def p(self):
-        """
-           Return the optimal `p`, i.e. the number of positions to puncture the code.
+        """Return the optimal `p`, i.e. the number of positions to puncture the code.
 
            Examples:
                 >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors import SupportMinors
@@ -122,8 +118,7 @@ class SupportMinors(RankSDAlgorithm):
         return self._get_optimal_parameter(RANKSD_NUMBER_OF_PUNCTURED_POSITIONS)
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-           Return the time complexity of the algorithm for a given set of parameters.
+        """Return the time complexity of the algorithm for a given set of parameters.
 
            Args:
               parameters (dict): Dictionary including the parameters.
@@ -142,8 +137,7 @@ class SupportMinors(RankSDAlgorithm):
         return self.compute_time_complexity_helper(a, b, p, self.on_base_field)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-           Return the memory complexity of the algorithm for a given set of parameters
+        """Return the memory complexity of the algorithm for a given set of parameters
 
            Args:
                parameters (dict): Dictionary including the parameters.
@@ -161,8 +155,7 @@ class SupportMinors(RankSDAlgorithm):
         return self.compute_memory_complexity_helper(a, b, p, self.on_base_field)
 
     def _valid_choices(self):
-        """
-           Generator yielding new sets of valid parameters.
+        """Generator yielding new sets of valid parameters.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
         a_min = new_ranges[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS]["min"]

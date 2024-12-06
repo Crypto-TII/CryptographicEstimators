@@ -16,16 +16,16 @@
 # ****************************************************************************
 
 
-from ..base_algorithm import BaseAlgorithm
-from .ranksd_problem import RankSDProblem
-from .ranksd_helper import compute_nb, compute_mb
 from math import log2
+
+from .ranksd_helper import compute_nb, compute_mb
+from .ranksd_problem import RankSDProblem
+from ..base_algorithm import BaseAlgorithm
 
 
 class RankSDAlgorithm(BaseAlgorithm):
     def __init__(self, problem: RankSDProblem, **kwargs):
-        """
-           Base class for RankSD algorithms complexity estimator.
+        """Base class for RankSD algorithms complexity estimator.
 
            Args:
                 problem (RankSDProblem): RankSDProblem object including all necessary parameters.
@@ -49,8 +49,7 @@ class RankSDAlgorithm(BaseAlgorithm):
             raise ValueError("w must be in the range 2 <= w <= 3")
 
     def linear_algebra_constant(self):
-        """
-           Return the linear algebra constant.
+        """Return the linear algebra constant.
 
            Tests:
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_algorithm import RankSDAlgorithm
@@ -61,8 +60,7 @@ class RankSDAlgorithm(BaseAlgorithm):
         return self._w
 
     def get_reduced_instance_parameters(self, a, p):
-        """
-           Return the problem parameters of the reduced instance, i.e., after puncturing the code on ``p`` positions
+        """Return the problem parameters of the reduced instance, i.e., after puncturing the code on ``p`` positions
            and specializing ``a`` columns in X.
 
            Args:
@@ -78,8 +76,7 @@ class RankSDAlgorithm(BaseAlgorithm):
         return q_reduced, m_reduced, n_reduced, k_reduced, r_reduced
 
     def compute_time_complexity_helper(self, a, b, p, op_on_base_field):
-        """
-           Return the time complexity of the reduced instance, i.e.,
+        """Return the time complexity of the reduced instance, i.e.,
            after puncturing the code on ``p`` positions and specializing ``a`` columns in X.
 
            Args:
@@ -99,8 +96,7 @@ class RankSDAlgorithm(BaseAlgorithm):
         return time_complexity
 
     def compute_memory_complexity_helper(self, a, b, p, op_on_base_field):
-        """
-           Return the time complexity of the reduced instance, i.e.,
+        """Return the time complexity of the reduced instance, i.e.,
            after puncturing the code on ``p`` positions and specializing ``a`` columns in X.
 
            Args:
@@ -110,15 +106,24 @@ class RankSDAlgorithm(BaseAlgorithm):
                op_on_base_field (boolean): True if operations are performed on Fq. False if performed on Fq^m.
         """
 
-        self.problem.set_operations_on_base_field(op_on_base_field)
-
         _, m, n_red, k_red, r = self.get_reduced_instance_parameters(a, p)
-        self.problem.set_operations_on_base_field(op_on_base_field)
-
         n_rows = compute_nb(m, n_red, k_red, r, b)
         n_columns = compute_mb(m, n_red, k_red, r, b)
+        return self.__compute_memory_complexity_helper__(n_rows, n_columns, op_on_base_field)
 
-        memory_complexity = log2(n_rows * n_columns)
+    def __compute_memory_complexity_helper__(self, n_rows, n_columns, op_on_base_field):
+        """Return the log of the number of field elements to store an n_rows x n_columns matrix.
+
+            Args:
+                n_rows (int): Number of columns to guess in X.
+                n_columns (int): Degree of linear variables.
+                op_on_base_field (boolean): True if operations are performed on Fq. False if performed on Fq^m.
+        """
+
+        memory_complexity = 0
+        self.problem.set_operations_on_base_field(op_on_base_field)
+        if n_columns > 0 and n_rows > 0:
+            memory_complexity += log2(n_rows * n_columns)
 
         return memory_complexity
 

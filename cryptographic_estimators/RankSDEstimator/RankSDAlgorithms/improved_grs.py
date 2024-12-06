@@ -16,14 +16,14 @@
 # ****************************************************************************
 
 
+from math import log2, ceil, inf
+
 from ..ranksd_algorithm import RankSDAlgorithm
 from ..ranksd_problem import RankSDProblem
-from math import log2, ceil
 
 
 class ImprovedGRS(RankSDAlgorithm):
-    """
-       Construct an instance of ImprovedGRS estimator.
+    """Construct an instance of ImprovedGRS estimator.
 
        This algorithm tries to solve a given instance by searching for a linear subspace E'
        of dimension r' ≥ r such that e*Suppx ⊆ E' for a nonzero e in Fq^m and then
@@ -49,8 +49,7 @@ class ImprovedGRS(RankSDAlgorithm):
         self._name = "Improved GRS"
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-           Return the time complexity of the algorithm for a given set of parameters.
+        """Return the time complexity of the algorithm for a given set of parameters.
 
            Args:
               parameters (dict): Dictionary including the parameters.
@@ -64,17 +63,18 @@ class ImprovedGRS(RankSDAlgorithm):
         """
 
         q, m, n, k, r = self.problem.get_parameters()
-        self.problem.set_operations_on_base_field(self.on_base_field)
 
-        t1 = self._w * log2((n - k) * m)
-        mu1 = r * ceil(((k + 1) * m) / n) - m
-        time_complexity = t1 + max(0, mu1 * log2(q))
-
-        return time_complexity
+        if k + 1 < n:
+            self.problem.set_operations_on_base_field(self.on_base_field)
+            t1 = self._w * log2((n - k) * m)
+            mu1 = r * ceil(((k + 1) * m) / n) - m
+            time_complexity = t1 + max(0, mu1 * log2(q))
+            return time_complexity
+        else:
+            return inf
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-           Return the memory complexity of the algorithm for a given set of parameters.
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
            Args:
                parameters (dict): Dictionary including the parameters.
@@ -87,10 +87,10 @@ class ImprovedGRS(RankSDAlgorithm):
                26.189305558541125
         """
         _, m, n, k, _ = self.problem.get_parameters()
-        self.problem.set_operations_on_base_field(self.on_base_field)
-        r1 = m - ceil(((k + 1) * m) / n)
-        n_columns = r1 * n
-        n_rows = (n - k - 1) * m
-        memory_complexity = log2(n_rows * n_columns)
-
-        return memory_complexity
+        if k + 1 < n:
+            r1 = m - ceil(((k + 1) * m) / n)
+            n_columns = r1 * n
+            n_rows = (n - k - 1) * m
+            return self.__compute_memory_complexity_helper__(n_rows, n_columns, self.on_base_field)
+        else:
+            return inf

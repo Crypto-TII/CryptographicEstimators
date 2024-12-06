@@ -16,16 +16,16 @@
 # ****************************************************************************
 
 
+from math import log2, ceil, floor, inf
+
 from ..ranksd_algorithm import RankSDAlgorithm
-from ..ranksd_problem import RankSDProblem
 from ..ranksd_constants import RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS
+from ..ranksd_problem import RankSDProblem
 from ...base_algorithm import optimal_parameter
-from math import log2, ceil, floor
 
 
 class GuessingEnhancedGRS(RankSDAlgorithm):
-    """
-       Construct an instance of GuessingEnhancedGRS estimator.
+    """Construct an instance of GuessingEnhancedGRS estimator.
 
        This algorithm tries to solve a given instance by guessing t Fq-elements in X and
        then applying the Improved GRS to the instance with the guessed values.
@@ -53,8 +53,7 @@ class GuessingEnhancedGRS(RankSDAlgorithm):
 
     @optimal_parameter
     def t(self):
-        """
-           Return the optimal `t`, i.e. the number of Fq-elements guessed in X.
+        """Return the optimal `t`, i.e. the number of Fq-elements guessed in X.
 
            Examples:
                >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.guessing_enhanced_grs import GuessingEnhancedGRS
@@ -73,8 +72,7 @@ class GuessingEnhancedGRS(RankSDAlgorithm):
         return self._get_optimal_parameter(RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS)
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-           Return the time complexity of the algorithm for a given set of parameters.
+        """Return the time complexity of the algorithm for a given set of parameters.
 
            Args:
                parameters (dict): Dictionary including the parameters.
@@ -88,17 +86,18 @@ class GuessingEnhancedGRS(RankSDAlgorithm):
         """
 
         q, m, n, k, r = self.problem.get_parameters()
-        self.problem.set_operations_on_base_field(self.on_base_field)
-        t = parameters[RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS]
-        t1 = self._w * log2((n - k) * m + t)
-        mu1 = r * ceil(((k + 1) * m - t) / n) - m + t
-        time_complexity = t1 + max(0, mu1 * log2(q))
-
-        return time_complexity
+        if k + 1 < n:
+            self.problem.set_operations_on_base_field(self.on_base_field)
+            t = parameters[RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS]
+            t1 = self._w * log2((n - k) * m + t)
+            mu1 = r * ceil(((k + 1) * m - t) / n) - m + t
+            time_complexity = t1 + max(0, mu1 * log2(q))
+            return time_complexity
+        else:
+            return inf
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-           Return the memory complexity of the algorithm for a given set of parameters.
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
            Args:
               parameters (dict): Dictionary including the parameters.
@@ -112,11 +111,11 @@ class GuessingEnhancedGRS(RankSDAlgorithm):
         """
 
         _, m, n, k, _ = self.problem.get_parameters()
-        self.problem.set_operations_on_base_field(self.on_base_field)
-        t = parameters[RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS]
-        r_1 = floor(((n - k - 1) * m + t) / n)
-        n_columns = r_1 * n
-        n_rows = (n - k - 1) * m + t
-        memory_complexity = log2(n_rows * n_columns)
-
-        return memory_complexity
+        if k + 1 < n:
+            t = parameters[RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS]
+            r_1 = floor(((n - k - 1) * m + t) / n)
+            n_columns = r_1 * n
+            n_rows = (n - k - 1) * m + t
+            return self.__compute_memory_complexity_helper__(n_rows, n_columns, self.on_base_field)
+        else:
+            return inf

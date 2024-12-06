@@ -16,14 +16,14 @@
 # ****************************************************************************
 
 
+from math import log2
+
 from ..ranksd_algorithm import RankSDAlgorithm
 from ..ranksd_problem import RankSDProblem
-from math import log2
 
 
 class BasisEnumeration(RankSDAlgorithm):
-    """
-       Construct an instance of Basis Enumeration estimator.
+    """Construct an instance of Basis Enumeration estimator.
 
        This algorithm tries to solve a given instance by enumerating
        the possible supports for the vector x, and solving the linear system
@@ -49,8 +49,7 @@ class BasisEnumeration(RankSDAlgorithm):
         self._name = "BasisEnumeration"
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-           Return the time complexity of the algorithm for a given set of parameters.
+        """Return the time complexity of the algorithm for a given set of parameters.
 
            Args:
                parameters (dict): Dictionary including the parameters.
@@ -68,8 +67,7 @@ class BasisEnumeration(RankSDAlgorithm):
         return time_complexity
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-           Return the memory complexity of the algorithm for a given set of parameters.
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
            Args:
                parameters (dict): Dictionary including the parameters.
@@ -82,9 +80,6 @@ class BasisEnumeration(RankSDAlgorithm):
                23.014300107627076
         """
         _, m, n, k, r = self.problem.get_parameters()
-        self.problem.set_operations_on_base_field(self.on_base_field)
         n_rows = (n - k) * m
         n_columns = n * r + m
-        memory_complexity = log2(n_rows * n_columns)
-
-        return memory_complexity
+        return self.__compute_memory_complexity_helper__(n_rows, n_columns, self.on_base_field)

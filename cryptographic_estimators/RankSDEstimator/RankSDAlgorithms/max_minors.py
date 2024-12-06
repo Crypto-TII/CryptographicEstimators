@@ -17,15 +17,14 @@
 
 
 from ..ranksd_algorithm import RankSDAlgorithm
-from ..ranksd_problem import RankSDProblem
 from ..ranksd_constants import RANKSD_NUMBER_OF_PUNCTURED_POSITIONS, RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS
-from ...base_algorithm import optimal_parameter
 from ..ranksd_helper import find_best_choice_param_mm
+from ..ranksd_problem import RankSDProblem
+from ...base_algorithm import optimal_parameter
 
 
 class MaxMinors(RankSDAlgorithm):
-    """
-       Construct an instance of MaxMinors estimator.
+    """Construct an instance of MaxMinors estimator.
 
        This algorithm tries to solve a given instance by solving the linear system from
        the Max Minors modelling introduced in [BBBGNRT20]_, and improved in [BBCGPSTV20]_ and [BBBGT23]_
@@ -56,8 +55,7 @@ class MaxMinors(RankSDAlgorithm):
 
     @optimal_parameter
     def a(self):
-        """
-           Return the optimal `a`, i.e. the number of columns specialized in X.
+        """Return the optimal `a`, i.e. the number of columns specialized in X.
 
            Examples:
                 >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.max_minors import MaxMinors
@@ -77,8 +75,7 @@ class MaxMinors(RankSDAlgorithm):
 
     @optimal_parameter
     def p(self):
-        """
-           Return the optimal `p`, i.e. the number of positions to puncture the code.
+        """Return the optimal `p`, i.e. the number of positions to puncture the code.
 
            Examples:
                 >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.max_minors import MaxMinors
@@ -97,8 +94,7 @@ class MaxMinors(RankSDAlgorithm):
         return self._get_optimal_parameter(RANKSD_NUMBER_OF_PUNCTURED_POSITIONS)
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-           Return the time complexity of the algorithm for a given set of parameters.
+        """Return the time complexity of the algorithm for a given set of parameters.
 
            Args:
               parameters (dict): Dictionary including the parameters.
@@ -116,8 +112,7 @@ class MaxMinors(RankSDAlgorithm):
         return self.compute_time_complexity_helper(a, 0, p, self.on_base_field)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-           Return the memory complexity of the algorithm for a given set of parameters.
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
            Args:
               parameters (dict): Dictionary including the parameters.
@@ -135,8 +130,7 @@ class MaxMinors(RankSDAlgorithm):
         return self.compute_memory_complexity_helper(a, 0, p, self.on_base_field)
 
     def _valid_choices(self):
-        """
-           Generator yielding new sets of valid parameters.
+        """Generator yielding new sets of valid parameters.
         """
         new_ranges = self._fix_ranges_for_already_set_parameters()
         a_min = new_ranges[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS]["min"]

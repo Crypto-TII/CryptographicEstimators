@@ -1,11 +1,11 @@
 from math import comb as binomial, inf
+
 from .ranksd_constants import RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS, \
     RANKSD_LINEAR_VARIABLES_DEGREE, RANKSD_NUMBER_OF_PUNCTURED_POSITIONS
 
 
 def nb_fqm(m, n, k, r, b):
-    """
-       Returns the number of rows in SMFq^m at bi-degree b,1.
+    """Returns the number of rows in SMFq^m at bi-degree b,1.
 
        Args:
            m (int): Extension degree.
@@ -27,8 +27,7 @@ def nb_fqm(m, n, k, r, b):
 
 
 def nb_fq_syz(m, n, k, r, b):
-    """
-       Returns the number of syzygies in SMFq^m at bi-degree b,1.
+    """Returns the number of syzygies in SMFq^m at bi-degree b,1.
 
        Args:
            m (int): Extension degree.
@@ -48,8 +47,7 @@ def nb_fq_syz(m, n, k, r, b):
 
 
 def compute_nb(m, n, k, r, b):
-    """
-       Returns the number of rows.
+    """Returns the number of rows.
 
        Args:
            m (int): Extension degree.
@@ -72,8 +70,7 @@ def compute_nb(m, n, k, r, b):
 
 
 def compute_mb(m, n, k, r, b):
-    """
-       Returns the number of columns.
+    """Returns the number of columns.
 
        Args:
            m (int): Extension degree.
@@ -96,8 +93,7 @@ def compute_mb(m, n, k, r, b):
 
 
 def find_p_sm_fqm(m, n, k, r, b, p_min, p_max):
-    """
-       Returns p for the given instance.
+    """Returns p for the given instance.
 
        Args:
            m (int): Extension degree.
@@ -112,10 +108,16 @@ def find_p_sm_fqm(m, n, k, r, b, p_min, p_max):
     nb = compute_nb(m, n - p, k, r, b)
     mb = compute_mb(m, n - p, k, r, b)
 
+    if nb is None or mb is None:
+        return None
+
     while (nb >= mb - 1) and (n - p > 1) and p <= p_max:
         p = p + 1
         nb = compute_nb(m, n - p, k, r, b)
         mb = compute_mb(m, n - p, k, r, b)
+        if nb is None or mb is None:
+            nb = 0
+            mb = 0
 
     if nb < mb - 1:
         p = p - 1
@@ -124,8 +126,7 @@ def find_p_sm_fqm(m, n, k, r, b, p_min, p_max):
 
 
 def find_best_choice_param_mm(m, n, k, r, a_min, a_max, p_min, p_max):
-    """
-       Returns the best choice (a,p) for Max Minors for the given instance.
+    """Returns the best choice (a,p) for Max Minors for the given instance.
 
        Args:
            m (int): Extension degree.
@@ -141,10 +142,17 @@ def find_best_choice_param_mm(m, n, k, r, a_min, a_max, p_min, p_max):
     nb = compute_nb(m, n - a, k - a, r, 0)
     mb = compute_mb(m, n - a, k - a, r, 0)
     values = {}
+
+    if nb is None or mb is None:
+        return values
+
     while nb < mb - 1 and a <= a_max:
         a = a + 1
         nb = compute_nb(m, n - a, k - a, r, 0)
         mb = compute_mb(m, n - a, k - a, r, 0)
+        if nb is None or mb is None:
+            nb = -1
+            mb = 1
 
     if a == k:
         return values
@@ -156,8 +164,7 @@ def find_best_choice_param_mm(m, n, k, r, a_min, a_max, p_min, p_max):
 
 
 def find_b_sm_fqm(m, n, k, r, b_min, b_max):
-    """
-       Returns a proper b in range [b_min,b_max] for the given instance.
+    """Returns a proper b in range [b_min,b_max] for the given instance.
 
        Args:
            m (int): Extension degree.
@@ -171,10 +178,16 @@ def find_b_sm_fqm(m, n, k, r, b_min, b_max):
     nb = compute_nb(m, n, k, r, b)
     mb = compute_mb(m, n, k, r, b)
 
+    if nb is None or mb is None:
+        return None
+
     while (nb < mb - 1) and b <= b_max:
         b = b + 1
         nb = compute_nb(m, n, k, r, b)
         mb = compute_mb(m, n, k, r, b)
+        if nb is None or mb is None:
+            nb = -1
+            mb = 1
 
     if nb >= mb - 1:
         return b
@@ -183,8 +196,7 @@ def find_b_sm_fqm(m, n, k, r, b_min, b_max):
 
 
 def find_valid_choices_param_sm_fqm(m, n, k, r, a_min, a_max, p_min, p_max, b_min, b_max):
-    """
-       Returns valid choices of params (b,a,p) for Support Minors for the given instance.
+    """Returns valid choices of params (b,a,p) for Support Minors for the given instance.
 
        Args:
             m (int): Extension degree.
@@ -201,7 +213,10 @@ def find_valid_choices_param_sm_fqm(m, n, k, r, a_min, a_max, p_min, p_max, b_mi
     # This function assumes the system has an unique solution.
     values = find_best_choice_param_mm(m, n, k, r, a_min, a_max, p_min, p_max)
     valid_choices = []
-    if len(values) > 0 and values[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS] == 0:
+
+    if len(values) <= 0:
+        return valid_choices
+    elif values[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS] == 0:
         # MM solves it by itself
         return valid_choices
 

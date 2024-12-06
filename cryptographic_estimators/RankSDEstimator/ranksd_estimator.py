@@ -16,15 +16,15 @@
 # ****************************************************************************
 
 
+from math import inf
+
 from .ranksd_algorithm import RankSDAlgorithm
 from .ranksd_problem import RankSDProblem
 from ..base_estimator import BaseEstimator
-from math import inf
 
 
 class RankSDEstimator(BaseEstimator):
-    """
-       Construct an instance of RankSDEstimator.
+    """Construct an instance of RankSDEstimator.
 
        Args:
            q (int): Base field order.
@@ -51,8 +51,7 @@ class RankSDEstimator(BaseEstimator):
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
               show_all_parameters=0, precision=1, truncate=0):
-        """
-           Print table describing the complexity of each algorithm and its optimal parameters.
+        """Print table describing the complexity of each algorithm and its optimal parameters.
 
            Args:
                show_quantum_complexity (int): Show quantum time complexity (default: 0).

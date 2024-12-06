@@ -16,14 +16,14 @@
 # ****************************************************************************
 
 
+from math import log2, ceil, inf
+
 from ..ranksd_algorithm import RankSDAlgorithm
 from ..ranksd_problem import RankSDProblem
-from math import log2, ceil
 
 
 class GRS(RankSDAlgorithm):
-    """
-       Construct an instance of GRS estimator.
+    """Construct an instance of GRS estimator.
 
        This algorithm tries to solve a given instance by searching a linear subspace E'
        of dimension r' ≥ r such that Suppx ⊆ E', and solving the linear system
@@ -49,8 +49,7 @@ class GRS(RankSDAlgorithm):
         self._name = "GRS"
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-           Return the time complexity of the algorithm for a given set of parameters.
+        """Return the time complexity of the algorithm for a given set of parameters.
 
            Args:
                parameters (dict): Dictionary including the parameters.
@@ -65,17 +64,18 @@ class GRS(RankSDAlgorithm):
 
         q, m, n, k, r = self.problem.get_parameters()
         self.problem.set_operations_on_base_field(self.on_base_field)
-
         t1 = self._w * log2((n - k) * m)
         mu1 = r * ceil(k * m / n)
-        mu2 = (r - 1) * ceil((k + 1) * m / n)
         time_complexity_1 = t1 + mu1 * log2(q)
-        time_complexity_2 = t1 + mu2 * log2(q)
+        time_complexity_2 = inf
+        if k + 1 < n:
+            mu2 = (r - 1) * ceil((k + 1) * m / n)
+            time_complexity_2 = t1 + mu2 * log2(q)
+
         return min(time_complexity_1, time_complexity_2)
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-           Return the memory complexity of the algorithm for a given set of parameters.
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
            Args:
                parameters (dict): Dictionary including the parameters.
@@ -89,10 +89,7 @@ class GRS(RankSDAlgorithm):
         """
 
         _, m, n, k, r = self.problem.get_parameters()
-        self.problem.set_operations_on_base_field(self.on_base_field)
         r_1 = m - ceil(k * m / n)
         n_columns = r_1 * n
         n_rows = (n - k) * m
-        memory_complexity = log2(n_rows * n_columns)
-
-        return memory_complexity
+        return self.__compute_memory_complexity_helper__(n_rows, n_columns, self.on_base_field)

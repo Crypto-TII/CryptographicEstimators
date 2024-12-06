@@ -16,14 +16,14 @@
 # ****************************************************************************
 
 
+from math import log2, ceil
+
 from ..ranksd_algorithm import RankSDAlgorithm
 from ..ranksd_problem import RankSDProblem
-from math import log2, ceil
 
 
 class OJ1(RankSDAlgorithm):
-    """
-       Construct an instance of OJ strategy 1  estimator.
+    """Construct an instance of OJ strategy 1  estimator.
 
        This algorithm tries to solve a given instance by guessing the coefficient matrix of x
        associated with F_q basis of Suppx and solving a linearized quadratic system [OJ02]_
@@ -48,8 +48,7 @@ class OJ1(RankSDAlgorithm):
         self._name = "OJ strategy 1"
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-           Return the time complexity of the algorithm for a given set of parameters.
+        """Return the time complexity of the algorithm for a given set of parameters.
 
            Args:
                parameters (dict): Dictionary including the parameters.
@@ -64,13 +63,12 @@ class OJ1(RankSDAlgorithm):
 
         q, m, _, k, r = self.problem.get_parameters()
         self.problem.set_operations_on_base_field(self.on_base_field)
-        time_complexity = self._w * log2(m * r) + (r - 1) * (k + 1) * log2(q)
+        time_complexity = self._w * log2(m * r) + max(0, (r - 1) * (k + 1) * log2(q))
 
         return time_complexity
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-           Return the memory complexity of the algorithm for a given set of parameters.
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
            Args:
               parameters (dict): Dictionary including the parameters.
@@ -84,9 +82,7 @@ class OJ1(RankSDAlgorithm):
         """
 
         q, m, _, k, r = self.problem.get_parameters()
-        self.problem.set_operations_on_base_field(self.on_base_field)
         nn = ceil(((r - 1) * m + k + 1) / (m - 1))
         n_rows = nn * m
         n_columns = (r - 1) * m + k + nn + 1
-        memory_complexity = log2(n_rows * n_columns)
-        return memory_complexity
+        return self.__compute_memory_complexity_helper__(n_rows, n_columns, self.on_base_field)

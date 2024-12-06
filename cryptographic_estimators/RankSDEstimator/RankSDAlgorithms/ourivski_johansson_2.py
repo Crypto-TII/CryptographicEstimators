@@ -16,14 +16,14 @@
 # ****************************************************************************
 
 
+from math import log2, ceil
+
 from ..ranksd_algorithm import RankSDAlgorithm
 from ..ranksd_problem import RankSDProblem
-from math import log2, ceil
 
 
 class OJ2(RankSDAlgorithm):
-    """
-       Construct an instance of OJ strategy 2 estimator
+    """Construct an instance of OJ strategy 2 estimator
 
        This algorithm tries to solve a given instance by enumerating the possible F_q basis
        of Suppx, and solving a linearized quadratic system [OJ02]_
@@ -48,8 +48,7 @@ class OJ2(RankSDAlgorithm):
         self._name = "OJ strategy 2"
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-           Return the time complexity of the algorithm for a given set of parameters.
+        """Return the time complexity of the algorithm for a given set of parameters.
 
            Args:
                parameters (dict): Dictionary including the parameters.
@@ -69,8 +68,7 @@ class OJ2(RankSDAlgorithm):
         return time_complexity
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-           Return the memory complexity of the algorithm for a given set of parameters.
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
            Args:
               parameters (dict): Dictionary including the parameters.
@@ -83,9 +81,7 @@ class OJ2(RankSDAlgorithm):
               17.081441827692018
         """
         q, m, _, k, r = self.problem.get_parameters()
-        self.problem.set_operations_on_base_field(self.on_base_field)
-        N = ceil(((k + 1) * r) / (m - r))
-        n_rows = N * m
-        n_columns = (k + 1 + N) * r
-        memory_complexity = log2(n_rows * n_columns)
-        return memory_complexity
+        nn = ceil(((k + 1) * r) / (m - r))
+        n_rows = nn * m
+        n_columns = (k + 1 + nn) * r
+        return self.__compute_memory_complexity_helper__(n_rows, n_columns, self.on_base_field)

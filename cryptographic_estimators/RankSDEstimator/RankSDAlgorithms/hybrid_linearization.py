@@ -16,16 +16,16 @@
 # ****************************************************************************
 
 
+from math import log2
+
 from ..ranksd_algorithm import RankSDAlgorithm
+from ..ranksd_constants import RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS
 from ..ranksd_problem import RankSDProblem
 from ...base_algorithm import optimal_parameter
-from ..ranksd_constants import RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS
-from math import log2
 
 
 class HybridLinearization(RankSDAlgorithm):
-    """
-       Construct an instance of HybridLinearization estimator.
+    """Construct an instance of HybridLinearization estimator.
 
        This algorithm tries to solve a given instance by randomly generating new equations from
        the orginal equations and attempting to solve them by linearization [GRS16]_
@@ -54,8 +54,7 @@ class HybridLinearization(RankSDAlgorithm):
 
     @optimal_parameter
     def t(self):
-        """
-           Return the optimal `t`, i.e. the number of zero entries expected to have a random element of the support.
+        """Return the optimal `t`, i.e. the number of zero entries expected to have a random element of the support.
 
            Examples:
                >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.hybrid_linearization import HybridLinearization
@@ -74,8 +73,7 @@ class HybridLinearization(RankSDAlgorithm):
         return self._get_optimal_parameter(RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS)
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-           Return the time complexity of the algorithm for a given set of parameters.
+        """Return the time complexity of the algorithm for a given set of parameters.
 
            Args:
               parameters (dict): Dictionary including the parameters.
@@ -95,8 +93,7 @@ class HybridLinearization(RankSDAlgorithm):
         return time_complexity
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-           Return the memory complexity of the algorithm for a given set of parameters.
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
            Args:
                parameters (dict): Dictionary including the parameters.
@@ -109,16 +106,13 @@ class HybridLinearization(RankSDAlgorithm):
                19.59624618312637
         """
         q, m, n, k, r = self.problem.get_parameters()
-        self.problem.set_operations_on_base_field(self.on_base_field)
         t = parameters[RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS]
         n_rows = n - t
         n_columns = ((r + 1) * (k + 1 - t) - 1)
-        memory_complexity = log2(n_rows * n_columns)
-        return memory_complexity
+        return self.__compute_memory_complexity_helper__(n_rows, n_columns, self.on_base_field)
 
     def _are_parameters_invalid(self, parameters: dict):
-        """
-           Specifies constraints on the parameters.
+        """Specifies constraints on the parameters.
         """
         q, m, n, k, r = self.problem.get_parameters()
         t = parameters[RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS]
