@@ -20,8 +20,8 @@ from cryptographic_estimators.base_algorithm import optimal_parameter
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
 from ...MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
-from ...base_constants import BASE_KEY_RECOVERY_ATTACK
 from math import log2, inf
+import pytest
 
 
 class Hashimoto(MQAlgorithm):
@@ -56,7 +56,6 @@ class Hashimoto(MQAlgorithm):
         """
         super().__init__(problem, **kwargs)
         self._name = "Hashimoto"
-        self._attack_type = BASE_KEY_RECOVERY_ATTACK
 
         m = self.problem.npolynomials()               
         self.set_parameter_ranges("a", 3, (m // 2) - 1)   
@@ -64,29 +63,27 @@ class Hashimoto(MQAlgorithm):
 
     @optimal_parameter
     def k(self):
-        """
-        Return the optimal value of k.
+        """Return the optimal value of k.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hashimoto import Hashimoto
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            >>> E = Hashimoto(MQProblem(q=16, n=924, m=67))
+            >>> E = Hashimoto(MQProblem(q=16, n=45, m=10))
             >>> E.k()
-            8
+            1
         """
         return self._get_optimal_parameter("k")
 
     @optimal_parameter
     def a(self):
-        """
-        Return the optimal value of alpha.
+        """Return the optimal value of alpha.
         
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hashimoto import Hashimoto
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            >>> E = Hashimoto(MQProblem(q=16, n=924, m=67))
+            >>> E = Hashimoto(MQProblem(q=16, n=45, m=10))
             >>> E.a()
-            26
+            4
         """
         return self._get_optimal_parameter("a")
 
@@ -95,8 +92,17 @@ class Hashimoto(MQAlgorithm):
     
         Args:
             parameters (dict): A dictionary including the parameters.
+
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hashimoto import Hashimoto
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = Hashimoto(MQProblem(q=16, n=45, m=10))
+            >>> E.time_complexity()
+            29.339850002884624
     
         Tests:
+            >>> if skip_long_doctests:
+            ...     pytest.skip()
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hashimoto import Hashimoto
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = Hashimoto(MQProblem(q=16, n=924, m=67), bit_complexities=False)
@@ -128,9 +134,9 @@ class Hashimoto(MQAlgorithm):
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.hashimoto import Hashimoto
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            >>> E = Hashimoto(MQProblem(q=16, n=924, m=67), bit_complexities=False)
+            >>> E = Hashimoto(MQProblem(q=16, n=45, m=10))
             >>> E.memory_complexity()
-            31.062267061719346
+            9.228818690495881
         """
         n, m, q = self.problem.get_problem_parameters()
         a = parameters["a"]
