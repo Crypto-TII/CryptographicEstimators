@@ -130,7 +130,7 @@ class Hashimoto(MQAlgorithm):
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = Hashimoto(MQProblem(q=16, n=924, m=67), bit_complexities=False)
             >>> E.memory_complexity()
-            31.062267061719346      
+            31.062267061719346
         """
         n, m, q = self.problem.get_problem_parameters()
         a = parameters["a"]
