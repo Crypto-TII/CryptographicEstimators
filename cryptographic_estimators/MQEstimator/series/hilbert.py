@@ -62,25 +62,25 @@ class HilbertSeries(object):
         self._series_up_to_degree = self._series / (1 - x)
 
     @property
-    def _hilbert_serie(self):
+    def _hilbert_series(self):
         """Return the representation of the _series attribute.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
             >>> H = HilbertSeries(5, [2]*7)
-            >>> H._hilbert_serie
+            >>> H._hilbert_series
             1 + 5*x + 8*x^2 + (-14)*x^4 + (-14)*x^5 + 8*x^7 + 5*x^8 + x^9 + O(x^14)
         """
         return self._series
 
     @property
-    def _hilbert_serie_up_to_degree(self):
+    def _hilbert_series_up_to_degree(self):
         """Return the representation of the _series_up_to_degree attribute.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
             >>> H = HilbertSeries(5, [2]*7)
-            >>> H._hilbert_serie_up_to_degree
+            >>> H._hilbert_series_up_to_degree
             1 + 6*x + 14*x^2 + 14*x^3 + (-14)*x^5 + (-14)*x^6 + (-6)*x^7 + (-1)*x^8 + O(x^14)
         """
         return self._series_up_to_degree
@@ -134,7 +134,7 @@ class HilbertSeries(object):
         return len(self._degrees)
 
     def coefficient_of_degree(self, d: int):
-        """Return the d-th coefficient in the Hilbert serie self._serie.
+        """Return the d-th coefficient in the Hilbert serie self._series.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
