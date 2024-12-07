@@ -56,8 +56,8 @@ source .venv/bin/activate
 - Run `make install` to install the `cryptographic_estimators` library locally.
 
   _Note:_ If you encounter some permission error, please try creating a virtual
-  environment with the steps mentioned at the
-  [prerequisites section](#prerequisites-%E2%9C%94%EF%B8%8F), so you don't need
+  environment with the steps mentioned in the
+  Prerequisites section in this document, so you don't need
   to use `sudo` to interact with python/pip related commands.
 
 ### Running the project ✈️
@@ -80,9 +80,6 @@ following example:
   locally with the command `make doc` or `make docker-doc` (see at
   `docs/build/html/index.html` after successful generation).
 
-- Look for contributing documentation in its
-  [own section](#Contributing-%F0%9F%A4%9D).
-
 ## Contributing 🤝
 
 Thank you for considering contributing to our project. We thrive on community
@@ -91,7 +88,7 @@ involvement and warmly welcome your contributions.
 ### Where to begin 🌱
 
 1. **Explore Open Issues**: If you're looking for a place to start, check out
-   our [open issues](link-to-issues). There might be something that catches your
+   our [open issues](https://github.com/Crypto-TII/CryptographicEstimators/issues). There might be something that catches your
    interest!
 
 2. **Read the Contribution Guide**: Before submitting a pull request, please
