@@ -290,6 +290,10 @@ References
 
 **Y**
 
+.. [Has21] \Yasufumi Hashimoto.
+            *An improvement of algorithms to solve under-deﬁned systems of multivariate quadratic equations*
+            https://eprint.iacr.org/2021/1045.pdf
+
 .. _ref-Z:
 
 **Z**
