@@ -10,3 +10,4 @@ from .hybrid_f5 import HybridF5
 from .kpg import KPG
 from .lokshtanov import Lokshtanov
 from .mht import MHT
+from .hashimoto import Hashimoto
