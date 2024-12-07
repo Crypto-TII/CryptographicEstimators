@@ -71,15 +71,15 @@ MQE.table()
 +------------------+------+--------+
 | algorithm        | time | memory |
 +------------------+------+--------+
-| Bjorklund        | 42.5 |   15.3 |
+| Bjorklund        | 39.8 |   15.3 |
 | BooleanSolveFXL  | 20.3 |   11.9 |
-| Crossbred        | 17.7 |   17.2 |
+| Crossbred        | 21.4 |    7.1 |
 | DinurFirst       | 32.1 |   19.5 |
 | DinurSecond      | 20.3 |   15.8 |
 | ExhaustiveSearch | 18.0 |   11.9 |
-| F5               | 27.9 |   23.2 |
-| HybridF5         | 21.3 |   11.9 |
-| Lokshtanov       | 67.1 |   16.1 |
+| F5               | 36.6 |   23.2 |
+| HybridF5         | 18.1 |   11.9 |
+| Lokshtanov       | 62.9 |   16.1 |
 +------------------+------+--------+
 ```
 
@@ -427,7 +427,7 @@ Stern.time_complexity(r=2, p=3, l=4)
 ```
 
 ```
-36.85094946571111
+29.89385629700021
 ```
 
 ### 3.1. Time and memory complexities
@@ -554,6 +554,12 @@ Stern.get_optimal_parameters_dict()
 SDE = SDEstimator(n=100, k=50, w=10)
 Stern = SDE.stern
 Stern.time_complexity()
+```
+```
+22.30294492063104
+```
+
+```
 SDE.reset()
 Stern.get_optimal_parameters_dict()
 ```
@@ -563,7 +569,7 @@ Stern.get_optimal_parameters_dict()
 ```
 
 > **Note:** When changing the complexity type of an Estimator or Algorithm
-> object, its reset function will be autmatically called.
+> object, its reset function will be automatically called.
 
 ### 3.3. Customizing complexity optimization
 
@@ -633,7 +639,7 @@ Stern.optimal_parameters()
 ```
 
 ```
-{'r': 4, 'p': 1, 'l': 3}
+{'r': 4, 'p': 2, 'l': 9}
 ```
 
 #### memory bound
@@ -693,30 +699,25 @@ MQE.estimate()
 ```
 
 ```
-{'BooleanSolveFXL': {'estimate': {'time': 29.85822242788859,
-   'memory': 12.901244032467376,
-   'parameters': {'k': 14, 'variant': 'las_vegas'}},
-  'additional_information': {}},
- 'Crossbred': {'estimate': {'time': 24.117772038209786,
-   'memory': 17.7247403222648,
-   'parameters': {'D': 4, 'd': 1, 'k': 7}},
-  'additional_information': {}},
- 'ExhaustiveSearch': {'estimate': {'time': 25.40490707466741,
-   'memory': 12.901244032467376,
-   'parameters': {}},
-  'additional_information': {}},
- 'F5': {'estimate': {'time': 36.87177581110349,
-   'memory': 31.484561900604888,
-   'parameters': {}},
-  'additional_information': {}},
- 'HybridF5': {'estimate': {'time': 30.0506201089272,
-   'memory': 12.901244032467376,
-   'parameters': {'k': 10}},
-  'additional_information': {}},
- 'Lokshtanov': {'estimate': {'time': 99.55650866097999,
-   'memory': 25.266724329355785,
-   'parameters': {'delta': 1/15}},
-  'additional_information': {}}}
+{'BooleanSolveFXL': {'estimate': {'time': 29.858222427888588,
+ 'memory': 12.901244032467376, 
+ 'parameters': {'k': 14, 'variant': 'las_vegas'}}, 
+ 'additional_information': {}}, 
+ 'Crossbred': {'estimate': {'time': 27.676784055214462, 
+ 'memory': 17.045780987724598, 'parameters': {'D': 3, 'd': 1, 'k': 6}}, 
+ 'additional_information': {}}, 
+ 'ExhaustiveSearch': {'estimate': {'time': 25.40490707466741, 
+ 'memory': 12.901244032467376, 
+ 'parameters': {}}, 'additional_information': {}}, 
+ 'F5': {'estimate': {'time': 48.247169726507984, 
+ 'memory': 31.484561900604888, 
+ 'parameters': {}}, 'additional_information': {}}, 
+ 'HybridF5': {'estimate': {'time': 27.605835266254303,
+  'memory': 12.901244032467376, 
+  'parameters': {'k': 14}}, 'additional_information': {}}, 
+  'Lokshtanov': {'estimate': {'time': 95.52681642861242, 
+  'memory': 25.266724329355785, 
+  'parameters': {'delta': 0.06666666666666667}}, 'additional_information': {}}}
 ```
 
 Recall that we can avoid algorithms to be included in the esimator by using the
@@ -733,14 +734,12 @@ MQE.estimate()
 ```
 
 ```
-{'BooleanSolveFXL': {'estimate': {'time': 29.85822242788859,
-   'memory': 12.901244032467376,
-   'parameters': {'k': 14, 'variant': 'las_vegas'}},
-  'additional_information': {}},
- 'Crossbred': {'estimate': {'time': 24.117772038209786,
-   'memory': 17.7247403222648,
-   'parameters': {'D': 4, 'd': 1, 'k': 7}},
-  'additional_information': {}}}
+{'BooleanSolveFXL': {'estimate': {'time': 29.858222427888588, 
+'memory': 12.901244032467376, 
+'parameters': {'k': 14, 'variant': 'las_vegas'}}, 'additional_information': {}}, 
+'Crossbred': {'estimate': {'time': 27.676784055214462, 
+'memory': 17.045780987724598, 
+'parameters': {'D': 3, 'd': 1, 'k': 6}}, 'additional_information': {}}}
 ```
 
 In order to better visualize the provided estimates, one can use directly the
@@ -763,11 +762,11 @@ MQE.table()
 | algorithm        | time | memory |
 +------------------+------+--------+
 | BooleanSolveFXL  | 29.9 |   12.9 |
-| Crossbred        | 24.1 |   17.7 |
+| Crossbred        | 27.7 |   17.0 |
 | ExhaustiveSearch | 25.4 |   12.9 |
-| F5               | 36.9 |   31.5 |
-| HybridF5         | 30.1 |   12.9 |
-| Lokshtanov       | 99.6 |   25.3 |
+| F5               | 48.2 |   31.5 |
+| HybridF5         | 27.6 |   12.9 |
+| Lokshtanov       | 95.5 |   25.3 |
 +------------------+------+--------+
 ```
 
@@ -786,7 +785,7 @@ MQE.table()
 | algorithm       | time | memory |
 +-----------------+------+--------+
 | BooleanSolveFXL | 29.9 |   12.9 |
-| Crossbred       | 24.1 |   17.7 |
+| Crossbred       | 27.7 |   17.0 |
 +-----------------+------+--------+
 ```
 
@@ -882,12 +881,12 @@ SDE.table(show_tilde_o_time=True)
 | BallCollision |  10.4 |      3.3 | 23.3 |   16.0 |
 | BJMMdw        |    -- |       -- | 23.4 |   14.7 |
 | BJMMpdw       |    -- |       -- | 23.3 |   14.3 |
-| BJMM          |   9.0 |      6.8 | 22.8 |   15.0 |
-| BJMM_plus     |    -- |       -- | 22.8 |   15.0 |
+| BJMM          |   9.0 |      6.9 | 22.8 |   15.0 |
+| BJMMplus      |    -- |       -- | 22.8 |   15.0 |
 | BothMay       |   8.8 |      6.4 | 22.4 |   14.7 |
 | Dumer         |  10.4 |      3.3 | 22.7 |   16.4 |
-| MayOzerov     |   8.5 |      7.4 | 22.3 |   14.8 |
-| Prange        |  10.8 |      0.0 | 28.3 |   12.7 |
+| MayOzerov     |   8.5 |      7.2 | 22.3 |   14.8 |
+| Prange        |  10.8 |        0 | 28.3 |   12.7 |
 | Stern         |  10.4 |      2.9 | 22.3 |   16.0 |
 +---------------+-------+----------+------+--------+
 ```
@@ -936,13 +935,7 @@ In the following example, we set $d=1$ and $D=3$ the optimal parameters of the
 ```python
 from cryptographic_estimators.MQEstimator import MQEstimator
 MQE = MQEstimator(n=20, m=20, q=3)
-```
-
-```python
 MQE.crossbred.set_parameters({'d':1, 'D':3})
-```
-
-```python
 MQE.table(show_all_parameters=True)
 ```
 
@@ -953,11 +946,11 @@ MQE.table(show_all_parameters=True)
 | algorithm        |  time | memory |             parameters            |
 +------------------+-------+--------+-----------------------------------+
 | BooleanSolveFXL  |  37.8 |   14.0 | {'k': 19, 'variant': 'las_vegas'} |
-| Crossbred        |  33.5 |    9.9 |      {'d': 1, 'D': 3, 'k': 6}     |
+| Crossbred        |  35.7 |   18.0 |      {'d': 1, 'D': 3, 'k': 6}     |
 | ExhaustiveSearch |  33.5 |   14.0 |                 {}                |
-| F5               |  45.2 |   39.7 |                 {}                |
-| HybridF5         |  38.2 |   14.0 |             {'k': 15}             |
-| Lokshtanov       | 111.2 |   33.2 |          {'delta': 1/20}          |
+| F5               |  60.0 |   39.7 |                 {}                |
+| HybridF5         |  35.8 |   14.0 |             {'k': 19}             |
+| Lokshtanov       | 106.6 |   33.2 |          {'delta': 0.05}          |
 +------------------+-------+--------+-----------------------------------+
 ```
 
@@ -974,7 +967,7 @@ F
 ```
 
 ```
-Crossbred estimator for the MQ problem with 20 variables and 20 polynomials
+ExhaustiveSearch estimator for the MQ problem with 20 variables and 20 polynomials
 ```
 
 ```python
@@ -982,5 +975,5 @@ F.time_complexity()
 ```
 
 ```
-31.051489520604672
+33.475373791757825
 ```
