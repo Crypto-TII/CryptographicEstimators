@@ -104,25 +104,16 @@ def find_p_sm_fqm(m, n, k, r, b, p_min, p_max):
            p_min (int): minimum value for p
            p_max (int): maximum value for p
     """
-    p = p_min
-    nb = compute_nb(m, n - p, k, r, b)
-    mb = compute_mb(m, n - p, k, r, b)
 
-    if nb is None or mb is None:
-        return None
-
-    while (nb >= mb - 1) and (n - p > 1) and p <= p_max:
-        p = p + 1
+    p_selected = None
+    for p in range(p_min, min(n - 1, p_max), 1):
         nb = compute_nb(m, n - p, k, r, b)
         mb = compute_mb(m, n - p, k, r, b)
-        if nb is None or mb is None:
-            nb = 0
-            mb = 0
+        if nb is not None and mb is not None:
+            if nb >= mb - 1:
+                p_selected = p
 
-    if nb < mb - 1:
-        p = p - 1
-
-    return p
+    return p_selected
 
 
 def find_best_choice_param_mm(m, n, k, r, a_min, a_max, p_min, p_max):
@@ -138,28 +129,21 @@ def find_best_choice_param_mm(m, n, k, r, a_min, a_max, p_min, p_max):
            p_min (int): minimum value for p
            p_max (int): maximum value for p
     """
-    a = a_min
-    nb = compute_nb(m, n - a, k - a, r, 0)
-    mb = compute_mb(m, n - a, k - a, r, 0)
     values = {}
-
-    if nb is None or mb is None:
-        return values
-
-    while nb < mb - 1 and a <= a_max:
-        a = a + 1
+    a_selected = -1
+    for a in range(a_min, a_max + 1, 1):
         nb = compute_nb(m, n - a, k - a, r, 0)
         mb = compute_mb(m, n - a, k - a, r, 0)
-        if nb is None or mb is None:
-            nb = -1
-            mb = 1
-
-    if a == k:
+        if nb is not None and mb is not None:
+            if nb >= mb - 1:
+                a_selected = a
+                break
+    if a_selected >= k or a_selected == -1:
         return values
 
-    p = find_p_sm_fqm(m, n - a, k - a, r, 0, p_min, p_max)
-    values[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS] = a
-    values[RANKSD_NUMBER_OF_PUNCTURED_POSITIONS] = p
+    p_selected = find_p_sm_fqm(m, n - a_selected, k - a_selected, r, 0, p_min, p_max)
+    values[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS] = a_selected
+    values[RANKSD_NUMBER_OF_PUNCTURED_POSITIONS] = p_selected
     return values
 
 
@@ -174,25 +158,16 @@ def find_b_sm_fqm(m, n, k, r, b_min, b_max):
            b_min (int): minimum value for b
            b_max (int): maximum value for b
     """
-    b = b_min
-    nb = compute_nb(m, n, k, r, b)
-    mb = compute_mb(m, n, k, r, b)
-
-    if nb is None or mb is None:
-        return None
-
-    while (nb < mb - 1) and b <= b_max:
-        b = b + 1
+    b_selected = inf
+    for b in range(b_min, b_max + 1, 1):
         nb = compute_nb(m, n, k, r, b)
         mb = compute_mb(m, n, k, r, b)
-        if nb is None or mb is None:
-            nb = -1
-            mb = 1
+        if nb is not None and mb is not None:
+            if nb >= mb - 1:
+                b_selected = b
+                break
 
-    if nb >= mb - 1:
-        return b
-    else:
-        return inf
+    return b_selected
 
 
 def find_valid_choices_param_sm_fqm(m, n, k, r, a_min, a_max, p_min, p_max, b_min, b_max):

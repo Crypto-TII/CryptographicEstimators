@@ -64,10 +64,11 @@ class ImprovedGRS(RankSDAlgorithm):
 
         q, m, n, k, r = self.problem.get_parameters()
 
-        if k + 1 < n:
+        r1 = m - ceil((k + 1) * m / n)
+        if r1 > 0:
             self.problem.set_operations_on_base_field(self.on_base_field)
             t1 = self._w * log2((n - k) * m)
-            mu1 = r * ceil(((k + 1) * m) / n) - m
+            mu1 = r * (m - r1) - m
             time_complexity = t1 + max(0, mu1 * log2(q))
             return time_complexity
         else:
@@ -87,8 +88,8 @@ class ImprovedGRS(RankSDAlgorithm):
                26.189305558541125
         """
         _, m, n, k, _ = self.problem.get_parameters()
-        if k + 1 < n:
-            r1 = m - ceil(((k + 1) * m) / n)
+        r1 = m - ceil((k + 1) * m / n)
+        if r1 > 0:
             n_columns = r1 * n
             n_rows = (n - k - 1) * m
             return self.__compute_memory_complexity_helper__(n_rows, n_columns, self.on_base_field)

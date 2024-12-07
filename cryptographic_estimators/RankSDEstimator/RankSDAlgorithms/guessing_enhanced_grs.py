@@ -86,11 +86,13 @@ class GuessingEnhancedGRS(RankSDAlgorithm):
         """
 
         q, m, n, k, r = self.problem.get_parameters()
-        if k + 1 < n:
+        t = parameters[RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS]
+
+        r1 = floor(((n - k - 1) * m + t) / n)
+        if r1 > 0:
             self.problem.set_operations_on_base_field(self.on_base_field)
-            t = parameters[RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS]
             t1 = self._w * log2((n - k) * m + t)
-            mu1 = r * ceil(((k + 1) * m - t) / n) - m + t
+            mu1 = r * (m - r1) - m + t
             time_complexity = t1 + max(0, mu1 * log2(q))
             return time_complexity
         else:
@@ -111,10 +113,10 @@ class GuessingEnhancedGRS(RankSDAlgorithm):
         """
 
         _, m, n, k, _ = self.problem.get_parameters()
-        if k + 1 < n:
-            t = parameters[RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS]
-            r_1 = floor(((n - k - 1) * m + t) / n)
-            n_columns = r_1 * n
+        t = parameters[RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS]
+        r1 = floor(((n - k - 1) * m + t) / n)
+        if r1 > 0:
+            n_columns = r1 * n
             n_rows = (n - k - 1) * m + t
             return self.__compute_memory_complexity_helper__(n_rows, n_columns, self.on_base_field)
         else:

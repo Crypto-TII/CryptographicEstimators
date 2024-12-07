@@ -55,8 +55,8 @@ class GRS(RankSDAlgorithm):
                parameters (dict): Dictionary including the parameters.
 
            Tests:
-               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.grs import GRS
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
+               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.grs import GRS
                >>> GRSA = GRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
                >>> GRSA.time_complexity()
                357.3539031111514
@@ -64,12 +64,18 @@ class GRS(RankSDAlgorithm):
 
         q, m, n, k, r = self.problem.get_parameters()
         self.problem.set_operations_on_base_field(self.on_base_field)
+
+        r1 = m - ceil(k * m / n)
         t1 = self._w * log2((n - k) * m)
-        mu1 = r * ceil(k * m / n)
-        time_complexity_1 = t1 + mu1 * log2(q)
+        time_complexity_1 = inf
+        if r1 > 0:
+            mu1 = r * (m - r1)
+            time_complexity_1 = t1 + mu1 * log2(q)
+
+        r1 = m - ceil((k + 1) * m / n)
         time_complexity_2 = inf
-        if k + 1 < n:
-            mu2 = (r - 1) * ceil((k + 1) * m / n)
+        if r1 > 0:
+            mu2 = (r - 1) * (m - r1)
             time_complexity_2 = t1 + mu2 * log2(q)
 
         return min(time_complexity_1, time_complexity_2)
@@ -89,7 +95,10 @@ class GRS(RankSDAlgorithm):
         """
 
         _, m, n, k, r = self.problem.get_parameters()
-        r_1 = m - ceil(k * m / n)
-        n_columns = r_1 * n
-        n_rows = (n - k) * m
-        return self.__compute_memory_complexity_helper__(n_rows, n_columns, self.on_base_field)
+        r1 = m - ceil(k * m / n)
+        if r1 > 0:
+            n_columns = r1 * n
+            n_rows = (n - k) * m
+            return self.__compute_memory_complexity_helper__(n_rows, n_columns, self.on_base_field)
+        else:
+            return inf
