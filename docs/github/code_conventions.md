@@ -1,7 +1,7 @@
 # Code style
 
 - Line width: 120 characters.
-- Use absolute imports instead of relative imports.
+- Use relative instead of absolute imports.
 
 # Git Conventions
 
