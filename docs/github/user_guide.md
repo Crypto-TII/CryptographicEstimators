@@ -85,7 +85,7 @@ MQE.table()
 
 The table function offers various customizations. We detail the most important
 ones at the end of this user guide. For a full list of features please see the
-full [documentation](https://crypto-tii.github.io/cryptographic_estimators/).
+full [documentation](https://crypto-tii.github.io/CryptographicEstimators/).
 
 #### Associated algorithms
 
