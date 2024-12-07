@@ -1,46 +1,9 @@
-# General Things:
-
-Use python syntax/features. If sage features are necessary, import them via
-import statements
-
-## GIT Conventions
-
-### Commits
-
-To contribute to this project please follow this subset of
-[conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). These
-are some examples Type Must be one of the following:
-
-- docs: Documentation only changes
-- feat: A new feature
-- fix: A bug fix
-- refactor: A code change that neither fixes a bug nor adds a feature
-
-### Branching
-
-Branch names should be snake_case. Which means that all the text must be
-lowercase and replace spaces with dashes. Also, we should add as a prefix based
-on the type of implementation. For example:
-
-```
-refactor/modify_base_problem
-feature/implement_dummy_estimator
-fix/algorithm_parameter
-```
-
-### Pull request
-
-1. Only create pull requests to the `develop` branch.
-2. Fulfill the template
-
----
-
 # Adding a new estimator
 
 This tutorial shows how to add your own estimator to the CryptographicEstimators
 library. For this we implement a simple `DummyEstimator`.
 
-First make sure that you have a working `python` and `sage` instance on your
+First make sure that you have a working `python` instance on your
 current machine and have correctly
 [setup](https://github.com/Crypto-TII/CryptographicEstimators#installation-) the
 project. In the following we assume that you are in the root directory of the
@@ -61,10 +24,10 @@ Enter a prefix for your Estimator (For example for SyndromeDecoding you could us
 # Creating folders...
 # Creating files...
 # Creating init files...
-# Done! You can now start by editing the files inside 'CryptographicEstimators/cryptographic_estimators/DUMMYEstimator' and the input_dictionary
+# Done! You can now start by editing the files inside 'CryptographicEstimators/cryptographic_estimators/DummyEstimator' and the input_dictionary
 cryptographic_estimators
-├── DUMMYEstimator
-│   └── DUMMYAlgorithms
+├── DummyEstimator
+│   └── DummyAlgorithms
 ├── LEEstimator
 │   └── LEAlgorithms
 ├── MQEstimator
@@ -86,10 +49,10 @@ replaces everything with capital letters. To see which files and folders were
 added run:
 
 ```bash
->>> tree cryptographic_estimators/DUMMYEstimator
-cryptographic_estimators/DUMMYEstimator
+>>> tree cryptographic_estimators/DummyEstimator
+cryptographic_estimators/DummyEstimator
 ├── dummy_algorithm.py
-├── DUMMYAlgorithms
+├── DummyAlgorithms
 │   ├── dummy_algorithm1.py
 │   └── __init__.py
 ├── dummy_constants.py
@@ -101,7 +64,7 @@ cryptographic_estimators/DUMMYEstimator
 As one can see, the script generated the three main classes, each in one file,
 `dummy_problem.py`, `dummy_estimator.py` and `dummy_algorithm.py`. Each
 estimator of the CryptographicEstimators project needs those to be functioning.
-So they are mandatory. Aditionally, the script added one `dummy_algorithm1.py`
+So they are mandatory. Additionally, the script added one `dummy_algorithm1.py`
 file, which acts like the first algorithm we want to implement.
 
 Note that the script already added all needed links to other files in their
@@ -111,7 +74,7 @@ Now we need to make the added classes visible to the whole project by simply
 adding
 
 ```python
-from . import DUMMYEstimator
+from . import DummyEstimator
 ```
 
 to `cryptographic_estimators/__init__.py`.
@@ -120,21 +83,21 @@ Finally we are ready to run our estimator for the first time, create a `test.py`
 file, containing:
 
 ```python
-from cryptographic_estimators.DUMMYEstimator import *
-A = DUMMYEstimator()
+from cryptographic_estimators.DummyEstimator import *
+A = DummyEstimator()
 A.table()
 ```
 
 and execute it via `sage test.py`. You should see the following output:
 
 ```bash
->>> sage test.py
+>>> python3 test.py
 +-----------------+---------------+
 |                 |    estimate   |
 +-----------------+------+--------+
 | algorithm       | time | memory |
 +-----------------+------+--------+
-| DUMMYAlgorithm1 |   -- |     -- |
+| DummyAlgorithm1 |   -- |     -- |
 +-----------------+------+--------+
 ```
 
@@ -144,20 +107,20 @@ correctly installed
 [python](https://www.python.org/downloads/) and this library via `make install`.
 
 For now, our new estimator is not estimating much. That's because we did neither
-describe the problem at hand nor specify the algorithm `DUMMYAlgorithm1`.
+describe the problem at hand nor specify the algorithm `DummyAlgorithm1`.
 
 A full estimator implementation includes the following three important classes:
 
-- DUMMYProblem
-- DUMMYAlgorithm
-- DUMMYEstimator
+- DummyProblem
+- DummyAlgorithm
+- DummyEstimator
 
 The first describes the problem at hand, whereas the second computes the
-complexity of solving it via certain algorithms. And `DUMMYEstimator` acts like
+complexity of solving it via certain algorithms. And `DummyEstimator` acts like
 a manager class, putting all together.
 
 Let's introduce a complexity parameter `n` to our problem. Therefore, change the
-constructor of `DUMMYProblem` to
+constructor of `DummyProblem` to
 
 ```python
 def __init__(self, n: int, **kwargs):
@@ -165,13 +128,13 @@ def __init__(self, n: int, **kwargs):
     self.parameters["n"] = n
 ```
 
-and `DUMMYEstimator` to
+and `DummyEstimator` to
 
 ```python
 def __init__(self, n: int, memory_bound=inf, **kwargs):
-    super(DUMMYEstimator, self).__init__(
-        DUMMYAlgorithm,
-        DUMMYProblem(n, memory_bound=memory_bound, **kwargs),
+    super(DummyEstimator, self).__init__(
+        DummyAlgorithm,
+        DummyProblem(n, memory_bound=memory_bound, **kwargs),
         **kwargs
     )
 ```
@@ -180,7 +143,7 @@ to include the parameter `n`. Of course, you can add as many parameters as
 needed, only make sure that the estimator passes them correctly to the problem
 class.
 
-As you can see, in both cases the `DUMMYProblem` and `DUMMYEstimator` need to
+As you can see, in both cases the `DummyProblem` and `DummyEstimator` need to
 call the constructor of their super class, this is mandatory to inherit all
 needed functions and fields for the estimation process.
 
@@ -190,23 +153,19 @@ file `dummy_algorihm1.py`:
 
 ```python
 def _compute_time_complexity(self, parameters: dict, verbose_information=None):
-    """
-    Return time complexity of DUMMYAlgorithm1's  for given set of parameters
+    """Compute and return the time complexity of the algorithm for a given set of parameters.
 
-    INPUT:
-    -  ``parameters`` -- dictionary including parameters
-    -  ``verbose_information`` --
+    Args:
+        parameters (dict): Dictionary including the parameters.
     """
     n = self.problem.parameters["n"]
     return n
 
 def _compute_memory_complexity(self, parameters: dict, verbose_information=None):
-    """
-    Return memory complexity of DUMMYAlgorithm1's  for given set of parameters
+    """Compute and return the memory complexity of the algorithm for a given set of parameters.
 
-    INPUT:
-    -  ``parameters`` -- dictionary including parameters
-    -  ``verbose_information`` --
+    Args:
+        parameters (dict): Dictionary including the parameters.
     """
     return 0
 ```
@@ -233,12 +192,12 @@ the time complexity does not use any optimization parameters. To see how to make
 use of optimization parameters see
 [of how to add an optimization parameter](#Adding-an-optimization-parameter)
 
-Now let us call the `DUMMYEstimator` via the `test.py` script with parameter
+Now let us call the `DummyEstimator` via the `test.py` script with parameter
 `n=100`, i.e.,
 
 ```python
-from cryptographic_estimators.DUMMYEstimator import *
-A = DUMMYEstimator(n=100)
+from cryptographic_estimators.DummyEstimator import *
+A = DummyEstimator(n=100)
 A.table()
 ```
 
@@ -250,7 +209,7 @@ will show:
 +-----------------+-------+--------+
 | algorithm       |  time | memory |
 +-----------------+-------+--------+
-| DUMMYAlgorithm1 | 100.0 |   0.0  |
+| DummyAlgorithm1 | 100.0 |   0.0  |
 +-----------------+-------+--------+
 ```
 
@@ -260,8 +219,8 @@ CryptographicEstimators framework.
 A few notes on what you see:
 
 The values the two functions return are in logarithmic scale, meaning the output
-`n` of the estimation implies that running `DUMMYAlgorithm1` to solve the
-`DUMMYPRoblem` would require `2**n` _basic operations_. Where's
+`n` of the estimation implies that running `DummyAlgorithm1` to solve the
+`DummyPRoblem` would require `2**n` _basic operations_. Where's
 `basic operation` is the minimal operation to count by the estimator. This
 _basic operation_ has to be specified for each estimator and every algorithm
 inside the estimator uses this same unit for measuring time complexity. The
@@ -294,38 +253,32 @@ easy-to-use API.
 
 Notably the two functions `to_bitcomplexity_time` and `to_bitcomplexity_memory`
 which are implemented by the `Problem` class of your estimation, in our case
-`DUMMYProblem`. These two functions are automatically called by the
-`BaseEstimator` if implemented. They are therefore mandatory to implement. Note
-that the estimator generation script by default assumes that the algorithm's
-`basic operation` is a bitoperation and that the `basic element` is a bit.
+`DummyProblem`. These two functions are automatically called by the
+`BaseEstimator`, so they are mandatory to implement. Note that the estimator
+generation script by default assumes that the algorithm's `basic operation` is a
+bitoperation and that the `basic element` is a bit.
 
 Let us assume our `DummyEstimator` estimates the complexity not in bit
 operations but in binary vector operations of length `n` and correspondingly the
 `basic element` of the estimator are binary vectors of length `n`. To convert to
-bit complexity we therefore change the two functions of the `DUMMYProblem` class
+bit complexity we therefore change the two functions of the `DummyProblem` class
 to the following:
 
 ```python
 def to_bitcomplexity_time(self, basic_operations: float):
-    """
-    Return the bit-complexity corresponding to a certain amount of basic_operations
+    """Returns the bit-complexity associated to a given number of basic-operations.
 
-    INPUT:
-
-    - ``basic_operations`` -- Number of basic operations (logarithmic)
-
+    Args:
+        basic_operations (float): Number of basic operations (logarithmic)
     """
     n = self.parameters["n"]
     return basic_operations + log2(n)
 
 def to_bitcomplexity_memory(self, elements_to_store: float):
-    """
-    Return the memory bit-complexity associated to a given number of elements to store
+    """Returns the memory bit-complexity associated to a given number of elements to store.
 
-    INPUT:
-
-    - ``elements_to_store`` -- number of memory operations (logarithmic)
-
+    Args:
+        elements_to_store (float): Number of memory elements (logarithmic)
     """
     n = self.parameters["n"]
     return elements_to_store + log2(n)
@@ -345,7 +298,7 @@ If we run our `test.py` script now, it will yield:
 +-----------------+------+--------+------------+
 | algorithm       | time | memory | parameters |
 +-----------------+------+--------+------------+
-| DUMMYAlgorithm1 | 56.6 |   56.6 | {'h': 50}  |
+| DummyAlgorithm1 | 56.6 |   56.6 | {'h': 50}  |
 +-----------------+------+--------+------------+
 ```
 
@@ -356,7 +309,7 @@ parameters that can be chosen (but also restricted) freely. The framework
 automatically chooses them within the defined ranges and under the given
 restrictions such that the runtime of the algorithm is minimized.
 
-Right now our `DUMMYAlgorithm1` represents a simple bruteforce algorithm,
+Right now our `DummyAlgorithm1` represents a simple bruteforce algorithm,
 enumerating the whole search space, e.g. `2**n` elements. We now want to extend
 this algorithm to perform a Meet-in-the-Middle (MITM) approach. Therefore, we
 introduce an optimization parameter `h`, which represents the number of elements
@@ -370,8 +323,8 @@ A well-known example for such a MITM algorithm is the
 algorithm for solving the
 [discrete logarithm problem](https://en.wikipedia.org/wiki/Discrete_logarithm).
 
-To implement this, let us add a new algorithm called `DUMMYAlgorithm2`. Therefor
-copy the `DUMMYALgorithm1` like:
+To implement this, let us add a new algorithm called `DummyAlgorithm2`.
+Therefore copy the `DummyALgorithm1` like:
 
 ```shell
 cp cryptographic_estimators/DummyEstimator/DummyAlgorithms/dummy_algorithm1.py cryptographic_estimators/DummyEstimator/DummyAlgorithms/dummy_algorithm2.py
@@ -381,12 +334,12 @@ and rename everything accordingly. To make the new algorithm visible to the
 framework add
 
 ```python
-from .dummy_algorithm2 import DUMMYAlgorithm2
+from .dummy_algorithm2 import DummyAlgorithm2
 ```
 
-to `cryptographic_estimators/DUmmyEstimator/DummyAlgorithms/__init__.py`
+to `cryptographic_estimators/DummyEstimator/DummyAlgorithms/__init__.py`
 
-And finally to add the parameter we need to inform our `DUMMYAlgorithm2` class
+And finally to add the parameter we need to inform our `DummyAlgorithm2` class
 about it, for this add the following functions
 
 ```python
@@ -398,11 +351,11 @@ def h(self):
 The function represents a helper function to efficiently access the optimal
 parameter `h`, without the knowledge of the internals of the full implementation
 of the class. The nice thing about the CryptographicEstimator framework is, it
-will keep track of the optimal optimization parameters, and you are therefor
+will keep track of the optimal optimization parameters, and you are therefore
 able to access via:
 
 ```python
-algo = DUMMYAlgorith2(DUMMYProblem(n=100))
+algo = DummyAlgorith2(DummyProblem(n=100))
 algo.time_complexity()
 optimal_h = algo._get_optimal_parameter(“h”)
 ```
@@ -423,9 +376,9 @@ a look to the following [chapter](#Speeding-up-the-estimation-process).
 And finally make sure to initialize all needed fields within the constructor:
 
 ```python
-def __init__(self, problem: DUMMYProblem, **kwargs):
-    self._name = "DUMMYAlgorithm2"
-    super(DUMMYAlgorithm2, self).__init__(problem, **kwargs)
+def __init__(self, problem: DummyProblem, **kwargs):
+    self._name = "DummyAlgorithm2"
+    super(DummyAlgorithm2, self).__init__(problem, **kwargs)
     n = self.problem.parameters["n"]
     self.set_parameter_ranges("h", 0, n)
 ```
@@ -436,16 +389,14 @@ to the constructor of `DummyAlgorihm2`. This call sets the logical lower limit
 
 If we now change our computations in the two functions
 `_compute_time__complexity` and `_compute_memory_complexity` in
-`DUMMYAlgorithm2` to:
+`DummyAlgorithm2` to:
 
 ```python
 def _compute_time_complexity(self, parameters: dict, verbose_information=None):
-    """
-    Return time complexity of DUMMYAlgorithm2's  for given set of parameters
+    """Compute and return the time complexity of the algorithm for a given set of parameters.
 
-    INPUT:
-    -  ``parameters`` -- dictionary including parameters
-    -  ``verbose_information`` --
+    Args:
+        parameters (dict): Dictionary including the parameters.
     """
     n = self.problem.parameters["n"]
     par = SimpleNamespace(**parameters)
@@ -453,12 +404,10 @@ def _compute_time_complexity(self, parameters: dict, verbose_information=None):
     return runtime
 
 def _compute_memory_complexity(self, parameters: dict, verbose_information=None):
-    """
-    Return memory complexity of DUMMYAlgorithm2's  for given set of parameters
+    """Compute and return the memory complexity of the algorithm for a given set of parameters.
 
-    INPUT:
-    -  ``parameters`` -- dictionary including parameters
-    -  ``verbose_information`` --
+    Args:
+        parameters (dict): Dictionary including the parameters.
     """
     par = SimpleNamespace(**parameters)
     mem = par.h
@@ -474,8 +423,8 @@ MITM-approach:
 +-----------------+-------+--------+
 | algorithm       |  time | memory |
 +-----------------+-------+--------+
-| DUMMYAlgorithm1 | 100.0 |    0.0 |
-| DUMMYAlgorithm2 |  51.0 |   50.0 |
+| DummyAlgorithm1 | 100.0 |    0.0 |
+| DummyAlgorithm2 |  51.0 |   50.0 |
 +-----------------+-------+--------+
 ```
 
@@ -486,11 +435,14 @@ parameters via `h = parameters["h"]`. Additionally, see the runtime formula
 automatically balances the time and memory of the algorithm, resulting in the
 numbers shown in the table.
 
+As a final advice, we strongly encourage to write examples for all optimization
+parameters of an algorithm.
+
 ### Different Types of Optimization Parameters
 
 There are two ways of implementing optimization parameters. If a parameter has
 to be optimized in conjunction with other parameters, meaning it has to be set
-in dependence of the time complexity, you can use
+depending on the time complexity, you can use
 `opt_parameter_name = self._get_optimal_parameter(“<parameter name>”)`, as in
 the example above. Note that this is usually the case.
 
@@ -512,18 +464,24 @@ After a successful optimization process the optimal parameters, which minimize
 the runtime are saved in the algorithm class and can be received via:
 
 ```python
-algo = DUMMYAlgorithm2(DUMMYProblem(n=100))
+algo = DummyAlgorithm2(DummyProblem(n=100))
 algo.time_complexity()
 print(algo.get_optimal_parameters_dict())
 ```
 
 # Advanced Topics:
 
+## Difference between `_compute_time_complexity(...)` and `time_complexity(...)`
+
+The first one returns the time for a given set of parameters in number of basic
+operations, while the second initiates a search for the optimal parameters and
+converts time to bit operations if specified, includes memory access costs etc.
+
 ## Benchmarking under memory constrains
 
 Good news: you do not have to do anything. It works right out of the box via the
 `memory_bound` argument. So changing the `test.py` file to
-`A = DUMMYEstimator(n=100, memory_bound=20)` yields:
+`A = DummyEstimator(n=100, memory_bound=20)` yields:
 
 ```bash
 +-----------------+----------------------------+
@@ -531,7 +489,7 @@ Good news: you do not have to do anything. It works right out of the box via the
 +-----------------+------+--------+------------+
 | algorithm       | time | memory | parameters |
 +-----------------+------+--------+------------+
-| DUMMYAlgorithm1 | 80.0 |   20.0 | {'h': 20}  |
+| DummyAlgorithm1 | 80.0 |   20.0 | {'h': 20}  |
 +-----------------+------+--------+------------+
 ```
 
@@ -552,7 +510,7 @@ table:
 +-----------------+------+--------+------------+
 | algorithm       | time | memory | parameters |
 +-----------------+------+--------+------------+
-| DUMMYAlgorithm1 | 50.0 |   50.0 | {'h': 50}  |
+| DummyAlgorithm1 | 50.0 |   50.0 | {'h': 50}  |
 +-----------------+------+--------+------------+
 ```
 
@@ -569,12 +527,10 @@ To use it, you can change the `compute_time_complexity` function in
 
 ```python
 def _compute_time_complexity(self, parameters: dict, verbose_information=None):
-    """
-    Return time complexity of DUMMYAlgorithm2's  for given set of parameters
+    """Compute and return the time complexity of the algorithm for a given set of parameters.
 
-    INPUT:
-    -  ``parameters`` -- dictionary including parameters
-    -  ``verbose_information`` --
+    Args:
+        parameters (dict): Dictionary including the parameters.
     """
     n = self.problem.parameters["n"]
     par = SimpleNamespace(**parameters)
@@ -589,8 +545,8 @@ Now you can read the verbose information via `_get_verbose_information()`
 function like:
 
 ```python
-from cryptographic_estimators.DUMMYEstimator.DUMMYAlgorithms import DUMMYAlgorithm2
-A = DUMMYAlgorithm2(DUMMYProblem(n=100))
+from cryptographic_estimators.DummyEstimator.DummyAlgorithms import DummyAlgorithm2
+A = DummyAlgorithm2(DummyProblem(n=100))
 print(A._get_verbose_information())
 ```
 
@@ -604,17 +560,17 @@ process, because their optimization takes a long time, or they are similar to
 other, included algorithms.
 
 From the client perspective this can be easily achieved by adding
-`excluded_algorithms=[DUMMYAlgorithm1]` to the estimator constructor:
+`excluded_algorithms=[DummyAlgorithm1]` to the estimator constructor:
 
 ```python
-A = DUMMYEstimator(n=100, excluded_algorithms=[DUMMYAlgorithm1])
+A = DummyEstimator(n=100, excluded_algorithms=[DummyAlgorithm1])
 ```
 
 as shown in the [user guide](User_Guide.ipynb)
 
 But sometimes it might be desirable that some algorithms are excluded by default
 from the estimation process. This can be achieved by extending the constructor
-of `DUMMYEstimator` to:
+of `DummyEstimator` to:
 
 ```python
 def __init__(self, n: int, memory_bound=inf, **kwargs):
@@ -622,27 +578,28 @@ def __init__(self, n: int, memory_bound=inf, **kwargs):
         kwargs["excluded_algorithms"] = []
 
     kwargs["excluded_algorithms"] += self.excluded_algorithms_by_default
-    super(DUMMYEstimator, self).__init__(
-        DUMMYAlgorithm,
-        DUMMYProblem(n, memory_bound=memory_bound, **kwargs),
+    super(DummyEstimator, self).__init__(
+        DummyAlgorithm,
+        DummyProblem(n, memory_bound=memory_bound, **kwargs),
         **kwargs
     )
 ```
 
-and add the algorithms to be ignored as a class variable to the `DUMMYEstimator`
+and add the algorithms to be ignored as a class variable to the `DummyEstimator`
 like this:
 
 ```python
-class DUMMYEstimator(BaseEstimator):
+class DummyEstimator(BaseEstimator):
+    """Construct an instance of DummyEstimator.
+
+    Args:
+        problem_parameter1 (float): First parameter of the problem
+        problem_parameter2: Second parameter of the problem
+        memory_bound: Specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
+        **kwargs: Additional keyword arguments
+            nsolutions: Number of solutions of the problem in logarithmic scale
     """
-    Construct an instance of DUMMYEstimator
-
-    INPUT:
-
-    - ``excluded_algorithm`` -- A list/tuple of excluded algorithms (default: None)
-
-    """
-    excluded_algorithms_by_default = [DUMMYAlgorithm1]
+    excluded_algorithms_by_default = [DummyAlgorithm1]
 
     def __init__(self, n: int, memory_bound=inf, **kwargs):
         ...
@@ -658,34 +615,28 @@ as shown in the following example:
 
 ```python
 def _compute_time_memory_complexity(self, parameters: dict, verbose_information=None):
-    """
-    Return time and memory complexity of DUMMYAlgorithm1, for given set of parameters
+    """Compute and return the time and memory complexity of the algorithm for a given set of parameters.
 
-    INPUT:
-    -  ``parameters`` -- dictionary including parameters
-    -  ``verbose_information`` --
+    Args:
+        parameters (dict): Dictionary including the parameters.
     """
     # somehow compute TIME and MEMORY.
     return TIME, MEMORY
 
 def _compute_time_complexity(self, parameters: dict, verbose_information=None):
-    """
-    Return time complexity of DUMMYAlgorithm1, for given set of parameters
+    """Compute and return the time complexity of the algorithm for a given set of parameters.
 
-    INPUT:
-    -  ``parameters`` -- dictionary including parameters
-    -  ``verbose_information`` --
+    Args:
+        parameters (dict): Dictionary including the parameters.
     """
     time, _ = _compute_time_memory_complexity(parameters, verbose_information)
     return time
 
 def _compute_memory_complexity(self, parameters: dict, verbose_information=None):
-    """
-    Return memory complexity of DUMMYAlgorithm, for given set of parameters
+    """Compute and return the memory complexity of the algorithm for a given set of parameters.
 
-    INPUT:
-    -  ``parameters`` -- dictionary including parameters
-    -  ``verbose_information`` --
+    Args:
+        parameters (dict): Dictionary including the parameters.
     """
     _, memory = _compute_time_memory_complexity(parameters, verbose_information)
     return memory
@@ -701,11 +652,11 @@ list in this chapter a few tricks to improve the estimation speed.
 
 Often it is known that certain parameters are invalid. To make this clear to the
 estimation process, one can overload the
-`_are_paramters_invalid(self, parameters: dict)` function. This function takes a
-dictionary containing a optimization parameter set, and returns false in case
+`_are_parameters_invalid(self, parameters: dict)` function. This function takes a
+dictionary containing one optimization parameter set, and returns false in case
 the parameter set is valid and true otherwise. Thus, if we want to enforce our
-simple MITM algorithm to only select even `h` we can add the following code to
-the `DUMMYAlgorithm1` class:
+simple MITM algorithm to only choose even `h` we can add the following code to
+the `DummyAlgorithm1` class:
 
 ```python
 def _are_parameters_invalid(self, parameters: dict):
@@ -719,7 +670,7 @@ skip invalid optimization parameter sets. Notice that this is an easy way to
 model basic dependencies between different optimization parameters, i.e. reject
 sets with two contradicting optimizations parameters.
 
-Sometimes this not enough, thus it can be desirable to fully replace the
+Sometimes this is not enough, thus it can be desirable to fully replace the
 optimization parameter selection process with a custom function to further speed
 things up. This can make sense if for example one parameter should be set in to
 specific values in dependence on another parameter. This can be achieved by
@@ -756,13 +707,13 @@ the computations of big numbers. The same holds for the return values of
 functions, which should be always logarithmic (if not strictly needed
 otherwise).
 
-# Tests
+<!--FIX: Instructions-->
 
-You can learn how the library testing process works by looking at the
-[tests documentation](./tests.md).
+# Reimplementing an existent estimator
 
-Or for some specific resources:
-
-[Testing Suite Architecture and Guide](./tests.md#Testing-Suite-Architecture-and-Guide)
-[Writing Doctests](./tests.md#Writing-Doctests)
-[Testing the Frontend](./tests.md#Testing-the-Frontend)
+If you incorporated an existing estimator to the CryptographicEstimators
+library, is a good practice to load the old estimator as a module into
+`test/module` and write unit tests comparing the estimation results of the newly
+incorporated estimator against the online available code. An example for such an
+integration test can be found under `tests/test_le_bbps.sage`. Its important
+that all tests functions start with a `test_`.
