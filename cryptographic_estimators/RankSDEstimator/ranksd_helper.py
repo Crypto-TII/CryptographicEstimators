@@ -106,7 +106,7 @@ def find_p_sm_fqm(m, n, k, r, b, p_min, p_max):
     """
 
     p_selected = None
-    for p in range(p_min, min(n - 1, p_max), 1):
+    for p in range(p_min, min(n - 1, p_max+1), 1):
         nb = compute_nb(m, n - p, k, r, b)
         mb = compute_mb(m, n - p, k, r, b)
         if nb is not None and mb is not None:
