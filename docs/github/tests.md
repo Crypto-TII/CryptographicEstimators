@@ -1,8 +1,8 @@
 # Tests
 
-## Testing Suite Architecture Overview
+## Testing suite architecture overview
 
-This section provides an overview of the testing architecture for our Python
+This section provides an overview of the testing framework for our Python
 library, which employs two main testing approaches:
 
 - **Known Answer Tests (KATs):** These tests verify the accuracy of the
@@ -18,7 +18,9 @@ library, which employs two main testing approaches:
 Both KATs and Doctests are powered by the `pytest` framework. Doctests,
 specifically, leverage Python's built-in `doctest` module.
 
-## KAT Tests: Understanding the Process
+## KAT tests
+
+### Understanding the process
 
 A Known Answer Test (KAT) in cryptography involves comparing the output of an
 algorithm implementation against a set of publicly available parameters and
@@ -30,11 +32,11 @@ Importantly, while pre-calculated parameters and values are common, some
 researchers provide source code (estimators) for their estimates, serving as
 **KAT generators**. These generators allow for dynamic KAT value generation.
 
-Unlike isolated doctests, KATs take a broader approach by comparing outputs
-across entire estimators, often involving complex and computationally intensive
-operations. To optimize this process, we serialize expected outputs for specific
-predefined inputs. These serialized results streamline subsequent test runs,
-enabling efficient comparisons and saving valuable development time.
+Unlike isolated doctests, KATs take a more comprehensive approach by comparing
+outputs across entire estimators, often involving complex and computationally
+intensive operations. To optimize this process, we serialize expected outputs
+for specific predefined inputs. These serialized results streamline subsequent
+test runs, enabling efficient comparisons and saving valuable development time.
 
 Here's a breakdown of how our KAT testing process works:
 
@@ -79,13 +81,13 @@ flowchart LR;
 This separation of concerns makes it easier to maintain and extend the test
 suite as we introduce new estimators or modify existing ones.
 
-### Writing Tests: A Step-by-Step Guide
+### Writing KAT tests: A step-by-step guide
 
 This guide walks you through incorporating a new KAT test for a library
 estimator, offering insights relevant for both understanding and updating
 existing tests.
 
-#### 1. Define Your KAT Generator Function
+#### 1. Define your KAT generator function
 
 This step involves defining or declaring the KAT generator functions which
 produces the expected outputs from hardcoded inputs. These functions are
@@ -139,7 +141,7 @@ def ext_lee_brickell():
 
 - From the library root, run the following Docker command to generate the
   reference KAT values. These are generated based on your KAT generator
-  functions and their hardcoded inputs:
+  functions and their hardcoded inputs.
 
   ```bash
   make docker-generate-kat
@@ -225,133 +227,112 @@ Or by manually executing
 indicate whether your internal estimators align with the expected KAT values
 within the defined error tolerance.
 
-## Writing Doctests (with sage doctests)
+## Writing Doctests
 
-Throughout the CryptographicEstimators library we are using
-[sage doctests](https://doc.sagemath.org/html/en/developer/doctesting.html).
-These tests are then automatically run by our
+Throughout the CryptographicEstimators library we use the
+[python doctests](https://docs.python.org/3/library/doctest.html#module-doctest)
+module. These tests are automatically run by our
 [CI](https://github.com/Crypto-TII/CryptographicEstimators/actions) to check for
 any errors.
 
-We strongly encourage to write examples for all optimization parameters of an
-algorithm. In the case our `DUMMYAlgorithm1` one could extend the optimization
-parameter `h` like this:
+It is mandatory to test all algorithms at least once in the corresponding
+`Estimator` class docstring.
+
+### Syntax
+
+Doctests can be included in any docstring by creating the section `Tests:` at
+the end, and writing the testing code blocks for the current method. Ex:
 
 ```python
-@optimal_parameter
-def h(self):
-    """
-    MITM parameter of our DUMMYAlgorithm 1
+    def _ncols_in_preprocessing_step(self, k: int, D: int, d: int):
+        """Return the number of columns involved in the preprocessing step.
 
-    EXAMPLES::
+        Args:
+            k (int): The number of variables in the resulting system.
+            D (int): The degree of the initial Macaulay matrix.
+            d (int): The degree of the resulting Macaulay matrix.
 
-        sage: from cryptographic_estimators.DummyEstimator.DummyAlgorithms import DUMMYAlgorithm1
-        sage: from cryptographic_estimators.DummyEstimator import DUMMYProblem
-        sage: A = DUMMYAlgorithm1(DUMMYProblem(n=100))
-        sage: A.h()
-        50
+        Tests:
+             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
+             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+             >>> E = Crossbred(MQProblem(n=10, m=12, q=5))
+             >>> E._ncols_in_preprocessing_step(4, 6, 3)
+             1412
 
-    """
-    return self._get_optimal_parameter("h")
+             >>> E = Crossbred(MQProblem(n=5, m=5, q=13))
+             >>> E._ncols_in_preprocessing_step(3, 4, 2)
+             45
+        """
 ```
 
-Note the newlines around `EXAMPLES::` and in the end. These are mandatory. Also
-note the commands the test framework is executing, are starting with `sage: `
-and the expected result is written below the last command (`50`).
+Here we are writing _two_ tests on the same _doctest_, each one with a different
+set of input values. The expected return of each test corresponds to the line
+without the `>>>` prefix.
 
-Additionally, it is mandatory to also test all algorithms at least once in the
-corresponding `Estimator` class. E.g. in our case we extend the function
-`table()` of the `DUMMYEstimator` to
+Notice that once you have imported something, it isn't required to import again
+for subsequent calls **on the same doctest**.
+
+### Skipping long doctests
+
+While we **strongly** discourage the introduction of doctests with very long
+computation times, as those tests drastically slow our _CI_ as well as
+development work cycles; we have developed one feature to mitigating its impacts
+from a development perspective.
+
+In any doctest, and in any position, you will be able to use a special block:
 
 ```python
-def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
-          show_all_parameters=0, precision=1, truncate=0):
-    """
-    Print table describing the complexity of each algorithm and its optimal parameters
-
-    INPUT:
-
-    - ``show_quantum_complexity`` -- show quantum time complexity (default: False)
-    - ``show_tilde_o_time`` -- show Ō time complexity (default: False)
-    - ``show_all_parameters`` -- show all optimization parameters (default: False)
-    - ``precision`` -- number of decimal digits output (default: 1)
-    - ``truncate`` -- truncate rather than round the output (default: False)
-
-    TESTS:
-
-        sage: from cryptographic_estimators.DummyEstimator import DUMMYEstimator
-        sage: A = DUMMYEstimator(n=100)
-        sage: A.table()
-        +-----------------+----------------------------+
-        |                 |          estimate          |
-        +-----------------+------+--------+------------+
-        | algorithm       | time | memory | parameters |
-        +-----------------+------+--------+------------+
-        | DUMMYAlgorithm1 | 51.0 |   50.0 | {'h': 50}  |
-        +-----------------+------+--------+------------+
-
-        sage: from cryptographic_estimators.DummyEstimator import DUMMYEstimator
-        sage: A = DUMMYEstimator(n=1000)
-        sage: A.table() # long time
-        +-----------------+-----------------------------+
-        |                 |           estimate          |
-        +-----------------+-------+--------+------------+
-        | algorithm       |  time | memory | parameters |
-        +-----------------+-------+--------+------------+
-        | DUMMYAlgorithm1 | 501.0 |  500.0 | {'h': 500} |
-        +-----------------+-------+--------+------------+
-
-    """
-    ...
+>>> if skip_long_doctests:
+...     pytest.skip()
 ```
 
-Again note the new lines around `TESTS:` and the end of the test. Additionally,
-notice the `# long test` at the end of the last command. You can add this if the
-command takes a great amount of time, and you do not want to run the test to run
-on every change you make, but rather only on every commit. Tests missing the
-`# long test` are always executed. Make sure there is at least one example or
-test for the table function that executes fast and, hence, is not marked as long
-test via `# long time`. This ensures that the `make testfast` command has a good
-coverage while still executing in reasonable time which can be very helpful
-while integrating code into the library.
+This allow developers to skip any test declared _after_ the code block by using
+a custom Pytest flag.
 
-If you incorporated an existing estimator to the CryptographicEstimators library
-we strongly encourage to load the old estimator as a module into `test/module`
-and write unit tests comparing the estimation results of the newly incorporated
-estimator against the online available code. An example for such an integration
-test can be found under `tests/test_le_bbps.sage`. Its important that all tests
-functions start with a `test_`.
+As illustration, let's take this base doctest
 
-To build and run the fast tests, execute:
+```python
+        """
+        ...
 
-```sh
-make testfast
+        Tests:
+            >>> E = MQEstimator(n=15, m=15, q=2, w=2)
+            >>> E.table(precision=3, truncate=1)
+            <... Some result ...>
+
+            >>> if skip_long_doctests:
+            ...     pytest.skip()
+            >>> from cryptographic_estimators.MQEstimator import MQEstimator
+            >>> E = MQEstimator(q=2, m=42, n=41, memory_bound=45, w=2)
+            >>> E.table()
+            <... Some other result ...>
+        """
 ```
 
-or all tests execute
+Now we can run our doctest evaluation in two different ways:
 
-```sh
-make testall
-```
+1. Running all the tests: `pytest --doctest-modules cryptographic_estimators/`
 
-#### Pytest
+2. Executing only the fast tests:
+   `pytest --skip-long-doctests  --doctest-modules cryptographic_estimators/`
 
-```sh
-make docker-pytest
-```
+Where the first command will run all the tests inside the given doctest, but the
+second one will skip the
+`>>> E = MQEstimator(q=2, m=42, n=41, memory_bound=45, w=2)` case.
 
-### Difference between `_compute_time_complexity(...)` and `time_complexity(...)`
+**Note:** This commands are simpler illustrative versions of the ones included
+in our Makefile. Please use `make doctests` and `make doctests-fast` instead for
+better performance.
 
-The first one returns the time for a given set of parameters in number of basic
-operations, while the second initiates a search for the optimal parameters and
-converts time to bit operations if specified, includes memory access costs etc.
+**Make sure** there is at least one docstring example or fast doctest. This
+ensures the `make testfast` command has a good coverage while still executing in
+reasonable time which can be very helpful while integrating code into the
+library.
 
 ## Testing the Frontend
 
-After you finished implementing your estimator, you may want to export it to the
-[webfrontend](https://github.com/Crypto-TII/cryptographic_estimators_ui). See
-[this](https://github.com/Crypto-TII/cryptographic_estimators_ui/blob/main/docs/INPUTDICTIONARYGUIDE.md)
-guide for the details of the configuration possibilities.
+After you have finished implementing your estimator, you may want to export it
+to the [webfrontend](https://github.com/Crypto-TII/cryptographic_estimators_ui).
 
 The webfrontend is configured via a json file `input_dictionary.json` which is
 already contained in this project root directory. This file already contains all
@@ -451,5 +432,5 @@ After editing it to your needs it can look like this for the `DummyEstimator`:
 }
 ```
 
-Notice that you do not have to specify any algorithm in this configuration file.
-As this is all done automatically.
+Notice that you do not have to specify any algorithm in this configuration file,
+as this is all done automatically.
