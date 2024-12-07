@@ -1,4 +1,4 @@
-# Contributing guide
+# Contributing Guide
 
 To streamline your contribution process, you can use the following pages as you
 need:
