@@ -106,12 +106,11 @@ def find_p_sm_fqm(m, n, k, r, b, p_min, p_max):
     """
 
     p_selected = None
-    for p in range(p_min, min(n - 1, p_max+1), 1):
+    for p in range(p_min, min(n - 1, p_max + 1), 1):
         nb = compute_nb(m, n - p, k, r, b)
         mb = compute_mb(m, n - p, k, r, b)
-        if nb is not None and mb is not None:
-            if nb >= mb - 1:
-                p_selected = p
+        if nb is not None and mb is not None and nb >= mb - 1:
+            p_selected = p
 
     return p_selected
 
@@ -130,15 +129,14 @@ def find_best_choice_param_mm(m, n, k, r, a_min, a_max, p_min, p_max):
            p_max (int): maximum value for p
     """
     values = {}
-    a_selected = -1
+    a_selected = None
     for a in range(a_min, a_max + 1, 1):
         nb = compute_nb(m, n - a, k - a, r, 0)
         mb = compute_mb(m, n - a, k - a, r, 0)
-        if nb is not None and mb is not None:
-            if nb >= mb - 1:
-                a_selected = a
-                break
-    if a_selected >= k or a_selected == -1:
+        if nb is not None and mb is not None and nb >= mb - 1:
+            a_selected = a
+            break
+    if a_selected is None or a_selected >= k:
         return values
 
     p_selected = find_p_sm_fqm(m, n - a_selected, k - a_selected, r, 0, p_min, p_max)
@@ -162,10 +160,9 @@ def find_b_sm_fqm(m, n, k, r, b_min, b_max):
     for b in range(b_min, b_max + 1, 1):
         nb = compute_nb(m, n, k, r, b)
         mb = compute_mb(m, n, k, r, b)
-        if nb is not None and mb is not None:
-            if nb >= mb - 1:
-                b_selected = b
-                break
+        if nb is not None and mb is not None and nb >= mb - 1:
+            b_selected = b
+            break
 
     return b_selected
 
@@ -189,10 +186,7 @@ def find_valid_choices_param_sm_fqm(m, n, k, r, a_min, a_max, p_min, p_max, b_mi
     values = find_best_choice_param_mm(m, n, k, r, a_min, a_max, p_min, p_max)
     valid_choices = []
 
-    if len(values) <= 0:
-        return valid_choices
-    elif values[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS] == 0:
-        # MM solves it by itself
+    if len(values) <= 0 or values[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS] == 0:
         return valid_choices
 
     a0 = values[RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS]

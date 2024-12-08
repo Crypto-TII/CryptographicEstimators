@@ -26,7 +26,7 @@ class OJ1(RankSDAlgorithm):
     """Construct an instance of OJ strategy 1  estimator.
 
        This algorithm tries to solve a given instance by guessing the coefficient matrix of x
-       associated with F_q basis of Suppx and solving a linearized quadratic system [OJ02]_
+       associated with an F_q basis of Suppx and solving a linearized quadratic system [OJ02]_
 
        Args:
             problem (RankSDProblem): An instance of the RankSDProblem class.
@@ -63,7 +63,7 @@ class OJ1(RankSDAlgorithm):
 
         q, m, _, k, r = self.problem.get_parameters()
         self.problem.set_operations_on_base_field(self.on_base_field)
-        time_complexity = self._w * log2(m * r) + max(0, (r - 1) * (k + 1) * log2(q))
+        time_complexity = self._w * log2(m * r) + (r - 1) * (k + 1) * log2(q)
 
         return time_complexity
 
@@ -81,7 +81,7 @@ class OJ1(RankSDAlgorithm):
               19.47199664177152
         """
 
-        q, m, _, k, r = self.problem.get_parameters()
+        _, m, _, k, r = self.problem.get_parameters()
         nn = ceil(((r - 1) * m + k + 1) / (m - 1))
         n_rows = nn * m
         n_columns = (r - 1) * m + k + nn + 1

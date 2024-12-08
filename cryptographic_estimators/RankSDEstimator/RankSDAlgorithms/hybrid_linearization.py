@@ -46,7 +46,7 @@ class HybridLinearization(RankSDAlgorithm):
 
     def __init__(self, problem: RankSDProblem, **kwargs):
         super(HybridLinearization, self).__init__(problem, **kwargs)
-        q, m, n, k, r = self.problem.get_parameters()
+        _, _, _, k, _ = self.problem.get_parameters()
 
         self.set_parameter_ranges(RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS, 1, k)
         self.on_base_field = False
@@ -86,7 +86,7 @@ class HybridLinearization(RankSDAlgorithm):
               312.1543216418806
         """
 
-        q, m, n, k, r = self.problem.get_parameters()
+        q, _, _, k, r = self.problem.get_parameters()
         self.problem.set_operations_on_base_field(self.on_base_field)
         t = parameters[RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS]
         time_complexity = self._w * (log2(r) + log2(k)) + r * t * log2(q)
@@ -105,7 +105,7 @@ class HybridLinearization(RankSDAlgorithm):
                >>> HL.memory_complexity()
                19.59624618312637
         """
-        q, m, n, k, r = self.problem.get_parameters()
+        _, _, n, k, r = self.problem.get_parameters()
         t = parameters[RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS]
         n_rows = n - t
         n_columns = ((r + 1) * (k + 1 - t) - 1)
@@ -114,7 +114,7 @@ class HybridLinearization(RankSDAlgorithm):
     def _are_parameters_invalid(self, parameters: dict):
         """Specifies constraints on the parameters.
         """
-        q, m, n, k, r = self.problem.get_parameters()
+        _, _, n, k, r = self.problem.get_parameters()
         t = parameters[RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS]
         b = (n - t) < ((r + 1) * (k + 1 - t) - 1)
         return b

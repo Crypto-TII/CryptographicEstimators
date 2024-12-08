@@ -80,7 +80,7 @@ class OJ2(RankSDAlgorithm):
               >>> OJ.memory_complexity()
               17.081441827692018
         """
-        q, m, _, k, r = self.problem.get_parameters()
+        _, m, _, k, r = self.problem.get_parameters()
         nn = ceil(((k + 1) * r) / (m - r))
         n_rows = nn * m
         n_columns = (k + 1 + nn) * r

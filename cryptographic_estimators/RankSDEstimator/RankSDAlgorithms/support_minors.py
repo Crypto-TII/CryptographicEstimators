@@ -46,7 +46,7 @@ class SupportMinors(RankSDAlgorithm):
 
     def __init__(self, problem: RankSDProblem, **kwargs):
         super(SupportMinors, self).__init__(problem, **kwargs)
-        _, n, _, k, r = self.problem.get_parameters()
+        _, n, _, k, _ = self.problem.get_parameters()
         self.set_parameter_ranges(RANKSD_LINEAR_VARIABLES_DEGREE, 1, 100)
         self.set_parameter_ranges(RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS, 0, k)
         self.set_parameter_ranges(RANKSD_NUMBER_OF_PUNCTURED_POSITIONS, 0, n)

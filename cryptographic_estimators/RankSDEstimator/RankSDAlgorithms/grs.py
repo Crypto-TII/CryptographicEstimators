@@ -55,8 +55,8 @@ class GRS(RankSDAlgorithm):
                parameters (dict): Dictionary including the parameters.
 
            Tests:
-               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
                >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.grs import GRS
+               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
                >>> GRSA = GRS(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
                >>> GRSA.time_complexity()
                357.3539031111514
@@ -94,7 +94,7 @@ class GRS(RankSDAlgorithm):
                26.229429443574855
         """
 
-        _, m, n, k, r = self.problem.get_parameters()
+        _, m, n, k, _ = self.problem.get_parameters()
         r1 = m - ceil(k * m / n)
         if r1 > 0:
             n_columns = r1 * n
