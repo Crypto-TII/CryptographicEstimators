@@ -17,7 +17,6 @@
 
 
 from math import inf
-
 from .ranksd_algorithm import RankSDAlgorithm
 from .ranksd_problem import RankSDProblem
 from ..base_estimator import BaseEstimator
@@ -83,20 +82,7 @@ class RankSDEstimator(BaseEstimator):
            Tests:
 
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_estimator import RankSDEstimator
-               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms import BasisEnumeration,GRS,GuessingEnhancedGRS,OJ1,OJ2,HybridLinearization
-               >>> RSDE = RankSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2, excluded_algorithms=[BasisEnumeration,GRS,GuessingEnhancedGRS,OJ1,OJ2,HybridLinearization])
-               >>> RSDE.table(show_all_parameters=1)
-               +---------------+--------------------------------------------+
-               |               |                  estimate                  |
-               +---------------+-------+--------+---------------------------+
-               | algorithm     |  time | memory |         parameters        |
-               +---------------+-------+--------+---------------------------+
-               | ImprovedGRS   | 147.2 |   18.0 |             {}            |
-               | MaxMinors     | 153.0 |   33.0 |     {'a': 12, 'p': 2}     |
-               | SupportMinors | 155.1 |   40.1 | {'b': 1, 'a': 11, 'p': 0} |
-               +---------------+-------+--------+---------------------------+
-
-
+               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms import BasisEnumeration,GRS,OJ1,OJ2,HybridLinearization
                >>> RSDE = RankSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2,HybridLinearization])
                >>> RSDE.table(show_all_parameters=1)
                +---------------------+--------------------------------------------+

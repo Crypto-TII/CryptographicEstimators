@@ -1,5 +1,4 @@
 from math import comb as binomial, inf
-
 from .ranksd_constants import RANKSD_NUMBER_OF_COLUMNS_X_TO_GUESS, \
     RANKSD_LINEAR_VARIABLES_DEGREE, RANKSD_NUMBER_OF_PUNCTURED_POSITIONS
 

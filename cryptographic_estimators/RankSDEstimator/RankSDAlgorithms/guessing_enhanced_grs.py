@@ -16,8 +16,7 @@
 # ****************************************************************************
 
 
-from math import log2, ceil, floor, inf
-
+from math import log2, floor, inf
 from ..ranksd_algorithm import RankSDAlgorithm
 from ..ranksd_constants import RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS
 from ..ranksd_problem import RankSDProblem

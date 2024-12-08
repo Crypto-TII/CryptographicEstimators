@@ -17,7 +17,6 @@
 
 
 from math import log2
-
 from .ranksd_helper import compute_nb, compute_mb
 from .ranksd_problem import RankSDProblem
 from ..base_algorithm import BaseAlgorithm

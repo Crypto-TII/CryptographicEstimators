@@ -19,8 +19,6 @@ from enum import Enum
 from bisect import bisect_left
 from math import log2
 
-import cryptographic_estimators
-
 
 class ComplexityType(Enum):
     """Distinguish between normal optimisation and tilde O optimisation."""

@@ -17,7 +17,6 @@
 
 
 from math import log2, ceil
-
 from cryptographic_estimators.helper import is_prime_power, ngates
 from .ranksd_constants import RANKSD_BASE_FIELD_ORDER, RANKSD_DEGREE_EXTENSION, \
     RANKSD_CODE_LENGTH, RANKSD_CODE_DIMENSION, RANKSD_TARGET_RANK

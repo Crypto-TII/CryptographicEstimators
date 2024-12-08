@@ -17,7 +17,6 @@
 
 
 from math import log2, ceil, inf
-
 from ..ranksd_algorithm import RankSDAlgorithm
 from ..ranksd_problem import RankSDProblem
 
