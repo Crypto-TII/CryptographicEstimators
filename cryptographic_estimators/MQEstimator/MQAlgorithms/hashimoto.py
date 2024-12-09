@@ -54,10 +54,17 @@ class Hashimoto(MQAlgorithm):
             >>> E
             Hashimoto estimator for the MQ problem with 924 variables and 67 polynomials
         """
+        n, m, q = problem.get_problem_parameters()
+
+        if not isinstance(q, int):
+            raise TypeError("q must be an integer")
+
+        if not problem.is_underdefined_system():
+            raise ValueError("The MQ problem should be underdefined, i.e., m must be <= n")
+
         super().__init__(problem, **kwargs)
         self._name = "Hashimoto"
 
-        m = self.problem.npolynomials()               
         self.set_parameter_ranges("a", 3, (m // 2) - 1)   
         self.set_parameter_ranges("k", 1, (m // 2) - 1)
 
