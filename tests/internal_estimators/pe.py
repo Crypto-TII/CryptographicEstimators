@@ -25,7 +25,7 @@ def beullens(input, epsilon=0.01):
     n, k, q = input
 
     complexities = [
-        Beullens(PEProblem(n, k, q), **leon_params).time_complexity() for _ in range(10)
+        Beullens(PEProblem(n, k, q), **leon_params).time_complexity() for _ in range(20)
     ]
     actual_complexity = min(complexities)
 
