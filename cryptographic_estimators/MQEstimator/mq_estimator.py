@@ -57,7 +57,6 @@ class MQEstimator(BaseEstimator):
             | F5               | 27.065 | 23.158 |
             | HybridF5         | 17.906 | 11.720 |
             | Lokshtanov       | 62.854 | 16.105 |
-            | Hashimoto        |     -- |     -- |
             +------------------+--------+--------+
 
             >>> if skip_long_doctests:
@@ -79,7 +78,6 @@ class MQEstimator(BaseEstimator):
             | F5               | 62.4 |   57.0 |
             | HybridF5         | 45.4 |   16.1 |
             | Lokshtanov       | 87.1 |   42.4 |
-            | Hashimoto        |   -- |     -- |
             +------------------+------+--------+
 
 
@@ -87,7 +85,6 @@ class MQEstimator(BaseEstimator):
         super(MQEstimator, self).__init__(MQAlgorithm, MQProblem(
             n=n, m=m, q=q, memory_bound=memory_bound, **kwargs), **kwargs)
 
-    # TODO: Add a new, faster example, as the previous one was long
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0):
         """Print table describing the complexity of each algorithm and its optimal parameters.
     
@@ -118,7 +115,6 @@ class MQEstimator(BaseEstimator):
             | F5               |  77.7 |   71.9 |
             | HybridF5         |  67.3 |   26.7 |
             | Lokshtanov       | 168.8 |   44.9 |
-            | Hashimoto        |    -- |     -- |
             +------------------+-------+--------+
 
             >>> from cryptographic_estimators.MQEstimator import MQEstimator
@@ -135,7 +131,6 @@ class MQEstimator(BaseEstimator):
             | F5               | 119.3 |  111.9 |                  {}                  | 109.9 |  109.9 |                  {}                  |
             | HybridF5         | 103.8 |   72.4 |               {'k': 6}               |  94.4 |   70.4 |               {'k': 6}               |
             | Lokshtanov       | 620.9 |  164.4 |   {'delta': 0.024390243902439025}    | 147.6 |   16.4 |            {'delta': 0.9}            |
-            | Hashimoto        |    -- |     -- |                  {}                  |    -- |     -- |                  {}                  |
             +------------------+-------+--------+--------------------------------------+-------+--------+--------------------------------------+
 
             >>> E = MQEstimator(q=2, m=42, n=41, w=2.81)
@@ -154,7 +149,6 @@ class MQEstimator(BaseEstimator):
             | F5               | 85.5 |   57.0 |                 {}                 | 80.1 |   57.0 |                         {}                        |
             | HybridF5         | 45.4 |   16.1 |             {'k': 40}              | 40.0 |   16.1 |                     {'k': 40}                     |
             | Lokshtanov       | 87.1 |   42.4 |  {'delta': 0.024390243902439025}   | 35.9 |    5.1 |                 {'delta': 0.8765}                 |
-            | Hashimoto        |   -- |     -- |                 {}                 |   -- |     -- |                         {}                        |
             +------------------+------+--------+------------------------------------+------+--------+---------------------------------------------------+
                     
             >>> E = MQEstimator(q=16, n=594, m=64)
