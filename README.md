@@ -25,6 +25,8 @@ well as some cryptographic schemes. Currently, the implemented estimators are:
   - Linear Equivalence
   - MinRank
   - Regular Syndrome Decoding
+  - Rank Syndrome Decoding
+
 - ### Scheme Estimators
   - [BIKE](https://bikesuite.org)
   - [MAYO](https://pqmayo.org)

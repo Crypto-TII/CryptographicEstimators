@@ -17,8 +17,7 @@
 
 
 from cryptographic_estimators.base_problem import BaseProblem
-from cryptographic_estimators.helper import is_prime_power
-from cryptographic_estimators.MQEstimator.mq_helper import ngates
+from cryptographic_estimators.helper import is_prime_power, ngates
 from cryptographic_estimators.UOVEstimator.uov_constants import *
 from math import log2, ceil
 

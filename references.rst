@@ -35,7 +35,12 @@ References
 
 **A**
 
+.. [AGHT18] \Nicolas Aragon, Philippe Gaborit, Adrien Hauteville, Jean-Pierre Tillich.
+            *A New Algorithm for Solving the Rank Syndrome Decoding Problem*
+            http://doi.org/10.1109/ISIT.2018.8437464
+
 .. _ref-B:
+
 
 **B**
 
@@ -107,6 +112,11 @@ References
 .. [CKPS] \Nicolas Courtois, Alexander Klimov, Jacques Patarin, and Adi Shamir.
           *Efficient Algorithms for Solving Overdefined Systems of Multivariate Polynomial Equations*
           https://www.iacr.org/archive/eurocrypt2000/1807/18070398-new.pdf
+          
+.. [CS96]  \Florent Chabaud, Jacques Stern.
+            *The cryptographic security of the syndrome decoding problem for rank distance codes*
+            https://doi.org/10.1007/BFb0034862
+
 
 .. _ref-D:
 
@@ -218,14 +228,30 @@ References
                 *On Computing Nearest Neighbors with Applications to Decoding of Binary Linear Codes*
                 https://link.springer.com/chapter/10.1007/978-3-662-46800-5_9
 
+.. [BBBGNRT20] \Magali Bardet, Pierre Briaud, Maxime Bros, Philippe Gaborit, Vincent Neiger, Olivier Ruatta and Jean-Pierre Tillich
+             *An algebraic attack on rank metric code-based cryptosystems*
+             https://doi.org/10.1007/978-3-030-45727-3_3
+
+.. [BBCGPSTV20] \Magali Bardet, Maxime Bros, Daniel Cabarcas, Philippe Gaborit, Ray Perlner, Daniel Smith-Tone, Jean-Pierre Tillich and Javier Verbel
+             *Improvements of Algebraic Attacks for Solving the Rank Decoding and MinRank Problems*
+             https://doi.org/10.1007/978-3-030-64837-4_17
+
+.. [BBBGT23] \Magali Bardet, Pierre Briaud, Maxime Bros, Philippe Gaborit, and Jean-Pierre Tillich
+             *Revisiting algebraic attacks on MinRank and on the rank decoding problem*
+             https://doi.org/10.1007/s10623-023-01265-x
 .. _ref-N:
 
 **N**
+
 
 .. _ref-O:
 
 **O**
 
+.. [OJ02]   \Alexei Ourivski, and Thomas Johansson.
+            *New Technique for Decoding Codes in the Rank Metric and Its Cryptography Applications*
+            https://doi.org/10.1023/A:1020369320078
+            
 .. _ref-P:
 
 **P**
@@ -237,6 +263,10 @@ References
 .. [Pet11]  \Christiane Peters.
             *Information-set decoding for linear codes over Fq*
             https://link.springer.com/chapter/10.1007/978-3-642-12929-2_7
+
+.. [GRS16] \Philippe Gaborit, Olivier Ruatta, and Julien Schrek
+           *On the Complexity of the Rank Syndrome Decoding Problem*
+           https://doi.org/10.1109/TIT.2015.2511786
 
 .. _ref-Q:
 
