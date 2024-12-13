@@ -58,7 +58,11 @@ class DirectAttack(MAYOAlgorithm):
             parameters (dict): Dictionary including the parameters.
 
         Tests:
-            
+            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
+            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            >>> E = DirectAttack(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
+            >>> E.time_complexity()
+            130.79595211268676
         """
         E = self._hashimoto
         return E.time_complexity()
@@ -70,7 +74,11 @@ class DirectAttack(MAYOAlgorithm):
             parameters (dict): Dictionary including the parameters.
 
         Tests:
-            
+            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
+            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            >>> E = DirectAttack(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
+            >>> E.memory_complexity()
+            28.543434150068205
         """
         E = self._hashimoto
         return E.memory_complexity()
