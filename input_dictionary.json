@@ -1055,6 +1055,208 @@
       ]
     },
     {
+      "estimator_id": "BIKEEstimator",
+      "algorithm_id": "BIKEAlgorithm",
+      "display_label": "BIKE Signature Scheme",
+      "landing_page_content": "# BIKE Estimator\n\n\nThis project provides an estimator for the security of the BIKE (Bit Flipping Key Encapsulation) KEM. The scheme is mainly based on the hardness of the binary syndrome decoding problem (on quasy-cyclic codes) and it is currently a fourth round candidate in the ongoing NIST effort for standardization of post-quantum cryptographic schemes. \n\nMore details on the theoretical foundations of the signature scheme and the estimator can be found in the submitted specifications:\n\n[[BIKE24]](https://bikesuite.org/files/v5.2/BIKE_Spec.2024.10.10.1.pdf) \nCarlos Aguilar Melchor, Nicolas Aragon, Paulo L. Barreto, Slim Bettaieb, Loïc Bidoux, Olivier Blazy, Jean-Christophe Deneuville, Philippe Gaborit, Santosh Ghosh, Shay Gueron, Tim Güneysu, Rafael Misoczki, Edoardo Persichetti, Jan Richter-Brockmann, Nicolas Sendrier, Jean-Pierre Tillich, Valentin Vasseur and Gilles Zémor. BIKE: Bit Flipping Key Encapsulation Algorithm Specifications and Supporting Documentation. ",
+      "problem_parameters": [
+        {
+          "id": "r",
+          "type": "number",
+          "display_label": "Code dimension (r)",
+          "placeholder": "Insert parameter",
+          "tooltip": "Dimension of the code (and the underlying quotient ring)"
+        },
+        {
+          "id": "w",
+          "type": "number",
+          "display_label": "Secret key weight (w)",
+          "placeholder": "Insert parameter",
+          "tooltip": "Total number of non-zero positions in both secret key polynomials"
+        },
+        {
+          "id": "t",
+          "type": "number",
+          "display_label": "Error weight (t)",
+          "placeholder": "Insert parameter",
+          "tooltip": "Number of nonzero positions of the error polynomial"
+        }
+      ],
+      "optional_parameters": [
+        {
+          "id": "memory_bound",
+          "required": false,
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "default_value": null,
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        }
+      ],
+      "estimator_parameters": [
+        {
+          "id": "bit_complexities",
+          "type": "switch",
+          "display_label": "Bit complexities",
+          "default_value": true,
+          "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations",
+          "dependencies": [
+            {
+              "id": "theta",
+              "parent_value": true,
+              "action": "show"
+            }
+          ]
+        },
+        {
+          "id": "theta",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Bitcomplexity exponent",
+          "default_value": 2,
+          "placeholder": "Insert value",
+          "tooltip": "The bitcomplexity of a field multiplication is assumed to be log_2(q)^(theta). Note that for theta = 0 the output gives the (log of the) necessary number of field multiplications."
+        },
+        {
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": [],
+          "options": [],
+          "dependencies": []
+        },
+        {
+          "id": "memory_access",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Memory access cost",
+          "default_value": 0,
+          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+          "options": [
+            "Constant",
+            "Logarithmic",
+            "Square root",
+            "Cube root"
+          ]
+        },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
+        }
+      ]
+    },
+    {
+      "estimator_id": "BIKEEstimator",
+      "algorithm_id": "BIKEAlgorithm",
+      "display_label": "BIKE Signature Scheme",
+      "landing_page_content": "# BIKE Estimator\n\n\nThis project provides an estimator for the security of the BIKE (Bit Flipping Key Encapsulation) KEM. The scheme is mainly based on the hardness of the binary syndrome decoding problem (on quasy-cyclic codes) and it is currently a fourth round candidate in the ongoing NIST effort for standardization of post-quantum cryptographic schemes. \n\nMore details on the theoretical foundations of the signature scheme and the estimator can be found in the submitted specifications:\n\n[[BIKE24]](https://bikesuite.org/files/v5.2/BIKE_Spec.2024.10.10.1.pdf) \nCarlos Aguilar Melchor, Nicolas Aragon, Paulo L. Barreto, Slim Bettaieb, Loïc Bidoux, Olivier Blazy, Jean-Christophe Deneuville, Philippe Gaborit, Santosh Ghosh, Shay Gueron, Tim Güneysu, Rafael Misoczki, Edoardo Persichetti, Jan Richter-Brockmann, Nicolas Sendrier, Jean-Pierre Tillich, Valentin Vasseur and Gilles Zémor. BIKE: Bit Flipping Key Encapsulation Algorithm Specifications and Supporting Documentation. ",
+      "problem_parameters": [
+        {
+          "id": "r",
+          "type": "number",
+          "display_label": "Code dimension (r)",
+          "placeholder": "Insert parameter",
+          "tooltip": "Dimension of the code (and the underlying quotient ring)"
+        },
+        {
+          "id": "w",
+          "type": "number",
+          "display_label": "Secret key weight (w)",
+          "placeholder": "Insert parameter",
+          "tooltip": "Total number of non-zero positions in both secret key polynomials"
+        },
+        {
+          "id": "t",
+          "type": "number",
+          "display_label": "Error weight (t)",
+          "placeholder": "Insert parameter",
+          "tooltip": "Number of nonzero positions of the error polynomial"
+        }
+      ],
+      "optional_parameters": [
+        {
+          "id": "memory_bound",
+          "required": false,
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "default_value": null,
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        }
+      ],
+      "estimator_parameters": [
+        {
+          "id": "bit_complexities",
+          "type": "switch",
+          "display_label": "Bit complexities",
+          "default_value": true,
+          "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations",
+          "dependencies": [
+            {
+              "id": "theta",
+              "parent_value": true,
+              "action": "show"
+            }
+          ]
+        },
+        {
+          "id": "theta",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Bitcomplexity exponent",
+          "default_value": 2,
+          "placeholder": "Insert value",
+          "tooltip": "The bitcomplexity of a field multiplication is assumed to be log_2(q)^(theta). Note that for theta = 0 the output gives the (log of the) necessary number of field multiplications."
+        },
+        {
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": [],
+          "options": [],
+          "dependencies": []
+        },
+        {
+          "id": "memory_access",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Memory access cost",
+          "default_value": 0,
+          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+          "options": [
+            "Constant",
+            "Logarithmic",
+            "Square root",
+            "Cube root"
+          ]
+        },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
+        }
+      ]
+    },
+    {
       "estimator_id": "MREstimator",
       "algorithm_id": "MRAlgorithm",
       "display_label": "MinRank",
