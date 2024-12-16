@@ -51,18 +51,47 @@ class DirectAttack(MAYOAlgorithm):
         n, m, _, k, q = self.problem.get_parameters()
         self._hashimoto = Hashimoto(MQProblem(n=n*k, m=m, q=q), bit_complexities=0)
 
+    @optimal_parameter
+    def k(self):
+        """Return the optimal value of k.
+
+        Examples:
+            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
+            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            >>> E = DirectAttack(MAYOProblem(n=22, m=20, o=4, k=5, q=16))
+            >>> E.k()
+            2
+        """
+        E = self._hashimoto
+        return E._get_optimal_parameter("k")
+
+    @optimal_parameter
+    def a(self):
+        """Return the optimal value of alpha.
+
+        Examples:
+            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
+            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            >>> E = DirectAttack(MAYOProblem(n=22, m=20, o=4, k=5, q=16))
+            >>> E.a()
+            9
+        """
+        E = self._hashimoto
+        return E._get_optimal_parameter("a")
+
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
     
         Args:
             parameters (dict): Dictionary including the parameters.
 
-        Tests:
+        Examples:
             >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
             >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            >>> E = DirectAttack(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
+            >>> E = DirectAttack(MAYOProblem(n=22, m=20, o=4, k=5, q=16))
             >>> E.time_complexity()
-            130.79595211268676
+            45.114555923134844
+
         """
         E = self._hashimoto
         return E.time_complexity()
@@ -73,12 +102,13 @@ class DirectAttack(MAYOAlgorithm):
         Args:
             parameters (dict): Dictionary including the parameters.
 
-        Tests:
+        Examples:
             >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
             >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            >>> E = DirectAttack(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
+            >>> E = DirectAttack(MAYOProblem(n=22, m=20, o=4, k=5, q=16))
             >>> E.memory_complexity()
-            28.543434150068205
+            15.289154353723356
+
         """
         E = self._hashimoto
         return E.memory_complexity()

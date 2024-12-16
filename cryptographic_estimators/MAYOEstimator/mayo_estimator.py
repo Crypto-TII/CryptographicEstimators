@@ -90,7 +90,7 @@ class MAYOEstimator(BaseEstimator):
             +----------------------+--------------+-------+--------+-------------------------------------------+
             | algorithm            | attack_type  |  time | memory |                 parameters                |
             +----------------------+--------------+-------+--------+-------------------------------------------+
-            | DirectAttack         |   forgery    | 153.8 |   49.4 | {'k': 10, 'a': 6, 'variant': 'Hashimoto'} |
+            | DirectAttack         |   forgery    | 153.8 |   49.4 | {'k': 11, 'a': 6, 'variant': 'Hashimoto'} |
             | KipnisShamir         | key-recovery | 190.8 |   18.7 |                     {}                    |
             | ReconciliationAttack | key-recovery | 151.2 |   48.1 |     {'k': 11, 'variant': 'las_vegas'}     |
             | IntersectionAttack   | key-recovery | 202.5 |   45.0 |      {'k': 0, 'variant': 'las_vegas'}     |
@@ -104,7 +104,7 @@ class MAYOEstimator(BaseEstimator):
             +----------------------+--------------+-------+--------+-------------------------------------------+
             | algorithm            | attack_type  |  time | memory |                 parameters                |
             +----------------------+--------------+-------+--------+-------------------------------------------+
-            | DirectAttack         |   forgery    |  89.9 |   27.7 | {'k': 2, 'a': 27, 'variant': 'Hashimoto'} |
+            | DirectAttack         |   forgery    |  93.7 |   35.9 | {'k': 3, 'a': 27, 'variant': 'Hashimoto'} |
             | KipnisShamir         | key-recovery | 319.3 |   18.0 |                     {}                    |
             | ReconciliationAttack | key-recovery | 150.3 |   43.8 |     {'k': 13, 'variant': 'las_vegas'}     |
             | IntersectionAttack   | key-recovery | 399.1 |   59.1 |      {'k': 0, 'variant': 'las_vegas'}     |
@@ -118,7 +118,7 @@ class MAYOEstimator(BaseEstimator):
             +----------------------+--------------+-------+--------+-------------------------------------------+
             | algorithm            | attack_type  |  time | memory |                 parameters                |
             +----------------------+--------------+-------+--------+-------------------------------------------+
-            | DirectAttack         |   forgery    |  93.5 |   28.2 | {'k': 1, 'a': 29, 'variant': 'Hashimoto'} |
+            | DirectAttack         |   forgery    |  98.8 |   38.6 | {'k': 3, 'a': 29, 'variant': 'Hashimoto'} |
             | KipnisShamir         | key-recovery | 198.0 |   17.3 |                     {}                    |
             | ReconciliationAttack | key-recovery | 134.6 |   49.8 |      {'k': 6, 'variant': 'las_vegas'}     |
             | IntersectionAttack   | key-recovery | 224.8 |   36.5 |      {'k': 0, 'variant': 'las_vegas'}     |
