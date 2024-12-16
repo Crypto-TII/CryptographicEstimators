@@ -17,7 +17,8 @@
 
 from ..mayo_algorithm import MAYOAlgorithm
 from ..mayo_problem import MAYOProblem
-from ...MQEstimator.mq_estimator import MQEstimator
+from ...MQEstimator.mq_problem import MQProblem
+from ...MQEstimator.MQAlgorithms.hashimoto import Hashimoto
 from ...MQEstimator.MQAlgorithms.lokshtanov import Lokshtanov
 from ...base_algorithm import optimal_parameter
 from ...helper import ComplexityType
@@ -48,57 +49,35 @@ class DirectAttack(MAYOAlgorithm):
         self._attack_type = BASE_FORGERY_ATTACK
 
         n, m, _, k, q = self.problem.get_parameters()
-        self._K = self.K()
-        K = self._K
-        m_tilde = m - floor(((k*n)-K)/(m-K)) + 1
-        n_tilde = m_tilde - K
-        w = self.linear_algebra_constant()
-        h = self._h
-        excluded_algorithms = kwargs.get(BASE_EXCLUDED_ALGORITHMS, [Lokshtanov])
-        complexity_type = self.complexity_type
-
-        if n_tilde <= 0:
-            raise ValueError("n_tilde must be > 0")
-        if m_tilde <= 0:
-            raise ValueError("m_tilde must be > 0")
-
-        self._MQEstimator = MQEstimator(n=n_tilde, m=m_tilde, q=q,
-                                        w=w,
-                                        h=h,
-                                        excluded_algorithms=excluded_algorithms,
-                                        memory_access=0,
-                                        complexity_type=complexity_type,
-                                        bit_complexities=0)
-        
-        self._fastest_algorithm = None
+        self._hashimoto = Hashimoto(MQProblem(n=n*k, m=m, q=q), bit_complexities=0)
 
     @optimal_parameter
-    def K(self):
-        """Return the optimal parameter `K` from Furue, Nakamura, and Takagi strategy [FNT21]_.
+    def k(self):
+        """Return the optimal value of k.
 
         Examples:
             >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
             >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            >>> E = DirectAttack(MAYOProblem(n=80, m=60, o=18, k=12, q=16))
-            >>> E.K()
-            15
-                
+            >>> E = DirectAttack(MAYOProblem(n=22, m=20, o=4, k=5, q=16))
+            >>> E.k()
+            2
         """
-        if self._optimal_parameters.get("K") is None:
-            n, m, _, k, q = self.problem.get_parameters()
-            w = self.linear_algebra_constant()
-            if self.complexity_type == ComplexityType.ESTIMATE.value:
-                return _optimize_k(n=k*n, m=m, k=k, q=q, w=w)
-            elif self.complexity_type == ComplexityType.TILDEO.value:
-                return 0
+        E = self._hashimoto
+        return E._get_optimal_parameter("k")
 
-        return self._optimal_parameters.get("K")
+    @optimal_parameter
+    def a(self):
+        """Return the optimal value of alpha.
 
-    def get_fastest_mq_algorithm(self):
-        """Return the fastest algorithm for solving the MQ instance associated with the attack."""
-        if self._fastest_algorithm is None:
-            self._fastest_algorithm = self._MQEstimator.fastest_algorithm()
-        return self._fastest_algorithm
+        Examples:
+            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
+            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
+            >>> E = DirectAttack(MAYOProblem(n=22, m=20, o=4, k=5, q=16))
+            >>> E.a()
+            9
+        """
+        E = self._hashimoto
+        return E._get_optimal_parameter("a")
 
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
@@ -106,17 +85,16 @@ class DirectAttack(MAYOAlgorithm):
         Args:
             parameters (dict): Dictionary including the parameters.
 
-        Tests:
+        Examples:
             >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
             >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            >>> E = DirectAttack(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
+            >>> E = DirectAttack(MAYOProblem(n=22, m=20, o=4, k=5, q=16))
             >>> E.time_complexity()
-            144.82775006902293
+            45.114555923134844
+
         """
-        q = self.problem.order_of_the_field()
-        fastest_algorithm = self.get_fastest_mq_algorithm()
-        fastest_algorithm.complexity_type = self.complexity_type
-        return self._fastest_algorithm.time_complexity() + self._K * log2(q)
+        E = self._hashimoto
+        return E.time_complexity()
 
     def _compute_memory_complexity(self, parameters: dict):
         """Return the memory complexity of the algorithm for a given set of parameters.
@@ -124,23 +102,21 @@ class DirectAttack(MAYOAlgorithm):
         Args:
             parameters (dict): Dictionary including the parameters.
 
-        Tests:
+        Examples:
             >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.direct_attack import DirectAttack
             >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            >>> E = DirectAttack(MAYOProblem(n=66, m=64, o=8, k=9, q=16))
+            >>> E = DirectAttack(MAYOProblem(n=22, m=20, o=4, k=5, q=16))
             >>> E.memory_complexity()
-            35.269766417276806
+            15.289154353723356
+
         """
-        n, m, _, _, _ = self.problem.get_parameters()
-        fastest_algorithm = self.get_fastest_mq_algorithm()
-        fastest_algorithm.complexity_type = self.complexity_type
-        return max(fastest_algorithm.memory_complexity(), log2(m * n ** 2))
+        E = self._hashimoto
+        return E.memory_complexity()
     
     def get_optimal_parameters_dict(self):
         """Returns the optimal parameters dictionary."""
-        fastest_algorithm = self.get_fastest_mq_algorithm()
-        d = fastest_algorithm.get_optimal_parameters_dict()
-        d["K"] = self._K
-        d["variant"] = fastest_algorithm._name
+        E = self._hashimoto
+        d = E.get_optimal_parameters_dict()
+        d["variant"] = E._name
         return d
     
