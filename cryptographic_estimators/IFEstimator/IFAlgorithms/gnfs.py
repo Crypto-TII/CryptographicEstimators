@@ -19,7 +19,8 @@
 from ..if_algorithm import IFAlgorithm
 from ..if_problem import IFProblem
 from ..if_constants import *
-from math import exp, log, pi
+from ..if_helper import *
+from math import exp, log
 
 
 class GNFS(IFAlgorithm):
@@ -50,11 +51,11 @@ class GNFS(IFAlgorithm):
         """
         n = self.problem.parameters["n"]
         n = n/lge # n is given log2-based, convert to ln-base
-        N = 2 ** n #to be removed
 
         k = (64 / 9) ** (1 / 3)
 
         T = k*(n**(1 / 3))*((log(n))**(1 - 1/3))*lge
+        #T = Lfunction(1/3, k, log(n)) * lge
     
         if correctingfactor:
             T = T - correcting_factor 
@@ -71,16 +72,21 @@ class GNFS(IFAlgorithm):
 
         """
         n = self.problem.parameters["n"]
-        N = 2 ** n
+        n = n/lge
 
         k = 2/(3 ** (2/3))
 
         #b1 = b2
-        b1 = exp(k * (log(N) ** (1 / 3)) * (log(log(N)) ** (2 / 3)))
+        b1 = exp(k * (log(n) ** (1 / 3)) * (log(log(n)) ** (1-1/3)))
 
         #B'_1 / B'_2 ( B'_1 * log(B_1) + B'_2)
         
-        b1_prime = (pi * b1) + 1
-        b2_prime = (pi * b1) + log(N)
+        b1_prime = pifunction(b1) + 1
+        b2_prime = pifunction(b1) + log(n)
 
-        return log((b1_prime / b2_prime) * (b1_prime * log(b1) + b2_prime))
+        T = (b1_prime / b2_prime) * (b1_prime * log(b1) + b2_prime) * lge
+
+        if correcting_factor:
+            T = T - correcting_factor
+
+        return T

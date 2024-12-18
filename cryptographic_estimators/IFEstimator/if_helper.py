@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
-from math import log2, log
+from math import log
 
 def Lfunction(alpha, beta, logN):
     """
@@ -28,4 +28,4 @@ def Lfunction(alpha, beta, logN):
     return beta*(logN**alpha)*(log(logN))**(1-alpha)
 
 def pifunction(x):
-    return x/log(n)
+    return x/log(x)
