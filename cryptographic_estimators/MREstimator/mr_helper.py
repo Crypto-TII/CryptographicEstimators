@@ -19,6 +19,7 @@ from math import log2
 from enum import Enum
 from itertools import product
 from math import comb as binomial
+from math import inf
 from sympy import Poly, QQ
 from sympy.abc import t
 from sympy.polys.matrices import DomainMatrix
@@ -80,9 +81,10 @@ def minors_series(m, n, k, r):
     series = num/den
     return series
 
-
 def minors_polynomial_degree(m, n_reduced, k_reduced, r):
     poly = 0
+    if k_reduced >= (m - r) * (n_reduced - r):
+        return inf
     series = minors_series(m, n_reduced, k_reduced, r)
     series_coeffs = list(reversed(Poly(QQ[t].to_sympy(series)).all_coeffs())) # cast from PolyElement to Poly
     for D in range(series.degree()):
