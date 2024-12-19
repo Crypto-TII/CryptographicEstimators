@@ -19,6 +19,7 @@
 from cryptographic_estimators.base_algorithm import optimal_parameter
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
+from ..mq_constants import MQ_LAS_VEGAS
 from ...MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
 from math import log2, inf
 import pytest
@@ -77,7 +78,7 @@ class Hashimoto(MQAlgorithm):
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = Hashimoto(MQProblem(q=16, n=45, m=10))
             >>> E.k()
-            1
+            2
         """
         return self._get_optimal_parameter("k")
 
@@ -105,7 +106,7 @@ class Hashimoto(MQAlgorithm):
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = Hashimoto(MQProblem(q=16, n=45, m=10))
             >>> E.time_complexity()
-            29.339850002884624
+            29.75041913021961
     
         Tests:
             >>> if skip_long_doctests:
@@ -114,7 +115,7 @@ class Hashimoto(MQAlgorithm):
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = Hashimoto(MQProblem(q=16, n=924, m=67), bit_complexities=False)
             >>> E.time_complexity()
-            110.7538907435183
+            111.55965470245576
         """
         n, m, q = self.problem.get_problem_parameters()
         a = parameters["a"]
@@ -122,12 +123,14 @@ class Hashimoto(MQAlgorithm):
 
         if (a * (m - k) - (a-1)**2 + k) <= n:
             E_1 = BooleanSolveFXL(MQProblem(q=q, n=a, m=a), bit_complexities=0)
+            E_1.set_parameter_ranges('k', 1, a-1);
             E_2 = BooleanSolveFXL(MQProblem(q=q, n=a-1, m=a-1), bit_complexities=0)
+            E_2.set_parameter_ranges('k', 1, a - 2);
             E_3 = BooleanSolveFXL(MQProblem(q=q, n=m-a-k, m=m-a), bit_complexities=0)
 
             com1 = log2(m - a - k + 1) + E_1.time_complexity()
             com2 = k * log2(q) + E_2.time_complexity()
-            com3 = k * log2(q) + E_3.time_complexity()
+            com3 = k * log2(q) + E_3.time_complexity(k=0, variant=MQ_LAS_VEGAS)
             return max(com1, com2, com3)
 
         return inf
@@ -143,7 +146,7 @@ class Hashimoto(MQAlgorithm):
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = Hashimoto(MQProblem(q=16, n=45, m=10))
             >>> E.memory_complexity()
-            9.228818690495881
+            9.129283016944967
         """
         n, m, q = self.problem.get_problem_parameters()
         a = parameters["a"]
@@ -151,12 +154,14 @@ class Hashimoto(MQAlgorithm):
 
         if (a * (m - k) - (a-1)**2 + k) <= n:
             E_1 = BooleanSolveFXL(MQProblem(q=q, n=a, m=a), bit_complexities=0)
+            E_1.set_parameter_ranges('k', 1, a-1);
             E_2 = BooleanSolveFXL(MQProblem(q=q, n=a-1, m=a-1), bit_complexities=0)
+            E_2.set_parameter_ranges('k', 1, a - 2);
             E_3 = BooleanSolveFXL(MQProblem(q=q, n=m-a-k, m=m-a), bit_complexities=0)
 
             com1 = E_1.memory_complexity()
             com2 = E_2.memory_complexity()
-            com3 = E_3.memory_complexity()
+            com3 = E_3.memory_complexity(k=0, variant=MQ_LAS_VEGAS)
             return max(com1, com2, com3)
         
         return inf
