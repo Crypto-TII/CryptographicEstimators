@@ -17,7 +17,7 @@
 
 from ...SDFqEstimator.sdfq_algorithm import SDFqAlgorithm
 from ...SDFqEstimator.sdfq_problem import SDFqProblem
-from ...SDFqEstimator.sdfq_helper import binom, log2, min_max, inf
+from ...SDFqEstimator.sdfq_helper import binom, log2
 from ...base_algorithm import optimal_parameter
 from ..sdfq_constants import *
 from types import SimpleNamespace
@@ -25,28 +25,29 @@ from types import SimpleNamespace
 
 class LeeBrickell(SDFqAlgorithm):
     def __init__(self, problem: SDFqProblem, **kwargs):
-        """
-        Construct an instance of Lee-Brickells's estimator [LB88]_
-        expected weight distribution::
+        """Construct an instance of Lee-Brickell's estimator [LB88]_.
+
+        Expected weight distribution:
+
             +--------------------------------+-------------------------------+
             | <----------+ n - k +---------> | <----------+ k +------------> |
             |               w-p              |              p                |
             +--------------------------------+-------------------------------+
-        INPUT:
-        - ``problem`` -- SDProblem object including all necessary parameters
 
-        TESTS::
-            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell
-            sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
-            sage: LeeBrickell(SDFqProblem(n=961,k=771,w=48,q=31)).time_complexity()
+        Args:
+            problem (SDFqProblem): An SDProblem object including all necessary parameters.
+
+        Tests:
+            >>> from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell
+            >>> from cryptographic_estimators.SDFqEstimator import SDFqProblem
+            >>> LeeBrickell(SDFqProblem(n=961,k=771,w=48,q=31)).time_complexity()
             140.31928490910389
 
-        EXAMPLES::
-            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell
-            sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
-            sage: LeeBrickell(SDFqProblem(n=100,k=50,w=10,q=5))
+        Examples:
+            >>> from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell
+            >>> from cryptographic_estimators.SDFqEstimator import SDFqProblem
+            >>> LeeBrickell(SDFqProblem(n=100,k=50,w=10,q=5))
             Lee-Brickell estimator for syndrome decoding problem with (n,k,w) = (100,50,10) over Finite Field of size 5
-
         """
         self._name = "LeeBrickell"
         super(LeeBrickell, self).__init__(problem, **kwargs)
@@ -56,22 +57,25 @@ class LeeBrickell(SDFqAlgorithm):
     
     @optimal_parameter
     def p(self):
-        """
-        Return the optimal parameter $p$ used in the algorithm optimization
-
-        EXAMPLES::
-            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell
-            sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
-            sage: A = LeeBrickell(SDFqProblem(n=100,k=50,w=10,q=5))
-            sage: A.p()
+        """Returns the optimal parameter $p$ used in the algorithm optimization.
+    
+        Examples:
+            >>> from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell
+            >>> from cryptographic_estimators.SDFqEstimator import SDFqProblem
+            >>> A = LeeBrickell(SDFqProblem(n=100,k=50,w=10,q=5))
+            >>> A.p()
             2
-
         """
         return self._get_optimal_parameter("p")
 
     def _are_parameters_invalid(self, parameters: dict):
-        """
-        return if the parameter set `parameters` is invalid
+        """Checks if the given parameter set is invalid.
+    
+        Args:
+            parameters (dict): The parameter set to be checked.
+    
+        Returns:
+            bool: True if the parameter set is invalid, False otherwise.
         """
         n, k, w, _ = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)
@@ -80,22 +84,23 @@ class LeeBrickell(SDFqAlgorithm):
         return False
 
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
-        """
-        Return time complexity of Lee-Brickell's algorithm over Fq, q > 2 for
-        given set of parameters
-        NOTE: this optimization assumes that the algorithm is executed on the generator matrix
-
-        INPUT:
-        -  ``parameters`` -- dictionary including parameters
-        -  ``verbose_information`` -- if set to a dictionary `permutations`,
-                                      `gauß` and `list` will be returned.
-        EXAMPLES::
-            sage: from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell
-            sage: from cryptographic_estimators.SDFqEstimator import SDFqProblem
-            sage: A = LeeBrickell(SDFqProblem(n=100,k=50,q=3,w=10))
-            sage: A.p()
+        """Return the time complexity of Lee-Brickell's algorithm over Fq, where q > 2,
+        for the given set of parameters.
+    
+        Note:
+            This optimization assumes that the algorithm is executed on the generator matrix.
+    
+        Args:
+            parameters (dict): A dictionary of parameters.
+            verbose_information (dict, optional): If set to a dictionary, `permutations`,
+                `gauß`, and `list` will be returned.
+    
+        Examples:
+            >>> from cryptographic_estimators.SDFqEstimator.SDFqAlgorithms import LeeBrickell
+            >>> from cryptographic_estimators.SDFqEstimator import SDFqProblem
+            >>> A = LeeBrickell(SDFqProblem(n=100,k=50,q=3,w=10))
+            >>> A.p()
             2
-
         """
         n, k, w, q = self.problem.get_parameters()
         par = SimpleNamespace(**parameters)

@@ -1,41 +1,34 @@
-# Docker variables
-image_name=estimators-lib:latest
-documentation_path=$(shell pwd)
-container_name="container-for-docs"
-SAGE=sage
-PACKAGE=cryptographic_estimators
-UNAME:=$(shell uname -m)
+## Docker variables
+IMAGE_NAME = estimators-lib:latest
+DOCUMENTATION_PATH = $(shell pwd)
+PACKAGE = cryptographic_estimators
+MACHINE_ARCHITECTURE := $(shell uname -m)
 
-tools:
-	@sage -python -m pip install setuptools==63.0 wheel==0.38.4 sphinx==5.3.0 furo prettytable scipy pytest python-flint
+DOCTESTS_COMMAND = pytest --doctest-modules -n auto -vv $(PACKAGE)/
+DOCTESTS_FAST_COMMAND = pytest --skip-long-doctests  --doctest-modules -n auto -vv $(PACKAGE)/
+KAT_TESTS_COMMAND = pytest -n auto -vv tests/test_kat.py
+FUNCTIONAL_TESTS_COMMAND = pytest --doctest-modules -n auto -vv \
+													 tests/test_sd.py \
+													 tests/test_mq.py
 
-lib:
-	@python3 setup.py install && sage -python -m pip install .
 
+## Local commands
 install:
-	@make tools && make lib
+	@pip3 install -e .
 
-docker-build-x86:
-	@docker build -t ${image_name} .
+doctests-fast:
+	@${DOCTESTS_FAST_COMMAND}
 
-docker-build-m1:
-	@docker buildx build -t ${image_name} --platform linux/x86_64 .
+doctests:
+	@${DOCTESTS_COMMAND}
 
-docker-build:
-ifeq ($(UNAME), arm64)
-	@make docker-build-m1
-else
-	@make docker-build-x86
-endif 
+kat-tests:
+	@${KAT_TESTS_COMMAND}
 
-docker-run:
-	@docker run -it --rm ${image_name}
+functional-tests:
+	@${FUNCTIONAL_TESTS_COMMAND}
 
-testfast:
-	@sage setup.py testfast
-
-testall: install
-	@sage setup.py testall
+tests-all: functional-tests doctests kat-tests
 
 clean-docs:
 	@rm -rf docs/build docs/source docs/make.bat docs/Makefile
@@ -52,35 +45,84 @@ create-html-docs:
 doc:
 	@make clean-docs && make create-sphinx-config && make create-rst-files && make create-html-docs
 
+add-copyright:
+	@python3 scripts/create_copyright.py
+
 add-estimator:
 	@python3 scripts/create_new_estimator.py && make add-copyright
 
 append-new-estimator:
 	@python3 scripts/append_estimator_to_input_dictionary.py
 
-stop-container-and-remove:
-	@docker stop $(container_name) && docker rm $(container_name)
-
+### Docker commands
 generate-documentation:
 	@docker exec container-for-docs make doc
 
 mount-volume-and-run: 
-	@docker run --name container-for-docs --mount type=bind,source=${documentation_path}/docs,target=/home/cryptographic_estimators/docs -d -it ${image_name} sh
+	@docker run --name container-for-docs --mount type=bind,source=${DOCUMENTATION_PATH}/docs,target=/home/cryptographic_estimators/docs -d -it ${IMAGE_NAME} sh
+
+docker-build-x86:
+	@docker build -t ${IMAGE_NAME} .
+
+docker-build-m1:
+	@docker buildx build -t ${IMAGE_NAME} --platform linux/x86_64 .
+
+docker-build:
+ifeq ($(MACHINE_ARCHITECTURE), arm64)
+	@make docker-build-m1
+else
+	@make docker-build-x86
+endif 
+
+docker-run: docker-build
+	@docker run -it --rm ${IMAGE_NAME}
+
+stop-container-and-remove:
+	@echo "Cleaning any previous container...."
+	@docker stop $(container_name) || true
+	@docker rm $(container_name) || true
 
 docker-doc: docker-build
+	@make stop-container-and-remove container_name="container-for-docs" \
+		|| true
 	@make mount-volume-and-run && make generate-documentation && make stop-container-and-remove container_name="container-for-docs"
 
-docker-test: docker-build
-	@docker run --name container-for-test -d -it ${image_name} sh && docker exec container-for-test sage -t --long -T 3600 --force-lib cryptographic_estimators && docker stop container-for-test && docker rm container-for-test
+docker-doctests: CONTAINER_NAME := "pytest-container"
+docker-doctests: docker-build
+	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
+		|| true
+	@echo "Running doctests..."
+	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "${DOCTESTS_COMMAND}"
 
-docker-testfast: docker-build
-	@docker run --name container-for-test -d -it ${image_name} sh && docker exec container-for-test sage -t cryptographic_estimators && make stop-container-and-remove container_name="container-for-test"
+docker-doctests-fast: CONTAINER_NAME := "pytest-container"
+docker-doctests-fast: docker-build
+	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
+	    || true
+	@echo "Running short doctests..."
+	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "${DOCTESTS_FAST_COMMAND}"
 
-add-copyright:
-	@python3 scripts/create_copyright.py
+docker-kat-tests: CONTAINER_NAME := "pytest-container"
+docker-kat-tests: docker-build
+	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
+		|| true
+	@echo "Running KAT..."
+	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "${KAT_TESTS_COMMAND}"
 
-docker-pytest:
-	@docker run --name pytest-estimators -d -it ${image_name} sh && docker exec pytest-estimators sh -c "sage --python3 -m pytest -vv --cov-report xml:coverage.xml --cov=${PACKAGE} && ${SAGE} tests/test_sdfq.sage && ${SAGE} tests/test_le_beullens.sage && ${SAGE} tests/test_le_bbps.sage && ${SAGE} tests/test_pe.sage && ${SAGE} tests/test_pk.sage"  && make stop-container-and-remove container_name="pytest-estimators"
+docker-functional-tests: CONTAINER_NAME := "pytest-container"
+docker-functional-tests: docker-build
+	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
+		|| true
+	@echo "Running functional tests..."
+	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "${FUNCTIONAL_TESTS_COMMAND}"
+
+docker-tests-all: CONTAINER_NAME := "pytest-container"
+docker-tests-all: docker-functional-tests docker-doctests docker-kat-tests
 
 docker-pytest-cov:
 	pytest -v --cov-report xml:coverage.xml --cov=${PACKAGE} tests/
+
+docker-generate-kat: docker-build
+	@docker run --name kat-container -v ./tests:/home/cryptographic_estimators/tests --rm ${IMAGE_NAME} sh -c \
+		"sage tests/external_estimators/generate_kat.py"
+	@make docker-build
+

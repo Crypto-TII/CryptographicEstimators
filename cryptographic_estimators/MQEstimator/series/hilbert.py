@@ -22,28 +22,24 @@ from math import prod
 
 
 class HilbertSeries(object):
-    """
-    Construct an instance of Hilbert series.
-
-    INPUT:
-
-    - ``n`` -- no of variables
-    - ``degrees`` -- a list of integers representing the degree of the polynomials
-    - ``q`` -- order of the finite field (default: None)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-        sage: H = HilbertSeries(10, [2]*15)
-        sage: H
-        Hilbert series for system with 10 variables and 15 polynomials
-        sage: H = HilbertSeries(10, [2]*15, q=2)
-        sage: H
-        Hilbert series for system with 10 variables and 15 polynomials over F_2
-
-    """
-
     def __init__(self, n: int, degrees: list[int], q=None):
+        """Construct an instance of Hilbert series.
+
+        Args:
+            n (int): The number of variables.
+            degrees (list[int]): A list of integers representing the degree of the polynomials.
+            q (int, optional): The order of the finite field. Defaults to None.
+
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            >>> H = HilbertSeries(10, [2]*15)
+            >>> H
+            Hilbert series for system with 10 variables and 15 polynomials
+            >>> H = HilbertSeries(10, [2]*15, q=2)
+            >>> H
+            Hilbert series for system with 10 variables and 15 polynomials over F_2
+        """
+
         self._q = q
         self._nvariables = n
         self._degrees = degrees
@@ -66,106 +62,85 @@ class HilbertSeries(object):
         self._series_up_to_degree = self._series / (1 - x)
 
     @property
-    def _hilbert_serie(self):
-        """
-        Return the representation of the _series attribute.
+    def _hilbert_series(self):
+        """Return the representation of the _series attribute.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(5, [2]*7)
-            sage: H._hilbert_serie
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            >>> H = HilbertSeries(5, [2]*7)
+            >>> H._hilbert_series
             1 + 5*x + 8*x^2 + (-14)*x^4 + (-14)*x^5 + 8*x^7 + 5*x^8 + x^9 + O(x^14)
-
         """
         return self._series
 
     @property
-    def _hilbert_serie_up_to_degree(self):
-        """
-        Return the representation of the _series_up_to_degree attribute.
+    def _hilbert_series_up_to_degree(self):
+        """Return the representation of the _series_up_to_degree attribute.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(5, [2]*7)
-            sage: H._hilbert_serie_up_to_degree
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            >>> H = HilbertSeries(5, [2]*7)
+            >>> H._hilbert_series_up_to_degree
             1 + 6*x + 14*x^2 + 14*x^3 + (-14)*x^5 + (-14)*x^6 + (-6)*x^7 + (-1)*x^8 + O(x^14)
-
         """
         return self._series_up_to_degree
 
     @property
     def nvariables(self):
-        """
-        Return the no. of variables.
+        """Return the number of variables.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(5, [2]*7)
-            sage: H.nvariables
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            >>> H = HilbertSeries(5, [2]*7)
+            >>> H.nvariables
             5
-
         """
         return self._nvariables
 
     @property
     def degrees(self):
-        """
-        Return a list of degrees of the polynomials.
+        """Return a list of degrees of the polynomials.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(5, [2]*7)
-            sage: H.degrees
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            >>> H = HilbertSeries(5, [2]*7)
+            >>> H.degrees
             [2, 2, 2, 2, 2, 2, 2]
-
         """
         return self._degrees
 
     @property
     def precision(self):
-        """
-        Return the precision of the series.
+        """Return the precision of the series.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(5, [3]*7)
-            sage: H.precision
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            >>> H = HilbertSeries(5, [3]*7)
+            >>> H.precision
             14
-
         """
         return self._prec
 
     @property
     def npolynomials(self):
-        """
-        Return the no. of polynomials
+        """Return the number of polynomials.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(10, [2]*15)
-            sage: H.npolynomials
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            >>> H = HilbertSeries(10, [2]*15)
+            >>> H.npolynomials
             15
-
         """
         return len(self._degrees)
 
     def coefficient_of_degree(self, d: int):
-        """
-        Return the d-th coefficient in the Hilbert serie `self._serie`.
+        """Return the d-th coefficient in the Hilbert serie self._series.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(4, [2]*5)
-            sage: H.coefficient_of_degree(5)
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            >>> H = HilbertSeries(4, [2]*5)
+            >>> H.coefficient_of_degree(5)
             -4
-
         """
 
         if d < self._prec:
@@ -176,16 +151,13 @@ class HilbertSeries(object):
         )
 
     def coefficient_up_to_degree(self, d: int):
-        """
-        Return the d-th coefficient in the Hilbert serie `self._series/(1-x)`
+        """Return the d-th coefficient in the Hilbert serie self._series/(1-x)
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(4, [2]*5)
-            sage: H.coefficient_up_to_degree(4)
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            >>> H = HilbertSeries(4, [2]*5)
+            >>> H.coefficient_up_to_degree(4)
             5
-
         """
 
         if d < self._prec:
@@ -195,16 +167,13 @@ class HilbertSeries(object):
         )
 
     def first_nonpositive_coefficient(self):
-        """
-        Return the first non-positive integer of the series.
+        """Return the first non-positive integer of the series.
 
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(10, [2]*15)
-            sage: H.first_nonpositive_coefficient()
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            >>> H = HilbertSeries(10, [2]*15)
+            >>> H.first_nonpositive_coefficient()
             4
-
         """
         serie = self._series
         for d in range(self.precision):
@@ -213,17 +182,13 @@ class HilbertSeries(object):
         raise ValueError("Unable to find a nonpositive coefficient in the serie.")
 
     def first_nonpositive_coefficient_up_to_degree(self):
-        """
-        Return the first non-positive integer of the serie `self._series/(1-x)`.
+        """Return the first non-positive integer of the serie self._series/(1-x).
 
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
-            sage: H = HilbertSeries(10, [2]*15)
-            sage: H.first_nonpositive_coefficient_up_to_degree()
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
+            >>> H = HilbertSeries(10, [2]*15)
+            >>> H.first_nonpositive_coefficient_up_to_degree()
             5
-
         """
         for d in range(self.precision):
             if self._series_up_to_degree[d] <= 0:
@@ -233,7 +198,6 @@ class HilbertSeries(object):
         )
 
     def __repr__(self):
-        """ """
         text = f"Hilbert series for system with {self.nvariables} variables and {self.npolynomials} polynomials"
         if self._q is not None:
             text += f" over F_{self._q}"

@@ -17,30 +17,26 @@
 
 
 from cryptographic_estimators.base_problem import BaseProblem
-from cryptographic_estimators.helper import is_prime_power
-from cryptographic_estimators.MQEstimator.mq_helper import ngates
+from cryptographic_estimators.helper import is_prime_power, ngates
 from cryptographic_estimators.UOVEstimator.uov_constants import *
 from math import log2, ceil
 
 
 class UOVProblem(BaseProblem):
-    """
-    Construct an instance of UOVProblem.
-
-    INPUT:
-
-    - ``n`` -- number of variables
-    - ``m`` -- number of polynomials
-    - ``q`` -- order of the finite field
-    - ``theta`` -- exponent of the conversion factor (default: 2)
-        - If ``0 <= theta <= 2``, every multiplication in GF(q) is counted as `log2(q) ^ theta` binary operation.
-        - If ``theta = None``, every multiplication in GF(q) is counted as `2 * log2(q) ^ 2 + log2(q)` binary operation.
-    - ``cost_one_hash`` -- bit complexity of computing one hash value (default: 17)
-    - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
-
-    """
-
     def __init__(self, n: int, m: int, q: int, **kwargs):
+        """Construct an instance of UOVProblem.
+
+        Args:
+            n (int): Number of variables
+            m (int): Number of polynomials
+            q (int): Order of the finite field
+            **kwargs: Additional keyword arguments
+                theta (float, optional): Exponent of the conversion factor. Defaults to 2.
+                    If 0 <= theta <= 2, every multiplication in GF(q) is counted as log2(q) ^ theta binary operation.
+                    If theta = None, every multiplication in GF(q) is counted as 2 * log2(q) ^ 2 + log2(q) binary operation.
+                cost_one_hash (int, optional): Bit complexity of computing one hash value. Defaults to 17.
+                memory_bound (float, optional): Maximum allowed memory to use for solving the problem. Defaults to inf.
+        """
         super().__init__(**kwargs)
 
         theta = kwargs.get("theta", 2)
@@ -71,13 +67,10 @@ class UOVProblem(BaseProblem):
         self._cost_one_hash = cost_one_hash
 
     def hashes_to_basic_operations(self, number_of_hashes: float):
-        """
-        Return the number basic operations corresponding to a certain amount of hashes
-
-        INPUT:
-
-        - ``number_of_hashes`` -- Number of hashes  (logarithmic) (default: None)
-
+        """Return the number basic operations corresponding to a certain amount of hashes.
+    
+        Args:
+            number_of_hashes (float): Number of hashes (logarithmic)
         """
         bit_complexity_one_hash = self._cost_one_hash
         bit_complexity_all_hashes = number_of_hashes + bit_complexity_one_hash
@@ -88,100 +81,65 @@ class UOVProblem(BaseProblem):
         return number_of_basic_operations
 
     def to_bitcomplexity_time(self, basic_operations: float):
-        """
-        Return the bit-complexity corresponding to a certain amount of basic operations
-
-        INPUT:
-
-        - ``basic_operations`` -- Number of basic operations (logarithmic)
-
+        """Return the bit-complexity corresponding to a certain amount of basic operations.
+    
+        Args:
+            basic_operations (float): Number of basic operations (logarithmic)
         """
         q = self.parameters[UOV_FIELD_SIZE]
         theta = self._theta
         return ngates(q, basic_operations, theta=theta)
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
-        """
-        Return the memory bit-complexity associated to a given number of elements to store
-
-        INPUT:
-
-        - ``elements_to_store`` -- number of memory operations (logarithmic)
-
+        """Return the memory bit-complexity associated to a given number of elements to store.
+    
+        Args:
+            elements_to_store (float): Number of memory operations (logarithmic)
         """
         q = self.parameters[UOV_FIELD_SIZE]
         return log2(ceil(log2(q))) + elements_to_store
 
     def get_parameters(self):
-        """
-        Return the optimizations parameters
+        """Return the optimizations parameters.
 
-        TESTS::
-
-            sage: from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
-            sage: E = UOVProblem(n=14, m=8, q=4)
-            sage: E.get_parameters()
+        Tests:
+            >>> from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
+            >>> E = UOVProblem(n=14, m=8, q=4)
+            >>> E.get_parameters()
             [14, 8, 4]
         """
         return list(self.parameters.values())
 
     def npolynomials(self):
-        """ "
-        Return the number of polynomials
-
-        TESTS::
-
-
-        """
+        """Return the number of polynomials."""
         return self.parameters[UOV_NUMBER_POLYNOMIALS]
 
     def nvariables(self):
-        """
-        Return the number of variables
-
-        TESTS::
-
-
-        """
+        """Return the number of variables."""
         return self.parameters[UOV_NUMBER_VARIABLES]
 
     def order_of_the_field(self):
-        """
-        Return the order of the field
-
-        """
+        """Return the order of the field."""
         return self.parameters[UOV_FIELD_SIZE]
 
     @property
     def theta(self):
-        """
-        returns the runtime of the algorithm
-
-        """
+        """Returns the runtime of the algorithm."""
         return self._theta
 
     @theta.setter
     def theta(self, value: float):
-        """
-        sets the runtime
-
-        """
+        """Sets the runtime."""
         self._theta = value
 
     @property
     def cost_one_hash(self):
-        """
-        returns the bit-complexity of computing one hash
-
-        """
+        """Returns the bit-complexity of computing one hash."""
         return self._cost_one_hash
 
     @cost_one_hash.setter
     def cost_one_hash(self, value: float):
-        """
-        sets the bit-complexity of computing one hash
-
-        """
+        """Sets the bit-complexity of computing one hash."""
         self._cost_one_hash = value
 
     def __repr__(self):

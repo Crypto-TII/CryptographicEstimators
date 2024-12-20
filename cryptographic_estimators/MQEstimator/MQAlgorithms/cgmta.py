@@ -18,49 +18,38 @@
 
 from ...MQEstimator.mq_algorithm import MQAlgorithm
 from ...MQEstimator.mq_problem import MQProblem
-from ...helper import ComplexityType
 from math import log2, sqrt, floor, comb as binomial
-from sage.all import Integer
 
 
 class CGMTA(MQAlgorithm):
-    r"""
-    Construct an instance of CGMT-A estimator
-
-    CGMT-A is an algorithm to solve the MQ problem over any finite field. It works when there is an integer $k$ such
-    that $m - 2k < 2k^2 \leq n - 2k$ [CGMT02]_.
-
-    NOTE::
-
-        In this module the complexities are computed
-        for k = min(m / 2, floor(sqrt(n / 2 - sqrt(n / 2)))).
-
-
-    INPUT:
-
-    - ``problem`` -- MQProblem object including all necessary parameters
-    - ``h`` -- external hybridization parameter (default: 0)
-    - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-    - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O complexity, default: 0)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.cgmta import CGMTA
-        sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-        sage: E = CGMTA(MQProblem(n=41, m=10, q=3))
-        sage: E
-        CGMT-A estimator for the MQ problem with 41 variables and 10 polynomials
-
-    TESTS::
-
-        sage: E.problem.nvariables() == E.nvariables_reduced()
-        True
-
-    """
-
     def __init__(self, problem: MQProblem, **kwargs):
+        """Construct an instance of CGMT-A estimator.
+
+        CGMT-A is an algorithm to solve the MQ problem over any finite field. It works when there is an integer $k$ such that $m - 2k < 2k^2 \\leq n - 2k$ [CGMT02]_.
+
+        Note:
+            In this module the complexities are computed for k = min(m / 2, floor(sqrt(n / 2 - sqrt(n / 2)))).
+
+        Args:
+            problem (MQProblem): MQProblem object including all necessary parameters.
+            h (Optional[float]): External hybridization parameter (default: 0).
+            memory_access (Optional[int]): Specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage).
+            complexity_type (Optional[int]): Complexity type to consider (0: estimate, 1: tilde O complexity, default: 0).
+
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.cgmta import CGMTA
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = CGMTA(MQProblem(n=41, m=10, q=3))
+            >>> E
+            CGMT-A estimator for the MQ problem with 41 variables and 10 polynomials
+
+        Tests:
+            >>> E.problem.nvariables() == E.nvariables_reduced()
+            True
+        """
+
         n, m, q = problem.get_problem_parameters()
-        if not isinstance(q, (int, Integer)):
+        if not isinstance(q, int):
             raise TypeError("q must be an integer")
 
         if m > n:
@@ -77,22 +66,17 @@ class CGMTA(MQAlgorithm):
         self._m_reduced = m
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.cgmta import CGMTA
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = CGMTA(MQProblem(n=41, m=10, q=3), bit_complexities=False)
-            sage: E.time_complexity()
+        """Return the time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
+    
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.cgmta import CGMTA
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = CGMTA(MQProblem(n=41, m=10, q=3), bit_complexities=False)
+            >>> E.time_complexity()
             23.137080884841787
-
         """
         n, m, q = self.problem.get_problem_parameters()
         k = self._k
@@ -101,19 +85,16 @@ class CGMTA(MQAlgorithm):
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.cgmta import CGMTA
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = CGMTA(MQProblem(n=41, m=10, q=3), bit_complexities=False)
-            sage: E.memory_complexity()
+        """Compute the memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary containing the parameters.
+    
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.cgmta import CGMTA
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = CGMTA(MQProblem(n=41, m=10, q=3), bit_complexities=False)
+            >>> E.memory_complexity()
             7.339850002884624
         """
         q = self.problem.order_of_the_field()
@@ -123,24 +104,20 @@ class CGMTA(MQAlgorithm):
         return memory
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
+        """Return the Ō time complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
         """
         _, m, q = self.problem.get_problem_parameters()
         k = self._k
         return (m - k) * log2(q)
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Return the Ō memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
+        """Compute the Ō memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): Dictionary including the parameters.
         """
         q = self.problem.order_of_the_field()
         k = self._k

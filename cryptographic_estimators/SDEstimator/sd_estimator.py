@@ -15,44 +15,23 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-# ****************************************************************************
-# Copyright 2023 Technology Innovation Institute
-
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-# ****************************************************************************
-
-
+import pytest
+from math import inf
 from ..SDEstimator.sd_algorithm import SDAlgorithm
 from ..SDEstimator.sd_problem import SDProblem
 from ..SDEstimator.SDAlgorithms import BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3
 from ..base_estimator import BaseEstimator
-from math import inf
 
 
 class SDEstimator(BaseEstimator):
-    """
-    Construct an instance of Syndrome Decoding Estimator
+    """Construct an instance of Syndrome Decoding Estimator.
 
-    INPUT:
-
-    - ``n`` -- code length
-    - ``k`` -- code dimension
-    - ``w`` -- error weight
-    - ``excluded_algorithms`` -- a list/tuple of excluded algorithms (default: None)
-    - ``nsolutions`` -- no. of solutions
-
-    TODO: Maybe we should add the optional_parameters dictionary here?
+    Args:
+        n (int): Code length.
+        k (int): Code dimension.
+        w (int): Error weight.
+        excluded_algorithms (Union[List, Tuple], optional): A list or tuple of excluded algorithms. Defaults to None.
+        nsolutions (int): Number of solutions.
 
     """
 
@@ -64,27 +43,31 @@ class SDEstimator(BaseEstimator):
 
         kwargs["excluded_algorithms"] += self.excluded_algorithms_by_default
 
-        super(SDEstimator, self).__init__(SDAlgorithm, SDProblem(
-            n, k, w, memory_bound=memory_bound, **kwargs), **kwargs)
+        super(SDEstimator, self).__init__(
+            SDAlgorithm, SDProblem(n, k, w, memory_bound=memory_bound, **kwargs), **kwargs
+        )
 
-    def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
-              show_all_parameters=0, precision=1, truncate=0):
-        """
-        Print table describing the complexity of each algorithm and its optimal parameters
+    def table(
+        self,
+        show_quantum_complexity=0,
+        show_tilde_o_time=0,
+        show_all_parameters=0,
+        precision=1,
+        truncate=0,
+    ):
+        """Print table describing the complexity of each algorithm and its optimal parameters.
 
-        INPUT:
+        Args:
+            show_quantum_complexity (int, optional): Show quantum time complexity. Defaults to 0.
+            show_tilde_o_time (int, optional): Show Ō time complexity. Defaults to 0.
+            show_all_parameters (int, optional): Show all optimization parameters. Defaults to 0.
+            precision (int, optional): Number of decimal digits output. Defaults to 1.
+            truncate (int, optional): Truncate rather than round the output. Defaults to 0.
 
-        - ``show_quantum_complexity`` -- show quantum time complexity (default: true)
-        - ``show_tilde_o_time`` -- show Ō time complexity (default: true)
-        - ``show_all_parameters`` -- show all optimization parameters (default: true)
-        - ``precision`` -- number of decimal digits output (default: 1)
-        - ``truncate`` -- truncate rather than round the output (default: false)
-
-        EXAMPLES:
-
-            sage: from cryptographic_estimators.SDEstimator import SDEstimator
-            sage: A = SDEstimator(n=100, k=50, w=10)
-            sage: A.table()
+        Examples:
+            >>> from cryptographic_estimators.SDEstimator import SDEstimator
+            >>> A = SDEstimator(n=100, k=50, w=10)
+            >>> A.table()
             +---------------+---------------+
             |               |    estimate   |
             +---------------+------+--------+
@@ -102,12 +85,14 @@ class SDEstimator(BaseEstimator):
             | Stern         | 22.3 |   16.0 |
             +---------------+------+--------+
 
-        TESTS:
 
-            sage: from cryptographic_estimators.SDEstimator import SDEstimator
-            sage: from cryptographic_estimators.SDEstimator import BothMay
-            sage: A = SDEstimator(n=100, k=42, w=13, bit_complexities=1,excluded_algorithms=[BothMay], workfactor_accuracy=25)
-            sage: A.table(show_tilde_o_time=1, precision=0) # long time
+        Tests:
+            >>> if skip_long_doctests:
+            ...     pytest.skip()
+            >>> from cryptographic_estimators.SDEstimator import SDEstimator
+            >>> from cryptographic_estimators.SDEstimator import BothMay
+            >>> A = SDEstimator(n=100, k=42, w=13, bit_complexities=1,excluded_algorithms=[BothMay], workfactor_accuracy=25)
+            >>> A.table(show_tilde_o_time=1, precision=0)
             +---------------+---------------+------------------+
             |               |    estimate   | tilde_o_estimate |
             +---------------+------+--------+-------+----------+
@@ -124,10 +109,10 @@ class SDEstimator(BaseEstimator):
             | Stern         |   23 |     16 |    11 |        3 |
             +---------------+------+--------+-------+----------+
 
-            sage: from cryptographic_estimators.SDEstimator import SDEstimator
-            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
-            sage: A = SDEstimator(3488,2720,64,excluded_algorithms=[BJMMdw])
-            sage: A.table(precision=3, show_all_parameters=1) # long time
+            >>> from cryptographic_estimators.SDEstimator import SDEstimator
+            >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
+            >>> A = SDEstimator(3488, 2720, 64, excluded_algorithms=[BJMMdw])
+            >>> A.table(precision=3, show_all_parameters=1)
             +---------------+--------------------------------------------------------------------------------+
             |               |                                    estimate                                    |
             +---------------+---------+---------+------------------------------------------------------------+
@@ -144,10 +129,10 @@ class SDEstimator(BaseEstimator):
             | Stern         | 151.409 |  49.814 |                 {'r': 7, 'p': 4, 'l': 39}                  |
             +---------------+---------+---------+------------------------------------------------------------+
 
-            sage: from cryptographic_estimators.SDEstimator import SDEstimator
-            sage: from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
-            sage: A = SDEstimator(3488,2720,64,excluded_algorithms=[BJMMdw],memory_access=3)
-            sage: A.table(precision=3, show_all_parameters=1) # long time
+            >>> from cryptographic_estimators.SDEstimator import SDEstimator
+            >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
+            >>> A = SDEstimator(3488,2720,64,excluded_algorithms=[BJMMdw],memory_access=3)
+            >>> A.table(precision=3, show_all_parameters=1)
             +---------------+----------------------------------------------------------------------------+
             |               |                                  estimate                                  |
             +---------------+---------+--------+---------------------------------------------------------+
@@ -163,9 +148,11 @@ class SDEstimator(BaseEstimator):
             | Prange        | 173.447 | 21.576 |                         {'r': 7}                        |
             | Stern         | 153.015 | 32.587 |                {'r': 7, 'p': 2, 'l': 21}                |
             +---------------+---------+--------+---------------------------------------------------------+
-
         """
-        super(SDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
-                                       show_tilde_o_time=show_tilde_o_time,
-                                       show_all_parameters=show_all_parameters,
-                                       precision=precision, truncate=truncate)
+        super(SDEstimator, self).table(
+            show_quantum_complexity=show_quantum_complexity,
+            show_tilde_o_time=show_tilde_o_time,
+            show_all_parameters=show_all_parameters,
+            precision=precision,
+            truncate=truncate,
+        )

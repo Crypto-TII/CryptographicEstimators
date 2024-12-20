@@ -36,5 +36,11 @@ BASE_PARAMETERS = "parameters"
 BASE_ALGORITHM = "algorithm"
 BASE_NSOLUTIONS = "nsolutions"
 
+
+BASE_ATTACK_TYPE_FORGERY = "forgery"
+BASE_ATTACK_TYPE_KEY_RECOVERY = "key-recovery"
+BASE_ATTACK_TYPE_MSG_RECOVERY = "message-recovery"
 BASE_ATTACK_TYPE = "algorithm"
 BASE_ESTIMATOR_TYPE = "problem"
+BASE_FORGERY_ATTACK = "forgery"
+BASE_KEY_RECOVERY_ATTACK = "key-recovery"

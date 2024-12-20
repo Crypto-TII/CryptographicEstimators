@@ -20,9 +20,7 @@ from random import randint
 
 
 def gv_distance(n: int, k: int, q: int):
-    """
-    Gilbert Varsharmov bound
-    """
+    """Gilbert Varsharmov bound."""
     d = 1
     right_term = q ** (n - k)
     left_term = 0
@@ -34,15 +32,10 @@ def gv_distance(n: int, k: int, q: int):
 
 
 def number_of_weight_d_codewords(n: int, k: int, q: int, d: int):
-    """
-    Returns the number of weight d code words in a (n,k,q) code
-    """
+    """Returns the number of weight d code words in a (n,k,q) code."""
     return binomial(n, d) * (q - 1) ** d // q ** (n - k)
 
 def random_sparse_vec_orbit(n: int, w: int, q: int):
-    """
-
-    """
     counts = [0] * (q - 1)
     s = 0
     while s < w:
@@ -56,9 +49,6 @@ def random_sparse_vec_orbit(n: int, w: int, q: int):
 
 
 def median_size_of_random_orbit(n: int, w: int, q: int):
-    """
-
-    """
     S = []
     for x in range(100):
         S.append(random_sparse_vec_orbit(n, w, q))
@@ -67,9 +57,6 @@ def median_size_of_random_orbit(n: int, w: int, q: int):
 
 
 def hamming_ball(n: int, q: int, w: int):
-    """
-
-    """
     S = 0
     for i in range(0, w + 1):
         S += binomial(n, i) * (q - 1) ** i

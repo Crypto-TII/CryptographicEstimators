@@ -20,30 +20,29 @@ from .mr_algorithm import MRAlgorithm
 from .mr_problem import MRProblem
 from ..base_estimator import BaseEstimator
 from math import inf
+import pytest
 
 
 class MREstimator(BaseEstimator):
-    """
-    Construct an instance of MREstimator
-
-    INPUT:
-    - ``q`` -- order of the finite field
-    - ``m`` -- number of rows of the input matrices
-    - ``n`` -- number of columns of the input matrices
-    - ``k`` -- length of the solution vector
-    - ``r`` -- target rank
-    - ``memory_bound`` -- maximum allowed memory to use for solving the problem (default: inf)
-    - ``excluded_algorithm`` -- A list/tuple of excluded algorithms (default: None)
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.MREstimator import MREstimator
-        sage: MRE = MREstimator(q=16, m=15, n=15, k=78, r=6)
-
-    """
     excluded_algorithms_by_default = []
-
     def __init__(self, q: int, m: int, n: int, k: int, r: int, memory_bound=inf, **kwargs):
+        """Construct an instance of MREstimator.
+
+        Args:
+            q (int): Order of the finite field.
+            m (int): Number of rows of the input matrices.
+            n (int): Number of columns of the input matrices.
+            k (int): Length of the solution vector.
+            r (int): Target rank.
+            memory_bound (float, optional): Maximum allowed memory to use for solving the problem. Defaults to inf.
+            **kwargs: Additional keyword arguments.
+                excluded_algorithm (list): A list/tuple of excluded algorithms (default: None)
+
+        Examples:
+            >>> from cryptographic_estimators.MREstimator import MREstimator
+            >>> MRE = MREstimator(q=16, m=15, n=15, k=78, r=6)
+        """
+
         super(MREstimator, self).__init__(
             MRAlgorithm,
             MRProblem(q, m, n, k, r, memory_bound=memory_bound, **kwargs),
@@ -52,128 +51,131 @@ class MREstimator(BaseEstimator):
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
               show_all_parameters=0, precision=1, truncate=0):
-        """
-        Print table describing the complexity of each algorithm and its optimal parameters
+        """Print table describing the complexity of each algorithm and its optimal parameters.
+    
+        Args:
+            show_quantum_complexity (int): Show quantum time complexity (default: 0)
+            show_tilde_o_time (int): Show Ō time complexity (default: 0)
+            show_all_parameters (int): Show all optimization parameters (default: 0)
+            precision (int): Number of decimal digits output (default: 1)
+            truncate (int): Truncate rather than round the output (default: 0)
 
-        INPUT:
-
-        - ``show_quantum_complexity`` -- show quantum time complexity (default: False)
-        - ``show_tilde_o_time`` -- show Ō time complexity (default: False)
-        - ``show_all_parameters`` -- show all optimization parameters (default: False)
-        - ``precision`` -- number of decimal digits output (default: 1)
-        - ``truncate`` -- truncate rather than round the output (default: False)
-
-        EXAMPLES::
-
-            sage: from cryptographic_estimators.MREstimator import MREstimator
-            sage: MRE = MREstimator(q=7, m=9, n=10, k=15, r=4)
-            sage: MRE.table(show_all_parameters=1)
+        Examples:
+            >>> from cryptographic_estimators.MREstimator import MREstimator
+            >>> MRE = MREstimator(q=7, m=9, n=10, k=15, r=4)
+            >>> MRE.table(show_all_parameters=1)
             +---------------+---------------------------------------------------------------------------------------+
             |               |                                        estimate                                       |
             +---------------+-------+--------+----------------------------------------------------------------------+
             | algorithm     |  time | memory |                              parameters                              |
             +---------------+-------+--------+----------------------------------------------------------------------+
-            | SupportMinors |  38.8 |   13.0 | {'a': 1, 'lv': 0, 'b': 1, 'nprime': 8, 'variant': 'block_wiedemann'} |
-            | KernelSearch  |  33.2 |   11.5 |                          {'a': 1, 'lv': 0}                           |
-            | BigK          | 132.5 |   13.1 |                          {'a': 0, 'lv': 0}                           |
-            | Minors        |  37.2 |    1.6 |                          {'a': 2, 'lv': 0}                           |
+            | SupportMinors |  38.8 |   12.1 | {'a': 1, 'lv': 0, 'b': 1, 'nprime': 8, 'variant': 'block_wiedemann'} |
+            | KernelSearch  |  33.2 |   12.1 |                          {'a': 1, 'lv': 0}                           |
+            | BigK          | 132.5 |   12.1 |                          {'a': 0, 'lv': 0}                           |
+            | Minors        |  37.2 |   12.1 |                          {'a': 2, 'lv': 0}                           |
             | BruteForce    |  37.1 |   12.1 |                          {'a': 1, 'lv': 0}                           |
             +---------------+-------+--------+----------------------------------------------------------------------+
 
+        Tests:
+            >>> from cryptographic_estimators.MREstimator import MREstimator
+            >>> from cryptographic_estimators.MREstimator.MRAlgorithms import Minors, BigK
+            >>> MR = MREstimator(q=2, m=64, n=64, k=44, r=44, excluded_algorithms=[Minors, BigK])
+            >>> MR.table(show_all_parameters=1)
+            +---------------+----------------------------------------------------------------------------------------+
+            |               |                                        estimate                                        |
+            +---------------+------+--------+------------------------------------------------------------------------+
+            | algorithm     | time | memory |                               parameters                               |
+            +---------------+------+--------+------------------------------------------------------------------------+
+            | SupportMinors | 73.1 |   17.5 | {'a': 0, 'lv': 43, 'b': 1, 'nprime': 46, 'variant': 'block_wiedemann'} |
+            | KernelSearch  | 60.4 |   17.5 |                           {'a': 0, 'lv': 0}                            |
+            | BruteForce    | 60.4 |   17.5 |                           {'a': 0, 'lv': 0}                            |
+            +---------------+------+--------+------------------------------------------------------------------------+
 
-        TESTS:
-
-            sage: from cryptographic_estimators.MREstimator import MREstimator
-            sage: MRE = MREstimator(q=16, m=15, n=15, k=78, r=6)
-            sage: MRE.table(show_all_parameters=1)
+            >>> MRE = MREstimator(q=16, m=15, n=15, k=78, r=6)
+            >>> MRE.table(show_all_parameters=1)
             +---------------+---------------------------------------------------------------------------------------+
             |               |                                        estimate                                       |
             +---------------+-------+--------+----------------------------------------------------------------------+
             | algorithm     |  time | memory |                              parameters                              |
             +---------------+-------+--------+----------------------------------------------------------------------+
-            | SupportMinors | 144.0 |   11.8 | {'a': 5, 'lv': 0, 'b': 1, 'nprime': 8, 'variant': 'block_wiedemann'} |
-            | KernelSearch  | 147.7 |   14.3 |                          {'a': 4, 'lv': 3}                           |
-            | BigK          | 154.7 |   13.8 |                          {'a': 5, 'lv': 3}                           |
-            | Minors        | 143.2 |   14.8 |                          {'a': 5, 'lv': 0}                           |
+            | SupportMinors | 144.0 |   16.1 | {'a': 5, 'lv': 0, 'b': 1, 'nprime': 8, 'variant': 'block_wiedemann'} |
+            | KernelSearch  | 147.7 |   16.1 |                          {'a': 4, 'lv': 3}                           |
+            | BigK          | 154.7 |   16.1 |                          {'a': 5, 'lv': 3}                           |
+            | Minors        | 144.7 |   16.1 |                          {'a': 5, 'lv': 0}                           |
             | BruteForce    | 143.8 |   16.1 |                          {'a': 5, 'lv': 0}                           |
             +---------------+-------+--------+----------------------------------------------------------------------+
 
-
-            sage: MRE = MREstimator(q=16, m=16, n=16, k=142, r=4)
-            sage: MRE.table(show_all_parameters=1)
+            >>> MRE = MREstimator(q=16, m=16, n=16, k=142, r=4)
+            >>> MRE.table(show_all_parameters=1)
             +---------------+---------------------------------------------------------------------------------------+
             |               |                                        estimate                                       |
             +---------------+-------+--------+----------------------------------------------------------------------+
             | algorithm     |  time | memory |                              parameters                              |
             +---------------+-------+--------+----------------------------------------------------------------------+
-            | SupportMinors | 165.9 |   18.0 | {'a': 8, 'lv': 0, 'b': 2, 'nprime': 8, 'variant': 'block_wiedemann'} |
-            | KernelSearch  | 159.4 |   13.8 |                          {'a': 8, 'lv': 0}                           |
+            | SupportMinors | 165.9 |   17.2 | {'a': 8, 'lv': 0, 'b': 2, 'nprime': 8, 'variant': 'block_wiedemann'} |
+            | KernelSearch  | 159.4 |   17.2 |                          {'a': 8, 'lv': 0}                           |
             | BigK          | 230.8 |   17.2 |                          {'a': 0, 'lv': 0}                           |
-            | Minors        | 162.5 |   33.0 |                          {'a': 7, 'lv': 0}                           |
+            | Minors        | 169.4 |   17.2 |                          {'a': 9, 'lv': 0}                           |
             | BruteForce    | 169.4 |   17.2 |                          {'a': 9, 'lv': 0}                           |
             +---------------+-------+--------+----------------------------------------------------------------------+
 
-
-            sage: MRE = MREstimator(q=16, m=19, n=19, k=109, r=8)
-            sage: MRE.table(show_all_parameters=1)
+            >>> if skip_long_doctests:
+            ...     pytest.skip()
+            >>> MRE = MREstimator(q=16, m=19, n=19, k=109, r=8)
+            >>> MRE.table(show_all_parameters=1)
             +---------------+----------------------------------------------------------------------------------------+
             |               |                                        estimate                                        |
             +---------------+-------+--------+-----------------------------------------------------------------------+
             | algorithm     |  time | memory |                               parameters                              |
             +---------------+-------+--------+-----------------------------------------------------------------------+
-            | SupportMinors | 209.6 |   23.5 | {'a': 5, 'lv': 0, 'b': 2, 'nprime': 14, 'variant': 'block_wiedemann'} |
-            | KernelSearch  | 207.4 |   14.9 |                           {'a': 5, 'lv': 0}                           |
-            | BigK          | 431.1 |   17.4 |                           {'a': 0, 'lv': 0}                           |
-            | Minors        | 211.5 |   55.0 |                           {'a': 4, 'lv': 0}                           |
+            | SupportMinors | 209.6 |   21.5 | {'a': 5, 'lv': 0, 'b': 2, 'nprime': 14, 'variant': 'block_wiedemann'} |
+            | KernelSearch  | 207.4 |   17.3 |                           {'a': 5, 'lv': 0}                           |
+            | BigK          | 431.1 |   17.3 |                           {'a': 0, 'lv': 0}                           |
+            | Minors        | 216.3 |   17.3 |                           {'a': 6, 'lv': 0}                           |
             | BruteForce    | 216.3 |   17.3 |                           {'a': 6, 'lv': 0}                           |
             +---------------+-------+--------+-----------------------------------------------------------------------+
 
-
-            sage: MRE = MREstimator(q=16, m=19, n=19, k=167, r=6)
-            sage: MRE.table(show_all_parameters=1)
+            >>> MRE = MREstimator(q=16, m=19, n=19, k=167, r=6)
+            >>> MRE.table(show_all_parameters=1)
             +---------------+----------------------------------------------------------------------------------------+
             |               |                                        estimate                                        |
             +---------------+-------+--------+-----------------------------------------------------------------------+
             | algorithm     |  time | memory |                               parameters                              |
             +---------------+-------+--------+-----------------------------------------------------------------------+
-            | SupportMinors | 236.3 |   20.9 | {'a': 8, 'lv': 0, 'b': 2, 'nprime': 11, 'variant': 'block_wiedemann'} |
-            | KernelSearch  | 231.7 |   14.6 |                           {'a': 8, 'lv': 0}                           |
+            | SupportMinors | 236.3 |   18.9 | {'a': 8, 'lv': 0, 'b': 2, 'nprime': 11, 'variant': 'block_wiedemann'} |
+            | KernelSearch  | 231.7 |   17.9 |                           {'a': 8, 'lv': 0}                           |
             | BigK          | 351.8 |   17.9 |                           {'a': 0, 'lv': 0}                           |
-            | Minors        | 237.6 |   45.7 |                           {'a': 7, 'lv': 0}                           |
+            | Minors        | 242.2 |   17.9 |                           {'a': 9, 'lv': 0}                           |
             | BruteForce    | 242.2 |   17.9 |                           {'a': 9, 'lv': 0}                           |
             +---------------+-------+--------+-----------------------------------------------------------------------+
 
-
-            sage: MRE = MREstimator(q=16, m=21, n=21, k=189, r=7)
-            sage: MRE.table(show_all_parameters=1)
+            >>> MRE = MREstimator(q=16, m=21, n=21, k=189, r=7)
+            >>> MRE.table(show_all_parameters=1)
             +---------------+----------------------------------------------------------------------------------------+
             |               |                                        estimate                                        |
             +---------------+-------+--------+-----------------------------------------------------------------------+
             | algorithm     |  time | memory |                               parameters                              |
             +---------------+-------+--------+-----------------------------------------------------------------------+
-            | SupportMinors | 274.5 |   51.0 | {'a': 6, 'lv': 0, 'b': 8, 'nprime': 15, 'variant': 'block_wiedemann'} |
-            | KernelSearch  | 269.2 |   15.5 |                           {'a': 8, 'lv': 0}                           |
+            | SupportMinors | 274.5 |   49.0 | {'a': 6, 'lv': 0, 'b': 8, 'nprime': 15, 'variant': 'block_wiedemann'} |
+            | KernelSearch  | 269.2 |   18.4 |                           {'a': 8, 'lv': 0}                           |
             | BigK          | 452.6 |   18.4 |                           {'a': 0, 'lv': 0}                           |
-            | Minors        | 278.7 |    2.0 |                           {'a': 9, 'lv': 0}                           |
+            | Minors        | 278.7 |   18.4 |                           {'a': 9, 'lv': 0}                           |
             | BruteForce    | 278.7 |   18.4 |                           {'a': 9, 'lv': 0}                           |
             +---------------+-------+--------+-----------------------------------------------------------------------+
 
-
-            sage: MRE = MREstimator(q=16, m=22, n=22, k=254, r=6)
-            sage: MRE.table(show_all_parameters=1)
+            >>> MRE = MREstimator(q=16, m=22, n=22, k=254, r=6)
+            >>> MRE.table(show_all_parameters=1)
             +---------------+-----------------------------------------------------------------------------------------+
             |               |                                         estimate                                        |
             +---------------+-------+--------+------------------------------------------------------------------------+
             | algorithm     |  time | memory |                               parameters                               |
             +---------------+-------+--------+------------------------------------------------------------------------+
-            | SupportMinors | 301.2 |   17.6 | {'a': 11, 'lv': 0, 'b': 1, 'nprime': 11, 'variant': 'block_wiedemann'} |
-            | KernelSearch  | 302.8 |   14.5 |                           {'a': 11, 'lv': 0}                           |
+            | SupportMinors | 301.2 |   18.9 | {'a': 11, 'lv': 0, 'b': 1, 'nprime': 11, 'variant': 'block_wiedemann'} |
+            | KernelSearch  | 302.8 |   18.9 |                           {'a': 11, 'lv': 0}                           |
             | BigK          | 425.4 |   18.9 |                           {'a': 0, 'lv': 0}                            |
-            | Minors        | 307.1 |   60.1 |                           {'a': 9, 'lv': 0}                            |
+            | Minors        | 314.9 |   33.2 |                           {'a': 11, 'lv': 0}                           |
             | BruteForce    | 316.0 |   18.9 |                           {'a': 12, 'lv': 0}                           |
             +---------------+-------+--------+------------------------------------------------------------------------+
-
-
             """
         super(MREstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,

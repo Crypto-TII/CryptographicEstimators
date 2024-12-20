@@ -21,40 +21,33 @@ from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
 from cryptographic_estimators.helper import is_power_of_two
 from math import log2
 
-# TODO: Remove at final step
-from sage.all import Integer
-
 
 class MHT(MQAlgorithm):
-    r"""
-    Construct an instance of MHT estimator
-
-    The MHT is an algorithm to solve the MQ problem when  $m  (m + 3) / 2 \leq n$ [MHT13]_.
-
-    INPUT:
-
-    - ``problem`` -- MQProblem object including all necessary parameters
-    - ``w`` -- linear algebra constant (2 <= w <= 3) (default: 2.81)
-    - ``memory_access`` -- specifies the memory access cost model (default: 0, choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage)
-    - ``complexity_type`` -- complexity type to consider (0: estimate, 1: tilde O comp
-
-    EXAMPLES::
-
-        sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.mht import MHT
-        sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-        sage: E = MHT(MQProblem(n=183, m=12, q=4), w=2.8)
-        sage: E
-        MHT estimator for the MQ problem with 183 variables and 12 polynomials
-
-    TESTS::
-
-        sage: E.problem.nvariables() == E.nvariables_reduced()
-        True
-    """
-
     def __init__(self, problem: MQProblem, **kwargs):
+        """Construct an instance of MHT estimator.
+
+        The MHT is an algorithm to solve the MQ problem when  $m  (m + 3) / 2 \\leq n$ [MHT13]_.
+
+        Args:
+            problem (MQProblem): MQProblem object including all necessary parameters.
+            w (float, optional): Linear algebra constant (2 <= w <= 3). Defaults to 2.81.
+            memory_access (int, optional): Specifies the memory access cost model. Defaults to 0 (choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root or deploy custom function which takes as input the logarithm of the total memory usage).
+            complexity_type (int, optional): Complexity type to consider (0: estimate, 1: tilde O comp).
+
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.mht import MHT
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = MHT(MQProblem(n=183, m=12, q=4), w=2.8)
+            >>> E
+            MHT estimator for the MQ problem with 183 variables and 12 polynomials
+
+        Tests:
+            >>> E.problem.nvariables() == E.nvariables_reduced()
+            True
+        """
+
         n, m, q = problem.get_problem_parameters()
-        if not isinstance(q, (int, Integer)):
+        if not isinstance(q,int):
             raise TypeError("q must be an integer")
 
         if m * (m + 3) / 2 > n:
@@ -68,15 +61,13 @@ class MHT(MQAlgorithm):
         self._m_reduced = m
 
     def _compute_time_complexity(self, parameters: dict):
-        """
-        Return the time complexity of the algorithm for a given set of parameters
+        """Return the time complexity of the algorithm for a given set of parameters.
 
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.mht import MHT
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = MHT(MQProblem(n=183, m=12, q=4), w=2.8)
-            sage: E.time_complexity()
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.mht import MHT
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = MHT(MQProblem(n=183, m=12, q=4), w=2.8)
+            >>> E.time_complexity()
             26.628922047916475
         """
         n, m, _ = self.problem.get_problem_parameters()
@@ -89,25 +80,20 @@ class MHT(MQAlgorithm):
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
-        """
-        Return the memory complexity of the algorithm for a given set of parameters
+        """Return the memory complexity of the algorithm for a given set of parameters.
 
-        TESTS::
-
-            sage: from cryptographic_estimators.MQEstimator.MQAlgorithms.mht import MHT
-            sage: from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            sage: E = MHT(MQProblem(n=183, m=12, q=4), w=2.8)
-            sage: E.memory_complexity()
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.mht import MHT
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> E = MHT(MQProblem(n=183, m=12, q=4), w=2.8)
+            >>> E.memory_complexity()
             19.61636217728924
         """
         n, m, q = self.problem.get_problem_parameters()
         return log2(m * n**2)
 
     def _compute_tilde_o_time_complexity(self, parameters: dict):
-        """
-        Return the Ō time complexity of the algorithm for a given set of parameters
-
-        """
+        """Return the Ō time complexity of the algorithm for a given set of parameters."""
         _, m, _ = self.get_reduced_parameters()
         if is_power_of_two(self.problem.order_of_the_field()):
             time = 0
@@ -116,12 +102,9 @@ class MHT(MQAlgorithm):
         return time
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
-        """
-        Return the Ō memory complexity of the algorithm for a given set of parameters
-
-        INPUT:
-
-        - ``parameters`` -- dictionary including the parameters
-
+        """Return the Ō memory complexity of the algorithm for a given set of parameters.
+    
+        Args:
+            parameters (dict): A dictionary including the parameters.
         """
         return 0
