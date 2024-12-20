@@ -1,0 +1,10 @@
+--------------
+bike_estimator
+--------------
+
+.. automodule:: cryptographic_estimators.BIKEEstimator.bike_estimator
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

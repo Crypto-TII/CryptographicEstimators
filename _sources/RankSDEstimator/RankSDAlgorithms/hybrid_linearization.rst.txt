@@ -1,0 +1,10 @@
+--------------------
+hybrid_linearization
+--------------------
+
+.. automodule:: cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.hybrid_linearization
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

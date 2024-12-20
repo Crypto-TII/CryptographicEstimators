@@ -1,0 +1,10 @@
+-------------
+kipnis_shamir
+-------------
+
+.. automodule:: cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.kipnis_shamir
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+
