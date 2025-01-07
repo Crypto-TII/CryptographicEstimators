@@ -1057,7 +1057,7 @@
     {
       "estimator_id": "BIKEEstimator",
       "algorithm_id": "BIKEAlgorithm",
-      "display_label": "BIKE Signature Scheme",
+      "display_label": "BIKE KEM",
       "landing_page_content": "# BIKE Estimator\n\n\nThis project provides an estimator for the security of the BIKE (Bit Flipping Key Encapsulation) KEM. The scheme is mainly based on the hardness of the binary syndrome decoding problem (on quasy-cyclic codes) and it is currently a fourth round candidate in the ongoing NIST effort for standardization of post-quantum cryptographic schemes. \n\nMore details on the theoretical foundations of the signature scheme and the estimator can be found in the submitted specifications:\n\n[[BIKE24]](https://bikesuite.org/files/v5.2/BIKE_Spec.2024.10.10.1.pdf) \nCarlos Aguilar Melchor, Nicolas Aragon, Paulo L. Barreto, Slim Bettaieb, Loïc Bidoux, Olivier Blazy, Jean-Christophe Deneuville, Philippe Gaborit, Santosh Ghosh, Shay Gueron, Tim Güneysu, Rafael Misoczki, Edoardo Persichetti, Jan Richter-Brockmann, Nicolas Sendrier, Jean-Pierre Tillich, Valentin Vasseur and Gilles Zémor. BIKE: Bit Flipping Key Encapsulation Algorithm Specifications and Supporting Documentation. ",
       "problem_parameters": [
         {
