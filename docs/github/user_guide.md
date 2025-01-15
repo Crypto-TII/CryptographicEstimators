@@ -47,7 +47,7 @@ The following code creates an estimator of the SD problem with code length $n =
 
 ```python
 from cryptographic_estimators.SDEstimator import SDEstimator
-SDE = SDEstimator(n=20, k=10, w=10)
+SDE = SDEstimator(n=100, k=50, w=10)
 ```
 
 The following code creates an estimator of the MQ problem $n = 15$ variables and
