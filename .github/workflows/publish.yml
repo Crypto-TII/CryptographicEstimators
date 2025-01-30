@@ -1,10 +1,7 @@
 name: Upload Python Package
-
-# TODO
-#on:
-#  release:
-#    types: [published]
-on: [push]
+on:
+  release:
+    types: [published]
 
 jobs:
   pypi-publish:
