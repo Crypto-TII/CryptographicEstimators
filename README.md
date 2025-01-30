@@ -53,6 +53,10 @@ source .venv/bin/activate
 
 ### Installation 🛠
 
+- run `pip install cryptographic_estimators` from your terminal
+
+or
+  
 - Clone and `cd` into the project directory.
 
 - Run `make install` to install the `cryptographic_estimators` library locally.
