@@ -77,7 +77,7 @@ class BBPS(LEAlgorithm):
             >>> from cryptographic_estimators.LEEstimator import LEProblem
             >>> A = BBPS(LEProblem(30,20,251))
             >>> A.w_prime()
-            10
+            9
         """
         return self._get_optimal_parameter("w_prime")
 
@@ -110,7 +110,7 @@ class BBPS(LEAlgorithm):
         pr_w_w_prime = log2(binom(w_prime, 2 * w_prime - w)) + log2(binom(n - w_prime, w - w_prime)) - log2(
             binom(n, w_prime))  # zeta probability in the paper
 
-        L_prime = (1 + Nw_prime * 2 - pr_w_w_prime + log2((2 * log(n)))) / 4
+        L_prime = (2 + log2(n) + Nw_prime * 2 - pr_w_w_prime + log2((log(n)))) / 4
         if L_prime > Nw_prime:
             return inf, inf
 
