@@ -150,7 +150,6 @@ class SDAlgorithm(BaseAlgorithm):
         Args:
             parameters (dict): A dictionary of parameters used for the memory complexity computation.
         """
-        pass
         return self._time_and_memory_complexity(parameters)[1]
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):

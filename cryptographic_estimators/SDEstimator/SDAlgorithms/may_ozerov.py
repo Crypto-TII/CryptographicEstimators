@@ -87,7 +87,6 @@ class MayOzerov(SDAlgorithm):
     @property
     def complexity_type(self):
         """Returns the optimization type, either 'bit security' or 'asymptotic'."""
-        pass
         return super().complexity_type
 
     @complexity_type.setter

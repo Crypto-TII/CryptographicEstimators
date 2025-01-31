@@ -173,6 +173,10 @@ class BaseAlgorithm:
         self._time_complexity = None
         self._memory_complexity = None
         self._verbose_information = None
+        try:
+            self.initialize_parameter_ranges()
+        except:
+            pass
 
     def set_parameter_ranges(self, parameter: str, min_value: float, max_value: float):
         """Set range of specific parameter.
@@ -399,8 +403,8 @@ class BaseAlgorithm:
                 temp_memory_access_cost = temp_time_complexity
                 temp_memory_access_cost += self.memory_access_cost(
                     self.memory_complexity())
-                temp_time_complexity = log2(int(2 ** temp_basic_operation_cost)
-                                            + int(2 ** temp_memory_access_cost))
+                temp_time_complexity = log2(2 ** temp_basic_operation_cost
+                                            + 2 ** temp_memory_access_cost)
             else:
                 temp_time_complexity = temp_basic_operation_cost
 
