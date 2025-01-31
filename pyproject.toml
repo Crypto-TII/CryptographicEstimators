@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cryptographic_estimators"
-license = "Apache 2.0"
+#license = "Apache-2.0"
 description = "This library provides bit security estimators and asymptotic complexity estimators for cryptographic problems."
 authors = [
   {name = "TII", email = "cryptographic_estimators@tii.ae"}
