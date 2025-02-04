@@ -399,8 +399,8 @@ class BaseAlgorithm:
                 temp_memory_access_cost = temp_time_complexity
                 temp_memory_access_cost += self.memory_access_cost(
                     self.memory_complexity())
-                temp_time_complexity = log2(int(2 ** temp_basic_operation_cost)
-                                            + int(2 ** temp_memory_access_cost))
+                temp_time_complexity = log2(2 ** temp_basic_operation_cost
+                                            + 2 ** temp_memory_access_cost)
             else:
                 temp_time_complexity = temp_basic_operation_cost
 

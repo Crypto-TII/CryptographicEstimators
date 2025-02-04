@@ -57,6 +57,13 @@ class SDAlgorithm(BaseAlgorithm):
 
         return self._optimal_parameters.get("r")
 
+    def reset(self):
+        super().reset()
+        try:
+            self.initialize_parameter_ranges()
+        except:
+            pass
+
     def _are_parameters_invalid(self, parameters: dict):
         """Returns whether the provided parameter set is invalid.
 
@@ -150,7 +157,6 @@ class SDAlgorithm(BaseAlgorithm):
         Args:
             parameters (dict): A dictionary of parameters used for the memory complexity computation.
         """
-        pass
         return self._time_and_memory_complexity(parameters)[1]
 
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
