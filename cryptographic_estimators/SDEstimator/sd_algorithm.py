@@ -57,6 +57,13 @@ class SDAlgorithm(BaseAlgorithm):
 
         return self._optimal_parameters.get("r")
 
+    def reset(self):
+        super().reset()
+        try:
+            self.initialize_parameter_ranges()
+        except:
+            pass
+
     def _are_parameters_invalid(self, parameters: dict):
         """Returns whether the provided parameter set is invalid.
 

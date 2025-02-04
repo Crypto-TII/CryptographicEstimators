@@ -173,10 +173,6 @@ class BaseAlgorithm:
         self._time_complexity = None
         self._memory_complexity = None
         self._verbose_information = None
-        try:
-            self.initialize_parameter_ranges()
-        except:
-            pass
 
     def set_parameter_ranges(self, parameter: str, min_value: float, max_value: float):
         """Set range of specific parameter.
