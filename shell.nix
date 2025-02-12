@@ -1,33 +1,36 @@
-with import <nixpkgs> {};
-let
- my-python = pkgs.python3;
-  mypython = my-python.withPackages (p: with p; [
-	prettytable
-	scipy
-	sphinx
-	furo
-	pip
-    autopep8
-	sage
-	pytest
-  ]);
-in
 { pkgs ? import <nixpkgs> {} }:
+let
+  myPython = pkgs.python312;
+  pythonPackages = pkgs.python312Packages;
+  pythonWithPkgs = myPython.withPackages (pythonPkgs: with pythonPkgs; [
+    # This list contains tools for Python development.
+    # You can also add other tools, like black.
+    #
+    # Note that even if you add Python packages here like PyTorch or Tensorflow,
+    # they will be reinstalled when running `pip -r requirements.txt` because
+    # virtualenv is used below in the shellHook.
+    ipython
+    pip
+    setuptools
+    virtualenvwrapper
+    wheel
+    black
+    prophet
+  ]);
 
-stdenv.mkDerivation {
-  name = "cryptographic_estimators";
-  src = ./.;
-
-  buildInputs = [ 
-    mypython
-	ripgrep
-	tree
+  extraBuildInputs = with pkgs; [
+    pythonPackages.pandas
+    pythonPackages.numpy
+    pythonPackages.prettytable
+    pythonPackages.scipy
+    pythonPackages.pytest
+    pythonPackages.sympy
   ];
+in
+import ./python-shell.nix { 
+    extraBuildInputs=extraBuildInputs; 
+    # extraLibPackages=extraLibPackages; 
+    myPython=myPython;
+    pythonWithPkgs=pythonWithPkgs;
+  }
 
-  shellHook = ''
-    export PIP_PREFIX=$(pwd)/_build/pip_packages
-    export PYTHONPATH="$PIP_PREFIX/${mypython.sitePackages}:$PYTHONPATH"
-    export PATH="$PIP_PREFIX/bin:$PATH"
-    # unset SOURCE_DATE_EPOCH
-  '';
-}
