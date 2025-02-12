@@ -24,7 +24,7 @@ from numpy import float64
 
 
 class EstimationRenderer():
-    def __init__(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0) -> None:
+    def __init__(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0, problem=None) -> None:
         """Creates an estimation renderer.
 
         Args:
@@ -39,6 +39,7 @@ class EstimationRenderer():
         self._show_all_parameters = show_all_parameters
         self._precision = precision
         self._truncate = truncate
+        self._problem = problem
 
     def as_table(self, estimation_result: dict) -> None:
         """Prints the given estimation dictionary as a table."""
@@ -78,7 +79,11 @@ class EstimationRenderer():
         """
         table = PrettyTable([BASE_ALGORITHM])
         table.padding_width = 1
-        table.title = ' '
+        if self._problem is not None:
+            table.title = ", ".join([str(a) for a in self._problem.get_parameters()])
+        else:
+            table.title = ' '
+
         table.align[BASE_ALGORITHM] = "l"
 
         for i in estimation.keys():
