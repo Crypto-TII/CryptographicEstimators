@@ -239,7 +239,7 @@ class BaseEstimator(object):
                     self.estimates[name][" "]["attack_type"] = algorithm.attack_type
         return self.estimates
 
-    def table(self, show_quantum_complexity=False, show_tilde_o_time=False, show_all_parameters=False, precision=1, truncate=False):
+    def table(self, show_quantum_complexity=False, show_tilde_o_time=False, show_all_parameters=False, precision=1, truncate=False, parameters_inside=False):
         """Print table describing the complexity of each algorithm and its optimal parameters.
     
         Args:
@@ -248,6 +248,7 @@ class BaseEstimator(object):
             show_all_parameters (bool): Show all optimization parameters. Defaults to False.
             precision (int): Number of decimal digits output. Defaults to 1.
             truncate (bool): Truncate rather than round the output. Defaults to False.
+            parameters_inside (bool): Shows the Problem parameters in the top left corner
         """
         self.include_tildeo = show_tilde_o_time
         self.include_quantum = show_quantum_complexity
@@ -261,8 +262,9 @@ class BaseEstimator(object):
                 "No algorithm associated with this estimator or applicable to this problem instance.")
 
         else:
+            p = self.problem if parameters_inside else None
             renderer = EstimationRenderer(
-                show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate
+                show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate, p
             )
 
             return renderer.as_table(estimate)
