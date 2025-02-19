@@ -3,188 +3,77 @@ le:
     inputs_with_expected_outputs:
     - !!python/tuple
       - !!python/tuple [200, 100, 17]
-      - 88.01232020398258
+      - 100000000000000.0
     - !!python/tuple
       - !!python/tuple [200, 100, 31]
-      - 97.6016190581889
+      - 100.1492063011625
   bbps_2:
     inputs_with_expected_outputs:
     - !!python/tuple
       - !!python/tuple [200, 100, 11]
-      - 82.87872901507777
+      - 100000000000000.0
   bbps_range:
     inputs_with_expected_outputs:
     - !!python/tuple
-      - !!python/tuple [100, 50, 17]
-      - 50.54922341575208
-    - !!python/tuple
       - !!python/tuple [100, 50, 31]
-      - 54.92977688419147
-    - !!python/tuple
-      - !!python/tuple [100, 52, 11]
-      - 47.727309414329646
-    - !!python/tuple
-      - !!python/tuple [100, 52, 17]
-      - 50.14385469738539
+      - 57.94148395198588
     - !!python/tuple
       - !!python/tuple [100, 52, 31]
-      - 54.87359009625221
-    - !!python/tuple
-      - !!python/tuple [100, 54, 11]
-      - 48.44929021563404
-    - !!python/tuple
-      - !!python/tuple [100, 54, 17]
-      - 49.7482057110599
+      - 57.393119541097235
     - !!python/tuple
       - !!python/tuple [100, 54, 31]
-      - 54.72759158650435
-    - !!python/tuple
-      - !!python/tuple [100, 56, 11]
-      - 47.32046670247122
-    - !!python/tuple
-      - !!python/tuple [100, 56, 17]
-      - 49.48852089648252
+      - 58.00153779490871
     - !!python/tuple
       - !!python/tuple [100, 56, 31]
-      - 54.056269372227675
-    - !!python/tuple
-      - !!python/tuple [100, 58, 11]
-      - 46.919547979446264
-    - !!python/tuple
-      - !!python/tuple [100, 58, 17]
-      - 48.735850630793784
+      - 57.50664615754981
     - !!python/tuple
       - !!python/tuple [100, 58, 31]
-      - 53.64135862338881
-    - !!python/tuple
-      - !!python/tuple [105, 52, 17]
-      - 52.41851995532214
+      - 56.4652383712978
     - !!python/tuple
       - !!python/tuple [105, 52, 31]
-      - 57.092742251692336
-    - !!python/tuple
-      - !!python/tuple [105, 54, 11]
-      - 49.93291260893163
-    - !!python/tuple
-      - !!python/tuple [105, 54, 17]
-      - 52.07946343589034
+      - 59.815530236882935
     - !!python/tuple
       - !!python/tuple [105, 54, 31]
-      - 57.09058971718368
-    - !!python/tuple
-      - !!python/tuple [105, 56, 17]
-      - 51.68165495085246
+      - 59.65319132851745
     - !!python/tuple
       - !!python/tuple [105, 56, 31]
-      - 56.679788084398126
-    - !!python/tuple
-      - !!python/tuple [105, 58, 11]
-      - 48.76722882714244
-    - !!python/tuple
-      - !!python/tuple [105, 58, 17]
-      - 51.85127101739946
+      - 59.201802994627805
     - !!python/tuple
       - !!python/tuple [105, 58, 31]
-      - 56.35797267985405
-    - !!python/tuple
-      - !!python/tuple [105, 60, 11]
-      - 49.97867783819178
-    - !!python/tuple
-      - !!python/tuple [105, 60, 17]
-      - 50.74580637775787
+      - 59.317838923055746
     - !!python/tuple
       - !!python/tuple [105, 60, 31]
-      - 55.827053137704894
-    - !!python/tuple
-      - !!python/tuple [110, 55, 11]
-      - 52.40715654107621
-    - !!python/tuple
-      - !!python/tuple [110, 55, 17]
-      - 54.34787716389525
+      - 58.44648915444716
     - !!python/tuple
       - !!python/tuple [110, 55, 31]
-      - 59.29782643812199
-    - !!python/tuple
-      - !!python/tuple [110, 57, 11]
-      - 52.04784297431487
-    - !!python/tuple
-      - !!python/tuple [110, 57, 17]
-      - 53.947476378337896
+      - 61.716675792782816
     - !!python/tuple
       - !!python/tuple [110, 57, 31]
-      - 59.06069276261707
-    - !!python/tuple
-      - !!python/tuple [110, 59, 11]
-      - 53.02357623091534
-    - !!python/tuple
-      - !!python/tuple [110, 59, 17]
-      - 53.58448744639452
+      - 61.40010622225144
     - !!python/tuple
       - !!python/tuple [110, 59, 31]
-      - 58.57932647494377
-    - !!python/tuple
-      - !!python/tuple [110, 61, 11]
-      - 50.21233170789667
-    - !!python/tuple
-      - !!python/tuple [110, 61, 17]
-      - 53.32232949142031
+      - 61.81958340784286
     - !!python/tuple
       - !!python/tuple [110, 61, 31]
-      - 58.185915294930616
-    - !!python/tuple
-      - !!python/tuple [110, 63, 11]
-      - 51.07102551283291
-    - !!python/tuple
-      - !!python/tuple [110, 63, 17]
-      - 52.59374750149038
+      - 61.01558207774831
     - !!python/tuple
       - !!python/tuple [110, 63, 31]
-      - 57.92622545735427
-    - !!python/tuple
-      - !!python/tuple [115, 57, 11]
-      - 53.22189687078654
-    - !!python/tuple
-      - !!python/tuple [115, 57, 17]
-      - 56.2199058600962
+      - 60.288186031169666
     - !!python/tuple
       - !!python/tuple [115, 57, 31]
-      - 61.4625216994242
-    - !!python/tuple
-      - !!python/tuple [115, 59, 11]
-      - 55.57482636803221
-    - !!python/tuple
-      - !!python/tuple [115, 59, 17]
-      - 56.14683792048058
+      - 63.96152141372731
     - !!python/tuple
       - !!python/tuple [115, 59, 31]
-      - 61.045394020867235
-    - !!python/tuple
-      - !!python/tuple [115, 61, 11]
-      - 52.329837239683926
-    - !!python/tuple
-      - !!python/tuple [115, 61, 17]
-      - 55.51562946259555
+      - 63.66630709184217
     - !!python/tuple
       - !!python/tuple [115, 61, 31]
-      - 60.68483628136861
-    - !!python/tuple
-      - !!python/tuple [115, 63, 11]
-      - 53.248005296478134
-    - !!python/tuple
-      - !!python/tuple [115, 63, 17]
-      - 55.65763240356047
+      - 64.09861687321896
     - !!python/tuple
       - !!python/tuple [115, 63, 31]
-      - 60.41730418741879
-    - !!python/tuple
-      - !!python/tuple [115, 65, 11]
-      - 52.06322882814089
-    - !!python/tuple
-      - !!python/tuple [115, 65, 17]
-      - 54.636931697453555
+      - 63.34027333570258
     - !!python/tuple
       - !!python/tuple [115, 65, 31]
-      - 60.19410681777335
+      - 63.46708054724658
   beullens:
     inputs_with_expected_outputs:
     - !!python/tuple
