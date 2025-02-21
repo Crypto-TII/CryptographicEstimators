@@ -396,11 +396,12 @@ class BaseAlgorithm:
                 temp_time_complexity)
 
             if self._memory_access != 0:
-                temp_memory_access_cost = temp_time_complexity
+                field_element_bits = self.problem.to_bitcomplexity_memory(0)
+                temp_memory_access_cost = temp_time_complexity + field_element_bits
                 temp_memory_access_cost += self.memory_access_cost(
                     self.memory_complexity())
-                temp_time_complexity = log2(int(2 ** temp_basic_operation_cost)
-                                            + int(2 ** temp_memory_access_cost))
+                temp_time_complexity = log2(2 ** temp_basic_operation_cost
+                                            + 2 ** temp_memory_access_cost)
             else:
                 temp_time_complexity = temp_basic_operation_cost
 
