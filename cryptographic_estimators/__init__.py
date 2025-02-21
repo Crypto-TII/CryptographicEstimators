@@ -4,7 +4,6 @@ from .base_problem import BaseProblem
 from .helper import ComplexityType, concat_pretty_tables, _truncate, round_or_truncate
 
 from .SDEstimator import *
-from .SDEstimator import *
 from .MQEstimator import *
 from .SDFqEstimator import *
 from .RegSDEstimator import *
