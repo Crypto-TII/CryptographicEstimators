@@ -2,18 +2,20 @@ from .base_algorithm import BaseAlgorithm
 from .base_estimator import BaseEstimator
 from .base_problem import BaseProblem
 from .helper import ComplexityType, concat_pretty_tables, _truncate, round_or_truncate
-from . import SDEstimator
-from . import MQEstimator
-from . import SDFqEstimator
-from . import RegSDEstimator
-from . import PKEstimator
-from . import LEEstimator
-from . import PEEstimator
-from . import DummyEstimator
-from . import MREstimator
-from . import UOVEstimator
-from . import MAYOEstimator
-from . import RankSDEstimator
+
+from .SDEstimator import *
+from .SDEstimator import *
+from .MQEstimator import *
+from .SDFqEstimator import *
+from .RegSDEstimator import *
+from .PKEstimator import *
+from .LEEstimator import *
+from .PEEstimator import *
+from .DummyEstimator import *
+from .MREstimator import *
+from .UOVEstimator import *
+from .MAYOEstimator import *
+from .RankSDEstimator import *
 
 # WARNING:
 # This sets the MAXIMUM number of coefficients that can be calculated for any
