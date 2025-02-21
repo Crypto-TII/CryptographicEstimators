@@ -262,9 +262,17 @@ class BaseEstimator(object):
                 "No algorithm associated with this estimator or applicable to this problem instance.")
 
         else:
-            p = self.problem if parameters_inside else None
+            title = ""
+            if parameters_inside:
+                vals = [str(a) for a in self.problem.get_parameters()]
+                # NOTE: without the slicing additional parameters like `self`,
+                # or `kwargs` would be added.
+                names = self.__init__.__code__.co_varnames[1:1+len(vals)]
+                v = list(zip(names, vals))
+                title = ",".join([a + ":" + b for (a, b) in v])
+            
             renderer = EstimationRenderer(
-                show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate, p
+                show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate, title
             )
 
             return renderer.as_table(estimate)

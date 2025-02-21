@@ -54,7 +54,7 @@ class SDEstimator(BaseEstimator):
         show_all_parameters=0,
         precision=1,
         truncate=0,
-        parameters_inside=False,
+        *args, **kwargs
     ):
         """Print table describing the complexity of each algorithm and its optimal parameters.
 
@@ -64,7 +64,6 @@ class SDEstimator(BaseEstimator):
             show_all_parameters (int, optional): Show all optimization parameters. Defaults to 0.
             precision (int, optional): Number of decimal digits output. Defaults to 1.
             truncate (int, optional): Truncate rather than round the output. Defaults to 0.
-            parameters_inside (bool, optional): Defaults to False
 
         Examples:
             >>> from cryptographic_estimators.SDEstimator import SDEstimator
@@ -158,5 +157,5 @@ class SDEstimator(BaseEstimator):
             show_all_parameters=show_all_parameters,
             precision=precision,
             truncate=truncate,
-            parameters_inside=parameters_inside,
+            *args, **kwargs
         )
