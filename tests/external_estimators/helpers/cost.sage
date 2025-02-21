@@ -1,5 +1,6 @@
 #reset();
 from sage.misc.functional import log as log_sage
+from math import inf
 
 def log2(x):
     return log_sage(x*1.)/log_sage(2.);
@@ -105,7 +106,7 @@ def improved_linear_beullens(n,k,q):
     
     max_w = n-k+2;
 
-    best_cost = 100000000000000;
+    best_cost = inf;
     best_w = 0;
     best_L_prime = 0;
     best_w_prime = 0;
@@ -122,7 +123,7 @@ def improved_linear_beullens(n,k,q):
 
             # Deviation from the original script:
             # Fixed the value of L_prime to the value stated in Proposition 8 of https://eprint.iacr.org/2022/967.pdf
-            L_prime = (4*n*Nw_prime^2/(pr_w_w_prime)*(2*log_sage(n*1.)))^0.25;
+            L_prime = (4*n*Nw_prime^2/(pr_w_w_prime)*(log_sage(n*1.)))^0.25;
 
             if L_prime < Nw_prime:
                 
