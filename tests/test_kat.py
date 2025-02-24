@@ -1,11 +1,9 @@
 import pytest
+import yaml
+from pathlib import Path
 import inspect
 import importlib
-from concurrent.futures import ProcessPoolExecutor
-from multiprocessing import cpu_count
 from typing import Tuple, Callable, Dict, Iterable, Any, List
-from pathlib import Path
-import yaml
 
 
 def load_kat_data():
@@ -45,39 +43,39 @@ def import_internal_estimator(internal_estimator_path: Tuple[str, ...]) -> Calla
     return getattr(module, function_name)
 
 
-def compute_estimation(
-    test_case: Tuple[Callable, Any, Any, str]
-) -> Tuple[str, Any, Any, Any, float]:
-    """Compute a single estimation and return complete test case data."""
-    estimator_func, input_val, expected_output, estimator_name = test_case
-    actual_output, epsilon = estimator_func(input_val)
-    return estimator_name, input_val, expected_output, actual_output, epsilon
-
-
-def compute_all_estimations():
-    """Compute all estimations in parallel once and return results."""
+def generate_test_cases():
+    """Generate test cases from KAT data."""
     kat = load_kat_data()
     test_cases = []
 
-    # Prepare test cases
     for internal_estimator_path, inputs_with_outputs in extract_paths(kat):
-        internal_estimator_function = import_internal_estimator(internal_estimator_path)
-        estimator_name = f"{internal_estimator_path[-1]} from {internal_estimator_path[-2].upper()}Estimator"
+        internal_estimator_name = f"{internal_estimator_path[-1]} from {internal_estimator_path[-2].upper()}Estimator"
+        for input_val, expected_output in inputs_with_outputs:
+            test_cases.append(
+                (
+                    internal_estimator_name,
+                    internal_estimator_path,
+                    input_val,
+                    expected_output,
+                )
+            )
 
-        test_cases.extend(
-            (internal_estimator_function, input_val, expected, estimator_name)
-            for input_val, expected in inputs_with_outputs
-        )
-
-    # Compute all results in parallel
-    with ProcessPoolExecutor(max_workers=cpu_count()) as executor:
-        return list(executor.map(compute_estimation, test_cases))
+    return test_cases
 
 
-@pytest.mark.parametrize("test_case", compute_all_estimations())
-def test_kat(test_case):
-    """Test using pre-computed results."""
-    estimator_name, input_val, expected_output, actual_output, epsilon = test_case
+@pytest.mark.parametrize(
+    "estimator_name,estimator_path,input_val,expected_output", generate_test_cases()
+)
+def test_kat(
+    estimator_name: str,
+    estimator_path: Tuple[str, ...],
+    input_val: Any,
+    expected_output: float,
+):
+    """Test each case, including the estimation computation."""
+    # Import and run the estimator function here so it's part of the parallel execution
+    estimator_func = import_internal_estimator(estimator_path)
+    actual_output, epsilon = estimator_func(input_val)
 
     assert (
         abs(expected_output - actual_output) <= epsilon
