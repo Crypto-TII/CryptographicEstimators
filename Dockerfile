@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractiv
 #ENV SAGE_PKGS=/usr/share/sagemath/installed
 WORKDIR "/home/cryptographic_estimators/"
-RUN apt update && apt install -y python3 python3-pip
+RUN apt update && apt install -y python3-full python3-pip
 RUN python3 -m pip install toml
 # Avoid the download and installation of dependencies on rebuild; 
 # but without harcoding them
