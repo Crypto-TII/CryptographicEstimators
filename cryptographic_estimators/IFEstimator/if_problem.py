@@ -24,8 +24,8 @@ class IFProblem(BaseProblem):
     Construct an instance of IFProblem. Contains the parameters to optimize
     over.
 
-    INPUT: 
-        - Fill with parameters
+     Args:
+        n (int): bit length of RSA integer to factored
 
     """
 

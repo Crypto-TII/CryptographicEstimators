@@ -19,7 +19,9 @@
 from ..if_algorithm import IFAlgorithm
 from ..if_problem import IFProblem
 from ..if_constants import *
+from ..if_helper import *
 from math import exp, log, pi
+
 
 
 class GNFS(IFAlgorithm):
@@ -37,31 +39,37 @@ class GNFS(IFAlgorithm):
         self._name = "GNFS"
         super(GNFS, self).__init__(problem, **kwargs)
 
-    def _compute_time_complexity(self, parameters: dict, correctingfactor = True):
+    def _time_and_memory_complexity(self, parameters: dict, correctingfactor = True):
         """
-        Return the time complexity of the algorithm for a given set of parameters
+        Return the time complexity of the General Number Field Sieve algorithm for a given set of parameters
 
-        The correcting factor is per https://people.rennes.inria.fr/Aurore.Guillevic/talks/2024-07-Douala/24-07-Douala-RSA.pdf
 
         INPUT:
 
         - ``parameters`` -- dictionary including the parameters
+        - ``correcting factor`` if true, adjust the runtime with the constant from [GuiSlides] https://people.rennes.inria.fr/Aurore.Guillevic/talks/2024-07-Douala/24-07-Douala-RSA.pdf
 
         """
         n = self.problem.parameters["n"]
-        n = n/lge # n is given log2-based, convert to ln-base
-        N = 2 ** n #to be removed
 
         k = (64 / 9) ** (1 / 3)
+      
+        time_ln = Lfunction(1/3, k, n/lge)                 
+        time = time_ln * lge                    # the multiple lge converts the value to base-2
 
-        T = k*(n**(1 / 3))*((log(n))**(1 - 1/3))*lge
-    
+
+        # memory = storing a matrix of relations size 2pi(B1) X 2pi(B1). Note that the matrix is sparce, with O(n) non-zero entries per row (p. 121 in [Cop.])
+        # B1 = L[1/3, 2/3**(2/3)]
+        B1 = Lfunction(1/3, 2/(3**(2./3)), n/lge)
+        memory = (B1*lge - log2(B1) + 1) + log2(n) # log2(pi(B1)) = log2(B1)-log2(ln(B1)) = B1*lge - log2(B1); adding +1 to account for the factor 2 in 2pi(B1); 
+
         if correctingfactor:
-            T = T - correcting_factor 
+            time = time - correcting_factor 
 
-        return T
 
-    def _compute_memory_complexity(self, parameters: dict):
+        return time, memory
+
+    def _tilde_o_time_and_memory_complexity(self, parameters: dict):
         """
         Return the memory complexity of the algorithm for a given set of parameters
 
@@ -70,17 +78,8 @@ class GNFS(IFAlgorithm):
         - ``parameters`` -- dictionary including the parameters
 
         """
-        n = self.problem.parameters["n"]
-        N = 2 ** n
+        return self._time_and_memory_complexity(parameters,correctingfactor=False)
 
-        k = 2/(3 ** (2/3))
-
-        #b1 = b2
-        b1 = exp(k * (log(N) ** (1 / 3)) * (log(log(N)) ** (2 / 3)))
-
-        #B'_1 / B'_2 ( B'_1 * log(B_1) + B'_2)
         
-        b1_prime = (pi * b1) + 1
-        b2_prime = (pi * b1) + log(N)
+    
 
-        return log((b1_prime / b2_prime) * (b1_prime * log(b1) + b2_prime))
