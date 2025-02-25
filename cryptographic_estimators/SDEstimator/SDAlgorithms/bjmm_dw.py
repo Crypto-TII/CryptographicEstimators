@@ -27,12 +27,13 @@ from ...SDEstimator.sd_helper import (
     log2,
     ceil,
     inf,
-)
+)git
 from scipy.special import binom as binom_sp
-from scipy.optimize import fsolve
+from scipy.optimize import root
 from warnings import filterwarnings
 from types import SimpleNamespace
 from ..sd_constants import *
+
 
 filterwarnings("ignore", category=RuntimeWarning)
 
@@ -220,10 +221,10 @@ class BJMMdw(SDAlgorithm):
                 )
 
             l1_val = int(
-                fsolve(
+                root(
                     f,
-                    2 * log2((binom(par.p, par.p // 2) * binom(k // 2 - par.p, par.p1 - par.p // 2))),
-                )[0]
+                    2 * log2((binom(par.p, par.p // 2) * binom(k // 2 - par.p, par.p1 - par.p // 2))),method='hybr'
+                ).x[0]
             )
         except ValueError:
             return -1
@@ -245,7 +246,7 @@ class BJMMdw(SDAlgorithm):
                     x = float(x)
                 return log2(list_size) + 2 * log2(binom_sp(x, par.w2) + 1) - 2 * x
 
-            l2_val = int(fsolve(f, 50)[0])
+            l2_val = int(root(f, log2(list_size)/2,method='hybr').x[0])
         except ValueError:
             return -1
 
