@@ -36,7 +36,7 @@ def Lfunction(alpha, beta, logN):
 def pifunction(x):
     return ceil(x/log(x))
 
-#as per https://gmplib.org/repo/gmp/file/tip/mpn/arm/gmp-mparam.h
+#as per [GMPlink]_ https://gmplib.org/repo/gmp/file/tip/mpn/arm/gmp-mparam.h
 limb = 32
 Karatsuba_threshold = limb * 36
 ToomCook3_threshold = limb * 125
@@ -50,7 +50,7 @@ def M(n):
     else:                       return n*log2(n)*log2(log2(n))       # Schonhage-Strassen with constant in bigOh being 1
 
 #complexity of division of 2n-bit integer by n-bit integer
-# Thm. 1.4.2 in https://arxiv.org/pdf/1004.4710
+# Thm. 1.4.2 in [BZ10]_ https://arxiv.org/pdf/1004.4710
 def D(n):
     if (n<200): return n**2
     else: return 2*D(ceil(n/2))+2*M(ceil(n/2)) + n

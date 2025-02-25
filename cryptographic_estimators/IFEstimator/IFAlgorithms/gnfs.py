@@ -26,8 +26,7 @@ from math import exp, log
 class GNFS(IFAlgorithm):
     """
     Construct an instance of IFAlgorithm1 estimator
-    The estimates as per Sec. 5.5.4
-    https://eprint.iacr.org/2017/1087.pdf
+    The estimates as per [Len17]_  Sec. 5.5.4 https://eprint.iacr.org/2017/1087.pdf
 
     INPUT:
 
@@ -46,7 +45,7 @@ class GNFS(IFAlgorithm):
         INPUT:
 
         - ``parameters`` -- dictionary including the parameters
-        - ``correcting factor`` if true, adjust the runtime with the constant from [GuiSlides] https://people.rennes.inria.fr/Aurore.Guillevic/talks/2024-07-Douala/24-07-Douala-RSA.pdf
+        - ``correcting factor`` if true, adjust the runtime with the constant from [GuiSlides]_ https://people.rennes.inria.fr/Aurore.Guillevic/talks/2024-07-Douala/24-07-Douala-RSA.pdf
 
         """
         n = self.problem.parameters["n"]
@@ -57,7 +56,7 @@ class GNFS(IFAlgorithm):
         time = time_ln * lge                    # the multiple lge converts the value to base-2
 
 
-        # memory = storing a matrix of relations size 2pi(B1) X 2pi(B1). Note that the matrix is sparce, with O(n) non-zero entries per row (p. 121 in [Cop.])
+        # memory = storing a matrix of relations size 2pi(B1) X 2pi(B1). Note that the matrix is sparce, with O(n) non-zero entries per row (p. 121 in [Cop93]_)
         # B1 = L[1/3, 2/3**(2/3)]
         B1 = Lfunction(1/3, 2/(3**(2./3)), n/lge)
         memory = (B1*lge - log2(B1) + 1) + log2(n) # log2(pi(B1)) = log2(B1)-log2(ln(B1)) = B1*lge - log2(B1); adding +1 to account for the factor 2 in 2pi(B1); 

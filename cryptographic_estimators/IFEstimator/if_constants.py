@@ -15,6 +15,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ****************************************************************************
 
-correcting_factor = 11.91 # as per https://people.rennes.inria.fr/Aurore.Guillevic/talks/2024-07-Douala/24-07-Douala-RSA.pdf
+correcting_factor = 11.91 # as per [GuiSlides]_ https://people.rennes.inria.fr/Aurore.Guillevic/talks/2024-07-Douala/24-07-Douala-RSA.pdf
 lge = 1.44269504088896
 ln2 = 0.693147180559945
