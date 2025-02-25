@@ -20,8 +20,7 @@ from ..if_algorithm import IFAlgorithm
 from ..if_problem import IFProblem
 from ..if_constants import *
 from ..if_helper import *
-from math import exp, log, pi
-
+from math import exp, log
 
 
 class GNFS(IFAlgorithm):

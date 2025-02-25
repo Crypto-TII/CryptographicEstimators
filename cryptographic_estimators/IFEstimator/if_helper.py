@@ -55,7 +55,7 @@ def D(n):
     if (n<200): return n**2
     else: return 2*D(ceil(n/2))+2*M(ceil(n/2)) + n
 
-# Miller-Rabin primality test with #trials = k = 128 -> n is probably prime with probability at most 2^-2k
+# Miller-Rabin primality test with #trials = k = 64 -> n is probably prime with probability at most 2^-2k
 # input: bitsize of the number to test for primality
 def primality_testing(n):
     k = 64
