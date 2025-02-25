@@ -8,6 +8,6 @@ RUN apt update && apt install -y python3-full python3-pip python3-toml
 COPY ./pyproject.toml ./
 COPY ./scripts/generate_requirements.py ./scripts/
 RUN python3 scripts/generate_requirements.py
-RUN python3 -m pip install -r requirements.txt && rm -r ./*
+RUN python3 -m pip install -r requirements.txt --break-system-packages && rm -r ./*
 COPY . .
-RUN python3 -m pip install --no-deps .
+RUN python3 -m pip install --no-deps --break-system-packages .
