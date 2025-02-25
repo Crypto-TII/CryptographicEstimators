@@ -10,5 +10,6 @@ COPY ./pyproject.toml ./
 COPY ./scripts/generate_requirements.py ./scripts/
 RUN python3 scripts/generate_requirements.py
 RUN sage -python3 -m pip install -r requirements.txt && rm -r ./*
+RUN sage -python3 -m pip install setuptools --upgrade
 COPY . .
 RUN sage -python3 -m pip install --no-deps .
