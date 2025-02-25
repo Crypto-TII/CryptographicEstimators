@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cryptographic_estimators"
+#license = "Apache-2.0"
 description = "This library provides bit security estimators and asymptotic complexity estimators for cryptographic problems."
 authors = [
   {name = "TII", email = "cryptographic_estimators@tii.ae"}
@@ -17,7 +18,7 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
 ]
 
-dynamic = ["version"]
+version = "2.0.0"
 
 dependencies = [
   "sphinx>=5.3.0",
@@ -32,6 +33,11 @@ dependencies = [
   "sympy",
 ]
 
+[project.urls]
+Homepage = "https://estimators.crypto.tii.ae/"
+Documentation = "https://github.com/Crypto-TII/CryptographicEstimators/blob/main/docs/github/user_guide.md"
+Repository = "https://github.com/Crypto-TII/CryptographicEstimators"
+Issues = "https://github.com/Crypto-TII/CryptographicEstimators/issues"
 
 [tool.setuptools]
 packages = ["cryptographic_estimators", "tests"]

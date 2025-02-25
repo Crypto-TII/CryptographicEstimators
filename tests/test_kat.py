@@ -5,7 +5,7 @@ from typing import Tuple, Callable, Dict, Iterable, Any, List
 
 
 def extract_paths(
-    nested_dict: Dict[str, Any], path: Tuple[str, ...] = ()
+        nested_dict: Dict[str, Any], path: Tuple[str, ...] = ()
 ) -> Iterable[Tuple[Tuple[str, ...], List[Tuple[Any, Any]]]]:
     """Recursively extracts internal estimators paths and their corresponding inputs/outputs tuples from the input dictionary.
 
@@ -61,11 +61,11 @@ def import_internal_estimator(internal_estimator_path: Tuple[str, ...]) -> Calla
 
 
 def kat_test(
-    internal_estimator_name: str,
-    input: Any,
-    expected_output: Any,
-    actual_output: Any,
-    epsilon: float,
+        internal_estimator_name: str,
+        input: Any,
+        expected_output: Any,
+        actual_output: Any,
+        epsilon: float,
 ):
     """Asserts that the absolute difference between the expected and actual outputs is less than the specified epsilon.
 
@@ -78,7 +78,7 @@ def kat_test(
         actual_output (Any): The actual output value.
         epsilon (float): The maximum allowable difference between the expected and actual outputs.
     """
-    if not abs(expected_output - actual_output) <= epsilon:
+    if not abs(expected_output - actual_output) <= epsilon and expected_output != actual_output:
         print("FAILED TEST!!!")
         print(f"Input: {input}, estimator: {internal_estimator_name}")
         print(
@@ -107,7 +107,7 @@ def test_all_estimators(kat: dict):
         inputs, expected_outputs = zip(*inputs_with_outputs)
         internal_estimator_function = import_internal_estimator(internal_estimator_path)
         actual_outputs, epsilon = zip(*map(internal_estimator_function, inputs))
-        internal_estimator_name = internal_estimator_path[-1]
+        internal_estimator_name = f"{internal_estimator_path[-1]} from {internal_estimator_path[-2].upper()}Estimator"
 
         execution_list.extend(
             list(

@@ -23,7 +23,6 @@ from math import comb as binomial
 from ..mr_helper import minors_polynomial_degree
 from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, MR_NUMBER_OF_COEFFICIENTS_TO_GUESS
 
-
 class Minors(MRAlgorithm):
     def __init__(self, problem: MRProblem, **kwargs):
         """Construct an instance of Minors estimator.
@@ -44,6 +43,11 @@ class Minors(MRAlgorithm):
         super(Minors, self).__init__(problem, **kwargs)
 
         q, m, n, k, r = self.problem.get_parameters()
+
+        if k >= (m - r) * (n - r):
+            raise ValueError(
+                "It should hold that k < (m - r) * (n - r)")
+
         self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)))
         self.set_parameter_ranges('lv', 0, min(r, k) - 1)
         self._name = "Minors"
@@ -91,7 +95,7 @@ class Minors(MRAlgorithm):
     def _ME_time_memory_complexity_helper_(self, m: int, n_reduced: int, k_reduced: int, r: int, time_mem: str):
         out = 0
         if k_reduced > 0 and n_reduced > r:
-            D = minors_polynomial_degree(m, n_reduced, k_reduced, r)
+            D = minors_polynomial_degree(m, n_reduced, k_reduced, r) + 1
             if time_mem == "time":
                 w = self._w
                 out = w * log2(binomial(k_reduced + D, D))
@@ -110,7 +114,7 @@ class Minors(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
             >>> ME.time_complexity()
-            143.1769522683363
+            144.72067178682556
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]

@@ -33,8 +33,6 @@ class SDEstimator(BaseEstimator):
         excluded_algorithms (Union[List, Tuple], optional): A list or tuple of excluded algorithms. Defaults to None.
         nsolutions (int): Number of solutions.
 
-    Todo:
-        * Maybe we should add the optional_parameters dictionary here?
     """
 
     excluded_algorithms_by_default = [BJMMd2, BJMMd3, MayOzerovD2, MayOzerovD3]
@@ -135,21 +133,22 @@ class SDEstimator(BaseEstimator):
             >>> from cryptographic_estimators.SDEstimator.SDAlgorithms import BJMMdw
             >>> A = SDEstimator(3488,2720,64,excluded_algorithms=[BJMMdw],memory_access=3)
             >>> A.table(precision=3, show_all_parameters=1)
-            +---------------+----------------------------------------------------------------------------+
-            |               |                                  estimate                                  |
-            +---------------+---------+--------+---------------------------------------------------------+
-            | algorithm     |    time | memory |                        parameters                       |
-            +---------------+---------+--------+---------------------------------------------------------+
-            | BallCollision | 153.405 | 32.587 |            {'r': 7, 'p': 2, 'pl': 0, 'l': 21}           |
-            | BJMMpdw       | 153.217 | 30.600 |            {'r': 7, 'p': 2, 'p1': 1, 'w2': 0}           |
-            | BJMM          | 153.191 | 30.619 |      {'r': 7, 'depth': 2, 'p': 2, 'p1': 1, 'l': 21}     |
-            | BJMMplus      | 153.210 | 24.602 |       {'r': 7, 'p': 2, 'p1': 1, 'l': 21, 'l1': 9}       |
-            | BothMay       | 152.059 | 25.172 |   {'r': 7, 'p': 2, 'w1': 0, 'w2': 0, 'p1': 1, 'l': 8}   |
-            | Dumer         | 153.385 | 32.608 |                {'r': 7, 'l': 21, 'p': 2}                |
-            | MayOzerov     | 150.210 | 32.092 | {'r': 7, 'depth': 3, 'p': 4, 'p1': 1, 'p2': 2, 'l': 20} |
-            | Prange        | 173.447 | 21.576 |                         {'r': 7}                        |
-            | Stern         | 153.015 | 32.587 |                {'r': 7, 'p': 2, 'l': 21}                |
-            +---------------+---------+--------+---------------------------------------------------------+
+            +---------------+------------------------------------------------------------------------+
+            |               |                                estimate                                |
+            +---------------+---------+--------+-----------------------------------------------------+
+            | algorithm     |    time | memory |                      parameters                     |
+            +---------------+---------+--------+-----------------------------------------------------+
+            | BallCollision | 163.651 | 32.587 |          {'r': 7, 'p': 2, 'pl': 0, 'l': 21}         |
+            | BJMMpdw       | 162.999 | 30.600 |          {'r': 7, 'p': 2, 'p1': 1, 'w2': 0}         |
+            | BJMM          | 162.977 | 30.619 |    {'r': 7, 'depth': 2, 'p': 2, 'p1': 1, 'l': 21}   |
+            | BJMMplus      | 161.298 | 24.602 |     {'r': 7, 'p': 2, 'p1': 1, 'l': 21, 'l1': 9}     |
+            | BothMay       | 160.321 | 25.172 | {'r': 7, 'p': 2, 'w1': 0, 'w2': 0, 'p1': 1, 'l': 8} |
+            | Dumer         | 163.636 | 32.608 |              {'r': 7, 'l': 21, 'p': 2}              |
+            | MayOzerov     | 160.315 | 25.179 |    {'r': 7, 'depth': 2, 'p': 2, 'p1': 1, 'l': 8}    |
+            | Prange        | 180.589 | 21.576 |                       {'r': 7}                      |
+            | Stern         | 163.260 | 32.587 |              {'r': 7, 'p': 2, 'l': 21}              |
+            +---------------+---------+--------+-----------------------------------------------------+
+
         """
         super(SDEstimator, self).table(
             show_quantum_complexity=show_quantum_complexity,

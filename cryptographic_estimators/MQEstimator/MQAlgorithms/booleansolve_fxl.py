@@ -51,7 +51,7 @@ class BooleanSolveFXL(MQAlgorithm):
                 1 - tilde O complexity
 
         Note:
-            For the memory complexity of 'las_vegas' variant, which is XL with the block Wiedemann algorithm, this module follows the analysis in [BBC+22]_ (Section 8). There it is stated that any row of the Macaulay matrix can be built on the fly. Hence the memory demand of this algorithm is dominated by the memory needed to store two vectors of length N over GF(q), where N is the number of columns of the Macaulay Matrix.
+            For the memory complexity of 'las_vegas' variant, which is XL with the block Wiedemann algorithm, this module follows the analysis in [BBCPSTV22]_ (Section 8). There it is stated that any row of the Macaulay matrix can be built on the fly. Hence the memory demand of this algorithm is dominated by the memory needed to store two vectors of length N over GF(q), where N is the number of columns of the Macaulay Matrix.
 
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL

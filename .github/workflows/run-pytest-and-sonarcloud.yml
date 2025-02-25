@@ -51,6 +51,7 @@ jobs:
         run: sed -i "s/<source>\/home\/cryptographic_estimators\/cryptographic_estimators<\/source>/<source>\/github\/workspace\/cryptographic_estimators<\/source>/g" coverage.xml
 
       - name: SonarCloud Scan
+        if: ${{ !github.event.pull_request.head.repo.fork }}
         uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >

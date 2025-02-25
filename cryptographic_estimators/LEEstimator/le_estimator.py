@@ -56,15 +56,15 @@ class LEEstimator(BaseEstimator):
             >>> from cryptographic_estimators.LEEstimator import LEEstimator
             >>> A = LEEstimator(n=30, k=20, q=251)
             >>> A.table(show_all_parameters=1)
-            +-----------+------------------------------------------+
-            |           |                 estimate                 |
-            +-----------+------+--------+--------------------------+
-            | algorithm | time | memory |        parameters        |
-            +-----------+------+--------+--------------------------+
-            | Leon      | 35.1 |   12.2 |         {'w': 9}         |
-            | Beullens  | 29.7 |   14.4 |        {'w': 11}         |
-            | BBPS      | 25.3 |   12.2 | {'w': 12, 'w_prime': 10} |
-            +-----------+------+--------+--------------------------+
+            +-----------+-----------------------------------------+
+            |           |                 estimate                |
+            +-----------+------+--------+-------------------------+
+            | algorithm | time | memory |        parameters       |
+            +-----------+------+--------+-------------------------+
+            | Leon      | 35.1 |   12.2 |         {'w': 9}        |
+            | Beullens  | 29.7 |   14.4 |        {'w': 11}        |
+            | BBPS      | 26.6 |   12.2 | {'w': 12, 'w_prime': 9} |
+            +-----------+------+--------+-------------------------+
 
         Tests:
             >>> if skip_long_doctests:
@@ -72,15 +72,15 @@ class LEEstimator(BaseEstimator):
             >>> from cryptographic_estimators.LEEstimator import LEEstimator
             >>> A = LEEstimator(n=200, k=110, q=31)
             >>> A.table(precision=3, show_all_parameters=1) # long time
-            +-----------+----------------------------------------------+
-            |           |                   estimate                   |
-            +-----------+---------+--------+---------------------------+
-            | algorithm |    time | memory |         parameters        |
-            +-----------+---------+--------+---------------------------+
-            | Leon      | 103.038 | 33.624 |         {'w': 58}         |
-            | Beullens  | 123.109 | 42.252 |         {'w': 79}         |
-            | BBPS      |  95.960 | 33.624 | {'w': 101, 'w_prime': 59} |
-            +-----------+---------+--------+---------------------------+
+            +-----------+---------------------------------------------+
+            |           |                   estimate                  |
+            +-----------+---------+--------+--------------------------+
+            | algorithm |    time | memory |        parameters        |
+            +-----------+---------+--------+--------------------------+
+            | Leon      | 103.038 | 33.624 |        {'w': 58}         |
+            | Beullens  | 123.109 | 42.252 |        {'w': 79}         |
+            | BBPS      |  98.511 | 33.624 | {'w': 95, 'w_prime': 59} |
+            +-----------+---------+--------+--------------------------+
         """
         super(LEEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,
