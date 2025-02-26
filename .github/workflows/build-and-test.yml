@@ -36,5 +36,4 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
       - name: Run functional, doctests and KAT tests
         run: |
-          docker run --rm estimators-lib:latest "sudo apt install -y tree && sudo tree /home/sage/cryptographic_estimators/"
           make docker-tests-all

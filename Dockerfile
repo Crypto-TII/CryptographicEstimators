@@ -6,7 +6,6 @@ WORKDIR "/home/sage/cryptographic_estimators/"
 RUN chown -R sage:sage /home/sage/cryptographic_estimators
 RUN apt update && apt install -y python3 pip
 
-USER sage
 # Avoid the download and installation of dependencies on rebuild; 
 # but without hardcoding them
 RUN pip install toml
@@ -17,3 +16,4 @@ RUN sage -python3 -m pip install -r requirements.txt && rm -r ./*
 COPY --chown=sage:sage . .
 
 RUN sage -python3 -m pip install --no-deps .
+RUN pip install -e .
