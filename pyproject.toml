@@ -46,6 +46,5 @@ cryptographic_estimators = ["*"]
 [tool.pytest.ini_options]
 addopts = "-v --import-mode=importlib"
 testpaths = [
-  "tests/test_sd.py",
-  "tests/test_mq.py",
+  "tests/"
 ]
