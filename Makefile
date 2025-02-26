@@ -8,8 +8,8 @@ DOCTESTS_COMMAND = pytest --doctest-modules -n auto -vv $(PACKAGE)/
 DOCTESTS_FAST_COMMAND = pytest --skip-long-doctests  --doctest-modules -n auto -vv $(PACKAGE)/
 KAT_TESTS_COMMAND = pytest -n auto -vv tests/test_kat.py
 FUNCTIONAL_TESTS_COMMAND = pytest --doctest-modules -n auto -vv \
-													 tests/test_sd.py \
-													 tests/test_mq.py
+													 tests/functional_tests/test_sd.py \
+													 tests/functional_tests/test_mq.py
 
 
 ## Local commands
