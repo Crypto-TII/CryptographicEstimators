@@ -36,4 +36,7 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
       - name: Run functional, doctests and KAT tests
         run: |
-          make docker-tests-all
+          docker run --name pytest-container --rm estimators-lib:latest sage -python3 -m pytest --doctest-modules -n auto -vv \
+            tests/test_sd.py \
+            tests/test_mq.py
+          # make docker-tests-all

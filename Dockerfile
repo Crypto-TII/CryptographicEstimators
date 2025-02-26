@@ -16,7 +16,3 @@ RUN sage -python3 -m pip install -r requirements.txt && rm -r ./*
 COPY --chown=sage:sage . .
 
 RUN sage -python3 -m pip install --no-deps .
-RUN pip install -e .
-
-WORKDIR "/home/sage/cryptographic_estimators/cryptographic_estimators"
-
