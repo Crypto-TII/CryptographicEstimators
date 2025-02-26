@@ -92,34 +92,34 @@ docker-doctests: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
 		|| true
 	@echo "Running doctests..."
-	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "${DOCTESTS_COMMAND}"
+	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "sage -python3 -m${DOCTESTS_COMMAND}"
 
 docker-doctests-fast: CONTAINER_NAME := "pytest-container"
 docker-doctests-fast: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
 	    || true
 	@echo "Running short doctests..."
-	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "${DOCTESTS_FAST_COMMAND}"
+	@docker run --name ${CONTAINER_NAME} --rm -it ${IMAGE_NAME} sh -c "sage -python3 -m ${DOCTESTS_FAST_COMMAND}"
 
 docker-kat-tests: CONTAINER_NAME := "pytest-container"
 docker-kat-tests: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
 		|| true
 	@echo "Running KAT..."
-	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "${KAT_TESTS_COMMAND}"
+	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "sage -python3 -m ${KAT_TESTS_COMMAND}"
 
 docker-functional-tests: CONTAINER_NAME := "pytest-container"
 docker-functional-tests: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
 		|| true
 	@echo "Running functional tests..."
-	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "${FUNCTIONAL_TESTS_COMMAND}"
+	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "sage -python3 -m ${FUNCTIONAL_TESTS_COMMAND}"
 
 docker-tests-all: CONTAINER_NAME := "pytest-container"
 docker-tests-all: docker-functional-tests docker-doctests docker-kat-tests
 
 docker-pytest-cov:
-	pytest -v --cov-report xml:coverage.xml --cov=${PACKAGE} tests/
+	sage -python3 -m pytest -v --cov-report xml:coverage.xml --cov=${PACKAGE} tests/
 
 docker-generate-kat: docker-build
 	@docker run --name kat-container -v ./tests:/home/cryptographic_estimators/tests --rm ${IMAGE_NAME} sh -c \
