@@ -1,7 +1,7 @@
 from sage.all_cmdline import *
 from math import log2
 
-from tests.external_estimators.MQEstimator.legacy_implementations.mpkc.algorithms import (
+from tests.kat_tests.external_estimators.MQEstimator.legacy_implementations.mpkc.algorithms import (
     Bjorklund,
     BooleanSolveFXL,
     CGMTA,
@@ -17,10 +17,10 @@ from tests.external_estimators.MQEstimator.legacy_implementations.mpkc.algorithm
 )
 
 
-def ext_estimates_with_bjorklund_1():
+def ext_estimates_with_bjorklund():
 
     # TODO: Add dictionary comparison support in a post-migration
-    # step to unify ext_estimates_with_bjorklund_1 and _2
+    # step to unify ext_estimates_with_bjorklund esxhaustive_search
     # expected_dictionary = {
     #     "Bjorklund": {
     #         "estimate": {
@@ -60,7 +60,7 @@ def ext_estimates_with_bjorklund_1():
     return inputs_with_expected_outputs
 
 
-def ext_estimates_with_bjorklund_2():
+def ext_estimates_with_exhaustive_search():
 
     excluded_algorithms = [
         "DinurFirst",

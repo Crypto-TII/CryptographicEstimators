@@ -325,7 +325,7 @@ le:
       - !!python/tuple [102, 52, 11]
       - 61.83613025226884
 mq:
-  estimates_with_bjorklund_1:
+  estimates_with_bjorklund:
     inputs_with_expected_outputs:
     - !!python/tuple
       - !!python/tuple
@@ -335,7 +335,7 @@ mq:
         - [DinurFirst, DinurSecond, BooleanSolveFXL, HybridF5, Lokshtanov, Crossbred,
           F5, KPG, CGMTA, MHT]
       - 67.23834058346328
-  estimates_with_bjorklund_2:
+  estimates_with_exhaustive_search:
     inputs_with_expected_outputs:
     - !!python/tuple
       - !!python/tuple

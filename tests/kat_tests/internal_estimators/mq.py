@@ -18,7 +18,7 @@ from cryptographic_estimators.MQEstimator import (
 )
 
 
-def estimates_with_bjorklund_1(input: tuple, epsilon: int = 0):
+def estimates_with_bjorklund(input: tuple, epsilon: int = 0):
     n, m, q, excluded_algorithms_names = input
 
     excluded_algorithms = [
@@ -31,7 +31,7 @@ def estimates_with_bjorklund_1(input: tuple, epsilon: int = 0):
     return actual_complexity, epsilon
 
 
-def estimates_with_bjorklund_2(input: tuple, epsilon: int = 0):
+def estimates_with_exhaustive_search(input: tuple, epsilon: int = 0):
     n, m, q, excluded_algorithms_names = input
 
     excluded_algorithms = [
