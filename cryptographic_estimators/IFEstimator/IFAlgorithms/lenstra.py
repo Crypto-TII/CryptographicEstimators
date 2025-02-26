@@ -37,11 +37,11 @@ class Lenstra(IFAlgorithm):
 
     def _time_and_memory_complexity(self, parameters: dict, consider_arithmetic = True):
         """
-        # Realizes time complexity of Lenstra factorization algorithm [Len] source: https://eprint.iacr.org/2017/1087.pdf (p.6)
+        # Realizes time complexity of Lenstra factorization algorithm [Len17]_ source: https://eprint.iacr.org/2017/1087.pdf (p.6)
 
         INPUT:
         - ``parameters`` -- dictionary including the parameters
-        - ``consider_arithmetic `` if true consider the complexity of arithmetic on an elliptic curve over Z_{2**n}
+        - ``consider_arithmetic `` if true, consider the complexity of arithmetic on an elliptic curve over Z_{2**n}
 
         """
         n = self.problem.parameters["n"]    #bit size of the number to factor

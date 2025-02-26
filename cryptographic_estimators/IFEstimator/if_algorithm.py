@@ -39,8 +39,6 @@ class IFAlgorithm(BaseAlgorithm):
         
     def _compute_time_complexity(self, parameters: dict):
         """
-        #TODO
-
         Args:
             parameters (dict): Dictionary of parameters used for time complexity computation.
         """
