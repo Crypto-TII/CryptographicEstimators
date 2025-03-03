@@ -26,3 +26,4 @@ RUN tree .
 # RUN pip install --no-deps .
 RUN pip install .
 
+RUN ls -R /opt/venv/lib/python3.12/site-packages/cryptographic_estimators/
