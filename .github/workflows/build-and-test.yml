@@ -37,5 +37,10 @@ jobs:
       - name: Run functional, doctests and KAT tests
         run: |
           docker run --name pytest-container --rm estimators-lib:latest sh -c "ls -R /opt/venv/lib/python3.12/site-packages/cryptographic_estimators/"
-          docker run --name pytest-container --rm estimators-lib:latest sh -c "pytest --doctest-modules -n auto -vv tests/test_sd.py tests/test_mq.py"
+          # docker run --name pytest-container --rm estimators-lib:latest sh -c "pytest --doctest-modules -n auto -vv tests/test_sd.py tests/test_mq.py"
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
           # make docker-tests-all
+          #
+          #
