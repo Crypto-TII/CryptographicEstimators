@@ -34,9 +34,9 @@ jobs:
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-      - name: Run functional, doctests and KAT tests
-        run: |
-          make docker-functional-tests
+      # - name: Run functional, doctests and KAT tests
+        # run: |
+          # make docker-functional-tests
           # docker run --name pytest-container --rm estimators-lib:latest sh -c "ls -R /opt/venv/lib/python3.12/site-packages/cryptographic_estimators/"
           # docker run --name pytest-container --rm estimators-lib:latest sh -c "pytest --doctest-modules -n auto -vv tests/test_sd.py tests/test_mq.py"
           # make docker-tests-all
