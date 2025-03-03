@@ -39,11 +39,14 @@ Documentation = "https://github.com/Crypto-TII/CryptographicEstimators/blob/main
 Repository = "https://github.com/Crypto-TII/CryptographicEstimators"
 Issues = "https://github.com/Crypto-TII/CryptographicEstimators/issues"
 
-[tool.setuptools]
-packages = ["cryptographic_estimators", "tests"]
+[tool.setuptools.packages.find]
+where = ["."]           # Look for packages starting from the current directory
+include = ["cryptographic_estimators*"]  # Include any package/module that starts with "cryptographic_estimators"
+namespaces = true      # Properly handle nested package structures
 
 [tool.setuptools.package-data]
-cryptographic_estimators = ["*"]
+"*" = ["*"]            # Include all files in all discovered packages
+cryptographic_estimators = ["**/*"]  # The "**" means "recursive", so it includes files in subdirectories
 
 [tool.pytest.ini_options]
 addopts = "-v --import-mode=importlib"
