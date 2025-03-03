@@ -27,7 +27,7 @@ from ...SDEstimator.sd_helper import (
     log2,
     ceil,
     inf,
-)git
+)
 from scipy.special import binom as binom_sp
 from scipy.optimize import root
 from warnings import filterwarnings
