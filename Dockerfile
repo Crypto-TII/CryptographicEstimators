@@ -22,5 +22,5 @@ RUN pip install toml
 # RUN pip install -r requirements.txt && rm -r ./*
 COPY . .
 # RUN pip install --no-deps .
-RUN pip install -e .
+RUN pip install .
 
