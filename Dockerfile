@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
     python3-venv \
+    tree \
     && rm -rf /var/lib/apt/lists/*
 
 # Create and activate virtual environment
@@ -21,6 +22,7 @@ RUN pip install toml
 # RUN python3 scripts/generate_requirements.py
 # RUN pip install -r requirements.txt && rm -r ./*
 COPY . .
+RUN tree .
 # RUN pip install --no-deps .
 RUN pip install .
 
