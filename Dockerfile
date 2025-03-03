@@ -11,8 +11,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Create and activate virtual environment
-RUN python3 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+RUN python3 -m venv ../venv
+ENV PATH="../venv/bin:$PATH"
 
 # # Avoid the download and installation of dependencies on rebuild; 
 # # but without harcoding them
@@ -26,4 +26,4 @@ RUN tree .
 # RUN pip install --no-deps .
 RUN pip install .
 
-RUN ls -R /opt/venv/lib/python3.12/site-packages/cryptographic_estimators/
+RUN ls -R ../venv/lib/python3.12/site-packages/cryptographic_estimators/
