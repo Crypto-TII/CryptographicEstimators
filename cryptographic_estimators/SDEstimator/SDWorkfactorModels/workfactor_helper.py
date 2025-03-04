@@ -35,7 +35,7 @@ def inverse_binary_entropy(v: float):
     if v < 0.00001:
         return 0
 
-    return fsolve(lambda x: v - (-x * log2(x) - (1 - x) * log2(1 - x)), 0.0000001)[0]
+    return fsolve(lambda x: v - (-x[0] * log2(x[0]) - (1 - x[0]) * log2(1 - x[0])), 0.0000001)[0]
 
 
 def binary_entropy(c: float):
