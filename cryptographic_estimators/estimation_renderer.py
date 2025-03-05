@@ -24,7 +24,7 @@ from numpy import float64
 
 
 class EstimationRenderer():
-    def __init__(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0, title="") -> None:
+    def __init__(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0, title=' ') -> None:
         """Creates an estimation renderer.
 
         Args:
@@ -33,7 +33,7 @@ class EstimationRenderer():
             show_all_parameters (int): Show all optimization parameters (default: 0).
             precision (int): Number of decimal digits output (default: 1).
             truncate (int): Truncate rather than round the output (default: 0).
-            title: (str): string to be shown in the top left corner of the table (default: "")
+            title: (str): string to be shown in the top left corner of the table (default: " ")
         """
         self._show_quantum_complexity = show_quantum_complexity
         self._show_tilde_o_time = show_tilde_o_time
