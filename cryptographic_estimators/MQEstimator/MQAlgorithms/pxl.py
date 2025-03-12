@@ -20,7 +20,7 @@ from cryptographic_estimators.MQEstimator.mq_algorithm import MQAlgorithm
 from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
 from cryptographic_estimators.MQEstimator.series.hilbert import HilbertSeries
 from cryptographic_estimators.base_algorithm import optimal_parameter
-from math import log2, ceil, comb as binomial
+from math import log2, ceil, inf, comb as binomial
 
 
 class PXL(MQAlgorithm):
@@ -66,7 +66,11 @@ class PXL(MQAlgorithm):
         """Return the optimal k
 
         Examples:
-            
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.pxl import PXL
+            >>> E = PXL(MQProblem(n=20, m=20, q=256), bit_complexities=0)
+            >>> E.k()
+            3
         """
         return self._get_optimal_parameter("k")
     
@@ -95,18 +99,22 @@ class PXL(MQAlgorithm):
         k = parameters["k"]
         H = HilbertSeries(n=n - k, degrees=[2] * m)
 
-        D = H.first_nonpositive_coefficient_up_to_degree()
-        alpha = sum(
-            [
-                max(H.coefficient_of_degree(i), 0)
-                for i in range(D+1)
-            ]
-        )
-        
-        time_1 = log2(k ** 2 * alpha) + log2(binomial(n - k + D, D) * binomial(n + D, D))
-        time_2 = k * log2(q) + log2(alpha ** 2 * binomial(k + D, D) + alpha ** w)
+        try: 
+            D = H.first_nonpositive_coefficient_up_to_degree()
+            alpha = sum(
+                [
+                    max(H.coefficient_of_degree(i), 0)
+                    for i in range(D+1)
+                ]
+            )
+            
+            time_1 = log2(k ** 2 * alpha) + log2(binomial(n - k + D, D) * binomial(n + D, D))
+            time_2 = k * log2(q) + log2(alpha ** 2 * binomial(k + D, D) + alpha ** w)
 
-        return max(time_1, time_2)
+            return max(time_1, time_2)
+        
+        except ValueError:
+            return inf
 
     def _compute_memory_complexity(self, parameters: dict):
         """Return the memory complexity of the algorithm for a given set of parameters.
@@ -124,9 +132,14 @@ class PXL(MQAlgorithm):
         n, m, _ = self.problem.get_problem_parameters()
         k = parameters["k"]
         H = HilbertSeries(n=n - k, degrees=[2] * m)
-        D = H.first_nonpositive_coefficient_up_to_degree()
+        
+        try:
+            D = H.first_nonpositive_coefficient_up_to_degree()
 
-        return log2(binomial(k + D, D)) + 2 * log2(binomial(n - k + D, D))
+            return log2(binomial(k + D, D)) + 2 * log2(binomial(n - k + D, D))
+        
+        except ValueError:
+            return inf
 
     def get_optimal_parameters_dict(self):
         """Returns the optimal parameters dictionary."""
