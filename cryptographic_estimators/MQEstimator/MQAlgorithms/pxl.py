@@ -25,22 +25,41 @@ from math import log2, ceil, comb as binomial
 
 class PXL(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
-        """Construct an instance of DummyAlgorithm1 estimator.
+        """Construct an instance of PXL estimator.
 
-        ---------------------
+        The XL algorithm is a major approach to solving the MQ problem with linearization
+        over a coefficient field. The hybrid approach (h-XL) is a variant of the XL algorithm.
+        The PXL algorithm is a variant of the h-XL algorithm that reduces the number of operations
+        for each of the k guessed variables [FK21]_.
 
         Args:
-            
+            problem (MQProblem): MQProblem object including all necessary parameters.
+                w (float): Linear algebra constant (2 <= w <= 3). Default is 2.81
+                h (Optional[float]): External hybridization parameter (default: 0).
+                memory_access (int): Specifies the memory access cost model.
+                    0 - constant (default)
+                    1 - logarithmic
+                    2 - square-root
+                    3 - cube-root
+                    Alternatively, deploy a custom function which takes as input the logarithm of the total memory usage and returns the logarithm of the memory access cost.
+                complexity_type (int): Complexity type to consider.
+                    0 - estimate (default)
+                    1 - tilde O complexity
 
         Examples:
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.pxl import PXL
+            >>> E = PXL(MQProblem(n=15, m=15, q=2), bit_complexities=0)
+            >>> E
+            PXL estimator for the MQ problem with 15 variables and 15 polynomials
 
         """
         super().__init__(problem, **kwargs)
         self._name = "PXL"
 
-        n, _, _ = problem.get_problem_parameters()
+        n = self.problem.nvariables()
 
-        self.set_parameter_ranges("k", 1, n//2)
+        self.set_parameter_ranges("k", 1, n)
 
     @optimal_parameter
     def k(self):
@@ -56,12 +75,26 @@ class PXL(MQAlgorithm):
     
         Args:
             parameters (dict): Dictionary including the parameters.
+
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.pxl import PXL
+            >>> E = PXL(MQProblem(n=20, m=20, q=31), bit_complexities=0)
+            >>> E.time_complexity()
+            57.36008539315609
+
+        Tests:
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.pxl import PXL
+            >>> E = PXL(MQProblem(n=20, m=20, q=256), bit_complexities=0)
+            >>> E.time_complexity()
+            63.23886285441314
         """
         n, m, q = self.problem.get_problem_parameters()
         w = self.linear_algebra_constant()
         k = parameters["k"]
         H = HilbertSeries(n=n - k, degrees=[2] * m)
-        
+
         D = H.first_nonpositive_coefficient_up_to_degree()
         alpha = sum(
             [
@@ -80,8 +113,20 @@ class PXL(MQAlgorithm):
     
         Args:
             parameters (dict): Dictionary including the parameters.
+
+        Tests:
+        >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+        >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.pxl import PXL
+        >>> E = PXL(MQProblem(n=20, m=20, q=256), bit_complexities=0)
+        >>> E.memory_complexity()
+        50.93179370563208
         """
-        return 0
+        n, m, _ = self.problem.get_problem_parameters()
+        k = parameters["k"]
+        H = HilbertSeries(n=n - k, degrees=[2] * m)
+        D = H.first_nonpositive_coefficient_up_to_degree()
+
+        return log2(binomial(k + D, D)) + 2 * log2(binomial(n - k + D, D))
 
     def get_optimal_parameters_dict(self):
         """Returns the optimal parameters dictionary."""
