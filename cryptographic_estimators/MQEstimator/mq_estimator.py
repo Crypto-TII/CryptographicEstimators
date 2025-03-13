@@ -43,7 +43,7 @@ class MQEstimator(BaseEstimator):
         Tests:
             >>> E = MQEstimator(n=15, m=15, q=2, w=2)
             >>> E.table(precision=3, truncate=1)
-           +------------------+-----------------+
+            +------------------+-----------------+
             |                  |     estimate    |
             +------------------+--------+--------+
             | algorithm        |   time | memory |
