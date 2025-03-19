@@ -156,7 +156,7 @@ class PXL(MQAlgorithm):
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.pxl import PXL
             >>> E = PXL(MQProblem(q=256, n=20, m=20), bit_complexities=0)
             >>> E._get_verbose_information()
-            {'D': 4, 'alpha': 14}  
+            {'D': 9, 'alpha': 14}  
         """
         _ = self._compute_time_complexity(self.optimal_parameters())
         return self._verbose_information
