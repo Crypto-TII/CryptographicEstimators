@@ -94,7 +94,7 @@ class PXL(MQAlgorithm):
             >>> E.time_complexity()
             63.23886285441314
         """
-        n, m, q = self.problem.get_problem_parameters()
+        n, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
         k = parameters["k"]
         H = HilbertSeries(n=n - k, degrees=[2] * m)
@@ -107,6 +107,11 @@ class PXL(MQAlgorithm):
                     for i in range(D+1)
                 ]
             )
+
+            self._verbose_information = {
+                "D": D,
+                "alpha": ceil(log2(alpha))
+            }
             
             time_1 = log2(k ** 2 * alpha) + log2(binomial(n - k + D, D) * binomial(n + D, D))
             time_2 = k * log2(q) + log2(alpha ** 2 * binomial(k + D, D) + alpha ** w)
@@ -114,6 +119,7 @@ class PXL(MQAlgorithm):
             return max(time_1, time_2)
         
         except ValueError:
+            self._verbose_information = dict()
             return inf
 
     def _compute_memory_complexity(self, parameters: dict):
@@ -129,7 +135,7 @@ class PXL(MQAlgorithm):
         >>> E.memory_complexity()
         50.93179370563208
         """
-        n, m, _ = self.problem.get_problem_parameters()
+        n, m, _ = self.get_reduced_parameters()
         k = parameters["k"]
         H = HilbertSeries(n=n - k, degrees=[2] * m)
         
@@ -140,19 +146,16 @@ class PXL(MQAlgorithm):
         
         except ValueError:
             return inf
+        
+    def _get_verbose_information(self):
+        """Returns dictionary with any additional information relevant to this algorithm.
 
-    def get_optimal_parameters_dict(self):
-        """Returns the optimal parameters dictionary."""
-        n, m, _ = self.problem.get_problem_parameters()
-        k = self.k()
-        H = HilbertSeries(n=n - k, degrees=[2] * m)
-        D = H.first_nonpositive_coefficient_up_to_degree()
-        alpha = sum(
-            [
-                max(H.coefficient_of_degree(i), 0)
-                for i in range(D+1)
-            ]
-        )
-
-        d = {"k": k, "alpha": ceil(log2(alpha)), "D": D}
-        return d
+        Examples:
+            >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.pxl import PXL
+            >>> E = PXL(MQProblem(q=256, n=20, m=20), bit_complexities=0)
+            >>> E._get_verbose_information()
+            {'D': 4, 'alpha': 14}  
+        """
+        _ = self._compute_time_complexity(self.optimal_parameters())
+        return self._verbose_information
