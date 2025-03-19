@@ -97,10 +97,11 @@ class PXL(MQAlgorithm):
         n, m, q = self.get_reduced_parameters()
         w = self.linear_algebra_constant()
         k = parameters["k"]
-        H = HilbertSeries(n=n - k, degrees=[2] * m)
-
+    
         try: 
+            H = HilbertSeries(n=n - k, degrees=[2] * m)
             D = H.first_nonpositive_coefficient_up_to_degree()
+            
             alpha = sum(
                 [
                     max(H.coefficient_of_degree(i), 0)
@@ -118,7 +119,7 @@ class PXL(MQAlgorithm):
 
             return max(time_1, time_2)
         
-        except ValueError:
+        except OverflowError:
             self._verbose_information = dict()
             return inf
 
@@ -137,14 +138,14 @@ class PXL(MQAlgorithm):
         """
         n, m, _ = self.get_reduced_parameters()
         k = parameters["k"]
-        H = HilbertSeries(n=n - k, degrees=[2] * m)
-        
+    
         try:
+            H = HilbertSeries(n=n - k, degrees=[2] * m)
             D = H.first_nonpositive_coefficient_up_to_degree()
 
             return log2(binomial(k + D, D)) + 2 * log2(binomial(n - k + D, D))
         
-        except ValueError:
+        except OverflowError:
             return inf
         
     def _get_verbose_information(self):
