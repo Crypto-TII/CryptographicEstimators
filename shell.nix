@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 let
-  myPython = pkgs.python312;
-  pythonPackages = pkgs.python312Packages;
+  myPython = pkgs.python311;
+  pythonPackages = pkgs.python311Packages;
   pythonWithPkgs = myPython.withPackages (pythonPkgs: with pythonPkgs; [
     # This list contains tools for Python development.
     # You can also add other tools, like black.
@@ -12,7 +12,7 @@ let
     ipython
     pip
     setuptools
-    virtualenvwrapper
+    virtualenv
     wheel
     black
     prophet
@@ -25,6 +25,7 @@ let
     pythonPackages.scipy
     pythonPackages.pytest
     pythonPackages.sympy
+    clang
   ];
 in
 import ./python-shell.nix { 

@@ -35,7 +35,7 @@ let
           virtualenv .venv
         fi
         source .venv/bin/activate
-        # export PYTHONPATH=$PYTHONPATH:`pwd`/$VENV/${myPython.sitePackages}/
+        export PYTHONPATH=$PYTHONPATH:`pwd`/$VENV/${myPython.sitePackages}/
     '';
   };
 in shell
