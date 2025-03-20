@@ -70,7 +70,7 @@ def PKFuzz(d):
     fdp = atheris.FuzzedDataProvider(d)
     n, m, q, ell = fdp.ConsumeIntList(4, size)
     try:
-        A = SDEstimator(n, m, q, ell)
+        A = PKEstimator(n, m, q, ell)
         A.estimate()
     except Exception as e:
         print(e, type(e), n, m, q, ell)
@@ -94,7 +94,7 @@ def PEFuzz(d):
     fdp = atheris.FuzzedDataProvider(d)
     n, k, q = fdp.ConsumeIntList(3, size)
     try:
-        A = SDEstimator(n, k, q)
+        A = PEEstimator(n, k, q)
         A.estimate()
     except Exception as e:
         print(e, type(e), n, k, q)
@@ -150,16 +150,16 @@ def RankSDFuzz(d):
             raise
 
 
-size = 2
+size = 1
 #atheris.Setup(sys.argv, SDFuzz)
 #atheris.Setup(sys.argv, MQFuzz)
 #atheris.Setup(sys.argv, SDFqFuzz)
 #atheris.Setup(sys.argv, RegSDFuzz)
-atheris.Setup(sys.argv, RankSDFuzz)
+#atheris.Setup(sys.argv, RankSDFuzz)
 #atheris.Setup(sys.argv, PKFuzz)
 #atheris.Setup(sys.argv, LEFuzz)
 #atheris.Setup(sys.argv, PEFuzz)
 #atheris.Setup(sys.argv, MRFuzz)
 #atheris.Setup(sys.argv, UOVFuzz)
-#atheris.Setup(sys.argv, MAYOFuzz)
+atheris.Setup(sys.argv, MAYOFuzz)
 atheris.Fuzz()

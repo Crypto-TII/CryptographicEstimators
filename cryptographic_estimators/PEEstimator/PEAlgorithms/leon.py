@@ -82,7 +82,7 @@ class Leon(PEAlgorithm):
         self.SDFqEstimator = SDFqEstimator(n=n, k=k, w=w, q=q, nsolutions=0, memory_bound=self.problem.memory_bound,
                                            bit_complexities=0, **self._SDFqEstimator_parameters)
         c_isd = self.SDFqEstimator.fastest_algorithm().time_complexity()
-        return c_isd + log2(ceil(2 * (0.57 + log(N))))
+        return c_isd + log2(ceil(2 * (0.57 + log2(max(N, 1)))))
 
     def _compute_memory_complexity(self, parameters: dict):
         return self.SDFqEstimator.fastest_algorithm().memory_complexity()

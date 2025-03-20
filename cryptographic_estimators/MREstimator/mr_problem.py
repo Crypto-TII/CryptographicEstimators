@@ -43,6 +43,17 @@ class MRProblem(BaseProblem):
             - If theta = None, every multiplication in GF(q) is counted as 2 * log2(q) ^ 2 + log2(q) binary operation.
         """
         super().__init__(**kwargs)
+
+        # these checks need do be done befor `expected_number_solutions`
+        if n < 1:
+            raise ValueError("n must be >= 1")
+        if m < 1:
+            raise ValueError("m must be >= 1")
+        if k < 1:
+            raise ValueError("k must be >= 1")
+        if not is_prime_power(q):
+            raise ValueError("q must be a prime power")
+
         self.parameters[MR_FIELD_SIZE] = q
         self.parameters[MR_NUMBER_OF_ROWS] = m
         self.parameters[MR_NUMBER_OF_COLUMNS] = n
@@ -50,18 +61,6 @@ class MRProblem(BaseProblem):
         self.parameters[MR_TARGET_RANK] = r
         self.nsolutions = kwargs.get("nsolutions", self.expected_number_solutions())
         self._theta = kwargs.get("theta", 2)
-
-        if n < 1:
-            raise ValueError("n must be >= 1")
-
-        if m < 1:
-            raise ValueError("m must be >= 1")
-
-        if k < 1:
-            raise ValueError("k must be >= 1")
-
-        if not is_prime_power(q):
-            raise ValueError("q must be a prime power")
 
         if self._theta is not None and not (0 <= self._theta <= 2):
             raise ValueError("theta must be either None or 0 <= theta <= 2")

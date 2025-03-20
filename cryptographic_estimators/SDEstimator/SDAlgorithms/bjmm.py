@@ -250,8 +250,9 @@ class BJMMd2(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
 
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
-            for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
-                ell_approx = 2 * log2(binom(k // 2, p1))
+            for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2, 1), min(new_ranges["p1"]["max"], k//2)):
+                # we need to cacth the case k=1
+                ell_approx = 2 * log2(binom(max(k // 2, 1), p1))
                 for l in range(
                     max(new_ranges["l"]["min"], int(ell_approx * 0.75)),
                     min(

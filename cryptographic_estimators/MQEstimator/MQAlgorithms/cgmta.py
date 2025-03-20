@@ -56,7 +56,7 @@ class CGMTA(MQAlgorithm):
             raise ValueError("m must be <= n")
 
         super().__init__(problem, **kwargs)
-        self._k = min(m / 2, floor(sqrt(n / 2 - sqrt(n / 2))))
+        self._k = min(m // 2, floor(sqrt(n / 2 - sqrt(n / 2))))
 
         if 2 * self._k**2 > n - 2 * self._k or m - 2 * self._k >= 2 * self._k**2:
             raise ValueError("The condition m - 2k < 2k^2 <= n - 2k must be satisfied")
