@@ -30,7 +30,7 @@ let
         # Allow the use of wheels.
         SOURCE_DATE_EPOCH=$(date +%s)
         # Augment the dynamic linker path
-        export "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${lib-path}"
+        export "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${lib-path}:${pkgs.stdenv.cc.cc.lib}/lib/"
         if test ! -d .venv; then
           virtualenv .venv
         fi
