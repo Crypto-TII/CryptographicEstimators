@@ -262,7 +262,7 @@ class BaseEstimator(object):
                 "No algorithm associated with this estimator or applicable to this problem instance.")
 
         else:
-            title = ""
+            title = " "
             if parameters_inside:
                 vals = [str(a) for a in self.problem.get_parameters()]
                 # NOTE: without the slicing additional parameters like `self`,
