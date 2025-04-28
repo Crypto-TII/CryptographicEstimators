@@ -150,7 +150,7 @@ def RankSDFuzz(d):
             raise
 
 
-size = 1
+size = 2
 #atheris.Setup(sys.argv, SDFuzz)
 #atheris.Setup(sys.argv, MQFuzz)
 #atheris.Setup(sys.argv, SDFqFuzz)
@@ -158,8 +158,8 @@ size = 1
 #atheris.Setup(sys.argv, RankSDFuzz)
 #atheris.Setup(sys.argv, PKFuzz)
 #atheris.Setup(sys.argv, LEFuzz)
-#atheris.Setup(sys.argv, PEFuzz)
+atheris.Setup(sys.argv, PEFuzz)
 #atheris.Setup(sys.argv, MRFuzz)
 #atheris.Setup(sys.argv, UOVFuzz)
-atheris.Setup(sys.argv, MAYOFuzz)
+#atheris.Setup(sys.argv, MAYOFuzz)
 atheris.Fuzz()
