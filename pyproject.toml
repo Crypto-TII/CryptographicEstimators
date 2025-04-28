@@ -4,7 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cryptographic_estimators"
-#license = "Apache-2.0"
+license = "Apache-2.0"
+license-files = [
+    "LICENSE",
+]
+
+
 description = "This library provides bit security estimators and asymptotic complexity estimators for cryptographic problems."
 authors = [
   {name = "TII", email = "cryptographic_estimators@tii.ae"}
@@ -13,7 +18,7 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
   "Topic :: Security :: Cryptography",
-  "License :: OSI Approved :: MIT License",
+  "License :: OSI Approved :: Apache Software License",
 ]
 
 version = "2.0.0"
