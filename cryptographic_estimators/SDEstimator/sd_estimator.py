@@ -56,6 +56,7 @@ class SDEstimator(BaseEstimator):
         show_all_parameters=0,
         precision=1,
         truncate=0,
+        *args, **kwargs
     ):
         """Print table describing the complexity of each algorithm and its optimal parameters.
 
@@ -158,4 +159,5 @@ class SDEstimator(BaseEstimator):
             show_all_parameters=show_all_parameters,
             precision=precision,
             truncate=truncate,
+            *args, **kwargs
         )

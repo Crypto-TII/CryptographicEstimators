@@ -51,7 +51,7 @@ class RankSDEstimator(BaseEstimator):
         )
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
-              show_all_parameters=0, precision=1, truncate=0):
+              show_all_parameters=0, precision=1, truncate=0, *args, **kwargs):
         """Print table describing the complexity of each algorithm and its optimal parameters.
 
            Args:
@@ -130,4 +130,5 @@ class RankSDEstimator(BaseEstimator):
         super(RankSDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                            show_tilde_o_time=show_tilde_o_time,
                                            show_all_parameters=show_all_parameters,
-                                           precision=precision, truncate=truncate)
+                                           precision=precision, truncate=truncate,
+                                           *args, **kwargs)

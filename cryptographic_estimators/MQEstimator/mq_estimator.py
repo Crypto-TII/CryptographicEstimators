@@ -59,6 +59,7 @@ class MQEstimator(BaseEstimator):
             | F5               | 27.065 | 23.158 |
             | HybridF5         | 17.906 | 11.720 |
             | Lokshtanov       | 62.854 | 16.105 |
+            | PXL              | 21.947 | 14.099 |
             +------------------+--------+--------+
 
             >>> if skip_long_doctests:
@@ -80,6 +81,7 @@ class MQEstimator(BaseEstimator):
             | F5               | 62.4 |   57.0 |
             | HybridF5         | 45.4 |   16.1 |
             | Lokshtanov       | 87.1 |   42.4 |
+            | PXL              | 49.3 |   19.6 |
             +------------------+------+--------+
 
 
@@ -87,7 +89,7 @@ class MQEstimator(BaseEstimator):
         super(MQEstimator, self).__init__(MQAlgorithm, MQProblem(
             n=n, m=m, q=q, memory_bound=memory_bound, **kwargs), **kwargs)
 
-    def table(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0):
+    def table(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0, *args, **kwargs):
         """Print table describing the complexity of each algorithm and its optimal parameters.
     
         Args:
@@ -117,6 +119,7 @@ class MQEstimator(BaseEstimator):
             | F5               |  77.7 |   71.9 |
             | HybridF5         |  67.3 |   26.7 |
             | Lokshtanov       | 168.8 |   44.9 |
+            | PXL              |  69.8 |   31.4 |
             +------------------+-------+--------+
 
             >>> from cryptographic_estimators.MQEstimator import MQEstimator
@@ -133,6 +136,7 @@ class MQEstimator(BaseEstimator):
             | F5               | 119.3 |  111.9 |                  {}                  | 109.9 |  109.9 |                  {}                  |
             | HybridF5         | 103.8 |   72.4 |               {'k': 6}               |  94.4 |   70.4 |               {'k': 6}               |
             | Lokshtanov       | 620.9 |  164.4 |   {'delta': 0.024390243902439025}    | 147.6 |   16.4 |            {'delta': 0.9}            |
+            | PXL              | 103.3 |   84.2 |               {'k': 9}               |    -- |     -- |                  {}                  |
             +------------------+-------+--------+--------------------------------------+-------+--------+--------------------------------------+
 
             >>> E = MQEstimator(q=2, m=42, n=41, w=2.81)
@@ -151,6 +155,7 @@ class MQEstimator(BaseEstimator):
             | F5               | 85.5 |   57.0 |                 {}                 | 80.1 |   57.0 |                         {}                        |
             | HybridF5         | 45.4 |   16.1 |             {'k': 40}              | 40.0 |   16.1 |                     {'k': 40}                     |
             | Lokshtanov       | 87.1 |   42.4 |  {'delta': 0.024390243902439025}   | 35.9 |    5.1 |                 {'delta': 0.8765}                 |
+            | PXL              | 49.3 |   19.6 |             {'k': 34}              |   -- |     -- |                         {}                        |
             +------------------+------+--------+------------------------------------+------+--------+---------------------------------------------------+
                     
             >>> E = MQEstimator(q=16, n=594, m=64)
@@ -168,6 +173,7 @@ class MQEstimator(BaseEstimator):
             | HybridF5         | 169.2 |   55.6 |             {'k': 21}             | 159.3 |   53.6 |             {'k': 21}             |
             | Lokshtanov       | 682.7 |  224.5 |  {'delta': 0.017857142857142856}  | 201.6 |   22.4 |           {'delta': 0.9}          |
             | Hashimoto        | 129.6 |   28.5 |         {'k': 16, 'a': 18}        |    -- |     -- |                 {}                |
+            | PXL              | 142.1 |  111.6 |             {'k': 12}             |    -- |     -- |                 {}                |
             +------------------+-------+--------+-----------------------------------+-------+--------+-----------------------------------+
 
             >>> E = MQEstimator(q=16, n=312, m=64)
@@ -185,10 +191,11 @@ class MQEstimator(BaseEstimator):
             | HybridF5         | 182.9 |   56.8 |             {'k': 24}             | 173.0 |   54.8 |             {'k': 24}             |
             | Lokshtanov       | 699.8 |  244.6 |   {'delta': 0.01639344262295082}  | 219.6 |   24.4 |           {'delta': 0.9}          |
             | Hashimoto        | 152.6 |   49.4 |         {'k': 11, 'a': 6}         |    -- |     -- |                 {}                |
+            | PXL              | 154.0 |  116.0 |             {'k': 14}             |    -- |     -- |                 {}                |
             +------------------+-------+--------+-----------------------------------+-------+--------+-----------------------------------+
         """
 
         super(MQEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,
                                        show_all_parameters=show_all_parameters,
-                                       precision=precision, truncate=truncate)
+                                       precision=precision, truncate=truncate, *args, **kwargs)

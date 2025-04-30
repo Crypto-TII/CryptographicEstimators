@@ -241,7 +241,7 @@ class BaseEstimator(object):
                     self.estimates[name][" "]["attack_type"] = algorithm.attack_type
         return self.estimates
 
-    def table(self, show_quantum_complexity=False, show_tilde_o_time=False, show_all_parameters=False, precision=1, truncate=False):
+    def table(self, show_quantum_complexity=False, show_tilde_o_time=False, show_all_parameters=False, precision=1, truncate=False, parameters_inside=False):
         """Print table describing the complexity of each algorithm and its optimal parameters.
     
         Args:
@@ -250,6 +250,7 @@ class BaseEstimator(object):
             show_all_parameters (bool): Show all optimization parameters. Defaults to False.
             precision (int): Number of decimal digits output. Defaults to 1.
             truncate (bool): Truncate rather than round the output. Defaults to False.
+            parameters_inside (bool): Shows the Problem parameters in the top left corner
         """
         self.include_tildeo = show_tilde_o_time
         self.include_quantum = show_quantum_complexity
@@ -263,8 +264,17 @@ class BaseEstimator(object):
                 "No algorithm associated with this estimator or applicable to this problem instance.")
 
         else:
+            title = " "
+            if parameters_inside:
+                vals = [str(a) for a in self.problem.get_parameters()]
+                # NOTE: without the slicing additional parameters like `self`,
+                # or `kwargs` would be added.
+                names = self.__init__.__code__.co_varnames[1:1+len(vals)]
+                v = list(zip(names, vals))
+                title = ",".join([a + ":" + b for (a, b) in v])
+            
             renderer = EstimationRenderer(
-                show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate
+                show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate, title
             )
 
             return renderer.as_table(estimate)

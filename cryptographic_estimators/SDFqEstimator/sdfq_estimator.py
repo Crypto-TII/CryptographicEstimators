@@ -45,7 +45,7 @@ class SDFqEstimator(BaseEstimator):
             n, k, w, q, memory_bound=memory_bound, **kwargs), **kwargs)
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
-                       show_all_parameters=0, precision=1, truncate=0):
+              show_all_parameters=0, precision=1, truncate=0, *args, **kwargs):
         """Print table describing the complexity of each algorithm and its optimal parameters.
     
         Args:
@@ -84,6 +84,7 @@ class SDFqEstimator(BaseEstimator):
             +-------------+---------+--------+------------------+
         """
         super(SDFqEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
-                                       show_tilde_o_time=show_tilde_o_time,
-                                       show_all_parameters=show_all_parameters,
-                                       precision=precision, truncate=truncate)
+                                         show_tilde_o_time=show_tilde_o_time,
+                                         show_all_parameters=show_all_parameters,
+                                         precision=precision, truncate=truncate,
+                                         *args, **kwargs)
