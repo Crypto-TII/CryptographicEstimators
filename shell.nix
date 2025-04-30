@@ -26,6 +26,7 @@ let
     pythonPackages.pytest
     pythonPackages.sympy
     clang
+    ruff
   ];
 in
 import ./python-shell.nix { 

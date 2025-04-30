@@ -2,6 +2,11 @@
 
 import atheris
 from data import exclude_list
+import argparse
+
+# rather important, the fuzzing range will be 2**size
+size = 1
+
 
 with atheris.instrument_imports(exclude=exclude_list):
     from cryptographic_estimators.SDEstimator import SDEstimator
@@ -150,16 +155,55 @@ def RankSDFuzz(d):
             raise
 
 
-size = 2
-#atheris.Setup(sys.argv, SDFuzz)
-#atheris.Setup(sys.argv, MQFuzz)
-#atheris.Setup(sys.argv, SDFqFuzz)
-#atheris.Setup(sys.argv, RegSDFuzz)
-#atheris.Setup(sys.argv, RankSDFuzz)
-#atheris.Setup(sys.argv, PKFuzz)
-#atheris.Setup(sys.argv, LEFuzz)
-atheris.Setup(sys.argv, PEFuzz)
-#atheris.Setup(sys.argv, MRFuzz)
-#atheris.Setup(sys.argv, UOVFuzz)
-#atheris.Setup(sys.argv, MAYOFuzz)
-atheris.Fuzz()
+def main():
+    parser = argparse.ArgumentParser(
+        description="CLI tool that allows only one of several flags to be passed."
+    )
+
+    parser.add_argument('--bytes', type=int, default=1, help='number of bytes')
+
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('--sd', action='store_true', help='Enable SD mode')
+    group.add_argument('--mq', action='store_true', help='Enable MQ mode')
+    group.add_argument('--sdfq', action='store_true', help='Enable SDFQ mode')
+    group.add_argument('--regsd', action='store_true', help='Enable REGSD mode')
+    group.add_argument('--ranksd', action='store_true', help='Enable RANKSD mode')
+    group.add_argument('--pk', action='store_true', help='Enable PK mode')
+    group.add_argument('--lw', action='store_true', help='Enable LW mode')
+    group.add_argument('--pe', action='store_true', help='Enable PE mode')
+    group.add_argument('--mr', action='store_true', help='Enable MR mode')
+    group.add_argument('--uov', action='store_true', help='Enable UOV mode')
+    group.add_argument('--mayo', action='store_true', help='Enable MAYO mode')
+
+    args = parser.parse_args()
+    global size
+    size = args.bytes
+
+    if args.sd:
+        atheris.Setup(sys.argv, SDFuzz)
+    elif args.mq:
+        atheris.Setup(sys.argv, MQFuzz)
+    elif args.sdfq:
+        atheris.Setup(sys.argv, SDFqFuzz)
+    elif args.regsd:
+        atheris.Setup(sys.argv, RegSDFuzz)
+    elif args.ranksd:
+        atheris.Setup(sys.argv, RankSDFuzz)
+    elif args.pk:
+        atheris.Setup(sys.argv, PKFuzz)
+    elif args.le:
+        atheris.Setup(sys.argv, LEFuzz)
+    elif args.pe:
+        atheris.Setup(sys.argv, PEFuzz)
+    elif args.mr:
+        atheris.Setup(sys.argv, MRFuzz)
+    elif args.uov:
+        atheris.Setup(sys.argv, UOVFuzz)
+    elif args.mayo:
+        atheris.Setup(sys.argv, MAYOFuzz)
+
+    atheris.Fuzz()
+
+
+if __name__ == '__main__':
+    main()
