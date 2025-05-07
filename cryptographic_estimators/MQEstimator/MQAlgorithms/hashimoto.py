@@ -121,7 +121,7 @@ class Hashimoto(MQAlgorithm):
         a = parameters["a"]
         k = parameters["k"]
 
-        if (a * (m - k) - (a-1)**2 + k) <= n:
+        if max((a - 1) * (m - k - a + 1), a * (m - k) - (a - 1) ** 2 + k) <= n:
             E_1 = BooleanSolveFXL(MQProblem(q=q, n=a, m=a), bit_complexities=0)
             E_1.set_parameter_ranges('k', 1, a-1);
             E_2 = BooleanSolveFXL(MQProblem(q=q, n=a-1, m=a-1), bit_complexities=0)
@@ -152,7 +152,7 @@ class Hashimoto(MQAlgorithm):
         a = parameters["a"]
         k = parameters["k"]
 
-        if (a * (m - k) - (a-1)**2 + k) <= n:
+        if max((a - 1) * (m - k - a + 1), a * (m - k) - (a - 1) ** 2 + k) <= n:
             E_1 = BooleanSolveFXL(MQProblem(q=q, n=a, m=a), bit_complexities=0)
             E_1.set_parameter_ranges('k', 1, a-1);
             E_2 = BooleanSolveFXL(MQProblem(q=q, n=a-1, m=a-1), bit_complexities=0)
