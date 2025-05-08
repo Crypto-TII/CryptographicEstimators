@@ -3,188 +3,257 @@ le:
     inputs_with_expected_outputs:
     - !!python/tuple
       - !!python/tuple [200, 100, 17]
-      - 88.01232020398258
+      - .inf
     - !!python/tuple
       - !!python/tuple [200, 100, 31]
-      - 97.6016190581889
+      - 99.85582091262742
   bbps_2:
     inputs_with_expected_outputs:
     - !!python/tuple
       - !!python/tuple [200, 100, 11]
-      - 82.87872901507777
+      - .inf
   bbps_range:
     inputs_with_expected_outputs:
     - !!python/tuple
+      - !!python/tuple [100, 50, 7]
+      - .inf
+    - !!python/tuple
+      - !!python/tuple [100, 50, 11]
+      - .inf
+    - !!python/tuple
       - !!python/tuple [100, 50, 17]
-      - 50.54922341575208
+      - .inf
     - !!python/tuple
       - !!python/tuple [100, 50, 31]
-      - 54.92977688419147
+      - 57.33772457716617
+    - !!python/tuple
+      - !!python/tuple [100, 52, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [100, 52, 11]
-      - 47.727309414329646
+      - .inf
     - !!python/tuple
       - !!python/tuple [100, 52, 17]
-      - 50.14385469738539
+      - .inf
     - !!python/tuple
       - !!python/tuple [100, 52, 31]
-      - 54.87359009625221
+      - 57.143119541097235
+    - !!python/tuple
+      - !!python/tuple [100, 54, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [100, 54, 11]
-      - 48.44929021563404
+      - .inf
     - !!python/tuple
       - !!python/tuple [100, 54, 17]
-      - 49.7482057110599
+      - .inf
     - !!python/tuple
       - !!python/tuple [100, 54, 31]
-      - 54.72759158650435
+      - 56.661297379082335
+    - !!python/tuple
+      - !!python/tuple [100, 56, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [100, 56, 11]
-      - 47.32046670247122
+      - .inf
     - !!python/tuple
       - !!python/tuple [100, 56, 17]
-      - 49.48852089648252
+      - .inf
     - !!python/tuple
       - !!python/tuple [100, 56, 31]
-      - 54.056269372227675
+      - 56.758252724839664
+    - !!python/tuple
+      - !!python/tuple [100, 58, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [100, 58, 11]
-      - 46.919547979446264
+      - .inf
     - !!python/tuple
       - !!python/tuple [100, 58, 17]
-      - 48.735850630793784
+      - .inf
     - !!python/tuple
       - !!python/tuple [100, 58, 31]
-      - 53.64135862338881
+      - 56.2152383712978
+    - !!python/tuple
+      - !!python/tuple [105, 52, 7]
+      - .inf
+    - !!python/tuple
+      - !!python/tuple [105, 52, 11]
+      - .inf
     - !!python/tuple
       - !!python/tuple [105, 52, 17]
-      - 52.41851995532214
+      - .inf
     - !!python/tuple
       - !!python/tuple [105, 52, 31]
-      - 57.092742251692336
+      - 59.565530236882935
+    - !!python/tuple
+      - !!python/tuple [105, 54, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [105, 54, 11]
-      - 49.93291260893163
+      - .inf
     - !!python/tuple
       - !!python/tuple [105, 54, 17]
-      - 52.07946343589034
+      - .inf
     - !!python/tuple
       - !!python/tuple [105, 54, 31]
-      - 57.09058971718368
+      - 59.146049040468256
+    - !!python/tuple
+      - !!python/tuple [105, 56, 7]
+      - .inf
+    - !!python/tuple
+      - !!python/tuple [105, 56, 11]
+      - .inf
     - !!python/tuple
       - !!python/tuple [105, 56, 17]
-      - 51.68165495085246
+      - .inf
     - !!python/tuple
       - !!python/tuple [105, 56, 31]
-      - 56.679788084398126
+      - 58.79774184694664
+    - !!python/tuple
+      - !!python/tuple [105, 58, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [105, 58, 11]
-      - 48.76722882714244
+      - .inf
     - !!python/tuple
       - !!python/tuple [105, 58, 17]
-      - 51.85127101739946
+      - .inf
     - !!python/tuple
       - !!python/tuple [105, 58, 31]
-      - 56.35797267985405
+      - 59.067838923055746
+    - !!python/tuple
+      - !!python/tuple [105, 60, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [105, 60, 11]
-      - 49.97867783819178
+      - .inf
     - !!python/tuple
       - !!python/tuple [105, 60, 17]
-      - 50.74580637775787
+      - .inf
     - !!python/tuple
       - !!python/tuple [105, 60, 31]
-      - 55.827053137704894
+      - 58.19648915444716
+    - !!python/tuple
+      - !!python/tuple [110, 55, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 55, 11]
-      - 52.40715654107621
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 55, 17]
-      - 54.34787716389525
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 55, 31]
-      - 59.29782643812199
+      - 61.466675792782816
+    - !!python/tuple
+      - !!python/tuple [110, 57, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 57, 11]
-      - 52.04784297431487
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 57, 17]
-      - 53.947476378337896
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 57, 31]
-      - 59.06069276261707
+      - 61.15010622225144
+    - !!python/tuple
+      - !!python/tuple [110, 59, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 59, 11]
-      - 53.02357623091534
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 59, 17]
-      - 53.58448744639452
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 59, 31]
-      - 58.57932647494377
+      - 61.56958340784286
+    - !!python/tuple
+      - !!python/tuple [110, 61, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 61, 11]
-      - 50.21233170789667
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 61, 17]
-      - 53.32232949142031
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 61, 31]
-      - 58.185915294930616
+      - 60.76558207774831
+    - !!python/tuple
+      - !!python/tuple [110, 63, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 63, 11]
-      - 51.07102551283291
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 63, 17]
-      - 52.59374750149038
+      - .inf
     - !!python/tuple
       - !!python/tuple [110, 63, 31]
-      - 57.92622545735427
+      - 60.038186031169666
+    - !!python/tuple
+      - !!python/tuple [115, 57, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 57, 11]
-      - 53.22189687078654
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 57, 17]
-      - 56.2199058600962
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 57, 31]
-      - 61.4625216994242
+      - 63.49884102775444
+    - !!python/tuple
+      - !!python/tuple [115, 59, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 59, 11]
-      - 55.57482636803221
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 59, 17]
-      - 56.14683792048058
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 59, 31]
-      - 61.045394020867235
+      - 63.293343817759755
+    - !!python/tuple
+      - !!python/tuple [115, 61, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 61, 11]
-      - 52.329837239683926
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 61, 17]
-      - 55.51562946259555
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 61, 31]
-      - 60.68483628136861
+      - 63.43387610267772
+    - !!python/tuple
+      - !!python/tuple [115, 63, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 63, 11]
-      - 53.248005296478134
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 63, 17]
-      - 55.65763240356047
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 63, 31]
-      - 60.41730418741879
+      - 62.768553048755535
+    - !!python/tuple
+      - !!python/tuple [115, 65, 7]
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 65, 11]
-      - 52.06322882814089
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 65, 17]
-      - 54.636931697453555
+      - .inf
     - !!python/tuple
       - !!python/tuple [115, 65, 31]
-      - 60.19410681777335
+      - 62.18447976600562
   beullens:
     inputs_with_expected_outputs:
     - !!python/tuple

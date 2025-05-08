@@ -1,27 +1,59 @@
+import pytest
+import yaml
+from pathlib import Path
 import inspect
 import importlib
-from itertools import starmap
 from typing import Tuple, Callable, Dict, Iterable, Any, List
+
+
+def load_kat_data() -> Dict[str, Any]:
+    """Load Known Answer Test (KAT) values from YAML file.
+
+    Returns:
+        Dict[str, Any]: Dictionary containing test cases and expected results
+        loaded from the YAML file.
+
+    Note:
+        The YAML file should be named 'kat.yaml' and located in the same
+        directory as this test file.
+    """
+    test_dir = Path(__file__).parent
+    kat_yaml_path = test_dir / "kat.yaml"
+    with kat_yaml_path.open("r") as file:
+        return yaml.unsafe_load(file)
 
 
 def extract_paths(
     nested_dict: Dict[str, Any], path: Tuple[str, ...] = ()
 ) -> Iterable[Tuple[Tuple[str, ...], List[Tuple[Any, Any]]]]:
-    """Recursively extracts internal estimators paths and their corresponding inputs/outputs tuples from the input dictionary.
+    """Recursively extract internal estimator paths and their corresponding test cases.
 
-    This function traverses the input dictionary and yields tuples containing the internal estimator path
-    and its inputs/outputs tuples for each leaf node containing an "inputs_with_expected_outputs" key.
+    This function traverses the input dictionary and yields tuples containing the
+    internal estimator path and its input/output test cases for each leaf node
+    containing an "inputs_with_expected_outputs" key.
 
     Args:
-        nested_dict (Dict[str, Any]): The input dictionary to traverse.
+        nested_dict (Dict[str, Any]): The nested dictionary to traverse.
         path (Tuple[str, ...]): The current path in the dictionary (used for recursion).
 
     Yields:
-        Tuple[Tuple[str, ...], List[Tuple[Any, Any]]]: Tuples containing the internal estimators and its inputs/outputs tuples.
+        Tuple[Tuple[str, ...], List[Tuple[Any, Any]]]: A tuple containing:
+            - The path to the internal estimator
+            - List of (input, expected_output) pairs for testing
+
+    Example:
+        For a dictionary like:
+        {
+            "estimator1": {
+                "kat_generator": {
+                    "inputs_with_expected_outputs": [(1, 2), (3, 4)]
+                }
+            }
+        }
+        It yields: (('estimator1', 'kat_generator'), [(1, 2), (3, 4)])
     """
     for key, value in nested_dict.items():
         current_path = path + (key,)
-
         if isinstance(value, dict):
             if "inputs_with_expected_outputs" in value:
                 yield current_path, value["inputs_with_expected_outputs"]
@@ -30,99 +62,93 @@ def extract_paths(
 
 
 def import_internal_estimator(internal_estimator_path: Tuple[str, ...]) -> Callable:
-    """Imports an internal estimator function from a specified path.
+    """Import an internal estimator function from a specified path.
+
+    This function dynamically imports an estimator function based on the provided path,
+    relative to the caller's location in the package hierarchy.
 
     Args:
-        internal_estimator_path (Tuple[str, ...]): A tuple representing the path to the internal estimator function, relative
-            to the caller's location. The last element of the tuple is the function name, and
-            the preceding elements (if any) represent the module path.
+        internal_estimator_path (Tuple[str, ...]): Path to the internal estimator function.
+            The last element is the function name, preceding elements form the module path.
 
     Returns:
-        Callable: The imported function.
+        Callable: The imported estimator function.
 
     Example:
-        function = import_internal_estimator(('sdfq', 'lee-brickell'))
+        estimator = import_internal_estimator(('sdfq', 'lee-brickell'))
+        # Imports the lee-brickell function from the sdfq module
     """
-
     caller_frame = inspect.currentframe().f_back
     caller_module = inspect.getmodule(caller_frame)
 
     package_parts = caller_module.__name__.split(".")
     caller_path = ".".join(package_parts[:-1] + ["internal_estimators"])
 
-    single_case_module_path = ".".join(internal_estimator_path[:-1])
+    module_path = ".".join(internal_estimator_path[:-1])
     function_name = internal_estimator_path[-1]
 
-    import_modpath = f"{caller_path}.{single_case_module_path}"
-    module = importlib.import_module(import_modpath)
-    function = getattr(module, function_name)
-
-    return function
+    import_path = f"{caller_path}.{module_path}"
+    module = importlib.import_module(import_path)
+    return getattr(module, function_name)
 
 
-def kat_test(
-    internal_estimator_name: str,
-    input: Any,
-    expected_output: Any,
-    actual_output: Any,
-    epsilon: float,
-):
-    """Asserts that the absolute difference between the expected and actual outputs is less than the specified epsilon.
+def generate_test_cases() -> List[Tuple[str, Tuple[str, ...], Any, float]]:
+    """Generate test cases from KAT data for parametrized testing.
 
-    The expected output comes from the KAT values produced from external estimators, and the actual ones are produced by our internals estimators.
-
-    Args:
-        internal_estimator_name (str): The name of the internal estimator.
-        input (Any): The input tuple used for the test.
-        expected_output (Any): The expected output value.
-        actual_output (Any): The actual output value.
-        epsilon (float): The maximum allowable difference between the expected and actual outputs.
+    Returns:
+        List[Tuple[str, Tuple[str, ...], Any, float]]: List of test cases, each containing:
+            - Estimator name (human-readable)
+            - Estimator path (for importing)
+            - Input value
+            - Expected output value
     """
-    if not abs(expected_output - actual_output) <= epsilon:
-        print("FAILED TEST!!!")
-        print(f"Input: {input}, estimator: {internal_estimator_name}")
-        print(
-            f"Expected: {expected_output}, actual: {actual_output}, tolerance: {epsilon} "
+    kat = load_kat_data()
+    test_cases = []
+
+    for estimator_path, test_pairs in extract_paths(kat):
+        estimator_name = (
+            f"{estimator_path[-1]} from {estimator_path[-2].upper()}Estimator"
         )
-        return False
-    else:
-        return True
-
-
-def test_all_estimators(kat: dict):
-    """Runs a KAT test for all internal estimators specified in the YAML references.
-
-    This function extracts the internal estimator paths and their corresponding inputs/outputs from the
-    YAML references, imports the relevant internal estimator functions, and runs a standard KAT test
-    to verify the outputs against the expected values produced by external estimators.
-
-    Args:
-        yaml_references (Dict[str, Any]): A dictionary containing the KAT references.
-    """
-
-    int_estimator_paths_with_values = extract_paths(kat)
-    execution_list = []
-
-    for internal_estimator_path, inputs_with_outputs in int_estimator_paths_with_values:
-        inputs, expected_outputs = zip(*inputs_with_outputs)
-        internal_estimator_function = import_internal_estimator(internal_estimator_path)
-        actual_outputs, epsilon = zip(*map(internal_estimator_function, inputs))
-        internal_estimator_name = f"{internal_estimator_path[-1]} from {internal_estimator_path[-2].upper()}Estimator"
-
-        execution_list.extend(
-            list(
-                starmap(
-                    kat_test,
-                    list(
-                        zip(
-                            [internal_estimator_name] * len(inputs),
-                            inputs,
-                            expected_outputs,
-                            actual_outputs,
-                            epsilon,
-                        )
-                    ),
-                )
+        for input_val, expected_output in test_pairs:
+            test_cases.append(
+                (estimator_name, estimator_path, input_val, expected_output)
             )
-        )
-    assert False not in execution_list
+
+    return test_cases
+
+
+@pytest.mark.parametrize(
+    "estimator_name,estimator_path,input_val,expected_output", generate_test_cases()
+)
+def test_kat(
+    estimator_name: str,
+    estimator_path: Tuple[str, ...],
+    input_val: Any,
+    expected_output: float,
+) -> None:
+    """Execute Known Answer Tests for internal estimators.
+
+    This test verifies that internal estimators produce results within
+    acceptable tolerance of known correct values.
+
+    Args:
+        estimator_name (str): Human-readable name of the estimator
+        estimator_path (Tuple[str, ...]): Import path for the estimator
+        input_val (Any): Test input value
+        expected_output (float): Expected output value
+
+    Raises:
+        AssertionError: If the actual output differs from expected output
+            by more than the allowed tolerance (epsilon)
+    """
+    estimator_func = import_internal_estimator(estimator_path)
+    actual_output, epsilon = estimator_func(input_val)
+
+    assert (
+        abs(expected_output - actual_output) <= epsilon
+        or expected_output == actual_output
+    ), (
+        f"FAILED TEST!!!\n"
+        f"Input: {input_val}, estimator: {estimator_name}\n"
+        f"Expected: {expected_output}, actual: {actual_output}, tolerance: {epsilon}"
+    )
