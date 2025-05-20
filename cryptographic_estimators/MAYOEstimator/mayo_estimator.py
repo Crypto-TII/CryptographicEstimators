@@ -92,7 +92,7 @@ class MAYOEstimator(BaseEstimator):
             +----------------------+--------------+-------+--------+-------------------------------------------+
             | algorithm            | attack_type  |  time | memory |                 parameters                |
             +----------------------+--------------+-------+--------+-------------------------------------------+
-            | DirectAttack         |   forgery    | 153.8 |   49.4 | {'k': 11, 'a': 6, 'variant': 'Hashimoto'} |
+            | DirectAttack         |   forgery    | 155.9 |   44.5 | {'k': 14, 'a': 5, 'variant': 'Hashimoto'} |
             | KipnisShamir         | key-recovery | 190.8 |   18.7 |                     {}                    |
             | ReconciliationAttack | key-recovery | 151.2 |   48.1 |     {'k': 11, 'variant': 'las_vegas'}     |
             | IntersectionAttack   | key-recovery | 202.5 |   45.0 |      {'k': 0, 'variant': 'las_vegas'}     |

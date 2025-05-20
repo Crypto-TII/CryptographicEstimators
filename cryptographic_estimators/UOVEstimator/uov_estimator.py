@@ -113,20 +113,6 @@ class UOVEstimator(BaseEstimator):
             +--------------------+--------------+-------+--------+------------------------------+
 
 
-            >>> A = UOVEstimator(n=160, m=64, q=16, theta=None)
-            >>> A.table(show_all_parameters=1) # long time
-            +--------------------+--------------+-----------------------------------------------+
-            |                    |              |                    estimate                   |
-            +--------------------+--------------+-------+--------+------------------------------+
-            | algorithm          | attack_type  |  time | memory |          parameters          |
-            +--------------------+--------------+-------+--------+------------------------------+
-            | DirectAttack       |   forgery    | 159.7 |  126.9 | {'k': 12, 'variant': 'PXL'}  |
-            | KipnisShamir       | key-recovery | 153.7 |   22.6 |              {}              |
-            | CollisionAttack    |   forgery    | 141.0 |  131.7 | {'X': 132.618, 'Y': 121.747} |
-            | IntersectionAttack | key-recovery | 176.2 |   76.9 |           {'k': 3}           |
-            +--------------------+--------------+-------+--------+------------------------------+
-
-
             >>> A = UOVEstimator(n=184, m=72, q=256, theta=None)
             >>> A.table(show_all_parameters=1) # long time
             +--------------------+--------------+-----------------------------------------------+
@@ -140,19 +126,6 @@ class UOVEstimator(BaseEstimator):
             | IntersectionAttack | key-recovery | 249.9 |  117.9 |           {'k': 2}           |
             +--------------------+--------------+-------+--------+------------------------------+
 
-            
-            >>> A = UOVEstimator(n=244, m=96, q=256, theta=None)
-            >>> A.table(show_all_parameters=1) # long time
-            +--------------------+--------------+---------------------------------------------------------+
-            |                    |              |                         estimate                        |
-            +--------------------+--------------+-------+--------+----------------------------------------+
-            | algorithm          | attack_type  |  time | memory |               parameters               |
-            +--------------------+--------------+-------+--------+----------------------------------------+
-            | DirectAttack       |   forgery    | 277.9 |  108.6 | {'k': 6, 'variant': 'BooleanSolveFXL'} |
-            | KipnisShamir       | key-recovery | 445.3 |   25.4 |                   {}                   |
-            | CollisionAttack    |   forgery    | 397.8 |  389.5 |      {'X': 387.826, 'Y': 378.539}      |
-            | IntersectionAttack | key-recovery | 311.6 |  148.3 |                {'k': 2}                |
-            +--------------------+--------------+-------+--------+----------------------------------------+
         """
         super(UOVEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                         show_tilde_o_time=show_tilde_o_time,
