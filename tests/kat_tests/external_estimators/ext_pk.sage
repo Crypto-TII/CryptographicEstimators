@@ -1,6 +1,6 @@
-load("tests/external_estimators/helpers/cost.sage")
-load("tests/external_estimators/helpers/kmp_cost.sage")
-load("tests/external_estimators/helpers/our_cost.sage")
+load("tests/kat_tests/external_estimators/helpers/cost.sage")
+load("tests/kat_tests/external_estimators/helpers/kmp_cost.sage")
+load("tests/kat_tests/external_estimators/helpers/our_cost.sage")
 
 from itertools import chain
 

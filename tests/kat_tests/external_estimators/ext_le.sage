@@ -1,7 +1,7 @@
 # Beullens
 from math import log, inf
 
-load("tests/external_estimators/helpers/attack_cost.sage")
+load("tests/kat_tests/external_estimators/helpers/attack_cost.sage")
 
 def ext_beullens():
     """Special value test."""
@@ -41,7 +41,7 @@ def ext_beullens_range():
     return [element for element in inputs_with_expected_outputs if element is not None]
 
 # BBPS
-load("tests/external_estimators/helpers/cost.sage")
+load("tests/kat_tests/external_estimators/helpers/cost.sage")
 
 
 def ext_bbps_1():
