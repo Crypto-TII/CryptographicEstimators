@@ -51,8 +51,6 @@ def ext_bbps_1():
 
     def gen_single_kat(input):
         n, k, q = input
-        print(n, k, q)
-        print(type(n), type(k), type(q))
 
         expected_complexity, _, _, _ = improved_linear_beullens(n, k, q)
 
