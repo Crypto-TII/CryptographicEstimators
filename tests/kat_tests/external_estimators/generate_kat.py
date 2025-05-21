@@ -7,7 +7,7 @@ from importlib import import_module
 from functools import reduce
 from typing import List, Tuple, Dict, Any, Callable
 from types import ModuleType
-from tests.kat_tests.external_estimators.helpers.sage_helper import sage_import
+from tests.kat_tests.external_estimators.reference_implementations.sage_helper import sage_import
 
 
 def collect_ext_modules() -> List[ModuleType]:

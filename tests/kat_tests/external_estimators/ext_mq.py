@@ -1,7 +1,7 @@
 from sage.all_cmdline import *
 from math import log2
 
-from tests.kat_tests.external_estimators.MQEstimator.legacy_implementations.mpkc.algorithms import (
+from tests.kat_tests.external_estimators.reference_implementations.MQEstimator.mpkc.algorithms import (
     Bjorklund,
     BooleanSolveFXL,
     CGMTA,

@@ -1,7 +1,7 @@
-from tests.kat_tests.external_estimators.helpers.optimize import (
+from tests.kat_tests.external_estimators.reference_implementations.optimize import (
     bjmm_depth_2_qc_complexity,
 )
-from tests.kat_tests.external_estimators.helpers.estimator import (
+from tests.kat_tests.external_estimators.reference_implementations.estimator import (
     prange_complexity,
     dumer_complexity,
     stern_complexity,

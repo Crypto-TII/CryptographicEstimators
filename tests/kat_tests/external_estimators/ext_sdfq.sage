@@ -1,5 +1,5 @@
-load("tests/kat_tests/external_estimators/helpers/attack_cost.sage")
-load("tests/kat_tests/external_estimators/helpers/cost.sage")
+load("tests/kat_tests/external_estimators/reference_implementations/attack_cost.sage")
+load("tests/kat_tests/external_estimators/reference_implementations/cost.sage")
 
 from math import comb as binomial, log2
 from itertools import chain
