@@ -20,7 +20,7 @@ from tests.kat_tests.external_estimators.reference_implementations.MQEstimator.m
 def ext_estimates_with_bjorklund():
 
     # TODO: Add dictionary comparison support in a post-migration
-    # step to unify ext_estimates_with_bjorklund esxhaustive_search
+    # step to unify ext_estimates_with_bjorklund exhaustive_search
     # expected_dictionary = {
     #     "Bjorklund": {
     #         "estimate": {
