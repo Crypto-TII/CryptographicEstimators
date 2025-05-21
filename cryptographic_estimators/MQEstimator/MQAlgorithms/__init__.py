@@ -11,3 +11,4 @@ from .kpg import KPG
 from .lokshtanov import Lokshtanov
 from .mht import MHT
 from .hashimoto import Hashimoto
+from .pxl import PXL

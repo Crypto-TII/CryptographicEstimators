@@ -55,7 +55,7 @@ class MAYOEstimator(BaseEstimator):
 
     # TODO: Optimize MAYOEstimator class constructor (it is taking too long to create an instance)
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
-              show_all_parameters=0, precision=1, truncate=0):
+              show_all_parameters=0, precision=1, truncate=0, *args, **kwargs):
         """Print table describing the complexity of each algorithm and its optimal parameters.
     
         Args:
@@ -90,7 +90,7 @@ class MAYOEstimator(BaseEstimator):
             +----------------------+--------------+-------+--------+-------------------------------------------+
             | algorithm            | attack_type  |  time | memory |                 parameters                |
             +----------------------+--------------+-------+--------+-------------------------------------------+
-            | DirectAttack         |   forgery    | 153.8 |   49.4 | {'k': 11, 'a': 6, 'variant': 'Hashimoto'} |
+            | DirectAttack         |   forgery    | 155.9 |   44.5 | {'k': 14, 'a': 5, 'variant': 'Hashimoto'} |
             | KipnisShamir         | key-recovery | 190.8 |   18.7 |                     {}                    |
             | ReconciliationAttack | key-recovery | 151.2 |   48.1 |     {'k': 11, 'variant': 'las_vegas'}     |
             | IntersectionAttack   | key-recovery | 202.5 |   45.0 |      {'k': 0, 'variant': 'las_vegas'}     |
@@ -127,6 +127,7 @@ class MAYOEstimator(BaseEstimator):
                     
         """
         super(MAYOEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
-                                          show_tilde_o_time=show_tilde_o_time,
-                                          show_all_parameters=show_all_parameters,
-                                          precision=precision, truncate=truncate)
+                                         show_tilde_o_time=show_tilde_o_time,
+                                         show_all_parameters=show_all_parameters,
+                                         precision=precision, truncate=truncate,
+                                         *args, **kwargs)
