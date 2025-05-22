@@ -299,3 +299,54 @@ class BaseEstimator(object):
         self.estimates = {}
         for i in self.algorithms():
             i.reset()
+
+    def version(self):
+        """ prints the current version of the estimator """
+        import os
+
+        def get_git_active_branch_name():
+            """ NOTE: assumes that the `.git` folder is relative .. to this file
+            :return the current active branch name
+            """
+            from pathlib import Path
+            p = os.path.dirname(os.path.realpath(__file__))
+            head_dir = p / Path("..") / ".git" / "HEAD"
+            with head_dir.open("r") as f: 
+                content = f.readlines()
+        
+            for line in content:
+                if line[0:4] == "ref:":
+                    return (line.partition("refs/heads/")[2]).removesuffix("\n")
+
+        def get_git_revision():
+            """ NOTE: assumes that the `.git` folder is relative .. to this file
+            :return the current git commit hash
+            """
+            from pathlib import Path
+            p = os.path.dirname(os.path.realpath(__file__))
+            git_dir = p / Path("..") / '.git'
+            with (git_dir / 'HEAD').open('r') as head:
+                ref = head.readline().split(' ')[-1].strip()
+        
+            with (git_dir / ref).open('r') as git_hash:
+                return git_hash.readline().strip().removesuffix("\n")
+
+        def get_version():
+            """ NOTE: cannot fail
+            :return the current installed version of the CE.
+            """
+            import importlib.metadata
+            return importlib.metadata.version('cryptographic_estimators')
+        
+        try:
+            branch = get_git_active_branch_name() 
+        except:
+            branch = ""
+
+        try:
+            commit = get_git_revision() 
+        except:
+            commit = ""
+
+        version = get_version() 
+        print(f"Branch:  {branch}\nCommit:  {commit}\nVersion: {version}")
