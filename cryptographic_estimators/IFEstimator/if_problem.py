@@ -20,53 +20,48 @@ from ..base_problem import BaseProblem
 
 
 class IFProblem(BaseProblem):
-    """
-    Construct an instance of IFProblem. Contains the parameters to optimize
-    over.
+    """Construct an instance of Integer Factoring Problem. 
 
      Args:
         n (int): bit length of RSA integer to factored
 
     """
 
-    def __init__(self, n:int , **kwargs): # Fill with parameters
+    def __init__(self, n:int , **kwargs): 
         super().__init__(**kwargs)
         self.parameters["n"] = n
 
     def to_bitcomplexity_time(self, basic_operations: float):
-        """
-        Return the bit-complexity corresponding to a certain amount of basic_operations
+        """Returns the bit-complexity corresponding to a certain amount of basic_operations
 
-        INPUT:
+        Args:
+            basic_operations (float): The number of field additions (in logarithmic scale).
 
-        - ``basic_operations`` -- Number of basic operations (logarithmic)
-
+        Returns:
+            The bit-complexity corresponding to the given number of field additions.
         """
         return basic_operations
 
     def to_bitcomplexity_memory(self, elements_to_store: float):
-        """
-        Return the memory bit-complexity associated to a given number of elements to store
+        """Returns the memory bit-complexity associated to a given number of elements to store
 
-        INPUT:
+        Args:
+            elements_to_store (float): The number of memory operations (logarithmic).
 
-        - ``elements_to_store`` -- number of memory operations (logarithmic)
-
+        Returns:
+            The memory bit-complexity associated with the given number of elements to store.
         """
         return elements_to_store
 
     def expected_number_solutions(self):
-        """
-        Return the logarithm of the expected number of existing solutions to the problem
-
+        """Returns the logarithm of the expected number of existing solutions to the problem
         """
         pass
 
     def get_parameters(self):
-        """
-        Return the optimizations parameters
+        """Returns the optimizations parameters
         """
         return list(self.parameters.values())
 
     def __repr__(self):
-        return "IFProblem"
+        return "Integer Factoring Problem with parameter n = "  + str(self.parameters["n"])

@@ -22,16 +22,13 @@ from .if_problem import IFProblem
 
 class IFAlgorithm(BaseAlgorithm):
     def __init__(self, problem: IFProblem, **kwargs):
-        """
-        Base class for IF algorithms complexity estimator
+        """Base class for Integer Factoring Estimator algorithms complexity estimator
 
-        INPUT:
-
-        - ``problem`` -- IFProblem object including all necessary parameters
+        Args:
+            problem (IFProblem) -- IFProblem object including all necessary parameters
 
         """
         super(IFAlgorithm, self).__init__(problem, **kwargs)
-        self._name = "sample_name"
    
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """Computes time and memory complexity for given parameters."""
@@ -40,7 +37,7 @@ class IFAlgorithm(BaseAlgorithm):
     def _compute_time_complexity(self, parameters: dict):
         """
         Args:
-            parameters (dict): Dictionary of parameters used for time complexity computation.
+            parameters (dict): Dictionary of parameters used for time complexity computation
         """
         return self._time_and_memory_complexity(parameters)[0]
     
