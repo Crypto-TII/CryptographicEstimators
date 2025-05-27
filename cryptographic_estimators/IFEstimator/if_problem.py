@@ -27,7 +27,7 @@ class IFProblem(BaseProblem):
 
     """
 
-    def __init__(self, n:int , **kwargs): 
+    def __init__(self, n: int, **kwargs):
         super().__init__(**kwargs)
         self.parameters["n"] = n
 
@@ -64,4 +64,4 @@ class IFProblem(BaseProblem):
         return list(self.parameters.values())
 
     def __repr__(self):
-        return "Integer Factoring Problem with parameter n = "  + str(self.parameters["n"])
+        return "Integer Factoring Problem with parameter n = " + str(self.parameters["n"])

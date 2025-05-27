@@ -29,18 +29,18 @@ class IFAlgorithm(BaseAlgorithm):
 
         """
         super(IFAlgorithm, self).__init__(problem, **kwargs)
-   
+
     def _time_and_memory_complexity(self, parameters: dict, verbose_information=None):
         """Computes time and memory complexity for given parameters."""
         raise NotImplementedError
-        
+
     def _compute_time_complexity(self, parameters: dict):
         """
         Args:
             parameters (dict): Dictionary of parameters used for time complexity computation
         """
         return self._time_and_memory_complexity(parameters)[0]
-    
+
     def _compute_memory_complexity(self, parameters: dict):
         """Compute and return the memory complexity of the algorithm for the given parameter set.
 
@@ -48,7 +48,7 @@ class IFAlgorithm(BaseAlgorithm):
             parameters (dict): A dictionary of parameters used for the memory complexity computation.
         """
         return self._time_and_memory_complexity(parameters)[1]
-    
+
     def _compute_tilde_o_time_complexity(self, parameters: dict):
         """Compute and return the time complexity of the algorithm for a given set of parameters.
 
@@ -56,7 +56,7 @@ class IFAlgorithm(BaseAlgorithm):
             parameters (dict): A dictionary containing the parameters.
         """
         return self._tilde_o_time_and_memory_complexity(parameters)[0]
-    
+
     def _compute_tilde_o_memory_complexity(self, parameters: dict):
         """Compute and return the memory complexity of the algorithm for the given parameter set.
 

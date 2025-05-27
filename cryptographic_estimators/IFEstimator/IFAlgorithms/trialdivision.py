@@ -22,11 +22,10 @@ from ..if_helper import *
 from math import floor
 
 
-
 class TrialDivision(IFAlgorithm):
     def __init__(self, problem: IFProblem, **kwargs):
         """Construct an instance of Trial Division algorithm for Integer Factoring Estimator.
-        
+
         Args:
             problem (IFProblem): An instance of the IFProblem class containing the parameters for the problem.
 
@@ -40,7 +39,7 @@ class TrialDivision(IFAlgorithm):
         self._name = "TrialDivision"
         super(TrialDivision, self).__init__(problem, **kwargs)
 
-    def _time_and_memory_complexity(self, parameters: dict, consider_division = True):
+    def _time_and_memory_complexity(self, parameters: dict, consider_division=True):
         """ The function realizes the following algorithm:
         1. Build a list of prime numbers up to size 2**(floor(sqrt(n))), store this list. Time: pi(floor(sqrt(n)))*time_miller_rabin
         2. For each saved prime, check if it divides our number (complexity of gcd = complexity of division)
@@ -63,27 +62,29 @@ class TrialDivision(IFAlgorithm):
 
         """
         # bit size of the number to factor
-        n = self.problem.parameters["n"]    
+        n = self.problem.parameters["n"]
         memory_bound = self.problem.memory_bound
         # log2 of pi(sqrt(n)) = numer of primes < 2^(sqrt(n))
         log_prime_factors_size = floor(n/2-log2(n/2 * 0.693147180559945))
 
         # naive brute force
-        time = (n/2 - 1)       
-        if consider_division: time+= log2(D(n)) 
+        time = (n/2 - 1)
+        if consider_division:
+            time += log2(D(n))
 
         memory = log_prime_factors_size
 
         # if memory allows to store all primes < < 2^(sqrt(n)), store all primes
-        if memory_bound < log_prime_factors_size:       
-            tmp = log_prime_factors_size+log2(primality_testing(n)) 
-            if consider_division: tmp = log_prime_factors_size+log2(primality_testing(n)+D(n)) 
-            if tmp<time:                                
+        if memory_bound < log_prime_factors_size:
+            tmp = log_prime_factors_size+log2(primality_testing(n))
+            if consider_division:
+                tmp = log_prime_factors_size+log2(primality_testing(n)+D(n))
+            if tmp < time:
                 time = tmp
                 memory = log_prime_factors_size
 
         return time, memory
-    
+
     def _tilde_o_time_and_memory_complexity(self, parameters: dict):
         """ The function realizes the following algorithm *WHITHOUT CONSIDERING THE RUNTIME OF DIVISION*
         1. Build a list of prime numbers up to size 2**(floor(sqrt(n))), store this list. Time: pi(floor(sqrt(n)))*time_miller_rabin
@@ -93,17 +94,16 @@ class TrialDivision(IFAlgorithm):
 
         Args:
             parameters (dict): dictionary including the parameters
-        
+
         Returns:
             tuple: (time complexity, memory complexity) of TrialDivision algorithm without considering the runtime of division
 
         """
-        time, memory = self._time_and_memory_complexity(parameters, consider_division=False)
+        time, memory = self._time_and_memory_complexity(
+            parameters, consider_division=False)
 
         return time, memory
-    
+
     def __repr__(self):
-        rep = "TrialDivision algorithm for " + str(self.problem) 
+        rep = "TrialDivision algorithm for " + str(self.problem)
         return rep
-
-

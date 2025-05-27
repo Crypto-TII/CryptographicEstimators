@@ -28,7 +28,7 @@ class IFEstimator(BaseEstimator):
     """
     excluded_algorithms_by_default = []
 
-    def __init__(self, n:int, memory_bound=inf, **kwargs): # Fill with parameters
+    def __init__(self, n: int, memory_bound=inf, **kwargs):  # Fill with parameters
         """
         Args:
         - n (int): bit length of RSA integer to be factored
@@ -81,6 +81,6 @@ class IFEstimator(BaseEstimator):
             +---------------+------+--------+-------+----------+
         """
         super(IFEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
-                                          show_tilde_o_time=show_tilde_o_time,
-                                          show_all_parameters=show_all_parameters,
-                                          precision=precision, truncate=truncate)
+                                       show_tilde_o_time=show_tilde_o_time,
+                                       show_all_parameters=show_all_parameters,
+                                       precision=precision, truncate=truncate)

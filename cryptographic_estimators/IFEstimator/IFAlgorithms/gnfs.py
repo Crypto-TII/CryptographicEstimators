@@ -24,7 +24,7 @@ from math import exp, log
 
 
 class GNFS(IFAlgorithm):
-    
+
     def __init__(self, problem: IFProblem, **kwargs):
         """
         Construct an instance of IFAlgorithm1 estimator
@@ -42,7 +42,7 @@ class GNFS(IFAlgorithm):
         self._name = "GNFS"
         super(GNFS, self).__init__(problem, **kwargs)
 
-    def _time_and_memory_complexity(self, parameters: dict, correctingfactor = True):
+    def _time_and_memory_complexity(self, parameters: dict, correctingfactor=True):
         """
         Return the time complexity of the General Number Field Sieve algorithm for a given set of parameters
 
@@ -64,21 +64,19 @@ class GNFS(IFAlgorithm):
         n = self.problem.parameters["n"]
 
         k = (64 / 9) ** (1 / 3)
-      
-        time_ln = Lfunction(1/3, k, n/lge)           
-        # the multiple lge converts the value to base-2      
-        time = time_ln * lge                    
 
+        time_ln = Lfunction(1/3, k, n/lge)
+        # the multiple lge converts the value to base-2
+        time = time_ln * lge
 
         # memory = storing a matrix of relations size 2pi(B1) X 2pi(B1). Note that the matrix is sparse, with O(n) non-zero entries per row (p. 121 in [Cop93]_)
         B1 = Lfunction(1/3, 2/(3**(2./3)), n/lge)
 
-         # log2(pi(B1)) = log2(B1)-log2(ln(B1)) = B1*lge - log2(B1); adding +1 to account for the factor 2 in 2pi(B1); 
+        # log2(pi(B1)) = log2(B1)-log2(ln(B1)) = B1*lge - log2(B1); adding +1 to account for the factor 2 in 2pi(B1);
         memory = (B1*lge - log2(B1) + 1) + log2(n)
 
         if correctingfactor:
-            time = time - correcting_factor 
-
+            time = time - correcting_factor
 
         return time, memory
 
@@ -88,18 +86,14 @@ class GNFS(IFAlgorithm):
 
         Args:
             parameters: dictionary including the parameters
-        
+
         Returns:
             tuple: (time complexity, memory complexity) of GNFS algorithm without considering the correctingfactor
 
 
         """
-        return self._time_and_memory_complexity(parameters,correctingfactor=False)
-    
+        return self._time_and_memory_complexity(parameters, correctingfactor=False)
+
     def __repr__(self):
-        rep = "General Number Field Sieve algorithm for " + str(self.problem) 
+        rep = "General Number Field Sieve algorithm for " + str(self.problem)
         return rep
-
-        
-    
-
