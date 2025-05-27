@@ -75,7 +75,7 @@ class TrialDivision(IFAlgorithm):
         memory = log_prime_factors_size
 
         # if memory allows to store all primes < < 2^(sqrt(n)), store all primes
-        if memory_bound < log_prime_factors_size:
+        if memory_bound >= log_prime_factors_size:
             tmp = log_prime_factors_size+log2(primality_testing(n))
             if consider_division:
                 tmp = log_prime_factors_size+log2(primality_testing(n)+D(n))
