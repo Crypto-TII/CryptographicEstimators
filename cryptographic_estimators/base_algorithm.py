@@ -471,6 +471,12 @@ class BaseAlgorithm:
             self._memory_complexity = temp_memory_complexity
         return temp_memory_complexity
 
+    def quantum_time_complexity(self):
+        """Return quantum gate complexity
+
+        """
+        raise NotImplementedError
+
     def optimal_parameters(self):
         """Return a dictionary of optimal parameters.
 
