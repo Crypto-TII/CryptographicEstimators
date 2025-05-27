@@ -1,18 +1,20 @@
 # ****************************************************************************
-# Copyright 2023 Technology Innovation Institute
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 # ****************************************************************************
 
 
@@ -57,6 +59,7 @@ class MQEstimator(BaseEstimator):
             | F5               | 27.065 | 23.158 |
             | HybridF5         | 17.906 | 11.720 |
             | Lokshtanov       | 62.854 | 16.105 |
+            | PXL              | 21.947 | 14.099 |
             +------------------+--------+--------+
 
             >>> if skip_long_doctests:
@@ -78,6 +81,7 @@ class MQEstimator(BaseEstimator):
             | F5               | 62.4 |   57.0 |
             | HybridF5         | 45.4 |   16.1 |
             | Lokshtanov       | 87.1 |   42.4 |
+            | PXL              | 49.3 |   19.6 |
             +------------------+------+--------+
 
 
@@ -85,7 +89,7 @@ class MQEstimator(BaseEstimator):
         super(MQEstimator, self).__init__(MQAlgorithm, MQProblem(
             n=n, m=m, q=q, memory_bound=memory_bound, **kwargs), **kwargs)
 
-    def table(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0):
+    def table(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0, *args, **kwargs):
         """Print table describing the complexity of each algorithm and its optimal parameters.
     
         Args:
@@ -115,6 +119,7 @@ class MQEstimator(BaseEstimator):
             | F5               |  77.7 |   71.9 |
             | HybridF5         |  67.3 |   26.7 |
             | Lokshtanov       | 168.8 |   44.9 |
+            | PXL              |  69.8 |   31.4 |
             +------------------+-------+--------+
 
             >>> from cryptographic_estimators.MQEstimator import MQEstimator
@@ -131,6 +136,7 @@ class MQEstimator(BaseEstimator):
             | F5               | 119.3 |  111.9 |                  {}                  | 109.9 |  109.9 |                  {}                  |
             | HybridF5         | 103.8 |   72.4 |               {'k': 6}               |  94.4 |   70.4 |               {'k': 6}               |
             | Lokshtanov       | 620.9 |  164.4 |   {'delta': 0.024390243902439025}    | 147.6 |   16.4 |            {'delta': 0.9}            |
+            | PXL              | 103.3 |   84.2 |               {'k': 9}               |    -- |     -- |                  {}                  |
             +------------------+-------+--------+--------------------------------------+-------+--------+--------------------------------------+
 
             >>> E = MQEstimator(q=2, m=42, n=41, w=2.81)
@@ -149,6 +155,7 @@ class MQEstimator(BaseEstimator):
             | F5               | 85.5 |   57.0 |                 {}                 | 80.1 |   57.0 |                         {}                        |
             | HybridF5         | 45.4 |   16.1 |             {'k': 40}              | 40.0 |   16.1 |                     {'k': 40}                     |
             | Lokshtanov       | 87.1 |   42.4 |  {'delta': 0.024390243902439025}   | 35.9 |    5.1 |                 {'delta': 0.8765}                 |
+            | PXL              | 49.3 |   19.6 |             {'k': 34}              |   -- |     -- |                         {}                        |
             +------------------+------+--------+------------------------------------+------+--------+---------------------------------------------------+
                     
             >>> E = MQEstimator(q=16, n=594, m=64)
@@ -166,6 +173,7 @@ class MQEstimator(BaseEstimator):
             | HybridF5         | 169.2 |   55.6 |             {'k': 21}             | 159.3 |   53.6 |             {'k': 21}             |
             | Lokshtanov       | 682.7 |  224.5 |  {'delta': 0.017857142857142856}  | 201.6 |   22.4 |           {'delta': 0.9}          |
             | Hashimoto        | 129.6 |   28.5 |         {'k': 16, 'a': 18}        |    -- |     -- |                 {}                |
+            | PXL              | 142.1 |  111.6 |             {'k': 12}             |    -- |     -- |                 {}                |
             +------------------+-------+--------+-----------------------------------+-------+--------+-----------------------------------+
 
             >>> E = MQEstimator(q=16, n=312, m=64)
@@ -182,11 +190,12 @@ class MQEstimator(BaseEstimator):
             | F5               | 253.4 |  175.3 |                 {}                | 243.4 |  173.3 |                 {}                |
             | HybridF5         | 182.9 |   56.8 |             {'k': 24}             | 173.0 |   54.8 |             {'k': 24}             |
             | Lokshtanov       | 699.8 |  244.6 |   {'delta': 0.01639344262295082}  | 219.6 |   24.4 |           {'delta': 0.9}          |
-            | Hashimoto        | 152.6 |   49.4 |         {'k': 11, 'a': 6}         |    -- |     -- |                 {}                |
+            | Hashimoto        | 154.7 |   44.5 |         {'k': 14, 'a': 5}         |    -- |     -- |                 {}                |
+            | PXL              | 154.0 |  116.0 |             {'k': 14}             |    -- |     -- |                 {}                |
             +------------------+-------+--------+-----------------------------------+-------+--------+-----------------------------------+
         """
 
         super(MQEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,
                                        show_all_parameters=show_all_parameters,
-                                       precision=precision, truncate=truncate)
+                                       precision=precision, truncate=truncate, *args, **kwargs)

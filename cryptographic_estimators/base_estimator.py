@@ -1,18 +1,20 @@
 # ****************************************************************************
-# Copyright 2023 Technology Innovation Institute
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 # ****************************************************************************
 
 
@@ -239,7 +241,7 @@ class BaseEstimator(object):
                     self.estimates[name][" "]["attack_type"] = algorithm.attack_type
         return self.estimates
 
-    def table(self, show_quantum_complexity=False, show_tilde_o_time=False, show_all_parameters=False, precision=1, truncate=False):
+    def table(self, show_quantum_complexity=False, show_tilde_o_time=False, show_all_parameters=False, precision=1, truncate=False, parameters_inside=False):
         """Print table describing the complexity of each algorithm and its optimal parameters.
     
         Args:
@@ -248,6 +250,7 @@ class BaseEstimator(object):
             show_all_parameters (bool): Show all optimization parameters. Defaults to False.
             precision (int): Number of decimal digits output. Defaults to 1.
             truncate (bool): Truncate rather than round the output. Defaults to False.
+            parameters_inside (bool): Shows the Problem parameters in the top left corner
         """
         self.include_tildeo = show_tilde_o_time
         self.include_quantum = show_quantum_complexity
@@ -261,8 +264,17 @@ class BaseEstimator(object):
                 "No algorithm associated with this estimator or applicable to this problem instance.")
 
         else:
+            title = " "
+            if parameters_inside:
+                vals = [str(a) for a in self.problem.get_parameters()]
+                # NOTE: without the slicing additional parameters like `self`,
+                # or `kwargs` would be added.
+                names = self.__init__.__code__.co_varnames[1:1+len(vals)]
+                v = list(zip(names, vals))
+                title = ",".join([a + ":" + b for (a, b) in v])
+            
             renderer = EstimationRenderer(
-                show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate
+                show_quantum_complexity, show_tilde_o_time, show_all_parameters, precision, truncate, title
             )
 
             return renderer.as_table(estimate)

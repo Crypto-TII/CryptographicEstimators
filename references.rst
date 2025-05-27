@@ -179,6 +179,10 @@ References
            *Improving Thomae-Wolf Algorithm for Solving Underdetermined Multivariate Quadratic Polynomial Problem*
            https://dl.acm.org/doi/10.1007/978-3-030-81293-5_4
 
+.. [FK21] \Hiroki Furue, and Yusuke Kurosawa.
+           *Polynomial XL: A Variant of the XL Algorithm Using Macaulay Matrices over Polynomial Rings*
+           https://eprint.iacr.org/2021/1609
+
 .. _ref-G:
 
 **G**
