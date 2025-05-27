@@ -122,7 +122,7 @@ def get_available_estimators_message() -> str:
     ]
 
     for estimator, functions in sorted(estimators.items()):
-        lines.append(f"└── {estimator.upper()}Estimator")
+        lines.append(f"└── {estimator} (for {estimator.upper()}Estimator)")
         for func in sorted(functions):
             lines.append(f"    └── {func}")
 
