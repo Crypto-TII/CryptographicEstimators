@@ -119,7 +119,7 @@ class BBPS(LEAlgorithm):
              + log2((q - 1)) * (w - 2 * w_prime + 1) - (log2(binom(n, w_prime)) + log2(binom(n - w_prime, w - w_prime))
                                                         + log2(binom(w_prime, 2 * w_prime - w)))
 
-        M_second = pr_w_w_prime + L_prime * 4 - 2 + pw + log2(max(2 ** pr_w_w_prime - 2 / (num_codewords ** 2), 1))
+        M_second = pr_w_w_prime + L_prime * 4 - 2 + pw + log2(2 ** pr_w_w_prime - 2 / (num_codewords ** 2))
         if M_second > 0:
             return inf, inf
 
