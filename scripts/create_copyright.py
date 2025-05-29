@@ -1,6 +1,6 @@
 import os
 
-COPYRIGHT = "# ****************************************************************************\n" + \
+old_COPYRIGHT = "# ****************************************************************************\n" + \
     "# Copyright 2023 Technology Innovation Institute\n" + \
     "#\n" + \
     "# This program is free software: you can redistribute it and/or modify\n" + \
@@ -17,9 +17,31 @@ COPYRIGHT = "# *****************************************************************
     "# along with this program.  If not, see <https://www.gnu.org/licenses/>.\n" + \
     "# ****************************************************************************"
 
+COPYRIGHT = "# ****************************************************************************\n" + \
+    "# Licensed to the Apache Software Foundation (ASF) under one\n" + \
+    "# or more contributor license agreements.  See the NOTICE file\n" + \
+    "# distributed with this work for additional information\n" + \
+    "# regarding copyright ownership.  The ASF licenses this file\n" + \
+    "# to you under the Apache License, Version 2.0 (the\n" + \
+    "# \"License\"); you may not use this file except in compliance\n" + \
+    "# with the License.  You may obtain a copy of the License at\n" + \
+    "# \n" + \
+    "#   http://www.apache.org/licenses/LICENSE-2.0\n" + \
+    "# \n" + \
+    "# Unless required by applicable law or agreed to in writing,\n" + \
+    "# software distributed under the License is distributed on an\n" + \
+    "# \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n" + \
+    "# KIND, either express or implied.  See the License for the\n" + \
+    "# specific language governing permissions and limitations\n" + \
+    "# under the License.\n" +\
+    "# ****************************************************************************"
+
+
 ROOT_FOLDER = "cryptographic_estimators"
 FILES_TO_READ = os.walk(ROOT_FOLDER)
 EXCLUDED_FILES = ["__init__.py"]
+replace = True
+
 
 for root, directories, files in FILES_TO_READ:
     for file in files:
@@ -28,8 +50,12 @@ for root, directories, files in FILES_TO_READ:
             with open(current_file_path, 'r+') as current_file:
                 file_content = current_file.read()
                 current_file.seek(0, 0)
-                # if COPYRIGHT in file_content:
-                #     print("copyright already in file", current_file_path)
+                if replace and (old_COPYRIGHT in file_content):
+                    print("old copyright already in file", current_file_path, 
+                          "will replace it")
+                    file_content = file_content.replace(old_COPYRIGHT, COPYRIGHT)
+                    current_file.write(f'{file_content}')
+
                 if COPYRIGHT not in file_content:
                     current_file.write(f'{COPYRIGHT}\n\n{file_content}')
                     current_file.truncate()
