@@ -9,10 +9,10 @@ SAGE_DOCKERFILE = tests/Dockerfile
 
 DOCTESTS_COMMAND = pytest --doctest-modules -n auto -vv $(PACKAGE)/
 DOCTESTS_FAST_COMMAND = pytest --skip-long-doctests  --doctest-modules -n auto -vv $(PACKAGE)/
-KAT_TESTS_COMMAND = pytest -n auto -vv tests/test_kat.py
+KAT_TESTS_COMMAND = pytest -n auto -vv tests/kat_tests/test_kat.py
 FUNCTIONAL_TESTS_COMMAND = pytest --doctest-modules -n auto -vv \
-													 tests/test_sd.py \
-													 tests/test_mq.py
+													 tests/functional_tests/test_sd.py \
+													 tests/functional_tests/test_mq.py
 
 
 ## Local commands
@@ -137,5 +137,5 @@ docker-sage-shell: docker-sage-build
 docker-sage-generate-kat: docker-sage-build
 	@docker run --rm \
 		-v ./tests:/home/cryptographic_estimators/tests \
-		${SAGE_IMAGE_NAME} sage tests/external_estimators/generate_kat.py
+		${SAGE_IMAGE_NAME} sage tests/kat_tests/external_estimators/generate_kat.py
 
