@@ -1,5 +1,5 @@
-load("tests/external_estimators/helpers/attack_cost.sage")
-load("tests/external_estimators/helpers/cost.sage")
+load("tests/kat_tests/external_estimators/reference_implementations/attack_cost.sage")
+load("tests/kat_tests/external_estimators/reference_implementations/cost.sage")
 
 
 # Correction term due to correction of the LeeBrickell procedure, see SDFqAlgorithms/leebrickell.py line 98/99
