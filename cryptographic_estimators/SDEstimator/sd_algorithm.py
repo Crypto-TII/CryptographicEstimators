@@ -61,7 +61,7 @@ class SDAlgorithm(BaseAlgorithm):
         super().reset()
         try:
             self.initialize_parameter_ranges()
-        except:
+        except ValueError:
             pass
 
     def _are_parameters_invalid(self, parameters: dict):

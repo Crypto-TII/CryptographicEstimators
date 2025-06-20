@@ -37,8 +37,7 @@ class DummyEstimator(BaseEstimator):
                                                                           problem_parameter2=problem_parameter2,
                                                                           memory_bound=memory_bound, **kwargs), **kwargs)
 
-    def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
-              show_all_parameters=0, precision=1, truncate=0):
+    def table(self, show_quantum_complexity=False, show_tilde_o_time=False, show_all_parameters=False, precision=1, truncate=False, parameters_inside=False):
         """Print table describing the complexity of each algorithm and its optimal parameters.
     
         Args:
@@ -51,4 +50,5 @@ class DummyEstimator(BaseEstimator):
         super(DummyEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                           show_tilde_o_time=show_tilde_o_time,
                                           show_all_parameters=show_all_parameters,
-                                          precision=precision, truncate=truncate)
+                                          precision=precision, truncate=truncate, 
+                                          parameters_inside=parameters_inside)

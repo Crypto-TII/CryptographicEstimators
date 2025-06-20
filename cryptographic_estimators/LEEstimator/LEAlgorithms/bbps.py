@@ -110,8 +110,8 @@ class BBPS(LEAlgorithm):
         pr_w_w_prime = log2(binom(w_prime, 2 * w_prime - w)) + log2(binom(n - w_prime, w - w_prime)) - log2(
             binom(n, w_prime))  # zeta probability in the paper
 
-        L_prime = (2 + log2(n) + Nw_prime * 2 - pr_w_w_prime + log2((log(n)))) / 4
-        if L_prime > Nw_prime:
+        LPrime = (2 + log2(n) + Nw_prime * 2 - pr_w_w_prime + log2((log(n)))) / 4
+        if LPrime > Nw_prime:
             return inf, inf
 
         pw = -1 + log2(binom(n, w - w_prime)) + log2(binom(n - (w - w_prime), w - w_prime)) \
@@ -119,7 +119,7 @@ class BBPS(LEAlgorithm):
              + log2((q - 1)) * (w - 2 * w_prime + 1) - (log2(binom(n, w_prime)) + log2(binom(n - w_prime, w - w_prime))
                                                         + log2(binom(w_prime, 2 * w_prime - w)))
 
-        M_second = pr_w_w_prime + L_prime * 4 - 2 + pw + log2(2 ** pr_w_w_prime - 2 / (num_codewords ** 2))
+        M_second = pr_w_w_prime + LPrime * 4 - 2 + pw + log2(2 ** pr_w_w_prime - 2 / (num_codewords ** 2))
         if M_second > 0:
             return inf, inf
 
@@ -127,14 +127,14 @@ class BBPS(LEAlgorithm):
                                            memory_bound=self.problem.memory_bound, **self._SDFqEstimator_parameters)
         c_isd = self.SDFqEstimator.fastest_algorithm().time_complexity()
 
-        time = c_isd + L_prime - Nw_prime
-        # accounting for sampling L_prime different elements from set of Nw_prime elements
-        if L_prime > Nw_prime - 1:
-            time += log2(L_prime)
+        time = c_isd + LPrime - Nw_prime
+        # accounting for sampling LPrime different elements from set of Nw_prime elements
+        if LPrime > Nw_prime - 1:
+            time += log2(LPrime)
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.NW.value] = Nw_prime
-            verbose_information[VerboseInformation.LISTS.value] = L_prime
+            verbose_information[VerboseInformation.LISTS.value] = LPrime
             verbose_information[VerboseInformation.ISD.value] = c_isd
 
         return time, self.SDFqEstimator.fastest_algorithm().memory_complexity()
