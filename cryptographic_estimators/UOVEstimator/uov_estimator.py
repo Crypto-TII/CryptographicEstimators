@@ -1,18 +1,20 @@
 # ****************************************************************************
-# Copyright 2023 Technology Innovation Institute
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 # ****************************************************************************
 
 
@@ -111,20 +113,6 @@ class UOVEstimator(BaseEstimator):
             +--------------------+--------------+-------+--------+------------------------------+
 
 
-            >>> A = UOVEstimator(n=160, m=64, q=16, theta=None)
-            >>> A.table(show_all_parameters=1) # long time
-            +--------------------+--------------+-----------------------------------------------+
-            |                    |              |                    estimate                   |
-            +--------------------+--------------+-------+--------+------------------------------+
-            | algorithm          | attack_type  |  time | memory |          parameters          |
-            +--------------------+--------------+-------+--------+------------------------------+
-            | DirectAttack       |   forgery    | 159.7 |  126.9 | {'k': 12, 'variant': 'PXL'}  |
-            | KipnisShamir       | key-recovery | 153.7 |   22.6 |              {}              |
-            | CollisionAttack    |   forgery    | 141.0 |  131.7 | {'X': 132.618, 'Y': 121.747} |
-            | IntersectionAttack | key-recovery | 176.2 |   76.9 |           {'k': 3}           |
-            +--------------------+--------------+-------+--------+------------------------------+
-
-
             >>> A = UOVEstimator(n=184, m=72, q=256, theta=None)
             >>> A.table(show_all_parameters=1) # long time
             +--------------------+--------------+-----------------------------------------------+
@@ -138,19 +126,6 @@ class UOVEstimator(BaseEstimator):
             | IntersectionAttack | key-recovery | 249.9 |  117.9 |           {'k': 2}           |
             +--------------------+--------------+-------+--------+------------------------------+
 
-            
-            >>> A = UOVEstimator(n=244, m=96, q=256, theta=None)
-            >>> A.table(show_all_parameters=1) # long time
-            +--------------------+--------------+---------------------------------------------------------+
-            |                    |              |                         estimate                        |
-            +--------------------+--------------+-------+--------+----------------------------------------+
-            | algorithm          | attack_type  |  time | memory |               parameters               |
-            +--------------------+--------------+-------+--------+----------------------------------------+
-            | DirectAttack       |   forgery    | 277.9 |  108.6 | {'k': 6, 'variant': 'BooleanSolveFXL'} |
-            | KipnisShamir       | key-recovery | 445.3 |   25.4 |                   {}                   |
-            | CollisionAttack    |   forgery    | 397.8 |  389.5 |      {'X': 387.826, 'Y': 378.539}      |
-            | IntersectionAttack | key-recovery | 311.6 |  148.3 |                {'k': 2}                |
-            +--------------------+--------------+-------+--------+----------------------------------------+
         """
         super(UOVEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                         show_tilde_o_time=show_tilde_o_time,
