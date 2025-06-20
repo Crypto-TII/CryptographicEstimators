@@ -61,6 +61,8 @@ class SDAlgorithm(BaseAlgorithm):
         super().reset()
         try:
             self.initialize_parameter_ranges()
+        except AttributeError:
+            pass
         except ValueError:
             pass
 
