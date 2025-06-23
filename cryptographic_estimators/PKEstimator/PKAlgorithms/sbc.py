@@ -179,6 +179,6 @@ class SBC(PKAlgorithm):
 
     def _get_verbose_information(self):
         """Returns a dictionary containing additional algorithm information."""
-        verb = dict()
+        verb = {}
         _ = self._compute_time_and_memory(self.optimal_parameters(), verbose_information=verb)
         return verb

@@ -147,7 +147,7 @@ class BJMM(SDAlgorithm):
 
     def get_optimal_parameters_dict(self):
         """Returns the optimal parameters dictionary."""
-        a = dict()
+        a = {}
         a.update(self._optimal_parameters)
         if self.depth() == 2:
             a.update(self.BJMM_depth_2.get_optimal_parameters_dict())
