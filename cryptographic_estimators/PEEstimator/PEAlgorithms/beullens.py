@@ -113,7 +113,7 @@ class Beullens(PEAlgorithm):
 
     def _get_verbose_information(self):
         """Returns a dictionary containing additional algorithm information."""
-        verb = dict()
+        verb = {}
         _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)
         return verb
 
