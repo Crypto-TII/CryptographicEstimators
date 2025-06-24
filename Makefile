@@ -112,7 +112,7 @@ docker-kat-tests: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
 		|| true
 	@echo "Running KAT..."
-	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "${KAT_TESTS_COMMAND}"
+	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "${KAT_TESTS_COMMAND}"="all"
 
 docker-functional-tests: CONTAINER_NAME := "pytest-container"
 docker-functional-tests: docker-build
