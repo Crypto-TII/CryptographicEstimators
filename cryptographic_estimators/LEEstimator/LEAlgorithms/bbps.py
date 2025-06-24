@@ -1,18 +1,20 @@
 # ****************************************************************************
-# Copyright 2023 Technology Innovation Institute
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 # ****************************************************************************
 
 from ..le_algorithm import LEAlgorithm
@@ -110,8 +112,8 @@ class BBPS(LEAlgorithm):
         pr_w_w_prime = log2(binom(w_prime, 2 * w_prime - w)) + log2(binom(n - w_prime, w - w_prime)) - log2(
             binom(n, w_prime))  # zeta probability in the paper
 
-        L_prime = (2 + log2(n) + Nw_prime * 2 - pr_w_w_prime + log2((log(n)))) / 4
-        if L_prime > Nw_prime:
+        LPrime = (2 + log2(n) + Nw_prime * 2 - pr_w_w_prime + log2((log(n)))) / 4
+        if LPrime > Nw_prime:
             return inf, inf
 
         pw = -1 + log2(binom(n, w - w_prime)) + log2(binom(n - (w - w_prime), w - w_prime)) \
@@ -119,7 +121,7 @@ class BBPS(LEAlgorithm):
              + log2((q - 1)) * (w - 2 * w_prime + 1) - (log2(binom(n, w_prime)) + log2(binom(n - w_prime, w - w_prime))
                                                         + log2(binom(w_prime, 2 * w_prime - w)))
 
-        M_second = pr_w_w_prime + L_prime * 4 - 2 + pw + log2(2 ** pr_w_w_prime - 2 / (num_codewords ** 2))
+        M_second = pr_w_w_prime + LPrime * 4 - 2 + pw + log2(2 ** pr_w_w_prime - 2 / (num_codewords ** 2))
         if M_second > 0:
             return inf, inf
 
@@ -127,14 +129,14 @@ class BBPS(LEAlgorithm):
                                            memory_bound=self.problem.memory_bound, **self._SDFqEstimator_parameters)
         c_isd = self.SDFqEstimator.fastest_algorithm().time_complexity()
 
-        time = c_isd + L_prime - Nw_prime
-        # accounting for sampling L_prime different elements from set of Nw_prime elements
-        if L_prime > Nw_prime - 1:
-            time += log2(L_prime)
+        time = c_isd + LPrime - Nw_prime
+        # accounting for sampling LPrime different elements from set of Nw_prime elements
+        if LPrime > Nw_prime - 1:
+            time += log2(LPrime)
 
         if verbose_information is not None:
             verbose_information[VerboseInformation.NW.value] = Nw_prime
-            verbose_information[VerboseInformation.LISTS.value] = L_prime
+            verbose_information[VerboseInformation.LISTS.value] = LPrime
             verbose_information[VerboseInformation.ISD.value] = c_isd
 
         return time, self.SDFqEstimator.fastest_algorithm().memory_complexity()
@@ -147,7 +149,7 @@ class BBPS(LEAlgorithm):
 
     def _get_verbose_information(self):
         """Returns a dictionary containing additional algorithm information."""
-        verb = dict()
+        verb = {}
         _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)
         return verb
 
