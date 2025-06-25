@@ -20,9 +20,9 @@
 
 from ..if_algorithm import IFAlgorithm
 from ..if_problem import IFProblem
-from ..if_constants import *
-from ..if_helper import *
-from math import exp, log
+from ..if_constants import correcting_factor, lge
+from ..if_helper import Lfunction
+from math import exp, log2
 
 
 class GNFS(IFAlgorithm):

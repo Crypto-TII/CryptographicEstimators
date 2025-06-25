@@ -44,7 +44,8 @@ class IFEstimator(BaseEstimator):
         )
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
-              show_all_parameters=0, precision=1, truncate=0):
+              show_all_parameters=0, precision=1, truncate=0, parameters_inside=False,
+              *args, **kwargs):
         """Print table describing the complexity of each algorithm and its optimal parameters
 
         Args:
@@ -53,6 +54,7 @@ class IFEstimator(BaseEstimator):
             - show_all_parameters (int, optional) -- show all optimization parameters (default: False)
             - precision (int, optional) -- number of decimal digits output (default: 1)
             - truncate (int, optional) -- truncate rather than round the output (default: False)
+            - parameters_inside (bool): Shows the Problem parameters in the top left corner
 
         Examples:
             >>> from cryptographic_estimators.IFEstimator import *
@@ -85,4 +87,5 @@ class IFEstimator(BaseEstimator):
         super(IFEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                        show_tilde_o_time=show_tilde_o_time,
                                        show_all_parameters=show_all_parameters,
-                                       precision=precision, truncate=truncate)
+                                       precision=precision, truncate=truncate,
+                                       parameters_inside, *args, **kwargs)

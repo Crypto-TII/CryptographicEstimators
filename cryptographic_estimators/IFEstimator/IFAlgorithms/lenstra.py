@@ -20,7 +20,7 @@
 
 from ..if_algorithm import IFAlgorithm
 from ..if_problem import IFProblem
-from ..if_helper import *
+from ..if_helper import Lfunction
 from math import log2, sqrt
 
 

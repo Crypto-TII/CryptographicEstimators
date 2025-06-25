@@ -20,8 +20,8 @@
 
 from ..if_algorithm import IFAlgorithm
 from ..if_problem import IFProblem
-from ..if_helper import *
-from math import floor
+from ..if_helper import primality_testing, D
+from math import floor, log2
 
 
 class TrialDivision(IFAlgorithm):
