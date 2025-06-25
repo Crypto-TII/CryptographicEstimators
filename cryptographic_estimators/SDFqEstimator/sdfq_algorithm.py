@@ -56,7 +56,7 @@ class SDFqAlgorithm(BaseAlgorithm):
                 - REPRESENTATIONS
                 - LISTS
         """
-        verb = dict()
+        verb = {}
         _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)
         return verb
 

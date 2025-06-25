@@ -141,7 +141,7 @@ class PXL(MQAlgorithm):
             return max(time_1, time_2)
         
         except OverflowError:
-            self._verbose_information = dict()
+            self._verbose_information = {}
             return inf
 
     def _compute_memory_complexity(self, parameters: dict):
