@@ -7,5 +7,5 @@ make docker-fuzzing
 
 Next you can run it via:
 ```bash 
-docker run --it --rm cf-fuzzer ./tests/fuzzing/fuzz.py --sd 
+docker run --rm cf-fuzzer ./tests/fuzzing/fuzz.py --sd 
 ```
