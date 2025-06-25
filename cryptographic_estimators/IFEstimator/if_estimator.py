@@ -88,4 +88,4 @@ class IFEstimator(BaseEstimator):
                                        show_tilde_o_time=show_tilde_o_time,
                                        show_all_parameters=show_all_parameters,
                                        precision=precision, truncate=truncate,
-                                       parameters_inside, *args, **kwargs)
+                                       parameters_inside=parameters_inside, *args, **kwargs)
