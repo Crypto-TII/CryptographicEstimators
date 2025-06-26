@@ -120,6 +120,8 @@ class Lokshtanov(MQAlgorithm):
         n, _, q = self.get_reduced_parameters()
         if delta is None:
             return inf
+
+        assert isinstance(delta, float)
         if delta <= 0 or delta >= 1:
             raise ValueError("delta must be in the range 0 < delta < 1")
 
