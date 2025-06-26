@@ -116,14 +116,14 @@ class Lokshtanov(MQAlgorithm):
             >>> E.time_complexity(delta=2/10)
             210.99786719362038
         """
-        delta = parameters["delta"]
+        delta = float(parameters["delta"])
         n, _, q = self.get_reduced_parameters()
         if delta is None:
             return inf
 
-        assert isinstance(delta, float)
+        delta = float(delta) #To stop SonarClould complain
         if delta <= 0 or delta >= 1:
-            raise ValueError("delta must be in the range 0 < delta < 1")
+            raise ValueError("delta must be a float in the range 0 < delta < 1")
 
         n_temp = n - 1
         np = floor(delta * n_temp)
