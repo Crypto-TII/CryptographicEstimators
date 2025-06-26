@@ -116,8 +116,8 @@ class Lokshtanov(MQAlgorithm):
             >>> E.time_complexity(delta=2/10)
             210.99786719362038
         """
-        delta = float(parameters["delta"])
         n, _, q = self.get_reduced_parameters()
+        delta = parameters["delta"]
         if delta is None:
             return inf
 
