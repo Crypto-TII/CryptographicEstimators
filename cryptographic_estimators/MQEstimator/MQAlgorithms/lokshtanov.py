@@ -121,7 +121,8 @@ class Lokshtanov(MQAlgorithm):
         if delta is None:
             return inf
 
-        delta = float(delta) #To stop SonarClould complain
+        # Explicit float cast to help static analysis tools like SonarCloud
+        delta = float(delta)
         if delta <= 0 or delta >= 1:
             raise ValueError("delta must be a float in the range 0 < delta < 1")
 
