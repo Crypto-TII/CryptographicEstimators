@@ -29,7 +29,7 @@ dependencies = [
   "prettytable",
   "pytest",
   "pytest-xdist",
-  "python-flint",
+  "python-flint==0.7.1",
   "pytest-cov",
   "pyyaml",
   "sympy",
