@@ -62,6 +62,16 @@ source .venv/bin/activate
   Prerequisites section in this document, so you don't need
   to use `sudo` to interact with python/pip related commands.
 
+#### Optional: Running in a SageMath Environment
+
+If you want to use the library within a SageMath environment (for example, to experiment interactively or debug KAT estimators), you can use the provided Sage Docker image:
+
+```bash
+make docker-sage-repl
+```
+
+This will launch a Sage REPL with the library already installed and ready to use. For more advanced options (such as opening a shell), see the Makefile or the [testing documentation](./docs/github/tests.md).
+
 ### Running the project ✈️
 
 Open the Python interpreter in a terminal and import the library as shown in the

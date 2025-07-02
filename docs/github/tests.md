@@ -140,16 +140,16 @@ def ext_lee_brickell():
 
 #### 2. Generate reference KAT values
 
-> :warning: **Warning:** This step might take a while as it builds and runs a
-> Docker container with SageMath.
+> :warning: **Warning:** This step might take a while as it builds and runs a Docker container with SageMath.
 
-- From the library root, run the following Docker command to generate the
-  reference KAT values. These are generated based on your KAT generator
-  functions and their hardcoded inputs.
+- From the library root, run the following command to generate the reference KAT values using the Sage Docker environment.  
+  This process will use your KAT generator functions (with their hardcoded inputs) to compute and serialize the expected outputs:
 
   ```bash
-  make docker-generate-kat
+  make docker-sage-generate-kat
   ```
+
+  This command will build the Sage Docker image if needed, then run the KAT generation script inside the container. For more details on the Sage Docker environment and available commands, see the [Sage Docker Environment for KAT Development and Debugging](#sage-docker-environment-for-kat-development-and-debugging) section at the end of this document.
 
 - This process creates or updates the `tests/kat_tests/kat.yaml` file, which will now
   include your defined KAT generator functions with their outputs, organized
@@ -508,3 +508,18 @@ After editing it to your needs it can look like this for the `DummyEstimator`:
 
 Notice that you do not have to specify any algorithm in this configuration file,
 as this is all done automatically.
+
+## Sage Docker Environment for KAT Development and Debugging
+
+For advanced KAT development, debugging, or SageMath-based exploration, a dedicated Sage Dockerfile is provided in the `tests/` directory. This environment is not used by the CI, but is intended for local development and debugging.
+
+The following Makefile commands are available:
+
+- `make docker-sage-build`: Build the Sage Docker image.
+- `make docker-sage-repl`: Launch a Sage REPL with the library already installed.
+- `make docker-sage-shell`: Open an interactive shell (sh) within the Sage container.
+- `make docker-sage-generate-kat`: Generate Known Answer Test (KAT) values (this may take some time).
+
+This is especially useful for writing or debugging external KAT estimators, or for exploring the library in a Sage environment.
+
+For more details, see [PR #259](https://github.com/Crypto-TII/CryptographicEstimators/pull/259).
