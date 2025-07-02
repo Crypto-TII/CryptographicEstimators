@@ -53,13 +53,7 @@ source .venv/bin/activate
 
 ### Installation 🛠
 
-- run `pip install cryptographic_estimators` from your terminal
-
-or
-  
-- Clone and `cd` into the project directory.
-
-- Run `make install` to install the `cryptographic_estimators` library locally.
+- Run `pip install cryptographic_estimators` from your terminal.
 
   _Note:_ If you encounter some permission error, please try creating a virtual
   environment with the steps mentioned in the
@@ -110,7 +104,8 @@ involvement and warmly welcome your contributions.
 2. **Read the Contribution Guide**: Before submitting a pull request, please
    take a moment to review our
    [Contribution Documentation](./docs/github/contributing.md). It contains
-   important information about our development guidelines and process.
+   important information about our development guidelines and process, including
+   how to install the library in development mode.
 
 3. **Ask for Help**: Stuck on something? Don't hesitate to reach out! You can:
 
