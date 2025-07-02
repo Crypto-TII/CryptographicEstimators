@@ -33,3 +33,4 @@ need:
   - [Tests](./tests.md)
 - Documentation guidelines
   - [Docstrings and HTML documentation](./docstrings_and_html.md)
+  - [Documentation generation commands](./documentation.md)

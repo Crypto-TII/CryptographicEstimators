@@ -242,6 +242,24 @@ Or by manually executing:
 pytest tests/kat_tests/test_kat.py --target-kat=all
 ```
 
+##### Running Functional Tests
+
+To run functional tests (which test specific functionality of estimators):
+
+```bash
+make functional-tests
+```
+
+##### Running All Tests
+
+To run all tests (functional tests, doctests, and KAT tests) in sequence:
+
+```bash
+make tests-all
+```
+
+This is equivalent to running `make functional-tests && make doctests && make kat-tests` and is useful for comprehensive testing before submitting changes.
+
 ##### Targeting Specific KAT Tests
 
 The library provides a powerful targeting mechanism to run only a subset of the KATs,
@@ -523,3 +541,31 @@ The following Makefile commands are available:
 This is especially useful for writing or debugging external KAT estimators, or for exploring the library in a Sage environment.
 
 For more details, see [PR #259](https://github.com/Crypto-TII/CryptographicEstimators/pull/259).
+
+## Docker Variants for Testing
+
+For systems where installing the library dependencies might be challenging (such as NixOS or other specialized distributions), Docker variants of the testing commands are available. These commands run the same tests inside a container with the library already installed and configured.
+
+### Available Docker Testing Commands
+
+- `make docker-doctests`: Run all doctests in a Docker container
+- `make docker-doctests-fast`: Run only fast doctests in a Docker container
+- `make docker-functional-tests`: Run functional tests in a Docker container
+- `make docker-kat-tests`: Run all KAT tests in a Docker container
+- `make docker-tests-all`: Run all tests (functional, doctests, and KAT) in a Docker container
+
+### Usage
+
+These commands are equivalent to their non-Docker counterparts but run inside a containerized environment. They automatically build the Docker image if needed and clean up containers after execution.
+
+For example, instead of running `make tests-all` locally, you can use `make docker-tests-all` to run the same comprehensive test suite in an isolated environment.
+
+### Coverage Testing
+
+For code coverage analysis in Docker:
+
+```bash
+make docker-pytest-cov
+```
+
+This generates a coverage report in XML format that can be used with coverage analysis tools.
