@@ -215,16 +215,86 @@ def lee_brickell(input, epsilon = 0.01):
 #### 4. Run Your Tests
 
 With your KAT generator functions, internal estimator implementations, and
-generated reference values in place, you're ready to run your tests! Use the
-following command from your library's root directory:
+generated reference values in place, you're ready to run your tests! The
+CryptographicEstimators library provides several ways to run KAT tests, from
+running all tests to targeting specific estimators or individual test functions.
+
+##### Running All KAT Tests
+
+To run all KAT tests, use one of the following commands from your library's root directory:
 
 ```bash
-make docker-pytest
+make kat-tests
 ```
 
-Or by manually executing
-`pytest tests/validations/test_<your_new_estimator>.py`. The output will
-indicate whether your internal estimators align with the expected KAT values
+Or with Docker:
+
+```bash
+make docker-kat-tests
+```
+
+Or by manually executing:
+```bash
+pytest tests/kat_tests/test_kat.py --target-kat=all
+```
+
+##### Targeting Specific KAT Tests
+
+The library provides a powerful targeting mechanism to run only a subset of the KATs,
+which is particularly useful for debugging and estimator development. The `TARGET`
+parameter is case-insensitive.
+
+###### Run All Tests (Default Behavior)
+```bash
+make kat-tests-target
+# or
+make kat-tests-target TARGET=all
+```
+
+###### Target a Specific Estimator
+To run only the KATs for a specific estimator (e.g., LEEstimator):
+
+```bash
+make kat-tests-target TARGET=le
+```
+
+This will run all KAT functions associated with the LEEstimator.
+
+###### Target a Specific KAT Function
+To run only a specific KAT function (e.g., `bbps_1`):
+
+```bash
+make kat-tests-target TARGET=bbps_1
+```
+
+This will run only the `bbps_1` test function for the estimator that implements it.
+
+###### Invalid Target Handling
+If you provide an invalid target, the system will display an error message with
+all available targets. For example:
+
+```bash
+make kat-tests-target TARGET=invalid
+```
+
+This will output something like:
+```
+Available estimators and functions:
+===================================
+└── le (for LEEstimator)
+    └── bbps_1
+    └── bbps_2
+    └── bbps_range
+    └── beullens
+    └── beullens_range
+  ...
+```
+
+For more fine-grained control over test execution, you can examine the corresponding
+implementations of the Makefile commands in the project's `Makefile` to understand
+how to adapt the test running commands for your specific needs.
+
+The output will indicate whether your internal estimators align with the expected KAT values
 within the defined error tolerance.
 
 ## Writing Doctests
