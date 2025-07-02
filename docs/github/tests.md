@@ -59,24 +59,25 @@ flowchart LR;
 ```
 
 1. **KAT Generator Functions:** We utilize KAT generator functions located in
-   the `tests/external_estimators` directory. These functions have hardcoded
+   the `tests/kat_tests/external_estimators/` directory. These functions have hardcoded
    inputs as they are not intended for regular modification. Both input
    parameters and their corresponding outputs (referred to as `expected_outputs`
-   as they act as reference values) are serialized into the `tests/kat.yaml`
+   as they act as reference values) are serialized into the `tests/kat_tests/kat.yaml`
    file for later use during estimator testing.
 
 2. **Internal Estimation Functions:** With a collection of inputs and their
    expected outputs, we define how these inputs should be processed within our
    library in order to match the configuration of the external estimator. This
    is achieved through internal estimation functions found in the
-   `tests/internal_estimators` directory. Each function corresponds to a KAT
-   generator in `tests/external_estimators`.
+   `tests/kat_tests/internal_estimators/` directory. Each function corresponds to a KAT
+   generator in `tests/kat_tests/external_estimators/`.
 
 3. **Test Execution and Comparison:** In the final step, we execute all our
    internal estimation functions using the serialized inputs from
-   `test/kat.yaml`. The calculated outputs are then compared against the
+   `tests/kat_tests/kat.yaml`. The calculated outputs are then compared against the
    expected outputs from the KAT generators to verify the accuracy of the
-   CryptographicEstimators library.
+   CryptographicEstimators library. The main KAT test runner is
+   `tests/kat_tests/test_kat.py`.
 
 This separation of concerns makes it easier to maintain and extend the test
 suite as we introduce new estimators or modify existing ones.
@@ -95,8 +96,11 @@ wrappers of external estimators of the complexity of particular algorithms.
 Hence, these functions require careful crafting.
 
 - Begin by creating a new file named `ext_<estimator_name>` within the
-  `tests/external_estimators/` directory. This file can be written in either
+  `tests/kat_tests/external_estimators/` directory. This file can be written in either
   Sage or Python, as our framework supports both formats.
+
+  If you need to use or reference shared code or external reference implementations,
+  you can find them in `tests/kat_tests/external_estimators/reference_implementations/`.
 
 - Inside this file, define your KAT generator function using the naming
   convention `ext_<algorithm_name>`. These functions contain the logic to
@@ -147,7 +151,7 @@ def ext_lee_brickell():
   make docker-generate-kat
   ```
 
-- This process creates or updates the `tests/kat.yaml` file, which will now
+- This process creates or updates the `tests/kat_tests/kat.yaml` file, which will now
   include your defined KAT generator functions with their outputs, organized
   within a dictionary. Note that the `ext_` prefix used in the code is removed
   for easier readability in the YAML file.
@@ -159,10 +163,10 @@ library's internal estimators – functions that mirror the KAT generators but
 implement our algorithms. These internal estimators are what we rigorously test
 against the KAT values.
 
-- Create a new file in the `tests/internal_estimators` directory with a name
+- Create a new file in the `tests/kat_tests/internal_estimators` directory with a name
   that matches your KAT generator file from step 1, but without the `ext_`
-  prefix. For instance, if you created `tests/external_estimators/ext_sdfq.py`,
-  your new file would be `tests/internal_estimators/sdfq.py`.
+  prefix. For instance, if you created `tests/kat_tests/external_estimators/ext_sdfq.py`,
+  your new file would be `tests/kat_tests/internal_estimators/sdfq.py`.
 
 - Within this new file, define a corresponding internal estimation function for
   each KAT generator function from step 1. Use the same function name but remove
