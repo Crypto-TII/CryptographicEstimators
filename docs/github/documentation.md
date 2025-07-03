@@ -76,6 +76,6 @@ The generated documentation includes:
 
 ## Notes
 
-- The documentation generation process requires the library to be installed (either in development mode or via pip)
+- The documentation generation process requires the library to be installed.
 - RST files are automatically generated from docstrings, so keeping docstrings up-to-date ensures accurate documentation
 - The Docker variant is particularly useful for CI/CD pipelines or systems with limited package management options 
