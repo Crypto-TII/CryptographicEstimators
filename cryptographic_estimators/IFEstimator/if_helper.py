@@ -32,7 +32,7 @@ def Lfunction(alpha, beta, logN):
         float: the exponent of the L-function
 
     Examples:
-        >>> from cryptographic_estimators.IFEstimator.if_helper import M
+        >>> from cryptographic_estimators.IFEstimator.if_helper import Lfunction
         >>> n = 1024
         >>> Lfunction(0.5, 1, n)
         84.2486031274931
