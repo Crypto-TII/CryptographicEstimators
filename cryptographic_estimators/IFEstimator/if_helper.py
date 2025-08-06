@@ -70,7 +70,7 @@ FFT_threshold = limb * 5760
 # complexity of multiplication of 2 n-bit integers
 
 
-def M(n):
+def multipication_complexity(n):
     """Computes the time complexity of multiplying two n-bit integers.
 
     Args:
@@ -82,7 +82,7 @@ def M(n):
     Examples:
         >>> from cryptographic_estimators.IFEstimator.if_helper import M
         >>> n = 1024
-        >>> M(n)
+        >>> multipication_complexity(n)
         1048576
     """
     if n < Karatsuba_threshold:
@@ -98,7 +98,7 @@ def M(n):
         return n*log2(n)*log2(log2(n))
 
 
-def D(n):
+def division_complexity(n):
     """Computes the time complexity of dividing a 2n-bit integer by an n-bit integer.
         See Thm. 1.4.2 in [BZ10]_ https://arxiv.org/pdf/1004.4710
 
@@ -111,13 +111,13 @@ def D(n):
     Examples:
         >>> from cryptographic_estimators.IFEstimator.if_helper import M
         >>> n = 1024
-        >>> D(n)
+        >>> division_complexity(n)
         1051648
     """
     if (n < 200):
         return n**2
     else:
-        return 2*D(ceil(n/2))+2*M(ceil(n/2)) + n
+        return 2*division_complexity(ceil(n/2))+2*multipication_complexity(ceil(n/2)) + n
 
 
 def primality_testing(n):

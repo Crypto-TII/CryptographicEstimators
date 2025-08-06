@@ -20,7 +20,7 @@
 
 from ..if_algorithm import IFAlgorithm
 from ..if_problem import IFProblem
-from ..if_helper import primality_testing, D
+from ..if_helper import primality_testing, division_complexity
 from math import floor, log2
 
 
@@ -72,7 +72,7 @@ class TrialDivision(IFAlgorithm):
         # naive brute force
         time = (n/2 - 1)
         if consider_division:
-            time += log2(D(n))
+            time += log2(division_complexity(n))
 
         memory = log_prime_factors_size
 
@@ -80,7 +80,7 @@ class TrialDivision(IFAlgorithm):
         if memory_bound >= log_prime_factors_size:
             tmp = log_prime_factors_size+log2(primality_testing(n))
             if consider_division:
-                tmp = log_prime_factors_size+log2(primality_testing(n)+D(n))
+                tmp = log_prime_factors_size+log2(primality_testing(n)+division_complexity(n))
             if tmp < time:
                 time = tmp
                 memory = log_prime_factors_size
