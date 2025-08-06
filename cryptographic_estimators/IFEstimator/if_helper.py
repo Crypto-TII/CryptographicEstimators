@@ -53,7 +53,7 @@ def pifunction(x):
         int: the number of primes less than or equal to x, rounded up
 
     Examples:
-        >>> from cryptographic_estimators.IFEstimator.if_helper import M
+        >>> from cryptographic_estimators.IFEstimator.if_helper import pifunction
         >>> pifunction(127)
         27
     """
