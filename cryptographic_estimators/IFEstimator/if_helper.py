@@ -80,7 +80,7 @@ def multipication_complexity(n):
         float: the time complexity of the multiplication operation
 
     Examples:
-        >>> from cryptographic_estimators.IFEstimator.if_helper import M
+        >>> from cryptographic_estimators.IFEstimator.if_helper import multipication_complexity
         >>> n = 1024
         >>> multipication_complexity(n)
         1048576
@@ -109,7 +109,7 @@ def division_complexity(n):
         float: the time complexity of the division operation
 
     Examples:
-        >>> from cryptographic_estimators.IFEstimator.if_helper import M
+        >>> from cryptographic_estimators.IFEstimator.if_helper import division_complexity
         >>> n = 1024
         >>> division_complexity(n)
         1051648
@@ -131,7 +131,7 @@ def primality_testing(n):
         float: the time complexity of the Miller-Rabin primality test
 
     Examples:
-        >>> from cryptographic_estimators.IFEstimator.if_helper import M
+        >>> from cryptographic_estimators.IFEstimator.if_helper import primality_testing
         >>> n = 1024
         >>> primality_testing(n)
         68719476736
