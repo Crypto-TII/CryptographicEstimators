@@ -108,6 +108,9 @@ References
            *Attacking and Defending the McEliece Cryptosystem*
            https://link.springer.com/chapter/10.1007/978-3-540-88403-3_3
 
+.. [BZ10] \Richard P. Brent and Paul Zimmermann.
+          *Modern Computer Arithmetic*
+          https://arxiv.org/pdf/1004.4710
 
 .. _ref-C:
 
@@ -124,6 +127,10 @@ References
 .. [CKPS] \Nicolas Courtois, Alexander Klimov, Jacques Patarin, and Adi Shamir.
           *Efficient Algorithms for Solving Overdefined Systems of Multivariate Polynomial Equations*
           https://www.iacr.org/archive/eurocrypt2000/1807/18070398-new.pdf
+
+.. [Cop93] \Don Coppersmith
+           *Modifications  to the Number  Field  Sieve*
+           https://link.springer.com/article/10.1007/BF00198464
           
 .. [CS96]  \Florent Chabaud, Jacques Stern.
             *The cryptographic security of the syndrome decoding problem for rank distance codes*
@@ -184,6 +191,11 @@ References
            *On the Complexity of the Rank Syndrome Decoding Problem*
            https://doi.org/10.1109/TIT.2015.2511786
 
+.. [GMPlink] https://gmplib.org/repo/gmp/file/tip/mpn/arm/gmp-mparam.h
+
+.. [GuiSlides] \Aurore Guillevic
+               *RSA, integer factorization, record computations* (slides) 
+               https://people.rennes.inria.fr/Aurore.Guillevic/talks/2024-07-Douala/24-07-Douala-RSA.pdf
 
 .. _ref-H:
 
@@ -227,6 +239,10 @@ References
 .. [LB88] \Pil Joong Lee and Ernest Brickell.
                 *An Observation on the Security of McEliece’s Public-Key Cryptosystem*
                 https://doi.org/10.1007/3-540-45961-8_25
+
+.. [Len17] \Arjen K. Lenstra
+            *General purpose integer factoring*
+            https://eprint.iacr.org/2017/1087.pdf
 
 .. [Leo82] \Jeffrey S. Leon.
             *Computing automorphism groups of error-correcting codes*
