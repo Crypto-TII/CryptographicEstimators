@@ -108,6 +108,9 @@ References
            *Attacking and Defending the McEliece Cryptosystem*
            https://link.springer.com/chapter/10.1007/978-3-540-88403-3_3
 
+.. [BCTVV25] \John Baena, Daniel Cabarcas, Sharwan K. Tiwari, Javier Verbel and Luis Villota
+             *Admissible parameters for the Crossbred algorithm and semi-regular sequences over finite fields*
+             https://link.springer.com/article/10.1007/s10623-025-01610-2
 .. [BZ10] \Richard P. Brent and Paul Zimmermann.
           *Modern Computer Arithmetic*
           https://arxiv.org/pdf/1004.4710
