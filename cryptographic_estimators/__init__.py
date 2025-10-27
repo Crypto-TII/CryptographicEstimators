@@ -15,6 +15,7 @@ from .MREstimator import *
 from .UOVEstimator import *
 from .MAYOEstimator import *
 from .RankSDEstimator import *
+from .IFEstimator import *
 
 # WARNING:
 # This sets the MAXIMUM number of coefficients that can be calculated for any
