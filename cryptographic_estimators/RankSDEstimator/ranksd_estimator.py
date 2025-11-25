@@ -71,12 +71,12 @@ class RankSDEstimator(BaseEstimator):
                | algorithm           |  time | memory |         parameters        |
                +---------------------+-------+--------+---------------------------+
                | BasisEnumeration    | 206.0 |   17.6 |             {}            |
-               | OJ1                 | 160.6 |   16.5 |             {}            |
-               | OJ2                 | 204.9 |   15.9 |             {}            |
+               | OJ1                 | 151.5 |   16.5 |             {}            |
+               | OJ2                 | 220.7 |   15.9 |             {}            |
                | GRS                 | 162.2 |   18.2 |             {}            |
                | ImprovedGRS         | 147.2 |   18.0 |             {}            |
                | GuessingEnhancedGRS | 138.3 |   18.1 |          {'t': 1}         |
-               | HybridLinearization | 174.4 |   12.4 |         {'t': 15}         |
+               | AnnulatorPolynomial | 174.4 |   12.4 |         {'t': 15}         |
                | MaxMinors           | 153.0 |   33.0 |     {'a': 12, 'p': 2}     |
                | SupportMinors       | 155.1 |   40.1 | {'b': 1, 'a': 11, 'p': 0} |
                +---------------------+-------+--------+---------------------------+
@@ -84,8 +84,8 @@ class RankSDEstimator(BaseEstimator):
            Tests:
 
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_estimator import RankSDEstimator
-               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms import BasisEnumeration,GRS,OJ1,OJ2,HybridLinearization
-               >>> RSDE = RankSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2,HybridLinearization])
+               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms import BasisEnumeration,GRS,OJ1,OJ2,AnnulatorPolynomial
+               >>> RSDE = RankSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2,AnnulatorPolynomial])
                >>> RSDE.table(show_all_parameters=1)
                +---------------------+--------------------------------------------+
                |                     |                  estimate                  |
@@ -99,7 +99,7 @@ class RankSDEstimator(BaseEstimator):
                +---------------------+-------+--------+---------------------------+
 
 
-               >>> RSDE = RankSDEstimator(q=2, m=37, n=41, k=18, r=13, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2,HybridLinearization])
+               >>> RSDE = RankSDEstimator(q=2, m=37, n=41, k=18, r=13, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2,AnnulatorPolynomial])
                >>> RSDE.table(show_all_parameters=1)
                +---------------------+--------------------------------------------+
                |                     |                  estimate                  |
@@ -113,7 +113,7 @@ class RankSDEstimator(BaseEstimator):
                +---------------------+-------+--------+---------------------------+
 
 
-               >>> RSDE = RankSDEstimator(q=2, m=43, n=47, k=18, r=17, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2,HybridLinearization])
+               >>> RSDE = RankSDEstimator(q=2, m=43, n=47, k=18, r=17, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2,AnnulatorPolynomial])
                >>> RSDE.table(show_all_parameters=1)
                +---------------------+------------------------------------+
                |                     |              estimate              |
