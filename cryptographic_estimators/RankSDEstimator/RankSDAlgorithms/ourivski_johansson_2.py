@@ -24,7 +24,7 @@ from ..ranksd_problem import RankSDProblem
 
 
 class OJ2(RankSDAlgorithm):
-    """Construct an instance of OJ strategy 2 estimator
+    """Construct an instance of OJ2 estimator
 
        This algorithm tries to solve a given instance by enumerating the possible F_q basis
        of Suppx, and solving a linearized quadratic system [OJ02]_
@@ -40,13 +40,13 @@ class OJ2(RankSDAlgorithm):
             >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
             >>> OJ = OJ2(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
             >>> OJ
-            OJ strategy 2 estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
+            OJ2 estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
      """
 
     def __init__(self, problem: RankSDProblem, **kwargs):
         super(OJ2, self).__init__(problem, **kwargs)
         self.on_base_field = True
-        self._name = "OJ strategy 2"
+        self._name = "OJ2"
 
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
@@ -59,12 +59,13 @@ class OJ2(RankSDAlgorithm):
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
                >>> OJ = OJ2(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
                >>> OJ.time_complexity()
-               745.7661439067468
+               771.2443254830761
         """
 
         q, m, _, k, r = self.problem.get_parameters()
+        nn = ceil(((k + 1) * r) / (m - r))
         self.problem.set_operations_on_base_field(self.on_base_field)
-        time_complexity = self._w * (log2(k + r) + log2(r)) + (r - 1) * (m - r) * log2(q)
+        time_complexity = self._w * (log2(m * nn) + log2(k + 1 + nn) + log2(r)) + (r - 1) * (m - r) * log2(q)
 
         return time_complexity
 
