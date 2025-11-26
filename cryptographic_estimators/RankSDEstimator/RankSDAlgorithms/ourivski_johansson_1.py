@@ -24,7 +24,7 @@ from ..ranksd_problem import RankSDProblem
 
 
 class OJ1(RankSDAlgorithm):
-    """Construct an instance of OJ strategy 1  estimator.
+    """Construct an instance of OJ1  estimator.
 
        This algorithm tries to solve a given instance by guessing the coefficient matrix of x
        associated with an F_q basis of Suppx and solving a linearized quadratic system [OJ02]_
@@ -40,13 +40,13 @@ class OJ1(RankSDAlgorithm):
             >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
             >>> OJ = OJ1(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
             >>> OJ
-            OJ strategy 1 estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
+            OJ1 estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
     """
 
     def __init__(self, problem: RankSDProblem, **kwargs):
         super(OJ1, self).__init__(problem, **kwargs)
         self.on_base_field = True
-        self._name = "OJ strategy 1"
+        self._name = "OJ1"
 
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
@@ -59,12 +59,13 @@ class OJ1(RankSDAlgorithm):
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
                >>> OJ = OJ1(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
                >>> OJ.time_complexity()
-               323.3881188264893
+               305.0066549527987
         """
 
         q, m, _, k, r = self.problem.get_parameters()
+        N = ceil((k + 1) * r / (m - r))
         self.problem.set_operations_on_base_field(self.on_base_field)
-        time_complexity = self._w * log2(m * r) + (r - 1) * (k + 1) * log2(q)
+        time_complexity = self._w * log2((r - 1) * m + k + N + 1) + (r - 1) * (k + N + 2 - r) * log2(q)
 
         return time_complexity
 
@@ -83,7 +84,7 @@ class OJ1(RankSDAlgorithm):
         """
 
         _, m, _, k, r = self.problem.get_parameters()
-        nn = ceil(((r - 1) * m + k + 1) / (m - 1))
-        n_rows = nn * m
-        n_columns = (r - 1) * m + k + nn + 1
+        N = ceil(((r - 1) * m + k + 1) / (m - 1))
+        n_rows = N * m
+        n_columns = (r - 1) * m + k + N + 1
         return self.__compute_memory_complexity_helper__(n_rows, n_columns, self.on_base_field)
