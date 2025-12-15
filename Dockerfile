@@ -1,7 +1,7 @@
 FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 
-WORKDIR "/home/cryptographic_estimators/"
+WORKDIR /home/cryptographic_estimators/
 
 RUN apt-get update && apt-get install -y \
     python3 \
@@ -9,12 +9,9 @@ RUN apt-get update && apt-get install -y \
     python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
-# Create and activate virtual environment
-RUN python3 -m venv ../venv
-ENV PATH="../venv/bin:$PATH"
+RUN python3 -m venv /home/venv
+ENV PATH="/home/venv/bin:$PATH"
 
-# # Avoid the download and installation of dependencies on rebuild; 
-# # but without harcoding them
 RUN pip install toml
 COPY ./pyproject.toml ./
 COPY ./scripts/generate_requirements.py ./scripts/
