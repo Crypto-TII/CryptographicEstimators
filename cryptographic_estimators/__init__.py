@@ -14,6 +14,7 @@ from .DummyEstimator import *
 from .MREstimator import *
 from .UOVEstimator import *
 from .MAYOEstimator import *
+from .BIKEEstimator import *
 from .RankSDEstimator import *
 from .IFEstimator import *
 
