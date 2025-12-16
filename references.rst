@@ -306,6 +306,10 @@ References
 
 **R**
 
+.. [Ran24] \Larns Ran.
+            *Wedges, oil, and vinegar. An analysis of UOV in characteristic 2*
+            https://eprint.iacr.org/2025/1143.pdf
+
 .. _ref-S:
 
 **S**
