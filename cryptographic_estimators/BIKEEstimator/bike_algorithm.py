@@ -30,3 +30,9 @@ class BIKEAlgorithm(BaseAlgorithm):
             problem (BIKEProblem): BIKEProblem object including all necessary parameters
         """
         super(BIKEAlgorithm, self).__init__(problem, **kwargs)
+        
+        self._name = "BaseBIKEAlgorithm"
+
+    def __repr__(self):
+        r, w, t = self.problem.get_parameters()
+        return f"{self._name} estimator for the BIKE signature scheme with parameters (r, w, t) = ({r}, {w}, {t})"
