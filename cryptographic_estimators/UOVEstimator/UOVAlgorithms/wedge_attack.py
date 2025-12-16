@@ -34,7 +34,7 @@ class WedgeAttack(UOVAlgorithm):
 
         Args:
             problem (UOVProblem): Object including all necessary parameters
-            w: Linear algebra constant (default: obtained from MAYOAlgorithm)
+            w: Linear algebra constant (default: obtained from UOVAlgorithm)
             h (int, optional): External hybridization parameter. Defaults to 0.
             memory_access (int, optional): Specifies the memory access cost model. Defaults to 0.
                 Choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root
