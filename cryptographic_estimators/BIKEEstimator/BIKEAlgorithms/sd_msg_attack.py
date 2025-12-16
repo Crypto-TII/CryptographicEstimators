@@ -35,7 +35,7 @@ class SDMsgAttack(BIKEAlgorithm):
         Args:
             problem (BIKEProblem): An instance of the BIKEProblem class.
         """
-        super(SDMsgAttack, self).__init__(problem, **kwargs)
+        super().__init__(problem, **kwargs)
         self._name = "SDMsgAttack"
         self._attack_type = BASE_ATTACK_TYPE_MSG_RECOVERY
         r, _, t = self.problem.get_parameters()
