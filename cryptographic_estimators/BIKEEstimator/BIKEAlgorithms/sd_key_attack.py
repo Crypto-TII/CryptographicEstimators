@@ -34,18 +34,12 @@ class SDKeyAttack(BIKEAlgorithm):
         Args:
             problem (BIKEProblem): An instance of the BIKEProblem class.
         """
-        self._name = "SDKeyAttack"
         super(SDKeyAttack, self).__init__(problem, **kwargs)
+        self._name = "SDKeyAttack"
         self._attack_type = BASE_ATTACK_TYPE_KEY_RECOVERY
         r, w, _ = self.problem.get_parameters()
         self._SDEstimator = SDEstimator(n=2 * r, k=r, w=w, nsolutions=log2(r), memory_bound=self.problem.memory_bound,
                                         bit_complexities=0, **kwargs)
-
-    @BaseAlgorithm.complexity_type.setter
-    def complexity_type(self, input_type):
-        """Sets complexity type of algorithm and included SDEstimator object."""
-        BaseAlgorithm.complexity_type.fset(self, input_type)
-        self._SDEstimator.complexity_type = input_type
 
     def get_fastest_sd_algorithm(self):
         """Fastest algorithm returned by the SDEstimator object."""
