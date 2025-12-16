@@ -35,8 +35,8 @@ class SDMsgAttack(BIKEAlgorithm):
         Args:
             problem (BIKEProblem): An instance of the BIKEProblem class.
         """
-        self._name = "SDMsgAttack"
         super(SDMsgAttack, self).__init__(problem, **kwargs)
+        self._name = "SDMsgAttack"
         self._attack_type = BASE_ATTACK_TYPE_MSG_RECOVERY
         r, _, t = self.problem.get_parameters()
         self._SDEstimator = SDEstimator(n=2 * r, k=r, w=t, nsolutions=0, memory_bound=self.problem.memory_bound,
