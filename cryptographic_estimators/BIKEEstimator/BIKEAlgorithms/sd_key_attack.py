@@ -34,7 +34,7 @@ class SDKeyAttack(BIKEAlgorithm):
         Args:
             problem (BIKEProblem): An instance of the BIKEProblem class.
         """
-        super(SDKeyAttack, self).__init__(problem, **kwargs)
+        super().__init__(problem, **kwargs)
         self._name = "SDKeyAttack"
         self._attack_type = BASE_ATTACK_TYPE_KEY_RECOVERY
         r, w, _ = self.problem.get_parameters()
