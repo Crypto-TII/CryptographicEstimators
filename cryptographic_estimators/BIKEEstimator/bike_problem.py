@@ -35,7 +35,22 @@ class BIKEProblem(BaseProblem):
                 memory_bound: Maximum allowed memory to use for solving the problem
         """
         super().__init__(**kwargs)
-        self.parameters = {BIKE_DIMENSION: r, BIKE_SK_WEIGHT: w, BIKE_MSG_WEIGHT: t}
+
+        if r < w:
+            raise ValueError("r must be >= w")
+
+        if r < t:
+            raise ValueError("r must be >= t")
+
+        if w < 1:
+            raise ValueError("w must be >= 1")
+        
+        if t < 1:
+            raise ValueError("t must be >= 1")
+
+        self.parameters[BIKE_DIMENSION] = r
+        self.parameters[BIKE_SK_WEIGHT] = w
+        self.parameters[BIKE_MSG_WEIGHT] = t
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """Return the bit-complexity corresponding to a certain amount of basic_operations.
@@ -55,7 +70,12 @@ class BIKEProblem(BaseProblem):
         code_length = 2 * self.parameters[BIKE_DIMENSION]
         return elements_to_store + log2(code_length)
 
+    def get_parameters(self):
+        """Return the optimizations parameters.
+        """
+        return list(self.parameters.values())
+
     def __repr__(self):
-        r, w, t = self.get_parameters()
+        r, w, t = self.get_problem_parameters()
         rep = "BIKE instance with (r,w,t) = " + "(" + str(r) + "," + str(w) + "," + str(t) + ")"
         return rep
