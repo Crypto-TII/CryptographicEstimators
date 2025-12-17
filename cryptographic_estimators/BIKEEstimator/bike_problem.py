@@ -76,6 +76,6 @@ class BIKEProblem(BaseProblem):
         return list(self.parameters.values())
 
     def __repr__(self):
-        r, w, t = self.get_problem_parameters()
+        r, w, t = self.get_parameters()
         rep = "BIKE instance with (r,w,t) = " + "(" + str(r) + "," + str(w) + "," + str(t) + ")"
         return rep

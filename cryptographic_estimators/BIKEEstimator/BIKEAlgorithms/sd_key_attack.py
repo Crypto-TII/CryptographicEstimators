@@ -24,6 +24,7 @@ from ...base_constants import BASE_ATTACK_TYPE_KEY_RECOVERY
 from ...base_algorithm import BaseAlgorithm
 from ...SDEstimator import SDEstimator
 from math import log2
+import copy
 
 class SDKeyAttack(BIKEAlgorithm):
     def __init__(self, problem: BIKEProblem, **kwargs):
@@ -38,8 +39,11 @@ class SDKeyAttack(BIKEAlgorithm):
         self._name = "SDKeyAttack"
         self._attack_type = BASE_ATTACK_TYPE_KEY_RECOVERY
         r, w, _ = self.problem.get_parameters()
+        # NOTE: this is important. We cannot pass `bit_complexities` twice to the construction
+        sd_kwargs = copy.copy(kwargs)
+        sd_kwargs.pop("bit_complexities")
         self._SDEstimator = SDEstimator(n=2 * r, k=r, w=w, nsolutions=log2(r), memory_bound=self.problem.memory_bound,
-                                        bit_complexities=0, **kwargs)
+                                        bit_complexities=0, **sd_kwargs)
 
     def get_fastest_sd_algorithm(self):
         """Fastest algorithm returned by the SDEstimator object."""
