@@ -59,11 +59,11 @@ class OJ1(RankSDAlgorithm):
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
                >>> OJ = OJ1(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
                >>> OJ.time_complexity()
-               305.0066549527987
+               329.02787109882524
         """
 
         q, m, _, k, r = self.problem.get_parameters()
-        N = ceil((k + 1) * r / (m - r))
+        N = ceil(((r - 1) * m + (k + 1)) / (m - 1))
         self.problem.set_operations_on_base_field(self.on_base_field)
         time_complexity = self._w * log2((r - 1) * m + k + N + 1) + (r - 1) * (k + N + 2 - r) * log2(q)
 
