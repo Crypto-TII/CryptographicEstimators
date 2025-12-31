@@ -43,7 +43,8 @@ class SDMsgAttack(BIKEAlgorithm):
 
         # NOTE: this is important. We cannot pass `bit_complexities` twice to the construction
         sd_kwargs = copy.copy(kwargs)
-        sd_kwargs.pop("bit_complexities")
+        if "bit_complexities" in sd_kwargs:
+            sd_kwargs.pop("bit_complexities")
         self._SDEstimator = SDEstimator(n=2 * r, k=r, w=t, nsolutions=0, memory_bound=self.problem.memory_bound,
                                         bit_complexities=0, **sd_kwargs)
 
