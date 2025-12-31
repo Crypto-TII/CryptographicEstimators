@@ -88,6 +88,9 @@ stop-container-and-remove:
 	@docker stop $(container_name) || true
 	@docker rm $(container_name) || true
 
+docker-fuzzing: IMAGE_NAME := cf-fuzzer
+docker-fuzzing: docker-build
+
 docker-doc: docker-build
 	@make stop-container-and-remove container_name="container-for-docs" \
 		|| true

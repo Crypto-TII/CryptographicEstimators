@@ -36,6 +36,12 @@ class PKProblem(BaseProblem):
                 nsolutions (int): Number of solutions of the problem in logarithmic scale. Defaults to expected_number_solutions.
         """
         super().__init__(**kwargs)
+        if m <= 0 or n <= 0 or ell <= 0:
+            raise ValueError("n, k and l must be positive integers")
+        if ell > n:
+            raise ValueError("l must be < n")
+        if q <= 1:
+            raise ValueError("q must be > 1")
 
         self.parameters[PK_COLUMNS] = n
         self.parameters[PK_ROWS] = m
