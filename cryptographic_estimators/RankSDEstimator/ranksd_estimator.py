@@ -71,7 +71,7 @@ class RankSDEstimator(BaseEstimator):
                | algorithm           |  time | memory |         parameters        |
                +---------------------+-------+--------+---------------------------+
                | BasisEnumeration    | 206.0 |   17.6 |             {}            |
-               | OJ1                 | 151.5 |   16.5 |             {}            |
+               | OJ1                 | 169.5 |   16.5 |             {}            |
                | OJ2                 | 220.7 |   15.9 |             {}            |
                | GRS                 | 162.2 |   18.2 |             {}            |
                | ImprovedGRS         | 147.2 |   18.0 |             {}            |
