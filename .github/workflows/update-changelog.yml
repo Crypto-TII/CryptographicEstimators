@@ -27,7 +27,6 @@ jobs:
           echo "should_add_last_changes_to_master=$should_add_last_changes_to_master" >> $GITHUB_ENV
 
       - name: commit-push-changes
-        uses: actions-js/push@master
         if: ${{env.should_add_last_changes_to_master == 'true'}}
         run: |
           git config user.name "github-actions"
