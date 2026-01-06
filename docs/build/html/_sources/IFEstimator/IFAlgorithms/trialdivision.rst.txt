@@ -1,0 +1,10 @@
+-------------
+trialdivision
+-------------
+
+.. automodule:: cryptographic_estimators.IFEstimator.IFAlgorithms.trialdivision
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

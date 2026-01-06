@@ -1,0 +1,10 @@
+------
+minors
+------
+
+.. automodule:: cryptographic_estimators.MREstimator.MRAlgorithms.minors
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

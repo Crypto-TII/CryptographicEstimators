@@ -1,0 +1,10 @@
+--------------
+sdfq_estimator
+--------------
+
+.. automodule:: cryptographic_estimators.SDFqEstimator.sdfq_estimator
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

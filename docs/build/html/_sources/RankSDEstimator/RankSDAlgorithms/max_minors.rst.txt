@@ -1,0 +1,10 @@
+----------
+max_minors
+----------
+
+.. automodule:: cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.max_minors
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

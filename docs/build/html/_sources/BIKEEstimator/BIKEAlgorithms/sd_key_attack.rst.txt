@@ -1,0 +1,10 @@
+-------------
+sd_key_attack
+-------------
+
+.. automodule:: cryptographic_estimators.BIKEEstimator.BIKEAlgorithms.sd_key_attack
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+
