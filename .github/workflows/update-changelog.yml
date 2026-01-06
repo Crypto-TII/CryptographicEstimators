@@ -16,11 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           # persist-credentials: false
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.AUTHORIZATION_TOKEN }}
+          ref: develop
 
       - name: run-bash-file
         run: |
@@ -45,7 +46,7 @@ jobs:
       - name: commit-push-changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.AUTHORIZATION_TOKEN }}
           branch: develop
           repository: Crypto-TII/CryptographicEstimators
           
