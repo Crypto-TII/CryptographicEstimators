@@ -1,0 +1,10 @@
+--------
+beullens
+--------
+
+.. automodule:: cryptographic_estimators.LEEstimator.LEAlgorithms.beullens
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

@@ -1,0 +1,10 @@
+-----
+big_k
+-----
+
+.. automodule:: cryptographic_estimators.MREstimator.MRAlgorithms.big_k
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

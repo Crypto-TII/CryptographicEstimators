@@ -1,0 +1,10 @@
+--------------------
+annulator_polynomial
+--------------------
+
+.. automodule:: cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.annulator_polynomial
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

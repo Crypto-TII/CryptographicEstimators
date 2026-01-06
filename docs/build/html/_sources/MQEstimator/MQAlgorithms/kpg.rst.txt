@@ -1,0 +1,10 @@
+---
+kpg
+---
+
+.. automodule:: cryptographic_estimators.MQEstimator.MQAlgorithms.kpg
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+
