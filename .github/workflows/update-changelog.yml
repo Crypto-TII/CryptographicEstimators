@@ -27,13 +27,15 @@ jobs:
           echo "should_add_last_changes_to_master=$should_add_last_changes_to_master" >> $GITHUB_ENV
 
       - name: commit-push-changes
-        uses: actions-js/push@master
         if: ${{env.should_add_last_changes_to_master == 'true'}}
-        with:
-          github_token: ${{ secrets.AUTHORIZATION_TOKEN }}
-          message: 'Changelog version updated'
-          tags: true
-          force: true
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git fetch origin main
+          git checkout -B main origin/main
+          git add .
+          git commit -m "Changelog version updated'"
+          git push origin main --force --tags
 
       - name: create tags
         if: ${{env.should_add_last_changes_to_master == 'true'}}
