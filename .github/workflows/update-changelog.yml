@@ -44,7 +44,7 @@ jobs:
       - name: commit-push-changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.AUTHORIZATION_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: develop
           
 #      - name: commit-push-changes
