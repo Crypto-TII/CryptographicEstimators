@@ -1,13 +1,18 @@
 name: Generate and submit documentation
 on:
   pull_request:
-    types: [ closed ]
+    types: [opened, synchronize, reopened, edited]
     branches:
-      - main
+      - develop
+    
+#  pull_request:
+#    types: [ closed ]
+#    branches:
+#      - main
 
 jobs:
   generate-documentation:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop'
+    # if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -48,10 +53,12 @@ jobs:
       run: docker run --rm -v $PWD:/home/cryptographic_estimators/ estimators-lib make doc
 
     - name: Commit & Push changes
-      uses: actions-js/push@master
-      with:
-        github_token: ${{ secrets.AUTHORIZATION_TOKEN }}
-        message: "Update documentation"
+      run: |
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git add .
+        git diff --cached --quiet || git commit -m "Update documentation"
+        git push https://x-access-token:${{ secrets.AUTHORIZATION_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
 
     - name: Update develop branch
       uses: morbalint/git-merge-action@v1
