@@ -1,8 +1,8 @@
 --------------------
-hybrid_linearization
+annulator_polynomial
 --------------------
 
-.. automodule:: cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.hybrid_linearization
+.. automodule:: cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.annulator_polynomial
    :members:
    :undoc-members:
    :inherited-members:
