@@ -18,8 +18,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
-          persist-credentials: false
+          # persist-credentials: false
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: run-bash-file
         run: |
