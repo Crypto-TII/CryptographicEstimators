@@ -20,7 +20,7 @@ classifiers = [
   "Topic :: Security :: Cryptography",
 ]
 
-version = "2.1.0"
+version = "2.1.1"
 
 dependencies = [
   "setuptools>=45",
@@ -30,7 +30,7 @@ dependencies = [
   "prettytable",
   "pytest",
   "pytest-xdist",
-  "python-flint==0.7.0a2",
+  "python-flint",
   "pytest-cov",
   "pyyaml",
   "sympy",
