@@ -18,7 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
-          #persist-credentials: false
+          persist-credentials: false
           fetch-depth: 0
 
       - name: run-bash-file
@@ -40,16 +40,22 @@ jobs:
 #          git add .
 #          git commit -m "Changelog version updated'"
 #          git push origin main --follow-tags --force --tags
-          
+
       - name: commit-push-changes
-        uses: actions-js/push@master
-        if: ${{env.should_add_last_changes_to_master == 'true'}}
+        uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.AUTHORIZATION_TOKEN }}
-          message: 'Changelog version updated'
-          tags: true
-          force: true
-          repository: "https://github.com/Crypto-TII/CryptographicEstimators"
+          branch: develop
+          
+#      - name: commit-push-changes
+#        uses: actions-js/push@master
+#        if: ${{env.should_add_last_changes_to_master == 'true'}}
+#        with:
+#          github_token: ${{ secrets.AUTHORIZATION_TOKEN }}
+#          message: 'Changelog version updated'
+#          tags: true
+#          force: true
+#          repository: "https://github.com/Crypto-TII/CryptographicEstimators"
           
       - name: create tags
         if: ${{env.should_add_last_changes_to_master == 'true'}}
