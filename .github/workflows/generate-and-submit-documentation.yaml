@@ -1,24 +1,18 @@
 name: Generate and submit documentation
 on:
   pull_request:
-    types: [opened, synchronize, reopened, edited]
+    types: [ closed ]
     branches:
-      - develop
-    
-#  pull_request:
-#    types: [ closed ]
-#    branches:
-#      - main
+      - main
 
 jobs:
   generate-documentation:
-    # if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop'
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v6
       with:
-        #persist-credentials: false
         fetch-depth: 0
 
     - name: Set up Docker Buildx
@@ -56,11 +50,11 @@ jobs:
       run: |
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
-        git fetch origin develop
-        git checkout -B develop origin/develop
+        git fetch origin main
+        git checkout -B main origin/main
         git add .
         git commit -m "Update documentation"
-        git push origin develop
+        git push origin main
 
     - name: Update develop branch
       uses: morbalint/git-merge-action@v1
