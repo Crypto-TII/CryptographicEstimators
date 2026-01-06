@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.AUTHORIZATION_TOKEN }}
-          ref: develop
+          ref: main
 
       - name: run-bash-file
         run: |
