@@ -16,9 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
       with:
-        persist-credentials: false
+        #persist-credentials: false
         fetch-depth: 0
 
     - name: Set up Docker Buildx
@@ -57,8 +57,8 @@ jobs:
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
         git add .
-        git diff --cached --quiet || git commit -m "Update documentation"
-        git push https://x-access-token:${{ secrets.AUTHORIZATION_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
+        git commit -m "Update documentation"
+        git push origin Fix/ReleaseCI
 
     - name: Update develop branch
       uses: morbalint/git-merge-action@v1
