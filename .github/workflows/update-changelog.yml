@@ -46,6 +46,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: develop
+          force_with_lease: true
           
 #      - name: commit-push-changes
 #        uses: actions-js/push@master
