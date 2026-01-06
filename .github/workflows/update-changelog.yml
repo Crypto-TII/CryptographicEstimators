@@ -32,6 +32,7 @@ jobs:
           github_token: ${{ secrets.AUTHORIZATION_TOKEN }}
           branch: main
           repository: Crypto-TII/CryptographicEstimators
+          force_with_lease: true
       
       - name: create tags
         if: ${{env.should_add_last_changes_to_master == 'true'}}
@@ -52,10 +53,10 @@ jobs:
           tag_exists_error: false
           message: ${{env.release_message}}
 
-#      - name: create-develop-branch
-#        uses: morbalint/git-merge-action@v1
-#        with:
-#          target: 'develop'
-#          source: 'main'
-#          token: ${{ secrets.AUTHORIZATION_TOKEN }}
-#          strategy_options: 'ours'
+      - name: create-develop-branch
+        uses: morbalint/git-merge-action@v1
+        with:
+          target: 'develop'
+          source: 'main'
+          token: ${{ secrets.AUTHORIZATION_TOKEN }}
+          strategy_options: 'ours'
