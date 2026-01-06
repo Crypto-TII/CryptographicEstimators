@@ -12,7 +12,7 @@ on:
 
 jobs:
   update-changelog:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop'
+    #if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -60,10 +60,10 @@ jobs:
           tag_exists_error: false
           message: ${{env.release_message}}
 
-      - name: create-develop-branch
-        uses: morbalint/git-merge-action@v1
-        with:
-          target: 'develop'
-          source: 'main'
-          token: ${{ secrets.AUTHORIZATION_TOKEN }}
-          strategy_options: 'ours'
+#      - name: create-develop-branch
+#        uses: morbalint/git-merge-action@v1
+#        with:
+#          target: 'develop'
+#          source: 'main'
+#          token: ${{ secrets.AUTHORIZATION_TOKEN }}
+#          strategy_options: 'ours'
