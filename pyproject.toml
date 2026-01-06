@@ -21,7 +21,7 @@ classifiers = [
 ]
 
 version = "2.1.1"
-
+requires-python = ">=3.11"
 dependencies = [
   "setuptools>=45",
   "sphinx>=5.3.0",
