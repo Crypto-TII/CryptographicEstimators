@@ -1,18 +1,20 @@
 # ****************************************************************************
-# Copyright 2023 Technology Innovation Institute
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 # ****************************************************************************
 
 
@@ -22,6 +24,7 @@ from ...base_constants import BASE_ATTACK_TYPE_KEY_RECOVERY
 from ...base_algorithm import BaseAlgorithm
 from ...SDEstimator import SDEstimator
 from math import log2
+import copy
 
 class SDKeyAttack(BIKEAlgorithm):
     def __init__(self, problem: BIKEProblem, **kwargs):
@@ -32,18 +35,16 @@ class SDKeyAttack(BIKEAlgorithm):
         Args:
             problem (BIKEProblem): An instance of the BIKEProblem class.
         """
+        super().__init__(problem, **kwargs)
         self._name = "SDKeyAttack"
-        super(SDKeyAttack, self).__init__(problem, **kwargs)
         self._attack_type = BASE_ATTACK_TYPE_KEY_RECOVERY
         r, w, _ = self.problem.get_parameters()
+        # NOTE: this is important. We cannot pass `bit_complexities` twice to the construction
+        sd_kwargs = copy.copy(kwargs)
+        if "bit_complexities" in sd_kwargs:
+            sd_kwargs.pop("bit_complexities")
         self._SDEstimator = SDEstimator(n=2 * r, k=r, w=w, nsolutions=log2(r), memory_bound=self.problem.memory_bound,
-                                        bit_complexities=0, **kwargs)
-
-    @BaseAlgorithm.complexity_type.setter
-    def complexity_type(self, input_type):
-        """Sets complexity type of algorithm and included SDEstimator object."""
-        BaseAlgorithm.complexity_type.fset(self, input_type)
-        self._SDEstimator.complexity_type = input_type
+                                        bit_complexities=0, **sd_kwargs)
 
     def get_fastest_sd_algorithm(self):
         """Fastest algorithm returned by the SDEstimator object."""

@@ -1,18 +1,20 @@
 # ****************************************************************************
-# Copyright 2023 Technology Innovation Institute
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 # ****************************************************************************
 
 
@@ -145,7 +147,7 @@ class BJMM(SDAlgorithm):
 
     def get_optimal_parameters_dict(self):
         """Returns the optimal parameters dictionary."""
-        a = dict()
+        a = {}
         a.update(self._optimal_parameters)
         if self.depth() == 2:
             a.update(self.BJMM_depth_2.get_optimal_parameters_dict())
@@ -250,15 +252,15 @@ class BJMMd2(SDAlgorithm):
         n, k, w = self.problem.get_parameters()
 
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
-            for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), new_ranges["p1"]["max"]):
+            for p1 in range(max(new_ranges["p1"]["min"], (p + 1) // 2), min(k // 2, new_ranges["p1"]["max"])):
                 ell_approx = 2 * log2(binom(k // 2, p1))
                 for l in range(
-                    max(new_ranges["l"]["min"], int(ell_approx * 0.75)),
-                    min(
-                        int(1.25 * ell_approx),
-                        n - k - (w - 2 * p),
-                        new_ranges["l"]["max"],
-                    ),
+                        max(new_ranges["l"]["min"], int(ell_approx * 0.75)),
+                        min(
+                            int(1.25 * ell_approx),
+                            n - k - (w - 2 * p),
+                            new_ranges["l"]["max"],
+                        ),
                 ):
 
                     indices = {
@@ -291,7 +293,7 @@ class BJMMd2(SDAlgorithm):
         if l1 > par.l:
             return inf, inf
 
-        L12 = max(1, L1**2 // 2**l1)
+        L12 = max(1, L1 ** 2 // 2 ** l1)
 
         memory = log2((2 * L1 + L12) + _mem_matrix(n, k, par.r))
         if memory > memory_bound:
@@ -433,15 +435,15 @@ class BJMMd3(SDAlgorithm):
         par = SimpleNamespace(**parameters)
         k1 = (k + par.l) // 2
         if (
-            par.p > w // 2
-            or k1 < par.p
-            or par.l >= n - k
-            or n - k - par.l < w - 2 * par.p
-            or k1 - par.p < par.p2 - par.p / 2
-            or par.p2 < par.p // 2
-            or k1 - par.p2 < par.p1 - par.p2 / 2
-            or par.p1 < par.p2 / 2
-            or par.p % 2 == 1
+                par.p > w // 2
+                or k1 < par.p
+                or par.l >= n - k
+                or n - k - par.l < w - 2 * par.p
+                or k1 - par.p < par.p2 - par.p / 2
+                or par.p2 < par.p // 2
+                or k1 - par.p2 < par.p1 - par.p2 / 2
+                or par.p1 < par.p2 / 2
+                or par.p % 2 == 1
         ):
             return True
         return False
@@ -454,13 +456,13 @@ class BJMMd3(SDAlgorithm):
         for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]), 2):
             for l in range(new_ranges["l"]["min"], min(n - k - (w - 2 * p), new_ranges["l"]["max"])):
                 for p2 in range(
-                    max(new_ranges["p2"]["min"], p // 2 + ((p // 2) % 2)),
-                    new_ranges["p2"]["max"],
-                    2,
+                        max(new_ranges["p2"]["min"], p // 2 + ((p // 2) % 2)),
+                        new_ranges["p2"]["max"],
+                        2,
                 ):
                     for p1 in range(
-                        max(new_ranges["p1"]["min"], (p2 + 1) // 2),
-                        new_ranges["p1"]["max"],
+                            max(new_ranges["p1"]["min"], (p2 + 1) // 2),
+                            new_ranges["p1"]["max"],
                     ):
                         indices = {
                             "p": p,
@@ -489,11 +491,11 @@ class BJMMd3(SDAlgorithm):
         reps1 = (binom(par.p2, par.p2 / 2) * binom(k1 - par.p2, par.p1 - par.p2 / 2)) ** 2
         l1 = int((log2(reps1))) if reps1 != 1 else 0
 
-        L12 = max(1, L1**2 // 2**l1)
+        L12 = max(1, L1 ** 2 // 2 ** l1)
         reps2 = (binom(par.p, par.p / 2) * binom(k1 - par.p, par.p2 - par.p / 2)) ** 2
         l2 = int(ceil(log2(reps2))) if reps2 != 1 else 0
 
-        L1234 = max(1, L12**2 // 2 ** (l2 - l1))
+        L1234 = max(1, L12 ** 2 // 2 ** (l2 - l1))
         memory = log2((2 * L1 + L12 + L1234) + _mem_matrix(n, k, par.r))
         if memory > memory_bound:
             return inf, inf
@@ -507,9 +509,9 @@ class BJMMd3(SDAlgorithm):
         )
         Tg = _gaussian_elimination_complexity(n, k, par.r)
         T_tree = (
-            4 * _list_merge_complexity(L1, l1, self._hmap)
-            + 2 * _list_merge_complexity(L12, l2 - l1, self._hmap)
-            + _list_merge_complexity(L1234, par.l - l2, self._hmap)
+                4 * _list_merge_complexity(L1, l1, self._hmap)
+                + 2 * _list_merge_complexity(L12, l2 - l1, self._hmap)
+                + _list_merge_complexity(L1234, par.l - l2, self._hmap)
         )
         T_rep = int(ceil(2 ** (3 * max(0, l1 - log2(reps1)) + max(0, l2 - log2(reps2)))))
 

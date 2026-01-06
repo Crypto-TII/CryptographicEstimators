@@ -1,18 +1,20 @@
 # ****************************************************************************
-# Copyright 2023 Technology Innovation Institute
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 # ****************************************************************************
 from .bike_constants import BIKE_DIMENSION, BIKE_SK_WEIGHT, BIKE_MSG_WEIGHT
 from ..base_problem import BaseProblem
@@ -33,7 +35,22 @@ class BIKEProblem(BaseProblem):
                 memory_bound: Maximum allowed memory to use for solving the problem
         """
         super().__init__(**kwargs)
-        self.parameters = {BIKE_DIMENSION: r, BIKE_SK_WEIGHT: w, BIKE_MSG_WEIGHT: t}
+
+        if r < w:
+            raise ValueError("r must be >= w")
+
+        if r < t:
+            raise ValueError("r must be >= t")
+
+        if w < 1:
+            raise ValueError("w must be >= 1")
+        
+        if t < 1:
+            raise ValueError("t must be >= 1")
+
+        self.parameters[BIKE_DIMENSION] = r
+        self.parameters[BIKE_SK_WEIGHT] = w
+        self.parameters[BIKE_MSG_WEIGHT] = t
 
     def to_bitcomplexity_time(self, basic_operations: float):
         """Return the bit-complexity corresponding to a certain amount of basic_operations.
@@ -52,6 +69,11 @@ class BIKEProblem(BaseProblem):
         """
         code_length = 2 * self.parameters[BIKE_DIMENSION]
         return elements_to_store + log2(code_length)
+
+    def get_parameters(self):
+        """Return the optimizations parameters.
+        """
+        return list(self.parameters.values())
 
     def __repr__(self):
         r, w, t = self.get_parameters()

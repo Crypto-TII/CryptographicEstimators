@@ -1,18 +1,20 @@
 # ****************************************************************************
-# Copyright 2023 Technology Innovation Institute
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 # ****************************************************************************
 
 
@@ -23,7 +25,7 @@ from ..ranksd_problem import RankSDProblem
 from ...base_algorithm import optimal_parameter
 
 
-class HybridLinearization(RankSDAlgorithm):
+class AnnulatorPolynomial(RankSDAlgorithm):
     """Construct an instance of HybridLinearization estimator.
 
        This algorithm tries to solve a given instance by randomly generating new equations from
@@ -36,37 +38,37 @@ class HybridLinearization(RankSDAlgorithm):
                theta (int): Exponent of the conversion factor (default: 2).
 
        Examples:
-           >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.hybrid_linearization import HybridLinearization
+           >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.annulator_polynomial import AnnulatorPolynomial
            >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-           >>> HL = HybridLinearization(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
+           >>> HL = AnnulatorPolynomial(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
            >>> HL
-           Hybrid Linearization estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
+           AnnulatorPolynomial estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
     """
 
     def __init__(self, problem: RankSDProblem, **kwargs):
-        super(HybridLinearization, self).__init__(problem, **kwargs)
+        super(AnnulatorPolynomial, self).__init__(problem, **kwargs)
         _, _, _, k, _ = self.problem.get_parameters()
 
         self.set_parameter_ranges(RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS, 1, k)
         self.on_base_field = False
-        self._name = "Hybrid Linearization"
+        self._name = "AnnulatorPolynomial"
 
     @optimal_parameter
     def t(self):
         """Return the optimal `t`, i.e. the number of zero entries expected to have a random element of the support.
 
            Examples:
-               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.hybrid_linearization import HybridLinearization
+               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.annulator_polynomial import AnnulatorPolynomial
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-               >>> HL = HybridLinearization(RankSDProblem(q=2,m=31,n=33,k=15,r=10))
-               >>> HL.t()
+               >>> AP = AnnulatorPolynomial(RankSDProblem(q=2,m=31,n=33,k=15,r=10))
+               >>> AP.t()
                15
 
           Tests:
-               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.hybrid_linearization import HybridLinearization
+               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.annulator_polynomial import AnnulatorPolynomial
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-               >>> HL = HybridLinearization(RankSDProblem(q=2,m=37,n=41,k=18,r=13))
-               >>> HL.t()
+               >>> AP = AnnulatorPolynomial(RankSDProblem(q=2,m=37,n=41,k=18,r=13))
+               >>> AP.t()
                18
         """
         return self._get_optimal_parameter(RANKSD_NUMBER_OF_ENTRIES_X_TO_GUESS)
@@ -78,10 +80,10 @@ class HybridLinearization(RankSDAlgorithm):
               parameters (dict): Dictionary including the parameters.
 
            Tests:
-              >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.hybrid_linearization import HybridLinearization
+              >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.annulator_polynomial import AnnulatorPolynomial
               >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-              >>> HL = HybridLinearization(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
-              >>> HL.time_complexity()
+              >>> AP = AnnulatorPolynomial(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
+              >>> AP.time_complexity()
               312.1543216418806
         """
 
@@ -98,10 +100,10 @@ class HybridLinearization(RankSDAlgorithm):
                parameters (dict): Dictionary including the parameters.
 
            Tests:
-               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.hybrid_linearization import HybridLinearization
+               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.annulator_polynomial import AnnulatorPolynomial
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
-               >>> HL = HybridLinearization(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
-               >>> HL.memory_complexity()
+               >>> AP = AnnulatorPolynomial(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
+               >>> AP.memory_complexity()
                19.59624618312637
         """
         _, _, n, k, r = self.problem.get_parameters()

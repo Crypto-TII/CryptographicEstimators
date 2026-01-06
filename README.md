@@ -66,6 +66,16 @@ or
   Prerequisites section in this document, so you don't need
   to use `sudo` to interact with python/pip related commands.
 
+#### Optional: Running in a SageMath Environment
+
+If you want to use the library within a SageMath environment (for example, to experiment interactively or debug KAT estimators), you can use the provided Sage Docker image:
+
+```bash
+make docker-sage-repl
+```
+
+This will launch a Sage REPL with the library already installed and ready to use. For more advanced options (such as opening a shell), see the Makefile or the [testing documentation](./docs/github/tests.md).
+
 ### Running the project ✈️
 
 Open the Python interpreter in a terminal and import the library as shown in the
@@ -100,7 +110,8 @@ involvement and warmly welcome your contributions.
 2. **Read the Contribution Guide**: Before submitting a pull request, please
    take a moment to review our
    [Contribution Documentation](./docs/github/contributing.md). It contains
-   important information about our development guidelines and process.
+   important information about our development guidelines and process, including
+   how to install the library in development mode.
 
 3. **Ask for Help**: Stuck on something? Don't hesitate to reach out! You can:
 

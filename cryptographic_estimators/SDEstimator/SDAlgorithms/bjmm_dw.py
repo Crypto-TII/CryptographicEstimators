@@ -1,18 +1,20 @@
 # ****************************************************************************
-# Copyright 2023 Technology Innovation Institute
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 # ****************************************************************************
 
 
@@ -29,10 +31,11 @@ from ...SDEstimator.sd_helper import (
     inf,
 )
 from scipy.special import binom as binom_sp
-from scipy.optimize import fsolve
+from scipy.optimize import root
 from warnings import filterwarnings
 from types import SimpleNamespace
 from ..sd_constants import *
+
 
 filterwarnings("ignore", category=RuntimeWarning)
 
@@ -220,10 +223,10 @@ class BJMMdw(SDAlgorithm):
                 )
 
             l1_val = int(
-                fsolve(
+                root(
                     f,
-                    2 * log2((binom(par.p, par.p // 2) * binom(k // 2 - par.p, par.p1 - par.p // 2))),
-                )[0]
+                    2 * log2((binom(par.p, par.p // 2) * binom(k // 2 - par.p, par.p1 - par.p // 2))),method='hybr'
+                ).x[0]
             )
         except ValueError:
             return -1
@@ -245,7 +248,7 @@ class BJMMdw(SDAlgorithm):
                     x = float(x)
                 return log2(list_size) + 2 * log2(binom_sp(x, par.w2) + 1) - 2 * x
 
-            l2_val = int(fsolve(f, 50)[0])
+            l2_val = int(root(f, log2(list_size)/2,method='hybr').x[0])
         except ValueError:
             return -1
 

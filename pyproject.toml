@@ -1,11 +1,15 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
-
-[tool.setuptools_scm]
 
 [project]
 name = "cryptographic_estimators"
+license = "Apache-2.0"
+license-files = [
+    "LICENSE",
+]
+
+
 description = "This library provides bit security estimators and asymptotic complexity estimators for cryptographic problems."
 authors = [
   {name = "TII", email = "cryptographic_estimators@tii.ae"}
@@ -14,30 +18,38 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
   "Topic :: Security :: Cryptography",
-  "License :: OSI Approved :: MIT License",
 ]
 
-version = "2.0.0"
+version = "2.1.0"
 
 dependencies = [
+  "setuptools>=45",
   "sphinx>=5.3.0",
   "scipy>=1.4.0",
   "furo",
   "prettytable",
   "pytest",
   "pytest-xdist",
-  "python-flint",
+  "python-flint==0.7.0a2",
   "pytest-cov",
   "pyyaml",
   "sympy",
 ]
 
+[project.urls]
+Homepage = "https://estimators.crypto.tii.ae/"
+Documentation = "https://github.com/Crypto-TII/CryptographicEstimators/blob/main/docs/github/user_guide.md"
+Repository = "https://github.com/Crypto-TII/CryptographicEstimators"
+Issues = "https://github.com/Crypto-TII/CryptographicEstimators/issues"
 
-[tool.setuptools]
-packages = ["cryptographic_estimators", "tests"]
+[tool.setuptools.packages.find]
+where = ["."] # Look for packages starting from the current directory
+include = ["cryptographic_estimators*"] # Include any package/module that starts with "cryptographic_estimators"
+namespaces = true # Properly handle nested package structures
 
 [tool.setuptools.package-data]
-cryptographic_estimators = ["*"]
+"*" = ["*"] # Include all files in all discovered packages
+cryptographic_estimators = ["**/*"] # The "**" means "recursive", so it includes files in subdirectories
 
 [tool.pytest.ini_options]
 addopts = "-v --import-mode=importlib"

@@ -4,12 +4,15 @@ DOCUMENTATION_PATH = $(shell pwd)
 PACKAGE = cryptographic_estimators
 MACHINE_ARCHITECTURE := $(shell uname -m)
 
+SAGE_IMAGE_NAME = estimators-lib-dev-sage:latest
+SAGE_DOCKERFILE = tests/Dockerfile
+
 DOCTESTS_COMMAND = pytest --doctest-modules -n auto -vv $(PACKAGE)/
 DOCTESTS_FAST_COMMAND = pytest --skip-long-doctests  --doctest-modules -n auto -vv $(PACKAGE)/
-KAT_TESTS_COMMAND = pytest -n auto -vv tests/test_kat.py
+KAT_TESTS_COMMAND = pytest -n auto -vv -ra tests/kat_tests/test_kat.py --target-kat
 FUNCTIONAL_TESTS_COMMAND = pytest --doctest-modules -n auto -vv \
-													 tests/test_sd.py \
-													 tests/test_mq.py
+													 tests/functional_tests/test_sd.py \
+													 tests/functional_tests/test_mq.py
 
 
 ## Local commands
@@ -23,7 +26,10 @@ doctests:
 	@${DOCTESTS_COMMAND}
 
 kat-tests:
-	@${KAT_TESTS_COMMAND}
+	@${KAT_TESTS_COMMAND}="all"
+
+kat-tests-target:
+	@${KAT_TESTS_COMMAND}="${TARGET}"
 
 functional-tests:
 	@${FUNCTIONAL_TESTS_COMMAND}
@@ -106,7 +112,7 @@ docker-kat-tests: docker-build
 	@make stop-container-and-remove container_name=${CONTAINER_NAME} \
 		|| true
 	@echo "Running KAT..."
-	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "${KAT_TESTS_COMMAND}"
+	@docker run --name ${CONTAINER_NAME} --rm ${IMAGE_NAME} sh -c "${KAT_TESTS_COMMAND}"="all"
 
 docker-functional-tests: CONTAINER_NAME := "pytest-container"
 docker-functional-tests: docker-build
@@ -121,8 +127,18 @@ docker-tests-all: docker-functional-tests docker-doctests docker-kat-tests
 docker-pytest-cov:
 	pytest -v --cov-report xml:coverage.xml --cov=${PACKAGE} tests/
 
-docker-generate-kat: docker-build
-	@docker run --name kat-container -v ./tests:/home/cryptographic_estimators/tests --rm ${IMAGE_NAME} sh -c \
-		"sage tests/external_estimators/generate_kat.py"
-	@make docker-build
+## Sage docker commands
+docker-sage-build:
+	@docker build -t ${SAGE_IMAGE_NAME} -f ${SAGE_DOCKERFILE} .
+
+docker-sage-repl: docker-sage-build
+	@docker run --rm -it ${SAGE_IMAGE_NAME}
+
+docker-sage-shell: docker-sage-build
+	@docker run --rm -it ${SAGE_IMAGE_NAME} /bin/sh
+
+docker-sage-generate-kat: docker-sage-build
+	@docker run --rm \
+		-v ./tests:/home/cryptographic_estimators/tests \
+		${SAGE_IMAGE_NAME} sage tests/kat_tests/external_estimators/generate_kat.py
 

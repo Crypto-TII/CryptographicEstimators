@@ -1057,8 +1057,8 @@
     {
       "estimator_id": "BIKEEstimator",
       "algorithm_id": "BIKEAlgorithm",
-      "display_label": "BIKE Signature Scheme",
-      "landing_page_content": "# BIKE Estimator\n\n\nThis project provides an estimator for the security of the BIKE (Bit Flipping Key Encapsulation) KEM. The scheme is mainly based on the hardness of the binary syndrome decoding problem (on quasy-cyclic codes) and it is currently a fourth round candidate in the ongoing NIST effort for standardization of post-quantum cryptographic schemes. \n\nMore details on the theoretical foundations of the signature scheme and the estimator can be found in the submitted specifications:\n\n[[BIKE24]](https://bikesuite.org/files/v5.2/BIKE_Spec.2024.10.10.1.pdf) \nCarlos Aguilar Melchor, Nicolas Aragon, Paulo L. Barreto, Slim Bettaieb, Loïc Bidoux, Olivier Blazy, Jean-Christophe Deneuville, Philippe Gaborit, Santosh Ghosh, Shay Gueron, Tim Güneysu, Rafael Misoczki, Edoardo Persichetti, Jan Richter-Brockmann, Nicolas Sendrier, Jean-Pierre Tillich, Valentin Vasseur and Gilles Zémor. BIKE: Bit Flipping Key Encapsulation Algorithm Specifications and Supporting Documentation. ",
+      "display_label": "BIKE KEM",
+      "landing_page_content": "# BIKE Estimator\n\n\nThis project provides an estimator for the security of the BIKE (Bit Flipping Key Encapsulation) KEM. The scheme is mainly based on the hardness of the binary syndrome decoding problem (on quasy-cyclic codes) and it is currently a fourth round candidate in the ongoing NIST effort for standardization of post-quantum cryptographic schemes. \n\nMore details on the theoretical foundations of the signature scheme and the estimator can be found in the submitted specifications:\n\n[[BIKE24]](https://bikesuite.org/files/v5.2/BIKE_Spec.2024.10.10.1.pdf) \nCarlos Aguilar Melchor, Nicolas Aragon, Paulo L. Barreto, Slim Bettaieb, Lo\u00efc Bidoux, Olivier Blazy, Jean-Christophe Deneuville, Philippe Gaborit, Santosh Ghosh, Shay Gueron, Tim G\u00fcneysu, Rafael Misoczki, Edoardo Persichetti, Jan Richter-Brockmann, Nicolas Sendrier, Jean-Pierre Tillich, Valentin Vasseur and Gilles Z\u00e9mor. BIKE: Bit Flipping Key Encapsulation Algorithm Specifications and Supporting Documentation. ",
       "problem_parameters": [
         {
           "id": "r",
@@ -1547,6 +1547,86 @@
           "default_value": 2,
           "placeholder": "Insert value",
           "tooltip": "The bit complexity of a field multiplication is assumed to be log_2(q)^(theta). Note that for theta = 0 the output gives the (log of the) necessary number of field multiplications."
+        },
+        {
+          "id": "included_algorithms",
+          "type": "multiple_selector",
+          "direction": "column",
+          "display_label": "Included algorithms",
+          "tooltip": "Algorithms to include for optimization",
+          "default_value": [],
+          "excluded_algorithms": [],
+          "options": [],
+          "dependencies": []
+        },
+        {
+          "id": "memory_access",
+          "type": "selector",
+          "direction": "column",
+          "display_label": "Memory access cost",
+          "default_value": 0,
+          "tooltip": "Function that takes as input the memory bit complexity and outputs the associate algorithmic cost. Example, logarithmic memory access, input M, output M+log2M.",
+          "options": [
+            "Constant",
+            "Logarithmic",
+            "Square root",
+            "Cube root"
+          ]
+        },
+        {
+          "id": "precision",
+          "type": "number",
+          "direction": "column",
+          "display_label": "Decimal precision",
+          "default_value": 0,
+          "placeholder": "Insert value",
+          "tooltip": "Number of decimal digits to display"
+        }
+      ]
+    },
+    {
+      "estimator_id": "IFEstimator",
+      "algorithm_id": "IFAlgorithm",
+      "display_label": "Integer Factoring",
+      "landing_page_content": "# Integer Factoring Estimator\n\n\nThis project provides an estimator for the hardness of the integer factorization problem. This problem is defined as follows:\n\nGiven a positive integer of bit size $n$, find all its prime divisors. We consider the following classical algorithms:\n\n* Trial division algorithm\n\n* Lenstra's elliptic curve factorization algorithm\n\n* General Number Field Sieve algorithm\n\nMore details on the theoretical foundations of the estimator can be found in the corresponding papers:\n\n[[Len17]](https://eprint.iacr.org/2017/1087.pdf) Arjen K. Lenstra. General purpose integer factoring\n\n*[[GuiSlides]](https://people.rennes.inria.fr/Aurore.Guillevic/talks/2024-07-Douala/24-07-Douala-RSA.pdf) A. Guillevic. RSA, integer factorization, record computations (slides)\n\n * [[LLMP93]](https://wstein.org/129/references/Lenstra-Lenstra-Manasse-Pollard-The%20number%20field%20sieve.pdf) A.K. Lenstra, H.W. Lenstra, M.S. Manasse, J.M. Pollard. The Number Field Sieve.",
+      "problem_parameters": [
+        {
+          "id": "n",
+          "type": "number",
+          "display_label": "Bit size of integer to factor",
+          "placeholder": "Insert parameter",
+          "tooltip": "A positive integer representing the bit size of integer to factor"
+        }
+      ],
+      "optional_parameters": [
+        {
+          "id": "memory_bound",
+          "required": false,
+          "type": "number",
+          "direction": "column",
+          "display_label": "Memory limit",
+          "default_value": null,
+          "placeholder": "Insert value",
+          "caption": "Leave empty if no limit is desired",
+          "tooltip": "Log2 of the maximum number of bits of memory available"
+        },
+        {
+          "id": "include_tildeo",
+          "type": "switch",
+          "display_label": "Tilde-O complexity",
+          "default_value": false,
+          "tooltip": "Include complexity estimates that disregard polynomial factors",
+          "dependencies": []
+        }
+      ],
+      "estimator_parameters": [
+        {
+          "id": "bit_complexities",
+          "type": "switch",
+          "display_label": "Bit complexities",
+          "default_value": true,
+          "tooltip": "Show complexities as count of bit operations. If false, show number of elementary operations",
+          "dependencies": []
         },
         {
           "id": "included_algorithms",

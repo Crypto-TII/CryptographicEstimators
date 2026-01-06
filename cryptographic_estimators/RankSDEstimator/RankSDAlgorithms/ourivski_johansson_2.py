@@ -1,18 +1,20 @@
 # ****************************************************************************
-# Copyright 2023 Technology Innovation Institute
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 # ****************************************************************************
 
 
@@ -22,7 +24,7 @@ from ..ranksd_problem import RankSDProblem
 
 
 class OJ2(RankSDAlgorithm):
-    """Construct an instance of OJ strategy 2 estimator
+    """Construct an instance of OJ2 estimator
 
        This algorithm tries to solve a given instance by enumerating the possible F_q basis
        of Suppx, and solving a linearized quadratic system [OJ02]_
@@ -38,13 +40,13 @@ class OJ2(RankSDAlgorithm):
             >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
             >>> OJ = OJ2(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
             >>> OJ
-            OJ strategy 2 estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
+            OJ2 estimator for the Rank Syndrome Decoding problem with (q, m, n, k, r) = (2, 127, 118, 48, 7)
      """
 
     def __init__(self, problem: RankSDProblem, **kwargs):
         super(OJ2, self).__init__(problem, **kwargs)
         self.on_base_field = True
-        self._name = "OJ strategy 2"
+        self._name = "OJ2"
 
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
@@ -57,12 +59,13 @@ class OJ2(RankSDAlgorithm):
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_problem import RankSDProblem
                >>> OJ = OJ2(RankSDProblem(q=2,m=127,n=118,k=48,r=7))
                >>> OJ.time_complexity()
-               745.7661439067468
+               771.2443254830761
         """
 
         q, m, _, k, r = self.problem.get_parameters()
+        nn = ceil(((k + 1) * r) / (m - r))
         self.problem.set_operations_on_base_field(self.on_base_field)
-        time_complexity = self._w * (log2(k + r) + log2(r)) + (r - 1) * (m - r) * log2(q)
+        time_complexity = self._w * (log2(m * nn) + log2(k + 1 + nn) + log2(r)) + (r - 1) * (m - r) * log2(q)
 
         return time_complexity
 

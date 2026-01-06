@@ -1,18 +1,20 @@
 # ****************************************************************************
-# Copyright 2023 Technology Innovation Institute
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 # ****************************************************************************
 
 
@@ -24,7 +26,7 @@ from numpy import float64
 
 
 class EstimationRenderer():
-    def __init__(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0) -> None:
+    def __init__(self, show_quantum_complexity=0, show_tilde_o_time=0, show_all_parameters=0, precision=1, truncate=0, title=' ') -> None:
         """Creates an estimation renderer.
 
         Args:
@@ -33,12 +35,14 @@ class EstimationRenderer():
             show_all_parameters (int): Show all optimization parameters (default: 0).
             precision (int): Number of decimal digits output (default: 1).
             truncate (int): Truncate rather than round the output (default: 0).
+            title: (str): string to be shown in the top left corner of the table (default: " ")
         """
         self._show_quantum_complexity = show_quantum_complexity
         self._show_tilde_o_time = show_tilde_o_time
         self._show_all_parameters = show_all_parameters
         self._precision = precision
         self._truncate = truncate
+        self._title = title
 
     def as_table(self, estimation_result: dict) -> None:
         """Prints the given estimation dictionary as a table."""
@@ -78,7 +82,8 @@ class EstimationRenderer():
         """
         table = PrettyTable([BASE_ALGORITHM])
         table.padding_width = 1
-        table.title = ' '
+        table.title = self._title
+
         table.align[BASE_ALGORITHM] = "l"
 
         for i in estimation.keys():

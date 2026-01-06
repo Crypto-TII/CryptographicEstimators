@@ -1,18 +1,20 @@
 # ****************************************************************************
-# Copyright 2023 Technology Innovation Institute
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 # ****************************************************************************
 
 
@@ -49,7 +51,7 @@ class RankSDEstimator(BaseEstimator):
         )
 
     def table(self, show_quantum_complexity=0, show_tilde_o_time=0,
-              show_all_parameters=0, precision=1, truncate=0):
+              show_all_parameters=0, precision=1, truncate=0, *args, **kwargs):
         """Print table describing the complexity of each algorithm and its optimal parameters.
 
            Args:
@@ -69,12 +71,12 @@ class RankSDEstimator(BaseEstimator):
                | algorithm           |  time | memory |         parameters        |
                +---------------------+-------+--------+---------------------------+
                | BasisEnumeration    | 206.0 |   17.6 |             {}            |
-               | OJ1                 | 160.6 |   16.5 |             {}            |
-               | OJ2                 | 204.9 |   15.9 |             {}            |
+               | OJ1                 | 169.5 |   16.5 |             {}            |
+               | OJ2                 | 220.7 |   15.9 |             {}            |
                | GRS                 | 162.2 |   18.2 |             {}            |
                | ImprovedGRS         | 147.2 |   18.0 |             {}            |
                | GuessingEnhancedGRS | 138.3 |   18.1 |          {'t': 1}         |
-               | HybridLinearization | 174.4 |   12.4 |         {'t': 15}         |
+               | AnnulatorPolynomial | 174.4 |   12.4 |         {'t': 15}         |
                | MaxMinors           | 153.0 |   33.0 |     {'a': 12, 'p': 2}     |
                | SupportMinors       | 155.1 |   40.1 | {'b': 1, 'a': 11, 'p': 0} |
                +---------------------+-------+--------+---------------------------+
@@ -82,8 +84,8 @@ class RankSDEstimator(BaseEstimator):
            Tests:
 
                >>> from cryptographic_estimators.RankSDEstimator.ranksd_estimator import RankSDEstimator
-               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms import BasisEnumeration,GRS,OJ1,OJ2,HybridLinearization
-               >>> RSDE = RankSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2,HybridLinearization])
+               >>> from cryptographic_estimators.RankSDEstimator.RankSDAlgorithms import BasisEnumeration,GRS,OJ1,OJ2,AnnulatorPolynomial
+               >>> RSDE = RankSDEstimator(q=2, m=31, n=33, k=15, r=10, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2,AnnulatorPolynomial])
                >>> RSDE.table(show_all_parameters=1)
                +---------------------+--------------------------------------------+
                |                     |                  estimate                  |
@@ -97,7 +99,7 @@ class RankSDEstimator(BaseEstimator):
                +---------------------+-------+--------+---------------------------+
 
 
-               >>> RSDE = RankSDEstimator(q=2, m=37, n=41, k=18, r=13, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2,HybridLinearization])
+               >>> RSDE = RankSDEstimator(q=2, m=37, n=41, k=18, r=13, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2,AnnulatorPolynomial])
                >>> RSDE.table(show_all_parameters=1)
                +---------------------+--------------------------------------------+
                |                     |                  estimate                  |
@@ -111,7 +113,7 @@ class RankSDEstimator(BaseEstimator):
                +---------------------+-------+--------+---------------------------+
 
 
-               >>> RSDE = RankSDEstimator(q=2, m=43, n=47, k=18, r=17, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2,HybridLinearization])
+               >>> RSDE = RankSDEstimator(q=2, m=43, n=47, k=18, r=17, w=2, excluded_algorithms=[BasisEnumeration,GRS,OJ1,OJ2,AnnulatorPolynomial])
                >>> RSDE.table(show_all_parameters=1)
                +---------------------+------------------------------------+
                |                     |              estimate              |
@@ -128,4 +130,5 @@ class RankSDEstimator(BaseEstimator):
         super(RankSDEstimator, self).table(show_quantum_complexity=show_quantum_complexity,
                                            show_tilde_o_time=show_tilde_o_time,
                                            show_all_parameters=show_all_parameters,
-                                           precision=precision, truncate=truncate)
+                                           precision=precision, truncate=truncate,
+                                           *args, **kwargs)
