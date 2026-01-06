@@ -1,0 +1,10 @@
+-------------
+direct_attack
+-------------
+
+.. automodule:: cryptographic_estimators.UOVEstimator.UOVAlgorithms.direct_attack
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

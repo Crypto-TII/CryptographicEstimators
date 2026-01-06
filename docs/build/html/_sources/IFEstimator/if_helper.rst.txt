@@ -1,0 +1,10 @@
+---------
+if_helper
+---------
+
+.. automodule:: cryptographic_estimators.IFEstimator.if_helper
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

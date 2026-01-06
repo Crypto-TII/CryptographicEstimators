@@ -1,0 +1,10 @@
+-----
+cgmta
+-----
+
+.. automodule:: cryptographic_estimators.MQEstimator.MQAlgorithms.cgmta
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

@@ -1,0 +1,10 @@
+-------
+lenstra
+-------
+
+.. automodule:: cryptographic_estimators.IFEstimator.IFAlgorithms.lenstra
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+
