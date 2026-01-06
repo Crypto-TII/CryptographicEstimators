@@ -59,7 +59,7 @@ let
         fi
         source .venv/bin/activate
         export PYTHONPATH=$PYTHONPATH:`pwd`/$VENV/${myPython.sitePackages}/
-        #make install
+        make install
     '';
   };
 in shell
