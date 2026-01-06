@@ -1,10 +1,14 @@
 name: Update changelog
-
 on:
   pull_request:
-    types: [closed]
+    types: [opened, synchronize, reopened, edited]
     branches:
-      - main
+      - develop
+#on:
+#  pull_request:
+#    types: [closed]
+#    branches:
+#      - main
 
 jobs:
   update-changelog:
@@ -12,9 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
-          persist-credentials: false
+          #persist-credentials: false
           fetch-depth: 0
 
       - name: run-bash-file
