@@ -47,7 +47,13 @@ jobs:
 
     - name: Generate documentation
       run: docker run --rm -v $PWD:/home/cryptographic_estimators/ estimators-lib make doc
-
+    - name: Commit files
+      run: |
+        git config --local user.email "githubactions@githubactions.com"
+        git config --local user.name "githubactions"
+        git add .
+        git commit  -m "Add Documentatio"
+          
     - name: commit-push-changes
       uses: ad-m/github-push-action@master
       with:
