@@ -57,7 +57,7 @@ class RegularISDPerm(RegSDAlgorithm):
         # cost of one iteration
         T_iter = log2(n - k_prime) * 2
 
-        return T_iter - p_iter
+        return self._time_with_repetitions(T_iter, p_iter)
 
     def _compute_memory_complexity(self, parameters: dict):
         """Return the memory complexity of the algorithm for a given set of parameters.
