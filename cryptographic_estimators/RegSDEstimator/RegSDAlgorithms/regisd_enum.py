@@ -126,5 +126,5 @@ class RegularISDEnum(RegSDAlgorithm):
         T_iter = max(log2(n - k_prime) * 2, 1 + L, L * 2 - ell)
 
         # overall cost
-        time = T_iter - p_iter
+        time = self._time_with_repetitions(T_iter, p_iter)
         return time, L
