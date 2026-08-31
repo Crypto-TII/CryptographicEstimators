@@ -24,11 +24,12 @@ from ...MQEstimator.mq_problem import MQProblem
 from ..mq_constants import MQ_LAS_VEGAS
 from ...MQEstimator.MQAlgorithms.booleansolve_fxl import BooleanSolveFXL
 from math import log2, inf
-import pytest
 
 class JustGuess(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
         """Construct an instance of Just Guess estimator.
+
+        Just Guess is an algorithm to solve the underdetermined MQ problem [MOR26]_.
 
         Args:
             problem (MQProblem): MQProblem object including all necessary parameters.
@@ -88,7 +89,7 @@ class JustGuess(MQAlgorithm):
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = JustGuess(MQProblem(q=16, n=45, m=10))
             >>> E.p()
-            4
+            7
         """
         return self._get_optimal_parameter("p")
 
@@ -106,8 +107,6 @@ class JustGuess(MQAlgorithm):
             22.47536929194652
     
         Tests:
-            >>> if skip_long_doctests:
-            ...     pytest.skip()
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.just_guess import JustGuess
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = JustGuess(MQProblem(q=16, n=924, m=67), bit_complexities=False)
@@ -171,17 +170,17 @@ class JustGuess(MQAlgorithm):
             parameters (dict): Dictionary including the parameters.
 
         Tests:
-            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.JustGuess import JustGuess
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.just_guess import JustGuess
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = JustGuess(MQProblem(q=16, n=45, m=10))
             >>> E.memory_complexity()
-            9.129283016944967
+            16.30563428754671
         """
         n, m, q = self.problem.get_problem_parameters()
         p = parameters["p"]
         k = parameters["k"]
 
         if not (2 * k + p - m < 0 or m - k - p < 0 or 2 * (n-m) < p * (2*m - 2*k - p - 1) or n - 1 < (m - k - p - 1) * (m - k + 2)):
-            return 0
-        
+            return log2(m * n**2)
+
         return inf
