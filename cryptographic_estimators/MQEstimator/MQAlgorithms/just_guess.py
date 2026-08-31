@@ -101,9 +101,9 @@ class JustGuess(MQAlgorithm):
         Examples:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.just_guess import JustGuess
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            >>> E = JustGuess(MQProblem(q=16, n=45, m=10))
+            >>> E = JustGuess(MQProblem(q=16, n=45, m=10, theta=None), bit_complexities=True)
             >>> E.time_complexity()
-            29.75041913021961
+            22.47536929194652
     
         Tests:
             >>> if skip_long_doctests:
@@ -112,7 +112,15 @@ class JustGuess(MQAlgorithm):
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
             >>> E = JustGuess(MQProblem(q=16, n=924, m=67), bit_complexities=False)
             >>> E.time_complexity()
-            111.55965470245576
+            103.96311188597973
+
+            >>> E = JustGuess(MQProblem(q=16, n=924, m=67, theta=1), bit_complexities=True)
+            >>> E.time_complexity()
+            105.96311188597973
+
+            >>> E = JustGuess(MQProblem(q=16, n=924, m=67, theta=None), bit_complexities=True)
+            >>> E.time_complexity()
+            109.13303688742204
         """
         n, m, q = self.problem.get_problem_parameters()
         p = parameters["p"]
