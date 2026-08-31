@@ -273,6 +273,11 @@ References
            *Extended Algorithm for Solving Underdefined Multivariate Quadratic Equations*
            https://link.springer.com/chapter/10.1007/978-3-642-38616-9_8
 
+.. [MOR26] \Alexander May, Massimo Ostuzzi, and Henrik Ressler.
+           *Just Guess: Improved (Quantum) Algorithm for the Underdetermined MQ Problem*
+           https://link.springer.com/chapter/10.1007/978-3-032-25327-9_12
+           https://eprint.iacr.org/2025/1788
+
 .. _ref-N:
 
 **N**
