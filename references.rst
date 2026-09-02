@@ -186,11 +186,6 @@ References
            *Polynomial XL: A Variant of the XL Algorithm Using Macaulay Matrices over Polynomial Rings*
            https://eprint.iacr.org/2021/1609
 
-.. [FI26] \Hiroki Furue, and Yasuhiko Ikematsu.
-           *Key Recovery Attacks on UOV Using p^ℓ-truncated Polynomial Rings*
-           https://link.springer.com/chapter/10.1007/978-3-032-35398-6_10
-           https://eprint.iacr.org/2026/298
-
 .. _ref-G:
 
 **G**
