@@ -80,6 +80,8 @@ class UOVEstimator(BaseEstimator):
             | CollisionAttack    |   forgery    | 17.4 |    8.0 |    -- |       -- |
             | IntersectionAttack | key-recovery | 23.3 |   13.1 |    -- |       -- |
             | WedgeAttack        | key-recovery | 42.1 |   40.6 |    -- |       -- |
+            | ReconciliationFI   | key-recovery | 43.1 |   24.7 |    -- |       -- |
+            | IntersectionFI     | key-recovery | 39.8 |   23.1 |    -- |       -- |
             +--------------------+--------------+------+--------+-------+----------+
 
 
@@ -95,6 +97,8 @@ class UOVEstimator(BaseEstimator):
             | CollisionAttack    |   forgery    | 54.8 |   45.5 | {'X': 47.968, 'Y': 35.507} |
             | IntersectionAttack | key-recovery |   -- |     -- |             {}             |
             | WedgeAttack        | key-recovery | 15.8 |   10.5 |       {'o_prime': 4}       |
+            | ReconciliationFI   | key-recovery | 13.1 |    7.2 |     {'k': 22, 'l': 1}      |
+            | IntersectionFI     | key-recovery |   -- |     -- |             {}             |
             +--------------------+--------------+------+--------+----------------------------+
 
         Tests:
@@ -113,6 +117,8 @@ class UOVEstimator(BaseEstimator):
             | CollisionAttack    |   forgery    | 189.3 |  181.0 | {'X': 180.389, 'Y': 169.976} |
             | IntersectionAttack | key-recovery | 165.7 |   76.5 |           {'k': 2}           |
             | WedgeAttack        | key-recovery | 140.7 |  132.0 |       {'o_prime': 18}        |
+            | ReconciliationFI   | key-recovery | 141.4 |   75.3 |      {'k': 26, 'l': 1}       |
+            | IntersectionFI     | key-recovery | 128.4 |   69.1 |       {'k': 7, 'l': 1}       |
             +--------------------+--------------+-------+--------+------------------------------+
 
 
@@ -128,6 +134,8 @@ class UOVEstimator(BaseEstimator):
             | CollisionAttack    |   forgery    | 301.6 |  293.3 | {'X': 292.034, 'Y': 282.331} |
             | IntersectionAttack | key-recovery | 249.9 |  117.9 |           {'k': 2}           |
             | WedgeAttack        | key-recovery | 206.9 |  198.3 |       {'o_prime': 26}        |
+            | ReconciliationFI   | key-recovery | 207.5 |  109.0 |      {'k': 46, 'l': 1}       |
+            | IntersectionFI     | key-recovery | 181.5 |   96.3 |      {'k': 14, 'l': 1}       |
             +--------------------+--------------+-------+--------+------------------------------+
 
         """
