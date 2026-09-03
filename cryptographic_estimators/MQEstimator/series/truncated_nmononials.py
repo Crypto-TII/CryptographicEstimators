@@ -27,8 +27,7 @@ class TruncatedNMonomialSeries(object):
 
         The ring is F[x_1, ..., x_n] / <x_1^s, ..., x_n^s>. Its monomials of degree d are those of
         the polynomial ring whose exponents are all smaller than s, so their number is the d-th
-        coefficient of (1 + x + ... + x^(s-1))^n. That count is the quantity T(n, s, d) of Furue and
-        Ikematsu [FI26]_.
+        coefficient of (1 + x + ... + x^(s-1))^n.
 
         Args:
             n (int): The number of variables.
