@@ -4,8 +4,7 @@ from cryptographic_estimators.UOVEstimator import IntersectionFI, Reconciliation
 
 # Table 3 of [FI26]_ (Furue and Ikematsu, ePrint 2026/298): for each UOV parameter set, the log2
 # gate count of the reconciliation attack and the optimal (ell, k, D). theta=None selects the gate
-# conversion 2*log2(q)^2 + log2(q) that
-# Section 5 of [FI26]_ applies to produce the table.
+# conversion 2*log2(q)^2 + log2(q) that Section 5 of [FI26]_ applies to produce the table.
 FI26_TABLE_3 = [
     ("uov-Ip", 256, 112, 44, 141, (1, 26, 18)),
     ("uov-Is", 16, 160, 64, 176, (1, 42, 22)),
