@@ -24,8 +24,7 @@ from ...base_algorithm import optimal_parameter
 from ...base_constants import BASE_KEY_RECOVERY_ATTACK
 from ...helper import gf_order_to_characteristic, gf_order_to_degree
 from ..mayo_helper import (
-    fi_attack_are_parameters_invalid,
-    fi_attack_compute_admissible_values_k,
+    fi_attack_first_admissible_l,
 )
 from math import log2, inf, comb as binomial
 
@@ -36,7 +35,8 @@ class ReconciliationFI(MAYOAlgorithm):
 
         This is the reconciliation attack of Furue and Ikematsu carried out over the
         p^ell-truncated polynomial ring R(p^ell) = F_q[x_1, ..., x_n] / <x_1^(p^ell), ..., x_n^(p^ell)>,
-        where q = p^e. Section 4.3 of [FI26]_.
+        where q = p^e [FI26]_.
+
         Args:
             problem (MAYOProblem): MAYOProblem object including all necessary parameters
             **kwargs: Additional keyword arguments.
@@ -69,40 +69,13 @@ class ReconciliationFI(MAYOAlgorithm):
         if not isinstance(self._max_l, int) or not 1 <= self._max_l <= self._e:
             raise ValueError(f"max_l must be in the range 1 <= max_l <= {self._e}")
 
-        self._precomputed_admissible_values_l = {}
-        # 0 marks the first admissible truncation exponent as not yet computed; None marks the
-        # computed absence of one, so the two cases must not be conflated.
-        self._first_l = 0
+        self._first_working_l = None
+        self._admissible_values_k = {}
+        self._first_working_l_is_computed = False
         self.set_parameter_ranges("k", 0, self._o - 1)
         self.set_parameter_ranges("l", 1, self._max_l)
         self._name = "ReconciliationFI"
         self._attack_type = BASE_KEY_RECOVERY_ATTACK
-
-    def _first_admissible_truncation_exponent(self):
-        """Return the smallest ell in [1, max_l] for which some k admits a solving degree.
-
-        Examples:
-            >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.reconciliation_fi import ReconciliationFI
-            >>> from cryptographic_estimators.MAYOEstimator.mayo_problem import MAYOProblem
-            >>> E = ReconciliationFI(MAYOProblem(n=86, m=78, o=8, k=10, q=16))
-            >>> E._first_admissible_truncation_exponent()
-            3
-        """
-        if self._first_l == 0:
-            # Equation (11) of [FI26]_ is the shared scan with the m equations of this attack and
-            # with the oil space, of dimension o, as the solution space.
-            n, m, o, _, _ = self.problem.get_parameters()
-            self._first_l = next(
-                (
-                    l
-                    for l in range(1, self._max_l + 1)
-                    if fi_attack_compute_admissible_values_k(
-                        n, m, o, self._p, l, self._precomputed_admissible_values_l
-                    )
-                ),
-                None,
-            )
-        return self._first_l
 
     def _are_parameters_invalid(self, parameters: dict):
         """Return whether the given parameters are outside the optimisation.
@@ -114,16 +87,13 @@ class ReconciliationFI(MAYOAlgorithm):
             parameters (dict): Dictionary including the parameters.
         """
         l, k = parameters["l"], parameters["k"]
-        if l != self._first_admissible_truncation_exponent():
-            return True
-
         n, m, o, _, _ = self.problem.get_parameters()
-        return fi_attack_are_parameters_invalid(
-            k,
-            fi_attack_compute_admissible_values_k(
-                n, m, o, self._p, l, self._precomputed_admissible_values_l
-            ),
-        )
+        if not self._first_working_l_is_computed:
+            self._first_working_l, self._admissible_values_k = fi_attack_first_admissible_l(
+                n, m, o, self._p, self._max_l
+            )
+            self._first_working_l_is_computed = True
+        return l != self._first_working_l or k not in self._admissible_values_k
 
     @optimal_parameter
     def k(self):
@@ -170,9 +140,7 @@ class ReconciliationFI(MAYOAlgorithm):
             return None
 
         n, m, o, _, _ = self.problem.get_parameters()
-        return fi_attack_compute_admissible_values_k(
-            n, m, o, self._p, l, self._precomputed_admissible_values_l
-        )[k][0]
+        return self._admissible_values_k[k][0]
 
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
@@ -191,9 +159,7 @@ class ReconciliationFI(MAYOAlgorithm):
         """
         n, m, o, _, _ = self.problem.get_parameters()
         l, k = parameters["l"], parameters["k"]
-        data = fi_attack_compute_admissible_values_k(
-            n, m, o, self._p, l, self._precomputed_admissible_values_l
-        )
+        data = self._admissible_values_k
         if k not in data:
             return inf
         _, ncols = data[k]
@@ -218,9 +184,7 @@ class ReconciliationFI(MAYOAlgorithm):
         """
         n, m, o, _, _ = self.problem.get_parameters()
         l, k = parameters["l"], parameters["k"]
-        data = fi_attack_compute_admissible_values_k(
-            n, m, o, self._p, l, self._precomputed_admissible_values_l
-        )
+        data = self._admissible_values_k
         if k not in data:
             return inf
         _, ncols = data[k]

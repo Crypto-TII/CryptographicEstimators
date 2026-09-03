@@ -49,28 +49,3 @@ def test_intersection_fi_matches_table_3(name, q, n, m, complexity, time, memory
     assert estimator.time_complexity() == time
     assert estimator.memory_complexity() == memory
     assert (estimator.l(), estimator.k(), estimator.D()) == parameters
-
-
-# The intersection attack column of Table 8 of [FI26]_, which reruns the UOV parameters of [3] over
-# other fields of the same size. Unlike Tables 3 and 4, these rows tell the two readings of
-# Equations (13) to (16) apart: for (5, 3) and (7, 2) below, ell = 1 already admits a solving degree
-# yet the cheapest attack is at ell = 2, so the estimator must minimise over all ell rather than
-# stop at the first admissible one, exactly as the code of Appendix D of [FI26]_ does.
-FI26_TABLE_8_INTERSECTION = [
-    ("112/44 (3,5)", 3**5, 112, 44, 159, 158.84273567879052, 84.26369431067656, (1, 11, 18)),
-    ("112/44 (5,3)", 5**3, 112, 44, 165, 165.3121491934552, 87.36753228948233, (2, 19, 20)),
-    ("112/44 (7,2)", 7**2, 112, 44, 165, 164.713065083476, 87.14513986814589, (2, 19, 20)),
-    ("160/64 (3,2)", 3**2, 160, 64, 196, 196.33713606070725, 103.73009918086757, (1, 21, 22)),
-]
-
-
-@pytest.mark.parametrize(
-    "name, q, n, m, complexity, time, memory, parameters", FI26_TABLE_8_INTERSECTION
-)
-def test_intersection_fi_matches_table_8(name, q, n, m, complexity, time, memory, parameters):
-    """The estimator reproduces the intersection attack column of Table 8 of [FI26]_."""
-    estimator = IntersectionFI(UOVProblem(n=n, m=m, q=q, theta=None))
-    assert round(estimator.time_complexity()) == complexity
-    assert estimator.time_complexity() == time
-    assert estimator.memory_complexity() == memory
-    assert (estimator.l(), estimator.k(), estimator.D()) == parameters

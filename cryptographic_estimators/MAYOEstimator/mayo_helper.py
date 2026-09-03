@@ -52,26 +52,13 @@ def _optimize_k(n: int, m: int, k: int, q: int, w: float):
     return K
 
 
-def fi_attack_compute_admissible_values_k(
-    n: int, neqs: int, alpha: int, p: int, l: int, precomputed_admissible_values_l: dict
-):
-    """Return the solving degree and the truncated Macaulay matrix width of every admissible k.
+def fi_attack_compute_admissible_values_k(n: int, neqs: int, alpha: int, p: int, l: int):
+    """Return the solving degrees and the number of columns of truncated Macaulay matrix width of every admissible k.
 
     A value k is admissible if
     H(n-k, neqs, s, d) <= T(alpha-k, s, d) for some 2 <= d <= (alpha - k) * (s - 1),
     where s = p^l is the truncation of the ring R(p^l).
     The solving degree D for a given k is the minimum d satisfying the above inequality.
-
-    This is the scan shared by the attacks of [FI26]_ over R(p^l), each setting (neqs, alpha) to its
-    own: Equation (11) to the m equations and the oil space of dimension o, Equation (13) to the
-    3m - 2 equations and the intersection of the two oil spaces.
-
-    Guessing k of the n coordinates leaves the system in n - k of them, so k runs up to
-    min(alpha, n) - 1.
-
-    The scan is expensive and each caller runs it for several l, so its result is stored in the
-    caller's `precomputed_admissible_values_l` under l. Every call sharing that mapping must share
-    (n, neqs, alpha, p) too.
 
     Args:
         n (int): Number of variables of the system before any coordinate is guessed.
@@ -79,9 +66,6 @@ def fi_attack_compute_admissible_values_k(
         alpha (int): Dimension of the linear solution space.
         p (int): Characteristic of the field, q = p^e.
         l (int): Truncation exponent l, giving the truncation s = p^l.
-        precomputed_admissible_values_l (dict): Mapping of each l already scanned to the admissible
-            values of k it gave, read and written in place.
-
     Returns:
         A dictionary mapping each admissible k to the pair (D, ncols), where ncols is the number of
         columns of the truncated Macaulay matrix at degree D. A k with no solving degree, or whose
@@ -89,17 +73,11 @@ def fi_attack_compute_admissible_values_k(
 
     Examples:
         >>> from cryptographic_estimators.MAYOEstimator.mayo_helper import fi_attack_compute_admissible_values_k
-        >>> precomputed_admissible_values_l = {}
-        >>> fi_attack_compute_admissible_values_k(24, 10, 10, 2, 1, precomputed_admissible_values_l)  # Equation (11) for (q, n, m) = (2, 24, 10)
+        >>> fi_attack_compute_admissible_values_k(24, 10, 10, 2, 1)  # Equation (11) for (q, n, m) = (2, 24, 10)
         {0: (8, 735427), 1: (8, 490306), 2: (7, 170537), 3: (7, 116280)}
-        >>> precomputed_admissible_values_l[1] is fi_attack_compute_admissible_values_k(24, 10, 10, 2, 1, precomputed_admissible_values_l)
-        True
-        >>> fi_attack_compute_admissible_values_k(24, 28, 6, 2, 1, {})  # Equation (13) for the same, alpha = 3m - n
+        >>> fi_attack_compute_admissible_values_k(24, 28, 6, 2, 1)  # Equation (13) for the same, alpha = 3m - n
         {0: (5, 42499), 1: (5, 33649)}
     """
-    if l in precomputed_admissible_values_l:
-        return precomputed_admissible_values_l[l]
-
     if not isinstance(l, int) or l < 1:
         raise ValueError("The truncation exponent l must be an integer with l >= 1.")
 
@@ -132,25 +110,30 @@ def fi_attack_compute_admissible_values_k(
         if ncols > 0:
             data[k] = (D, ncols)
 
-    precomputed_admissible_values_l[l] = data
     return data
 
 
-def fi_attack_are_parameters_invalid(k: int, admissible_values_k: dict):
-    """Return whether k is outside the optimisation at the truncation it was scanned for.
-
-    Which truncation exponents ell are offered at all is not shared, and stays with each attack.
+def fi_attack_first_admissible_l(n: int, neqs: int, alpha: int, p: int, max_l: int):
+    """Return the first working l and its admissible values of k.
 
     Args:
-        k (int): Number of guessed coordinates.
-        admissible_values_k (dict): Output of `fi_attack_compute_admissible_values_k` for the
-            truncation in question.
-
+        n (int): Number of variables before guessing coordinates.
+        neqs (int): Number of linearly independent quadratic equations.
+        alpha (int): Dimension of the linear solution space.
+        p (int): Characteristic of the field.
+        max_l (int): Largest truncation exponent to scan.
     Examples:
-        >>> from cryptographic_estimators.MAYOEstimator.mayo_helper import fi_attack_are_parameters_invalid
-        >>> fi_attack_are_parameters_invalid(1, {0: (5, 42499), 1: (5, 33649)})
-        False
-        >>> fi_attack_are_parameters_invalid(2, {0: (5, 42499), 1: (5, 33649)})
-        True
+        >>> from cryptographic_estimators.MAYOEstimator.mayo_helper import fi_attack_first_admissible_l
+        >>> l, admissible_values_k = fi_attack_first_admissible_l(24, 10, 10, 2, 1)
+        >>> l
+        1
+        >>> admissible_values_k[0]
+        (8, 735427)
+        >>> fi_attack_first_admissible_l(2, 0, 1, 2, 1)
+        (None, {})
     """
-    return k not in admissible_values_k
+    for l in range(1, max_l + 1):
+        admissible_values_k = fi_attack_compute_admissible_values_k(n, neqs, alpha, p, l)
+        if admissible_values_k:
+            return l, admissible_values_k
+    return None, {}

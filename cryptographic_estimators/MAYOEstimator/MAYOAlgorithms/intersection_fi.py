@@ -24,8 +24,7 @@ from ...base_algorithm import optimal_parameter
 from ...base_constants import BASE_KEY_RECOVERY_ATTACK
 from ...helper import gf_order_to_characteristic, gf_order_to_degree
 from ..mayo_helper import (
-    fi_attack_are_parameters_invalid,
-    fi_attack_compute_admissible_values_k,
+    fi_attack_first_admissible_l,
 )
 from math import log2, inf, comb as binomial
 
@@ -34,27 +33,17 @@ class IntersectionFI(MAYOAlgorithm):
     def __init__(self, problem: MAYOProblem, **kwargs):
         """Construct an instance of the Furue-Ikematsu intersection attack estimator.
 
-        This is the intersection attack of Beullens [Beu20]_ carried out over the
+        This is the reconciliation attack of Furue and Ikematsu  carried out over the
         p^ell-truncated polynomial ring R(p^ell) = F_q[x_1, ..., x_n] / <x_1^(p^ell), ..., x_n^(p^ell)>,
-        where q = p^e. Section 4.3 of [FI26]_.
-
-        The two oil spaces meet in dimension 3o - n when n < 3o, and only with probability
-        q^-(n - 3o + 1) otherwise. Every instance is estimated by Equations (13) to (16) of [FI26]_
-        as written, including one whose oil space is larger than its vinegar space; where those
-        equations admit no k the attack is reported as inapplicable, as for any other parameters.
-
-        An oil space of dimension o > n would make the public key trivially invertible and the
-        instance solvable in polynomial time, but no such instance can be built: `MAYOProblem`
-        requires k < n - o, which rejects every o >= n at construction for the k >= 0 that MAYO
-        allows. There is therefore no such case to estimate here.
+        where q = p^e [FI26]_.
 
         Args:
             problem (MAYOProblem): MAYOProblem object including all necessary parameters
             **kwargs: Additional keyword arguments.
                 max_l (int): Upper bound on the truncation exponent ell (default: e, where q = p^e).
-                    Equations (13) and (15) of [FI26]_ range over 1 <= ell <= e, and the estimate is
-                    the cheapest over that range; lowering this bound restricts the minimisation to
-                    1 <= ell <= max_l, which is only worth doing to shorten the search.
+                    Equations (13) and (15) of [FI26]_ range over 1 <= ell <= e; lowering this bound
+                    cuts the upward scan short, and has no effect whenever ell = 1 is already
+                    admissible.
                 h (int, optional): External hybridization parameter. Defaults to 0.
                 memory_access (int, optional): Specifies the memory access cost model. Defaults to 0.
                     Choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root
@@ -94,7 +83,9 @@ class IntersectionFI(MAYOAlgorithm):
             self._alpha = 1
             self._log_repetitions = (n - 3 * o + 1) * log2(q)
 
-        self._precomputed_admissible_values_l = {}
+        self._first_working_l = None
+        self._admissible_values_k = {}
+        self._first_working_l_is_computed = False
         self.set_parameter_ranges("k", 0, self._alpha - 1)
         self.set_parameter_ranges("l", 1, self._max_l)
         self._name = "IntersectionFI"
@@ -103,24 +94,20 @@ class IntersectionFI(MAYOAlgorithm):
     def _are_parameters_invalid(self, parameters: dict):
         """Return whether the given parameters are outside the optimisation.
 
-        Every pair (ell, k) admitting a solving degree is a candidate, the optimiser keeping the
-        cheapest, as the code of Appendix D of [FI26]_ does. A larger ell is not always dearer, six
-        rows of Table 8 of [FI26]_ being cheapest at ell > 1 though admissible at ell = 1.
+        Only the first admissible truncation exponent is considered, and only those k that admit a
+        solving degree for it.
 
         Args:
             parameters (dict): Dictionary including the parameters.
         """
         l, k = parameters["l"], parameters["k"]
-        # Equation (13) of [FI26]_ is the shared scan with the 3m - 2 equations of this attack and
-        # with the intersection of the two oil spaces, of dimension alpha, as the solution space;
-        # with alpha = 1 it is Equation (15), whose right-hand side T(1, s, d) is 1 throughout.
         n, _, _, _, _ = self.problem.get_parameters()
-        return fi_attack_are_parameters_invalid(
-            k,
-            fi_attack_compute_admissible_values_k(
-                n, self._neqs, self._alpha, self._p, l, self._precomputed_admissible_values_l
-            ),
-        )
+        if not self._first_working_l_is_computed:
+            self._first_working_l, self._admissible_values_k = fi_attack_first_admissible_l(
+                n, self._neqs, self._alpha, self._p, self._max_l
+            )
+            self._first_working_l_is_computed = True
+        return l != self._first_working_l or k not in self._admissible_values_k
 
     @optimal_parameter
     def k(self):
@@ -137,7 +124,7 @@ class IntersectionFI(MAYOAlgorithm):
 
     @optimal_parameter
     def l(self):
-        """Return the truncation exponent ell minimising Equation (14) of [FI26]_.
+        """Return the truncation exponent ell, the first one admitting a solving degree.
 
         Examples:
             >>> from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.intersection_fi import IntersectionFI
@@ -167,9 +154,7 @@ class IntersectionFI(MAYOAlgorithm):
             return None
 
         n, _, _, _, _ = self.problem.get_parameters()
-        return fi_attack_compute_admissible_values_k(
-            n, self._neqs, self._alpha, self._p, l, self._precomputed_admissible_values_l
-        )[k][0]
+        return self._admissible_values_k[k][0]
 
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
@@ -188,9 +173,7 @@ class IntersectionFI(MAYOAlgorithm):
         """
         n, _, _, _, _ = self.problem.get_parameters()
         l, k = parameters["l"], parameters["k"]
-        data = fi_attack_compute_admissible_values_k(
-            n, self._neqs, self._alpha, self._p, l, self._precomputed_admissible_values_l
-        )
+        data = self._admissible_values_k
         if k not in data:
             return inf
         _, ncols = data[k]
@@ -216,9 +199,7 @@ class IntersectionFI(MAYOAlgorithm):
         """
         n, _, _, _, _ = self.problem.get_parameters()
         l, k = parameters["l"], parameters["k"]
-        data = fi_attack_compute_admissible_values_k(
-            n, self._neqs, self._alpha, self._p, l, self._precomputed_admissible_values_l
-        )
+        data = self._admissible_values_k
         if k not in data:
             return inf
         _, ncols = data[k]

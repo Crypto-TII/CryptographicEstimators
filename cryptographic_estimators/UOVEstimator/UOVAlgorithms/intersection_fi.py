@@ -44,9 +44,9 @@ class IntersectionFI(UOVAlgorithm):
             problem (UOVProblem): An instance of the UOVProblem class.
             **kwargs: Additional keyword arguments.
                 max_l (int): Upper bound on the truncation exponent ell (default: e, where q = p^e).
-                    Equations (13) and (15) of [FI26]_ range over 1 <= ell <= e, and the estimate is
-                    the cheapest over that range; lowering this bound restricts the minimisation to
-                    1 <= ell <= max_l, which is only worth doing to shorten the search.
+                    Equations (13) and (15) of [FI26]_ range over 1 <= ell <= e; lowering this bound
+                    cuts the upward scan short, and has no effect whenever ell = 1 is already
+                    admissible.
                 h (int, optional): External hybridization parameter. Defaults to 0.
                 memory_access (int, optional): Specifies the memory access cost model. Defaults to 0.
                     Choices: 0 - constant, 1 - logarithmic, 2 - square-root, 3 - cube-root
@@ -97,7 +97,7 @@ class IntersectionFI(UOVAlgorithm):
 
     @optimal_parameter
     def l(self):
-        """Return the truncation exponent ell minimising Equation (14) of [FI26]_.
+        """Return the truncation exponent ell, the first one admitting a solving degree.
 
         Examples:
             >>> from cryptographic_estimators.UOVEstimator.UOVAlgorithms.intersection_fi import IntersectionFI
