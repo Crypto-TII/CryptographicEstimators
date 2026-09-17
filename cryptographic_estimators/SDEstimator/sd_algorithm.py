@@ -63,7 +63,9 @@ class SDAlgorithm(BaseAlgorithm):
         super().reset()
         try:
             self.initialize_parameter_ranges()
-        except:
+        except AttributeError:
+            pass
+        except ValueError:
             pass
 
     def _are_parameters_invalid(self, parameters: dict):
@@ -210,6 +212,6 @@ class SDAlgorithm(BaseAlgorithm):
                 REPRESENTATIONS,
                 LISTS
         """
-        verb = dict()
+        verb = {}
         _ = self._time_and_memory_complexity(self.optimal_parameters(), verbose_information=verb)
         return verb

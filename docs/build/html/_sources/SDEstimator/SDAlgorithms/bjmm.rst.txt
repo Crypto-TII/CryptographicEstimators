@@ -1,0 +1,10 @@
+----
+bjmm
+----
+
+.. automodule:: cryptographic_estimators.SDEstimator.SDAlgorithms.bjmm
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

@@ -1,0 +1,10 @@
+-----
+stern
+-----
+
+.. automodule:: cryptographic_estimators.SDEstimator.SDAlgorithms.stern
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

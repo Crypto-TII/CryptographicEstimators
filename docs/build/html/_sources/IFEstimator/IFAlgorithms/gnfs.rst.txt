@@ -1,0 +1,10 @@
+----
+gnfs
+----
+
+.. automodule:: cryptographic_estimators.IFEstimator.IFAlgorithms.gnfs
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

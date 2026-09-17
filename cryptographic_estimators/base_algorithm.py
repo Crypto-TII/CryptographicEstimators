@@ -55,12 +55,12 @@ class BaseAlgorithm:
             raise ValueError("bit_complexities must either 0 or 1")
 
 
-        self._optimal_parameters = dict()
-        self._verbose_information = dict()
+        self._optimal_parameters = {}
+        self._verbose_information = {}
         self.problem = problem
         self._time_complexity = None
         self._memory_complexity = None
-        self._parameter_ranges = dict()
+        self._parameter_ranges = {}
         self._optimal_parameters_methods = self._get_optimal_parameter_methods_()
         self._current_minimum_for_early_abort = inf
         for i in self._optimal_parameters_methods:
@@ -166,7 +166,7 @@ class BaseAlgorithm:
 
     def _get_verbose_information(self):
         """Returns dictionary with any additional information relevant to this algorithm."""
-        return dict()
+        return {}
 
     def reset(self):
         """Resets internal state of the algorithm."""
@@ -347,7 +347,7 @@ class BaseAlgorithm:
 
     def __set_dict(self, **kwargs):
         """Returns a dictionary of parameters whose values are all either optimized or they are all specified in kwargs."""
-        params = dict()
+        params = {}
         if kwargs != {}:
             missing_parameters = [
                 x for x in self.parameter_names() if x not in list(kwargs.keys())]
@@ -472,6 +472,12 @@ class BaseAlgorithm:
         if kwargs == {}:
             self._memory_complexity = temp_memory_complexity
         return temp_memory_complexity
+
+    def quantum_time_complexity(self):
+        """Return quantum gate complexity
+
+        """
+        raise NotImplementedError
 
     def optimal_parameters(self):
         """Return a dictionary of optimal parameters.

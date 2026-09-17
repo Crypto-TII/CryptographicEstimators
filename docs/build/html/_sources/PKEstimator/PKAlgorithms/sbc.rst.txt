@@ -1,0 +1,10 @@
+---
+sbc
+---
+
+.. automodule:: cryptographic_estimators.PKEstimator.PKAlgorithms.sbc
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

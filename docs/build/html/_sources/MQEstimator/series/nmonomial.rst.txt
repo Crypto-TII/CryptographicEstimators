@@ -1,0 +1,10 @@
+---------
+nmonomial
+---------
+
+.. automodule:: cryptographic_estimators.MQEstimator.series.nmonomial
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

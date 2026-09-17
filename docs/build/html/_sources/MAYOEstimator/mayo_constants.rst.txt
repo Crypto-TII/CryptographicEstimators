@@ -1,0 +1,10 @@
+--------------
+mayo_constants
+--------------
+
+.. automodule:: cryptographic_estimators.MAYOEstimator.mayo_constants
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

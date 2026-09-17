@@ -180,7 +180,6 @@ class RegularISDRep(RegSDAlgorithm):
         T_iter = max(T_gauss, 3 + L1, 2 + L_y1, 1 + N_y, 1 + L_x1, N_x)
 
         # overall cost
-        time = T_iter - p_iter
+        time = self._time_with_repetitions(T_iter, p_iter)
         memory = max(L1, L_y1,L_x1)
         return time, memory
-

@@ -1,0 +1,10 @@
+------------
+mq_estimator
+------------
+
+.. automodule:: cryptographic_estimators.MQEstimator.mq_estimator
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

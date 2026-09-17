@@ -59,24 +59,25 @@ flowchart LR;
 ```
 
 1. **KAT Generator Functions:** We utilize KAT generator functions located in
-   the `tests/external_estimators` directory. These functions have hardcoded
+   the `tests/kat_tests/external_estimators/` directory. These functions have hardcoded
    inputs as they are not intended for regular modification. Both input
    parameters and their corresponding outputs (referred to as `expected_outputs`
-   as they act as reference values) are serialized into the `tests/kat.yaml`
+   as they act as reference values) are serialized into the `tests/kat_tests/kat.yaml`
    file for later use during estimator testing.
 
 2. **Internal Estimation Functions:** With a collection of inputs and their
    expected outputs, we define how these inputs should be processed within our
    library in order to match the configuration of the external estimator. This
    is achieved through internal estimation functions found in the
-   `tests/internal_estimators` directory. Each function corresponds to a KAT
-   generator in `tests/external_estimators`.
+   `tests/kat_tests/internal_estimators/` directory. Each function corresponds to a KAT
+   generator in `tests/kat_tests/external_estimators/`.
 
 3. **Test Execution and Comparison:** In the final step, we execute all our
    internal estimation functions using the serialized inputs from
-   `test/kat.yaml`. The calculated outputs are then compared against the
+   `tests/kat_tests/kat.yaml`. The calculated outputs are then compared against the
    expected outputs from the KAT generators to verify the accuracy of the
-   CryptographicEstimators library.
+   CryptographicEstimators library. The main KAT test runner is
+   `tests/kat_tests/test_kat.py`.
 
 This separation of concerns makes it easier to maintain and extend the test
 suite as we introduce new estimators or modify existing ones.
@@ -95,8 +96,11 @@ wrappers of external estimators of the complexity of particular algorithms.
 Hence, these functions require careful crafting.
 
 - Begin by creating a new file named `ext_<estimator_name>` within the
-  `tests/external_estimators/` directory. This file can be written in either
+  `tests/kat_tests/external_estimators/` directory. This file can be written in either
   Sage or Python, as our framework supports both formats.
+
+  If you need to use or reference shared code or external reference implementations,
+  you can find them in `tests/kat_tests/external_estimators/reference_implementations/`.
 
 - Inside this file, define your KAT generator function using the naming
   convention `ext_<algorithm_name>`. These functions contain the logic to
@@ -136,18 +140,18 @@ def ext_lee_brickell():
 
 #### 2. Generate reference KAT values
 
-> :warning: **Warning:** This step might take a while as it builds and runs a
-> Docker container with SageMath.
+> :warning: **Warning:** This step might take a while as it builds and runs a Docker container with SageMath.
 
-- From the library root, run the following Docker command to generate the
-  reference KAT values. These are generated based on your KAT generator
-  functions and their hardcoded inputs.
+- From the library root, run the following command to generate the reference KAT values using the Sage Docker environment.  
+  This process will use your KAT generator functions (with their hardcoded inputs) to compute and serialize the expected outputs:
 
   ```bash
-  make docker-generate-kat
+  make docker-sage-generate-kat
   ```
 
-- This process creates or updates the `tests/kat.yaml` file, which will now
+  This command will build the Sage Docker image if needed, then run the KAT generation script inside the container. For more details on the Sage Docker environment and available commands, see the [Sage Docker Environment for KAT Development and Debugging](#sage-docker-environment-for-kat-development-and-debugging) section at the end of this document.
+
+- This process creates or updates the `tests/kat_tests/kat.yaml` file, which will now
   include your defined KAT generator functions with their outputs, organized
   within a dictionary. Note that the `ext_` prefix used in the code is removed
   for easier readability in the YAML file.
@@ -159,10 +163,10 @@ library's internal estimators – functions that mirror the KAT generators but
 implement our algorithms. These internal estimators are what we rigorously test
 against the KAT values.
 
-- Create a new file in the `tests/internal_estimators` directory with a name
+- Create a new file in the `tests/kat_tests/internal_estimators` directory with a name
   that matches your KAT generator file from step 1, but without the `ext_`
-  prefix. For instance, if you created `tests/external_estimators/ext_sdfq.py`,
-  your new file would be `tests/internal_estimators/sdfq.py`.
+  prefix. For instance, if you created `tests/kat_tests/external_estimators/ext_sdfq.py`,
+  your new file would be `tests/kat_tests/internal_estimators/sdfq.py`.
 
 - Within this new file, define a corresponding internal estimation function for
   each KAT generator function from step 1. Use the same function name but remove
@@ -215,16 +219,104 @@ def lee_brickell(input, epsilon = 0.01):
 #### 4. Run Your Tests
 
 With your KAT generator functions, internal estimator implementations, and
-generated reference values in place, you're ready to run your tests! Use the
-following command from your library's root directory:
+generated reference values in place, you're ready to run your tests! The
+CryptographicEstimators library provides several ways to run KAT tests, from
+running all tests to targeting specific estimators or individual test functions.
+
+##### Running All KAT Tests
+
+To run all KAT tests, use one of the following commands from your library's root directory:
 
 ```bash
-make docker-pytest
+make kat-tests
 ```
 
-Or by manually executing
-`pytest tests/validations/test_<your_new_estimator>.py`. The output will
-indicate whether your internal estimators align with the expected KAT values
+Or with Docker:
+
+```bash
+make docker-kat-tests
+```
+
+Or by manually executing:
+```bash
+pytest tests/kat_tests/test_kat.py --target-kat=all
+```
+
+##### Running Functional Tests
+
+To run functional tests (which test specific functionality of estimators):
+
+```bash
+make functional-tests
+```
+
+##### Running All Tests
+
+To run all tests (functional tests, doctests, and KAT tests) in sequence:
+
+```bash
+make tests-all
+```
+
+This is equivalent to running `make functional-tests && make doctests && make kat-tests` and is useful for comprehensive testing before submitting changes.
+
+##### Targeting Specific KAT Tests
+
+The library provides a powerful targeting mechanism to run only a subset of the KATs,
+which is particularly useful for debugging and estimator development. The `TARGET`
+parameter is case-insensitive.
+
+###### Run All Tests (Default Behavior)
+```bash
+make kat-tests-target
+# or
+make kat-tests-target TARGET=all
+```
+
+###### Target a Specific Estimator
+To run only the KATs for a specific estimator (e.g., LEEstimator):
+
+```bash
+make kat-tests-target TARGET=le
+```
+
+This will run all KAT functions associated with the LEEstimator.
+
+###### Target a Specific KAT Function
+To run only a specific KAT function (e.g., `bbps_1`):
+
+```bash
+make kat-tests-target TARGET=bbps_1
+```
+
+This will run only the `bbps_1` test function for the estimator that implements it.
+
+###### Invalid Target Handling
+If you provide an invalid target, the system will display an error message with
+all available targets. For example:
+
+```bash
+make kat-tests-target TARGET=invalid
+```
+
+This will output something like:
+```
+Available estimators and functions:
+===================================
+└── le (for LEEstimator)
+    └── bbps_1
+    └── bbps_2
+    └── bbps_range
+    └── beullens
+    └── beullens_range
+  ...
+```
+
+For more fine-grained control over test execution, you can examine the corresponding
+implementations of the Makefile commands in the project's `Makefile` to understand
+how to adapt the test running commands for your specific needs.
+
+The output will indicate whether your internal estimators align with the expected KAT values
 within the defined error tolerance.
 
 ## Writing Doctests
@@ -434,3 +526,46 @@ After editing it to your needs it can look like this for the `DummyEstimator`:
 
 Notice that you do not have to specify any algorithm in this configuration file,
 as this is all done automatically.
+
+## Sage Docker Environment for KAT Development and Debugging
+
+For advanced KAT development, debugging, or SageMath-based exploration, a dedicated Sage Dockerfile is provided in the `tests/` directory. This environment is not used by the CI, but is intended for local development and debugging.
+
+The following Makefile commands are available:
+
+- `make docker-sage-build`: Build the Sage Docker image.
+- `make docker-sage-repl`: Launch a Sage REPL with the library already installed.
+- `make docker-sage-shell`: Open an interactive shell (sh) within the Sage container.
+- `make docker-sage-generate-kat`: Generate Known Answer Test (KAT) values (this may take some time).
+
+This is especially useful for writing or debugging external KAT estimators, or for exploring the library in a Sage environment.
+
+For more details, see [PR #259](https://github.com/Crypto-TII/CryptographicEstimators/pull/259).
+
+## Docker Variants for Testing
+
+For systems where installing the library dependencies might be challenging (such as NixOS or other specialized distributions), Docker variants of the testing commands are available. These commands run the same tests inside a container with the library already installed and configured.
+
+### Available Docker Testing Commands
+
+- `make docker-doctests`: Run all doctests in a Docker container
+- `make docker-doctests-fast`: Run only fast doctests in a Docker container
+- `make docker-functional-tests`: Run functional tests in a Docker container
+- `make docker-kat-tests`: Run all KAT tests in a Docker container
+- `make docker-tests-all`: Run all tests (functional, doctests, and KAT) in a Docker container
+
+### Usage
+
+These commands are equivalent to their non-Docker counterparts but run inside a containerized environment. They automatically build the Docker image if needed and clean up containers after execution.
+
+For example, instead of running `make tests-all` locally, you can use `make docker-tests-all` to run the same comprehensive test suite in an isolated environment.
+
+### Coverage Testing
+
+For code coverage analysis in Docker:
+
+```bash
+make docker-pytest-cov
+```
+
+This generates a coverage report in XML format that can be used with coverage analysis tools.

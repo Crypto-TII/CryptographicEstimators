@@ -1,0 +1,10 @@
+------
+dinur2
+------
+
+.. automodule:: cryptographic_estimators.MQEstimator.MQAlgorithms.dinur2
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

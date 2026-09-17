@@ -1,0 +1,10 @@
+-------
+ccj_lin
+-------
+
+.. automodule:: cryptographic_estimators.RegSDEstimator.RegSDAlgorithms.ccj_lin
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

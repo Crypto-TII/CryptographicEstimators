@@ -1,0 +1,10 @@
+---
+kmp
+---
+
+.. automodule:: cryptographic_estimators.PKEstimator.PKAlgorithms.kmp
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

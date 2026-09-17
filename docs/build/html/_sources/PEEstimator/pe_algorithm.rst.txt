@@ -1,0 +1,10 @@
+------------
+pe_algorithm
+------------
+
+.. automodule:: cryptographic_estimators.PEEstimator.pe_algorithm
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

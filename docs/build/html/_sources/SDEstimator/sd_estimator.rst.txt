@@ -1,0 +1,10 @@
+------------
+sd_estimator
+------------
+
+.. automodule:: cryptographic_estimators.SDEstimator.sd_estimator
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

@@ -1,0 +1,10 @@
+---------------
+regsd_estimator
+---------------
+
+.. automodule:: cryptographic_estimators.RegSDEstimator.regsd_estimator
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

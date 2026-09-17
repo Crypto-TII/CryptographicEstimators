@@ -213,9 +213,11 @@ class Crossbred(MQAlgorithm):
         )
         return out
 
-    # TODO: Add reference to the crossbred paper (Remark 1).
     def _valid_choices(self):
         """Return a list of admissible parameters (k, D, d).
+
+        Note:
+            Description of admissible parameters is taken from [BCTVV25]_.
 
         Tests:
             >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.crossbred import Crossbred
@@ -231,36 +233,30 @@ class Crossbred(MQAlgorithm):
         max_D = self.max_D
 
         Hn = HilbertSeries(n=n, degrees=[2] * m, q=q)
-        k = new_ranges["k"]["min"]
+        h_n = Hn._hilbert_series_up_to_degree
+        k = 1
         stop = False
         while not stop:
 
             Hk = HilbertSeries(n=k, degrees=[2] * m, q=q)
+            h_k =  Hk._hilbert_series
             h_k_d_reg = Hk.first_nonpositive_coefficient()
+            h_k_up_to_degree = Hk._hilbert_series_up_to_degree
             N = NMonomialSeries(n=n - k, q=q, max_prec=max_D + 1)
-            for D in range(2, self._max_D + 1):
-                for d in range(1, min(h_k_d_reg, D)):
-                    C_D_d = sum(
-                        [
-                            Hk.coefficient_of_degree(i)
-                            * N.nmonomials_up_to_degree(D - i)
-                            for i in range(d + 1)
-                        ]
-                    )
-                    coefficient_D_d = (
-                        C_D_d
-                        - Hn.coefficient_up_to_degree(D)
-                        - Hk.coefficient_up_to_degree(d)
-                    )
-                    if (
-                        0 <= coefficient_D_d
-                        and new_ranges["D"]["min"] <= D <= new_ranges["D"]["max"]
-                        and new_ranges["d"]["min"] <= d <= new_ranges["d"]["max"]
-                    ):
-                        yield {"D": D, "d": d, "k": k}
+            nm_nk = N._nmonomial_series_up_to_degree
+            d_truncated = 0
+            while int(h_k_up_to_degree[d_truncated]) > 0:
+                d_truncated += 1
+            for D in range(max(2,d_truncated), self._max_D + 1):
+                for d in range(1,  min(h_k_d_reg, D)):
+                    C_D_d = sum([h_k[i] * nm_nk[D - i] for i in range(d + 1)])
+                    coefficient_D_d = C_D_d - h_n[D] - h_k_up_to_degree[d]
+                    if 0 <= coefficient_D_d and new_ranges['D']["min"] <= D <= new_ranges['D']["max"] and \
+                        new_ranges['d']["min"] <= d <= new_ranges['d']["max"]:
+                        yield {'D': D, 'd': d, 'k': k}
 
             k += 1
-            if k > new_ranges["k"]["max"]:
+            if k > new_ranges['k']["max"]:
                 stop = True
 
     def _compute_time_complexity(self, parameters: dict):

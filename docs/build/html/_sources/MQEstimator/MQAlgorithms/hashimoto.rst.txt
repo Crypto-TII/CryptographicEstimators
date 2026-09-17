@@ -1,0 +1,10 @@
+---------
+hashimoto
+---------
+
+.. automodule:: cryptographic_estimators.MQEstimator.MQAlgorithms.hashimoto
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

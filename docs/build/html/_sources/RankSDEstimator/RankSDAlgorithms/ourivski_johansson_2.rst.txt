@@ -1,0 +1,10 @@
+--------------------
+ourivski_johansson_2
+--------------------
+
+.. automodule:: cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.ourivski_johansson_2
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

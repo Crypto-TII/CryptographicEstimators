@@ -1,5 +1,4 @@
 name: Update changelog
-
 on:
   pull_request:
     types: [closed]
@@ -12,10 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          persist-credentials: false
           fetch-depth: 0
+          token: ${{ secrets.AUTHORIZATION_TOKEN }}
+          ref: main
 
       - name: run-bash-file
         run: |
@@ -27,13 +27,13 @@ jobs:
           echo "should_add_last_changes_to_master=$should_add_last_changes_to_master" >> $GITHUB_ENV
 
       - name: commit-push-changes
-        uses: actions-js/push@master
-        if: ${{env.should_add_last_changes_to_master == 'true'}}
+        uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.AUTHORIZATION_TOKEN }}
-          message: 'Changelog version updated'
-          tags: true
-          force: true
+          branch: main
+          repository: Crypto-TII/CryptographicEstimators
+          force_with_lease: true
+      
 
       - name: create tags
         if: ${{env.should_add_last_changes_to_master == 'true'}}

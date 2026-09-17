@@ -49,7 +49,7 @@ class BaseEstimator(object):
                     0: no quantum estimation.
         """
 
-        excluded_algorithms = kwargs.get(BASE_EXCLUDED_ALGORITHMS, tuple())
+        excluded_algorithms = kwargs.get(BASE_EXCLUDED_ALGORITHMS, [])
         if excluded_algorithms:
             if any(not issubclass(Algorithm, alg) for Algorithm in excluded_algorithms):
                 raise TypeError(
@@ -215,7 +215,7 @@ class BaseEstimator(object):
         logger = kwargs.get("logger", None)
 
         if not self.estimates:
-            self.estimates = dict()
+            self.estimates = {}
         for index, algorithm in enumerate(self.algorithms()):
             name = algorithm.__class__.__name__
             if name not in self.estimates:

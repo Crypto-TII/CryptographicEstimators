@@ -1,0 +1,10 @@
+--------------------
+degree_of_regularity
+--------------------
+
+.. automodule:: cryptographic_estimators.MQEstimator.degree_of_regularity
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

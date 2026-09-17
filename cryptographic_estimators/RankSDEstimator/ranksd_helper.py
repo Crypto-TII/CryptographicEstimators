@@ -97,14 +97,11 @@ def compute_mb(m, n, k, r, b):
            r (int): Target rank.
            b (int): Linear variables degree
     """
-    if (1 > k) or (k > n) or (b < 0) or (r < 1) or (m < 1) or (r > n - k - 1):
+    if (1 > k) or (k > n) or (b < 0) or (r < 1) or (m < 1) or (r > n - k - 1) or (n < r):
         return None
 
     if b == 0:
-        if n >= r:
-            return binomial(n, r)
-        else:
-            return None
+        return binomial(n, r)
 
     else:
         return binomial(k + b - 1, b) * (binomial(n, r) - m * binomial(n - k - 1, r))

@@ -1,0 +1,10 @@
+----------
+mr_problem
+----------
+
+.. automodule:: cryptographic_estimators.MREstimator.mr_problem
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+
