@@ -1,0 +1,10 @@
+---
+pxl
+---
+
+.. automodule:: cryptographic_estimators.MQEstimator.MQAlgorithms.pxl
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

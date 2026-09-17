@@ -1,0 +1,10 @@
+-------
+hilbert
+-------
+
+.. automodule:: cryptographic_estimators.MQEstimator.series.hilbert
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

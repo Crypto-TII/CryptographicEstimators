@@ -1,0 +1,10 @@
+------------
+le_algorithm
+------------
+
+.. automodule:: cryptographic_estimators.LEEstimator.le_algorithm
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

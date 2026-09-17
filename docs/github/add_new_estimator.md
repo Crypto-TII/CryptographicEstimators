@@ -27,19 +27,19 @@ Enter a prefix for your Estimator (For example for SyndromeDecoding you could us
 # Done! You can now start by editing the files inside 'CryptographicEstimators/cryptographic_estimators/DummyEstimator' and the input_dictionary
 cryptographic_estimators
 ├── DummyEstimator
-│   └── DummyAlgorithms
+│   └── DummyAlgorithms
 ├── LEEstimator
-│   └── LEAlgorithms
+│   └── LEAlgorithms
 ├── MQEstimator
-│   ├── MQAlgorithms
-│   └── series
+│   ├── MQAlgorithms
+│   └── series
 ├── PEEstimator
-│   └── PEAlgorithms
+│   └── PEAlgorithms
 ├── PKEstimator
-│   └── PKAlgorithms
+│   └── PKAlgorithms
 ├── SDEstimator
-│   ├── SDAlgorithms
-│   └── SDWorkfactorModels
+│   ├── SDAlgorithms
+│   └── SDWorkfactorModels
 └── SDFqEstimator
     └── SDFqAlgorithms
 ```
@@ -53,8 +53,8 @@ added run:
 cryptographic_estimators/DummyEstimator
 ├── dummy_algorithm.py
 ├── DummyAlgorithms
-│   ├── dummy_algorithm1.py
-│   └── __init__.py
+│   ├── dummy_algorithm1.py
+│   └── __init__.py
 ├── dummy_constants.py
 ├── dummy_estimator.py
 ├── dummy_problem.py
@@ -224,7 +224,7 @@ The values the two functions return are in logarithmic scale, meaning the output
 `basic operation` is the minimal operation to count by the estimator. This
 _basic operation_ has to be specified for each estimator and every algorithm
 inside the estimator uses this same unit for measuring time complexity. The
-`basic operation` can for example be bit additions, vector additions, field
+_basic operation_ can for example be bit additions, vector additions, field
 multiplications or matrix multiplications. To be able to compare estimations
 under different basic operations, the CryptographicEstimators framework provides
 a unified way to convert those into bit operations, which we detail in the next
@@ -244,7 +244,7 @@ until it cannot reduce the (time/memory) complexity further. The minimum is then
 shown in such a table. More on this in chapter
 [of how to add an optimization parameter](#Adding-an-optimization-parameter)
 
-# Translation between different types of measurements
+## Translation between different types of measurements
 
 The complexity of an algorithm is sometimes not measured in bit operations, but
 in vector operations or in matrix operations. To convert between those
@@ -302,7 +302,7 @@ If we run our `test.py` script now, it will yield:
 +-----------------+------+--------+------------+
 ```
 
-# Adding an optimization parameter
+## Adding an optimization parameter
 
 The CryptographicEstimators framework allows to add arbitrary optimizations
 parameters that can be chosen (but also restricted) freely. The framework
@@ -357,7 +357,7 @@ able to access via:
 ```python
 algo = DummyAlgorith2(DummyProblem(n=100))
 algo.time_complexity()
-optimal_h = algo._get_optimal_parameter(“h”)
+optimal_h = algo._get_optimal_parameter("h")
 ```
 
 Note the function decorator `optimal_parameter`, this is mandatory as it
@@ -443,7 +443,7 @@ parameters of an algorithm.
 There are two ways of implementing optimization parameters. If a parameter has
 to be optimized in conjunction with other parameters, meaning it has to be set
 depending on the time complexity, you can use
-`opt_parameter_name = self._get_optimal_parameter(“<parameter name>”)`, as in
+`opt_parameter_name = self._get_optimal_parameter("<parameter name>")`, as in
 the example above. Note that this is usually the case.
 
 On the other hand there might be parameters that can be optimized independently
@@ -469,15 +469,22 @@ algo.time_complexity()
 print(algo.get_optimal_parameters_dict())
 ```
 
-# Advanced Topics:
+## Testing Your Implementation
 
-## Difference between `_compute_time_complexity(...)` and `time_complexity(...)`
+**Congratulations!** You have successfully implemented your first estimator. To ensure
+your implementation is correct and robust, you should test it thoroughly. For comprehensive
+information about testing your estimator, including KAT tests, doctests, and best practices,
+see the [Testing Guide](tests.md).
+
+## Advanced Topics
+
+### Difference between `_compute_time_complexity(...)` and `time_complexity(...)`
 
 The first one returns the time for a given set of parameters in number of basic
 operations, while the second initiates a search for the optimal parameters and
 converts time to bit operations if specified, includes memory access costs etc.
 
-## Benchmarking under memory constrains
+### Benchmarking under memory constrains
 
 Good news: you do not have to do anything. It works right out of the box via the
 `memory_bound` argument. So changing the `test.py` file to
@@ -495,7 +502,7 @@ Good news: you do not have to do anything. It works right out of the box via the
 
 For more information have a look to the [user guide](User_Guide.ipynb)
 
-## Adding verbose information
+### Adding verbose information
 
 The CryptographicEstimators framework allows to retrieve additional information
 about the algorithms and there optimization. This includes for example the
@@ -553,7 +560,7 @@ print(A._get_verbose_information())
 Note that you can use whatever you want as the dictionary key to save your
 additional data.
 
-## Exclude Algorithms
+### Exclude Algorithms
 
 Sometimes it might be useful to exclude certain algorithms from the estimation
 process, because their optimization takes a long time, or they are similar to
@@ -605,7 +612,7 @@ class DummyEstimator(BaseEstimator):
         ...
 ```
 
-## Unifying \_compute_time_complexity and \_compute_memory_complexity
+### Unifying \_compute_time_complexity and \_compute_memory_complexity
 
 Often computing the time complexity of an algorithm already requires computing
 its memory complexity. Thus, to prevent code duplication you should introduce a
@@ -642,13 +649,13 @@ def _compute_memory_complexity(self, parameters: dict, verbose_information=None)
     return memory
 ```
 
-## Speeding up the estimation process
+### Speeding up the estimation process
 
 When the algorithms become more and more complex, an estimation process can last
 seconds and even minutes, which is highly undesirable. To speed things up, we
 list in this chapter a few tricks to improve the estimation speed.
 
-### Limit the number of valid choices for an algorithm
+#### Limit the number of valid choices for an algorithm
 
 Often it is known that certain parameters are invalid. To make this clear to the
 estimation process, one can overload the
@@ -697,7 +704,7 @@ Remember to always call the function
 `_valid_choices` function, which ensures that parameters that have been fixed to
 certain values by the user are not re-optimized.
 
-### Always compute the logarithm
+#### Always compute the logarithm
 
 We strongly suggest to always compute the logarithm of (large) numbers and
 add/subtract instead of multiply/divide. Additionally, if possible use the

@@ -1,0 +1,10 @@
+---
+ssa
+---
+
+.. automodule:: cryptographic_estimators.PEEstimator.PEAlgorithms.ssa
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

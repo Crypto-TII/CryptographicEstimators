@@ -1,0 +1,10 @@
+--------------
+support_minors
+--------------
+
+.. automodule:: cryptographic_estimators.RankSDEstimator.RankSDAlgorithms.support_minors
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

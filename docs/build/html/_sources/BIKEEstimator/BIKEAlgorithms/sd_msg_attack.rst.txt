@@ -1,0 +1,10 @@
+-------------
+sd_msg_attack
+-------------
+
+.. automodule:: cryptographic_estimators.BIKEEstimator.BIKEAlgorithms.sd_msg_attack
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

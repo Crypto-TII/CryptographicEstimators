@@ -1,0 +1,10 @@
+-----------------
+exhaustive_search
+-----------------
+
+.. automodule:: cryptographic_estimators.MQEstimator.MQAlgorithms.exhaustive_search
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

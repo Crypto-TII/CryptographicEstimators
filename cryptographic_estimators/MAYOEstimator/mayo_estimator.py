@@ -83,6 +83,9 @@ class MAYOEstimator(BaseEstimator):
             | ReconciliationAttack | key-recovery | 143.2 |   48.1 |      {'k': 9, 'variant': 'las_vegas'}      |
             | IntersectionAttack   | key-recovery | 254.8 |   33.5 |      {'k': 1, 'variant': 'las_vegas'}      |
             | ClawFinding          |   forgery    | 142.1 |  132.1 |        {'X': 130.915, 'Y': 125.085}        |
+            | WedgeAttack          | key-recovery |    -- |     -- |                     {}                     |
+            | ReconciliationFI     | key-recovery | 143.8 |   76.0 |              {'k': 1, 'l': 2}              |
+            | IntersectionFI       | key-recovery | 250.8 |   43.6 |              {'k': 0, 'l': 3}              |
             +----------------------+--------------+-------+--------+--------------------------------------------+
 
             >>> E = MAYOEstimator(n=78, m=64, o=18, k=4, q=16)
@@ -97,6 +100,9 @@ class MAYOEstimator(BaseEstimator):
             | ReconciliationAttack | key-recovery | 151.2 |   48.1 |     {'k': 11, 'variant': 'las_vegas'}     |
             | IntersectionAttack   | key-recovery | 202.5 |   45.0 |      {'k': 0, 'variant': 'las_vegas'}     |
             | ClawFinding          |   forgery    | 142.1 |  132.1 |        {'X': 130.915, 'Y': 125.085}       |
+            | WedgeAttack          | key-recovery | 105.2 |   98.5 |              {'o_prime': 12}              |
+            | ReconciliationFI     | key-recovery | 105.7 |   57.2 |              {'k': 6, 'l': 1}             |
+            | IntersectionFI       | key-recovery | 202.1 |   55.5 |              {'k': 0, 'l': 4}             |
             +----------------------+--------------+-------+--------+-------------------------------------------+
 
             >>> E = MAYOEstimator(n=90, m=56, o=8, k=10, q=16)
@@ -111,6 +117,9 @@ class MAYOEstimator(BaseEstimator):
             | ReconciliationAttack | key-recovery | 150.3 |   43.8 |     {'k': 13, 'variant': 'las_vegas'}     |
             | IntersectionAttack   | key-recovery | 399.1 |   59.1 |      {'k': 0, 'variant': 'las_vegas'}     |
             | ClawFinding          |   forgery    | 126.0 |  116.0 |        {'X': 115.011, 'Y': 108.989}       |
+            | WedgeAttack          | key-recovery |    -- |     -- |                     {}                    |
+            | ReconciliationFI     | key-recovery |    -- |     -- |                     {}                    |
+            | IntersectionFI       | key-recovery | 398.6 |   69.9 |              {'k': 0, 'l': 4}             |
             +----------------------+--------------+-------+--------+-------------------------------------------+
 
             >>> E = MAYOEstimator(n=64, m=60, o=10, k=21, q=16)
@@ -125,6 +134,9 @@ class MAYOEstimator(BaseEstimator):
             | ReconciliationAttack | key-recovery | 134.6 |   49.8 |      {'k': 6, 'variant': 'las_vegas'}     |
             | IntersectionAttack   | key-recovery | 224.8 |   36.5 |      {'k': 0, 'variant': 'las_vegas'}     |
             | ClawFinding          |   forgery    | 134.0 |  124.0 |        {'X': 122.962, 'Y': 117.038}       |
+            | WedgeAttack          | key-recovery |    -- |     -- |                     {}                    |
+            | ReconciliationFI     | key-recovery | 136.4 |   72.3 |              {'k': 3, 'l': 2}             |
+            | IntersectionFI       | key-recovery | 224.4 |   46.3 |              {'k': 0, 'l': 4}             |
             +----------------------+--------------+-------+--------+-------------------------------------------+
                     
         """

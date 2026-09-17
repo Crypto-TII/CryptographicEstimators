@@ -1,0 +1,10 @@
+-------------
+regsd_problem
+-------------
+
+.. automodule:: cryptographic_estimators.RegSDEstimator.regsd_problem
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

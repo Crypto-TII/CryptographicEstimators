@@ -1,0 +1,10 @@
+-----------
+leebrickell
+-----------
+
+.. automodule:: cryptographic_estimators.SDFqEstimator.SDFqAlgorithms.leebrickell
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

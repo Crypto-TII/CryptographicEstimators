@@ -1,0 +1,10 @@
+------------
+mr_algorithm
+------------
+
+.. automodule:: cryptographic_estimators.MREstimator.mr_algorithm
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

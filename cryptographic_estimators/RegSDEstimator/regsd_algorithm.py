@@ -55,3 +55,10 @@ class RegSDAlgorithm(BaseAlgorithm):
             parameters (dict): Dictionary including the parameters.
         """
         return self._compute_time_and_memory_complexity(parameters)[1]
+
+    def _time_with_repetitions(self, iteration_time: float, log2_single_solution_success_probability: float):
+        """Return total time after accounting for repeated trials and multiple solutions."""
+        repetitions = max(
+            -log2_single_solution_success_probability - self.problem.nsolutions, 0
+        )
+        return iteration_time + repetitions

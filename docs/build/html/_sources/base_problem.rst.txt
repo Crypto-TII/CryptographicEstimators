@@ -1,0 +1,10 @@
+------------
+base_problem
+------------
+
+.. automodule:: cryptographic_estimators.base_problem
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

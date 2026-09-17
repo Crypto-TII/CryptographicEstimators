@@ -1,0 +1,10 @@
+------------
+wedge_attack
+------------
+
+.. automodule:: cryptographic_estimators.UOVEstimator.UOVAlgorithms.wedge_attack
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

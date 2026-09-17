@@ -24,6 +24,7 @@ from ...base_constants import BASE_ATTACK_TYPE_MSG_RECOVERY
 from ...base_algorithm import BaseAlgorithm
 from ...SDEstimator import SDEstimator
 from math import log2
+import copy
 
 
 class SDMsgAttack(BIKEAlgorithm):
@@ -35,12 +36,17 @@ class SDMsgAttack(BIKEAlgorithm):
         Args:
             problem (BIKEProblem): An instance of the BIKEProblem class.
         """
+        super().__init__(problem, **kwargs)
         self._name = "SDMsgAttack"
-        super(SDMsgAttack, self).__init__(problem, **kwargs)
         self._attack_type = BASE_ATTACK_TYPE_MSG_RECOVERY
         r, _, t = self.problem.get_parameters()
+
+        # NOTE: this is important. We cannot pass `bit_complexities` twice to the construction
+        sd_kwargs = copy.copy(kwargs)
+        if "bit_complexities" in sd_kwargs:
+            sd_kwargs.pop("bit_complexities")
         self._SDEstimator = SDEstimator(n=2 * r, k=r, w=t, nsolutions=0, memory_bound=self.problem.memory_bound,
-                                        bit_complexities=0, **kwargs)
+                                        bit_complexities=0, **sd_kwargs)
 
     @BaseAlgorithm.complexity_type.setter
     def complexity_type(self, input_type):

@@ -1,0 +1,10 @@
+------------
+mayo_problem
+------------
+
+.. automodule:: cryptographic_estimators.MAYOEstimator.mayo_problem
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

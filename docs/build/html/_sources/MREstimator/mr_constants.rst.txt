@@ -1,0 +1,10 @@
+------------
+mr_constants
+------------
+
+.. automodule:: cryptographic_estimators.MREstimator.mr_constants
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

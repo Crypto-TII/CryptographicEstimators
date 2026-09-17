@@ -1,0 +1,10 @@
+-------------
+kipnis_shamir
+-------------
+
+.. automodule:: cryptographic_estimators.UOVEstimator.UOVAlgorithms.kipnis_shamir
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:
+

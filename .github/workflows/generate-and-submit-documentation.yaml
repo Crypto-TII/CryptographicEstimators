@@ -11,10 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
-        persist-credentials: false
         fetch-depth: 0
+        token: ${{ secrets.AUTHORIZATION_TOKEN }}
+        ref: main
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
@@ -46,12 +47,19 @@ jobs:
 
     - name: Generate documentation
       run: docker run --rm -v $PWD:/home/cryptographic_estimators/ estimators-lib make doc
-
-    - name: Commit & Push changes
-      uses: actions-js/push@master
+    - name: Commit files
+      run: |
+        git config --local user.email "githubactions@githubactions.com"
+        git config --local user.name "githubactions"
+        git add .
+        git commit  -m "Add Documentatio"
+          
+    - name: commit-push-changes
+      uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.AUTHORIZATION_TOKEN }}
-        message: "Update documentation"
+        branch: main
+        repository: Crypto-TII/CryptographicEstimators
 
     - name: Update develop branch
       uses: morbalint/git-merge-action@v1

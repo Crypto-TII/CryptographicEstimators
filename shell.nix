@@ -1,14 +1,8 @@
 { pkgs ? import <nixpkgs> {} }:
 let
-  myPython = pkgs.python311;
-  pythonPackages = pkgs.python311Packages;
+  myPython = pkgs.python313;
+  pythonPackages = pkgs.python313Packages;
   pythonWithPkgs = myPython.withPackages (pythonPkgs: with pythonPkgs; [
-    # This list contains tools for Python development.
-    # You can also add other tools, like black.
-    #
-    # Note that even if you add Python packages here like PyTorch or Tensorflow,
-    # they will be reinstalled when running `pip -r requirements.txt` because
-    # virtualenv is used below in the shellHook.
     ipython
     pip
     setuptools
@@ -29,10 +23,45 @@ let
     ruff
   ];
 in
-import ./python-shell.nix { 
-    extraBuildInputs=extraBuildInputs; 
-    # extraLibPackages=extraLibPackages; 
-    myPython=myPython;
-    pythonWithPkgs=pythonWithPkgs;
-  }
+let
+  buildInputs  = with pkgs; [
+    clang
+  ] ++ extraBuildInputs;
+  lib-path = with pkgs; lib.makeLibraryPath buildInputs;
+  shell = pkgs.mkShell {
+    buildInputs = [
+       # my python and packages
+        pythonWithPkgs
+        
+        # other packages needed for compiling python libs
+        pkgs.readline
+        pkgs.libffi
+        pkgs.openssl
+        # needed for flint
+        pkgs.ninja      
+        pkgs.meson
+        pkgs.pkg-config
+        pkgs.gmp
+        pkgs.mpfr
+        pkgs.flint
 
+  
+        # unfortunately needed because of messing with LD_LIBRARY_PATH below
+        pkgs.git
+        pkgs.openssh
+        pkgs.rsync
+    ] ++ extraBuildInputs;
+    shellHook = ''
+        # Allow the use of wheels.
+        SOURCE_DATE_EPOCH=$(date +%s)
+        # Augment the dynamic linker path
+        export "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${lib-path}"
+        if test ! -d .venv; then
+          virtualenv .venv
+        fi
+        source .venv/bin/activate
+        export PYTHONPATH=$PYTHONPATH:`pwd`/$VENV/${myPython.sitePackages}/
+        make install
+    '';
+  };
+in shell

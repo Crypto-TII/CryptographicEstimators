@@ -145,5 +145,5 @@ class UOVProblem(BaseProblem):
         self._cost_one_hash = value
 
     def __repr__(self):
-        n, m, q = self.get_problem_parameters()
+        n, m, q = self.get_parameters()
         return f"UOV instance with (n, m, q) = ({n}, {m}, {q})"
