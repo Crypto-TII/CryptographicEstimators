@@ -36,12 +36,13 @@ class SDProblem(BaseProblem):
 
     def __init__(self, n: int, k: int, w: int, **kwargs):
         super().__init__(**kwargs)
+        if k <= 0 or n <= 0 or w <= 0:
+            raise ValueError("n, k, w must be positive integers")
         if k > n:
             raise ValueError("k must be smaller or equal to n")
         if w > n - k:
             raise ValueError("w must be smaller or equal to n-k")
-        if w <= 0 or k <= 0:
-            raise ValueError("w and k must be at least 1")
+
         self.parameters[SD_CODE_LENGTH] = n
         self.parameters[SD_CODE_DIMENSION] = k
         self.parameters[SD_ERROR_WEIGHT] = w

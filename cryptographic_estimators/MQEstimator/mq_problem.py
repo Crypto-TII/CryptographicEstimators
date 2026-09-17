@@ -43,20 +43,23 @@ class MQProblem(BaseProblem):
             memory_bound (float, optional): The maximum allowed memory to use for solving the problem (default: inf).
         """
         super().__init__(**kwargs)
-        self.parameters[MQ_NUMBER_VARIABLES] = n
-        self.parameters[MQ_NUMBER_POLYNOMIALS] = m
-        self.parameters[MQ_FIELD_SIZE] = q
-        self.nsolutions = kwargs.get("nsolutions", self.expected_number_solutions())
-        self._theta = kwargs.get("theta", 2)
 
+        # these checks need to be done first, as otherwise `expected_number_solutions`
+        # may fail
         if n < 1:
             raise ValueError("n must be >= 1")
 
         if m < 1:
             raise ValueError("m must be >= 1")
 
-        if q is not None and not is_prime_power(q):
+        if q is None or q < 2 or not is_prime_power(q):
             raise ValueError("q must be a prime power")
+
+        self.parameters[MQ_NUMBER_VARIABLES] = n
+        self.parameters[MQ_NUMBER_POLYNOMIALS] = m
+        self.parameters[MQ_FIELD_SIZE] = q
+        self.nsolutions = kwargs.get("nsolutions", self.expected_number_solutions())
+        self._theta = kwargs.get("theta", 2)
 
         if self._theta is not None and not (0 <= self._theta <= 2):
             raise ValueError("theta must be either None or 0<=theta <= 2")

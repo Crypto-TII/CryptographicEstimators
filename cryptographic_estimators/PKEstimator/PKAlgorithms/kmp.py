@@ -75,13 +75,13 @@ class KMP(PKAlgorithm):
         num_coll = factorial(n) * factorial(n) // factorial(n - u1) \
                    // factorial(n - u2) * q ** (ell * (n - m - u1 - u2))
 
-        time = log2(L1 + L2 + num_coll) + log2(self.cost_for_list_operation)
-        memory = log2(L1 + L2) + log2(self.memory_for_list_element)
+        time = log2(max(L1 + L2 + num_coll, 1)) + log2(max(self.cost_for_list_operation, 1))
+        memory = log2(max(L1 + L2, 1)) + log2(max(self.memory_for_list_element, 1))
 
         if verbose_information is not None:
-            verbose_information[VerboseInformation.KMP_L1.value] = log2(L1)
-            verbose_information[VerboseInformation.KMP_L2.value] = log2(L2)
-            verbose_information[VerboseInformation.KMP_FINAL_LIST.value] = log2(num_coll)
+            verbose_information[VerboseInformation.KMP_L1.value] = log2(max(L1, 1))
+            verbose_information[VerboseInformation.KMP_L2.value] = log2(max(L2, 1))
+            verbose_information[VerboseInformation.KMP_FINAL_LIST.value] = log2(max(num_coll, 1))
 
         return time, memory
 

@@ -43,7 +43,7 @@ class SSA(PEAlgorithm):
 
     def _compute_time_complexity(self, parameters: dict):
         n, _, q, h = self.problem.get_parameters()
-        return log2(n ** 3 + n ** 2 * q ** h * log(h))
+        return log2(n ** 3 + n ** 2 * q ** h * log(max(h, 1)))
 
     def _compute_memory_complexity(self, parameters: dict):
         n, k, _, h = self.problem.get_parameters()

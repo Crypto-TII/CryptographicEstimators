@@ -1,31 +1,14 @@
-{ pkgs ? import <nixpkgs> {} }:
-let
-  myPython = pkgs.python313;
-  pythonPackages = pkgs.python313Packages;
-  pythonWithPkgs = myPython.withPackages (pythonPkgs: with pythonPkgs; [
-    ipython
-    pip
-    setuptools
-    virtualenv
-    wheel
-    black
-    prophet
-  ]);
-
-  extraBuildInputs = with pkgs; [
-    pythonPackages.pandas
-    pythonPackages.numpy
-    pythonPackages.prettytable
-    pythonPackages.scipy
-    pythonPackages.pytest
-    pythonPackages.sympy
-    clang
-    ruff
-  ];
-in
+{ pkgs ? import <nixpkgs> {}
+, extraBuildInputs ? []
+, myPython ? pkgs.python3
+, extraLibPackages ? []
+, pythonWithPkgs? myPython
+ }:
 let
   buildInputs  = with pkgs; [
-    clang
+      clang
+      llvmPackages_16.bintools
+      rustup
   ] ++ extraBuildInputs;
   lib-path = with pkgs; lib.makeLibraryPath buildInputs;
   shell = pkgs.mkShell {
@@ -37,14 +20,6 @@ let
         pkgs.readline
         pkgs.libffi
         pkgs.openssl
-        # needed for flint
-        pkgs.ninja      
-        pkgs.meson
-        pkgs.pkg-config
-        pkgs.gmp
-        pkgs.mpfr
-        pkgs.flint
-
   
         # unfortunately needed because of messing with LD_LIBRARY_PATH below
         pkgs.git
@@ -55,13 +30,12 @@ let
         # Allow the use of wheels.
         SOURCE_DATE_EPOCH=$(date +%s)
         # Augment the dynamic linker path
-        export "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${lib-path}"
+        export "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${lib-path}:${pkgs.stdenv.cc.cc.lib}/lib/"
         if test ! -d .venv; then
           virtualenv .venv
         fi
         source .venv/bin/activate
         export PYTHONPATH=$PYTHONPATH:`pwd`/$VENV/${myPython.sitePackages}/
-        make install
     '';
   };
 in shell
