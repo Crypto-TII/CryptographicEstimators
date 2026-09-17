@@ -1,3 +1,4 @@
+from ._version import __version__
 from .base_algorithm import BaseAlgorithm
 from .base_estimator import BaseEstimator
 from .base_problem import BaseProblem
