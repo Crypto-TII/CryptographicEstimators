@@ -7,6 +7,10 @@ MACHINE_ARCHITECTURE := $(shell uname -m)
 SAGE_IMAGE_NAME = estimators-lib-dev-sage:latest
 SAGE_DOCKERFILE = tests/Dockerfile
 
+FUZZING_IMAGE_NAME = estimators-lib-fuzzing:latest
+FUZZING_DOCKERFILE = tests/fuzzing/Dockerfile
+FUZZ_ARGS = --sd
+
 DOCTESTS_COMMAND = pytest --doctest-modules -n auto -vv $(PACKAGE)/
 DOCTESTS_FAST_COMMAND = pytest --skip-long-doctests  --doctest-modules -n auto -vv $(PACKAGE)/
 KAT_TESTS_COMMAND = pytest -n auto -vv -ra tests/kat_tests/test_kat.py --target-kat
@@ -88,8 +92,12 @@ stop-container-and-remove:
 	@docker stop $(container_name) || true
 	@docker rm $(container_name) || true
 
-docker-fuzzing: IMAGE_NAME := cf-fuzzer
-docker-fuzzing: docker-build
+docker-fuzzing-build:
+	@docker build -t ${FUZZING_IMAGE_NAME} -f ${FUZZING_DOCKERFILE} .
+
+docker-fuzzing: docker-fuzzing-build
+	@docker run --rm -it ${FUZZING_IMAGE_NAME} tests/fuzzing/fuzz.py ${FUZZ_ARGS}
+
 
 docker-doc: docker-build
 	@make stop-container-and-remove container_name="container-for-docs" \
