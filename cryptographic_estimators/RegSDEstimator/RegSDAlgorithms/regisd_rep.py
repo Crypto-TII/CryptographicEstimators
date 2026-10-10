@@ -59,6 +59,9 @@ class RegularISDRep(RegSDAlgorithm):
             >>> A = RegularISDRep(RegSDProblem(n=300,k=150,w=30))
             >>> A.p()
             8
+            >>> A = RegularISDRep(RegSDProblem(n=100,k=50,w=10))
+            >>> A.p()
+            8
         """
         return self._get_optimal_parameter("p")
 
@@ -122,7 +125,7 @@ class RegularISDRep(RegSDAlgorithm):
 
         n, k, w = self.problem.get_parameters()
         k_prime = k - w
-        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"])+1, 8):
+        for p in range(new_ranges["p"]["min"], min(w, new_ranges["p"]["max"])+1, 8):
             for eps_x in range(new_ranges["eps_x"]["min"], new_ranges["eps_x"]["max"]+1, 4):
                 p_x = p/2 + eps_x
                 for eps_y in range(new_ranges["eps_y"]["min"], new_ranges["eps_y"]["max"] + 1):
