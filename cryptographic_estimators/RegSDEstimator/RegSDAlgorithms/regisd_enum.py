@@ -55,6 +55,9 @@ class RegularISDEnum(RegSDAlgorithm):
             >>> A = RegularISDEnum(RegSDProblem(n=100,k=50,w=10))
             >>> A.p()
             4
+            >>> A = RegularISDEnum(RegSDProblem(n=1024,k=768,w=4))
+            >>> A.p()
+            4
         """
         return self._get_optimal_parameter("p")
 
@@ -90,7 +93,7 @@ class RegularISDEnum(RegSDAlgorithm):
 
         n, k, w = self.problem.get_parameters()
         k_prime = k - w
-        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]+1), 2):
+        for p in range(new_ranges["p"]["min"], min(w + 1, new_ranges["p"]["max"]+1), 2):
             ell_approx = max(1, log2(binomial(r_int(w / 2), p // 2)) +log2(k_prime / w) * (p / 2))
             ell_min = r_int(ell_approx * 0.5)
             ell_max = min(r_int(ell_approx * 1.5), n - k_prime)
