@@ -73,71 +73,75 @@ class MAYOEstimator(BaseEstimator):
             >>> from cryptographic_estimators.MAYOEstimator import MAYOEstimator
             >>> E = MAYOEstimator(n=66, m=64, o=8, k=9, q=16)
             >>> E.table(show_all_parameters=1)
-            +----------------------+--------------+-------------------------------------------------------------+
-            |                      |              |                           estimate                          |
-            +----------------------+--------------+-------+--------+--------------------------------------------+
-            | algorithm            | attack_type  |  time | memory |                 parameters                 |
-            +----------------------+--------------+-------+--------+--------------------------------------------+
-            | DirectAttack         |   forgery    | 130.8 |   28.5 | {'k': 16, 'a': 18, 'variant': 'Hashimoto'} |
-            | KipnisShamir         | key-recovery | 222.1 |   17.1 |                     {}                     |
-            | ReconciliationAttack | key-recovery | 143.2 |   48.1 |      {'k': 9, 'variant': 'las_vegas'}      |
-            | IntersectionAttack   | key-recovery | 254.8 |   33.5 |      {'k': 1, 'variant': 'las_vegas'}      |
-            | ClawFinding          |   forgery    | 142.1 |  132.1 |        {'X': 130.915, 'Y': 125.085}        |
-            | WedgeAttack          | key-recovery |    -- |     -- |                     {}                     |
-            | ReconciliationFI     | key-recovery | 143.8 |   76.0 |              {'k': 1, 'l': 2}              |
-            | IntersectionFI       | key-recovery | 250.8 |   43.6 |              {'k': 0, 'l': 3}              |
-            +----------------------+--------------+-------+--------+--------------------------------------------+
+            +----------------------+--------------+------------------------------------------------------------------------+
+            |                      |              |                                estimate                                |
+            +----------------------+--------------+-------+--------+-------------------------------------------------------+
+            | algorithm            | attack_type  |  time | memory |                       parameters                      |
+            +----------------------+--------------+-------+--------+-------------------------------------------------------+
+            | DirectAttack         |   forgery    | 130.8 |   28.5 |       {'k': 16, 'a': 18, 'variant': 'Hashimoto'}      |
+            | KipnisShamir         | key-recovery | 222.1 |   17.1 |                           {}                          |
+            | ReconciliationAttack | key-recovery | 143.2 |   48.1 |            {'k': 9, 'variant': 'las_vegas'}           |
+            | IntersectionAttack   | key-recovery | 254.8 |   33.5 |            {'k': 1, 'variant': 'las_vegas'}           |
+            | ClawFinding          |   forgery    | 142.1 |  132.1 |              {'X': 130.915, 'Y': 125.085}             |
+            | WedgeAttack          | key-recovery |    -- |     -- |                           {}                          |
+            | ReconciliationFI     | key-recovery | 143.8 |   76.0 |                    {'k': 1, 'l': 2}                   |
+            | IntersectionFI       | key-recovery | 250.8 |   43.6 |                    {'k': 0, 'l': 3}                   |
+            | GeometricAttack      |   forgery    | 116.9 |   25.4 | {'a': 0, 'B1': 11, 'b0': 9, 'k': 1, 'p': 6, 'ell': 8} |
+            +----------------------+--------------+-------+--------+-------------------------------------------------------+
 
             >>> E = MAYOEstimator(n=78, m=64, o=18, k=4, q=16)
             >>> E.table(show_all_parameters=1)
-            +----------------------+--------------+------------------------------------------------------------+
-            |                      |              |                          estimate                          |
-            +----------------------+--------------+-------+--------+-------------------------------------------+
-            | algorithm            | attack_type  |  time | memory |                 parameters                |
-            +----------------------+--------------+-------+--------+-------------------------------------------+
-            | DirectAttack         |   forgery    | 155.9 |   44.5 | {'k': 14, 'a': 5, 'variant': 'Hashimoto'} |
-            | KipnisShamir         | key-recovery | 190.8 |   18.7 |                     {}                    |
-            | ReconciliationAttack | key-recovery | 151.2 |   48.1 |     {'k': 11, 'variant': 'las_vegas'}     |
-            | IntersectionAttack   | key-recovery | 202.5 |   45.0 |      {'k': 0, 'variant': 'las_vegas'}     |
-            | ClawFinding          |   forgery    | 142.1 |  132.1 |        {'X': 130.915, 'Y': 125.085}       |
-            | WedgeAttack          | key-recovery | 105.2 |   98.5 |              {'o_prime': 12}              |
-            | ReconciliationFI     | key-recovery | 105.7 |   57.2 |              {'k': 6, 'l': 1}             |
-            | IntersectionFI       | key-recovery | 202.1 |   55.5 |              {'k': 0, 'l': 4}             |
-            +----------------------+--------------+-------+--------+-------------------------------------------+
+            +----------------------+--------------+-----------------------------------------------------------------------+
+            |                      |              |                                estimate                               |
+            +----------------------+--------------+-------+--------+------------------------------------------------------+
+            | algorithm            | attack_type  |  time | memory |                      parameters                      |
+            +----------------------+--------------+-------+--------+------------------------------------------------------+
+            | DirectAttack         |   forgery    | 155.9 |   44.5 |      {'k': 14, 'a': 5, 'variant': 'Hashimoto'}       |
+            | KipnisShamir         | key-recovery | 190.8 |   18.7 |                          {}                          |
+            | ReconciliationAttack | key-recovery | 151.2 |   48.1 |          {'k': 11, 'variant': 'las_vegas'}           |
+            | IntersectionAttack   | key-recovery | 202.5 |   45.0 |           {'k': 0, 'variant': 'las_vegas'}           |
+            | ClawFinding          |   forgery    | 142.1 |  132.1 |             {'X': 130.915, 'Y': 125.085}             |
+            | WedgeAttack          | key-recovery | 105.2 |   98.5 |                   {'o_prime': 12}                    |
+            | ReconciliationFI     | key-recovery | 105.7 |   57.2 |                   {'k': 6, 'l': 1}                   |
+            | IntersectionFI       | key-recovery | 202.1 |   55.5 |                   {'k': 0, 'l': 4}                   |
+            | GeometricAttack      |   forgery    | 158.9 |   23.6 | {'a': 7, 'B1': 4, 'b0': 8, 'k': 2, 'p': 2, 'ell': 6} |
+            +----------------------+--------------+-------+--------+------------------------------------------------------+
 
             >>> E = MAYOEstimator(n=90, m=56, o=8, k=10, q=16)
             >>> E.table(show_all_parameters=1)
-            +----------------------+--------------+------------------------------------------------------------+
-            |                      |              |                          estimate                          |
-            +----------------------+--------------+-------+--------+-------------------------------------------+
-            | algorithm            | attack_type  |  time | memory |                 parameters                |
-            +----------------------+--------------+-------+--------+-------------------------------------------+
-            | DirectAttack         |   forgery    |  93.7 |   35.9 | {'k': 3, 'a': 27, 'variant': 'Hashimoto'} |
-            | KipnisShamir         | key-recovery | 319.3 |   18.0 |                     {}                    |
-            | ReconciliationAttack | key-recovery | 150.3 |   43.8 |     {'k': 13, 'variant': 'las_vegas'}     |
-            | IntersectionAttack   | key-recovery | 399.1 |   59.1 |      {'k': 0, 'variant': 'las_vegas'}     |
-            | ClawFinding          |   forgery    | 126.0 |  116.0 |        {'X': 115.011, 'Y': 108.989}       |
-            | WedgeAttack          | key-recovery |    -- |     -- |                     {}                    |
-            | ReconciliationFI     | key-recovery |    -- |     -- |                     {}                    |
-            | IntersectionFI       | key-recovery | 398.6 |   69.9 |              {'k': 0, 'l': 4}             |
-            +----------------------+--------------+-------+--------+-------------------------------------------+
+            +----------------------+--------------+-------------------------------------------------------------------------+
+            |                      |              |                                 estimate                                |
+            +----------------------+--------------+-------+--------+--------------------------------------------------------+
+            | algorithm            | attack_type  |  time | memory |                       parameters                       |
+            +----------------------+--------------+-------+--------+--------------------------------------------------------+
+            | DirectAttack         |   forgery    |  93.7 |   35.9 |       {'k': 3, 'a': 27, 'variant': 'Hashimoto'}        |
+            | KipnisShamir         | key-recovery | 319.3 |   18.0 |                           {}                           |
+            | ReconciliationAttack | key-recovery | 150.3 |   43.8 |           {'k': 13, 'variant': 'las_vegas'}            |
+            | IntersectionAttack   | key-recovery | 399.1 |   59.1 |            {'k': 0, 'variant': 'las_vegas'}            |
+            | ClawFinding          |   forgery    | 126.0 |  116.0 |              {'X': 115.011, 'Y': 108.989}              |
+            | WedgeAttack          | key-recovery |    -- |     -- |                           {}                           |
+            | ReconciliationFI     | key-recovery |    -- |     -- |                           {}                           |
+            | IntersectionFI       | key-recovery | 398.6 |   69.9 |                    {'k': 0, 'l': 4}                    |
+            | GeometricAttack      |   forgery    |  57.8 |   26.4 | {'a': 3, 'B1': 19, 'b0': 4, 'k': 1, 'p': 10, 'ell': 0} |
+            +----------------------+--------------+-------+--------+--------------------------------------------------------+
 
             >>> E = MAYOEstimator(n=64, m=60, o=10, k=21, q=16)
             >>> E.table(show_all_parameters=1)
-            +----------------------+--------------+------------------------------------------------------------+
-            |                      |              |                          estimate                          |
-            +----------------------+--------------+-------+--------+-------------------------------------------+
-            | algorithm            | attack_type  |  time | memory |                 parameters                |
-            +----------------------+--------------+-------+--------+-------------------------------------------+
-            | DirectAttack         |   forgery    |  98.8 |   38.6 | {'k': 3, 'a': 29, 'variant': 'Hashimoto'} |
-            | KipnisShamir         | key-recovery | 198.0 |   17.3 |                     {}                    |
-            | ReconciliationAttack | key-recovery | 134.6 |   49.8 |      {'k': 6, 'variant': 'las_vegas'}     |
-            | IntersectionAttack   | key-recovery | 224.8 |   36.5 |      {'k': 0, 'variant': 'las_vegas'}     |
-            | ClawFinding          |   forgery    | 134.0 |  124.0 |        {'X': 122.962, 'Y': 117.038}       |
-            | WedgeAttack          | key-recovery |    -- |     -- |                     {}                    |
-            | ReconciliationFI     | key-recovery | 136.4 |   72.3 |              {'k': 3, 'l': 2}             |
-            | IntersectionFI       | key-recovery | 224.4 |   46.3 |              {'k': 0, 'l': 4}             |
-            +----------------------+--------------+-------+--------+-------------------------------------------+
+            +----------------------+--------------+-----------------------------------------------------------------------+
+            |                      |              |                                estimate                               |
+            +----------------------+--------------+-------+--------+------------------------------------------------------+
+            | algorithm            | attack_type  |  time | memory |                      parameters                      |
+            +----------------------+--------------+-------+--------+------------------------------------------------------+
+            | DirectAttack         |   forgery    |  98.8 |   38.6 |      {'k': 3, 'a': 29, 'variant': 'Hashimoto'}       |
+            | KipnisShamir         | key-recovery | 198.0 |   17.3 |                          {}                          |
+            | ReconciliationAttack | key-recovery | 134.6 |   49.8 |           {'k': 6, 'variant': 'las_vegas'}           |
+            | IntersectionAttack   | key-recovery | 224.8 |   36.5 |           {'k': 0, 'variant': 'las_vegas'}           |
+            | ClawFinding          |   forgery    | 134.0 |  124.0 |             {'X': 122.962, 'Y': 117.038}             |
+            | WedgeAttack          | key-recovery |    -- |     -- |                          {}                          |
+            | ReconciliationFI     | key-recovery | 136.4 |   72.3 |                   {'k': 3, 'l': 2}                   |
+            | IntersectionFI       | key-recovery | 224.4 |   46.3 |                   {'k': 0, 'l': 4}                   |
+            | GeometricAttack      |   forgery    |  33.1 |   27.7 | {'a': 1, 'B1': 9, 'b0': 4, 'k': 2, 'p': 5, 'ell': 0} |
+            +----------------------+--------------+-------+--------+------------------------------------------------------+
                     
         """
         super(MAYOEstimator, self).table(show_quantum_complexity=show_quantum_complexity,

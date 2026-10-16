@@ -195,6 +195,9 @@ References
 
 **G**
 
+.. [GF26] *Geometric Forgeries: Structural Cryptanalysis of MAYO*
+           https://github.com/maxostuzzi/forging_mayo
+
 .. [GRS16] \Philippe Gaborit, Olivier Ruatta, and Julien Schrek
            *On the Complexity of the Rank Syndrome Decoding Problem*
            https://doi.org/10.1109/TIT.2015.2511786

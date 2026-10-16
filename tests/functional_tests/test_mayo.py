@@ -3,6 +3,7 @@ import pytest
 from cryptographic_estimators.MAYOEstimator import MAYOProblem
 from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.intersection_fi import IntersectionFI
 from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.reconciliation_fi import ReconciliationFI
+from cryptographic_estimators.MAYOEstimator.MAYOAlgorithms.geometric import GeometricAttack
 
 # Table 4 of [FI26]_ (Furue and Ikematsu, ePrint 2026/298): for each MAYO parameter set, the log2
 # gate count of the reconciliation attack and the optimal (ell, k, D). The table indexes its rows by
@@ -48,3 +49,21 @@ def test_intersection_fi_matches_table_4(name, q, n, m, o, complexity, parameter
     estimator = IntersectionFI(MAYOProblem(n=n, m=m, o=o, k=10, q=q))
     assert round(estimator.time_complexity()) == complexity
     assert (estimator.l(), estimator.k(), estimator.D()) == parameters
+
+
+# Output of `python3 optimisation.py n m q kappa --structural-only --full-rank` of the optimisation script
+# accompanying [GF26]_ (https://github.com/maxostuzzi/forging_mayo): the TOTAL bit complexity and the best
+# parameters (a, B1, b0, k, p, ell).
+GF26_STRUCTURAL = [
+    (81, 64, 16, 4, 156.9662, (7, 5, 8, 1, 3, 6)),
+    (86, 64, 16, 5, 140.0626, (5, 8, 9, 1, 4, 7)),
+    (86, 78, 16, 10, 134.7917, (6, 12, 10, 1, 6, 9)),
+]
+
+
+@pytest.mark.parametrize("n, m, q, kappa, complexity, parameters", GF26_STRUCTURAL)
+def test_geometric_attack_matches_optimisation_script(n, m, q, kappa, complexity, parameters):
+    """The estimator reproduces the structural attack of the optimisation script of [GF26]_."""
+    estimator = GeometricAttack(MAYOProblem(n=n, m=m, o=8, k=kappa, q=q))
+    assert round(estimator.time_complexity(), 4) == complexity
+    assert (estimator.a(), estimator.B1(), estimator.b0(), estimator.k(), estimator.p(), estimator.ell()) == parameters
