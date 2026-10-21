@@ -41,8 +41,9 @@ class RegularISDEnum(RegSDAlgorithm):
         """
         super(RegularISDEnum, self).__init__(problem, **kwargs)
         n, k, w = self.problem.get_parameters()
+        s = self.full_domain
         self._name = "RegularISD-Enum"
-        self.set_parameter_ranges("p", 0, 30)
+        self.set_parameter_ranges("p", 0, min_max(30, w, s))
         self.set_parameter_ranges("ell", 0, n-k)
 
     @optimal_parameter
