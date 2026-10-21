@@ -14,7 +14,7 @@ from cryptographic_estimators.MQEstimator import (
     KPG,
     Lokshtanov,
     MHT,
-    EnrichedHashimoto
+    PseudoOilAttack
 )
 
 
@@ -47,9 +47,9 @@ POS26_PAPER = [
 
 
 @pytest.mark.parametrize("n, m, q, k, l, bs, complexity", POS26_PAPER)
-def test_enriched_hashimoto_matches_paper(n, m, q, k, l, bs, complexity):
+def test_pseudo_oil_attack_matches_paper(n, m, q, k, l, bs, complexity):
     """The estimator reproduces the complexity of the parameters of [POS26]_."""
-    estimator = EnrichedHashimoto(MQProblem(n=n, m=m, q=q))
+    estimator = PseudoOilAttack(MQProblem(n=n, m=m, q=q))
     assert round(estimator.time_complexity(k=k, l=l, B=sum(bs), p=len(bs)), 4) == complexity
 
 
@@ -61,8 +61,8 @@ POS26_OPTIMISATION = [
 
 
 @pytest.mark.parametrize("n, m, q, complexity, parameters", POS26_OPTIMISATION)
-def test_enriched_hashimoto_matches_optimisation_script(n, m, q, complexity, parameters):
+def test_pseudo_oil_attack_matches_optimisation_script(n, m, q, complexity, parameters):
     """The estimator reproduces the optimum found by the optimisation script of [POS26]_."""
-    estimator = EnrichedHashimoto(MQProblem(n=n, m=m, q=q))
+    estimator = PseudoOilAttack(MQProblem(n=n, m=m, q=q))
     assert round(estimator.time_complexity(), 4) == complexity
     assert (estimator.k(), estimator.l(), estimator.B(), estimator.p()) == parameters

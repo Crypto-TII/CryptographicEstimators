@@ -35,11 +35,11 @@ def _mq(n: int, m: int, q: int, w: float, theta: float):
         return inf
 
 
-class EnrichedHashimoto(MQAlgorithm):
+class PseudoOilAttack(MQAlgorithm):
     def __init__(self, problem: MQProblem, **kwargs):
-        """Construct an instance of Enriched Hashimoto estimator.
+        """Construct an instance of the Pseudo-Oil Attack estimator.
 
-        Enriched Hashimoto solves the underdetermined MQ problem through pseudo-oil subspaces [POS26]_: k
+        The Pseudo-Oil Attack solves the underdetermined MQ problem through pseudo-oil subspaces [POS26]_: k
         variables are guessed, p blocks of almost equal size b_1 <= ... <= b_p summing to B are solved as
         square systems, and the remaining m - B - l equations as an overdetermined system.
 
@@ -58,13 +58,13 @@ class EnrichedHashimoto(MQAlgorithm):
                 1 - tilde O complexity
 
         Examples:
-            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.enriched_hashimoto import EnrichedHashimoto
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.pseudo_oil_attack import PseudoOilAttack
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            >>> E = EnrichedHashimoto(MQProblem(q=16, n=924, m=67))
+            >>> E = PseudoOilAttack(MQProblem(q=16, n=924, m=67))
             >>> E
-            EnrichedHashimoto estimator for the MQ problem with 924 variables and 67 polynomials
+            PseudoOilAttack estimator for the MQ problem with 924 variables and 67 polynomials
 
-            >>> E = EnrichedHashimoto(MQProblem(q=16, n=45, m=10))
+            >>> E = PseudoOilAttack(MQProblem(q=16, n=45, m=10))
             >>> E.optimal_parameters()
             {'k': 0, 'l': 0, 'B': 10, 'p': 3}
         """
@@ -77,7 +77,7 @@ class EnrichedHashimoto(MQAlgorithm):
             raise ValueError("The MQ problem should be underdefined, i.e., m must be <= n")
 
         super().__init__(problem, **kwargs)
-        self._name = "EnrichedHashimoto"
+        self._name = "PseudoOilAttack"
 
         self.set_parameter_ranges("k", 0, m)
         self.set_parameter_ranges("l", 0, m)
@@ -122,9 +122,9 @@ class EnrichedHashimoto(MQAlgorithm):
             parameters (dict): A dictionary including the parameters.
 
         Examples:
-            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.enriched_hashimoto import EnrichedHashimoto
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.pseudo_oil_attack import PseudoOilAttack
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            >>> E = EnrichedHashimoto(MQProblem(q=16, n=45, m=10))
+            >>> E = PseudoOilAttack(MQProblem(q=16, n=45, m=10))
             >>> E.time_complexity()
             18.508599491009466
         """
@@ -134,9 +134,11 @@ class EnrichedHashimoto(MQAlgorithm):
         bs = [B // p] * (p - B % p) + [B // p + 1] * (B % p)
         Bs = [sum(bs[:i]) for i in range(p)]
 
+        # from filter()
         if n - (m - B - k) < (m - B - k) * (B + l):
             # too aggressive for last vector of O0
             return inf
+        # from filter()
         if n - m < sum(bs[j] * (m - Bs[j] - bs[j] - k) for j in range(p)):
             # too aggressive for last vector of Otilde
             return inf
@@ -146,11 +148,14 @@ class EnrichedHashimoto(MQAlgorithm):
         def square(size):
             return 1 if size <= 2 else _mq(size, size, q, self._w, self.problem.theta)
 
+        # taken from `polynomial_factors()`
         # field multiplications and additions for u^tAu, the matrix vector product and the inner product
         polys = sum(
             (Bs[i] + k) ** 2 + 2 * (Bs[i] + k) - 1 + (m - Bs[i] - k) * (2 * (Bs[i] + k) - 1) + 2 * m - 1
             for i in range(p)
         )
+
+        # taken from `objective_f()`
         centrifugation = (m - B - k) * 2 ** square(B + l)
         centrifugation += sum((m - Bs[i] - k) * 2 ** square(Bs[i]) for i in range(p - 1))
         squares = sum(2 ** square(b) for b in bs)
@@ -170,9 +175,9 @@ class EnrichedHashimoto(MQAlgorithm):
             parameters (dict): Dictionary including the parameters.
 
         Tests:
-            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.enriched_hashimoto import EnrichedHashimoto
+            >>> from cryptographic_estimators.MQEstimator.MQAlgorithms.pseudo_oil_attack import PseudoOilAttack
             >>> from cryptographic_estimators.MQEstimator.mq_problem import MQProblem
-            >>> E = EnrichedHashimoto(MQProblem(q=16, n=45, m=10))
+            >>> E = PseudoOilAttack(MQProblem(q=16, n=45, m=10))
             >>> E.memory_complexity()
             16.30563428754671
         """
