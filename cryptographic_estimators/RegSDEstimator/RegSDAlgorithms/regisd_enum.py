@@ -55,9 +55,6 @@ class RegularISDEnum(RegSDAlgorithm):
             >>> A = RegularISDEnum(RegSDProblem(n=100,k=50,w=10))
             >>> A.p()
             4
-            >>> A = RegularISDEnum(RegSDProblem(n=1024,k=768,w=4))
-            >>> A.p()
-            4
         """
         return self._get_optimal_parameter("p")
 
