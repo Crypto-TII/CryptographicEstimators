@@ -19,3 +19,20 @@
 
 def r_int(x):
     return int(round(x))
+
+
+def min_max(a: int, b: int, s: bool) -> int:
+    """Returns the minimum or maximum of two integers based on a boolean switch.
+
+    Args:
+        a (int): The first integer.
+        b (int): The second integer.
+        s (bool): If True, returns the maximum of a and b. If False, returns the minimum of a and b.
+
+    Returns:
+        int: The minimum or maximum of a and b, depending on the value of s.
+    """
+    if s:
+        return max(a, b)
+    else:
+        return min(a, b)

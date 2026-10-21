@@ -21,7 +21,7 @@
 from ...base_algorithm import optimal_parameter
 from ..regsd_algorithm import RegSDAlgorithm
 from ..regsd_problem import RegSDProblem
-from ..regsd_helper import r_int
+from ..regsd_helper import r_int, min_max
 from math import log2, comb as binomial, ceil, floor, inf
 from types import SimpleNamespace
 
@@ -43,8 +43,8 @@ class RegularISDRep(RegSDAlgorithm):
         super(RegularISDRep, self).__init__(problem, **kwargs)
         self._name = "RegularISD-Rep"
         n, k, w = self.problem.get_parameters()
-
-        self.set_parameter_ranges("p", 0, 40)
+        s = self.full_domain
+        self.set_parameter_ranges("p", 0, min_max(40, w, s))
         self.set_parameter_ranges("ell", 0, n - k)
         self.set_parameter_ranges("eps_x", 0, 32)
         self.set_parameter_ranges("eps_y", 0, 20)
@@ -122,7 +122,7 @@ class RegularISDRep(RegSDAlgorithm):
 
         n, k, w = self.problem.get_parameters()
         k_prime = k - w
-        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"])+1, 8):
+        for p in range(new_ranges["p"]["min"], min(w, new_ranges["p"]["max"])+1, 8):
             for eps_x in range(new_ranges["eps_x"]["min"], new_ranges["eps_x"]["max"]+1, 4):
                 p_x = p/2 + eps_x
                 for eps_y in range(new_ranges["eps_y"]["min"], new_ranges["eps_y"]["max"] + 1):

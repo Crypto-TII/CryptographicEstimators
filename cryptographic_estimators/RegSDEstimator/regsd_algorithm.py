@@ -30,7 +30,8 @@ class RegSDAlgorithm(BaseAlgorithm):
             problem (RegSDProblem): RegSDProblem object including all necessary parameters
         """
         super(RegSDAlgorithm, self).__init__(problem, **kwargs)
-        self._name = "sample_name"
+        self.full_domain = kwargs.get("full_domain", False)
+        self._name = "RegSDAlgorithm"
 
     def _compute_time_and_memory_complexity(self, parameters: dict):
         """Returns the time and memory complexity of the algorithm for a given set of parameters.
