@@ -24,7 +24,25 @@ from ...MQEstimator.mq_estimator import MQEstimator
 from ...MQEstimator.MQAlgorithms import ExhaustiveSearch, Lokshtanov
 from ...base_algorithm import optimal_parameter
 from ...base_constants import BASE_FORGERY_ATTACK
+from functools import cache
 from math import log2, inf
+
+
+@cache
+def _mq(n: int, m: int, q: int, w: float, theta: float):
+    """Return the bit cost of MQ(n, m) over GF(q) of the fastest MQEstimator algorithm.
+
+    Cached, as _compute_time_complexity queries the same few systems for every parameter set.
+    """
+    try:
+        # ExhaustiveSearch and Lokshtanov do not support a single variable.
+        excluded = [ExhaustiveSearch, Lokshtanov] if n == 1 else []
+        E = MQEstimator(n=n, m=m, q=q, w=w, theta=theta, nsolutions=0, excluded_algorithms=excluded)
+        return E.fastest_algorithm().time_complexity()
+    except Exception:
+        # Zero-variable systems are outside MQEstimator capabilities, so
+        # we count an exhaustive search instead.
+        return n * log2(q) + log2(max(1, m)) + theta * log2(log2(q))
 
 
 class GeometricAttack(MAYOAlgorithm):
@@ -51,7 +69,6 @@ class GeometricAttack(MAYOAlgorithm):
         self._name = "GeometricAttack"
         self._attack_type = BASE_FORGERY_ATTACK
         self._theta = float(self.problem.theta if self.problem.theta is not None else 2)
-        self._mq_costs = {}
 
         n, m, _, _, _ = self.problem.get_parameters()
         # Section 3.1 allows a <= kappa and assumes a third independent base vector.
@@ -139,16 +156,16 @@ class GeometricAttack(MAYOAlgorithm):
         g = k + h - u
         blocks = [B1 // p + 1] * (B1 % p) + [B1 // p] * (p - B1 % p)
 
-        # Centrifugation is paid once: there is no additional inverse sweep-success factor.
-        terms = [log2(b0) + self._mq(B1 + ell, B1 + ell, q) if b0 else -inf]
+        # Centrifugation is paid once: there is no additional inverse factor.
+        terms = [log2(b0) + _mq(B1 + ell, B1 + ell, q, self._w, self._theta) if b0 else -inf]
         for i, block in enumerate(blocks):
             suffix = sum(blocks[i + 1 :])
-            terms += [log2(block) + self._mq(suffix, suffix, q) if suffix else -inf]
-            terms += [g * log_q + self._mq(block, block, q)]
+            terms += [log2(block) + _mq(suffix, suffix, q, self._w, self._theta) if suffix else -inf]
+            terms += [g * log_q + _mq(block, block, q, self._w, self._theta)]
 
         # Reduced terminal MQ(b0-ell,b0+k-ell), in structural bit units.
         if b0 - ell > 0 or b0 == 0:
-            terminal = self._mq(b0 - ell, b0 - ell + k, q) if b0 or k else -inf
+            terminal = _mq(b0 - ell, b0 - ell + k, q, self._w, self._theta) if b0 or k else -inf
         else:
             # Eliminating a nonempty initial block is not free even when no
             # variables remain. Reuse the reference operation count, then convert
@@ -157,8 +174,6 @@ class GeometricAttack(MAYOAlgorithm):
         terms += [g * log_q + terminal]
 
         # Expected stage costs per Reduced solution, times the q^(h-u) factor.
-        # OV is always paid. Square-Only includes the probability of reaching it;
-        # Finishing includes the probabilities of both linear systems being consistent.
         zero_rows = h - w
         sigma = min(zero_rows, u)
         columns, square_rows, equations = e * (u - sigma), e * (w - r), e * r
@@ -168,7 +183,7 @@ class GeometricAttack(MAYOAlgorithm):
         elif columns - rho <= 0:
             finishing = log2(equations)
         else:
-            finishing = self._mq(columns - rho, equations, 2)
+            finishing = _mq(columns - rho, equations, 2, self._w, self._theta)
         log_p_zero = (sigma - zero_rows) * log_q
         terms += [(h - u) * log_q + self._linear_algebra(zero_rows, u, e)]
         terms += [(h - u) * log_q + log_p_zero + self._linear_algebra(square_rows, columns, 1)]
@@ -207,20 +222,3 @@ class GeometricAttack(MAYOAlgorithm):
         columns = max(1, columns)
         pivots = (self._w - 2) * log2(min(rows, columns))
         return log2(rows) + log2(columns) + pivots + self._theta * log2(extension_degree)
-
-    def _mq(self, n: int, m: int, q: int):
-        """Return the bit cost of MQ(n, m) over GF(q) of the fastest MQEstimator algorithm.
-
-        Cached, as _compute_time_complexity queries the same few systems for every parameter set.
-        """
-        if (n, m, q) not in self._mq_costs:
-            try:
-                # ExhaustiveSearch and Lokshtanov do not support a single variable.
-                excluded = [ExhaustiveSearch, Lokshtanov] if n == 1 else []
-                E = MQEstimator(n=n, m=m, q=q, w=self._w, theta=self._theta, nsolutions=0,
-                                excluded_algorithms=excluded)
-                self._mq_costs[(n, m, q)] = E.fastest_algorithm().time_complexity()
-            except Exception:
-                # Zero-variable systems are outside MQEstimator's domain; count an exhaustive search instead.
-                self._mq_costs[(n, m, q)] = n * log2(q) + log2(max(1, m)) + self._theta * log2(log2(q))
-        return self._mq_costs[(n, m, q)]
