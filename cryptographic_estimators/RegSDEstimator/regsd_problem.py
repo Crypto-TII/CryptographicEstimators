@@ -52,7 +52,7 @@ class RegSDProblem(BaseProblem):
         self.parameters[RegSD_CODE_LENGTH] = n
         self.parameters[RegSD_CODE_DIMENSION] = k
         self.parameters[RegSD_ERROR_WEIGHT] = w
-        self.full_domain = kwargs.get("full_domain", False)
+
         self.block_length = n // w
         self.nsolutions = kwargs.get("nsolutions", max(
             self.expected_number_solutions(), 0))
