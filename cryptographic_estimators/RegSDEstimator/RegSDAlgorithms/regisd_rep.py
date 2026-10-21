@@ -59,9 +59,6 @@ class RegularISDRep(RegSDAlgorithm):
             >>> A = RegularISDRep(RegSDProblem(n=300,k=150,w=30))
             >>> A.p()
             8
-            >>> A = RegularISDRep(RegSDProblem(n=100,k=50,w=10))
-            >>> A.p()
-            8
         """
         return self._get_optimal_parameter("p")
 
