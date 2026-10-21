@@ -43,8 +43,8 @@ class RegularISDRep(RegSDAlgorithm):
         super(RegularISDRep, self).__init__(problem, **kwargs)
         self._name = "RegularISD-Rep"
         n, k, w = self.problem.get_parameters()
-
-        self.set_parameter_ranges("p", 0, 40)
+        s = self.full_domain
+        self.set_parameter_ranges("p", 0, min_max(40, w, s))
         self.set_parameter_ranges("ell", 0, n - k)
         self.set_parameter_ranges("eps_x", 0, 32)
         self.set_parameter_ranges("eps_y", 0, 20)
