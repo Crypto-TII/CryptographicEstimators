@@ -21,7 +21,7 @@
 from ...base_algorithm import optimal_parameter
 from ..regsd_algorithm import RegSDAlgorithm
 from ..regsd_problem import RegSDProblem
-from ..regsd_helper import r_int
+from ..regsd_helper import r_int, min_max
 from math import log2, comb as binomial, ceil, floor
 from types import SimpleNamespace
 
@@ -41,8 +41,9 @@ class RegularISDEnum(RegSDAlgorithm):
         """
         super(RegularISDEnum, self).__init__(problem, **kwargs)
         n, k, w = self.problem.get_parameters()
+        s = self.full_domain
         self._name = "RegularISD-Enum"
-        self.set_parameter_ranges("p", 0, 30)
+        self.set_parameter_ranges("p", 0, min_max(30, w, s))
         self.set_parameter_ranges("ell", 0, n-k)
 
     @optimal_parameter
@@ -90,7 +91,7 @@ class RegularISDEnum(RegSDAlgorithm):
 
         n, k, w = self.problem.get_parameters()
         k_prime = k - w
-        for p in range(new_ranges["p"]["min"], min(w // 2, new_ranges["p"]["max"]+1), 2):
+        for p in range(new_ranges["p"]["min"], min(w + 1, new_ranges["p"]["max"]+1), 2):
             ell_approx = max(1, log2(binomial(r_int(w / 2), p // 2)) +log2(k_prime / w) * (p / 2))
             ell_min = r_int(ell_approx * 0.5)
             ell_max = min(r_int(ell_approx * 1.5), n - k_prime)
