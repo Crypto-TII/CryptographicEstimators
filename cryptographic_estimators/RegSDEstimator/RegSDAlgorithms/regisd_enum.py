@@ -21,7 +21,7 @@
 from ...base_algorithm import optimal_parameter
 from ..regsd_algorithm import RegSDAlgorithm
 from ..regsd_problem import RegSDProblem
-from ..regsd_helper import r_int
+from ..regsd_helper import r_int, min_max
 from math import log2, comb as binomial, ceil, floor
 from types import SimpleNamespace
 
