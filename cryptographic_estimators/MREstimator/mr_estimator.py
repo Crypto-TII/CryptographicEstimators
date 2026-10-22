@@ -72,7 +72,7 @@ class MREstimator(BaseEstimator):
             | algorithm     |  time | memory |                              parameters                              |
             +---------------+-------+--------+----------------------------------------------------------------------+
             | SupportMinors |  38.8 |   12.1 | {'a': 1, 'lv': 0, 'b': 1, 'nprime': 8, 'variant': 'block_wiedemann'} |
-            | KernelSearch  |  33.2 |   12.1 |                          {'a': 1, 'lv': 0}                           |
+            | KernelSearch  |  34.9 |   12.1 |                          {'a': 1, 'lv': 0}                           |
             | BigK          | 132.5 |   12.1 |                          {'a': 0, 'lv': 0}                           |
             | Minors        |  37.2 |   12.1 |                          {'a': 2, 'lv': 0}                           |
             | BruteForce    |  37.1 |   12.1 |                          {'a': 1, 'lv': 0}                           |
@@ -89,7 +89,7 @@ class MREstimator(BaseEstimator):
             | algorithm     | time | memory |                               parameters                               |
             +---------------+------+--------+------------------------------------------------------------------------+
             | SupportMinors | 73.1 |   17.5 | {'a': 0, 'lv': 43, 'b': 1, 'nprime': 46, 'variant': 'block_wiedemann'} |
-            | KernelSearch  | 60.4 |   17.5 |                           {'a': 0, 'lv': 0}                            |
+            | KernelSearch  | 60.4 |   17.5 |                           {'a': 1, 'lv': 0}                            |
             | BruteForce    | 60.4 |   17.5 |                           {'a': 0, 'lv': 0}                            |
             +---------------+------+--------+------------------------------------------------------------------------+
 
@@ -101,7 +101,7 @@ class MREstimator(BaseEstimator):
             | algorithm     |  time | memory |                              parameters                              |
             +---------------+-------+--------+----------------------------------------------------------------------+
             | SupportMinors | 144.0 |   16.1 | {'a': 5, 'lv': 0, 'b': 1, 'nprime': 8, 'variant': 'block_wiedemann'} |
-            | KernelSearch  | 147.7 |   16.1 |                          {'a': 4, 'lv': 3}                           |
+            | KernelSearch  | 149.2 |   16.1 |                          {'a': 4, 'lv': 3}                           |
             | BigK          | 154.7 |   16.1 |                          {'a': 5, 'lv': 3}                           |
             | Minors        | 144.7 |   16.1 |                          {'a': 5, 'lv': 0}                           |
             | BruteForce    | 143.8 |   16.1 |                          {'a': 5, 'lv': 0}                           |
@@ -115,7 +115,7 @@ class MREstimator(BaseEstimator):
             | algorithm     |  time | memory |                              parameters                              |
             +---------------+-------+--------+----------------------------------------------------------------------+
             | SupportMinors | 165.9 |   17.2 | {'a': 8, 'lv': 0, 'b': 2, 'nprime': 8, 'variant': 'block_wiedemann'} |
-            | KernelSearch  | 159.4 |   17.2 |                          {'a': 8, 'lv': 0}                           |
+            | KernelSearch  | 160.2 |   17.2 |                          {'a': 8, 'lv': 0}                           |
             | BigK          | 230.8 |   17.2 |                          {'a': 0, 'lv': 0}                           |
             | Minors        | 169.4 |   17.2 |                          {'a': 9, 'lv': 0}                           |
             | BruteForce    | 169.4 |   17.2 |                          {'a': 9, 'lv': 0}                           |
@@ -131,7 +131,7 @@ class MREstimator(BaseEstimator):
             | algorithm     |  time | memory |                               parameters                              |
             +---------------+-------+--------+-----------------------------------------------------------------------+
             | SupportMinors | 209.6 |   21.5 | {'a': 5, 'lv': 0, 'b': 2, 'nprime': 14, 'variant': 'block_wiedemann'} |
-            | KernelSearch  | 207.4 |   17.3 |                           {'a': 5, 'lv': 0}                           |
+            | KernelSearch  | 208.7 |   17.3 |                           {'a': 5, 'lv': 0}                           |
             | BigK          | 431.1 |   17.3 |                           {'a': 0, 'lv': 0}                           |
             | Minors        | 216.3 |   17.3 |                           {'a': 6, 'lv': 0}                           |
             | BruteForce    | 216.3 |   17.3 |                           {'a': 6, 'lv': 0}                           |
@@ -145,7 +145,7 @@ class MREstimator(BaseEstimator):
             | algorithm     |  time | memory |                               parameters                              |
             +---------------+-------+--------+-----------------------------------------------------------------------+
             | SupportMinors | 236.3 |   18.9 | {'a': 8, 'lv': 0, 'b': 2, 'nprime': 11, 'variant': 'block_wiedemann'} |
-            | KernelSearch  | 231.7 |   17.9 |                           {'a': 8, 'lv': 0}                           |
+            | KernelSearch  | 232.7 |   17.9 |                           {'a': 8, 'lv': 0}                           |
             | BigK          | 351.8 |   17.9 |                           {'a': 0, 'lv': 0}                           |
             | Minors        | 242.2 |   17.9 |                           {'a': 9, 'lv': 0}                           |
             | BruteForce    | 242.2 |   17.9 |                           {'a': 9, 'lv': 0}                           |
@@ -159,7 +159,7 @@ class MREstimator(BaseEstimator):
             | algorithm     |  time | memory |                               parameters                              |
             +---------------+-------+--------+-----------------------------------------------------------------------+
             | SupportMinors | 274.5 |   49.0 | {'a': 6, 'lv': 0, 'b': 8, 'nprime': 15, 'variant': 'block_wiedemann'} |
-            | KernelSearch  | 269.2 |   18.4 |                           {'a': 8, 'lv': 0}                           |
+            | KernelSearch  | 270.4 |   18.4 |                           {'a': 8, 'lv': 0}                           |
             | BigK          | 452.6 |   18.4 |                           {'a': 0, 'lv': 0}                           |
             | Minors        | 278.7 |   18.4 |                           {'a': 9, 'lv': 0}                           |
             | BruteForce    | 278.7 |   18.4 |                           {'a': 9, 'lv': 0}                           |
@@ -173,7 +173,7 @@ class MREstimator(BaseEstimator):
             | algorithm     |  time | memory |                               parameters                               |
             +---------------+-------+--------+------------------------------------------------------------------------+
             | SupportMinors | 301.2 |   18.9 | {'a': 11, 'lv': 0, 'b': 1, 'nprime': 11, 'variant': 'block_wiedemann'} |
-            | KernelSearch  | 302.8 |   18.9 |                           {'a': 11, 'lv': 0}                           |
+            | KernelSearch  | 304.4 |   18.9 |                           {'a': 11, 'lv': 0}                           |
             | BigK          | 425.4 |   18.9 |                           {'a': 0, 'lv': 0}                            |
             | Minors        | 314.9 |   33.2 |                           {'a': 11, 'lv': 0}                           |
             | BruteForce    | 316.0 |   18.9 |                           {'a': 12, 'lv': 0}                           |

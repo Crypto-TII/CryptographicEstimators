@@ -28,6 +28,9 @@ class KernelSearch(MRAlgorithm):
     def __init__(self, problem: MRProblem, **kwargs):
         """Construct an instance of KernelSearch estimator.
 
+        Uses the improved kernel-search cost from [ABCPSV]_ on each reduced instance,
+        falling back to the original kernel search when only one kernel vector is needed.
+
         Args:
             problem (MRProblem): An instance of the MRProblem class
             **kwargs: Additional keyword arguments
@@ -89,12 +92,40 @@ class KernelSearch(MRAlgorithm):
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
     def _ks_time_complexity_helper_(self, q: int, m: int, n_reduced: int, k_reduced: int, r: int):
-        time = 0
+        """Return the kernel-search cost in logarithmic field operations.
+
+        Sections 4.3 and 4.4 of [ABCPSV]_ include the expected rank-check cost
+        for each guess. The improved version reuses the elimination of the first
+        ``ceil(k_reduced / m) - 1`` kernel vectors while enumerating the last one.
+        """
+        if k_reduced <= 0 or n_reduced <= r:
+            return 0
+
         w = self._w
-        if k_reduced > 0 and n_reduced > r:
-            a = ceil(k_reduced / m)
-            time = (a * r) * log2(q) + w * log2(k_reduced)
-        return time
+        a = (k_reduced + m - 1) // m
+        log_q = log2(q)
+        rank_check = k_reduced * m * n_reduced + max(m, n_reduced) * min(m, n_reduced) ** (w - 1)
+        expected_check = 2 ** (-(a * m - k_reduced) * log_q) * rank_check
+
+        if a == 1:
+            # Original kernel search: construct and solve the full linear system.
+            build_system = a * (k_reduced + 1) * r * m
+            elimination = max(a * m, k_reduced + 1) * min(a * m, k_reduced + 1) ** (w - 1)
+            return a * r * log_q + log2(build_system + elimination + expected_check)
+
+        # Improved kernel search: prepare a - 1 vectors, then enumerate the last.
+        initial_cost = (a - 1) * (k_reduced + 1) * r * m
+        initial_cost += (k_reduced + 1) * ((a - 1) * m) ** (w - 1)
+        last_vector_cost = (k_reduced + 1) * r * m
+        last_vector_cost += m * (a - 1) * m * (k_reduced + 1 - m * (a - 1))
+        last_vector_cost += expected_check
+
+        # Sum in logarithmic scale to avoid constructing q ** r.
+        initial_time = log2(initial_cost)
+        last_vector_time = r * log_q + log2(last_vector_cost)
+        processing_time = max(initial_time, last_vector_time)
+        processing_time += log2(1 + 2 ** (-abs(initial_time - last_vector_time)))
+        return (a - 1) * r * log_q + processing_time
 
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
@@ -107,7 +138,7 @@ class KernelSearch(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> KS = KernelSearch(MRProblem(q=16, m=15, n=15, k=78, r=6))
             >>> KS.time_complexity()
-            147.72067178682556
+            149.18766136573913
         """
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
