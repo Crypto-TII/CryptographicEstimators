@@ -37,8 +37,7 @@ References
 
 .. [ABCPSV] \Nicolas Aragon, Maxime Bros, Harshith Cheemalakonda, Ray Perlner,
             Daniel Smith-Tone and Javier Verbel.
-            *Cryptanalysis of MinRank 2.0*, supplied manuscript, Sections 4.3 and 4.4.
-            Source version: main_review_v21.tex; accompanying artifact: kernel_seach_estimator.py.
+            *Cryptanalysis of MinRank 2.0*.
 
 .. [AGHT18] \Nicolas Aragon, Philippe Gaborit, Adrien Hauteville, Jean-Pierre Tillich.
             *A New Algorithm for Solving the Rank Syndrome Decoding Problem*
