@@ -977,3 +977,14 @@ F.time_complexity()
 ```
 33.475373791757825
 ```
+
+# 5. Fuzzing
+
+You can run the fuzzer via:
+```bash
+make docker-fuzzing-run FUZZ_ARGS="--sd"
+make docker-fuzzing-run FUZZ_ARGS="--mq --bytes 2"
+make docker-fuzzing-run FUZZ_ARGS="--ranksd --bytes 2 -max_total_time=300"
+```
+
+Possible algorithms are: `--sd | --mq | --sdfq | --regsd | --ranksd | --pk | --lw | --pe | --mr | --uov | --mayo`

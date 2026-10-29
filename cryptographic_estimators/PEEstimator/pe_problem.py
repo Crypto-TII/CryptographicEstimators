@@ -37,6 +37,14 @@ class PEProblem(BaseProblem):
                 memory_bound: Maximum allowed memory to use for solving the problem
         """
         super().__init__(**kwargs)
+
+        if n <= 0 or k <= 0 or q <= 0:
+            raise ValueError("n, k and q must be positive integers")
+        if n <= k:
+            raise ValueError("n must be > k")
+        if q < 2:
+            raise ValueError("q must be prime")
+
         self.parameters[PE_CODE_LENGTH] = n
         self.parameters[PE_CODE_DIMENSION] = k
         self.parameters[PE_FIELD_SIZE] = q

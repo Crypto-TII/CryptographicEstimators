@@ -35,12 +35,12 @@ class SDFqProblem(BaseProblem):
             is_syndrome_zero (bool, optional): If set to true, special algorithmic optimizations can be applied. Defaults to True.
         """
         super().__init__(**kwargs)
+        if w <= 0 or k <= 0 or n <= 0:
+            raise ValueError("n, k and w must be positive integers")
         if k > n:
             raise ValueError("k must be smaller or equal to n")
         if w > n - k:
             raise ValueError("w must be smaller or equal to n-k")
-        if w <= 0 or k <= 0:
-            raise ValueError("w and k must be at least 1")
         if q <= 2:
             raise ValueError("q must be at least 3")
         self.parameters[SDFQ_CODE_LENGTH] = n

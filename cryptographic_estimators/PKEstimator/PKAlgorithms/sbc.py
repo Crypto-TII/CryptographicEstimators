@@ -157,14 +157,8 @@ class SBC(PKAlgorithm):
                 T_test = factorial(n - w)* q ** ((d - u) * ell) // factorial(m - u) * size_K
             L = max(L, min(factorial(n) // factorial(m + w - u), size_K))
 
-
-
-
-
-
             local_time = log2(int(2 ** c_isd) + (T_K + T_L + T_test) * self.cost_for_list_operation)
-
-            local_memory = log2(L) + log2(self.memory_for_list_element)
+            local_memory = log2(L) + log2(max(self.memory_for_list_element, 1))
 
             if local_time < time:
                 best_u = u

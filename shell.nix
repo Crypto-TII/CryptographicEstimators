@@ -19,6 +19,8 @@ let
     pythonPackages.scipy
     pythonPackages.pytest
     pythonPackages.sympy
+    clang
+    ruff
   ];
 in
 let

@@ -36,6 +36,8 @@ class RegSDProblem(BaseProblem):
                 memory_bound: Maximum allowed memory to use for solving the problem
         """
         super().__init__(**kwargs)
+        if w <= 0 or k <= 0 or n <= 0:
+            raise ValueError("n, k and w must be at least 1")
         if k > n:
             raise ValueError("k must be smaller or equal to n")
         if w > n - k:
@@ -44,9 +46,6 @@ class RegSDProblem(BaseProblem):
             raise ValueError("w must be smaller or equal to n/2")
         if n % w != 0:
             raise ValueError("w must divide n")
-
-        if w <= 0 or k <= 0:
-            raise ValueError("w and k must be at least 1")
         if w >= k:
             raise ValueError("w mst be smaller than k to ensure problem hardness")
         self.parameters[RegSD_CODE_LENGTH] = n
