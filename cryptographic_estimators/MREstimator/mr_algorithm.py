@@ -20,7 +20,7 @@
 
 from ..base_algorithm import BaseAlgorithm
 from .mr_problem import MRProblem
-from math import log2
+from math import log2, inf
 
 
 class MRAlgorithm(BaseAlgorithm):
@@ -76,27 +76,34 @@ class MRAlgorithm(BaseAlgorithm):
         r_reduced = r
         return q_reduced, m_reduced, n_reduced, k_reduced, r_reduced
 
-    def cost_reduction(self, a, lv):
-        """Return the cost of computing the reduced instance.
-    
-        The reduced instance is obtained after one guess of `a` kernel vectors.
-    
-        Args:
-            a: Number of vectors to guess in the kernel of the low-rank matrix
+    @staticmethod
+    def _log2_sum(*log_terms):
+        """Sum logarithmic costs without constructing large powers of two."""
+        largest = max(log_terms)
+        if largest == inf:
+            return inf
+        return largest + log2(sum(2 ** (term - largest) for term in log_terms))
+
+    def _are_hybrid_parameters_invalid(self, a, lv):
+        """Check the domain of the hybrid reduction."""
+        _, m, n, k, r = self.problem.get_parameters()
+        return a < 0 or lv < 0 or lv >= min(r, k) or a > n - r or a * m >= k - lv
+
+    def hybrid_reduction_cost(self, a, lv):
+        """Return the logarithmic cost of ProcessGuess.
+
+        The linear-variable substitution is amortized over the kernel guesses.
+        The internal solver requires k - lv - am > 0.
         """
-        cost_guess_kernel_vectors = 0
-        cost_guess_entries = 0
-        _, m, n, k, _ = self.problem.get_parameters()
-        if lv > 0:
-            cost_guess_entries = log2(lv * m * n)
-
-        if a > 0 and lv != k:
-            w = self.linear_algebra_constant()
-            cost_guess_kernel_vectors = w * log2(min(k - lv, a * m))
-
-        reduction_cost = max(cost_guess_kernel_vectors, cost_guess_entries)
-
-        return reduction_cost
+        if self._are_hybrid_parameters_invalid(a, lv):
+            return inf
+        _, m, n, k, r = self.problem.get_parameters()
+        k_p = k - lv
+        comp_step_2 = a * (k_p + 1) * r * m
+        comp_step_3 = (k_p + 1) * (a * m) ** (self._w - 1)
+        comp_step_12 = a * m * (k_p - a * m + 1) * m * (n - a)
+        cost = comp_step_2 + comp_step_3 + comp_step_12
+        return log2(cost) if cost > 0 else -inf
 
     def hybridization_factor(self, a, lv):
         """Return the logarithm of the number of reduced instances to be solved.

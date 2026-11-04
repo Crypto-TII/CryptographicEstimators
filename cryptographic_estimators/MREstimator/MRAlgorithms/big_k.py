@@ -20,13 +20,13 @@
 from ...MREstimator.mr_algorithm import MRAlgorithm
 from ...MREstimator.mr_problem import MRProblem
 from ...base_algorithm import optimal_parameter
-from math import log2, ceil
+from math import log2, inf
 from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, MR_NUMBER_OF_COEFFICIENTS_TO_GUESS
 
 
 class BigK(MRAlgorithm):
     def __init__(self, problem: MRProblem, **kwargs):
-        """Construct an instance of BigK estimator.
+        """Construct an instance of BigK estimator using [ABCPSV]_.
 
         Args:
             problem (MRProblem): An instance of the MRProblem class.
@@ -44,7 +44,7 @@ class BigK(MRAlgorithm):
 
         super(BigK, self).__init__(problem, **kwargs)
         q, m, n, k, r = self.problem.get_parameters()
-        self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m) - 1))
+        self.set_parameter_ranges('a', 0, min(n - r, (k - 1) // m))
         self.set_parameter_ranges('lv', 0, min(r, k) - 1)
         self._name = "BigK"
 
@@ -64,7 +64,7 @@ class BigK(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> BK = BigK(MRProblem(q=16, m=15, n=15, k=78, r=6))
             >>> BK.a()
-            5
+            0
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS)
 
@@ -84,16 +84,20 @@ class BigK(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> BK = BigK(MRProblem(q=16, m=15, n=15, k=78, r=6))
             >>> BK.lv()
-            3
+            0
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
     def _bk_time_complexity_helper_(self, q: int, m: int, n_reduced: int, k_reduced: int, r: int):
-        time = 0
-        w = self._w
-        if k_reduced > 0 and n_reduced > r:
-            time = max(log2(q) * (max(0, m * (n_reduced - r) - k_reduced + 1)) + w * log2((m * (n_reduced - r))), 0)
-        return time
+        """Return the logarithmic cost of enumerating entries of the low-rank matrix."""
+        if k_reduced <= 0 or n_reduced <= r:
+            return 0
+        nentries = m * (n_reduced - r)
+        return max(0, nentries - k_reduced) * log2(q) + self._w * log2(nentries)
+
+    def _are_parameters_invalid(self, parameters):
+        """Reject guesses that leave no instance for the internal solver."""
+        return self._are_hybrid_parameters_invalid(parameters['a'], parameters['lv'])
 
     def _bk_memory_complexity_helper_(self, m: int, n_reduced: int, r: int):
         memory = 0
@@ -113,16 +117,18 @@ class BigK(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> BK = BigK(MRProblem(q=16, m=15, n=15, k=78, r=6))
             >>> BK.time_complexity()
-            154.68645607148764
+            253.2304467911525
         """
+        if self._are_parameters_invalid(parameters):
+            return inf
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, n, k, r = self.problem.get_parameters()
         _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
         time_complexity = self._bk_time_complexity_helper_(q, m, n_reduced, k_reduced, r)
-        reduction_cost = self.cost_reduction(a, lv)
-        time += max(time_complexity, reduction_cost)
+        reduction_cost = self.hybrid_reduction_cost(a, lv)
+        time += self._log2_sum(time_complexity, reduction_cost)
         return time
 
     def _compute_memory_complexity(self, parameters: dict):

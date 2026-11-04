@@ -20,7 +20,7 @@
 from ...MREstimator.mr_algorithm import MRAlgorithm
 from ...MREstimator.mr_problem import MRProblem
 from ...base_algorithm import optimal_parameter
-from math import log2, ceil
+from math import log2, inf
 from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, MR_NUMBER_OF_COEFFICIENTS_TO_GUESS
 
 
@@ -45,7 +45,7 @@ class BruteForce(MRAlgorithm):
         super(BruteForce, self).__init__(problem, **kwargs)
 
         _, m, n, k, r = self.problem.get_parameters()
-        self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)))
+        self.set_parameter_ranges('a', 0, min(n - r, (k - 1) // m))
         self.set_parameter_ranges('lv', 0, min(r, k) - 1)
         self._name = "BruteForce"
 
@@ -90,11 +90,16 @@ class BruteForce(MRAlgorithm):
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
     def _BFE_time_complexity_helper_(self, q: int, n: int, k_reduced: int, r: int):
-        time = 0
-        w = self._w
-        if k_reduced > 0 and n > r:
-            time = k_reduced * log2(q) + w * log2(r)
-        return time
+        """Return the amortized brute-force cost from [ABCPSV]_."""
+        if k_reduced <= 0 or n <= r:
+            return 0
+        # E(X) is the inverse probability that an (r+1)-square matrix is invertible.
+        log_expected_checks = -sum(log2(1 - q ** (-i)) for i in range(1, r + 2))
+        return k_reduced * log2(q) + self._w * log2(r + 1) + log_expected_checks
+
+    def _are_parameters_invalid(self, parameters):
+        """Reject guesses that leave no instance for the internal solver."""
+        return self._are_hybrid_parameters_invalid(parameters['a'], parameters['lv'])
 
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
@@ -107,18 +112,18 @@ class BruteForce(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> BFE = BruteForce(MRProblem(q=16, m=15, n=15, k=78, r=6))
             >>> BFE.time_complexity()
-            143.75488750216346
+            144.9528944770243
         """
+        if self._are_parameters_invalid(parameters):
+            return inf
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, _, n, _, r = self.problem.get_parameters()
-        _, _, _, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
+        _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
-        time_complexity = self._BFE_time_complexity_helper_(q, n, k_reduced, r)
-        reduction_cost = self.cost_reduction(a, lv)
-        time += max(time_complexity, reduction_cost)
-        if abs(time_complexity - reduction_cost) < 0:
-            time += 1
+        time_complexity = self._BFE_time_complexity_helper_(q, n_reduced, k_reduced, r)
+        reduction_cost = self.hybrid_reduction_cost(a, lv)
+        time += self._log2_sum(time_complexity, reduction_cost)
         return time
 
     def _compute_memory_complexity(self, parameters: dict):

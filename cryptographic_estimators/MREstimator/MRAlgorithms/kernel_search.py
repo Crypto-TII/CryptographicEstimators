@@ -20,13 +20,16 @@
 from ...MREstimator.mr_algorithm import MRAlgorithm
 from ...MREstimator.mr_problem import MRProblem
 from ...base_algorithm import optimal_parameter
-from math import log2, ceil
+from math import log2, ceil, inf
 from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, MR_NUMBER_OF_COEFFICIENTS_TO_GUESS
 
 
 class KernelSearch(MRAlgorithm):
     def __init__(self, problem: MRProblem, **kwargs):
         """Construct an instance of KernelSearch estimator.
+
+        Uses the improved kernel-search cost from [ABCPSV]_ on each reduced instance,
+        falling back to the original kernel search when only one kernel vector is needed.
 
         Args:
             problem (MRProblem): An instance of the MRProblem class
@@ -44,7 +47,7 @@ class KernelSearch(MRAlgorithm):
         super(KernelSearch, self).__init__(problem, **kwargs)
 
         q, m, n, k, r = self.problem.get_parameters()
-        self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)))
+        self.set_parameter_ranges('a', 0, min(n - r, (k - 1) // m))
         self.set_parameter_ranges('lv', 0, min(r, k) - 1)
         self._name = "KernelSearch"
 
@@ -88,13 +91,47 @@ class KernelSearch(MRAlgorithm):
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
-    def _ks_time_complexity_helper_(self, q: int, m: int, n_reduced: int, k_reduced: int, r: int):
-        time = 0
-        w = self._w
-        if k_reduced > 0 and n_reduced > r:
-            a = ceil(k_reduced / m)
-            time = (a * r) * log2(q) + w * log2(k_reduced)
-        return time
+    def _rank_check_cost(self, m, n, k):
+        """Return the logarithmic cost of constructing the matrix and checking its rank."""
+        return log2(k * m * n + max(m, n) * min(m, n) ** (self._w - 1))
+
+    def _process_guess_kernel_cost(self, m, k, r, a):
+        """Return the logarithmic cost of steps 2 and 3 of the original kernel search."""
+        comp_step_2 = a * (k + 1) * r * m
+        comp_step_3 = max(a * m, k + 1) * min(a * m, k + 1) ** (self._w - 1)
+        return log2(comp_step_2 + comp_step_3)
+
+    def _kernel_search(self, q, m, n, k, r):
+        """Return the original kernel-search cost."""
+        a = ceil(k / m)
+        log_cpsi_ker = self._process_guess_kernel_cost(m, k, r, a)
+        log_check = -(a * m - k) * log2(q) + self._rank_check_cost(m, n, k)
+        return a * r * log2(q) + self._log2_sum(log_cpsi_ker, log_check)
+
+    def _process_guess_improved_cost(self, q, m, n, k_p, r, a):
+        """Return the logarithmic cost of improved guess processing."""
+        comp_step_2 = (a - 1) * (k_p + 1) * r * m
+        comp_step_3 = (k_p + 1) * ((a - 1) * m) ** (self._w - 1)
+        comp_step_5 = (k_p + 1) * r * m
+        comp_step_6 = m * (a - 1) * m * (k_p + 1 - m * (a - 1))
+        log_check = -(a * m - k_p) * log2(q) + self._rank_check_cost(m, n, k_p)
+        # Keep the q^r repetitions in logarithmic scale to avoid overflow.
+        log_last_vector = self._log2_sum(log2(comp_step_5 + comp_step_6), log_check)
+        return self._log2_sum(log2(comp_step_2 + comp_step_3), r * log2(q) + log_last_vector)
+
+    def _improved_kernel_search(self, q, m, n, k, r):
+        """Return the improved kernel-search cost, falling back to the original for a = 1."""
+        if k <= 0 or n <= r:
+            return 0
+        a = ceil(k / m)
+        if a == 1:
+            return self._kernel_search(q, m, n, k, r)
+        cpsi = self._process_guess_improved_cost(q, m, n, k, r, a)
+        return (a - 1) * r * log2(q) + cpsi
+
+    def _are_parameters_invalid(self, parameters):
+        """Reject guesses that leave no instance for the internal solver."""
+        return self._are_hybrid_parameters_invalid(parameters['a'], parameters['lv'])
 
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
@@ -107,16 +144,18 @@ class KernelSearch(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> KS = KernelSearch(MRProblem(q=16, m=15, n=15, k=78, r=6))
             >>> KS.time_complexity()
-            147.72067178682556
+            149.1876655994923
         """
+        if self._are_parameters_invalid(parameters):
+            return inf
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, _, k, r = self.problem.get_parameters()
         _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
-        time_complexity = self._ks_time_complexity_helper_(q, m, n_reduced, k_reduced, r)
-        reduction_cost = self.cost_reduction(a, lv)
-        time += max(time_complexity, reduction_cost)
+        time_complexity = self._improved_kernel_search(q, m, n_reduced, k_reduced, r)
+        reduction_cost = self.hybrid_reduction_cost(a, lv)
+        time += self._log2_sum(time_complexity, reduction_cost)
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
