@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: write # Existing gh-pages publishing step.
+      id-token: write # Request short-lived AWS credentials through OIDC.
     concurrency: ci-${{github.ref}}
     steps:
       - name: Checkout
@@ -61,11 +62,25 @@ jobs:
           echo "API revision: $(git -C "$API_SOURCE_DIR" rev-parse HEAD)"
           printf 'API_SOURCE_DIR=%s\n' "$API_SOURCE_DIR" >> "$GITHUB_ENV"
 
+      - name: Verify AWS OIDC configuration
+        env:
+          PUBLIC_ECR_ROLE_ARN: ${{ vars.AWS_PRODUCTION_PUBLIC_ECR_ROLE_ARN }}
+          DEPLOY_ROLE_ARN: ${{ vars.AWS_PRODUCTION_DEPLOY_ROLE_ARN }}
+        run: |
+          for variable in PUBLIC_ECR_ROLE_ARN DEPLOY_ROLE_ARN; do
+            if [[ ! "${!variable}" =~ ^arn:aws:iam::[0-9]{12}:role/.+ ]]; then
+              echo "::error::Configure a valid $variable repository variable for production; see docs/github/aws-oidc-deployment.md."
+              exit 1
+            fi
+          done
+
       - name: Configure AWS Credential for public AWS ECR
         uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ vars.AWS_PRODUCTION_PUBLIC_ECR_ROLE_ARN }}
+          role-session-name: estimators-production-public-${{ github.run_id }}-${{ github.run_attempt }}
+          role-duration-seconds: 3600
+          unset-current-credentials: true
           aws-region: us-east-1
 
       - name: Login to public AWS ECR
@@ -83,8 +98,10 @@ jobs:
       - name: Configure AWS Credential for private AWS ECR
         uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ vars.AWS_PRODUCTION_DEPLOY_ROLE_ARN }}
+          role-session-name: estimators-production-api-${{ github.run_id }}-${{ github.run_attempt }}
+          role-duration-seconds: 3600
+          unset-current-credentials: true
           aws-region: me-central-1
 
       - name: Login to private AWS ECR

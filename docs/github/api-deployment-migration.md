@@ -43,10 +43,12 @@ repository's `docs/security-remediation.md` for the remaining deployment setting
 
 ## Release behavior and review
 
-AWS credential inputs, registry names, ECS service names and workflow triggers are
-preserved. The obsolete Node 16 AWS credential action is upgraded to a pinned v6
-release; ECR login uses pinned v2. Checkout and App-token actions are also pinned. This PR does not migrate AWS authentication to OIDC or change release
-policy. The production workflow still publishes documentation to `gh-pages`,
+AWS authentication now uses short-lived OIDC sessions instead of permanent AWS
+access-key secrets. Follow [AWS administrator setup](aws-oidc-deployment.md) to
+configure the IAM provider, branch-restricted roles and four GitHub role ARN
+variables before merging. Registry names, ECS service names and workflow triggers
+are preserved. The AWS credential action uses pinned v6; ECR login uses pinned v2.
+Checkout and App-token actions are also pinned. The production workflow still publishes documentation to `gh-pages`,
 with explicit write permission for its library-repository workflow token.
 
 **Merging into `develop` triggers staging deployment; promoting `develop` to `main`
