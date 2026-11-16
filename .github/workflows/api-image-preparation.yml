@@ -1,0 +1,16 @@
+name: API image preparation checks
+on:
+  pull_request:
+  push:
+permissions:
+  contents: read
+jobs:
+  preparation-tests:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Test candidate image preparation without cloud access
+        run: python3 -m unittest discover -s scripts/ci -p 'test_*.py' -v

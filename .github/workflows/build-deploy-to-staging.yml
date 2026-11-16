@@ -1,20 +1,21 @@
-name: build-deploy-to-staging
+name: publish-api-image-for-staging
 on:
   push:
     branches:
       - develop
 
+# Publish a candidate image only. Argo CD deploys reviewed platform-repository changes.
 # The API is private; the default GITHUB_TOKEN cannot read another repository.
 permissions:
   contents: read
 
 jobs:
-  build-deploy-to-staging:
+  publish-api-image-for-staging:
     permissions:
       contents: read
       id-token: write # Request short-lived AWS credentials through OIDC.
     runs-on: ubuntu-22.04
-    concurrency: ci-${{github.ref}}
+    concurrency: publish-api-${{ github.ref }}
     steps:
       - name: Checkout
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -58,67 +59,52 @@ jobs:
           # source out before any library image build or documentation build.
           test ! -e "$API_SOURCE_DIR"
           mv "$GITHUB_WORKSPACE/.api-source" "$API_SOURCE_DIR"
-          test -f "$API_SOURCE_DIR/Dockerfile.integration"
+          test -f "$API_SOURCE_DIR/Dockerfile"
           echo "API revision: $(git -C "$API_SOURCE_DIR" rev-parse HEAD)"
           printf 'API_SOURCE_DIR=%s\n' "$API_SOURCE_DIR" >> "$GITHUB_ENV"
 
       - name: Verify AWS OIDC configuration
         env:
-          PUBLIC_ECR_ROLE_ARN: ${{ vars.AWS_STAGING_PUBLIC_ECR_ROLE_ARN }}
-          DEPLOY_ROLE_ARN: ${{ vars.AWS_STAGING_DEPLOY_ROLE_ARN }}
+          PUBLISH_ROLE_ARN: ${{ vars.AWS_STAGING_ECR_ROLE_ARN }}
         run: |
-          for variable in PUBLIC_ECR_ROLE_ARN DEPLOY_ROLE_ARN; do
-            if [[ ! "${!variable}" =~ ^arn:aws:iam::[0-9]{12}:role/.+ ]]; then
-              echo "::error::Configure a valid $variable repository variable for staging; see docs/github/aws-oidc-deployment.md."
-              exit 1
-            fi
-          done
+          if [[ ! "$PUBLISH_ROLE_ARN" =~ ^arn:aws:iam::450891466448:role/.+ ]]; then
+            echo "::error::Configure AWS_STAGING_ECR_ROLE_ARN for account 450891466448; see docs/github/aws-oidc-deployment.md."
+            exit 1
+          fi
 
-      - name: Configure AWS Credential for public AWS ECR
-        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6
-        with:
-          role-to-assume: ${{ vars.AWS_STAGING_PUBLIC_ECR_ROLE_ARN }}
-          role-session-name: estimators-staging-public-${{ github.run_id }}-${{ github.run_attempt }}
-          role-duration-seconds: 3600
-          unset-current-credentials: true
-          aws-region: us-east-1
-
-      - name: Login to public AWS ECR
-        id: login-ecr-public
-        uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd # v2
-        with:
-          registry-type: public
-
-      - name: Build and push staging library Docker image
-        run: |
-          docker build --tag public.ecr.aws/h0m6q0n8/staging/estimators/lib:latest .
-          docker push public.ecr.aws/h0m6q0n8/staging/estimators/lib:latest
-
-      - name: Configure AWS Credential for private AWS ECR
-        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6
-        with:
-          role-to-assume: ${{ vars.AWS_STAGING_DEPLOY_ROLE_ARN }}
-          role-session-name: estimators-staging-api-${{ github.run_id }}-${{ github.run_attempt }}
-          role-duration-seconds: 3600
-          unset-current-credentials: true
-          aws-region: me-central-1
-
-      - name: Login to private AWS ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd # v2
-
-      - name: Build and push staging API Docker image
+      - name: Prepare API image and GitOps promotion record
         env:
-          API_IMAGE: ${{ steps.login-ecr.outputs.registry }}/staging/estimators/api:latest
-        run: |
-          docker build --tag "$API_IMAGE" \
-            --file "$API_SOURCE_DIR/Dockerfile.integration" "$API_SOURCE_DIR"
-          docker push "$API_IMAGE"
+          PLATFORM_RELEASE: estimators-devops
+        run: python3 scripts/ci/prepare_api_image.py
 
-      - name: Reset staging AWS ECS task
+      - name: Build API image with the checked-out library
         run: |
-          aws ecs update-service                         \
-            --cluster estimators-cluster                 \
-            --service estimators-staging-service-tii-crc \
-            --force-new-deployment
+          docker build --tag "$LIBRARY_IMAGE" .
+          docker build --tag "$API_IMAGE" \
+            --file "$API_BUILD_DOCKERFILE" "$API_SOURCE_DIR"
+
+      - name: Obtain short-lived Canadian ECR publishing credentials
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6
+        with:
+          role-to-assume: ${{ vars.AWS_STAGING_ECR_ROLE_ARN }}
+          role-session-name: estimators-staging-${{ github.run_id }}-${{ github.run_attempt }}
+          role-duration-seconds: 3600
+          unset-current-credentials: true
+          allowed-account-ids: '450891466448'
+          aws-region: ca-central-1
+
+      - name: Login to Canadian private ECR
+        uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd # v2
+        with:
+          registries: '450891466448'
+
+      - name: Publish uniquely tagged API candidate
+        run: docker push "$API_IMAGE"
+
+      - name: Save Argo CD promotion record
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: api-promotion-staging-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/api-promotion.json
+          retention-days: 30
 

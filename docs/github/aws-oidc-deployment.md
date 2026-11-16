@@ -1,99 +1,135 @@
-# Short-lived AWS deployment access
+# AWS OIDC access for EKS / Argo CD image publication
 
-The release workflows obtain one-hour AWS sessions using GitHub OIDC. They no
-longer read `AWS_ACCESS_KEY_ID` or `AWS_SECRET_ACCESS_KEY`. Each workflow obtains
-fresh credentials for public ECR in `us-east-1`, then for private ECR and ECS in
-`me-central-1`. The second login clears the first session before requesting its
-own OIDC session; it does not chain roles or fall back to stored AWS keys.
+This guide supersedes the earlier ECS / me-central-1 instructions and four-role
+proposal. Do not configure the old ECS roles, public ECR roles or their variables.
 
-This changes authentication only. Pushes to `develop` still deploy staging;
-pushes to `main` still deploy production. No additional manual approval is added.
-PRs and feature-branch pushes do not trigger these deployment workflows.
+## Confirmed repository configuration
 
-## AWS administrator setup (before merging)
+The private [estimators-platform repository](https://github.com/Crypto-TII/estimators-platform)
+defines EKS cluster `estimators` in `ca-central-1`, account `450891466448`, and:
 
-1. Confirm which AWS account owns public ECR alias `h0m6q0n8` and which owns the
-   private ECR repositories and ECS cluster. They may be different accounts.
-2. In each account that will contain a deployment role, create or reuse an IAM
-   OpenID Connect provider with URL `https://token.actions.githubusercontent.com`
-   and audience `sts.amazonaws.com`.
-3. Create the roles below. The suggested names are optional; set their maximum
-   session duration to at least 3,600 seconds. Use the environment's trust JSON
-   for both roles, replacing `<AWS_ACCOUNT_ID>` with the account containing that
-   role and the OIDC provider. Attach only the corresponding permission policy,
-   replacing its account placeholder with the resource-owning account ID.
+- API: `450891466448.dkr.ecr.ca-central-1.amazonaws.com/estimators-api`.
+- Frontend: `450891466448.dkr.ecr.ca-central-1.amazonaws.com/estimators-frontend`.
+- Argo CD environments `estimators-devops` and `estimators-production`, both in
+  namespace `estimators`. The existing devops environment is not assumed to be
+  identical to the retired staging environment; confirm the intended mapping.
+- Argo CD watches platform `main` and automatically syncs the Helm configuration.
+  The ApplicationSet currently assigns API tag `latest` to both environments.
 
-| Suggested role | Trust template | Permissions template |
+These are repository findings, not a verification of the running cluster, image
+architecture, registry ownership, credentials or current publishing pipeline.
+The platform owner must confirm them before merging this draft PR.
+
+## New release path
+
+1. A library `develop` / `main` push builds the checked-out library and GitHub API
+   `master` source together. Both EKS environments use the API's standard
+   `Dockerfile`; the retired staging Dockerfile contains obsolete staging URLs.
+   A generated runner-temporary Dockerfile substitutes the locally built library
+   base. No API checkout file changes, public ECR push or remote library base pull
+   is needed. Private API source remains outside the library build context.
+2. GitHub obtains a one-hour OIDC session scoped to Canadian ECR image publication.
+   Each run publishes a unique tag containing library/API revisions and run ID /
+   attempt. It never overwrites `latest` or `devops`.
+3. The workflow saves `api-promotion.json` as an artifact, identifying both source
+   revisions, image, environment and exact platform file/field to update.
+4. After checks and release approval, a separate reviewed platform PR changes
+   only the selected environment's `imageApiTag` in
+   `argocd-apps/environments/estimators-eks/estimators-applicationset.yaml` to that
+   published tag. Merging the platform PR lets Argo CD roll out the new image.
+
+GitHub does not call ECS, kubectl, the EKS API or Argo CD. It has no platform-repo
+write token and does not open or merge platform PRs automatically. Image-tag
+changes cause a Kubernetes rollout; `imagePullPolicy: Always` alone does not
+restart running pods when an existing tag is overwritten. Pin environment tags
+and use reviewed tag changes rather than relying on mutable `latest` images.
+
+This PR does not build or publish the frontend. Its existing EKS image stays
+unchanged. Production documentation publishing to `gh-pages` is preserved; that
+is separate from application deployment. Library merges publish candidates;
+platform merges authorize application deployment. Full automatic promotion would
+be a separate agreed change after confirming existing release ownership.
+
+## AWS administrator configuration
+
+1. Confirm account `450891466448`, registry/repository, EKS region, node image
+   architecture and the current image-publishing process with the platform owner.
+   The GitHub-hosted build currently targets the runner's Linux/amd64 architecture.
+   Do not change active infrastructure or existing publishers during preparation.
+2. In that AWS account create/reuse an IAM OIDC provider:
+   URL `https://token.actions.githubusercontent.com`, audience `sts.amazonaws.com`.
+3. Create two roles with maximum session duration at least 3,600 seconds:
+
+| Suggested role | Trust policy | Permission policy |
 | --- | --- | --- |
-| `github-estimators-staging-public-ecr` | [staging-trust.json](aws-oidc/staging-trust.json) | [staging-public-ecr-policy.json](aws-oidc/staging-public-ecr-policy.json) |
-| `github-estimators-staging-deploy` | [staging-trust.json](aws-oidc/staging-trust.json) | [staging-deploy-policy.json](aws-oidc/staging-deploy-policy.json) |
-| `github-estimators-production-public-ecr` | [production-trust.json](aws-oidc/production-trust.json) | [production-public-ecr-policy.json](aws-oidc/production-public-ecr-policy.json) |
-| `github-estimators-production-deploy` | [production-trust.json](aws-oidc/production-trust.json) | [production-deploy-policy.json](aws-oidc/production-deploy-policy.json) |
+| `github-estimators-devops-ecr-publisher` | [staging-trust.json](aws-oidc/staging-trust.json) | [staging-ecr-policy.json](aws-oidc/staging-ecr-policy.json) |
+| `github-estimators-production-ecr-publisher` | [production-trust.json](aws-oidc/production-trust.json) | [production-ecr-policy.json](aws-oidc/production-ecr-policy.json) |
 
-The public role publishes only its library repository. The deployment role
-publishes only its private API repository and can update only its ECS service.
-Registry authentication requires wildcard resources; image publication and ECS
-updates are scoped to explicit resources. No repository creation, IAM changes,
-task-definition registration or `iam:PassRole` is granted by these templates.
-Confirm actual resource ARNs and any organizational SCP, permission-boundary or
-repository-policy restrictions. These are configuration templates, not evidence
-that the live AWS permissions have been tested.
+The first trusts only `repo:Crypto-TII/CryptographicEstimators:ref:refs/heads/develop`;
+the second trusts only `repo:Crypto-TII/CryptographicEstimators:ref:refs/heads/main`.
+Both require audience `sts.amazonaws.com`. The repository OIDC configuration was
+verified as default subject, `use_immutable_subject: false`. Update trust if that
+setting changes. No GitHub Environment is added; adding one changes the subject.
+Any workflow with token permission on the trusted branch can assume that role,
+so protect branches and review workflow changes. PR subjects are not trusted.
 
-The staging trust accepts only
-`repo:Crypto-TII/CryptographicEstimators:ref:refs/heads/develop`; production accepts
-only `repo:Crypto-TII/CryptographicEstimators:ref:refs/heads/main`. Neither accepts
-the PR subject or another repository. Do not replace these with broad wildcards.
-Any workflow running on the trusted branch with `id-token: write` can request
-that branch's role, so protect release branches and review workflow changes.
+Permissions allow authentication plus image upload to **only** `estimators-api`.
+They grant no ECS, EKS, Kubernetes, IAM, S3, frontend publication or public ECR
+access. Registry login requires `Resource: "*"`; publication uses the explicit
+Canadian API repository ARN. Review account SCPs, permission boundaries and ECR
+policies. No repository is created by the workflow.
 
-The repository OIDC configuration was checked during preparation: it uses the
-default subject with `use_immutable_subject: false`. If this setting changes,
-update the trust policies to match before rollout. Adding a GitHub Environment
-to a deployment job also changes its OIDC subject and requires corresponding
-trust and environment branch restrictions. These workflows add no Environment.
+4. Return the two full role ARNs. The GitHub repository administrator must set:
 
-## GitHub repository configuration
-
-An administrator of `Crypto-TII/CryptographicEstimators` must set these **Actions
-repository variables**, using the full IAM role ARNs supplied by the AWS admin:
-
-| Variable | Role |
+| Actions repository variable | Role |
 | --- | --- |
-| `AWS_STAGING_PUBLIC_ECR_ROLE_ARN` | Staging public ECR publisher |
-| `AWS_STAGING_DEPLOY_ROLE_ARN` | Staging private ECR / ECS deployment |
-| `AWS_PRODUCTION_PUBLIC_ECR_ROLE_ARN` | Production public ECR publisher |
-| `AWS_PRODUCTION_DEPLOY_ROLE_ARN` | Production private ECR / ECS deployment |
+| `AWS_STAGING_ECR_ROLE_ARN` | Devops candidate publisher, trusted library `develop` |
+| `AWS_PRODUCTION_ECR_ROLE_ARN` | Production candidate publisher, trusted library `main` |
 
-Role ARNs identify roles; they are not secret access keys. No AWS credential
-secret is needed. A missing or malformed ARN stops the workflow before AWS
-authentication, image publication or service restart. The existing GitHub App
-configuration for reading the private API repository is also still required;
-see [API deployment migration](api-deployment-migration.md).
+The variable name STAGING retains the library branch/workflow terminology;
+its proposed platform destination is `estimators-devops`, subject to owner approval.
+No permanent AWS key is needed. The workflow validates the account, clears
+ambient credentials, and checks AWS's returned account ID. The prior variables
+`AWS_STAGING_PUBLIC_ECR_ROLE_ARN`, `AWS_STAGING_DEPLOY_ROLE_ARN`,
+`AWS_PRODUCTION_PUBLIC_ECR_ROLE_ARN`, `AWS_PRODUCTION_DEPLOY_ROLE_ARN` are unused.
 
-## Validation and rollout
+## Other prerequisites and rollout
 
-Preparing this change does not create AWS roles, configure live trust, publish
-images or restart services. Syntax and isolated command tests do not validate
-actual AWS authorization. There is deliberately no manual dispatch added here.
+The GitHub administrator must still configure `API_CHECKOUT_APP_ID` and
+`API_CHECKOUT_APP_PRIVATE_KEY` for a GitHub App with **Contents: read** on only
+`Crypto-TII/cryptographic-estimators-api`. The library's default token cannot read
+that private repository. No personal or browser token is used.
 
-Before approving a merge, the AWS administrator must confirm the provider,
-trust policies, role permissions and resource/account IDs, and the GitHub admin
-must populate the four variables and API checkout settings. Keep the PR draft
-until configuration and release timing have been agreed: merging it into
-`develop` automatically starts a real staging deployment.
+Before promotion, the platform owner must confirm Argo CD actually watches this
+repo, can read it, and can pull the published ECR images. Confirm access to Argo CD
+application sync/health and Kubernetes rollout logs. Preserve existing frontend
+settings and arrange runtime API configuration in Kubernetes, including
+`SANIC_SENDGRID_API_KEY` from a Secret and ingress proxy trust/CORS/canonical URL
+settings. Devops needs its own frontend/API hostnames. The checked-in API Deployment
+currently supplies only Redis host/port; do not assume mail/security settings are
+already injected. See the API repository's security remediation guide.
 
-During the first authorized staging rollout, verify successful role assumption,
-public and private image publication, and ECS service health. Session names
-include environment, purpose, GitHub run ID and attempt for CloudTrail tracing.
-Only promote to `main` after staging and production configuration are verified.
+Before a first devops rollout, agree how to pin the existing production image so
+that both environments no longer share an unversioned mutable tag. Do not merge
+platform changes during this PR's preparation: its `main` is live GitOps input.
 
-After successful cutover, identify other consumers of the old AWS keys before
-disabling them and removing their GitHub secrets. Do not revoke a shared key
-blindly. If authentication fails, correct the trust/permissions or configuration;
-do not reintroduce permanent keys as an automatic fallback.
+Keep library PR #322 draft until configuration, one required reviewer approval and
+CI are complete. No AWS/cluster operation was performed to prepare these files.
+Feature-branch pushes/PR checks do not publish images. Merging to a library release
+branch starts real ECR publication (and production's existing docs publishing),
+but does not update Argo CD or deploy an application. Do not merge yet.
+
+After an authorized candidate publication, verify the image/revisions and runtime
+settings, review and merge the selected platform tag change, then verify Argo CD
+sync/health and application behavior. Promote to production with its own reviewed
+platform change. Reverting the environment's tag to a known-good image provides a
+GitOps rollback; this still requires release authorization.
+
+Only after a verified cutover, audit other consumers before revoking old AWS keys
+or deleting their GitHub secrets. Do not reinstate permanent-key fallback.
 
 ## References
 
-- [GitHub: configuring OIDC in AWS](https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-aws)
-- [AWS: private ECR image push permissions](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-push-iam.html)
-- [AWS: public ECR repository policies and authentication](https://docs.aws.amazon.com/AmazonECR/latest/public/public-repository-policies.html)
+- [GitHub OIDC in AWS](https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-aws)
+- [AWS ECR push permissions](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-push-iam.html)
+- [Argo CD automated sync](https://argo-cd.readthedocs.io/en/stable/user-guide/auto_sync/)

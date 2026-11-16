@@ -8,7 +8,7 @@
       "Resource": "*"
     },
     {
-      "Sid": "PublishApiImage",
+      "Sid": "PublishApiCandidate",
       "Effect": "Allow",
       "Action": [
         "ecr:BatchCheckLayerAvailability",
@@ -18,13 +18,7 @@
         "ecr:PutImage",
         "ecr:BatchGetImage"
       ],
-      "Resource": "arn:aws:ecr:me-central-1:<AWS_ACCOUNT_ID>:repository/staging/estimators/api"
-    },
-    {
-      "Sid": "RestartEstimatorService",
-      "Effect": "Allow",
-      "Action": "ecs:UpdateService",
-      "Resource": "arn:aws:ecs:me-central-1:<AWS_ACCOUNT_ID>:service/estimators-cluster/estimators-staging-service-tii-crc"
+      "Resource": "arn:aws:ecr:ca-central-1:450891466448:repository/estimators-api"
     }
   ]
 }

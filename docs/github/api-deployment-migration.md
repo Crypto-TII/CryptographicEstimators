@@ -1,58 +1,42 @@
-# API deployment checkout migration
+# API image publication and GitOps migration
 
-The library's production and staging release workflows now fetch the private
-`Crypto-TII/cryptographic-estimators-api` repository from GitHub, explicitly at
-`master`. Both API environments currently share that branch; Dockerfile selection
-separates their configuration. The checked-out API commit is recorded in the log.
+The old library workflows fetched the API from Bitbucket and targeted the retired
+ECS deployment. The current platform configuration is EKS / Argo CD in Canada.
+PR #322 now replaces those workflows with API **candidate publication**, not a
+cluster restart. See [AWS and platform administrator setup](aws-oidc-deployment.md)
+for policy templates, GitHub variables, runtime prerequisites and rollout steps.
 
-| Workflow | API Dockerfile | Library image used by that Dockerfile |
+The workflows fetch private `Crypto-TII/cryptographic-estimators-api` at `master`
+with a short-lived GitHub App token limited to read-only Contents. The checkout
+moves outside the public library Docker context and credentials are not persisted.
+`API_CHECKOUT_APP_ID` and `API_CHECKOUT_APP_PRIVATE_KEY` remain required.
+
+The checked-out library is built locally, then used as the API base through a
+generated temporary Dockerfile. This ties the API candidate to both source
+revisions without pulling/publishing the old public ECR base. The standard API
+Dockerfile is used in both EKS environments. Environment-specific settings belong
+in Kubernetes; the retired integration Dockerfile's staging domains are not used.
+Neither API_KEY_ARG nor a mail secret is passed as a build argument.
+
+| Library branch | Proposed platform environment | Published repository |
 | --- | --- | --- |
-| Production (`main`) | `Dockerfile` | `public.ecr.aws/h0m6q0n8/estimators-lib` |
-| Staging (`develop`) | `Dockerfile.integration` | `public.ecr.aws/h0m6q0n8/staging/estimators/lib:latest` |
+| `develop` | `estimators-devops` (confirm with platform owner) | Canadian private ECR `estimators-api` |
+| `main` | `estimators-production` | Canadian private ECR `estimators-api` |
 
-The API checkout is moved into a unique runner-temporary directory before any
-image build. This keeps the private API source outside the public library image's
-Docker build context. Checkout credentials are not persisted in Git configuration.
-The existing library checkout stays at the workspace root for documentation/Pages.
+Each publication uses a new tag, records library/API commits and saves an
+`api-promotion.json` artifact. A reviewed change to the selected environment's
+`imageApiTag` in the platform repository authorizes Argo CD deployment. The
+workflow has no platform write token and no cluster/ECS access. It does not change
+the frontend image or push any shared `latest` tag. Production's existing
+`gh-pages` documentation publishing is preserved.
 
-## Required configuration before merging or deploying
+The API's runtime SendGrid credential must be rotated and provided from a
+Kubernetes Secret as `SANIC_SENDGRID_API_KEY`; confirm proxy trust, origins and
+canonical URLs for the selected environment before promotion. The current chart
+shows only Redis environment settings, so runtime configuration needs review.
 
-The default workflow token only reads its own repository. An organization
-administrator must configure a GitHub App installation with **Contents: read**
-access to **only** `Crypto-TII/cryptographic-estimators-api`, and set these values
-on `Crypto-TII/CryptographicEstimators`:
-
-- Actions variable `API_CHECKOUT_APP_ID`: the App ID.
-- Actions secret `API_CHECKOUT_APP_PRIVATE_KEY`: the App's private key.
-
-The workflows request a short-lived installation token narrowed to that one API
-repository and read-only contents. The action revokes it at job completion. Neither
-personal credentials nor browser tokens are reused. Missing App configuration
-fails the workflow before AWS login, image publication or ECS restart.
-
-`BITBUCKET_ORG`, `BITBUCKET_REPOSITORY`, `BITBUCKET_API_TOKEN` and `API_KEY_ARG` are no
-longer referenced by these two workflows. Check for other consumers before removing
-those repository secrets. Do not print or copy their values into the PR or logs.
-
-The mail credential must be injected into the API's ECS task at runtime as
-`SANIC_SENDGRID_API_KEY`; it is not supplied as a Docker build argument. Confirm
-runtime secret injection, prior credential rotation and the actual ingress proxy
-CIDRs before rollout. Production uses the API security defaults for its origin and
-canonical URL; staging's Dockerfile supplies staging-specific values. See the API
-repository's `docs/security-remediation.md` for the remaining deployment settings.
-
-## Release behavior and review
-
-AWS authentication now uses short-lived OIDC sessions instead of permanent AWS
-access-key secrets. Follow [AWS administrator setup](aws-oidc-deployment.md) to
-configure the IAM provider, branch-restricted roles and four GitHub role ARN
-variables before merging. Registry names, ECS service names and workflow triggers
-are preserved. The AWS credential action uses pinned v6; ECR login uses pinned v2.
-Checkout and App-token actions are also pinned. The production workflow still publishes documentation to `gh-pages`,
-with explicit write permission for its library-repository workflow token.
-
-**Merging into `develop` triggers staging deployment; promoting `develop` to `main`
-triggers production deployment.** Keep this PR unmerged until the configuration
-above and release approval are complete. Opening/pushing the feature branch does
-not trigger either deployment workflow. No workflow dispatch or deployment is
-needed for syntax validation or the isolated command dry-run.
+Opening/pushing this draft runs normal CI only. A library release-branch merge
+would publish an image; merging a platform tag change would deploy it. Neither is
+authorized yet. The old ECS permissions, me-central-1 targets, four-role/public ECR
+proposal and S3 frontend publishing are not part of this release path. Audit other
+consumers before retiring old AWS or Bitbucket secrets.
