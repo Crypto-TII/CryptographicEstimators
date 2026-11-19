@@ -1,0 +1,63 @@
+name: API container build check (no publication)
+on:
+  push:
+    branches: [codex/migrate-api-deployment-checkout]
+    paths:
+      - .github/workflows/api-container-build-check.yml
+      - scripts/ci/prepare_api_image.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-only:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Create read-only API checkout token
+        id: api-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+        with:
+          app-id: ${{ vars.API_CHECKOUT_APP_ID }}
+          private-key: ${{ secrets.API_CHECKOUT_APP_PRIVATE_KEY }}
+          owner: Crypto-TII
+          repositories: cryptographic-estimators-api
+          permission-contents: read
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: Crypto-TII/cryptographic-estimators-api
+          # Allows testing the dependent API draft without merging or publishing.
+          ref: ${{ vars.API_BUILD_CHECK_REF || 'master' }}
+          token: ${{ steps.api-token.outputs.token }}
+          path: .api-source
+          persist-credentials: false
+      - name: Isolate private source and prepare the release build Dockerfile
+        env:
+          API_SOURCE_DIR: ${{ runner.temp }}/cryptographic-estimators-api
+        run: |
+          test ! -e "$API_SOURCE_DIR"
+          mv "$GITHUB_WORKSPACE/.api-source" "$API_SOURCE_DIR"
+          python3 - <<'PY'
+          import os, sys, subprocess
+          from pathlib import Path
+          sys.path.insert(0, 'scripts/ci')
+          from prepare_api_image import prepare_build_dockerfile
+          source = Path(os.environ['API_SOURCE_DIR'])
+          library_image = 'estimators-library:' + os.environ['GITHUB_SHA']
+          generated = prepare_build_dockerfile(source, library_image, Path(os.environ['RUNNER_TEMP']))
+          with open(os.environ['GITHUB_ENV'], 'a') as out:
+              out.write(f'API_SOURCE_DIR={source}\nLIBRARY_IMAGE={library_image}\nAPI_BUILD_DOCKERFILE={generated}\n')
+          print('API revision:', subprocess.check_output(['git', '-C', str(source), 'rev-parse', 'HEAD'], text=True).strip())
+          PY
+      - name: Build library and API locally on the disposable runner
+        run: |
+          docker build --tag "$LIBRARY_IMAGE" .
+          docker build --tag estimators-api-build-check \
+            --file "$API_BUILD_DOCKERFILE" "$API_SOURCE_DIR"
+      - name: Check packaged runtime dependencies
+        run: |
+          docker run --rm --network none --entrypoint python3 estimators-api-build-check \
+            -c "import cryptographic_estimators, sanic, redis; from application.security import configure_security; print('API runtime imports passed')"
+          echo 'API container built and runtime imports passed. No AWS credentials, registry push or deployment was used.' >> "$GITHUB_STEP_SUMMARY"

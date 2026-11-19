@@ -12,7 +12,9 @@ on:
 jobs:
   builds-and-run-pytest-coverage:
     runs-on: ubuntu-22.04
-    concurrency: ci-${{github.ref}}
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
