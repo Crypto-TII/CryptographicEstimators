@@ -7,6 +7,17 @@ import re
 import subprocess
 
 
+def prepare_build_dockerfile(api_source, library_image, runner_temp):
+    """Use the locally built library without modifying the private checkout."""
+    dockerfile = (api_source / "Dockerfile").read_text()
+    base, separator, body = dockerfile.partition("\n")
+    if base.strip() != "FROM public.ecr.aws/h0m6q0n8/estimators-lib" or not separator:
+        raise ValueError("API Dockerfile base changed; review the build integration")
+    generated = runner_temp / "Dockerfile.api-candidate"
+    generated.write_text(f"FROM {library_image}\n{body}")
+    return generated
+
+
 def prepare():
     library_sha = os.environ["GITHUB_SHA"]
     api_source = Path(os.environ["API_SOURCE_DIR"])
@@ -31,13 +42,8 @@ def prepare():
     image = f"{repository}:{tag}"
     # Both EKS environments use the same image; Kubernetes supplies runtime settings.
     # Replace only the reviewed base line, leaving all API build instructions intact.
-    dockerfile = (api_source / "Dockerfile").read_text()
-    base, separator, body = dockerfile.partition("\n")
-    if base.strip() != "FROM public.ecr.aws/h0m6q0n8/estimators-lib" or not separator:
-        raise ValueError("API Dockerfile base changed; review the build integration")
     runner_temp = Path(os.environ["RUNNER_TEMP"])
-    generated = runner_temp / "Dockerfile.api-candidate"
-    generated.write_text(f"FROM {library_image}\n{body}")
+    generated = prepare_build_dockerfile(api_source, library_image, runner_temp)
     record = {
         "platform_repository": "Crypto-TII/estimators-platform",
         "platform_file": "argocd-apps/environments/estimators-eks/estimators-applicationset.yaml",
