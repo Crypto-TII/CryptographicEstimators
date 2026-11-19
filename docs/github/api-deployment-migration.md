@@ -40,3 +40,21 @@ would publish an image; merging a platform tag change would deploy it. Neither i
 authorized yet. The old ECS permissions, me-central-1 targets, four-role/public ECR
 proposal and S3 frontend publishing are not part of this release path. Audit other
 consumers before retiring old AWS or Bitbucket secrets.
+
+## Non-publishing container validation
+
+`api-container-build-check.yml` checks out the API with the read-only App, builds
+the library and API on a disposable runner, then tests runtime imports with no
+network. It has no AWS credentials or registry publication step.
+
+The first real build found a Python 3.12 incompatibility in the API's test-only
+Lua dependencies. [API draft PR #3](https://github.com/Crypto-TII/cryptographic-estimators-api/pull/3)
+separates runtime and test requirements. The diagnostic-only repository variable
+`API_BUILD_CHECK_REF` pins that draft revision for cross-repository validation.
+Publication workflows still read API `master`; merge the API fix after review
+and authorization, then clear the diagnostic variable and recheck `master` before
+any publication. No API fix is activated by setting this diagnostic variable.
+
+The EKS frontend container and devops API target are prepared separately in
+[webapp draft PR #4](https://github.com/Crypto-TII/cryptographicestimators-webapp/pull/4).
+No frontend image is built or published by these library release workflows.

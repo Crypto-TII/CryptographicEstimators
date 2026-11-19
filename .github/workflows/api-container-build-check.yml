@@ -28,7 +28,8 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           repository: Crypto-TII/cryptographic-estimators-api
-          ref: master
+          # Allows testing the dependent API draft without merging or publishing.
+          ref: ${{ vars.API_BUILD_CHECK_REF || 'master' }}
           token: ${{ steps.api-token.outputs.token }}
           path: .api-source
           persist-credentials: false
