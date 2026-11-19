@@ -4,7 +4,7 @@ The old library workflows fetched the API from Bitbucket and targeted the retire
 ECS deployment. The current platform configuration is EKS / Argo CD in Canada.
 PR #322 now replaces those workflows with API **candidate publication**, not a
 cluster restart. See [AWS and platform administrator setup](aws-oidc-deployment.md)
-for policy templates, GitHub variables, runtime prerequisites and rollout steps.
+for the existing DevOps role, GitHub App settings, runtime prerequisites and rollout steps.
 
 The workflows fetch private `Crypto-TII/cryptographic-estimators-api` at `master`
 with a short-lived GitHub App token limited to read-only Contents. The checkout

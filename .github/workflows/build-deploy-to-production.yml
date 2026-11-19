@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   publish-api-image-for-production:
+    # Omit environment: the configured IAM trust accepts branch subjects only.
     runs-on: ubuntu-22.04
     permissions:
       contents: write # Existing gh-pages publishing step.
@@ -63,15 +64,6 @@ jobs:
           echo "API revision: $(git -C "$API_SOURCE_DIR" rev-parse HEAD)"
           printf 'API_SOURCE_DIR=%s\n' "$API_SOURCE_DIR" >> "$GITHUB_ENV"
 
-      - name: Verify AWS OIDC configuration
-        env:
-          PUBLISH_ROLE_ARN: ${{ vars.AWS_PRODUCTION_ECR_ROLE_ARN }}
-        run: |
-          if [[ ! "$PUBLISH_ROLE_ARN" =~ ^arn:aws:iam::450891466448:role/.+ ]]; then
-            echo "::error::Configure AWS_PRODUCTION_ECR_ROLE_ARN for account 450891466448; see docs/github/aws-oidc-deployment.md."
-            exit 1
-          fi
-
       - name: Prepare API image and GitOps promotion record
         env:
           PLATFORM_RELEASE: estimators-production
@@ -86,7 +78,7 @@ jobs:
       - name: Obtain short-lived Canadian ECR publishing credentials
         uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6
         with:
-          role-to-assume: ${{ vars.AWS_PRODUCTION_ECR_ROLE_ARN }}
+          role-to-assume: arn:aws:iam::450891466448:role/github-actions-estimators-ecr-push
           role-session-name: estimators-production-${{ github.run_id }}-${{ github.run_attempt }}
           role-duration-seconds: 3600
           unset-current-credentials: true

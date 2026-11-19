@@ -50,55 +50,70 @@ is separate from application deployment. Library merges publish candidates;
 platform merges authorize application deployment. Full automatic promotion would
 be a separate agreed change after confirming existing release ownership.
 
-## AWS administrator configuration
+## Existing DevOps role (configuration checked)
 
-1. Confirm account `450891466448`, registry/repository, EKS region, node image
-   architecture and the current image-publishing process with the platform owner.
-   The GitHub-hosted build currently targets the runner's Linux/amd64 architecture.
-   Do not change active infrastructure or existing publishers during preparation.
-2. In that AWS account create/reuse an IAM OIDC provider:
-   URL `https://token.actions.githubusercontent.com`, audience `sts.amazonaws.com`.
-3. Create two roles with maximum session duration at least 3,600 seconds:
+DevOps has configured
+`arn:aws:iam::450891466448:role/github-actions-estimators-ecr-push`.
+Both publication workflows now use this role directly in `ca-central-1`. No
+publisher role-ARN variables or new IAM roles are required for these workflows.
 
-| Suggested role | Trust policy | Permission policy |
-| --- | --- | --- |
-| `github-estimators-devops-ecr-publisher` | [staging-trust.json](aws-oidc/staging-trust.json) | [staging-ecr-policy.json](aws-oidc/staging-ecr-policy.json) |
-| `github-estimators-production-ecr-publisher` | [production-trust.json](aws-oidc/production-trust.json) | [production-ecr-policy.json](aws-oidc/production-ecr-policy.json) |
+The source of truth is the DevOps-owned Terraform module:
 
-The first trusts only `repo:Crypto-TII/CryptographicEstimators:ref:refs/heads/develop`;
-the second trusts only `repo:Crypto-TII/CryptographicEstimators:ref:refs/heads/main`.
-Both require audience `sts.amazonaws.com`. The repository OIDC configuration was
-verified as default subject, `use_immutable_subject: false`. Update trust if that
-setting changes. No GitHub Environment is added; adding one changes the subject.
-Any workflow with token permission on the trusted branch can assume that role,
-so protect branches and review workflow changes. PR subjects are not trusted.
+- [ECR push configuration](https://github.com/Crypto-TII/terraform-aws/blob/main/terraform/iam-ecr-push/config.yaml)
+- [IAM trust and permissions](https://github.com/Crypto-TII/terraform-aws/blob/main/terraform/iam-ecr-push/main.tf)
 
-Permissions allow authentication plus image upload to **only** `estimators-api`.
-They grant no ECS, EKS, Kubernetes, IAM, S3, frontend publication or public ECR
-access. Registry login requires `Resource: "*"`; publication uses the explicit
-Canadian API repository ARN. Review account SCPs, permission boundaries and ECR
-policies. No repository is created by the workflow.
+The configuration lists all three repositories: `CryptographicEstimators`,
+`cryptographic-estimators-api` and `cryptographicestimators-webapp` under
+`Crypto-TII`. It currently allows every branch (`*`) and `v*` tags in each repo,
+with a maximum session duration of 3,600 seconds. Thus the library's `develop`
+and `main` branch subjects are allowed. The OIDC audience is `sts.amazonaws.com`.
+The library repository uses default non-immutable subject claims, matching the
+Terraform-generated trust subjects.
 
-4. Return the two full role ARNs. The GitHub repository administrator must set:
+**Do not add `environment: stage`.** No environments are listed for this role in
+`config.yaml`; the Terraform module only trusts environment subjects when they
+are explicitly configured. Adding an environment changes the OIDC subject from
+`repo:Crypto-TII/CryptographicEstimators:ref:refs/heads/develop` (or `main`) to
+`repo:Crypto-TII/CryptographicEstimators:environment:stage`, which this configuration
+does not allow. The library repository currently has only `github-pages`, not
+`stage`, as a GitHub Environment.
 
-| Actions repository variable | Role |
-| --- | --- |
-| `AWS_STAGING_ECR_ROLE_ARN` | Devops candidate publisher, trusted library `develop` |
-| `AWS_PRODUCTION_ECR_ROLE_ARN` | Production candidate publisher, trusted library `main` |
+The shared role allows push/pull on `estimators-api` and `estimators-frontend` in
+Canadian ECR. The library workflows publish only an API candidate and do not
+use frontend permissions. No cluster access is granted by this Terraform policy.
+Its permissions include image download and description for cache/pull support,
+as well as uploads and registry login. Workflows clear ambient credentials and
+validate AWS's returned account ID before publication.
 
-The variable name STAGING retains the library branch/workflow terminology;
-its proposed platform destination is `estimators-devops`, subject to owner approval.
-No permanent AWS key is needed. The workflow validates the account, clears
-ambient credentials, and checks AWS's returned account ID. The prior variables
-`AWS_STAGING_PUBLIC_ECR_ROLE_ARN`, `AWS_STAGING_DEPLOY_ROLE_ARN`,
-`AWS_PRODUCTION_PUBLIC_ECR_ROLE_ARN`, `AWS_PRODUCTION_DEPLOY_ROLE_ARN` are unused.
+The wildcard branch trust is explicitly marked as temporary developer-testing
+access by DevOps. Before production cutover, ask DevOps to narrow allowed branches
+per repository to approved release branches (library `develop` / `main`), and
+review whether the shared API/frontend permissions remain appropriate. The
+library publication triggers stay limited to release branches; do not broaden
+them to match the temporary IAM wildcard. Protect those branches and review
+workflow changes.
+
+This verifies the **checked-in Terraform configuration**, not the live IAM role's
+applied policy or successful role assumption. No AWS login, role assumption,
+image publication or infrastructure change was performed for this check. The
+administrator should confirm this configuration has been applied; the first
+explicitly authorized publication must verify role assumption and ECR access.
+
+The earlier two-role templates and the four-role ECS/public-ECR proposal are
+superseded. Their duplicate JSON templates have been removed from this PR; DevOps
+should maintain IAM in its existing Terraform module. No action is needed on the
+old proposed role variables. Audit consumers before removing any existing keys.
 
 ## Other prerequisites and rollout
 
-The GitHub administrator must still configure `API_CHECKOUT_APP_ID` and
+The GitHub administrator must still provide `API_CHECKOUT_APP_ID` and
 `API_CHECKOUT_APP_PRIVATE_KEY` for a GitHub App with **Contents: read** on only
 `Crypto-TII/cryptographic-estimators-api`. The library's default token cannot read
-that private repository. No personal or browser token is used.
+that private repository. No personal or browser token is used. These names are
+absent from repository-level Actions variables/secrets. Organization-level
+settings could not be inspected with the current GitHub permissions, so check
+whether inherited organization settings already supply them before creating new
+credentials. The AWS publishing role does not provide GitHub repository access.
 
 Before promotion, the platform owner must confirm Argo CD actually watches this
 repo, can read it, and can pull the published ECR images. Confirm access to Argo CD
