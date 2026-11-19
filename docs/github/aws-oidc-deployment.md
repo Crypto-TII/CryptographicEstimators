@@ -93,11 +93,11 @@ library publication triggers stay limited to release branches; do not broaden
 them to match the temporary IAM wildcard. Protect those branches and review
 workflow changes.
 
-This verifies the **checked-in Terraform configuration**, not the live IAM role's
-applied policy or successful role assumption. No AWS login, role assumption,
-image publication or infrastructure change was performed for this check. The
-administrator should confirm this configuration has been applied; the first
-explicitly authorized publication must verify role assumption and ECR access.
+Live read-only verification passed on 2026-11-19: GitHub assumed the expected AWS
+role, confirmed account `450891466448`, authenticated to ECR and read API image
+metadata. The [diagnostic workflow](https://github.com/Crypto-TII/CryptographicEstimators/actions/runs/44497749014)
+does not build, push or deploy images. Actual upload permissions and the full IAM
+policy were not tested/read; cluster access and deployment remain unverified.
 
 The earlier two-role templates and the four-role ECS/public-ECR proposal are
 superseded. Their duplicate JSON templates have been removed from this PR; DevOps
@@ -106,14 +106,25 @@ old proposed role variables. Audit consumers before removing any existing keys.
 
 ## Other prerequisites and rollout
 
-The GitHub administrator must still provide `API_CHECKOUT_APP_ID` and
-`API_CHECKOUT_APP_PRIVATE_KEY` for a GitHub App with **Contents: read** on only
-`Crypto-TII/cryptographic-estimators-api`. The library's default token cannot read
-that private repository. No personal or browser token is used. These names are
-absent from repository-level Actions variables/secrets. Organization-level
-settings could not be inspected with the current GitHub permissions, so check
-whether inherited organization settings already supply them before creating new
-credentials. The AWS publishing role does not provide GitHub repository access.
+The private checkout configuration is complete and verified as of 2026-11-19:
+
+- App: [peacker-estimators-api-checkout](https://github.com/apps/peacker-estimators-api-checkout),
+  owned by `peacker`, App ID `5832804`.
+- Crypto-TII installation `183675601` selects **only** the private API repository,
+  with **Contents: read** and mandatory **Metadata: read**. No write permissions,
+  OAuth user authorization or webhook subscriptions are used.
+- Repository variable `API_CHECKOUT_APP_ID` and encrypted Actions secret
+  `API_CHECKOUT_APP_PRIVATE_KEY` are configured on the library repository.
+- The diagnostic workflow successfully created a restricted installation token,
+  read the private API README and revoked the token after verification. Temporary
+  local key files were removed after secure secret storage and verification.
+
+The App is installable on other accounts so the personal registration can be
+installed on Crypto-TII. This does not publish the private API source. Its private
+repository access is limited by the selected installation. No personal/browser
+token is reused. Future App key rotation requires updating the Actions secret;
+never put a key in Git or chat. The AWS role and the library's default workflow
+token do not supply this separate private-repository checkout access.
 
 Before promotion, the platform owner must confirm Argo CD actually watches this
 repo, can read it, and can pull the published ECR images. Confirm access to Argo CD
