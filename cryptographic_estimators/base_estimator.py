@@ -20,6 +20,7 @@
 
 from math import isinf, inf
 from typing import Union, Callable
+from ._version import __version__
 from .helper import ComplexityType
 from .base_constants import BASE_TILDEO_ESTIMATE, BASE_ADDITIONALO, BASE_BIT_COMPLEXITIES, BASE_ESTIMATEO, BASE_EXCLUDED_ALGORITHMS, BASE_MEMORY, BASE_PARAMETERS, BASE_QUANTUMO, BASE_TIME, BASE_ESTIMATOR_TYPE
 from .base_algorithm import BaseAlgorithm
@@ -301,3 +302,15 @@ class BaseEstimator(object):
         self.estimates = {}
         for i in self.algorithms():
             i.reset()
+
+    @staticmethod
+    def version() -> str:
+        """Return the version of the cryptographic_estimators library.
+
+        Examples:
+            >>> from cryptographic_estimators import __version__
+            >>> from cryptographic_estimators.SDEstimator import SDEstimator
+            >>> SDEstimator(n=100, k=50, w=10).version() == __version__
+            True
+        """
+        return __version__
