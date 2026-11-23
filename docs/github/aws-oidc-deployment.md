@@ -11,14 +11,18 @@ defines EKS cluster `estimators` in `ca-central-1`, account `450891466448`, and:
 - API: `450891466448.dkr.ecr.ca-central-1.amazonaws.com/estimators-api`.
 - Frontend: `450891466448.dkr.ecr.ca-central-1.amazonaws.com/estimators-frontend`.
 - Argo CD environments `estimators-devops` and `estimators-production`, both in
-  namespace `estimators`. The existing devops environment is not assumed to be
-  identical to the retired staging environment; confirm the intended mapping.
+  namespace `estimators`. DevOps confirmed `estimators-devops` is AWS staging;
+  the retired on-premises staging deployment no longer exists.
 - Argo CD watches platform `main` and automatically syncs the Helm configuration.
   The ApplicationSet currently assigns API tag `latest` to both environments.
 
-These are repository findings, not a verification of the running cluster, image
-architecture, registry ownership, credentials or current publishing pipeline.
-The platform owner must confirm them before merging this draft PR.
+Read-only verification on 23 November confirmed the running estimator
+Deployments observed their latest generations, completed rollout and have ready
+containers. Both API pods contain the configured HTTPS/origin/proxy variables and
+required mail Secret reference. Direct AWS staging HTTPS checks passed with
+normal certificate verification. Current application behavior still lacks the
+remediated session/CSRF handling, so publishing and promoting updated images
+remains necessary. Registry uploads and email delivery have not been tested.
 
 ## New release path
 
@@ -97,7 +101,8 @@ Live read-only verification passed on 2026-11-19: GitHub assumed the expected AW
 role, confirmed account `450891466448`, authenticated to ECR and read API image
 metadata. The [diagnostic workflow](https://github.com/Crypto-TII/CryptographicEstimators/actions/runs/44497749014)
 does not build, push or deploy images. Actual upload permissions and the full IAM
-policy were not tested/read; cluster access and deployment remain unverified.
+policy were not tested/read. Subsequent read-only cluster checks verified the
+existing rollouts; a release of the new images remains unverified.
 
 The earlier two-role templates and the four-role ECS/public-ECR proposal are
 superseded. Their duplicate JSON templates have been removed from this PR; DevOps
@@ -126,30 +131,35 @@ token is reused. Future App key rotation requires updating the Actions secret;
 never put a key in Git or chat. The AWS role and the library's default workflow
 token do not supply this separate private-repository checkout access.
 
-Before promotion, the platform owner must confirm Argo CD actually watches this
-repo, can read it, and can pull the published ECR images. Confirm access to Argo CD
-application sync/health and Kubernetes rollout logs. Preserve existing frontend
-settings and arrange runtime API configuration in Kubernetes, including
-`SANIC_SENDGRID_API_KEY` from a Secret and ingress proxy trust/CORS/canonical URL
-settings. Devops needs its own frontend/API hostnames. The checked-in API Deployment
-currently supplies only Redis host/port; do not assume mail/security settings are
-already injected. See the API repository's security remediation guide.
+## Current release readiness (23 November 2026)
 
-Before a first devops rollout, agree how to pin the existing production image so
-that both environments no longer share an unversioned mutable tag. Do not merge
-platform changes during this PR's preparation: its `main` is live GitOps input.
+- API PR #3 and webapp PR #4 are merged. Private API checkout and the API build
+  against `master` passed. The diagnostic API override variable was removed.
+- The webapp's read-only OIDC/registry check passed again on 23 November. No
+  reusable AWS key is needed for GitHub image publication.
+- The platform now injects the runtime security settings and mail Secret
+  reference. API pods started successfully with that required reference;
+  credential rotation and actual email delivery are not inferred from readiness.
+- Platform PR #2 is merged. Public CORS preflight checks confirmed each
+  environment allows its own frontend and no longer allows localhost.
+- AWS staging HTTPS works. One internal DNS resolver still returns the retired
+  staging destination; the DNS owner must reconcile that view for normal access.
+- Read-only Kubernetes access verifies Deployments, Pods and Ingresses. Secret
+  values and Argo CD internal Application resources remain forbidden; do not
+  broaden Secret access just for verification. Never place cluster credentials
+  in this public repository or chat.
 
-Keep library PR #322 draft until configuration, one required reviewer approval and
-CI are complete. No AWS/cluster operation was performed to prepare these files.
-Feature-branch pushes/PR checks do not publish images. Merging to a library release
-branch starts real ECR publication (and production's existing docs publishing),
-but does not update Argo CD or deploy an application. Do not merge yet.
+PR #322 is ready for one required reviewer approval and passing checks. Do not
+bypass branch protection or self-approve. A merge to `develop` starts API candidate
+publication; it does not update Argo CD or deploy the application. Preserve both
+current image digests as rollback evidence before any staging promotion.
 
-After an authorized candidate publication, verify the image/revisions and runtime
-settings, review and merge the selected platform tag change, then verify Argo CD
-sync/health and application behavior. Promote to production with its own reviewed
-platform change. Reverting the environment's tag to a known-good image provides a
-GitOps rollback; this still requires release authorization.
+For staging, obtain the API promotion artifact and a matching devops frontend
+candidate. Review their source revisions, keep production fields unchanged, and
+change only staging image tags through an authorized platform PR. Verify HTTPS,
+CSRF/session handling, cookie flags, allowed origins, calculations and rollout
+health before considering a separately approved production promotion. Record
+known-good image identifiers for a reviewed GitOps rollback.
 
 Only after a verified cutover, audit other consumers before revoking old AWS keys
 or deleting their GitHub secrets. Do not reinstate permanent-key fallback.
