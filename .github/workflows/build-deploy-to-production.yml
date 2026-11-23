@@ -1,67 +1,104 @@
-name: build-deploy-to-production
+name: publish-api-image-for-production
 on:
   push:
     branches:
       - main
 
+# Publish a candidate image only. Argo CD deploys reviewed platform-repository changes.
+# The API is private; the default GITHUB_TOKEN cannot read another repository.
+permissions:
+  contents: read
+
 jobs:
-  build-deploy-to-production:
+  publish-api-image-for-production:
+    # Omit environment: the configured IAM trust accepts branch subjects only.
     runs-on: ubuntu-22.04
-    concurrency: ci-${{github.ref}}
+    permissions:
+      contents: write # Existing gh-pages publishing step.
+      id-token: write # Request short-lived AWS credentials through OIDC.
+    concurrency: publish-api-${{ github.ref }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Verify private API checkout configuration
+        env:
+          API_CHECKOUT_APP_ID: ${{ vars.API_CHECKOUT_APP_ID }}
+          API_CHECKOUT_APP_PRIVATE_KEY: ${{ secrets.API_CHECKOUT_APP_PRIVATE_KEY }}
+        run: |
+          if [ -z "$API_CHECKOUT_APP_ID" ] || [ -z "$API_CHECKOUT_APP_PRIVATE_KEY" ]; then
+            echo "::error::Configure API_CHECKOUT_APP_ID and API_CHECKOUT_APP_PRIVATE_KEY for read-only access to Crypto-TII/cryptographic-estimators-api."
+            exit 1
+          fi
+
+      - name: Create read-only API checkout token
+        id: api-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+        with:
+          app-id: ${{ vars.API_CHECKOUT_APP_ID }}
+          private-key: ${{ secrets.API_CHECKOUT_APP_PRIVATE_KEY }}
+          owner: Crypto-TII
+          repositories: cryptographic-estimators-api
+          permission-contents: read
 
       - name: Checkout API repository
-        run: |
-          mkdir ../${{ secrets.BITBUCKET_REPOSITORY }}
-          git clone                                                                                                                                    \
-            https://x-token-auth:${{ secrets.BITBUCKET_API_TOKEN }}@bitbucket.org/${{ secrets.BITBUCKET_ORG }}/${{ secrets.BITBUCKET_REPOSITORY }}.git \
-            ../${{ secrets.BITBUCKET_REPOSITORY }}
-
-      - name: Configure AWS Credential for public AWS ECR
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          repository: Crypto-TII/cryptographic-estimators-api
+          ref: master
+          token: ${{ steps.api-token.outputs.token }}
+          path: .api-source
+          persist-credentials: false
 
-      - name: Login to public AWS ECR
-        id: login-ecr-public
-        uses: aws-actions/amazon-ecr-login@v1
+      - name: Isolate API source from the public library build context
+        env:
+          API_SOURCE_DIR: ${{ runner.temp }}/cryptographic-estimators-api
+        run: |
+          # checkout paths must start inside GITHUB_WORKSPACE. Move the private
+          # source out before any library image build or documentation build.
+          test ! -e "$API_SOURCE_DIR"
+          mv "$GITHUB_WORKSPACE/.api-source" "$API_SOURCE_DIR"
+          test -f "$API_SOURCE_DIR/Dockerfile"
+          echo "API revision: $(git -C "$API_SOURCE_DIR" rev-parse HEAD)"
+          printf 'API_SOURCE_DIR=%s\n' "$API_SOURCE_DIR" >> "$GITHUB_ENV"
+
+      - name: Prepare API image and GitOps promotion record
+        env:
+          PLATFORM_RELEASE: estimators-production
+        run: python3 scripts/ci/prepare_api_image.py
+
+      - name: Build API image with the checked-out library
+        run: |
+          docker build --tag "$LIBRARY_IMAGE" .
+          docker build --tag "$API_IMAGE" \
+            --file "$API_BUILD_DOCKERFILE" "$API_SOURCE_DIR"
+
+      - name: Obtain short-lived Canadian ECR publishing credentials
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6
         with:
-          registry-type: public
+          role-to-assume: arn:aws:iam::450891466448:role/github-actions-estimators-ecr-push
+          role-session-name: estimators-production-${{ github.run_id }}-${{ github.run_attempt }}
+          role-duration-seconds: 3600
+          unset-current-credentials: true
+          allowed-account-ids: '450891466448'
+          aws-region: ca-central-1
 
-      - name: Build and push production library Docker image
-        run: |
-          docker build --tag estimators-lib:latest .
-          docker tag estimators-lib:latest public.ecr.aws/h0m6q0n8/estimators-lib:latest
-          docker push public.ecr.aws/h0m6q0n8/estimators-lib:latest
-
-      - name: Configure AWS Credential for private AWS ECR
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Login to Canadian private ECR
+        uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd # v2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: me-central-1
+          registries: '450891466448'
 
-      - name: Login to private AWS ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+      - name: Publish uniquely tagged API candidate
+        run: docker push "$API_IMAGE"
 
-      - name: Build and push production API Docker image
-        run: |
-          docker build --tag ${{ steps.login-ecr.outputs.registry }}/estimators-api:latest            \
-            --file ../${{ secrets.BITBUCKET_REPOSITORY }}/Dockerfile.integration                      \
-            --build-arg API_KEY_ARG=${{ secrets.API_KEY_ARG }} ../${{ secrets.BITBUCKET_REPOSITORY }}
-          docker push ${{ steps.login-ecr.outputs.registry }}/estimators-api:latest
-
-      - name: Reset staging AWS ECS task
-        run: |
-          aws ecs update-service         \
-            --cluster estimators-cluster \
-            --service estimator-api      \
-            --force-new-deployment
+      - name: Save Argo CD promotion record
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: api-promotion-production-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/api-promotion.json
+          retention-days: 30
 
       - name: Update documentation
         run: sudo make docker-doc
