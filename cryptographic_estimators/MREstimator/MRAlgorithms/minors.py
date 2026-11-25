@@ -20,10 +20,15 @@
 from ...MREstimator.mr_algorithm import MRAlgorithm
 from ...MREstimator.mr_problem import MRProblem
 from ...base_algorithm import optimal_parameter
-from math import log2, ceil
-from math import comb as binomial
-from ..mr_helper import minors_polynomial_degree
+from ..mr_constants import MR_SERIES_PRECISION
+from math import log2, inf
+from ..mr_helper import determinantal_series, predict_solving_degree, linear_monomial_series
 from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, MR_NUMBER_OF_COEFFICIENTS_TO_GUESS
+
+def minors_series(q, m, n, k, r, precision=None):
+    """Return the Minors series with field equations."""
+    return determinantal_series(q, m, n, k, r, dc=0, precision=precision)
+
 
 class Minors(MRAlgorithm):
     def __init__(self, problem: MRProblem, **kwargs):
@@ -50,7 +55,7 @@ class Minors(MRAlgorithm):
             raise ValueError(
                 "It should hold that k < (m - r) * (n - r)")
 
-        self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m)))
+        self.set_parameter_ranges('a', 0, min(n - r, (k - 1) // m))
         self.set_parameter_ranges('lv', 0, min(r, k) - 1)
         self._name = "Minors"
 
@@ -63,7 +68,7 @@ class Minors(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> ME = Minors(MRProblem(q=7, m=9, n=10, k=15, r=4))
             >>> ME.a()
-            2
+            1
 
         Tests:
             >>> from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
@@ -83,7 +88,7 @@ class Minors(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> ME = Minors(MRProblem(q=7, m=9, n=10, k=15, r=4))
             >>> ME.lv()
-            0
+            3
 
         Tests:
             >>> from cryptographic_estimators.MREstimator.MRAlgorithms.minors import Minors
@@ -94,16 +99,20 @@ class Minors(MRAlgorithm):
         """
         return self._get_optimal_parameter(MR_NUMBER_OF_COEFFICIENTS_TO_GUESS)
 
-    def _ME_time_memory_complexity_helper_(self, m: int, n_reduced: int, k_reduced: int, r: int, time_mem: str):
-        out = 0
-        if k_reduced > 0 and n_reduced > r:
-            D = minors_polynomial_degree(m, n_reduced, k_reduced, r) + 1
-            if time_mem == "time":
-                w = self._w
-                out = w * log2(binomial(k_reduced + D, D))
-            elif time_mem == "memory":
-                out = 2 * log2(binomial(k_reduced + D, D))
-        return out
+    def _ME_time_memory_complexity_helper_(self, q, m, n_reduced, k_reduced, r, time_mem):
+        """Return the cost of Minors with field equations from [ABCPSV]_."""
+        if k_reduced <= 0 or n_reduced <= r:
+            return 0
+        series = minors_series(q, m, n_reduced, k_reduced, r)
+        D = predict_solving_degree(series, MR_SERIES_PRECISION)
+        ncols = linear_monomial_series(q, k_reduced, D)
+        if time_mem == 'time':
+            return self._w * log2(ncols)
+        return 2 * log2(ncols)
+
+    def _are_parameters_invalid(self, parameters):
+        """Reject guesses that leave no instance for the internal solver."""
+        return self._are_hybrid_parameters_invalid(parameters['a'], parameters['lv'])
 
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
@@ -116,18 +125,18 @@ class Minors(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> ME = Minors(MRProblem(q=16, m=15, n=15, k=78, r=6))
             >>> ME.time_complexity()
-            144.72067178682556
+            145.10336785629784
         """
+        if self._are_parameters_invalid(parameters):
+            return inf
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, _, k, r = self.problem.get_parameters()
         _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         time = self.hybridization_factor(a, lv)
-        time_complexity = self._ME_time_memory_complexity_helper_(m, n_reduced, k_reduced, r, "time")
-        reduction_cost = self.cost_reduction(a, lv)
-        time += max(time_complexity, reduction_cost)
-        if abs(time_complexity - reduction_cost) < 0:
-            time += 1
+        time_complexity = self._ME_time_memory_complexity_helper_(q, m, n_reduced, k_reduced, r, "time")
+        reduction_cost = self.hybrid_reduction_cost(a, lv)
+        time += self._log2_sum(time_complexity, reduction_cost)
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
@@ -144,11 +153,13 @@ class Minors(MRAlgorithm):
             16.11756193939414
         """
 
+        if self._are_parameters_invalid(parameters):
+            return inf
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         q, m, n, k, r = self.problem.get_parameters()
         _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
-        memory_attack = self._ME_time_memory_complexity_helper_(m, n_reduced, k_reduced, r, "memory")
+        memory_attack = self._ME_time_memory_complexity_helper_(q, m, n_reduced, k_reduced, r, "memory")
         memory_store_matrices = log2((k + 1) * m * n)
         memory = max(memory_attack, memory_store_matrices)
         return memory

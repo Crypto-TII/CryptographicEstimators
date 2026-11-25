@@ -17,26 +17,33 @@
 # under the License.
 # ****************************************************************************
 
-from math import log2, ceil
+from ..mr_constants import MR_SERIES_PRECISION
+from math import log2, ceil, inf
+from math import comb as binomial
 from ..mr_constants import MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS, \
     MR_NUMBER_OF_COEFFICIENTS_TO_GUESS, \
     MR_REDUCED_NUMBER_OF_COLUMNS, \
-    MR_LINEAR_VARIABLES_DEGREE, MR_VARIANT
+    MR_LINEAR_VARIABLES_DEGREE
 from ...MREstimator.mr_algorithm import MRAlgorithm
 from ...MREstimator.mr_problem import MRProblem
-from ...MREstimator.mr_helper import Variant, _strassen_complexity_, _bw_complexity_
-from ...MREstimator.mr_helper import extended_binomial as binomial
+from ...MREstimator.mr_helper import _bw_complexity_, determinantal_series
+from ...MREstimator.mr_helper import predict_solving_degree, linear_monomial_series
 from ...base_algorithm import optimal_parameter
+
+
+def support_minors_series(q, m, n, k, r, precision=None):
+    """Return the Support-Minors series with field equations."""
+    return determinantal_series(q, m, n, k, r, dc=1, precision=precision)
 
 
 class SupportMinors(MRAlgorithm):
     def __init__(self, problem: MRProblem, **kwargs):
-        """Construct an instance of Minors estimator.
+        """Construct an instance of SupportMinors estimator with affine field equations [ABCPSV]_.
 
         Args:
             problem (MRProblem): An instance of the MRProblem class
             **kwargs: Additional keyword arguments
-                w (int): Linear algebra constant (default: 3)
+                w (int): Linear algebra constant for hybrid reduction (default: 3)
                 theta (int): Exponent of the conversion factor (default: 2)
 
         Examples:
@@ -51,9 +58,8 @@ class SupportMinors(MRAlgorithm):
         q, m, n, k, r = self.problem.get_parameters()
         self.set_parameter_ranges('a', 0, min(n - r, ceil(k / m) - 1))
         self.set_parameter_ranges('lv', 0, min(r, k) - 1)
-        self.set_parameter_ranges('b', 1, r + 1)
+        self.set_parameter_ranges('b', 1, min(n, m))
         self.set_parameter_ranges('nprime', r + 1, n)
-        self.set_parameter_ranges('variant', 1, 2)
         self._name = "SupportMinors"
 
     @optimal_parameter
@@ -136,82 +142,53 @@ class SupportMinors(MRAlgorithm):
         """
         return self._get_optimal_parameter(MR_REDUCED_NUMBER_OF_COLUMNS)
 
-    @optimal_parameter
-    def variant(self):
-        """Return the optimal `variant`, i.e., either 1 ('strassen') or 2 ('block_wiedemann').
-
-        Examples:
-            >>> from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
-            >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            >>> SM = SupportMinors(MRProblem(q=7, m=9, n=9, k=20, r=4))
-            >>> SM.variant()
-            'block_wiedemann'
-
-        Tests::
-
-            >>> from cryptographic_estimators.MREstimator.MRAlgorithms.support_minors import SupportMinors
-            >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
-            >>> SM = SupportMinors(MRProblem(q=16, m=15, n=15, k=78, r=6))
-            >>> SM.variant()
-            'block_wiedemann'
-        """
-        optimal_variant = self._get_optimal_parameter(MR_VARIANT)
-        if optimal_variant is not None:
-            return Variant(self._get_optimal_parameter(MR_VARIANT)).name
-        return None
-
-    def _expected_dimension_of_support_minors_equations(self, q, m, n, K, r, b):
-        """Return the expected number of linearly independent support minors equations."""
-        if q == 2:
-            temp = 0
-            for j in range(1, b + 1):
-                temp += sum([(-1) ** (i + 1) * binomial(n, r + i) * binomial(m + i - 1, i) * binomial(K, j - i) for i in
-                             range(1, j + 1)])
-        else:
-            temp = sum(
-                [(-1) ** (i + 1) * binomial(n, r + i) * binomial(m + i - 1, i) * binomial(K + b - i - 1, b - i) for i in
-                 range(1, b + 1)])
-        return temp
-
     def _dimension(self, q, n, K, r, b):
-        """Dimension of the smallest vector space spanned by monomials containing the support minors equations."""
-        if q == 2:
-            temp = binomial(n, r) * sum([binomial(K, j) for j in range(1, b + 1)])
-        else:
-            temp = binomial(n, r) * binomial(K + b - 1, b)
-        return temp
+        """Return the number of columns after applying the affine field equations."""
+        return binomial(n, r) * linear_monomial_series(q, K - 1, b)
 
-    def _are_parameters_invalid(self, parameters: dict):
-        """Specifies constraints on the parameters."""
-        a = parameters["a"]
-        lv = parameters["lv"]
-        b = parameters["b"]
-        nprime = parameters["nprime"]
-        q, m, n_reduced, k_reduced, r = self.get_problem_parameters_reduced(a, lv)
-        if nprime < r + b or nprime > n_reduced:
+    def _solving_degree(self, q, m, n, k, r):
+        series = support_minors_series(q, m, n, k, r)
+        max_b = self.parameter_ranges['b']['max']
+        # A positive series through max_b rules out every allowed degree.
+        if max_b < MR_SERIES_PRECISION and all(series[b] > 0 for b in range(max_b + 1)):
+            return inf
+        return predict_solving_degree(series, MR_SERIES_PRECISION)
+
+    def _valid_choices(self):
+        """Enumerate hybrid guesses and columns, using the predicted solving degree."""
+        ranges = self._fix_ranges_for_already_set_parameters()
+        q, m, _, _, r = self.problem.get_parameters()
+        for a in range(ranges['a']['min'], ranges['a']['max'] + 1):
+            for lv in range(ranges['lv']['min'], ranges['lv']['max'] + 1):
+                if self._are_hybrid_parameters_invalid(a, lv):
+                    continue
+                _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
+                for nprime in range(ranges['nprime']['min'], min(n_reduced, ranges['nprime']['max']) + 1):
+                    b = self._solving_degree(q, m, nprime, k_reduced, r)
+                    if not ranges['b']['min'] <= b <= ranges['b']['max']:
+                        continue
+                    yield {'a': a, 'lv': lv, 'b': b, 'nprime': nprime}
+
+    def _are_parameters_invalid(self, parameters):
+        """Check the hybrid domain and the predicted solving degree."""
+        a, lv = parameters['a'], parameters['lv']
+        if self._are_hybrid_parameters_invalid(a, lv):
             return True
-        dim = self._dimension(q, nprime, k_reduced + 1, r, b) - 1
-        exp = self._expected_dimension_of_support_minors_equations(q, m, nprime, k_reduced + 1, r, b)
-        return dim >= exp
+        q, m, n_reduced, k_reduced, r = self.get_problem_parameters_reduced(a, lv)
+        nprime = parameters['nprime']
+        if not r < nprime <= n_reduced:
+            return True
+        b = self._solving_degree(q, m, nprime, k_reduced, r)
+        return parameters['b'] != b or not self.parameter_ranges['b']['min'] <= b <= self.parameter_ranges['b']['max']
 
-    def _sm_time_complexity_helper_(self, q: int, K: int, r: int, nprime: int, b: int, variant: str):
-        if variant == Variant.block_wiedemann.value:
-            time = _bw_complexity_(row_density=K * (r + 1), ncols=self._dimension(q, nprime, K, r, b))
+    def _sm_time_complexity_helper_(self, q: int, K: int, r: int, nprime: int, b: int):
+        """Return the Wiedemann cost with affine field equations."""
+        ncols = self._dimension(q, nprime, K, r, b)
+        return _bw_complexity_(row_density=K * (r + 1), ncols=ncols)
 
-        else:
-            time = _strassen_complexity_(rank=self._dimension(q, nprime, K, r, b) - 1,
-                                         ncols=self._dimension(q, nprime, K, r, b))
-        return time
-
-    def _sm_memory_complexity_helper_(self, q: int, n_reduced: int, K: int, r: int, nprime: int, b: int, variant: str):
-        memory = 0
-        if K > 1 and n_reduced > r:
-            ncols = self._dimension(q, nprime, K, r, b)
-            if variant == Variant.block_wiedemann.value:
-                memory = log2(2 * ncols)
-            else:
-                memory = 2 * log2(ncols)
-        return memory
+    def _sm_memory_complexity_helper_(self, q: int, K: int, r: int, nprime: int, b: int):
+        """Return the memory needed for two Wiedemann vectors."""
+        return log2(2 * self._dimension(q, nprime, K, r, b))
 
     def _compute_time_complexity(self, parameters: dict):
         """Return the time complexity of the algorithm for a given set of parameters.
@@ -224,27 +201,25 @@ class SupportMinors(MRAlgorithm):
             >>> from cryptographic_estimators.MREstimator.mr_problem import MRProblem
             >>> SM = SupportMinors(MRProblem(q=16, m=15, n=15, k=78, r=6))
             >>> SM.time_complexity()
-            144.00702726689397
+            144.5902334156004
 
             >>> SM = SupportMinors(MRProblem(q=2, m=10, n=10, k=70, r=4))
             >>> SM.time_complexity()
-            inf
+            66.38320555241827
         """
+        if self._are_parameters_invalid(parameters):
+            return inf
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         nprime = parameters[MR_REDUCED_NUMBER_OF_COLUMNS]
         b = parameters[MR_LINEAR_VARIABLES_DEGREE]
-        variant = parameters[MR_VARIANT]
 
         q, m, n, k, r = self.problem.get_parameters()
         time = self.hybridization_factor(a, lv)
-        _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
-        reduction_cost = self.cost_reduction(a, lv)
-        if k_reduced > 0 and n_reduced > r:
-            time_complexity = self._sm_time_complexity_helper_(q=q, K=k_reduced + 1, r=r, nprime=nprime, b=b, variant=variant)
-            time += max(time_complexity, reduction_cost)
-        else:
-            time += _strassen_complexity_(m, n)
+        _, _, _, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
+        reduction_cost = self.hybrid_reduction_cost(a, lv)
+        time_complexity = self._sm_time_complexity_helper_(q, k_reduced + 1, r, nprime, b)
+        time += self._log2_sum(time_complexity, reduction_cost)
         return time
 
     def _compute_memory_complexity(self, parameters: dict):
@@ -261,22 +236,16 @@ class SupportMinors(MRAlgorithm):
             16.11756193939414
         """
 
+        if self._are_parameters_invalid(parameters):
+            return inf
         a = parameters[MR_NUMBER_OF_KERNEL_VECTORS_TO_GUESS]
         lv = parameters[MR_NUMBER_OF_COEFFICIENTS_TO_GUESS]
         nprime = parameters[MR_REDUCED_NUMBER_OF_COLUMNS]
         b = parameters[MR_LINEAR_VARIABLES_DEGREE]
-        variant = parameters[MR_VARIANT]
 
         q, m, n, k, r = self.problem.get_parameters()
-        _, _, n_reduced, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
+        _, _, _, k_reduced, _ = self.get_problem_parameters_reduced(a, lv)
         memory_store_matrices = log2((k + 1) * m * n)
-        memory_attack = self._sm_memory_complexity_helper_(q=q, n_reduced=n_reduced, K=k_reduced + 1, r=r, nprime=nprime, b=b, variant=variant)
+        memory_attack = self._sm_memory_complexity_helper_(q, k_reduced + 1, r, nprime, b)
         memory = max(memory_store_matrices, memory_attack)
         return memory
-
-    def get_optimal_parameters_dict(self):
-        """Returns the optimal parameters dictionary."""
-
-        if self._optimal_parameters != {}:
-            self._optimal_parameters['variant'] = Variant(self._optimal_parameters['variant']).name
-        return self._optimal_parameters

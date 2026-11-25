@@ -35,6 +35,10 @@ References
 
 **A**
 
+.. [ABCPSV] \Nicolas Aragon, Maxime Bros, Harshith Cheemalakonda, Ray Perlner,
+            Daniel Smith-Tone and Javier Verbel.
+            *Cryptanalysis of MinRank 2.0*.
+
 .. [AGHT18] \Nicolas Aragon, Philippe Gaborit, Adrien Hauteville, Jean-Pierre Tillich.
             *A New Algorithm for Solving the Rank Syndrome Decoding Problem*
             http://doi.org/10.1109/ISIT.2018.8437464
