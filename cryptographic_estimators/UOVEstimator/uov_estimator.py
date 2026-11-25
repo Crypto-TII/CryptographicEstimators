@@ -75,7 +75,7 @@ class UOVEstimator(BaseEstimator):
             +--------------------+--------------+------+--------+-------+----------+
             | algorithm          | attack_type  | time | memory |  time |   memory |
             +--------------------+--------------+------+--------+-------+----------+
-            | DirectAttack       |   forgery    | 11.2 |    9.5 |   8.0 |      9.5 |
+            | DirectAttack       |   forgery    |  9.5 |   12.5 |    -- |       -- |
             | KipnisShamir       | key-recovery | 16.8 |   12.5 |    -- |       -- |
             | CollisionAttack    |   forgery    | 17.4 |    8.0 |    -- |       -- |
             | IntersectionAttack | key-recovery | 23.3 |   13.1 |    -- |       -- |

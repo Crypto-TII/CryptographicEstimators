@@ -78,7 +78,7 @@ class DirectAttack(UOVAlgorithm):
             >>> from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
             >>> A = DirectAttack(UOVProblem(n=14, m=12, q=5))
             >>> A.time_complexity()
-            29.92041846257129
+            25.95046436843614
         """
         fastest_algorithm = self.get_fastest_mq_algorithm()
         fastest_algorithm.complexity_type = self.complexity_type
@@ -95,7 +95,7 @@ class DirectAttack(UOVAlgorithm):
             >>> from cryptographic_estimators.UOVEstimator.uov_problem import UOVProblem
             >>> A = DirectAttack(UOVProblem(n=14, m=12, q=5))
             >>> A.memory_complexity()
-            12.339850002884624
+            12.78463484555752
         """
         fastest_algorithm = self.get_fastest_mq_algorithm()
         fastest_algorithm.complexity_type = self.complexity_type

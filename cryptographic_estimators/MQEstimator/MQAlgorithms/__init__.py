@@ -13,3 +13,4 @@ from .mht import MHT
 from .hashimoto import Hashimoto
 from .just_guess import JustGuess
 from .pxl import PXL
+from .pseudo_oil_attack import PseudoOilAttack

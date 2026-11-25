@@ -308,6 +308,9 @@ References
             *Information-set decoding for linear codes over Fq*
             https://link.springer.com/chapter/10.1007/978-3-642-12929-2_7
 
+.. [POS26] *Pseudo-Oil Subspaces and the Geometry of Underdetermined MQ Solving*
+           https://github.com/maxostuzzi/MQ_chemistry
+
 .. _ref-Q:
 
 **Q**
